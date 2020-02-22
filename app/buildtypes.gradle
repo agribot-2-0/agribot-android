@@ -1,0 +1,13 @@
+android {
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            resValue "string", "build_type_app_name", "@string/app_name_debug"
+        }
+        release {
+            minifyEnabled false
+            resValue "string", "build_type_app_name", "@string/app_name_release"
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}

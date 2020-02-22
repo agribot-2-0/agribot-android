@@ -1,0 +1,25 @@
+subprojects {
+    apply plugin: 'com.diffplug.gradle.spotless'
+
+    spotless {
+        format 'misc', {
+            target '**/*.gradle', '**/*.md', '**/.gitignore'
+            trimTrailingWhitespace()
+            indentWithTabs()
+            endWithNewline()
+        }
+
+        kotlin {
+            target "**/*.kt"
+            ktlint()
+            indentWithSpaces()
+            endWithNewline()
+        }
+    }
+
+    tasks.whenTaskAdded {
+        if (it.name == 'check') {
+            it.dependsOn 'spotlessCheck'
+        }
+    }
+}

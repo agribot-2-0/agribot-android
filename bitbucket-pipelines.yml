@@ -1,4 +1,4 @@
-image: bitbucketpipelines/android-ci-image
+image: mingc/android-build-box:latest
 pipelines:
   default:
     - step:
@@ -13,14 +13,12 @@ pipelines:
         caches:
           - gradle
         script:
-          - yes | sdkmanager --licenses
           - ./gradlew lintDebug
     - step:
         name: Android Build (Debug)
         caches:
           - gradle
         script:
-          - yes | sdkmanager --licenses
           - ./gradlew assembleDebug
         artifacts:
           - app/build/outputs/**

@@ -1,0 +1,25 @@
+def secretsPropertiesFile = rootProject.file("secrets.properties")
+def secretProperties = new Properties()
+if (secretsPropertiesFile.exists()) {
+	secretProperties.load(new FileInputStream(secretsPropertiesFile))
+} else {
+	secretProperties.setProperty("SIGNING_KEYSTORE_PASSWORD", "${System.getenv('SIGNING_KEYSTORE_PASSWORD')}")
+	secretProperties.setProperty("SIGNING_KEY_ALIAS", "${System.getenv('SIGNING_KEY_ALIAS')}")
+	secretProperties.setProperty("SIGNING_KEY_PASSWORD", "${System.getenv('SIGNING_KEY_PASSWORD')}")
+}
+
+android {
+	play {
+		track = 'internal'
+		serviceAccountCredentials = file('../google_play_api_key.json')
+	}
+
+	signingConfigs {
+		release {
+			storeFile file("../android-signing-keystore.jks")
+			storePassword "${secretProperties['SIGNING_KEYSTORE_PASSWORD']}"
+			keyAlias "${secretProperties['SIGNING_KEY_ALIAS']}"
+			keyPassword "${secretProperties['SIGNING_KEY_PASSWORD']}"
+		}
+	}
+}

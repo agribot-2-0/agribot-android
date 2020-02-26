@@ -10,6 +10,7 @@ buildscript {
     ext.spotless_version = '3.25.0'
     ext.localization_version = '1.0.16'
     ext.versions_version = "0.27.0"
+    ext.play_version = "2.7.2"
 
     repositories {
         google()
@@ -25,5 +26,6 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}"
         classpath "com.diffplug.spotless:spotless-plugin-gradle:${spotless_version}"
         classpath "com.github.ben-manes:gradle-versions-plugin:${versions_version}"
+        classpath "com.github.triplet.gradle:play-publisher:${play_version}"
     }
 }

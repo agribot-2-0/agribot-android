@@ -1,0 +1,20 @@
+image: bitbucketpipelines/android-ci-image
+pipelines:
+  default:
+    - step:
+        name: Static code analysis
+        script:
+          - ./gradlew ktlint
+          - ./gradlew spotlessCheck
+    - step:
+        name: Android Lint (Debug)
+        script:
+          - ./gradlew lintDebug
+    - step:
+        name: Android Build (Debug)
+        caches:
+          - gradle
+        script:
+          - ./gradlew assembleDebug
+        artifacts:
+          - app/build/outputs/**

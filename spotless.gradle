@@ -11,7 +11,7 @@ subprojects {
 
         kotlin {
             target "**/*.kt"
-            ktlint()
+            ktlint().userData(['disabled_rules': 'import-ordering'])
             indentWithSpaces()
             endWithNewline()
         }

@@ -12,8 +12,9 @@ android {
 		applicationId "eu.agribot.agibotapp"
 		minSdkVersion 23
 		targetSdkVersion 29
-		versionCode 1
-		versionName "1.0"
+		versionCode Integer.valueOf(System.env.BITBUCKET_BUILD_NUMBER ?: 1)
+		versionName "1.0.0"
+        archivesBaseName = "$applicationId-$versionName-$versionCode"
 	}
 
 	compileOptions {

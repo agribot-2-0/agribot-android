@@ -14,7 +14,7 @@ android {
 		targetSdkVersion 29
 		versionCode Integer.valueOf(System.env.BITBUCKET_BUILD_NUMBER ?: 1)
 		versionName "1.0.0"
-        archivesBaseName = "$applicationId-$versionName-$versionCode"
+		archivesBaseName = "$applicationId-$versionName-$versionCode"
 	}
 
 	compileOptions {

@@ -5,6 +5,7 @@ pipelines:
         name: Static code analysis
         caches:
           - gradle
+          - gradlewrapper
         script:
           - ./gradlew ktlint
           - ./gradlew spotlessCheck
@@ -12,13 +13,47 @@ pipelines:
         name: Android Lint (Debug)
         caches:
           - gradle
+          - gradlewrapper
         script:
           - ./gradlew lintDebug
     - step:
         name: Android Build (Debug)
         caches:
           - gradle
+          - gradlewrapper
         script:
           - ./gradlew assembleDebug
         artifacts:
           - app/build/outputs/**
+          - app/build/outputs/apk/debug/*.apk
+  branches:
+    develop:
+        - step:
+            name: Static code analysis
+            caches:
+              - gradle
+              - gradlewrapper
+            script:
+              - ./gradlew ktlint
+              - ./gradlew spotlessCheck
+        - step:
+            name: Android Lint (Release)
+            caches:
+              - gradle
+              - gradlewrapper
+            script:
+              - ./gradlew lintRelease
+        - step:
+            name: Android Build (Release)
+            caches:
+              - gradle
+              - gradlewrapper
+            script:
+              - ./gradlew assembleRelease
+            artifacts:
+              - app/build/outputs/**
+              - app/build/outputs/apk/release/*.apk
+definitions:
+  caches:
+    gradlewrapper: ~/.gradle/wrapper
+    androidavd: $ANDROID_HOME/.android/avd

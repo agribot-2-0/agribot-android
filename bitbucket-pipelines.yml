@@ -1,0 +1,48 @@
+image: mingc/android-build-box:latest
+pipelines:
+  default:
+    - step:
+        name: Static code analysis (Debug)
+        caches:
+          - gradle
+          - gradlewrapper
+        script:
+          - ./gradlew ktlint
+          - ./gradlew spotlessCheck
+          - ./gradlew lintDebug
+    - step:
+        name: Android Build (Debug)
+        caches:
+          - gradle
+          - gradlewrapper
+        script:
+          - ./gradlew assembleDebug
+        artifacts:
+          - app/build/outputs/**
+          - app/build/outputs/apk/debug/*.apk
+  branches:
+    develop:
+        - step:
+            name: Static code analysis (Release)
+            caches:
+              - gradle
+              - gradlewrapper
+            script:
+              - ./gradlew ktlint
+              - ./gradlew spotlessCheck
+              - ./gradlew lintRelease
+        - step:
+            name: Android Build (Release)
+            caches:
+              - gradle
+              - gradlewrapper
+            script:
+              - echo "$SIGNING_JKS_FILE" | base64 -d > agribot-android-upload-keystore.jks
+              - ./gradlew assembleRelease
+            artifacts:
+              - app/build/outputs/**
+              - app/build/outputs/apk/release/*.apk
+definitions:
+  caches:
+    gradlewrapper: ~/.gradle/wrapper
+    androidavd: $ANDROID_HOME/.android/avd

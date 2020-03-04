@@ -1,0 +1,3 @@
+task clean(type: Delete, group: "cleanup") {
+    delete rootProject.buildDir
+}

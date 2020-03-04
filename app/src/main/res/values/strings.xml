@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Agribot</string>
+    <string name="app_name_release" translatable="false">Agribot</string>
+    <string name="app_name_debug" translatable="false">Agribot (development)</string>
 </resources>

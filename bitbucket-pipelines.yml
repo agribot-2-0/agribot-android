@@ -2,19 +2,13 @@ image: mingc/android-build-box:latest
 pipelines:
   default:
     - step:
-        name: Static code analysis
+        name: Static code analysis (Debug)
         caches:
           - gradle
           - gradlewrapper
         script:
           - ./gradlew ktlint
           - ./gradlew spotlessCheck
-    - step:
-        name: Android Lint (Debug)
-        caches:
-          - gradle
-          - gradlewrapper
-        script:
           - ./gradlew lintDebug
     - step:
         name: Android Build (Debug)
@@ -29,19 +23,13 @@ pipelines:
   branches:
     develop:
         - step:
-            name: Static code analysis
+            name: Static code analysis (Release)
             caches:
               - gradle
               - gradlewrapper
             script:
               - ./gradlew ktlint
               - ./gradlew spotlessCheck
-        - step:
-            name: Android Lint (Release)
-            caches:
-              - gradle
-              - gradlewrapper
-            script:
               - ./gradlew lintRelease
         - step:
             name: Android Build (Release)

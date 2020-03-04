@@ -1,4 +1,4 @@
-def secretsPropertiesFile = rootProject.file("secrets.properties")
+def secretsPropertiesFile = rootProject.file("credentials.properties")
 def secretProperties = new Properties()
 if (secretsPropertiesFile.exists()) {
 	secretProperties.load(new FileInputStream(secretsPropertiesFile))
@@ -16,7 +16,7 @@ android {
 
 	signingConfigs {
 		release {
-			storeFile file("../android-signing-keystore.jks")
+			storeFile file("../agribot-android-upload-keystore.jks")
 			storePassword "${secretProperties['SIGNING_KEYSTORE_PASSWORD']}"
 			keyAlias "${secretProperties['SIGNING_KEY_ALIAS']}"
 			keyPassword "${secretProperties['SIGNING_KEY_PASSWORD']}"

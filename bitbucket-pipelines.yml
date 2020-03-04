@@ -37,6 +37,7 @@ pipelines:
               - gradle
               - gradlewrapper
             script:
+              - echo "$SIGNING_JKS_FILE" | base64 -d > agribot-android-upload-keystore.jks
               - ./gradlew assembleRelease
             artifacts:
               - app/build/outputs/**

@@ -1,10 +1,19 @@
 <resources>
     <string name="app_name_release" translatable="false">Agribot</string>
     <string name="app_name_debug" translatable="false">Agribot (development)</string>
+
+    <!-- Commons -->
+    <string name="exit">Exit</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- Navigation drawer -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- Fragment titles -->
     <string name="title_group_control">Control</string>
     <string name="title_manual_control">Manual Control</string>
+    <string name="title_tool_control">Tool Control</string>
     <string name="title_autonomous_mode">Autonomous Mode</string>
     <string name="title_tool_management">Tool Management</string>
     <string name="title_path_management">Path Management</string>
@@ -12,6 +21,7 @@
     <string name="title_weather">Weather</string>
     <string name="title_settings">Settings</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Dialogs -->
+    <string name="dialog_exit_title">Exiting application</string>
+    <string name="dialog_exit_message">Are You sure You want to quit?</string>
 </resources>

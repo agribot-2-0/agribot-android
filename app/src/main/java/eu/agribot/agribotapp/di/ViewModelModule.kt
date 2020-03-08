@@ -6,6 +6,7 @@ import eu.agribot.agribotapp.ui.fragment.autonomousmode.AutonomousModeViewModel
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.ManualControlViewModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.PathManagementViewModel
 import eu.agribot.agribotapp.ui.fragment.settings.SettingsViewModel
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolControlViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.ToolManagementViewModel
 import eu.agribot.agribotapp.ui.fragment.weather.WeatherViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -20,6 +21,7 @@ val viewModelModule = module {
     viewModel { SplashViewModel() }
     viewModel { MainViewModel() }
     viewModel { ManualControlViewModel() }
+    viewModel { ToolControlViewModel() }
     viewModel { AutonomousModeViewModel() }
     viewModel { ToolManagementViewModel() }
     viewModel { PathManagementViewModel() }

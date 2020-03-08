@@ -1,6 +1,7 @@
 package eu.agribot.agribotapp.base
 
 import android.content.Context
+import eu.agribot.agribotapp.di.appModule
 import eu.agribot.agribotapp.di.qaModule
 import eu.agribot.agribotapp.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
@@ -34,6 +35,7 @@ abstract class BaseAppInitializer(private val context: Context) : KoinComponent 
             androidContext(context)
             androidLogger(Level.DEBUG)
             modules(
+                appModule,
                 viewModelModule,
                 qaModule
             )

@@ -12,6 +12,7 @@ import org.koin.dsl.module
 /**
  * Koin module related to
  * Quality assurence libraries
+ * In debug builds
  */
 val qaModule = module {
     single<FlipperClient> {

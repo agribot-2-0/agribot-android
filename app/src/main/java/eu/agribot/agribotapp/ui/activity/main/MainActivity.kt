@@ -11,11 +11,14 @@ import androidx.navigation.ui.NavigationUI.setupWithNavController
 import androidx.navigation.ui.onNavDestinationSelected
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseActivity
+import eu.agribot.agribotapp.common.dialog.DialogManager
 import eu.agribot.agribotapp.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.mainDrawerLayout
 import kotlinx.android.synthetic.main.activity_main.mainDrawerNV
 import kotlinx.android.synthetic.main.activity_main.mainToolbar
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
 
@@ -28,7 +31,12 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
     override val layoutResourceId: Int = R.layout.activity_main
     override val navigationHostLayoutId: Int = R.id.mainFCV
     override val viewModel: MainViewModel by viewModel()
+    private val dialogManager: DialogManager by inject { parametersOf(this) }
 
+    /*
+    List of destinations that should not return to previous
+    Screen when back is pressed
+    */
     private val navigationTopLevelDestinations = setOf(
         R.id.manualControlFragment,
         R.id.autonomousModeFragment,
@@ -58,7 +66,6 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         setupNavigationDrawerNavController(this)
         setupToolbarNavController(this)
         setInitialCheckedItem(this)
-        setToolbarActionClickListener(this)
         setNavigationDrawerActionClickListener(this)
     }
 
@@ -83,12 +90,10 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         )
     }
 
-    private fun setToolbarActionClickListener(navController: NavController) {
-        mainToolbar.setOnMenuItemClickListener { item ->
-            item.onNavDestinationSelected(navController)
-        }
-    }
-
+    /*
+    Closes drawer and handles selected option
+    When navigation drawer item is selected
+     */
     private fun setNavigationDrawerActionClickListener(navController: NavController) {
         mainDrawerNV.setNavigationItemSelectedListener { item ->
             mainDrawerLayout.closeDrawer(GravityCompat.START)
@@ -96,6 +101,10 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         }
     }
 
+    /*
+    If navigation component is present, call it to navigate up
+    Else use system's native solution
+     */
     override fun onNavigateUp(): Boolean {
         return navigationController?.let {
             NavigationUI.navigateUp(it, appBarConfiguration)
@@ -104,23 +113,39 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         }
     }
 
+    /*
+    If drawer is open, close it
+    In other cases handle fragment state navigation
+     */
     override fun onBackPressed() {
         if (mainDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mainDrawerLayout.closeDrawer(GravityCompat.START)
         } else {
-            navigationController?.currentDestination?.id?.let {
-                if (navigationTopLevelDestinations.contains(it)) {
-                    showExitDialog()
-                } else {
-                    super.onBackPressed()
-                }
-            } ?: run {
+            handleBackPressed()
+        }
+    }
+
+    /*
+    If NavController has a registered destination
+    Check if it's top-level destination
+    If so, show exit prompt and ask user for confirmation
+    In other cases, call system back press
+     */
+    private fun handleBackPressed() {
+        navigationController?.currentDestination?.id?.let {
+            if (navigationTopLevelDestinations.contains(it)) {
+                showExitDialog()
+            } else {
                 super.onBackPressed()
             }
+        } ?: run {
+            super.onBackPressed()
         }
     }
 
     private fun showExitDialog() {
-        finish()
+        dialogManager.showExitDialog {
+            this.finishAffinity()
+        }
     }
 }

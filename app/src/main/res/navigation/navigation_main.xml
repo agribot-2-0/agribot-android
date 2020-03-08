@@ -6,9 +6,39 @@
     app:startDestination="@id/manualControlFragment"
     tools:ignore="UnusedNavigation">
 
-
     <fragment
         android:id="@+id/manualControlFragment"
         android:name="eu.agribot.agribotapp.ui.fragment.manualcontrol.ManualControlFragment"
-        android:label="@string/title_manual_control" />
+        android:label="@string/title_manual_control"
+        tools:layout="@layout/fragment_manual_control" />
+
+    <fragment
+        android:id="@+id/autonomousModeFragment"
+        android:name="eu.agribot.agribotapp.ui.fragment.autonomousmode.AutonomousModeFragment"
+        android:label="@string/title_autonomous_mode"
+        tools:layout="@layout/fragment_autonomous_mode" />
+
+    <fragment
+        android:id="@+id/toolManagementFragment"
+        android:name="eu.agribot.agribotapp.ui.fragment.toolmanagement.ToolManagementFragment"
+        android:label="@string/title_tool_management"
+        tools:layout="@layout/fragment_tool_management" />
+
+    <fragment
+        android:id="@+id/pathManagementFragment"
+        android:name="eu.agribot.agribotapp.ui.fragment.pathmanagement.PathManagementFragment"
+        android:label="@string/title_path_management"
+        tools:layout="@layout/fragment_path_management" />
+
+    <fragment
+        android:id="@+id/weatherFragment"
+        android:name="eu.agribot.agribotapp.ui.fragment.weather.WeatherFragment"
+        android:label="@string/title_weather"
+        tools:layout="@layout/fragment_weather" />
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="eu.agribot.agribotapp.ui.fragment.settings.SettingsFragment"
+        android:label="@string/title_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

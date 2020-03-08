@@ -1,7 +1,6 @@
-package eu.agribot.agibotapp
+package eu.agribot.agribotapp
 
 import android.app.Application
-import eu.agribot.agribotapp.AgribotAppInitializer
 
 /**
  * Base aplication class

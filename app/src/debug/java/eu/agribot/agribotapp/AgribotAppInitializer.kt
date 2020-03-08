@@ -4,8 +4,7 @@ import android.content.Context
 import com.facebook.flipper.android.utils.FlipperUtils
 import com.facebook.flipper.core.FlipperClient
 import com.facebook.soloader.SoLoader
-import eu.agribot.agibotapp.BuildConfig
-import eu.agribot.agibotapp.base.BaseAppInitializer
+import eu.agribot.agribotapp.base.BaseAppInitializer
 import org.koin.core.inject
 
 /**

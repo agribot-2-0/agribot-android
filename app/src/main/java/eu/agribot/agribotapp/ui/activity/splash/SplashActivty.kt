@@ -1,12 +1,12 @@
-package eu.agribot.agibotapp.ui.splash
+package eu.agribot.agribotapp.ui.activity.splash
 
 import android.os.Bundle
-import eu.agribot.agibotapp.R
-import eu.agribot.agibotapp.base.BaseActivity
-import eu.agribot.agibotapp.common.navigation.NavigationEvent
-import eu.agribot.agibotapp.common.navigation.events.MainActivityNavigationEvent
-import eu.agribot.agibotapp.databinding.ActivitySplashBinding
-import eu.agribot.agibotapp.ui.main.MainActivity
+import eu.agribot.agribotapp.R
+import eu.agribot.agribotapp.base.BaseActivity
+import eu.agribot.agribotapp.common.navigation.NavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.MainActivityNavigationEvent
+import eu.agribot.agribotapp.databinding.ActivitySplashBinding
+import eu.agribot.agribotapp.ui.activity.main.MainActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SplashActivty : BaseActivity<SplashViewModel, ActivitySplashBinding>() {
@@ -15,7 +15,6 @@ class SplashActivty : BaseActivity<SplashViewModel, ActivitySplashBinding>() {
     override val viewModel: SplashViewModel by viewModel()
 
     override fun bindViewVariables(viewBinding: ActivitySplashBinding) {
-        super.bindViewVariables(viewBinding)
         viewBinding.viewModel = viewModel
     }
 

@@ -1,7 +1,7 @@
-package eu.agribot.agibotapp.base
+package eu.agribot.agribotapp.base
 
 import androidx.lifecycle.ViewModel
-import eu.agribot.agibotapp.common.livedata.NavigationLiveEvent
+import eu.agribot.agribotapp.common.livedata.NavigationLiveEvent
 
 /**
  * Base class of ViewModels inside project

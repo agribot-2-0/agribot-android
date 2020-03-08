@@ -1,6 +1,6 @@
-package eu.agribot.agibotapp.common.livedata
+package eu.agribot.agribotapp.common.livedata
 
-import eu.agribot.agibotapp.common.navigation.NavigationEvent
+import eu.agribot.agribotapp.common.navigation.NavigationEvent
 
 /**
  * Dedicated LiveEvent based class

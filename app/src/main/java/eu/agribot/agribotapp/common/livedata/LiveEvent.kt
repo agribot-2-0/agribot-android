@@ -1,4 +1,4 @@
-package eu.agribot.agibotapp.common.livedata
+package eu.agribot.agribotapp.common.livedata
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner

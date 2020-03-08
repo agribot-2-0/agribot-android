@@ -1,8 +1,8 @@
-package eu.agribot.agibotapp.base
+package eu.agribot.agribotapp.base
 
 import android.content.Context
-import eu.agribot.agibotapp.di.qaModule
-import eu.agribot.agibotapp.di.viewModelModule
+import eu.agribot.agribotapp.di.qaModule
+import eu.agribot.agribotapp.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.KoinComponent

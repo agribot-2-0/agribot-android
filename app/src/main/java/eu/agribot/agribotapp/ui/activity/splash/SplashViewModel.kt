@@ -1,8 +1,8 @@
-package eu.agribot.agibotapp.ui.splash
+package eu.agribot.agribotapp.ui.activity.splash
 
 import androidx.lifecycle.viewModelScope
-import eu.agribot.agibotapp.base.BaseViewModel
-import eu.agribot.agibotapp.common.navigation.events.MainActivityNavigationEvent
+import eu.agribot.agribotapp.base.BaseViewModel
+import eu.agribot.agribotapp.common.navigation.events.MainActivityNavigationEvent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

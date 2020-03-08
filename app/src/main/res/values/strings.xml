@@ -1,4 +1,14 @@
 <resources>
     <string name="app_name_release" translatable="false">Agribot</string>
     <string name="app_name_debug" translatable="false">Agribot (development)</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_group_control">Control</string>
+    <string name="title_manual_control">Manual Control</string>
+    <string name="title_autonomous_mode">Autonomous Mode</string>
+    <string name="title_tool_management">Tool Management</string>
+    <string name="title_path_management">Path Management</string>
+    <string name="title_group_other">Other</string>
+    <string name="title_weather">Weather</string>
+    <string name="title_settings">Settings</string>
 </resources>

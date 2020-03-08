@@ -1,4 +1,4 @@
-package eu.agribot.agibotapp.di
+package eu.agribot.agribotapp.di
 
 import com.facebook.flipper.android.AndroidFlipperClient
 import com.facebook.flipper.core.FlipperClient

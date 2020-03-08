@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/title_group_control">
+        <menu>
+
+            <item
+                android:id="@+id/manualControlFragment"
+                android:icon="@drawable/ic_remote_black"
+                android:title="@string/title_manual_control" />
+
+            <item
+                android:id="@+id/autonomousModeFragment"
+                android:icon="@drawable/ic_computer_black"
+                android:title="@string/title_autonomous_mode" />
+
+            <item
+                android:id="@+id/toolManagementFragment"
+                android:icon="@drawable/ic_build_black"
+                android:title="@string/title_tool_management" />
+
+            <item
+                android:id="@+id/pathManagementFragment"
+                android:icon="@drawable/ic_edit_location_black"
+                android:title="@string/title_path_management" />
+        </menu>
+    </item>
+
+    <item android:title="@string/title_group_other">
+        <menu>
+
+            <item
+                android:id="@+id/weatherFragment"
+                android:icon="@drawable/ic_weather_black"
+                android:title="@string/title_weather" />
+
+            <item
+                android:id="@+id/settingsFragment"
+                android:icon="@drawable/ic_settings_black"
+                android:title="@string/title_settings" />
+        </menu>
+    </item>
+
+
+</menu>

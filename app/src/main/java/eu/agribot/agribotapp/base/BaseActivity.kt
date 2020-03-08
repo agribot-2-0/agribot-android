@@ -1,4 +1,4 @@
-package eu.agribot.agibotapp.base
+package eu.agribot.agribotapp.base
 
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import eu.agribot.agibotapp.common.navigation.NavigationEvent
+import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import timber.log.Timber
 
 /**

@@ -1,4 +1,4 @@
-package eu.agribot.agibotapp.common.navigation
+package eu.agribot.agribotapp.common.navigation
 
 /**
  * Base class for all navigation events

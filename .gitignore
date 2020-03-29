@@ -7,3 +7,6 @@
 /captures
 .externalNativeBuild
 .cxx
+agribot-android-upload-keystore.jks
+credentials.properties
+google_play_api_key.json

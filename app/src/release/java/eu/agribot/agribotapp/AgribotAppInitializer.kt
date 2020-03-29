@@ -1,7 +1,7 @@
 package eu.agribot.agribotapp
 
 import android.content.Context
-import eu.agribot.agibotapp.base.BaseAppInitializer
+import eu.agribot.agribotapp.base.BaseAppInitializer
 
 /**
  * Release application initializer

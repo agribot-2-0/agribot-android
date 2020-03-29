@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="eu.agribot.agibotapp.ui.splash.SplashViewModel" />
+            type="eu.agribot.agribotapp.ui.activity.splash.SplashViewModel" />
     </data>
 
     <FrameLayout

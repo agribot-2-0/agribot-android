@@ -1,0 +1,35 @@
+package eu.agribot.agribotapp.ui.activity.splash
+
+import android.os.Bundle
+import eu.agribot.agribotapp.R
+import eu.agribot.agribotapp.base.BaseActivity
+import eu.agribot.agribotapp.common.navigation.NavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.MainActivityNavigationEvent
+import eu.agribot.agribotapp.databinding.ActivitySplashBinding
+import eu.agribot.agribotapp.ui.activity.main.MainActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
+
+class SplashActivty : BaseActivity<SplashViewModel, ActivitySplashBinding>() {
+
+    override val layoutResourceId: Int = R.layout.activity_splash
+    override val viewModel: SplashViewModel by viewModel()
+
+    override fun bindViewVariables(viewBinding: ActivitySplashBinding) {
+        viewBinding.viewModel = viewModel
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.beginSplashScreenDelay()
+    }
+
+    override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
+        is MainActivityNavigationEvent -> handleMainActivityNavigationEvent()
+        else -> Unit
+    }
+
+    private fun handleMainActivityNavigationEvent() {
+        this.finish()
+        startActivity(MainActivity.getStartingIntent(this))
+    }
+}

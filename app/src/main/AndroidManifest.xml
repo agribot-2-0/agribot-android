@@ -1,10 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="eu.agribot.agibotapp">
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-
+    package="eu.agribot.agribotapp">
 
     <application
         android:name=".AgribotApp"
@@ -15,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.splash.SplashActivty"
+            android:name=".ui.activity.splash.SplashActivty"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/SplashTheme"
             tools:ignore="LockedOrientationActivity">
@@ -26,7 +22,7 @@
         </activity>
 
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name=".ui.activity.main.MainActivity"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/AppTheme"
             tools:ignore="LockedOrientationActivity" />

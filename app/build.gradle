@@ -9,13 +9,13 @@ apply from: "buildtypes.gradle"
 
 android {
 	compileSdkVersion 29
-	buildToolsVersion "29.0.2"
+	buildToolsVersion "29.0.3"
 	defaultConfig {
-		applicationId "eu.agribot.agibotapp"
+		applicationId "eu.agribot.agribotapp"
 		minSdkVersion 23
 		targetSdkVersion 29
 		versionCode Integer.valueOf(System.env.BITBUCKET_BUILD_NUMBER ?: 1)
-		versionName "1.0.0"
+		versionName "0.0.1"
 		archivesBaseName = "$applicationId-$versionName-$versionCode"
 	}
 

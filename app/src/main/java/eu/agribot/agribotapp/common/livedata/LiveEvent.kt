@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * LiveData with single event emission
- * Based on Google Architecture Samlpes
+ * Based on Google Architecture Samples
  */
 abstract class LiveEvent<T> : MutableLiveData<T>() {
 

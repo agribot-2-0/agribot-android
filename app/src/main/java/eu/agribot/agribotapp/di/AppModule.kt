@@ -8,6 +8,9 @@ import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
+/**
+ * Koin module used to provide appwide dependencies
+ */
 val appModule = module {
 
     factory<ResourcesProvider> { (context: Context) ->

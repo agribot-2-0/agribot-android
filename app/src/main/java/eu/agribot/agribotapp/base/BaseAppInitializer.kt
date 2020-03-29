@@ -14,10 +14,15 @@ import timber.log.Timber
 /**
  * Base initializer class
  * Used to load and configure libraries
- * On application start
+ * Subclassed on each build variant to load
+ * Build sepcific libraries
  */
 abstract class BaseAppInitializer(private val context: Context) : KoinComponent {
 
+    /**
+     * Loads all libraries used by project
+     * In both Base and subclassed initializers
+     */
     fun prepareLibraries() {
         prepareUniversalLibraries()
         prepareBuildVariantLibraries()

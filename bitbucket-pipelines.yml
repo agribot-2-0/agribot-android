@@ -42,7 +42,7 @@ pipelines:
             artifacts:
               - app/build/outputs/**
               - app/build/outputs/apk/release/*.apk
-    deployment:
+    release/internal:
         - step:
             name: Static code analysis (Release)
             caches:

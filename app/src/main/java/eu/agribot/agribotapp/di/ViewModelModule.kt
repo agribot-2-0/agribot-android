@@ -20,11 +20,19 @@ val viewModelModule = module {
 
     viewModel { SplashViewModel() }
     viewModel { MainViewModel() }
-    viewModel { ManualControlViewModel() }
+    viewModel {
+        ManualControlViewModel(
+            remoteControlService = get()
+        )
+    }
     viewModel { ToolControlViewModel() }
     viewModel { AutonomousModeViewModel() }
     viewModel { ToolManagementViewModel() }
-    viewModel { PathManagementViewModel() }
+    viewModel {
+        PathManagementViewModel(
+            pathManagementService = get()
+        )
+    }
     viewModel { WeatherViewModel() }
     viewModel { SettingsViewModel() }
 }

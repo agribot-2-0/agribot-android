@@ -42,6 +42,25 @@ pipelines:
             artifacts:
               - app/build/outputs/**
               - app/build/outputs/apk/release/*.apk
+    release/internal:
+        - step:
+            name: Static code analysis (Release)
+            caches:
+              - gradle
+              - gradlewrapper
+            script:
+              - ./gradlew ktlint
+              - ./gradlew spotlessCheck
+              - ./gradlew lintRelease
+        - step:
+            name: Android Publish (Internal)
+            caches:
+              - gradle
+              - gradlewrapper
+            script:
+              - echo $GOOGLE_API_KEY_JSON > google_play_api_key.json
+              - echo "$SIGNING_JKS_FILE" | base64 -d > android-signing-keystore.jks
+              - ./gradlew publishReleaseBundle --release-name "BitBucket CI Internal Deployment $BITBUCKET_BUILD_NUMBER"
 definitions:
   caches:
     gradlewrapper: ~/.gradle/wrapper

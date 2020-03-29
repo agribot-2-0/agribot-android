@@ -59,7 +59,7 @@ pipelines:
               - gradlewrapper
             script:
               - echo $GOOGLE_API_KEY_JSON > google_play_api_key.json
-              - echo "$SIGNING_JKS_FILE" | base64 -di > android-signing-keystore.jks
+              - echo "$SIGNING_JKS_FILE" | base64 -di > agribot-android-upload-keystore.jks
               - ./gradlew publishReleaseBundle --track internal --release-name "BitBucket CI Internal Deployment $BITBUCKET_BUILD_NUMBER"
 definitions:
   caches:

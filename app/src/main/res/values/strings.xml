@@ -32,4 +32,10 @@
     <string name="blue">Blue</string>
     <string name="example_rpm">1600 rpm</string>
     <string name="engine">Engine</string>
+    <string name="paths">Paths:</string>
+    <string name="delete_path_button">Delete Path</string>
+    <string name="implements">Implements:</string>
+    <string name="implements_tool_select">Implements</string>
+    <string name="tool1">Tool1</string>
+    <string name="tool2">Tool2</string>
 </resources>

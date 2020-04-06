@@ -5,4 +5,6 @@
     <dimen name="margin_large">16dp</dimen>
     <dimen name="margin_xlarge">24dp</dimen>
     <dimen name="margin_xxlarge">32dp</dimen>
+
+    <dimen name="infoIconDim">50dp</dimen>
 </resources>

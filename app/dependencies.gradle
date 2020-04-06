@@ -11,7 +11,8 @@ def versions = [
 		'materialDialogs' : '3.3.0',
 		'navigation'      : '2.2.1',
 		'soloader'        : '0.8.2',
-		'timber'          : '4.7.1'
+		'timber'          : '4.7.1',
+		'googleMap'		  : '17.0.0'
 ]
 
 dependencies {
@@ -61,5 +62,9 @@ dependencies {
 	// Dialogs
 	implementation "com.afollestad.material-dialogs:core:$versions.materialDialogs"
 	implementation "com.afollestad.material-dialogs:lifecycle:$versions.materialDialogs"
+
+	//GoogleMap
+	implementation "com.google.android.gms:play-services-maps:$versions.googleMap"
+
 
 }

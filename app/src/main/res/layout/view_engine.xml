@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal">
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
+
+    <Switch
+        android:id="@+id/engineRpmSwitch"
+        android:checked="false"
+        style="@style/AgribotSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/rpmEngineText"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:text="@string/engine"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+
+    <androidx.appcompat.widget.AppCompatSeekBar
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/rpmEngineSlider"
+        android:layout_weight="1"
+        android:background="#0000"
+        android:max="100"
+        android:progressDrawable="@drawable/slider_progress"
+        android:splitTrack="false"
+        android:theme="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:thumb="@drawable/slider_thumb"
+        app:tickMark="@null" />
+
+    <TextView
+        android:id="@+id/rpmEngineValueText"
+        android:layout_width="90dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:background="@drawable/shape_gears_background_transparent"
+        android:gravity="center"
+        android:text="@string/example_rpm"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"/>
+
+</LinearLayout>

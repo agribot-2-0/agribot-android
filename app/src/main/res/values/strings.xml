@@ -24,4 +24,12 @@
     <!-- Dialogs -->
     <string name="dialog_exit_title">Exiting application</string>
     <string name="dialog_exit_message">Are You sure You want to quit?</string>
+
+    <string name="pto">PTO</string>
+    <string name="no_rpm">0 rpm</string>
+    <string name="green">Green</string>
+    <string name="yellow">Yellow</string>
+    <string name="blue">Blue</string>
+    <string name="example_rpm">1600 rpm</string>
+    <string name="engine">Engine</string>
 </resources>

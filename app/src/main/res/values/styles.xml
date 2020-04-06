@@ -13,4 +13,18 @@
         <item name="android:switchMinWidth">64dp</item>
     </style>
 
+    <style name="BottomInfoText" parent="@android:style/TextAppearance.Widget.TextView">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20dp</item>
+    </style>
+
+    <style name="MiddleInfoText" parent="@android:style/TextAppearance.Widget.TextView">
+        <item name="android:textSize">20dp</item>
+    </style>
+
+    <style name="GroupInfoText" parent="@android:style/TextAppearance.Widget.TextView">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">25dp</item>
+    </style>
+
 </resources>

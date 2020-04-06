@@ -9,18 +9,221 @@
             type="eu.agribot.agribotapp.ui.fragment.weather.WeatherViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/backgroundWhite">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/title_weather"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:background="@color/backgroundWhite"
+            android:gravity="center"
+            android:text="Weather forecast"
+            android:textSize="34sp"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/title"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_margin="10dp"
+                android:layout_toLeftOf="@id/rightControlsMenu"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <WebView
+                    android:id="@+id/WeatherForecast"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/rightControlsMenu"
+                android:layout_width="186dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="75dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/shape_background"
+                android:gravity="center"
+
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="183dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/infoIconDim"
+                        android:layout_height="@dimen/infoIconDim"
+                        android:layout_margin="2dp"
+                        android:src="@drawable/ic_wind" />
+
+                    <TextView
+                        android:id="@+id/windSpeedVal"
+                        style="@style/BottomInfoText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:text="24" />
+
+                    <TextView
+                        style="@style/MiddleInfoText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:text="km/h" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="183dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="51dp"
+                        android:layout_height="49dp"
+                        android:layout_margin="2dp"
+                        android:src="@drawable/ic_wind_compass" />
+
+                    <TextView
+                        android:id="@+id/windDirVal"
+                        style="@style/BottomInfoText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:text="SW" />
+
+                    <TextView
+                        style="@style/MiddleInfoText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:text=" " />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="183dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="54dp"
+                        android:layout_height="54dp"
+                        android:layout_margin="2dp"
+                        android:src="@drawable/ic_celsius" />
+
+                    <TextView
+                        android:id="@+id/tempVal"
+                        style="@style/BottomInfoText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:text="23" />
+
+                    <TextView
+                        style="@style/MiddleInfoText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:text=" " />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="183dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/infoIconDim"
+                        android:layout_height="@dimen/infoIconDim"
+                        android:layout_margin="2dp"
+                        android:src="@drawable/ic_humidity" />
+
+                    <TextView
+                        android:id="@+id/humVal"
+                        style="@style/BottomInfoText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:text="30" />
+
+                    <TextView
+                        style="@style/MiddleInfoText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:text="%" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="183dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/infoIconDim"
+                        android:layout_height="@dimen/infoIconDim"
+                        android:layout_margin="2dp"
+                        android:src="@drawable/ic_pressure" />
+
+                    <TextView
+                        android:id="@+id/pressureVal"
+                        style="@style/BottomInfoText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:text="1013" />
+
+                    <TextView
+                        style="@style/MiddleInfoText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:text="hPa" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+
+    </RelativeLayout>
 </layout>

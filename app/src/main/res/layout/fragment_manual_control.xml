@@ -34,7 +34,7 @@
 
              <FrameLayout
                  android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
+                 android:layout_height="0dp"
                  android:layout_weight="4"
                  android:layout_margin="@dimen/margin_medium">
 
@@ -45,7 +45,16 @@
 
              </FrameLayout>
 
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_margin="@dimen/margin_medium">
 
+                <include
+                    layout="@layout/view_engine"/>
+
+                </FrameLayout>
 
 
             </LinearLayout>
@@ -69,12 +78,7 @@
 
         </LinearLayout>
 
-
-
-
-
-
-
     </LinearLayout>
+
 </layout>
 

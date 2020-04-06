@@ -327,7 +327,7 @@
             android:textColor="#000000"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
-        <android.support.v7.widget.AppCompatSeekBar
+        <androidx.appcompat.widget.AppCompatSeekBar
             android:visibility="invisible"
             android:layout_width="150dp"
             android:layout_height="wrap_content"

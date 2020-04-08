@@ -2,7 +2,7 @@
 
 <RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="15dp"
+
     android:layout_weight="1"
     android:background="@drawable/shape_background_transparent"
     android:gravity="center"
@@ -19,12 +19,17 @@
         android:textSize="42sp"
         android:textStyle="bold" />
 
-    <Button
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/deleteFile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="0dp"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:background="@color/base_green"
+        android:textColor="@android:color/white"
+        android:shadowColor="#40A858"
+        android:shadowRadius="5"
         android:text="@string/delete_path_button" />
 
     <ListView

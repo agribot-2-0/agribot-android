@@ -51,7 +51,6 @@
 
             </LinearLayout>
 
-
             <LinearLayout
                 android:id="@+id/rightControlsMenu"
                 android:layout_width="186dp"
@@ -60,9 +59,7 @@
                 android:layout_alignParentEnd="true"
                 android:background="@drawable/shape_background"
                 android:gravity="center"
-
                 android:orientation="vertical">
-
 
                 <LinearLayout
                     android:layout_width="183dp"
@@ -92,7 +89,6 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
                         android:text="km/h" />
-
 
                 </LinearLayout>
 
@@ -222,8 +218,8 @@
                 </LinearLayout>
 
             </LinearLayout>
-        </RelativeLayout>
 
+        </RelativeLayout>
 
     </RelativeLayout>
 </layout>

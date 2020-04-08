@@ -1,85 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_weight="1.7"
-    android:background="@drawable/shape_background_transparent"
-    android:orientation="horizontal"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout
 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:background="@drawable/shape_background_transparent"
+    android:gravity="center"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
         android:id="@+id/selectedDate"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="3"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="12dp"
-        android:text="Today"
-        android:textSize="22sp"
-        android:textStyle="bold" />
+        android:layout_marginVertical="@dimen/margin_medium"
+        android:layout_marginStart="@dimen/view_margin"
+        android:text="@string/view_start_stop_today"
+        android:textSize="@dimen/view_start_stop_text_size"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/selectedTime"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="3"
         android:layout_height="wrap_content"
-        android:layout_marginStart="220dp"
-        android:layout_marginTop="12dp"
-        android:text="Now"
-        android:textSize="22sp"
-        android:textStyle="bold" />
+        android:layout_marginVertical="@dimen/margin_medium"
+        android:layout_marginStart="@dimen/view_margin"
+        android:text="@string/view_start_stop_now"
+        android:textSize="@dimen/view_start_stop_text_size"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/selectedWeather"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="8"
         android:layout_height="wrap_content"
-        android:layout_marginStart="380dp"
-        android:layout_marginTop="12dp"
-        android:text="[No weather condition selected]"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:visibility="visible" />
+        android:layout_marginVertical="@dimen/margin_medium"
+        android:layout_marginStart="@dimen/view_margin"
+        android:text="@string/no_weather"
+        android:textSize="@dimen/view_start_stop_text_size"
+        android:textStyle="bold"/>
 
     <ImageView
         android:id="@+id/visInWindIc"
-        android:layout_width="@dimen/infoIconDim"
-        android:layout_height="@dimen/infoIconDim"
-        android:layout_marginStart="380dp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/margin_medium"
+        android:layout_marginStart="@dimen/view_margin"
         android:src="@drawable/ic_wind"
-        android:visibility="invisible" />
+        android:visibility="visible" />
 
     <ImageView
         android:id="@+id/visInTempIc"
-        android:layout_width="@dimen/infoIconDim"
-        android:layout_height="@dimen/infoIconDim"
-        android:layout_marginStart="460dp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/margin_medium"
+        android:layout_marginStart="@dimen/view_margin"
         android:src="@drawable/ic_celsius"
-        android:visibility="invisible" />
+        android:visibility="visible" />
 
     <ImageView
         android:id="@+id/visInHumiIc"
-        android:layout_width="@dimen/infoIconDim"
-        android:layout_height="@dimen/infoIconDim"
-        android:layout_marginStart="540dp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/margin_medium"
+        android:layout_marginStart="@dimen/view_margin"
         android:src="@drawable/ic_humidity"
-        android:visibility="invisible" />
+        android:visibility="visible" />
 
     <ImageView
         android:id="@+id/visInPressIc"
-        android:layout_width="@dimen/infoIconDim"
-        android:layout_height="@dimen/infoIconDim"
-        android:layout_marginStart="620dp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/margin_medium"
+        android:layout_marginStart="@dimen/view_margin"
         android:src="@drawable/ic_pressure"
-        android:visibility="invisible" />
+        android:visibility="visible" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/progAndStart_btn"
-        android:layout_width="220dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="880dp"
-        android:layout_marginTop="9dp"
+        android:layout_width="0dp"
+        android:layout_weight="4"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_medium"
+        android:layout_marginVertical="@dimen/margin_medium"
+        android:layout_marginStart="@dimen/view_margin"
+        android:layout_marginEnd="@dimen/view_margin"
         android:background="@drawable/start_button_shape"
         android:shadowColor="#40A858"
         android:shadowRadius="5"
-        android:text="Start now"
-        android:textColor="#5E5E5E"
-        android:textSize="20sp" />
-</RelativeLayout>
+        android:text="@string/start_now"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_medium" />
+
+</LinearLayout>
+
+

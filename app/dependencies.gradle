@@ -66,5 +66,9 @@ dependencies {
 	//GoogleMap
 	implementation "com.google.android.gms:play-services-maps:$versions.googleMap"
 
+	implementation 'io.github.controlwear:virtualjoystick:1.10.1'
+
+	implementation 'com.ninenox.kotlinlocalemanager:kotlin-locale-manager:1.0.0'
+
 
 }

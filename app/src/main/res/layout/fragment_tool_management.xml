@@ -9,18 +9,102 @@
             type="eu.agribot.agribotapp.ui.fragment.toolmanagement.ToolManagementViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/title_tool_management"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="139dp"
+                    android:text="Tools config list:"
+                    android:textSize="32dp" />
+
+                <ListView
+                    android:id="@+id/agriToolsConfigMenu"
+                    android:layout_width="300dp"
+                    android:layout_height="160dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="60dp"
+                    android:layout_marginEnd="105dp" />
+
+            </RelativeLayout>
+
+       <FrameLayout
+           android:layout_width="match_parent"
+           android:layout_height="0dp"
+           android:layout_weight="2">
+
+           <include layout="@layout/view_hitch"/>
+
+       </FrameLayout>
+
+            <androidx.appcompat.widget.AppCompatSeekBar
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:layout_margin="@dimen/margin_large"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:text="SAVE"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+       <RelativeLayout
+           android:layout_width="0dp"
+           android:layout_height="match_parent"
+           android:layout_weight="1">
+
+           <ImageView
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:layout_alignParentStart="true"
+               android:layout_alignParentTop="true"
+               android:scaleType="centerInside"
+               android:src="@drawable/agri_new_half" />
+
+           <ImageView
+               android:id="@+id/front_up_sett"
+               android:layout_width="63dp"
+               android:layout_height="68dp"
+               android:layout_alignParentEnd="true"
+               android:layout_alignParentTop="true"
+               android:layout_marginEnd="39dp"
+               android:layout_marginTop="222dp"
+               android:src="@drawable/target_green" />
+
+           <ImageView
+               android:id="@+id/front_down_sett"
+               android:layout_width="64dp"
+               android:layout_height="65dp"
+               android:layout_alignParentBottom="true"
+               android:layout_alignParentEnd="true"
+               android:layout_marginBottom="201dp"
+               android:src="@drawable/target_green" />
+
+       </RelativeLayout>
+
+   </LinearLayout>
+
 </layout>

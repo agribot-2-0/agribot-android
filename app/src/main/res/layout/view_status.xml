@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/statusPrimaryDark"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="@color/statusPrimaryDark">
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"/>
 
     <LinearLayout
-        android:id="@+id/action_status_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:gravity="center"
+        android:layout_weight="1"
         android:orientation="horizontal"
-        android:visibility="visible">
+        android:layout_marginHorizontal="@dimen/margin_large">
+
 
         <ImageView
-            android:layout_width="74px"
-            android:layout_height="72px"
-            android:layout_marginBottom="15dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="15dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
             android:src="@drawable/ic_accumvol"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="30dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/accumVoltage"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="x"
                 android:textColor="@color/backgroundWhite"
@@ -44,32 +44,41 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="V"
                 android:textColor="@color/backgroundWhite"
                 android:textSize="@dimen/status_bar_status_bottom_text"/>
+
         </LinearLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="@dimen/margin_large">
 
         <ImageView
-            android:layout_width="74px"
-            android:layout_height="72px"
-            android:layout_marginBottom="15dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="15dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
             android:src="@drawable/ic_gps"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="30dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/gpsQualVal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="x"
                 android:textColor="@color/backgroundWhite"
@@ -78,32 +87,42 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="%"
                 android:textColor="@color/backgroundWhite"
                 android:textSize="@dimen/status_bar_status_bottom_text"/>
+
         </LinearLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="@dimen/margin_large">
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginBottom="15dp"
-            android:layout_marginLeft="-10dp"
-            android:layout_marginTop="15dp"
+            android:layout_weight="2"
             android:src="@drawable/ic_velocity"
             android:tint="@color/backgroundWhite"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/velocityVal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="x"
                 android:textColor="@color/backgroundWhite"
@@ -112,32 +131,42 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="km/h"
                 android:textColor="@color/backgroundWhite"
                 android:textSize="@dimen/status_bar_status_bottom_text"/>
+
         </LinearLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="@dimen/margin_large">
+
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginBottom="15dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="-10dp"
-            android:layout_marginTop="15dp"
+            android:layout_weight="1"
             android:src="@drawable/ic_rpm"
             android:tint="@color/backgroundWhite"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/rpmVal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="x"
                 android:textColor="@color/backgroundWhite"
@@ -146,31 +175,43 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="rpm"
                 android:textColor="@color/backgroundWhite"
                 android:textSize="@dimen/status_bar_status_bottom_text"/>
+
+
         </LinearLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="@dimen/margin_large">
+
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginBottom="15dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_weight="1"
             android:src="@drawable/ic_engine"
             android:tint="@color/backgroundWhite"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/engineVal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="x"
                 android:textColor="@color/backgroundWhite"
@@ -179,31 +220,42 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="%"
                 android:textColor="@color/backgroundWhite"
                 android:textSize="@dimen/status_bar_status_bottom_text"/>
+
         </LinearLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="@dimen/margin_large">
+
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginBottom="15dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_weight="1"
             android:src="@drawable/fuel_icon"
             android:tint="@color/backgroundWhite"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/fuelVal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="x"
                 android:textColor="@color/backgroundWhite"
@@ -212,32 +264,41 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="%"
                 android:textColor="@color/backgroundWhite"
                 android:textSize="@dimen/status_bar_status_bottom_text"/>
+
         </LinearLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="@dimen/margin_large">
+
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginBottom="15dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="-10dp"
-            android:layout_marginTop="15dp"
+            android:layout_weight="1"
             android:src="@drawable/ic_fuelhour"
             android:tint="@color/backgroundWhite"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
             android:orientation="vertical">
-
             <TextView
                 android:id="@+id/combustionVal"
-                android:layout_width="30dp"
-                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="x"
                 android:textColor="@color/backgroundWhite"
@@ -246,123 +307,19 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="l/h"
                 android:textColor="@color/backgroundWhite"
                 android:textSize="@dimen/status_bar_status_bottom_text"/>
-
         </LinearLayout>
-    </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/logo"
-        android:layout_width="70dp"
-        android:layout_height="40dp"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:layout_gravity="center_vertical"
-        android:background="@android:color/transparent"
-        android:scaleType="fitXY"
-        android:src="@drawable/logo_grayscale"/>
-
-    <ImageView
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:id="@+id/manual_icon"
-        android:layout_toRightOf="@id/logo"
-        android:layout_centerVertical="true"
-        android:src="@drawable/manual_icon"
-        android:tint="@color/colorPrimary" />
-
-    <ImageView
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginLeft="100dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:id="@+id/automatic_icon"
-        android:layout_toRightOf="@id/logo"
-        android:layout_centerVertical="true"
-        android:src="@drawable/automatic_icon"
-        android:tint="@color/colorPrimary" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#000"/>
-
-    <LinearLayout
-        android:visibility="invisible"
-        android:layout_marginLeft="175dp"
-        android:layout_weight="0.5"
-        android:layout_marginBottom="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:scaleType="fitXY"
-        android:layout_gravity="left"
-        android:orientation="horizontal"
-        android:background="@drawable/shape_background">
-
-        <Switch
-            android:visibility="invisible"
-            android:id="@+id/engineRpmSwitch"
-            android:checked="false"
-            style="@style/AgribotSwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:visibility="invisible"
-            android:id="@+id/rpmEngineText"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@string/engine"
-            android:textColor="#000000"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
-
-        <androidx.appcompat.widget.AppCompatSeekBar
-            android:visibility="invisible"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:id="@+id/rpmEngineSlider"
-            android:layout_weight="1"
-            android:background="#0000"
-            android:max="100"
-            android:progressDrawable="@drawable/slider_progress"
-            android:splitTrack="false"
-            android:theme="@style/Widget.AppCompat.SeekBar.Discrete"
-            android:thumb="@drawable/slider_thumb"
-            app:tickMark="@null"/>
-
-        <TextView
-            android:visibility="invisible"
-            android:id="@+id/rpmEngineValueText"
-            android:layout_width="90dp"
-            android:layout_height="30dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/shape_gears_background_transparent"
-            android:gravity="center"
-            android:text="1600 rpm"
-            android:textColor="#000000"
-            android:textSize="18sp"
-            android:textStyle="bold" />
     </LinearLayout>
 
     <View
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_alignStart="@+id/manual_icon"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="-90dp"
-        android:layout_weight="0.5" />
+        android:layout_weight="2"/>
 
-</RelativeLayout>
+</LinearLayout>

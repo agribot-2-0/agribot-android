@@ -10,17 +10,16 @@
     </data>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
-
 
         <ImageButton
             android:id="@+id/polishFlag"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:onClick="@{() -> viewModel.onButtonPolishClicked()}"
+            android:onClick="@{() -> viewModel.onButtonChangeLanguage()}"
             android:src="@drawable/polish"/>
 
         <ImageButton
@@ -28,8 +27,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:onClick="@{() -> viewModel.onButtonEnglishClicked()}"
+            android:onClick="@{() -> viewModel.onButtonChangeLanguage()}"
             android:src="@drawable/eng"/>
-
     </LinearLayout>
 </layout>

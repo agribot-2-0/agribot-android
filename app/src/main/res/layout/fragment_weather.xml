@@ -14,19 +14,9 @@
         android:layout_height="match_parent"
         android:background="@color/backgroundWhite">
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/backgroundWhite"
-            android:gravity="center"
-            android:text="Weather forecast"
-            android:textSize="34sp"/>
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/title"
             android:layout_marginBottom="30dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
@@ -58,7 +48,7 @@
                 android:layout_marginBottom="75dp"
                 android:layout_alignParentEnd="true"
                 android:background="@drawable/shape_background"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:orientation="vertical">
 
                 <LinearLayout

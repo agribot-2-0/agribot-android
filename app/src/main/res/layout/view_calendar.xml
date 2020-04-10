@@ -6,66 +6,6 @@
     android:orientation="vertical"
     android:background="@drawable/shape_background_transparent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:layout_margin="@dimen/margin_small">
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-
-        <FrameLayout
-            android:id="@+id/CalendarDate"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/calendar_date"
-                android:textSize="@dimen/text_size_medium"/>
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/CalendarTime"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/calendar_time"
-                android:textSize="@dimen/text_size_medium"/>
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/CalendarWeather"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/calendar_weather"
-                android:textSize="@dimen/text_size_medium"/>
-
-        </FrameLayout>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-
-    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"

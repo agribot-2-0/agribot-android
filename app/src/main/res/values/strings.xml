@@ -47,5 +47,7 @@
     <string name="camera_view">CAMERA VIEW</string>
     <string name="start_now">Start now</string>
     <string name="timeSquare">40.758895, -73.985131</string>
+    <string name="new_config">New config:</string>
+    <string name="tool_config_list">Tool config list</string>
 
 </resources>

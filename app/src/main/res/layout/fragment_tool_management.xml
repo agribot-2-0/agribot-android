@@ -14,38 +14,132 @@
        android:layout_height="match_parent"
        android:orientation="horizontal">
 
+       <View
+           android:layout_width="2dp"
+           android:layout_height="match_parent"
+           android:background="@color/gray"/>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/gray"/>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2">
+                android:layout_weight="2"
+                android:orientation="horizontal">
 
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="139dp"
-                    android:text="Tools config list:"
-                    android:textSize="32dp" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                <ListView
-                    android:id="@+id/agriToolsConfigMenu"
-                    android:layout_width="300dp"
-                    android:layout_height="160dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="60dp"
-                    android:layout_marginEnd="105dp" />
 
-            </RelativeLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/new_config"
+                        android:layout_margin="@dimen/text_size_xlarge"
+                        android:layout_marginBottom="@dimen/margin_medium"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="@dimen/text_size_xlarge"/>
+
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_xxlarge"
+                        android:layout_marginHorizontal="@dimen/margin_large"
+                        android:layout_gravity="center_horizontal"
+                        android:text="ID number"/>
+
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/margin_large"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Tool name"/>
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tool_config_list"
+                        android:layout_margin="@dimen/text_size_large"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="@dimen/text_size_xlarge"/>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_large"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Mower"/>
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:background="@color/gray"
+                        android:layout_marginBottom="@dimen/text_size_large"
+                        android:layout_marginEnd="@dimen/margin_small"/>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Sprayer"/>
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:background="@color/gray"
+                        android:layout_marginBottom="@dimen/text_size_large"
+                        android:layout_marginEnd="@dimen/margin_small"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Tractor"/>
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:background="@color/gray"
+                        android:layout_marginEnd="@dimen/margin_small"/>
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/gray"/>
 
        <FrameLayout
            android:layout_width="match_parent"
@@ -56,12 +150,6 @@
 
        </FrameLayout>
 
-            <androidx.appcompat.widget.AppCompatSeekBar
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.5"
-                android:layout_margin="@dimen/margin_large"/>
-
             <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
@@ -70,6 +158,11 @@
                 android:layout_gravity="center"/>
 
         </LinearLayout>
+
+       <View
+           android:layout_width="2dp"
+           android:layout_height="match_parent"
+           android:background="@color/gray"/>
 
        <RelativeLayout
            android:layout_width="0dp"

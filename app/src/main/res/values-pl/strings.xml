@@ -47,4 +47,6 @@
     <string name="camera_view">Widok z Kamery</string>
     <string name="start_now">Rozpocznij</string>
     <string name="timeSquare">40.758895, -73.985131</string>
+    <string name="new_config">Nowa Konfiguracja:</string>
+    <string name="tool_config_list">Lista Konfiguracji:</string>
 </resources>

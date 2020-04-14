@@ -1,7 +1,6 @@
 package eu.agribot.agribotapp
 
 import android.app.Application
-import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 
 /**
@@ -11,12 +10,11 @@ import androidx.appcompat.app.AppCompatDelegate
 class AgribotApp : Application() {
 
     init {
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
     }
 
     override fun onCreate() {
         super.onCreate()
         AgribotAppInitializer(this).prepareLibraries()
     }
-
 }

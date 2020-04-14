@@ -66,7 +66,7 @@ dependencies {
 	//GoogleMap
 	implementation "com.google.android.gms:play-services-maps:$versions.googleMap"
 
-	//Joustick
+	//Joystick
 	implementation 'io.github.controlwear:virtualjoystick:1.10.1'
 
 

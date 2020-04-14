@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.base
 
-import android.content.Context
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -9,7 +8,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import com.ninenox.kotlinlocalemanager.ApplicationLocale
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import timber.log.Timber
 

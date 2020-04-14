@@ -2,7 +2,4 @@ package eu.agribot.agribotapp.ui.fragment.settings
 
 import eu.agribot.agribotapp.base.BaseViewModel
 
-class SettingsViewModel : BaseViewModel(){
-}
-
-
+class SettingsViewModel : BaseViewModel()

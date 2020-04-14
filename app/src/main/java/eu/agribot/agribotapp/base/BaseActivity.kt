@@ -15,7 +15,7 @@ import timber.log.Timber
  * Base class of activities inside project
  */
 abstract class BaseActivity<viewModelType : BaseViewModel, viewDataBindingType : ViewDataBinding> :
- FragmentActivity() {
+    FragmentActivity() {
 
     /**
      * Resource ID of layout
@@ -100,5 +100,4 @@ abstract class BaseActivity<viewModelType : BaseViewModel, viewDataBindingType :
     fun <T> LiveData<out T>.observe(onEvent: (T) -> Unit) {
         observe(this@BaseActivity, Observer(onEvent))
     }
-
 }

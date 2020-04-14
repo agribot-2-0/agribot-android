@@ -16,7 +16,6 @@ class AutonomousModeFragment :
     BaseFragment<AutonomousModeViewModel, FragmentAutonomousModeBinding>(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
 
-
     override val layoutResourceId: Int = R.layout.fragment_autonomous_mode
     override val viewModel: AutonomousModeViewModel by viewModel()
 
@@ -35,18 +34,17 @@ class AutonomousModeFragment :
         setCamera(mMap)
     }
 
-    fun initMap(){
+    fun initMap() {
         AutonomousModeViewModel.mapFragment =
             childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         AutonomousModeViewModel.mapFragment?.getMapAsync(this)
     }
 
-    fun setMarker(googleMap: GoogleMap?){
-        mMap.addMarker(MarkerOptions().position(viewModel.agriBotLatLng).title("Zapraszamy do AgriBot"))    }
+    fun setMarker(googleMap: GoogleMap?) {
+        mMap.addMarker(MarkerOptions().position(viewModel.agriBotLatLng).title("Zapraszamy do AgriBot")) }
 
-    fun setCamera(googleMap: GoogleMap?){
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(viewModel.agriBotLatLng, viewModel.zoom));
+    fun setCamera(googleMap: GoogleMap?) {
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(viewModel.agriBotLatLng, viewModel.zoom))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(viewModel.agriBotLatLng))
     }
-
 }

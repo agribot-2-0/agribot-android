@@ -3,19 +3,17 @@ package eu.agribot.agribotapp.ui.fragment.pathmanagement
 import android.os.Bundle
 import android.view.View
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.databinding.FragmentPathManagementBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PathManagementFragment :
-    BaseFragment<PathManagementViewModel, FragmentPathManagementBinding>(), OnMapReadyCallback {
+    BaseFragment<PathManagementViewModel, FragmentPathManagementBinding>() {
 
-    private lateinit var mMap: GoogleMap
+    private lateinit var mapFragment: SupportMapFragment
     val ZOOM = 15F
 
     override val layoutResourceId: Int = R.layout.fragment_path_management
@@ -29,20 +27,18 @@ class PathManagementFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initMap()
+        viewModel.markers.observe(this::onMarkerChanged)
+        viewModel.addDefaultMarker()
     }
 
     fun initMap() {
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
+        mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
     }
 
-    override fun onMapReady(googleMap: GoogleMap?) {
-        mMap = googleMap!!
-        viewModel.setMap(mMap)
-        moveCamera(viewModel.agriBotLatLng)
-    }
-
-    fun moveCamera(mLatLng: LatLng) {
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, ZOOM))
+    private fun onMarkerChanged(marker: MarkerOptions?) {
+        mapFragment.getMapAsync { googleMap ->
+            googleMap.addMarker(marker)
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker?.position, ZOOM))
+        }
     }
 }

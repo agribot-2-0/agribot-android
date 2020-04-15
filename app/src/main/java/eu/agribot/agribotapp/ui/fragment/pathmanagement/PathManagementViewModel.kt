@@ -12,8 +12,7 @@ class PathManagementViewModel(
 
     val agriBotLatLng = LatLng(51.11322, 17.01958)
 
-    fun setMap(mMap: GoogleMap){
+    fun setMap(mMap: GoogleMap) {
         mMap.addMarker(MarkerOptions().position(agriBotLatLng).title("welcome"))
     }
-
 }

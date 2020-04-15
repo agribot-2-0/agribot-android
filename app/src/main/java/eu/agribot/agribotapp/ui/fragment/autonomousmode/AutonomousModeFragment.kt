@@ -29,7 +29,7 @@ class AutonomousModeFragment :
         initMap()
     }
 
-    fun initMap(){
+    fun initMap() {
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
@@ -40,7 +40,7 @@ class AutonomousModeFragment :
         moveCamera(viewModel.agriBotLatLng)
     }
 
-    fun moveCamera(mLatLng: LatLng){
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng,ZOOM))
+    fun moveCamera(mLatLng: LatLng) {
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, ZOOM))
     }
 }

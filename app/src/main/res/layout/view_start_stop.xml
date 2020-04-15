@@ -14,7 +14,7 @@
         android:layout_weight="3"
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/margin_medium"
-        android:layout_marginStart="@dimen/view_margin"
+        android:layout_marginStart="@dimen/view_start_stop_margin"
         android:text="@string/view_start_stop_today"
         android:textSize="@dimen/view_start_stop_text_size"
         android:textStyle="bold"/>
@@ -25,7 +25,7 @@
         android:layout_weight="3"
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/margin_medium"
-        android:layout_marginStart="@dimen/view_margin"
+        android:layout_marginStart="@dimen/view_start_stop_margin"
         android:text="@string/view_start_stop_now"
         android:textSize="@dimen/view_start_stop_text_size"
         android:textStyle="bold"/>
@@ -36,7 +36,7 @@
         android:layout_weight="8"
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/margin_medium"
-        android:layout_marginStart="@dimen/view_margin"
+        android:layout_marginStart="@dimen/view_start_stop_margin"
         android:text="@string/no_weather"
         android:textSize="@dimen/view_start_stop_text_size"
         android:textStyle="bold"/>
@@ -47,7 +47,7 @@
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/margin_medium"
-        android:layout_marginStart="@dimen/view_margin"
+        android:layout_marginStart="@dimen/view_start_stop_margin"
         android:src="@drawable/ic_wind"
         android:visibility="visible" />
 
@@ -57,7 +57,7 @@
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/margin_medium"
-        android:layout_marginStart="@dimen/view_margin"
+        android:layout_marginStart="@dimen/view_start_stop_margin"
         android:src="@drawable/ic_celsius"
         android:visibility="visible" />
 
@@ -67,7 +67,7 @@
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/margin_medium"
-        android:layout_marginStart="@dimen/view_margin"
+        android:layout_marginStart="@dimen/view_start_stop_margin"
         android:src="@drawable/ic_humidity"
         android:visibility="visible" />
 
@@ -77,7 +77,7 @@
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/margin_medium"
-        android:layout_marginStart="@dimen/view_margin"
+        android:layout_marginStart="@dimen/view_start_stop_margin"
         android:src="@drawable/ic_pressure"
         android:visibility="visible" />
 
@@ -88,8 +88,8 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/margin_medium"
         android:layout_marginVertical="@dimen/margin_medium"
-        android:layout_marginStart="@dimen/view_margin"
-        android:layout_marginEnd="@dimen/view_margin"
+        android:layout_marginStart="@dimen/view_start_stop_margin"
+        android:layout_marginEnd="@dimen/view_start_stop_margin"
         android:background="@drawable/start_button_shape"
         android:shadowColor="#40A858"
         android:shadowRadius="5"

@@ -52,16 +52,16 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="183dp"
-                    android:layout_height="100dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="@dimen/infoIconDim"
-                        android:layout_height="@dimen/infoIconDim"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_margin="2dp"
                         android:src="@drawable/ic_wind" />
 
@@ -83,16 +83,16 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="183dp"
-                    android:layout_height="100dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="51dp"
-                        android:layout_height="49dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_margin="2dp"
                         android:src="@drawable/ic_wind_compass" />
 
@@ -115,16 +115,16 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="183dp"
-                    android:layout_height="100dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="54dp"
-                        android:layout_height="54dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_margin="2dp"
                         android:src="@drawable/ic_celsius" />
 
@@ -146,16 +146,16 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="183dp"
-                    android:layout_height="100dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="@dimen/infoIconDim"
-                        android:layout_height="@dimen/infoIconDim"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_margin="2dp"
                         android:src="@drawable/ic_humidity" />
 
@@ -177,16 +177,16 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="183dp"
-                    android:layout_height="100dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="@dimen/infoIconDim"
-                        android:layout_height="@dimen/infoIconDim"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_margin="2dp"
                         android:src="@drawable/ic_pressure" />
 

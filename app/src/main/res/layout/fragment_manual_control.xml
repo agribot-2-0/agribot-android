@@ -95,21 +95,21 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:layout_marginHorizontal="@dimen/margin_medium"
-                                android:src="@drawable/cut1"/>
+                                android:src="@drawable/manual_mode_button_strong"/>
 
                             <ImageButton
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:layout_marginHorizontal="@dimen/margin_medium"
-                                android:src="@drawable/cut2"/>
+                                android:src="@drawable/manual_mode_button_soft"/>
 
                             <ImageButton
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:layout_marginHorizontal="@dimen/margin_medium"
-                                android:src="@drawable/cut3"/>
+                                android:src="@drawable/manual_mode_button_parallel"/>
 
                         </LinearLayout>
 

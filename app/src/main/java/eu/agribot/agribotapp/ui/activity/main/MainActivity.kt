@@ -148,8 +148,4 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
             this.finishAffinity()
         }
     }
-
-    public fun refreshActivity() {
-        this.refreshActivity()
-    }
 }

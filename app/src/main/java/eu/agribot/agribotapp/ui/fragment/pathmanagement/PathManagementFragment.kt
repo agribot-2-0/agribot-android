@@ -6,7 +6,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.LatLng
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.databinding.FragmentPathManagementBinding
@@ -16,6 +16,7 @@ class PathManagementFragment :
     BaseFragment<PathManagementViewModel, FragmentPathManagementBinding>(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
+    val ZOOM = 15F
 
     override val layoutResourceId: Int = R.layout.fragment_path_management
 
@@ -30,22 +31,18 @@ class PathManagementFragment :
         initMap()
     }
 
+    fun initMap(){
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+    }
+
     override fun onMapReady(googleMap: GoogleMap?) {
         mMap = googleMap!!
-        setMarker(mMap)
-        setCamera(mMap)
+        viewModel.setMap(mMap)
+        moveCamera(viewModel.agriBotLatLng)
     }
 
-    fun initMap() {
-        PathManagementViewModel.mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-        PathManagementViewModel.mapFragment?.getMapAsync(this)
-    }
-
-    fun setMarker(googleMap: GoogleMap?) {
-        mMap.addMarker(MarkerOptions().position(viewModel.agriBotLatLng).title("Zapraszamy do AgriBot")) }
-
-    fun setCamera(googleMap: GoogleMap?) {
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(viewModel.agriBotLatLng, viewModel.zoom))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(viewModel.agriBotLatLng))
+    fun moveCamera(mLatLng: LatLng){
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng,ZOOM))
     }
 }

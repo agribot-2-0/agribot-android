@@ -3,24 +3,148 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="viewModel"
             type="eu.agribot.agribotapp.ui.fragment.autonomousmode.AutonomousModeViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/shape_background_transparent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/title_autonomous_mode"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <include
+            layout="@layout/view_status"/>
+
+    </FrameLayout>
+
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="0dp"
+         android:layout_weight="3"
+         android:background="@drawable/shape_background_transparent"
+         android:orientation="horizontal">
+
+         <FrameLayout
+             android:layout_width="0dp"
+             android:layout_height="match_parent"
+             android:layout_weight="1">
+
+             <include
+                 layout="@layout/view_path_select"/>
+
+         </FrameLayout>
+
+         <View android:background="@android:color/darker_gray"
+             android:layout_width = "2dp"
+             android:layout_height="match_parent"/>
+
+         <FrameLayout
+             android:layout_width="0dp"
+             android:layout_height="match_parent"
+             android:layout_weight="1"
+             android:background="@color/base_green">
+
+             <fragment
+                 android:id="@+id/map"
+                 android:name="com.google.android.gms.maps.SupportMapFragment"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent" />
+
+         </FrameLayout>
+
+     </LinearLayout>
+
+        <View android:background="@android:color/darker_gray"
+            android:layout_width = "match_parent"
+            android:layout_height="1dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:background="@drawable/shape_background_transparent"
+            android:orientation="horizontal">
+
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="DATE"/>
+
+                        <Button
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="TIME"/>
+
+                        <Button
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="WEATHER"/>
+                    </LinearLayout>
+
+                    <include
+                        layout="@layout/view_calendar"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="4"/>
+
+                </LinearLayout>
+
+            <View android:background="@android:color/darker_gray"
+                android:layout_width = "1dp"
+                android:layout_height="match_parent"/>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <include
+                    layout="@layout/view_tool_select"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <View android:background="@android:color/darker_gray"
+            android:layout_width = "match_parent"
+            android:layout_height="2dp"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <include
+                layout="@layout/view_start_stop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </FrameLayout>
+
+    </LinearLayout>
+
 </layout>

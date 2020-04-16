@@ -3,33 +3,148 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="viewModel"
             type="eu.agribot.agribotapp.ui.fragment.manualcontrol.ManualControlViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/shape_background_transparent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/title_manual_control"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:background="@drawable/shape_background_transparent">
 
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_large"
-            android:onClick="@{() -> viewModel.onToolControlClicked()}"
-            android:text="@string/title_tool_control"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+              <FrameLayout
+                  android:layout_width="0dp"
+                  android:layout_height="match_parent"
+                  android:layout_weight="2"
+                  android:layout_margin="@dimen/margin_small">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                  <include
+                      layout="@layout/view_status" />
+
+              </FrameLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/darker_gray"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="@{() -> viewModel.onToolControlClicked()}"
+                android:text="@string/title_tool_control"
+                android:layout_margin="@dimen/margin_small"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8"
+            android:orientation="horizontal"
+            android:background="@drawable/shape_background_transparent">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="@string/camera_view"
+                android:gravity="center"
+                android:layout_margin="@dimen/margin_small"
+                android:textColor="@android:color/white"
+                android:background="@android:color/background_dark"/>
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/black"/>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <ImageButton
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:layout_marginHorizontal="@dimen/margin_medium"
+                                android:src="@drawable/manual_mode_button_strong"/>
+
+                            <ImageButton
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:layout_marginHorizontal="@dimen/margin_medium"
+                                android:src="@drawable/manual_mode_button_soft"/>
+
+                            <ImageButton
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:layout_marginHorizontal="@dimen/margin_medium"
+                                android:src="@drawable/manual_mode_button_parallel"/>
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/gray"/>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1">
+
+                        <io.github.controlwear.virtual.joystick.android.JoystickView
+                            xmlns:custom="http://schemas.android.com/apk/res-auto"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            custom:JV_buttonColor="@android:color/black"
+                            custom:JV_buttonSizeRatio="15%"
+                            custom:JV_borderColor="@android:color/black"
+                            custom:JV_backgroundColor="@android:color/darker_gray"
+                            custom:JV_borderWidth="2dp"
+                            custom:JV_fixedCenter="false"/>
+
+                    </FrameLayout>
+
+                 </LinearLayout>
+
+             </LinearLayout>
+
+    </LinearLayout>
+
 </layout>
+

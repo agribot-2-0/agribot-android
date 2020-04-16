@@ -11,7 +11,12 @@ def versions = [
 		'materialDialogs' : '3.3.0',
 		'navigation'      : '2.2.1',
 		'soloader'        : '0.8.2',
-		'timber'          : '4.7.1'
+		'timber'          : '4.7.1',
+		'googleMap'		  : '17.0.0',
+		'joystick'		  :	'1.10.1',
+		'localeManager'   : '1.0.0',
+		'supportDesign'   : "28.0.0"
+
 ]
 
 dependencies {
@@ -61,5 +66,17 @@ dependencies {
 	// Dialogs
 	implementation "com.afollestad.material-dialogs:core:$versions.materialDialogs"
 	implementation "com.afollestad.material-dialogs:lifecycle:$versions.materialDialogs"
+
+	//GoogleMap
+	implementation "com.google.android.gms:play-services-maps:$versions.googleMap"
+
+	//Joystick
+	implementation "io.github.controlwear:virtualjoystick:$versions.joystick"
+
+	implementation "com.ninenox.kotlinlocalemanager:kotlin-locale-manager:$versions.localeManager"
+
+	//AndroidDesign
+	implementation "com.android.support:design:$versions.supportDesign"
+
 
 }

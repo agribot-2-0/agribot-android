@@ -1,0 +1,59 @@
+<resources>
+    <string name="app_name_release" translatable="false">Agribot</string>
+    <string name="app_name_debug" translatable="false">Agribot (development)</string>
+
+    <!-- Commons -->
+    <string name="exit">Wyjście</string>
+    <string name="cancel">Anuluj</string>
+
+    <!-- Navigation drawer -->
+    <string name="navigation_drawer_open">Otwórz</string>
+    <string name="navigation_drawer_close">Zamknij</string>
+
+    <!-- Fragment titles -->
+    <string name="title_group_control">Control</string>
+    <string name="title_manual_control">Tryb Manualny</string>
+    <string name="title_tool_control">Kontrola Narzędzi</string>
+    <string name="title_autonomous_mode">Tryb Autonomiczny</string>
+    <string name="title_tool_management">Zarządzanie Narzędziami</string>
+    <string name="title_path_management">Zarządzanie ścieżkami</string>
+    <string name="title_group_other">Inne</string>
+    <string name="title_weather">Pogoda</string>
+    <string name="title_settings">Ustawienia</string>
+
+    <!-- Dialogs -->
+    <string name="dialog_exit_title">Zamknij Aplikacje</string>
+    <string name="dialog_exit_message">Jesteś pewny, że chcesz wyjść?</string>
+
+    <!-- Tool Control -->
+    <string name="pto">PTO</string>
+    <string name="no_rpm">0 rpm</string>
+    <string name="green">Zielony</string>
+    <string name="yellow">Żółty</string>
+    <string name="blue">Niebieski</string>
+    <string name="example_rpm">1600 rpm</string>
+    <string name="engine">Silnik</string>
+    <string name="paths">Ścieżki :</string>
+    <string name="delete_path_button">Usuń ścieżkę</string>
+    <string name="implements_tool_select">Narzędzie</string>
+    <string name="tool1">Narzędzie 1</string>
+    <string name="tool2">Narzędzie 2</string>
+    <string name="calendar_time">CZAS</string>
+    <string name="calendar_weather">POGODA</string>
+    <string name="calendar_date">DATA</string>
+    <string name="no_weather">[Brak danych o pogodzie]</string>
+    <string name="view_start_stop_now">Teraz</string>
+    <string name="view_start_stop_today">Dzisiaj</string>
+    <string name="camera_view">Widok z Kamery</string>
+    <string name="start_now">Rozpocznij</string>
+    <string name="timeSquare">40.758895, -73.985131</string>
+    <string name="new_config">Nowa Konfiguracja:</string>
+    <string name="tool_config_list">Lista Konfiguracji:</string>
+    <string name="button_save">SAVE</string>
+    <string name="id_number">ID number</string>
+    <string name="tool_name">Tool name</string>
+    <string name="mower">Mower</string>
+    <string name="sprayer">Sprayer</string>
+    <string name="tractor">Tractor</string>
+
+</resources>

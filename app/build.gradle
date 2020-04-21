@@ -6,29 +6,34 @@ apply plugin: 'com.github.triplet.play'
 apply from: "dependencies.gradle"
 apply from: "releasesigning.gradle"
 apply from: "buildtypes.gradle"
+apply plugin: 'com.google.gms.google-services'
 
 android {
-	compileSdkVersion 29
-	buildToolsVersion "29.0.3"
-	defaultConfig {
-		applicationId "eu.agribot.agribotapp"
-		minSdkVersion 23
-		targetSdkVersion 29
-		versionCode Integer.valueOf(System.env.BITBUCKET_BUILD_NUMBER ?: 1)
-		versionName "0.0.1"
-		archivesBaseName = "$applicationId-$versionName-$versionCode"
-	}
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+    defaultConfig {
+        applicationId "eu.agribot.agribotapp"
+        minSdkVersion 23
+        targetSdkVersion 29
+        versionCode Integer.valueOf(System.env.BITBUCKET_BUILD_NUMBER ?: 1)
+        versionName "0.0.1"
+        archivesBaseName = "$applicationId-$versionName-$versionCode"
+    }
 
-	compileOptions {
-		sourceCompatibility JavaVersion.VERSION_1_8
-		targetCompatibility JavaVersion.VERSION_1_8
-	}
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
-	kotlinOptions {
-		jvmTarget = JavaVersion.VERSION_1_8.toString()
-	}
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 
-	dataBinding {
-		enabled = true
-	}
+    dataBinding {
+        enabled = true
+    }
+}
+
+dependencies {
+    implementation 'com.google.firebase:firebase-auth:19.3.0'
 }

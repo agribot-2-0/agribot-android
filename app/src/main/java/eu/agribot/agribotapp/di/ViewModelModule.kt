@@ -2,6 +2,8 @@ package eu.agribot.agribotapp.di
 
 import eu.agribot.agribotapp.ui.activity.main.MainViewModel
 import eu.agribot.agribotapp.ui.activity.splash.SplashViewModel
+import eu.agribot.agribotapp.ui.fragment.authentication.login.LoginViewModel
+import eu.agribot.agribotapp.ui.fragment.authentication.signup.SignupViewModel
 import eu.agribot.agribotapp.ui.fragment.autonomousmode.AutonomousModeViewModel
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.ManualControlViewModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.PathManagementViewModel
@@ -35,4 +37,6 @@ val viewModelModule = module {
     }
     viewModel { WeatherViewModel() }
     viewModel { SettingsViewModel() }
+    viewModel { LoginViewModel() }
+    viewModel { SignupViewModel() }
 }

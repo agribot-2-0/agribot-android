@@ -2,6 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="eu.agribot.agribotapp">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+
     <application
         android:name=".AgribotApp"
         android:allowBackup="false"

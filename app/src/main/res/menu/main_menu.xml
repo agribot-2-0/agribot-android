@@ -40,6 +40,12 @@
                     android:id="@id/settingsFragment"
                     android:icon="@drawable/ic_settings_black"
                     android:title="@string/title_settings" />
+
+                <item
+                    android:id="@+id/signupFragment"
+                    android:icon="@drawable/ic_login"
+                    android:title="Signup"/>
+
             </group>
         </menu>
     </item>

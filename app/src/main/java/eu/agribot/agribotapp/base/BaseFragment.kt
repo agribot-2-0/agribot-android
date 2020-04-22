@@ -104,4 +104,6 @@ abstract class BaseFragment<viewModelType : BaseViewModel, viewDataBindingType :
     fun <T> LiveData<out T>.observe(onEvent: (T) -> Unit) {
         observe(viewLifecycleOwner, Observer(onEvent))
     }
+
+
 }

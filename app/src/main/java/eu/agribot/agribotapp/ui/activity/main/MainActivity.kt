@@ -43,7 +43,8 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         R.id.toolManagementFragment,
         R.id.pathManagementFragment,
         R.id.weatherFragment,
-        R.id.settingsFragment
+        R.id.settingsFragment,
+        R.id.signupFragment
     )
 
     private val appBarConfiguration by lazy {

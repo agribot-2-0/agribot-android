@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.ui.fragment.autonomousmode
 
-
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions

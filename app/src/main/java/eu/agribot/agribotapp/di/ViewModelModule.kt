@@ -37,6 +37,10 @@ val viewModelModule = module {
     }
     viewModel { WeatherViewModel() }
     viewModel { SettingsViewModel() }
-    viewModel { LoginViewModel() }
-    viewModel { SignupViewModel() }
+    viewModel { LoginViewModel(
+        firebaseService = get()
+    ) }
+    viewModel { SignupViewModel(
+        firebaseService = get()
+    ) }
 }

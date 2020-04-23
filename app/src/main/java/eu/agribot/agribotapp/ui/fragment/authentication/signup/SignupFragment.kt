@@ -10,7 +10,6 @@ import eu.agribot.agribotapp.common.navigation.events.ToolControlNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentSignupBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 class SignupFragment : BaseFragment<SignupViewModel, FragmentSignupBinding>() {
     private lateinit var auth: FirebaseAuth
 
@@ -24,7 +23,6 @@ class SignupFragment : BaseFragment<SignupViewModel, FragmentSignupBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         auth = FirebaseAuth.getInstance()
-
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
@@ -35,6 +33,4 @@ class SignupFragment : BaseFragment<SignupViewModel, FragmentSignupBinding>() {
     fun goToLoginFragment() {
         navigationController?.navigate(R.id.action_SignupFragment_to_LoginFragment)
     }
-
-
 }

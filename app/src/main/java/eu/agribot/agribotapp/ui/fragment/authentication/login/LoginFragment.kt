@@ -1,5 +1,7 @@
 package eu.agribot.agribotapp.ui.fragment.authentication.login
 
+import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
@@ -13,6 +15,11 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
 
     override fun bindViewVariables(viewBinding: FragmentLoginBinding) {
         viewBinding.viewModel = viewModel
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.showToastEvent.observe(this::showToast)
     }
 
     fun showToast(toastText: String) {

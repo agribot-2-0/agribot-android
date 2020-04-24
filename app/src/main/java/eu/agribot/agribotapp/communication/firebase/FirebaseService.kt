@@ -6,11 +6,11 @@ package eu.agribot.agribotapp.communication.firebase
  */
 interface FirebaseService {
 
-    fun login(loginEmail: String, loginPassword: String)
+    fun login(loginEmail: String, loginPassword: String, onSucess: () -> Unit, onError: () -> Unit)
 
-    fun register(emailRegister: String, passwordRegister: String)
+    fun register(emailRegister: String, passwordRegister: String, onSucess: () -> Unit, onError: () -> Unit)
 
-    fun signOut()
+    fun signOut(signOut: () -> Unit)
 
-    fun sendResetPasswordEmail(loginEmail: String)
+    fun sendResetPasswordEmail(loginEmail: String, onSucess: () -> Unit, onError: () -> Unit)
 }

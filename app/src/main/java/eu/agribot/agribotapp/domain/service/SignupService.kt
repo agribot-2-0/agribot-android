@@ -6,7 +6,9 @@ class SignupService(
     private val firebaseService: FirebaseService
 ) {
     fun registerInFirebase(
-        userLogin: String, userPassword: String, registerSucess: () -> Unit,
+        userLogin: String,
+        userPassword: String,
+        registerSucess: () -> Unit,
         registerFailed: () -> Unit
     ) {
         firebaseService.register(userLogin, userPassword, registerSucess, registerFailed)

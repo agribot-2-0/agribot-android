@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.di
 
-import eu.agribot.agribotapp.domain.service.LoginService
 import eu.agribot.agribotapp.ui.activity.main.MainViewModel
 import eu.agribot.agribotapp.ui.activity.splash.SplashViewModel
 import eu.agribot.agribotapp.ui.fragment.authentication.login.LoginViewModel

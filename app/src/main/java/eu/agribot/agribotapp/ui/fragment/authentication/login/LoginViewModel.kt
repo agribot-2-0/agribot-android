@@ -14,6 +14,7 @@ class LoginViewModel(
     val email: MutableLiveData<String> = MutableLiveData()
     val password: MutableLiveData<String> = MutableLiveData()
     val showToastEvent: LiveEvent<String> = MutableLiveEvent()
+    val currentUser: MutableLiveData<String> = MutableLiveData()
 
     fun onEmailChanged(text: CharSequence) {
         email.value = text.toString()

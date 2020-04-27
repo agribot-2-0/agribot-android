@@ -30,29 +30,30 @@ class SignupViewModel(
         )
     }
 
-    fun checkIfCanLogin(loginBox: String, passwordBox: String){
-        if (loginBox.isBlank() || passwordBox.isBlank()){
+    fun checkIfCanLogin(loginBox: String, passwordBox: String) {
+        if (loginBox.isBlank() || passwordBox.isBlank()) {
             canLogin.value = false
             showToastEvent.postValue("Email or Password Incorrect")
-        }else
+        } else
             canLogin.value = true
     }
 
-    fun onClickButtonRegister(){
-        if(canLogin.value == true){
+    fun onClickButtonRegister() {
+        if (canLogin.value == true) {
             performRegister()
-        }
-        else
+        } else
             showToastEvent.postValue("Error")
     }
 
     fun performRegister() {
         val emailRegister = email.value.toString()
         val passwordRegister = password.value.toString()
-        checkIfCanLogin(emailRegister,passwordRegister)
-        signupService.registerInFirebase(emailRegister,passwordRegister,
-        registerSucess = this::onRegisterSucess,
-        registerFailed = this::onRegisterError)
+        checkIfCanLogin(emailRegister, passwordRegister)
+        signupService.registerInFirebase(
+            emailRegister, passwordRegister,
+            registerSucess = this::onRegisterSucess,
+            registerFailed = this::onRegisterError
+        )
     }
 
     fun onRegisterSucess() {

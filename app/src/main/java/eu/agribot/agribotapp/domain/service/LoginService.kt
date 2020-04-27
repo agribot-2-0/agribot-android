@@ -7,14 +7,17 @@ class LoginService(
 ) {
 
     fun loginToFirebase(
-        userLogin: String, userPassword: String, loginSucess: () -> Unit,
+        userLogin: String,
+        userPassword: String,
+        loginSucess: () -> Unit,
         loginFailed: () -> Unit
     ) {
         firebaseService.login(userLogin, userPassword, loginSucess, loginFailed)
     }
 
     fun resetEmailfromFirebase(
-        userLogin: String, confirmSending: () -> Unit,
+        userLogin: String,
+        confirmSending: () -> Unit,
         errorSending: () -> Unit
     ) {
         firebaseService.sendResetPasswordEmail(userLogin, confirmSending, errorSending)

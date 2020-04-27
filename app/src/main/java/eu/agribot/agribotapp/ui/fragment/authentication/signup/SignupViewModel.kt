@@ -39,10 +39,7 @@ class SignupViewModel(
     }
 
     fun onClickButtonRegister() {
-        if (canLogin.value == true) {
             performRegister()
-        } else
-            showToastEvent.postValue("Error")
     }
 
     fun performRegister() {

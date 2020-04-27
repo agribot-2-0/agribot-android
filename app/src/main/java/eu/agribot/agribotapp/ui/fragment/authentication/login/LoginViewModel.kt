@@ -4,10 +4,11 @@ import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.LiveEvent
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
-import eu.agribot.agribotapp.communication.firebase.FirebaseService
+import eu.agribot.agribotapp.common.navigation.events.ToolControlNavigationEvent
+import eu.agribot.agribotapp.domain.service.LoginService
 
 class LoginViewModel(
-    private val firebaseService: FirebaseService
+    private val loginService: LoginService
 ) : BaseViewModel() {
 
     val email: MutableLiveData<String> = MutableLiveData()
@@ -27,7 +28,9 @@ class LoginViewModel(
     }
 
     fun onReturnButtonClicked() {
-        LoginFragment().backToRegister()
+        navigationEvent.postValue(
+            ToolControlNavigationEvent()
+        )
     }
 
     fun onSendEmailSucess() {
@@ -46,33 +49,30 @@ class LoginViewModel(
         showToastEvent.postValue("Login Failed")
     }
 
-    fun signOutInformation() {
+    fun showSignOutInformation() {
         showToastEvent.postValue("Logged Out")
     }
 
     private fun login() {
         val loginEmail = email.value.toString()
         val loginPassword = password.value.toString()
-        firebaseService.login(
-            loginEmail = loginEmail,
-            loginPassword = loginPassword,
-            onSucess = this::onLoginSucess,
-            onError = this::onLoginFailed
+        loginService.loginToFirebase(
+            loginEmail, loginPassword,
+            loginSucess = this::onLoginSucess,
+            loginFailed = this::onLoginFailed
         )
     }
 
     fun sendResetEmail() {
         val email = email.value.toString()
-        firebaseService.sendResetPasswordEmail(
-            loginEmail = email,
-            onSucess = this::onSendEmailSucess,
-            onError = this::onSendEmailError
+        loginService.resetEmailfromFirebase(
+            email,
+            confirmSending = this::onSendEmailSucess,
+            errorSending = this::onSendEmailError
         )
     }
 
     fun signOut() {
-        firebaseService.signOut(
-            signOut = this::signOutInformation
-        )
+        loginService.logOutFromFirebase(signOutInformation = this::showSignOutInformation)
     }
 }

@@ -5,6 +5,8 @@ import android.view.View
 import android.widget.Toast
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
+import eu.agribot.agribotapp.common.navigation.NavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.ToolControlNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentLoginBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -24,6 +26,11 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
 
     fun showToast(toastText: String) {
         Toast.makeText(activity, toastText, Toast.LENGTH_LONG).show()
+    }
+
+    override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
+        is ToolControlNavigationEvent -> backToRegister()
+        else -> Unit
     }
 
     fun backToRegister() {

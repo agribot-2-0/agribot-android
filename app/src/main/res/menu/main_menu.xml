@@ -44,7 +44,7 @@
                 <item
                     android:id="@+id/signupFragment"
                     android:icon="@drawable/ic_login"
-                    android:title="Signup"/>
+                    android:title="@string/signupFragment"/>
 
             </group>
         </menu>

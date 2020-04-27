@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.di
 
+import eu.agribot.agribotapp.domain.service.LoginService
 import eu.agribot.agribotapp.ui.activity.main.MainViewModel
 import eu.agribot.agribotapp.ui.activity.splash.SplashViewModel
 import eu.agribot.agribotapp.ui.fragment.authentication.login.LoginViewModel
@@ -38,9 +39,9 @@ val viewModelModule = module {
     viewModel { WeatherViewModel() }
     viewModel { SettingsViewModel() }
     viewModel { LoginViewModel(
-        firebaseService = get()
+        loginService = get()
     ) }
     viewModel { SignupViewModel(
-        firebaseService = get()
+        signupService = get()
     ) }
 }

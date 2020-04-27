@@ -17,7 +17,8 @@ def versions = [
 		'localeManager'   : '1.0.0',
 		'supportDesign'   : '28.0.0',
 		'firebaseAuth'	  : '19.3.0',
-		'play_version'    : '15.0.0'
+		'play_version'    : '15.0.0',
+		'serviceAuth'	  : '18.0.0'
 
 
 ]
@@ -83,5 +84,6 @@ dependencies {
 
 	//FirebaseAuth
 	implementation "com.google.firebase:firebase-auth:$versions.firebaseAuth"
-	implementation "com.google.android.gms:play-services-auth:18.0.0"
+	implementation "com.google.android.gms:play-services-auth:$versions.serviceAuth"
+
 }

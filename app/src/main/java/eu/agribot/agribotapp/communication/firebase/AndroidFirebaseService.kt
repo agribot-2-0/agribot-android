@@ -3,7 +3,7 @@ package eu.agribot.agribotapp.communication.firebase
 import com.google.firebase.auth.FirebaseAuth
 
 class AndroidFirebaseService : FirebaseService {
-    var mAuth = FirebaseAuth.getInstance()
+    var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
     override fun login(
         loginEmail: String,
@@ -11,13 +11,13 @@ class AndroidFirebaseService : FirebaseService {
         onSucess: () -> Unit,
         onError: () -> Unit
     ) {
-        mAuth.signInWithEmailAndPassword(loginEmail, loginPassword)
-            .addOnCompleteListener {
-                if (!it.isSuccessful) return@addOnCompleteListener
-                onSucess()
+        firebaseAuth.signInWithEmailAndPassword(loginEmail, loginPassword)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) onSucess.invoke()
+                else onError.invoke()
             }
             .addOnFailureListener {
-                onError()
+                onError.invoke()
             }
     }
 
@@ -27,21 +27,22 @@ class AndroidFirebaseService : FirebaseService {
         onSucess: () -> Unit,
         onError: () -> Unit
     ) {
-        mAuth.createUserWithEmailAndPassword(
+        firebaseAuth.createUserWithEmailAndPassword(
             emailRegister,
             passwordRegister
         )
-            .addOnCompleteListener {
-                if (!it.isSuccessful) return@addOnCompleteListener
-                onSucess()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) onSucess.invoke()
+                else onError.invoke()
             }
             .addOnFailureListener {
-                onError()
+                onError.invoke()
             }
     }
 
     override fun signOut(signOut: () -> Unit) {
-        mAuth.signOut()
+        firebaseAuth.signOut()
+        signOut()
     }
 
     override fun sendResetPasswordEmail(
@@ -49,13 +50,13 @@ class AndroidFirebaseService : FirebaseService {
         onSucess: () -> Unit,
         onError: () -> Unit
     ) {
-        mAuth.sendPasswordResetEmail(loginEmail)
-            .addOnCompleteListener {
-                if (!it.isSuccessful) return@addOnCompleteListener
-                onSucess()
+        firebaseAuth.sendPasswordResetEmail(loginEmail)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) onSucess.invoke()
+                else onError.invoke()
             }
             .addOnFailureListener {
-                onError()
+                onError.invoke()
             }
     }
 }

@@ -55,5 +55,14 @@
     <string name="mower">Mower</string>
     <string name="sprayer">Sprayer</string>
     <string name="tractor">Tractor</string>
+    <string name="signupFragment">Signup</string>
+    <string name="forgot_your_password">Forgot your password?</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="login">Login</string>
+    <string name="back_to_registration">Back to registration</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="i_have_account">I have account</string>
 
 </resources>

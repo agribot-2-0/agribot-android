@@ -5,15 +5,16 @@ import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.LiveEvent
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolControlNavigationEvent
-import eu.agribot.agribotapp.communication.firebase.FirebaseService
+import eu.agribot.agribotapp.domain.service.SignupService
 
 class SignupViewModel(
-    private val firebaseService: FirebaseService
+    private val signupService: SignupService
 ) : BaseViewModel() {
 
     val email: MutableLiveData<String> = MutableLiveData()
     val password: MutableLiveData<String> = MutableLiveData()
     val showToastEvent: LiveEvent<String> = MutableLiveEvent()
+    val canLogin: MutableLiveData<Boolean> = MutableLiveData()
 
     fun onEmailChanged(text: CharSequence) {
         email.value = text.toString()
@@ -29,18 +30,29 @@ class SignupViewModel(
         )
     }
 
+    fun checkIfCanLogin(loginBox: String, passwordBox: String){
+        if (loginBox.isBlank() || passwordBox.isBlank()){
+            canLogin.value = false
+            showToastEvent.postValue("Email or Password Incorrect")
+        }else
+            canLogin.value = true
+    }
+
+    fun onClickButtonRegister(){
+        if(canLogin.value == true){
+            performRegister()
+        }
+        else
+            showToastEvent.postValue("Error")
+    }
+
     fun performRegister() {
         val emailRegister = email.value.toString()
         val passwordRegister = password.value.toString()
-        if (emailRegister.isBlank() || passwordRegister.isBlank()) {
-            showToastEvent.postValue("Email or Password Incorrect")
-        }
-        firebaseService.register(
-            emailRegister = emailRegister,
-            passwordRegister = passwordRegister,
-            onSucess = this::onRegisterSucess,
-            onError = this::onRegisterError
-        )
+        checkIfCanLogin(emailRegister,passwordRegister)
+        signupService.registerInFirebase(emailRegister,passwordRegister,
+        registerSucess = this::onRegisterSucess,
+        registerFailed = this::onRegisterError)
     }
 
     fun onRegisterSucess() {

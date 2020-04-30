@@ -13,17 +13,17 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SplashActivty : BaseActivity<SplashViewModel, ActivitySplashBinding>() {
 
-        override val layoutResourceId: Int = R.layout.activity_splash
-        override val viewModel: SplashViewModel by viewModel()
+    override val layoutResourceId: Int = R.layout.activity_splash
+    override val viewModel: SplashViewModel by viewModel()
 
-        override fun bindViewVariables(viewBinding: ActivitySplashBinding) {
-            viewBinding.viewModel = viewModel
-        }
+    override fun bindViewVariables(viewBinding: ActivitySplashBinding) {
+        viewBinding.viewModel = viewModel
+    }
 
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            viewModel.beginSplashScreenDelay()
-        }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.beginSplashScreenDelay()
+    }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
         is MainActivityNavigationEvent -> handleMainActivityNavigationEvent()

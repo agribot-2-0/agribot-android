@@ -2,6 +2,7 @@ package eu.agribot.agribotapp.ui.activity.authentication.welcome
 
 import android.content.Context
 import android.content.Intent
+import android.widget.Toast
 import eu.agribot.agribotapp.base.BaseActivity
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.LoginActivityNavigationEvent
@@ -30,6 +31,10 @@ class WelcomeActivity : BaseActivity<WelcomeViewModel, ActivityWelcomeBinding>()
         is LoginActivityNavigationEvent -> handleLoginActivityNavigationEvent()
         is SignupActivityNavigationEvent -> handleSignupActivityNavigationEvent()
         else -> Unit
+    }
+
+    override fun onBackPressed() {
+        Toast.makeText(this, "You can't do this", Toast.LENGTH_LONG).show()
     }
 
     private fun handleLoginActivityNavigationEvent() {

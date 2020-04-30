@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.LiveEvent
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
-import eu.agribot.agribotapp.common.navigation.events.LoginActivityNavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.MainActivityNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.PasswordReminderActivityNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.SignupActivityNavigationEvent
 import eu.agribot.agribotapp.domain.service.AuthenticationService
@@ -31,7 +31,7 @@ class LoginViewModel(
 
     private fun onLoginSucess() {
         navigationEvent.postValue(
-            LoginActivityNavigationEvent()
+            MainActivityNavigationEvent()
         )
         showToastEvent.postValue("Login sucessfull")
     }

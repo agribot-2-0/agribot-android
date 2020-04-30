@@ -5,6 +5,7 @@ import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.LiveEvent
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.LoginActivityNavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.MainActivityNavigationEvent
 import eu.agribot.agribotapp.domain.service.AuthenticationService
 
 class SignupViewModel(
@@ -30,23 +31,11 @@ class SignupViewModel(
         )
     }
 
-    fun checkIfCanLogin(loginBox: String, passwordBox: String) {
-        if (loginBox.isBlank() || passwordBox.isBlank() || passwordBox.length < 8) {
-            canSignup.value = false
-            showToastEvent.postValue("Email or Password Incorrect")
-        } else
-            canSignup.value = true
-    }
-
     fun onClickButtonRegister() {
-        if (canSignup.value == true) {
-            performRegister()
-        } else
-            showToastEvent.postValue("Error")
+        performRegister()
     }
 
     fun performRegister() {
-        checkIfCanLogin(email.value.toString(), password.value.toString())
         authenticationService.registerInFirebase(
             email.value.toString(), password.value.toString(),
             registerSucess = this::onRegisterSucess,
@@ -56,9 +45,23 @@ class SignupViewModel(
 
     fun onRegisterSucess() {
         showToastEvent.postValue("Register sucessfully")
+        authenticationService.loginToFirebase(
+            email.value.toString(), password.value.toString(),
+            loginSucess = this::postMainActivityNavigationEvent, loginFailed = this::onLoginFailed
+        )
     }
 
     fun onRegisterError() {
         showToastEvent.postValue("Register Failed")
+    }
+
+    fun onLoginFailed() {
+        showToastEvent.postValue("Login Failed")
+    }
+
+    fun postMainActivityNavigationEvent() {
+        navigationEvent.postValue(
+            MainActivityNavigationEvent()
+        )
     }
 }

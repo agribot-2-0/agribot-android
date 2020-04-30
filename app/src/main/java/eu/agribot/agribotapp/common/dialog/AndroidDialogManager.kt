@@ -18,4 +18,22 @@ class AndroidDialogManager(
             negativeButton(R.string.cancel)
         }
     }
+
+    override fun showSignOutDialog(onSignOutConfirmed: () -> Unit) {
+        MaterialDialog(context).show {
+            title(R.string.dialog_signout_tittle)
+            message(R.string.dialog_signout_message)
+            positiveButton(R.string.signout) { onSignOutConfirmed() }
+            negativeButton(R.string.cancel)
+        }
+    }
+
+    override fun showRemoveAccountDialog(onDeleteAccountConfirmed: () -> Unit) {
+        MaterialDialog(context).show {
+            title(R.string.dialog_remove_account_title)
+            message(R.string.dialog_remove_account_message)
+            positiveButton(R.string.delete_account) { onDeleteAccountConfirmed() }
+            negativeButton(R.string.cancel)
+        }
+    }
 }

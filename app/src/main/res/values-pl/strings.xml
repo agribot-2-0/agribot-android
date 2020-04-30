@@ -64,5 +64,11 @@
     <string name="password">Password</string>
     <string name="register">Register</string>
     <string name="i_have_account">I have account</string>
+    <string name="dialog_signout_tittle">SignOut from Application</string>
+    <string name="dialog_signout_message">Are You sure You want to signOut?</string>
+    <string name="signout">signOut</string>
+    <string name="dialog_remove_account_title">Remove your Account</string>
+    <string name="dialog_remove_account_message">Are You sure You want to delete your Account?</string>
+    <string name="delete_account">Delete Account</string>
 
 </resources>

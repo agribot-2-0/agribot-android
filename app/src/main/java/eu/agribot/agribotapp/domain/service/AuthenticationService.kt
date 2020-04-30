@@ -52,4 +52,11 @@ class AuthenticationService(val firebaseService: FirebaseService) {
             userEmail = firebaseUser?.email.toString()
         )
     }
+
+    fun removeUserFromFirebase(onSucessRemove: () -> Unit, onErrorRemove: () -> Unit) {
+        firebaseService.removeUserFromFirebase(
+            onSucessRemove,
+            onErrorRemove
+        )
+    }
 }

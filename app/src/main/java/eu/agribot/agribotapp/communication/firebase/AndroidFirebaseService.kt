@@ -67,4 +67,14 @@ class AndroidFirebaseService(override val firebaseAuth: FirebaseAuth) : Firebase
             noUserInApp.invoke()
         }
     }
+
+    override fun removeUserFromFirebase(onSucess: () -> Unit, onError: () -> Unit) {
+        firebaseAuth.currentUser?.delete()?.addOnCompleteListener { task ->
+            if (task.isSuccessful) onSucess.invoke()
+            else onError.invoke()
+        }
+            ?.addOnFailureListener {
+                onError.invoke()
+            }
+    }
 }

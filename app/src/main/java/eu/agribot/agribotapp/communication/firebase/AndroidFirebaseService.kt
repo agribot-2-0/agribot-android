@@ -2,8 +2,7 @@ package eu.agribot.agribotapp.communication.firebase
 
 import com.google.firebase.auth.FirebaseAuth
 
-class AndroidFirebaseService : FirebaseService {
-    var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
+class AndroidFirebaseService(override val firebaseAuth: FirebaseAuth) : FirebaseService {
 
     override fun login(
         loginEmail: String,
@@ -58,5 +57,14 @@ class AndroidFirebaseService : FirebaseService {
             .addOnFailureListener {
                 onError.invoke()
             }
+    }
+
+    override fun isUserAlreadyLogged(isUserInApp: () -> Unit, noUserInApp: () -> Unit) {
+        if (firebaseAuth.currentUser != null) {
+            isUserInApp.invoke()
+        }
+        if (firebaseAuth.currentUser == null) {
+            noUserInApp.invoke()
+        }
     }
 }

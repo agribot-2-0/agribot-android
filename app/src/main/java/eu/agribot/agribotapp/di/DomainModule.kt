@@ -1,9 +1,8 @@
 package eu.agribot.agribotapp.di
 
-import eu.agribot.agribotapp.domain.service.LoginService
+import eu.agribot.agribotapp.domain.service.AuthenticationService
 import eu.agribot.agribotapp.domain.service.PathManagementService
 import eu.agribot.agribotapp.domain.service.RemoteControlService
-import eu.agribot.agribotapp.domain.service.SignupService
 import org.koin.dsl.module
 
 /**
@@ -26,13 +25,7 @@ val domainModule = module {
     }
 
     single {
-        SignupService(
-            firebaseService = get()
-        )
-    }
-
-    single {
-        LoginService(
+        AuthenticationService(
             firebaseService = get()
         )
     }

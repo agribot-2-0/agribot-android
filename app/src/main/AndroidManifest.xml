@@ -32,6 +32,7 @@
         <activity
             android:name=".ui.activity.splash.SplashActivty"
             android:theme="@style/SplashTheme"
+            android:screenOrientation="sensorLandscape"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,6 +45,34 @@
             android:screenOrientation="sensorLandscape"
             android:theme="@style/AppTheme"
             tools:ignore="LockedOrientationActivity" />
+
+        <activity android:name="eu.agribot.agribotapp.ui.activity.authentication.login.LoginActivity"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/AppTheme"
+            tools:ignore="LockedOrientationActivity" >
+
+        </activity>
+
+        <activity android:name="eu.agribot.agribotapp.ui.activity.authentication.signup.SignupActivity"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/AppTheme"
+            tools:ignore="LockedOrientationActivity">
+
+        </activity>
+
+        <activity android:name=".ui.activity.authentication.passwordreminder.PasswordReminderActivity"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/AppTheme"
+            tools:ignore="LockedOrientationActivity">
+
+        </activity>
+
+        <activity android:name=".ui.activity.authentication.welcome.WelcomeActivity"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/AppTheme"
+            tools:ignore="LockedOrientationActivity">
+
+        </activity>
 
         <activity
             android:name="com.facebook.flipper.android.diagnostics.FlipperDiagnosticActivity"

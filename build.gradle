@@ -5,7 +5,7 @@ apply from: "spotless.gradle"
 apply from: "dependencyupdates.gradle"
 
 buildscript {
-    ext.kotlin_version = '1.3.71'
+    ext.kotlin_version = '1.3.72'
     ext.android_gradle_version = '3.6.3'
     ext.spotless_version = '3.25.0'
     ext.localization_version = '1.0.16'

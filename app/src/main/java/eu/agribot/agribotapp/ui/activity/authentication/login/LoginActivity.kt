@@ -27,7 +27,6 @@ class LoginActivity : BaseActivity<LoginViewModel, ActivityLoginBinding>() {
 
     override val layoutResourceId: Int = R.layout.activity_login
     override val viewModel: LoginViewModel by viewModel { parametersOf(this) }
-
     override fun bindViewVariables(viewBinding: ActivityLoginBinding) {
         viewBinding.viewModel = viewModel
     }

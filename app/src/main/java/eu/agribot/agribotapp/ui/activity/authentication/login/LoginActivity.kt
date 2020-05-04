@@ -16,6 +16,7 @@ import eu.agribot.agribotapp.ui.activity.authentication.signup.SignupActivity
 import eu.agribot.agribotapp.ui.activity.authentication.welcome.WelcomeActivity
 import eu.agribot.agribotapp.ui.activity.main.MainActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class LoginActivity : BaseActivity<LoginViewModel, ActivityLoginBinding>() {
     companion object {
@@ -25,7 +26,7 @@ class LoginActivity : BaseActivity<LoginViewModel, ActivityLoginBinding>() {
     }
 
     override val layoutResourceId: Int = R.layout.activity_login
-    override val viewModel: LoginViewModel by viewModel()
+    override val viewModel: LoginViewModel by viewModel { parametersOf(this) }
 
     override fun bindViewVariables(viewBinding: ActivityLoginBinding) {
         viewBinding.viewModel = viewModel

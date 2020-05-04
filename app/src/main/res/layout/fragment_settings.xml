@@ -15,53 +15,53 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:orientation="vertical">
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:background="#E5E1E1"
-                android:padding="@dimen/margin_medium"
-                android:onClick="@{() -> viewModel.logOutButtonAction()}">
+                android:onClick="@{() -> viewModel.logOutButtonAction()}"
+                android:orientation="vertical"
+                android:padding="@dimen/margin_medium">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textSize="@dimen/text_size_large"
-                android:textColor="@color/black"
-                android:gravity="center"
-                android:layout_margin="@dimen/margin_large"
-                android:text="@{viewModel.user}"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/margin_large"
+                    android:gravity="center"
+                    android:text="@{viewModel.user}"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_large" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="SignOut"
-                android:textSize="@dimen/text_size_large"
-                android:textColor="@color/base_green" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/sign_out"
+                    android:textColor="@color/base_green"
+                    android:textSize="@dimen/text_size_large" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_margin="@dimen/margin_medium"
-                    android:background="@color/gray"/>
+                    android:background="@color/gray" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/margin_medium"
+                android:background="#E5E1E1"
                 android:onClick="@{() -> viewModel.removeTextClicked()}"
-                android:background="#E5E1E1">
+                android:orientation="vertical"
+                android:padding="@dimen/margin_medium">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -69,16 +69,16 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:padding="@dimen/margin_medium"
-                    android:text="Remove Your Account"
-                    android:textSize="@dimen/text_size_large"
-                    android:textColor="@color/base_green" />
+                    android:text="@string/settings_remove_your_account"
+                    android:textColor="@color/base_green"
+                    android:textSize="@dimen/text_size_large" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/margin_xxlarge"
                     android:layout_margin="@dimen/margin_medium"
-                    android:background="@color/gray"/>
+                    android:layout_marginTop="@dimen/margin_xxlarge"
+                    android:background="@color/gray" />
 
 
             </LinearLayout>
@@ -88,10 +88,9 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:orientation="vertical">
-
 
 
         </LinearLayout>

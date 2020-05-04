@@ -1,15 +1,19 @@
 package eu.agribot.agribotapp.ui.activity.authentication.signup
 
 import androidx.lifecycle.MutableLiveData
+import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.LiveEvent
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.LoginActivityNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.MainActivityNavigationEvent
+import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.service.AuthenticationService
 
 class SignupViewModel(
-    private val authenticationService: AuthenticationService
+    private val authenticationService: AuthenticationService,
+    private val resourcesProvider: ResourcesProvider
+
 ) : BaseViewModel() {
 
     val email: MutableLiveData<String> = MutableLiveData()
@@ -44,7 +48,7 @@ class SignupViewModel(
     }
 
     fun onRegisterSucess() {
-        showToastEvent.postValue("Register sucessfully")
+        showToastEvent.postValue(resourcesProvider.getString(R.string.toast_register_sucess))
         authenticationService.loginToFirebase(
             email.value.toString(), password.value.toString(),
             loginSucess = this::postMainActivityNavigationEvent, loginFailed = this::onLoginFailed
@@ -52,11 +56,11 @@ class SignupViewModel(
     }
 
     fun onRegisterError() {
-        showToastEvent.postValue("Register Failed")
+        showToastEvent.postValue(resourcesProvider.getString(R.string.toast_register_failed))
     }
 
     fun onLoginFailed() {
-        showToastEvent.postValue("Login Failed")
+        showToastEvent.postValue(resourcesProvider.getString(R.string.toast_login_failed))
     }
 
     fun postMainActivityNavigationEvent() {

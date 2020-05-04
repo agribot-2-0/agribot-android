@@ -1,14 +1,17 @@
 package eu.agribot.agribotapp.ui.activity.authentication.passwordreminder
 
 import androidx.lifecycle.MutableLiveData
+import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.LiveEvent
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.LoginActivityNavigationEvent
+import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.service.AuthenticationService
 
 class PasswordReminderViewModel(
-    private val authenticationService: AuthenticationService
+    private val authenticationService: AuthenticationService,
+    private val resourcesProvider: ResourcesProvider
 
 ) : BaseViewModel() {
     val email: MutableLiveData<String> = MutableLiveData()
@@ -32,11 +35,11 @@ class PasswordReminderViewModel(
 
     private fun confirmSendEmail() {
         postLoginActivityNavigationEvent()
-        showToastEvent.postValue("Email sent sucessfully")
+        showToastEvent.postValue(resourcesProvider.getString(R.string.toast_email_send_sucess))
     }
 
     private fun failedSendEmail() {
-        showToastEvent.postValue("Can't send Email")
+        showToastEvent.postValue(resourcesProvider.getString(R.string.toast_email_send_failed))
     }
 
     fun postLoginActivityNavigationEvent() {

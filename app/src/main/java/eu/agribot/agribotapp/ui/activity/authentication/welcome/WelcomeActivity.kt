@@ -3,6 +3,7 @@ package eu.agribot.agribotapp.ui.activity.authentication.welcome
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
+import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseActivity
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.LoginActivityNavigationEvent
@@ -11,7 +12,6 @@ import eu.agribot.agribotapp.databinding.ActivityWelcomeBinding
 import eu.agribot.agribotapp.ui.activity.authentication.login.LoginActivity
 import eu.agribot.agribotapp.ui.activity.authentication.signup.SignupActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import eu.agribot.agribotapp.R
 
 class WelcomeActivity : BaseActivity<WelcomeViewModel, ActivityWelcomeBinding>() {
     companion object {
@@ -34,7 +34,7 @@ class WelcomeActivity : BaseActivity<WelcomeViewModel, ActivityWelcomeBinding>()
     }
 
     override fun onBackPressed() {
-        Toast.makeText(this, "You can't do this", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, getString(R.string.toast_cant_do_this), Toast.LENGTH_LONG).show()
     }
 
     private fun handleLoginActivityNavigationEvent() {

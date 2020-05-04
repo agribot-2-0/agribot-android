@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.di
 
+import android.content.Context
 import eu.agribot.agribotapp.ui.activity.authentication.login.LoginViewModel
 import eu.agribot.agribotapp.ui.activity.authentication.passwordreminder.PasswordReminderViewModel
 import eu.agribot.agribotapp.ui.activity.authentication.signup.SignupViewModel
@@ -14,6 +15,7 @@ import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolControlViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.ToolManagementViewModel
 import eu.agribot.agribotapp.ui.fragment.weather.WeatherViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
 /**
@@ -33,23 +35,24 @@ val viewModelModule = module {
             remoteControlService = get()
         )
     }
-    viewModel {
+    viewModel { (context: Context) ->
         PasswordReminderViewModel(
-            authenticationService = get()
-        )
+            authenticationService = get(),
+            resourcesProvider = get { parametersOf(context) })
     }
 
     viewModel { WelcomeViewModel() }
 
-    viewModel {
+    viewModel { (context: Context) ->
         LoginViewModel(
-            authenticationService = get()
+            authenticationService = get(),
+            resourcesProvider = get { parametersOf(context) }
         )
     }
-    viewModel {
+    viewModel { (context: Context) ->
         SignupViewModel(
-            authenticationService = get()
-        )
+            authenticationService = get(),
+            resourcesProvider = get { parametersOf(context) })
     }
     viewModel { ToolControlViewModel() }
     viewModel { AutonomousModeViewModel() }
@@ -60,9 +63,9 @@ val viewModelModule = module {
         )
     }
     viewModel { WeatherViewModel() }
-    viewModel {
+    viewModel { (context: Context) ->
         SettingsViewModel(
-            authenticationService = get()
-        )
+            authenticationService = get(),
+            resourcesProvider = get { parametersOf(context) })
     }
 }

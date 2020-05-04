@@ -17,7 +17,8 @@ import org.koin.core.parameter.parametersOf
 class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding>() {
 
     override val layoutResourceId: Int = R.layout.fragment_settings
-    override val viewModel: SettingsViewModel by viewModel()
+    override val viewModel: SettingsViewModel by viewModel { parametersOf(requireContext()) }
+
     private val dialogManager: DialogManager by inject { parametersOf(requireContext()) }
 
     override fun bindViewVariables(viewBinding: FragmentSettingsBinding) {

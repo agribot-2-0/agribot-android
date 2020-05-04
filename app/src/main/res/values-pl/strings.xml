@@ -31,44 +31,80 @@
     <string name="green">Zielony</string>
     <string name="yellow">Żółty</string>
     <string name="blue">Niebieski</string>
+
+    <!-- Engine View -->
     <string name="example_rpm">1600 rpm</string>
     <string name="engine">Silnik</string>
-    <string name="paths">Ścieżki :</string>
-    <string name="delete_path_button">Usuń ścieżkę</string>
-    <string name="implements_tool_select">Narzędzie</string>
+
+
+    <!-- Tool Select View -->
     <string name="tool1">Narzędzie 1</string>
     <string name="tool2">Narzędzie 2</string>
-    <string name="calendar_time">CZAS</string>
-    <string name="calendar_weather">POGODA</string>
-    <string name="calendar_date">DATA</string>
+    <!-- Start&Stop View -->
     <string name="no_weather">[Brak danych o pogodzie]</string>
     <string name="view_start_stop_now">Teraz</string>
     <string name="view_start_stop_today">Dzisiaj</string>
-    <string name="camera_view">Widok z Kamery</string>
     <string name="start_now">Rozpocznij</string>
-    <string name="timeSquare">40.758895, -73.985131</string>
+
+    <!-- Manual Control Fragment -->
+    <string name="camera_view">Widok z Kamery</string>
+
+    <!-- Tool Management -->
     <string name="new_config">Nowa Konfiguracja:</string>
     <string name="tool_config_list">Lista Konfiguracji:</string>
-    <string name="button_save">SAVE</string>
-    <string name="id_number">ID number</string>
-    <string name="tool_name">Tool name</string>
+    <string name="button_save">ZAPISZ</string>
+    <string name="id_number">Numer</string>
+    <string name="tool_name">Nazwa narzędzia</string>
     <string name="mower">Mower</string>
     <string name="sprayer">Sprayer</string>
     <string name="tractor">Tractor</string>
-    <string name="signupFragment">Signup</string>
-    <string name="forgot_your_password">Forgot your password?</string>
-    <string name="sign_out">Sign Out</string>
+
+    <!-- Path Select View -->
+    <string name="paths">Ścieżki :</string>
+    <string name="delete_path_button">Usuń ścieżkę</string>
+
+    <!-- Welcome Activity -->
+    <string name="sign_up">Rejestracja</string>
+    <string name="sign_in">Logowanie</string>
+    <string name="toast_cant_do_this">Nie możesz tego zrobić</string>
+
+    <!-- SignUp Activity -->
+    <string name="register">Zarejestruj</string>
+    <string name="do_you_have_an_account">Czy posiadasz już konto?</string>
+    <string name="toast_register_sucess">Zarejestrowano pomyślnie</string>
+    <string name="toast_register_failed">Problem z rejestracją</string>
+
+    <!-- Login Activity -->
     <string name="login">Login</string>
-    <string name="back_to_registration">Back to registration</string>
     <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="register">Register</string>
-    <string name="i_have_account">I have account</string>
-    <string name="dialog_signout_tittle">SignOut from Application</string>
-    <string name="dialog_signout_message">Are You sure You want to signOut?</string>
-    <string name="signout">signOut</string>
-    <string name="dialog_remove_account_title">Remove your Account</string>
-    <string name="dialog_remove_account_message">Are You sure You want to delete your Account?</string>
-    <string name="delete_account">Delete Account</string>
+    <string name="password">Hasło</string>
+    <string name="don_t_have_an_account">Nie masz konta?</string>
+    <string name="toast_login_sucess">Zalogowano pomyślnie</string>
+    <string name="toast_login_failed">Problem z zalogowaniem</string>
+    <string name="login_fragment_forgot_your_login_details">Zapomniałeś/aś danych logowania?</string>
+    <string name="login_fragmentget_help_siging_in">Pomoc w logowaniu</string>
+
+    <!-- Password Reminder Activity -->
+    <string name="enter_your_email_linked_to_your_account">Wpisz adres email powiązany z Twoim kontem</string>
+    <string name="email_password_reminder">email</string>
+    <string name="find_your_account">Znajdź swoje konto</string>
+    <string name="next">Dalej</string>
+    <string name="toast_email_send_sucess">Email resetujący wysłany pomyślnie</string>
+    <string name="toast_email_send_failed">Problem z wysłaniem maila z linkiem resetującym</string>
+
+    <!-- Settings Fragment -->
+    <string name="dialog_signout_tittle">Wyloguj z aplikacji</string>
+    <string name="dialog_signout_message">Jesteś pewny, że chcesz się wylogować?</string>
+    <string name="signout">Wyloguj</string>
+    <string name="dialog_remove_account_title">Usuń swoje konto</string>
+    <string name="dialog_remove_account_message">Jesteś pewien, że chcesz usunąć swoje konto?</string>
+    <string name="delete_account">Usuń konto</string>
+    <string name="toast_remove_account_sucess">Konto usunięte pomyślnie</string>
+    <string name="toast_remove_account_failed">Podczas usuwania konta wystąpił błąd</string>
+    <string name="toast_logout_sucess">Wylogowanie z aplikacji zakończone sukcesem</string>
+    <string name="loginAsText">Zalogowano jako: </string>
+    <string name="settings_remove_your_account">Usuń swoje konto</string>
+    <string name="sign_out">Wyloguj</string>
+
 
 </resources>

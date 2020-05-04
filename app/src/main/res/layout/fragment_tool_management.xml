@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -9,15 +8,15 @@
             type="eu.agribot.agribotapp.ui.fragment.toolmanagement.ToolManagementViewModel" />
     </data>
 
-   <LinearLayout
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
-       <View
-           android:layout_width="2dp"
-           android:layout_height="match_parent"
-           android:background="@color/gray"/>
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/gray" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -28,7 +27,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/gray"/>
+                android:background="@color/gray" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -47,28 +46,28 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/new_config"
+                        android:layout_gravity="center_horizontal"
                         android:layout_margin="@dimen/text_size_xlarge"
                         android:layout_marginBottom="@dimen/margin_medium"
-                        android:layout_gravity="center_horizontal"
-                        android:textSize="@dimen/text_size_xlarge"/>
+                        android:text="@string/new_config"
+                        android:textSize="@dimen/text_size_xlarge" />
 
 
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginHorizontal="@dimen/margin_large"
                         android:layout_marginTop="@dimen/margin_xxlarge"
-                        android:layout_marginHorizontal="@dimen/margin_large"
-                        android:layout_gravity="center_horizontal"
-                        android:text="@string/id_number"/>
+                        android:text="@string/id_number" />
 
 
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/margin_large"
                         android:layout_gravity="center_horizontal"
-                        android:text="@string/tool_name"/>
+                        android:layout_marginHorizontal="@dimen/margin_large"
+                        android:text="@string/tool_name" />
 
 
                 </LinearLayout>
@@ -84,52 +83,51 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/tool_config_list"
+                        android:layout_gravity="center_horizontal"
                         android:layout_margin="@dimen/text_size_large"
-                        android:layout_gravity="center_horizontal"
-                        android:textSize="@dimen/text_size_xlarge"/>
+                        android:text="@string/tool_config_list"
+                        android:textSize="@dimen/text_size_xlarge" />
 
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
                         android:layout_marginTop="@dimen/margin_large"
-                        android:layout_gravity="center_horizontal"
-                        android:text="@string/mower"/>
+                        android:text="@string/mower" />
 
                     <View
                         android:layout_width="wrap_content"
                         android:layout_height="1dp"
-                        android:background="@color/gray"
+                        android:layout_marginEnd="@dimen/margin_small"
                         android:layout_marginBottom="@dimen/text_size_large"
-                        android:layout_marginEnd="@dimen/margin_small"/>
+                        android:background="@color/gray" />
 
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="@string/sprayer"/>
+                        android:text="@string/sprayer" />
 
                     <View
                         android:layout_width="wrap_content"
                         android:layout_height="1dp"
-                        android:background="@color/gray"
+                        android:layout_marginEnd="@dimen/margin_small"
                         android:layout_marginBottom="@dimen/text_size_large"
-                        android:layout_marginEnd="@dimen/margin_small"/>
+                        android:background="@color/gray" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="@string/tractor"/>
+                        android:text="@string/tractor" />
 
                     <View
                         android:layout_width="wrap_content"
                         android:layout_height="1dp"
-                        android:background="@color/gray"
-                        android:layout_marginEnd="@dimen/margin_small"/>
-
+                        android:layout_marginEnd="@dimen/margin_small"
+                        android:background="@color/gray" />
 
 
                 </LinearLayout>
@@ -139,65 +137,65 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/gray"/>
+                android:background="@color/gray" />
 
-       <FrameLayout
-           android:layout_width="match_parent"
-           android:layout_height="0dp"
-           android:layout_weight="2">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2">
 
-           <include layout="@layout/view_hitch"/>
+                <include layout="@layout/view_hitch" />
 
-       </FrameLayout>
+            </FrameLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
+                android:layout_gravity="center"
                 android:layout_weight="0.5"
-                android:text="@string/button_save"
-                android:layout_gravity="center"/>
+                android:text="@string/button_save" />
 
         </LinearLayout>
 
-       <View
-           android:layout_width="2dp"
-           android:layout_height="match_parent"
-           android:background="@color/gray"/>
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/gray" />
 
-       <RelativeLayout
-           android:layout_width="0dp"
-           android:layout_height="match_parent"
-           android:layout_weight="1">
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-           <ImageView
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"
-               android:layout_alignParentStart="true"
-               android:layout_alignParentTop="true"
-               android:scaleType="centerInside"
-               android:src="@drawable/agri_new_half" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/agri_new_half" />
 
-           <ImageView
-               android:id="@+id/front_up_sett"
-               android:layout_width="63dp"
-               android:layout_height="68dp"
-               android:layout_alignParentEnd="true"
-               android:layout_alignParentTop="true"
-               android:layout_marginEnd="39dp"
-               android:layout_marginTop="222dp"
-               android:src="@drawable/target_green" />
+            <ImageView
+                android:id="@+id/front_up_sett"
+                android:layout_width="63dp"
+                android:layout_height="68dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="222dp"
+                android:layout_marginEnd="39dp"
+                android:src="@drawable/target_green" />
 
-           <ImageView
-               android:id="@+id/front_down_sett"
-               android:layout_width="64dp"
-               android:layout_height="65dp"
-               android:layout_alignParentBottom="true"
-               android:layout_alignParentEnd="true"
-               android:layout_marginBottom="201dp"
-               android:src="@drawable/target_green" />
+            <ImageView
+                android:id="@+id/front_down_sett"
+                android:layout_width="64dp"
+                android:layout_height="65dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="201dp"
+                android:src="@drawable/target_green" />
 
-       </RelativeLayout>
+        </RelativeLayout>
 
-   </LinearLayout>
+    </LinearLayout>
 
 </layout>

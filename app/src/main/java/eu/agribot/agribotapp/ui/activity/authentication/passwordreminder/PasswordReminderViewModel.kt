@@ -22,7 +22,7 @@ class PasswordReminderViewModel(
     }
 
     private fun remindPassword() {
-        authenticationService.resetEmailfromFirebase(
+        authenticationService.resetEmail(
             email.value.toString(),
             confirmSending = this::confirmSendEmail,
             errorSending = this::failedSendEmail
@@ -38,8 +38,8 @@ class PasswordReminderViewModel(
         showToastEvent.postValue(resourcesProvider.getString(R.string.toast_email_send_sucess))
     }
 
-    private fun failedSendEmail() {
-        showToastEvent.postValue(resourcesProvider.getString(R.string.toast_email_send_failed))
+    private fun failedSendEmail(sendMailError: String) {
+        showToastEvent.postValue(sendMailError)
     }
 
     fun postLoginActivityNavigationEvent() {

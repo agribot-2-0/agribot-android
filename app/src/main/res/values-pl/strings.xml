@@ -106,5 +106,14 @@
     <string name="settings_remove_your_account">Usuń swoje konto</string>
     <string name="sign_out">Wyloguj</string>
 
+    <!-- Authentication Exception -->
+    <string name="unkown_error">Niezanany błąd</string>
+    <string name="incorrect_password">Błędne Hasło</string>
+    <string name="error_signup_data">Nie można zidentyfikować co najmniej jednego poświadczenia</string>
+    <string name="email_already_used">Ten Email jest już używany</string>
+    <string name="incorrect_email">Błędny Adres Email</string>
+    <string name="too_short_password">Za krótkie hasło [Hasło powinno mieć minimum 6 znaków]</string>
+    <string name="badly_email_formated">Zły format adresu email.</string>
+
 
 </resources>

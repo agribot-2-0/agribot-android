@@ -39,14 +39,14 @@ class LoginViewModel(
         showToastEvent.postValue(resourcesProvider.getString(R.string.toast_login_sucess))
     }
 
-    private fun onLoginFailed() {
-        showToastEvent.postValue(resourcesProvider.getString(R.string.toast_login_failed))
+    private fun onLoginFailed(loginError: String) {
+        showToastEvent.postValue(loginError)
     }
 
     private fun login() {
         val loginEmail = email.value.toString()
         val loginPassword = password.value.toString()
-        authenticationService.loginToFirebase(
+        authenticationService.login(
             loginEmail, loginPassword,
             loginSucess = this::onLoginSucess,
             loginFailed = this::onLoginFailed

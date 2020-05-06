@@ -105,5 +105,14 @@
     <string name="sign_out">Sign Out</string>
     <string name="settings_remove_your_account">Remove Your Account</string>
 
+    <!-- Authentication Exception -->
+    <string name="unkown_error">unknown error</string>
+    <string name="incorrect_password">incorrect password</string>
+    <string name="error_signup_data">One or more of the credentials passed to a method fail to identify</string>
+    <string name="email_already_used">This email already used</string>
+    <string name="incorrect_email">email adress incorrect</string>
+    <string name="too_short_password">Too shoort password [Password should be at least 6 characters ]</string>
+    <string name="badly_email_formated">The email address is badly formatted.</string>
+
 
 </resources>

@@ -1,37 +1,47 @@
 package eu.agribot.agribotapp.domain.service
 
 import eu.agribot.agribotapp.communication.firebase.FirebaseService
+import eu.agribot.agribotapp.domain.error.AuthenticationErrorHandler
 
-class AuthenticationService(val firebaseService: FirebaseService) {
+class AuthenticationService(
+    val firebaseService: FirebaseService,
+    val authenticationErrorHandler: AuthenticationErrorHandler
+) {
 
-    fun loginToFirebase(
+    fun login(
         userLogin: String,
         userPassword: String,
         loginSucess: () -> Unit,
-        loginFailed: () -> Unit
+        loginFailed: (error: String) -> Unit
     ) {
-        firebaseService.login(userLogin, userPassword, loginSucess, loginFailed)
+        firebaseService.login(userLogin, userPassword, loginSucess, onError = {
+            loginFailed(authenticationErrorHandler.getMessageForLoginException(it))
+        })
     }
 
-    fun resetEmailfromFirebase(
+    fun resetEmail(
         userLogin: String,
         confirmSending: () -> Unit,
-        errorSending: () -> Unit
+        errorSending: (error: String) -> Unit
     ) {
-        firebaseService.sendResetPasswordEmail(userLogin, confirmSending, errorSending)
+        firebaseService.sendResetPasswordEmail(userLogin, confirmSending, onError = {
+            errorSending(authenticationErrorHandler.getMessageForPasswordReminderException(it))
+        })
     }
 
-    fun logOutFromFirebase(signOutInformation: () -> Unit) {
+    fun logOut(signOutInformation: () -> Unit) {
         firebaseService.signOut { signOutInformation() }
     }
 
-    fun registerInFirebase(
+    fun register(
         userLogin: String,
         userPassword: String,
         registerSucess: () -> Unit,
-        registerFailed: () -> Unit
+        registerFailed: (error: String) -> Unit
     ) {
-        firebaseService.register(userLogin, userPassword, registerSucess, registerFailed)
+        firebaseService.register(userLogin, userPassword, registerSucess, onError = {
+            registerFailed(authenticationErrorHandler.getMessageForSignupException(it))
+        })
     }
 
     data class AppUser(
@@ -53,10 +63,11 @@ class AuthenticationService(val firebaseService: FirebaseService) {
         )
     }
 
-    fun removeUserFromFirebase(onSucessRemove: () -> Unit, onErrorRemove: () -> Unit) {
+    fun removeUser(onSucessRemove: () -> Unit, onErrorRemove: (error: String) -> Unit) {
         firebaseService.removeUserFromFirebase(
             onSucessRemove,
-            onErrorRemove
-        )
+            onError = {
+                onErrorRemove(authenticationErrorHandler.getMessageForSignupException(it))
+            })
     }
 }

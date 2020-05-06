@@ -19,7 +19,7 @@ class SettingsViewModel(
     val showDeleteAccountDialogEvent: LiveEvent<Boolean> = MutableLiveEvent()
 
     fun logOut() {
-        authenticationService.logOutFromFirebase(signOutInformation = this::logOutInfo)
+        authenticationService.logOut(signOutInformation = this::logOutInfo)
         welcomeActivityEvent()
     }
 
@@ -28,8 +28,8 @@ class SettingsViewModel(
         welcomeActivityEvent()
     }
 
-    fun removeUserFailed() {
-        showToastEvent.postValue(resourcesProvider.getString(R.string.toast_remove_account_failed))
+    fun removeUserFailed(removeUserProblem: String) {
+        showToastEvent.postValue(removeUserProblem)
     }
 
     fun logOutButtonAction() {
@@ -51,7 +51,7 @@ class SettingsViewModel(
     }
 
     fun removeUser() {
-        authenticationService.removeUserFromFirebase(
+        authenticationService.removeUser(
             onSucessRemove = this::removeUserSucessfull,
             onErrorRemove = this::removeUserFailed
         )

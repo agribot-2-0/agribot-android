@@ -2,21 +2,23 @@ package eu.agribot.agribotapp.communication.firebase
 
 import com.google.firebase.auth.FirebaseAuth
 
-class AndroidFirebaseService(override val firebaseAuth: FirebaseAuth) : FirebaseService {
+class AndroidFirebaseService(
+    override val firebaseAuth: FirebaseAuth
+) : FirebaseService {
 
     override fun login(
         loginEmail: String,
         loginPassword: String,
         onSucess: () -> Unit,
-        onError: () -> Unit
+        onError: (Exception) -> Unit
     ) {
+
         firebaseAuth.signInWithEmailAndPassword(loginEmail, loginPassword)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) onSucess.invoke()
-                else onError.invoke()
+            .addOnSuccessListener { task ->
+                onSucess.invoke()
             }
-            .addOnFailureListener {
-                onError.invoke()
+            .addOnFailureListener { exception ->
+                onError(exception)
             }
     }
 
@@ -24,18 +26,19 @@ class AndroidFirebaseService(override val firebaseAuth: FirebaseAuth) : Firebase
         emailRegister: String,
         passwordRegister: String,
         onSucess: () -> Unit,
-        onError: () -> Unit
+        onError: (Exception) -> Unit
+
     ) {
         firebaseAuth.createUserWithEmailAndPassword(
             emailRegister,
             passwordRegister
         )
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) onSucess.invoke()
-                else onError.invoke()
+            .addOnSuccessListener { task ->
+                onSucess.invoke()
             }
-            .addOnFailureListener {
-                onError.invoke()
+            .addOnFailureListener { exception ->
+                onError(exception)
+
             }
     }
 
@@ -47,15 +50,15 @@ class AndroidFirebaseService(override val firebaseAuth: FirebaseAuth) : Firebase
     override fun sendResetPasswordEmail(
         loginEmail: String,
         onSucess: () -> Unit,
-        onError: () -> Unit
+        onError: (Exception) -> Unit
     ) {
         firebaseAuth.sendPasswordResetEmail(loginEmail)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) onSucess.invoke()
-                else onError.invoke()
+            .addOnSuccessListener { task ->
+                onSucess.invoke()
             }
-            .addOnFailureListener {
-                onError.invoke()
+            .addOnFailureListener { exception ->
+                onError(exception)
+
             }
     }
 
@@ -68,13 +71,13 @@ class AndroidFirebaseService(override val firebaseAuth: FirebaseAuth) : Firebase
         }
     }
 
-    override fun removeUserFromFirebase(onSucess: () -> Unit, onError: () -> Unit) {
-        firebaseAuth.currentUser?.delete()?.addOnCompleteListener { task ->
-            if (task.isSuccessful) onSucess.invoke()
-            else onError.invoke()
-        }
-            ?.addOnFailureListener {
-                onError.invoke()
+    override fun removeUserFromFirebase(onSucess: () -> Unit, onError: (Exception) -> Unit) {
+        firebaseAuth.currentUser?.delete()
+            ?.addOnSuccessListener { task ->
+                onSucess.invoke()
+            }
+            ?.addOnFailureListener { exception ->
+                onError(exception)
             }
     }
 }

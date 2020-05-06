@@ -19,7 +19,6 @@ class SignupViewModel(
     val email: MutableLiveData<String> = MutableLiveData()
     val password: MutableLiveData<String> = MutableLiveData()
     val showToastEvent: LiveEvent<String> = MutableLiveEvent()
-    val canSignup: MutableLiveData<Boolean> = MutableLiveData()
 
     fun onEmailChanged(text: CharSequence) {
         email.value = text.toString()
@@ -40,27 +39,27 @@ class SignupViewModel(
     }
 
     fun performRegister() {
-        authenticationService.registerInFirebase(
+        authenticationService.register(
             email.value.toString(), password.value.toString(),
-            registerSucess = this::onRegisterSucess,
-            registerFailed = this::onRegisterError
+            registerSucess = this::onRegisterSucess, registerFailed = this::onRegisterError
+
         )
+    }
+
+    fun onRegisterError(registerError: String) {
+        showToastEvent.postValue(registerError)
     }
 
     fun onRegisterSucess() {
         showToastEvent.postValue(resourcesProvider.getString(R.string.toast_register_sucess))
-        authenticationService.loginToFirebase(
+        authenticationService.login(
             email.value.toString(), password.value.toString(),
             loginSucess = this::postMainActivityNavigationEvent, loginFailed = this::onLoginFailed
         )
     }
 
-    fun onRegisterError() {
-        showToastEvent.postValue(resourcesProvider.getString(R.string.toast_register_failed))
-    }
-
-    fun onLoginFailed() {
-        showToastEvent.postValue(resourcesProvider.getString(R.string.toast_login_failed))
+    fun onLoginFailed(LoginError: String) {
+        showToastEvent.postValue(LoginError)
     }
 
     fun postMainActivityNavigationEvent() {

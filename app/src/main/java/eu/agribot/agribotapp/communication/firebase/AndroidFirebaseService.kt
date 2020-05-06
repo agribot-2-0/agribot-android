@@ -38,7 +38,6 @@ class AndroidFirebaseService(
             }
             .addOnFailureListener { exception ->
                 onError(exception)
-
             }
     }
 
@@ -58,7 +57,6 @@ class AndroidFirebaseService(
             }
             .addOnFailureListener { exception ->
                 onError(exception)
-
             }
     }
 

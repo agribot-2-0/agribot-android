@@ -37,7 +37,5 @@ val domainModule = module {
     single {
         AuthenticationErrorHandler(
             resourcesProvider = get { parametersOf(androidContext()) })
-
     }
-
 }

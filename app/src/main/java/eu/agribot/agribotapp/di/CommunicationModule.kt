@@ -23,10 +23,7 @@ val communicationModule = module {
         AndroidFirebaseService(
             firebaseAuth = FirebaseAuth.getInstance()
         )
-
     }
-
-
 
     single<PersistentStorage> {
         SharedPreferencesPersistentStorage(

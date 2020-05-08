@@ -51,7 +51,6 @@ class AuthenticationService(
 
     fun checkUserInApp() = firebaseService.isUserAlreadyLoggedIn()
 
-
     fun getCurrentUser() = firebaseService.getCurrentUser().let { firebaseUser ->
         AppUser(
             userName = firebaseUser?.displayName.toString(),

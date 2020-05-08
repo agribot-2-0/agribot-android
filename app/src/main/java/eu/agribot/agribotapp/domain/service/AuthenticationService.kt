@@ -49,15 +49,8 @@ class AuthenticationService(
         val userEmail: String
     )
 
-    fun checkUserInApp(
-        isInApp: () -> Unit,
-        isNotInApp: () -> Unit
-    ) {
-        when (firebaseService.isUserAlreadyLoggedIn()) {
-            true -> isInApp.invoke()
-            false -> isNotInApp.invoke()
-        }
-    }
+    fun checkUserInApp() = firebaseService.isUserAlreadyLoggedIn()
+
 
     fun getCurrentUser() = firebaseService.getCurrentUser().let { firebaseUser ->
         AppUser(

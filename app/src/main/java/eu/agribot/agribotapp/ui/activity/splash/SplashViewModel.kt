@@ -31,9 +31,9 @@ class SplashViewModel(private val authenticationService: AuthenticationService) 
     }
 
     private fun checkLoginStatusAndRedirect() {
-        authenticationService.checkUserInApp(
-            isInApp = this::postMainActivityNavigationEvent,
-            isNotInApp = this::postWelcomeActivityNavigationEvent
-        )
+        when (authenticationService.checkUserInApp()) {
+            true -> postMainActivityNavigationEvent()
+            false -> postWelcomeActivityNavigationEvent()
+        }
     }
 }

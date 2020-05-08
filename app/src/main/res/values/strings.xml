@@ -101,7 +101,7 @@
     <string name="toast_remove_account_sucess">Remove your account successfully</string>
     <string name="toast_remove_account_failed">Remove your account failed</string>
     <string name="toast_logout_sucess">Log out from application successful</string>
-    <string name="loginAsText">Login as: </string>
+    <string name="login_As_Text">Login as: </string>
     <string name="sign_out">Sign Out</string>
     <string name="settings_remove_your_account">Remove Your Account</string>
 
@@ -113,6 +113,7 @@
     <string name="incorrect_email">email adress incorrect</string>
     <string name="too_short_password">Too shoort password [Password should be at least 6 characters ]</string>
     <string name="badly_email_formated">The email address is badly formatted.</string>
+    <string name="no_internet_connection">No internet connection</string>
 
 
 </resources>

@@ -102,7 +102,7 @@
     <string name="toast_remove_account_sucess">Konto usunięte pomyślnie</string>
     <string name="toast_remove_account_failed">Podczas usuwania konta wystąpił błąd</string>
     <string name="toast_logout_sucess">Wylogowanie z aplikacji zakończone sukcesem</string>
-    <string name="loginAsText">Zalogowano jako: </string>
+    <string name="login_As_Text">Zalogowano jako: </string>
     <string name="settings_remove_your_account">Usuń swoje konto</string>
     <string name="sign_out">Wyloguj</string>
 
@@ -114,6 +114,7 @@
     <string name="incorrect_email">Błędny Adres Email</string>
     <string name="too_short_password">Za krótkie hasło [Hasło powinno mieć minimum 6 znaków]</string>
     <string name="badly_email_formated">Zły format adresu email.</string>
+    <string name="no_internet_connection">Brak połączenia z internetem</string>
 
 
 </resources>

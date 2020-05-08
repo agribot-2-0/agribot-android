@@ -53,7 +53,10 @@ class AuthenticationService(
         isInApp: () -> Unit,
         isNotInApp: () -> Unit
     ) {
-        firebaseService.isUserAlreadyLogged(isInApp, isNotInApp)
+        when (firebaseService.isUserAlreadyLoggedIn()) {
+            true -> isInApp.invoke()
+            false -> isNotInApp.invoke()
+        }
     }
 
     fun getCurrentUser() = firebaseService.getCurrentUser().let { firebaseUser ->

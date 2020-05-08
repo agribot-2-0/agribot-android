@@ -3,7 +3,6 @@ package eu.agribot.agribotapp.ui.activity.authentication.login
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseActivity
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
@@ -34,10 +33,6 @@ class LoginActivity : BaseActivity<LoginViewModel, ActivityLoginBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.showToastEvent.observe(this::showToast)
-    }
-
-    fun showToast(toastText: String) {
-        Toast.makeText(this, toastText, Toast.LENGTH_LONG).show()
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {

@@ -17,7 +17,7 @@ class SplashViewModel(private val authenticationService: AuthenticationService) 
 
     fun beginSplashScreenDelay() = viewModelScope.launch {
         delay(SPLASH_SCREEN_TIMEOUT_MILLIS)
-        checkIsUserInApp()
+        checkLoginStatusAndRedirect()
     }
 
     private fun postMainActivityNavigationEvent() {
@@ -30,7 +30,7 @@ class SplashViewModel(private val authenticationService: AuthenticationService) 
         navigationEvent.postValue(WelcomeActivityNavigationEvent())
     }
 
-    private fun checkIsUserInApp() {
+    private fun checkLoginStatusAndRedirect() {
         authenticationService.checkUserInApp(
             isInApp = this::postMainActivityNavigationEvent,
             isNotInApp = this::postWelcomeActivityNavigationEvent

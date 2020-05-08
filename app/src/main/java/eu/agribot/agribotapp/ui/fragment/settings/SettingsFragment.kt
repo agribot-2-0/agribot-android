@@ -2,7 +2,6 @@ package eu.agribot.agribotapp.ui.fragment.settings
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.dialog.DialogManager
@@ -37,23 +36,19 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
         else -> Unit
     }
 
-    fun showToast(toastText: String) {
-        Toast.makeText(activity, toastText, Toast.LENGTH_LONG).show()
-    }
-
     private fun handleWelcomeActivityNavigationEvent() {
         startActivity(WelcomeActivity.getStartingIntent(requireContext()))
     }
 
-    private fun showSignOutDialog(state: Boolean) {
-        if (state == true) {
-            dialogManager.showSignOutDialog { viewModel.logOut() }
+    private fun showSignOutDialog(logOutDecision: Boolean) {
+        if (logOutDecision == true) {
+            dialogManager.showSignOutDialog(viewModel::logOut)
         }
     }
 
-    private fun showDeleteAccountDialog(state: Boolean) {
-        if (state == true) {
-            dialogManager.showRemoveAccountDialog { viewModel.removeUser() }
+    private fun showDeleteAccountDialog(deleteAccountDecision: Boolean) {
+        if (deleteAccountDecision == true) {
+            dialogManager.showRemoveAccountDialog(viewModel::removeUser)
         }
     }
 }

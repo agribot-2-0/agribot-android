@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.communication.firebase
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 
 class AndroidFirebaseService(
@@ -19,6 +20,7 @@ class AndroidFirebaseService(
             }
             .addOnFailureListener { exception ->
                 onError(exception)
+                Log.e("xd", "error" + exception)
             }
     }
 
@@ -60,22 +62,13 @@ class AndroidFirebaseService(
             }
     }
 
-    override fun isUserAlreadyLogged(isUserInApp: () -> Unit, noUserInApp: () -> Unit) {
-        if (firebaseAuth.currentUser != null) {
-            isUserInApp.invoke()
-        }
-        if (firebaseAuth.currentUser == null) {
-            noUserInApp.invoke()
-        }
-    }
-
     override fun removeUserFromFirebase(onSucess: () -> Unit, onError: (Exception) -> Unit) {
-        firebaseAuth.currentUser?.delete()
-            ?.addOnSuccessListener { task ->
-                onSucess.invoke()
-            }
-            ?.addOnFailureListener { exception ->
-                onError(exception)
-            }
+        firebaseAuth.currentUser?.let { nonNullUser ->
+            nonNullUser.delete()
+                .addOnSuccessListener { onSucess() }
+                .addOnFailureListener { exception -> onError(exception) }
+        } ?: run {
+            onSucess()
+        }
     }
 }

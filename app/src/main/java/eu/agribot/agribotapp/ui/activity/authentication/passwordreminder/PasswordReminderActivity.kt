@@ -3,7 +3,6 @@ package eu.agribot.agribotapp.ui.activity.authentication.passwordreminder
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseActivity
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
@@ -48,9 +47,5 @@ class PasswordReminderActivity :
     fun handleLoginActivityNavigationEvent() {
         this.finish()
         startActivity(LoginActivity.getStartingIntent(this))
-    }
-
-    fun showToast(toastText: String) {
-        Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
     }
 }

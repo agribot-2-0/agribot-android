@@ -14,18 +14,18 @@ class SettingsViewModel(
 ) : BaseViewModel() {
     val showToastEvent: LiveEvent<String> = MutableLiveEvent()
     val user =
-        resourcesProvider.getString(R.string.loginAsText) + " " + authenticationService.getCurrentUser().userEmail.toString()
+        resourcesProvider.getString(R.string.login_As_Text) + " " + authenticationService.getCurrentUser().userEmail.toString()
     val showSignoutDialogEvent: LiveEvent<Boolean> = MutableLiveEvent()
     val showDeleteAccountDialogEvent: LiveEvent<Boolean> = MutableLiveEvent()
 
     fun logOut() {
         authenticationService.logOut(signOutInformation = this::logOutInfo)
-        welcomeActivityEvent()
+        postWelcomeActivityEvent()
     }
 
     fun removeUserSucessfull() {
         showToastEvent.postValue(resourcesProvider.getString(R.string.toast_remove_account_sucess))
-        welcomeActivityEvent()
+        postWelcomeActivityEvent()
     }
 
     fun removeUserFailed(removeUserProblem: String) {
@@ -36,7 +36,7 @@ class SettingsViewModel(
         showSignoutDialogEvent.postValue(true)
     }
 
-    fun welcomeActivityEvent() {
+    fun postWelcomeActivityEvent() {
         navigationEvent.postValue(
             WelcomeActivityNavigationEvent()
         )

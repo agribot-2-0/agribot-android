@@ -32,7 +32,7 @@ interface FirebaseService {
 
     fun getCurrentUser() = firebaseAuth.currentUser
 
-    fun isUserAlreadyLogged(isUserInApp: () -> Unit, noUserInApp: () -> Unit)
+    fun isUserAlreadyLoggedIn() = (firebaseAuth.currentUser != null)
 
     fun removeUserFromFirebase(onSucess: () -> Unit, onError: (Exception) -> Unit)
 }

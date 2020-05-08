@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.domain.error
 
+import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthEmailException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
@@ -14,18 +15,21 @@ class AuthenticationErrorHandler(val resourcesProvider: ResourcesProvider) {
         is FirebaseAuthInvalidUserException -> resourcesProvider.getString(R.string.incorrect_email)
         is FirebaseAuthInvalidCredentialsException -> resourcesProvider.getString(R.string.incorrect_password)
         is FirebaseAuthWeakPasswordException -> resourcesProvider.getString(R.string.too_short_password)
+        is FirebaseNetworkException -> resourcesProvider.getString(R.string.no_internet_connection)
         else -> resourcesProvider.getString(R.string.unkown_error)
     }
 
     fun getMessageForSignupException(exception: Exception): String = when (exception) {
         is FirebaseAuthInvalidCredentialsException -> resourcesProvider.getString(R.string.error_signup_data)
         is FirebaseAuthUserCollisionException -> resourcesProvider.getString(R.string.email_already_used)
+        is FirebaseNetworkException -> resourcesProvider.getString(R.string.no_internet_connection)
         else -> resourcesProvider.getString(R.string.unkown_error)
     }
 
     fun getMessageForPasswordReminderException(exception: Exception): String = when (exception) {
         is FirebaseAuthEmailException -> resourcesProvider.getString(R.string.incorrect_email)
         is FirebaseAuthInvalidCredentialsException -> resourcesProvider.getString(R.string.badly_email_formated)
+        is FirebaseNetworkException -> resourcesProvider.getString(R.string.no_internet_connection)
         else -> resourcesProvider.getString(R.string.unkown_error)
     }
 }

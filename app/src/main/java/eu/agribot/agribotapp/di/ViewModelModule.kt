@@ -1,5 +1,10 @@
 package eu.agribot.agribotapp.di
 
+import android.content.Context
+import eu.agribot.agribotapp.ui.activity.authentication.login.LoginViewModel
+import eu.agribot.agribotapp.ui.activity.authentication.passwordreminder.PasswordReminderViewModel
+import eu.agribot.agribotapp.ui.activity.authentication.signup.SignupViewModel
+import eu.agribot.agribotapp.ui.activity.authentication.welcome.WelcomeViewModel
 import eu.agribot.agribotapp.ui.activity.main.MainViewModel
 import eu.agribot.agribotapp.ui.activity.splash.SplashViewModel
 import eu.agribot.agribotapp.ui.fragment.autonomousmode.AutonomousModeViewModel
@@ -10,6 +15,7 @@ import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolControlViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.ToolManagementViewModel
 import eu.agribot.agribotapp.ui.fragment.weather.WeatherViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
 /**
@@ -18,12 +24,35 @@ import org.koin.dsl.module
  */
 val viewModelModule = module {
 
-    viewModel { SplashViewModel() }
+    viewModel {
+        SplashViewModel(
+            authenticationService = get()
+        )
+    }
     viewModel { MainViewModel() }
     viewModel {
         ManualControlViewModel(
             remoteControlService = get()
         )
+    }
+    viewModel { (context: Context) ->
+        PasswordReminderViewModel(
+            authenticationService = get(),
+            resourcesProvider = get { parametersOf(context) })
+    }
+
+    viewModel { WelcomeViewModel() }
+
+    viewModel { (context: Context) ->
+        LoginViewModel(
+            authenticationService = get(),
+            resourcesProvider = get { parametersOf(context) }
+        )
+    }
+    viewModel { (context: Context) ->
+        SignupViewModel(
+            authenticationService = get(),
+            resourcesProvider = get { parametersOf(context) })
     }
     viewModel { ToolControlViewModel() }
     viewModel { AutonomousModeViewModel() }
@@ -34,5 +63,9 @@ val viewModelModule = module {
         )
     }
     viewModel { WeatherViewModel() }
-    viewModel { SettingsViewModel() }
+    viewModel { (context: Context) ->
+        SettingsViewModel(
+            authenticationService = get(),
+            resourcesProvider = get { parametersOf(context) })
+    }
 }

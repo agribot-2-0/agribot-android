@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.di
 
+import com.google.firebase.auth.FirebaseAuth
 import eu.agribot.agribotapp.communication.bluetooth.AndroidBluetoothService
 import eu.agribot.agribotapp.communication.bluetooth.BluetoothService
 import eu.agribot.agribotapp.communication.firebase.AndroidFirebaseService
@@ -19,7 +20,9 @@ val communicationModule = module {
     }
 
     single<FirebaseService> {
-        AndroidFirebaseService()
+        AndroidFirebaseService(
+            firebaseAuth = FirebaseAuth.getInstance()
+        )
     }
 
     single<PersistentStorage> {

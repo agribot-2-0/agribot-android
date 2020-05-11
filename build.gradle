@@ -5,12 +5,14 @@ apply from: "spotless.gradle"
 apply from: "dependencyupdates.gradle"
 
 buildscript {
-    ext.kotlin_version = '1.3.71'
-    ext.android_gradle_version = '3.6.1'
+    ext.kotlin_version = '1.3.72'
+    ext.android_gradle_version = '3.6.3'
     ext.spotless_version = '3.25.0'
     ext.localization_version = '1.0.16'
     ext.versions_version = "0.27.0"
     ext.play_version = "2.7.2"
+    ext.services_version = "4.3.3"
+
 
     repositories {
         google()
@@ -27,5 +29,6 @@ buildscript {
         classpath "com.diffplug.spotless:spotless-plugin-gradle:${spotless_version}"
         classpath "com.github.ben-manes:gradle-versions-plugin:${versions_version}"
         classpath "com.github.triplet.gradle:play-publisher:${play_version}"
+        classpath "com.google.gms:google-services:${services_version}"
     }
 }

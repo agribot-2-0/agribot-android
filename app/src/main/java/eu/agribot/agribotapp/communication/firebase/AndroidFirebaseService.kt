@@ -1,3 +1,74 @@
 package eu.agribot.agribotapp.communication.firebase
 
-class AndroidFirebaseService : FirebaseService
+import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
+
+class AndroidFirebaseService(
+    override val firebaseAuth: FirebaseAuth
+) : FirebaseService {
+
+    override fun login(
+        loginEmail: String,
+        loginPassword: String,
+        onSucess: () -> Unit,
+        onError: (Exception) -> Unit
+    ) {
+
+        firebaseAuth.signInWithEmailAndPassword(loginEmail, loginPassword)
+            .addOnSuccessListener { task ->
+                onSucess.invoke()
+            }
+            .addOnFailureListener { exception ->
+                onError(exception)
+                Log.e("xd", "error" + exception)
+            }
+    }
+
+    override fun register(
+        emailRegister: String,
+        passwordRegister: String,
+        onSucess: () -> Unit,
+        onError: (Exception) -> Unit
+
+    ) {
+        firebaseAuth.createUserWithEmailAndPassword(
+            emailRegister,
+            passwordRegister
+        )
+            .addOnSuccessListener { task ->
+                onSucess.invoke()
+            }
+            .addOnFailureListener { exception ->
+                onError(exception)
+            }
+    }
+
+    override fun signOut(signOut: () -> Unit) {
+        firebaseAuth.signOut()
+        signOut()
+    }
+
+    override fun sendResetPasswordEmail(
+        loginEmail: String,
+        onSucess: () -> Unit,
+        onError: (Exception) -> Unit
+    ) {
+        firebaseAuth.sendPasswordResetEmail(loginEmail)
+            .addOnSuccessListener { task ->
+                onSucess.invoke()
+            }
+            .addOnFailureListener { exception ->
+                onError(exception)
+            }
+    }
+
+    override fun removeUserFromFirebase(onSucess: () -> Unit, onError: (Exception) -> Unit) {
+        firebaseAuth.currentUser?.let { nonNullUser ->
+            nonNullUser.delete()
+                .addOnSuccessListener { onSucess() }
+                .addOnFailureListener { exception -> onError(exception) }
+        } ?: run {
+            onSucess()
+        }
+    }
+}

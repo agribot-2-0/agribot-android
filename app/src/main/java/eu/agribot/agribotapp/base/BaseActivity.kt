@@ -1,6 +1,7 @@
 package eu.agribot.agribotapp.base
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.FragmentActivity
@@ -99,5 +100,9 @@ abstract class BaseActivity<viewModelType : BaseViewModel, viewDataBindingType :
 
     fun <T> LiveData<out T>.observe(onEvent: (T) -> Unit) {
         observe(this@BaseActivity, Observer(onEvent))
+    }
+
+    fun showToast(toastText: String) {
+        Toast.makeText(this, toastText, Toast.LENGTH_LONG).show()
     }
 }

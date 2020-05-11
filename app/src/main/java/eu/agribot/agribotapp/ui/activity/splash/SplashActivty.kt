@@ -5,7 +5,9 @@ import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseActivity
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.MainActivityNavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.WelcomeActivityNavigationEvent
 import eu.agribot.agribotapp.databinding.ActivitySplashBinding
+import eu.agribot.agribotapp.ui.activity.authentication.welcome.WelcomeActivity
 import eu.agribot.agribotapp.ui.activity.main.MainActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -25,7 +27,13 @@ class SplashActivty : BaseActivity<SplashViewModel, ActivitySplashBinding>() {
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
         is MainActivityNavigationEvent -> handleMainActivityNavigationEvent()
+        is WelcomeActivityNavigationEvent -> handleWelcomeActivityNavigationEvent()
         else -> Unit
+    }
+
+    private fun handleWelcomeActivityNavigationEvent() {
+        this.finish()
+        startActivity(WelcomeActivity.getStartingIntent(this))
     }
 
     private fun handleMainActivityNavigationEvent() {

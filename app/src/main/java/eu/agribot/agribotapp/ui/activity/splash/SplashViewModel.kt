@@ -5,11 +5,13 @@ import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.navigation.events.MainActivityNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.WelcomeActivityNavigationEvent
 import eu.agribot.agribotapp.domain.service.AuthenticationService
+import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class SplashViewModel(private val authenticationService: AuthenticationService) : BaseViewModel() {
-    val user = authenticationService.getCurrentUser()
+class SplashViewModel(
+    private val authenticationService: AuthenticationService
+) : BaseViewModel() {
 
     companion object {
         const val SPLASH_SCREEN_TIMEOUT_MILLIS = 1000L
@@ -36,4 +38,6 @@ class SplashViewModel(private val authenticationService: AuthenticationService) 
             false -> postWelcomeActivityNavigationEvent()
         }
     }
+
+
 }

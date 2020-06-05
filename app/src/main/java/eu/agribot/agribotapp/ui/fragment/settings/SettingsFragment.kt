@@ -6,6 +6,7 @@ import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.dialog.DialogManager
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.BluetoothConnectionNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.WelcomeActivityNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentSettingsBinding
 import eu.agribot.agribotapp.ui.activity.authentication.welcome.WelcomeActivity
@@ -33,7 +34,12 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
         is WelcomeActivityNavigationEvent -> handleWelcomeActivityNavigationEvent()
+        is BluetoothConnectionNavigationEvent -> handleBluetoothConnectionNavigationEvent()
         else -> Unit
+    }
+
+    private fun handleBluetoothConnectionNavigationEvent(){
+        navigationController?.navigate(R.id.action_settingsFragment_to_bluetoothConnectionFragment)
     }
 
     private fun handleWelcomeActivityNavigationEvent() {

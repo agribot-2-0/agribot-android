@@ -3,18 +3,22 @@ package eu.agribot.agribotapp.ui.activity.splash
 import android.os.Bundle
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseActivity
+import eu.agribot.agribotapp.common.dialog.DialogManager
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.MainActivityNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.WelcomeActivityNavigationEvent
 import eu.agribot.agribotapp.databinding.ActivitySplashBinding
 import eu.agribot.agribotapp.ui.activity.authentication.welcome.WelcomeActivity
 import eu.agribot.agribotapp.ui.activity.main.MainActivity
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class SplashActivty : BaseActivity<SplashViewModel, ActivitySplashBinding>() {
 
     override val layoutResourceId: Int = R.layout.activity_splash
     override val viewModel: SplashViewModel by viewModel()
+    private val dialogManager: DialogManager by inject { parametersOf(this) }
 
     override fun bindViewVariables(viewBinding: ActivitySplashBinding) {
         viewBinding.viewModel = viewModel
@@ -23,6 +27,7 @@ class SplashActivty : BaseActivity<SplashViewModel, ActivitySplashBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.beginSplashScreenDelay()
+
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
@@ -40,4 +45,6 @@ class SplashActivty : BaseActivity<SplashViewModel, ActivitySplashBinding>() {
         this.finish()
         startActivity(MainActivity.getStartingIntent(this))
     }
+
+
 }

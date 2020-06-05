@@ -22,6 +22,11 @@
     </fragment>
 
     <fragment
+        android:id="@+id/bluetoothConnectFragment"
+        android:name="eu.agribot.agribotapp.ui.fragment.bluetoothconnection.BluetoothConnectionFragment"
+        android:label="BluetoothConnect"
+        tools:layout="@layout/fragment_bluetooth_connection" />
+    <fragment
         android:id="@+id/autonomousModeFragment"
         android:name="eu.agribot.agribotapp.ui.fragment.autonomousmode.AutonomousModeFragment"
         android:label="@string/title_autonomous_mode"
@@ -49,7 +54,16 @@
         android:id="@+id/settingsFragment"
         android:name="eu.agribot.agribotapp.ui.fragment.settings.SettingsFragment"
         android:label="@string/title_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings">
+
+        <action
+            android:id="@+id/action_settingsFragment_to_bluetoothConnectionFragment"
+            app:destination="@id/bluetoothConnectFragment"
+            app:enterAnim="@anim/nav_slide_in_from_right"
+            app:exitAnim="@anim/nav_slide_out_to_right"
+            app:popEnterAnim="@anim/nav_slide_out_to_left"
+            app:popExitAnim="@anim/nav_slide_in_from_left" />
+    </fragment>
 
     <fragment
         android:id="@+id/toolControlFragment"

@@ -8,6 +8,8 @@ import eu.agribot.agribotapp.ui.activity.authentication.welcome.WelcomeViewModel
 import eu.agribot.agribotapp.ui.activity.main.MainViewModel
 import eu.agribot.agribotapp.ui.activity.splash.SplashViewModel
 import eu.agribot.agribotapp.ui.fragment.autonomousmode.AutonomousModeViewModel
+import eu.agribot.agribotapp.ui.fragment.bluetoothconnection.BluetoothConnectionViewModel
+import eu.agribot.agribotapp.ui.fragment.bluetoothconnection.BluetoothNearbyListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.ManualControlViewModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.PathManagementViewModel
 import eu.agribot.agribotapp.ui.fragment.settings.SettingsViewModel
@@ -25,11 +27,22 @@ import org.koin.dsl.module
 val viewModelModule = module {
 
     viewModel {
-        SplashViewModel(
-            authenticationService = get()
+        BluetoothConnectionViewModel(
+            bluetoothConnectionService = get()
         )
     }
-    viewModel { MainViewModel() }
+
+    viewModel {
+        SplashViewModel(
+            authenticationService = get()
+
+        )
+    }
+    viewModel {
+        MainViewModel(
+            bluetoothConnectionService = get()
+        )
+    }
     viewModel {
         ManualControlViewModel(
             remoteControlService = get()
@@ -68,4 +81,6 @@ val viewModelModule = module {
             authenticationService = get(),
             resourcesProvider = get { parametersOf(context) })
     }
+    viewModel { BluetoothNearbyListItemViewModel(bluetoothName = get(), bluetoothAddress = get()) }
+
 }

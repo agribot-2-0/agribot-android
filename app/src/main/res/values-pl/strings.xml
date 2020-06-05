@@ -25,6 +25,10 @@
     <string name="dialog_exit_title">Zamknij Aplikacje</string>
     <string name="dialog_exit_message">Jesteś pewny, że chcesz wyjść?</string>
 
+    <string name="dialog_bluetooth_title">Application want to turn on Bluetooth</string>
+    <string name="dialog_bluetooth_message">Do you agree to enable Bluetooth</string>
+    <string name="dialog_bluetooth_positive_message">Enable!</string>
+
     <!-- Tool Control -->
     <string name="pto">PTO</string>
     <string name="no_rpm">0 rpm</string>
@@ -115,6 +119,7 @@
     <string name="too_short_password">Za krótkie hasło [Hasło powinno mieć minimum 6 znaków]</string>
     <string name="badly_email_formated">Zły format adresu email.</string>
     <string name="no_internet_connection">Brak połączenia z internetem</string>
+    <string name="connect_to_agribot">Connect to Agribot</string>
 
 
 </resources>

@@ -4,6 +4,7 @@ import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.LiveEvent
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
+import eu.agribot.agribotapp.common.navigation.events.BluetoothConnectionNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.WelcomeActivityNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.service.AuthenticationService
@@ -54,6 +55,12 @@ class SettingsViewModel(
         authenticationService.removeUser(
             onSucessRemove = this::removeUserSucessfull,
             onErrorRemove = this::removeUserFailed
+        )
+    }
+
+    fun onToolBluetoothConnectClicked(){
+        navigationEvent.postValue(
+            BluetoothConnectionNavigationEvent()
         )
     }
 }

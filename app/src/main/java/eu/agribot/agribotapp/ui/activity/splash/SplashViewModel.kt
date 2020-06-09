@@ -5,7 +5,6 @@ import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.navigation.events.MainActivityNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.WelcomeActivityNavigationEvent
 import eu.agribot.agribotapp.domain.service.AuthenticationService
-import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -38,6 +37,4 @@ class SplashViewModel(
             false -> postWelcomeActivityNavigationEvent()
         }
     }
-
-
 }

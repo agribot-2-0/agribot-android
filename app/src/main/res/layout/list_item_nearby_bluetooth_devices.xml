@@ -7,13 +7,20 @@
 
         <variable
             name="viewModel"
-            type="eu.agribot.agribotapp.ui.fragment.bluetoothconnection.BluetoothNearbyListItemViewModel" />
+            type="eu.agribot.agribotapp.ui.fragment.bluetoothconnection.recycler.BluetoothNearbyListItemViewModel" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bluetooth"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/margin_medium"/>
 
         <TextView
             android:id="@+id/bluetooth_name"
@@ -23,7 +30,7 @@
             android:layout_margin="@dimen/margin_medium"
             android:text="@{viewModel.bluetoothName}"
             android:textColor="?android:textColorPrimary"
-            android:textSize="@dimen/text_size_medium"
+            android:textSize="@dimen/text_size_xlarge"
             tools:text="NAME" />
 
         <TextView
@@ -34,8 +41,14 @@
             android:layout_margin="@dimen/margin_medium"
             android:text="@{viewModel.bluetoothAddress}"
             android:textColor="?android:textColorPrimary"
-            android:textSize="@dimen/text_size_medium"
+            android:textSize="@dimen/text_size_xlarge"
             tools:text="ADRESS" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="@dimen/margin_medium"
+            android:background="@android:color/darker_gray"/>
 
     </LinearLayout>
 </layout>

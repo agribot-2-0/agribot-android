@@ -1,22 +1,28 @@
-package eu.agribot.agribotapp.ui.fragment.bluetoothconnection
+package eu.agribot.agribotapp.ui.fragment.bluetoothconnection.recycler
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import eu.agribot.agribotapp.databinding.ListItemNearbyBluetoothDevicesBinding
 
-class BluetoothNearbyListItemAdapter : RecyclerView.Adapter<BluetoothNearbyListItemViewHolder>(){
-
+class BluetoothNearbyListItemAdapter() :
+    RecyclerView.Adapter<BluetoothNearbyListItemViewHolder>() {
 
     var items = listOf<BluetoothNearbyListItemViewModel>()
         set(value) {
             DiffUtil.calculateDiff(
-                BluetoothNearbyDiffUtil(items, value)
+                BluetoothNearbyDiffUtil(
+                    items,
+                    value
+                )
             ).also {
                 field = value
             }.dispatchUpdatesTo(this)
         }
+
+    var selectedItem: ((BluetoothNearbyListItemViewModel) -> Unit)? = null
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -32,10 +38,12 @@ class BluetoothNearbyListItemAdapter : RecyclerView.Adapter<BluetoothNearbyListI
 
     override fun getItemCount(): Int = items.size
 
-
-    override fun onBindViewHolder(holder: BluetoothNearbyListItemViewHolder, position: Int) =
-        holder.bind(items[position])
-
-
-
+    override fun onBindViewHolder(holder: BluetoothNearbyListItemViewHolder, position: Int) {
+        val item = items[position]
+        holder.bind(item)
+        holder.itemView.setOnClickListener {
+            Log.e("xd", "clicked" + item)
+            selectedItem?.invoke(item)
+        }
+    }
 }

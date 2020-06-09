@@ -38,7 +38,7 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
         else -> Unit
     }
 
-    private fun handleBluetoothConnectionNavigationEvent(){
+    private fun handleBluetoothConnectionNavigationEvent() {
         navigationController?.navigate(R.id.action_settingsFragment_to_bluetoothConnectionFragment)
     }
 

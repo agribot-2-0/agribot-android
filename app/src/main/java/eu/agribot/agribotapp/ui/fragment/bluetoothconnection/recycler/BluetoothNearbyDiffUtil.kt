@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.bluetoothconnection
+package eu.agribot.agribotapp.ui.fragment.bluetoothconnection.recycler
 
 import androidx.recyclerview.widget.DiffUtil
 
@@ -16,7 +16,6 @@ class BluetoothNearbyDiffUtil(
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition].bluetoothAddress == newList[newItemPosition].bluetoothAddress
+        return oldList[oldItemPosition] == newList[newItemPosition]
     }
-
 }

@@ -58,7 +58,7 @@ class SettingsViewModel(
         )
     }
 
-    fun onToolBluetoothConnectClicked(){
+    fun onToolBluetoothConnectClicked() {
         navigationEvent.postValue(
             BluetoothConnectionNavigationEvent()
         )

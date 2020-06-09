@@ -13,5 +13,4 @@ interface DialogManager {
     fun showRemoveAccountDialog(onDeleteAccountConfirmed: () -> Unit)
 
     fun showBluetoothDialog(onTurnOnBluetoothConfirmed: () -> Unit)
-
 }

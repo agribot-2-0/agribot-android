@@ -27,7 +27,6 @@ class SplashActivty : BaseActivity<SplashViewModel, ActivitySplashBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.beginSplashScreenDelay()
-
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
@@ -45,6 +44,4 @@ class SplashActivty : BaseActivity<SplashViewModel, ActivitySplashBinding>() {
         this.finish()
         startActivity(MainActivity.getStartingIntent(this))
     }
-
-
 }

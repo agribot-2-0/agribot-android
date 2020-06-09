@@ -120,6 +120,7 @@
     <string name="badly_email_formated">Zły format adresu email.</string>
     <string name="no_internet_connection">Brak połączenia z internetem</string>
     <string name="connect_to_agribot">Connect to Agribot</string>
+    <string name="nearby_devices_swipe_to_refresh_list">Nearby_Devices_List</string>
 
 
 </resources>

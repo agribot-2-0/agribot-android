@@ -8,6 +8,7 @@ import eu.agribot.agribotapp.common.livedata.NavigationLiveEvent
  */
 abstract class BaseViewModel : ViewModel() {
 
+
     /**
      * Observed in base activity/fragment classes
      * Value post causes `handleNavigationEvent()` call

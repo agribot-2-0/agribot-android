@@ -158,4 +158,9 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
     private fun showBluetoothDialog() {
         dialogManager.showBluetoothDialog { viewModel.enableBluetooth() }
     }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.registerServer()
+    }
 }

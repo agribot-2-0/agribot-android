@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.di
 
+import android.os.Handler
 import com.google.firebase.auth.FirebaseAuth
 import eu.agribot.agribotapp.communication.bluetooth.AndroidBluetoothService
 import eu.agribot.agribotapp.communication.bluetooth.BluetoothService
@@ -16,7 +17,7 @@ import org.koin.dsl.module
 val communicationModule = module {
 
     single<BluetoothService> {
-        AndroidBluetoothService()
+        AndroidBluetoothService(handler = Handler())
     }
 
     single<FirebaseService> {

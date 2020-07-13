@@ -27,9 +27,10 @@ import org.koin.dsl.module
 val viewModelModule = module {
 
     viewModel {
-        BluetoothConnectionViewModel()
+        BluetoothConnectionViewModel(
+            bluetoothUtils = get()
+        )
     }
-
     viewModel {
         SplashViewModel(
             authenticationService = get()
@@ -51,7 +52,6 @@ val viewModelModule = module {
             authenticationService = get(),
             resourcesProvider = get { parametersOf(context) })
     }
-
     viewModel { WelcomeViewModel() }
 
     viewModel { (context: Context) ->

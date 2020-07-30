@@ -79,6 +79,7 @@ val viewModelModule = module {
     viewModel { WeatherViewModel() }
     viewModel { (context: Context) ->
         SettingsViewModel(
+            bluetoothUtils = get(),
             authenticationService = get(),
             resourcesProvider = get { parametersOf(context) })
     }

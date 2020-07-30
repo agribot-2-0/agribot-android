@@ -12,10 +12,11 @@ import timber.log.Timber
 
 class BluetoothUtils(private val bluetoothService: BluetoothService) {
     var isAgribotConnect: Boolean = false
+    var heartbeatState: Boolean = false
 
     companion object {
         const val MOBILE_HEARTBEAT = 1
-        private const val HEARTBEAT_DELAY_TIME = 250L
+        private const val HEARTBEAT_DELAY_TIME = 50L
     }
 
     var connectionState: Boolean = true
@@ -56,21 +57,6 @@ class BluetoothUtils(private val bluetoothService: BluetoothService) {
         }
     }
 
-    // private fun setConnectionState() {
-    //   bluetoothService.setConnectionState(connectionState)
-    // }
-
-    /*
-    private fun sendStatusRequest() {
-        writeMessage(
-            BluetoothMessageModel(
-                BluetoothMessageModel.CMD_ONE, BluetoothAdressCodeModel.AGRIBOT_DIAGNOSTIC_DATA_1,
-                ByteArray(1)
-            ).byteArray
-        )
-    }
-    */
-
     fun checkBluetoothEnable(): Boolean {
         return bluetoothService.checkIsBluetoothEnable()
     }
@@ -88,21 +74,32 @@ class BluetoothUtils(private val bluetoothService: BluetoothService) {
         // setConnectionState()
     }
 
+    fun disconnect() {
+        bluetoothService.disconnect()
+    }
+
     suspend fun getMessage() {
         bluetoothService.receiveBluetoothMessage(handleMessage = this::handleMessage)
+    }
+
+    fun setWrongHeartbeat() {
+        val handler = Handler()
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                heartbeatState = false
+                handler.postDelayed(this, 1000) // 1 sec delay
+            }
+        }, 0)
     }
 
     @SuppressLint("LogNotTimber")
     private fun handleMessage(message: ByteArray) {
         byteArray = message
-        Log.e(
-            "xd",
-            "RECEIVED MESSAGE in HEX:" + getAllMessageInHex()
-        )
         readFrames(message)
     }
 
     private fun readFrames(readBuf: ByteArray) {
+        heartbeatState = true
         try {
             if (readBuf[0] == 67.toByte()) {
                 val length = readBuf[1].toInt()
@@ -123,21 +120,20 @@ class BluetoothUtils(private val bluetoothService: BluetoothService) {
 
     private fun handleMessageFrame(messageFrame: BluetoothMessageModel) {
         Timber.e("messageFrame : %s", messageFrame)
+        if (messageFrame.getAddress() == BluetoothAdressCodeModel.RIDE_THE_CURVE) {
+            Log.e("handleMessage", "POTWIERDZENIE JOYA!!!!!")
+        }
         if (messageFrame.getAddress() == BluetoothAdressCodeModel.MANUAL_STARTING_INIT) {
-            Timber.e("manual stering init request")
+            Log.e("handleMessage", "manual stering init request")
             // manualModeService.sendStartManualControlFrame()
         } else if (messageFrame.getAddress() == BluetoothAdressCodeModel.MANUAL_START) {
-            Timber.e("manual stering start request")
+            Log.e("handleMessage", "manual stering start request")
         }
     }
 
     @SuppressLint("LogNotTimber")
     fun writeMessage(byteMessage: ByteArray) {
         bluetoothService.writeBluetoothMessage(byteMessage)
-        Log.e(
-            "xd",
-            ", WROTE MESSAGE in HEX:" + getAllMessageInHex()
-        )
     }
 
     private fun getAllMessageInHex(): String {

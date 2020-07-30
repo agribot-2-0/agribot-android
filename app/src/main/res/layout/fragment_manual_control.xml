@@ -171,6 +171,17 @@
                 android:layout_gravity="center"
                 android:textColor="@android:color/holo_blue_light"/>
 
+            <TextView
+                android:id="@+id/heartbeatTEXT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:padding="4dp"
+                android:background="@android:color/holo_red_dark"
+                android:text="HEARTBEAT"
+                android:textSize="16sp"
+                android:layout_gravity="center"/>
+
 
 
         </LinearLayout>

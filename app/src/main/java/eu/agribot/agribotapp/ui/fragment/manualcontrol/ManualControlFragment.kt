@@ -10,6 +10,7 @@ import eu.agribot.agribotapp.common.navigation.events.BluetoothConnectionNavigat
 import eu.agribot.agribotapp.common.navigation.events.ToolControlNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentManualControlBinding
 import io.github.controlwear.virtual.joystick.android.JoystickView
+import kotlinx.android.synthetic.main.fragment_manual_control.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManualControlBinding>() {
@@ -25,11 +26,15 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
         super.onViewCreated(view, savedInstanceState)
         viewModel.sendManualSteeringInitRequest()
         delayManualSterring()
+        viewModel.startWrongHeartbeatIcon()
+        viewModel.setHeartbeatPositiveColor()
 
         val joystick = view.findViewById(R.id.joyy) as JoystickView
         joystick.setOnMoveListener { angle, strength ->
-            viewModel.funOnJoystickAngleChanged(angle, strength)
+            viewModel.onJoystickParametrsChanged(angle, strength)
         }
+
+        viewModel.heartBeatState.observe(this::setHearBeatWrongColor)
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
@@ -50,5 +55,13 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
         Handler().postDelayed({
             viewModel.sendManualSteeringStartFrame()
         }, 500)
+    }
+
+    fun setHearBeatWrongColor(heartbeatState: Boolean) {
+        if (heartbeatState) {
+            heartbeatTEXT.setBackgroundColor(resources.getColor(R.color.red))
+        } else {
+            heartbeatTEXT.setBackgroundColor(resources.getColor(R.color.base_green))
+        }
     }
 }

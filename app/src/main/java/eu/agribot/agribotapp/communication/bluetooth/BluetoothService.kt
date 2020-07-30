@@ -22,4 +22,6 @@ interface BluetoothService {
     fun writeBluetoothMessage(message: ByteArray)
 
     fun setConnectionState(isConnected: Boolean)
+
+    fun disconnect()
 }

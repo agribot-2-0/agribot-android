@@ -15,10 +15,11 @@ interface BluetoothService {
 
     suspend fun registerBluetoothServer(isSecurityConnection: Boolean)
     suspend fun connectBluetoothWithAgribot(
-        bluetoothDeviceAddress: String,
-        onError: () -> Unit
+        bluetoothDeviceAddress: String
     )
 
-    suspend fun receiveBluetoothMessage(handleMessage: (message: String) -> Unit)
+    suspend fun receiveBluetoothMessage(handleMessage: (message: ByteArray) -> Unit)
     fun writeBluetoothMessage(message: ByteArray)
+
+    fun setConnectionState(isConnected: Boolean)
 }

@@ -28,7 +28,8 @@ val viewModelModule = module {
 
     viewModel {
         BluetoothConnectionViewModel(
-            bluetoothUtils = get()
+            bluetoothUtils = get(),
+            manualModeService = get()
         )
     }
     viewModel {
@@ -39,12 +40,14 @@ val viewModelModule = module {
     }
     viewModel {
         MainViewModel(
-            bluetoothConnectionService = get()
+            bluetoothUtils = get()
         )
     }
     viewModel {
         ManualControlViewModel(
-            remoteControlService = get()
+            remoteControlService = get(),
+            bluetoothUtils = get(),
+            manualModeService = get()
         )
     }
     viewModel { (context: Context) ->

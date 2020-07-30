@@ -9,13 +9,15 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
+import android.os.Handler
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
+import eu.agribot.agribotapp.common.navigation.NavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.BluetoothConnectionNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentBluetoothConnectionBinding
 import eu.agribot.agribotapp.ui.fragment.bluetoothconnection.recycler.BluetoothNearbyListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.bluetoothconnection.recycler.BluetoothNearbyListItemViewModel
@@ -25,24 +27,33 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class BluetoothConnectionFragment :
     BaseFragment<BluetoothConnectionViewModel, FragmentBluetoothConnectionBinding>() {
 
+    companion object {
+        private const val REQUEST_CONNECT_DEVICE_INSECURE = 102
+        private const val REQUEST_ENABLE_BT = 103
+        private const val REQUEST_ACCESS_COARSE_LOCATION = 104
+        private const val REQUEST_EXTERNAL_STORAGE = 104
+        private const val HANDSHAKE_DELAY = 1000L
+        private lateinit var bluetoothAdapter: BluetoothAdapter
+        private const val ACCESS_FINE_LOCATION = 1
+        lateinit var bluetoothDeviceAddress: String
+    }
+
+    private var adapter = BluetoothNearbyListItemAdapter()
+
     override val layoutResourceId: Int = R.layout.fragment_bluetooth_connection
     override val viewModel: BluetoothConnectionViewModel by viewModel()
-    private val REQUEST_CONNECT_DEVICE_INSECURE = 102
-    private val REQUEST_ENABLE_BT = 103
-    private val REQUEST_ACCESS_COARSE_LOCATION = 104
-    private val REQUEST_EXTERNAL_STORAGE = 104
 
     private val bluetoothReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            Log.e("xd", "action: " + intent.action.toString())
             val action: String? = intent.action
             when {
                 BluetoothDevice.ACTION_FOUND == action -> {
-                    handleBluetoothAction(intent)
+                    viewModel.handleBluetoothAction(intent)
                 }
                 BluetoothDevice.ACTION_ACL_CONNECTED == action -> {
+                    showSnack(requireView(), "Connect with Agribot Sucessfull")
                     connectionaction()
-
+                    viewModel.setConnected()
                 }
                 BluetoothDevice.ACTION_ACL_DISCONNECTED == action -> {
                     showToast("ACTION DISCONNECTED")
@@ -52,16 +63,10 @@ class BluetoothConnectionFragment :
     }
 
     private fun connectionaction() {
-        showToast("ACTION CONNECTED")
         viewModel.registerMessageListener()
-    }
-    private var adapter = BluetoothNearbyListItemAdapter()
-    private var isBluetoothConnected: Boolean = false
-
-    companion object {
-        private lateinit var bluetoothAdapter: BluetoothAdapter
-        private const val ACCESS_FINE_LOCATION = 1
-        lateinit var bluetoothDeviceAddress: String
+        Handler().postDelayed({
+            viewModel.sendHandshake()
+        }, HANDSHAKE_DELAY)
     }
 
     override fun bindViewVariables(viewBinding: FragmentBluetoothConnectionBinding) {
@@ -73,48 +78,68 @@ class BluetoothConnectionFragment :
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
         setUpBroadcastReceiver()
         setupRecycler()
+        checkPermissions()
         viewModel.discoveredDevices.observe(this::addToDiscoveredDevice)
         viewModel.showSnackEvent.observe(this::showToast)
-        viewModel.connectionState.observe(this::setConnectionState)
-        checkPermissions()
+        viewModel.initializeHeartbeatThread()
+    }
+
+    override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
+        is BluetoothConnectionNavigationEvent -> navigateToToolControl()
+        else -> Unit
+    }
+
+    private fun navigateToToolControl() {
+        navigationController?.navigate(R.id.action_bluetoothConnectionFragment_to_manualControlFragment)
     }
 
     private fun checkPermissions() {
-        if (ContextCompat.checkSelfPermission(requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(requireActivity(),
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
                 arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
-                REQUEST_ACCESS_COARSE_LOCATION)
+                REQUEST_ACCESS_COARSE_LOCATION
+            )
         }
 
-        if (ContextCompat.checkSelfPermission(requireContext(),
-                Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(requireActivity(),
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.BLUETOOTH
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
                 arrayOf(Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN),
-                REQUEST_ENABLE_BT)
+                REQUEST_ENABLE_BT
+            )
         }
 
-        if (ContextCompat.checkSelfPermission(requireContext(),
-                Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(requireActivity(),
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.BLUETOOTH
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
                 arrayOf(Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN),
-                REQUEST_CONNECT_DEVICE_INSECURE)
+                REQUEST_CONNECT_DEVICE_INSECURE
+            )
         }
 
-        if (ContextCompat.checkSelfPermission(requireContext(),
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(requireActivity(),
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
                 arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                REQUEST_EXTERNAL_STORAGE)
-        }
-    }
-
-    private fun setConnectionState(connectionState: Boolean) {
-        isBluetoothConnected = connectionState
-        if (isBluetoothConnected) {
-            showSnack(requireView(), " Connected Sucessfully")
-        } else if (!isBluetoothConnected) {
-            showSnack(requireView(), "Connection Failed")
+                REQUEST_EXTERNAL_STORAGE
+            )
         }
     }
 
@@ -173,26 +198,7 @@ class BluetoothConnectionFragment :
         requireActivity().registerReceiver(bluetoothReceiver, filter)
     }
 
-    fun handleBluetoothAction(intent: Intent) {
-        val action = intent.action
-        if (BluetoothDevice.ACTION_FOUND == action) {
-            val device = intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
-            if (device != null) {
-                if (device.name != null) {
-                    viewModel.onBluetoothDeviceFound(device.name, device.address)
-                } else {
-                    viewModel.onBluetoothDeviceFound("No name", device.address)
-                }
-            } else {
-                showSnack(requireView(), "No Bluetooth Device Avaliable")
-            }
-        }
-    }
-
     private fun addToDiscoveredDevice(deviceInfo: List<BluetoothNearbyListItemViewModel>) {
         adapter.items = deviceInfo
     }
 }
-
-
-

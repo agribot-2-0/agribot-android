@@ -2,10 +2,8 @@ package eu.agribot.agribotapp.ui.activity.main
 
 import androidx.lifecycle.viewModelScope
 import eu.agribot.agribotapp.base.BaseViewModel
-import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
 import eu.agribot.agribotapp.domain.service.BluetoothUtils
 import kotlinx.coroutines.launch
-import org.koin.core.KoinApplication.Companion.init
 
 class MainViewModel(private val bluetoothUtils: BluetoothUtils) : BaseViewModel() {
 
@@ -26,4 +24,3 @@ class MainViewModel(private val bluetoothUtils: BluetoothUtils) : BaseViewModel(
         }
     }
 }
-

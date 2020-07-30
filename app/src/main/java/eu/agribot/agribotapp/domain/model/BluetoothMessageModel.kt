@@ -4,33 +4,15 @@ import android.annotation.SuppressLint
 import android.util.Log
 import kotlin.experimental.xor
 
-class BluetoothCommunicationModel() {
+class BluetoothMessageModel() {
 
     companion object {
-        val CMD_ONE = 0x00.toByte()
-        val CMD_TWO = 0x01.toByte()
-        val CMD_READ_FEEDBACK_SETTINGS = 0x60.toByte()
-        val CMD_SET_FEEDBACK_SETTINGS = 0x61.toByte()
-        val MOBILE_HANDSHAKE = 10
-
-    }
-
-    constructor(command: Byte, message: ByteArray) : this() {
-        val length = message.size
-        byteArray = ByteArray(length + 5) { _ -> 0.toByte() }
-        byteArray[0] = 0x43
-        byteArray[1] = (length + 1).toByte()
-        byteArray[2] = command
-        if (length > 0) {
-            for (x in 0 until length)
-                byteArray[x + 3] = message[x]
-        }
-        countChecksum()
+        const val CMD_ONE = 0x00.toByte()
     }
 
     constructor(command: Byte, address: Int, message: ByteArray) : this() {
         val length = message.size
-        byteArray = ByteArray(length + 7) { _ -> 0.toByte() }
+        byteArray = ByteArray(length + 7) { 0.toByte() }
         byteArray[0] = 0x43
         byteArray[1] = (length + 3).toByte()
         byteArray[2] = command
@@ -45,11 +27,6 @@ class BluetoothCommunicationModel() {
 
     constructor(address: Int, message: ByteArray) : this(CMD_ONE, address, message)
 
-    constructor(address: Int) : this(CMD_ONE, address, kotlin.ByteArray(0))
-
-    constructor(command: Byte, address: Int) : this(command, address, kotlin.ByteArray(0))
-
-
     constructor(array: ByteArray) : this() {
         if (array[0] == 67.toByte()) {
             val length = array[1].toInt()
@@ -60,21 +37,9 @@ class BluetoothCommunicationModel() {
                 newArray[x] = array[x]
             byteArray = newArray
         }
-
     }
-
 
     var byteArray = ByteArray(0)
-
-
-    fun setCommand(command: Byte) {
-        byteArray[2] = command
-    }
-
-    fun setMessage(messageArray: ByteArray) {
-        for (x in 0..messageArray.size)
-            byteArray[x + 3] = messageArray[x]
-    }
 
     private fun getLength(): Int {
         return if (byteArray.isNotEmpty())
@@ -93,8 +58,7 @@ class BluetoothCommunicationModel() {
     fun getAddress(): Int {
         return if (getLength() > 2) {
             val first = (byteArray[3].toInt() * 256)
-            var second = 0
-            second = if (byteArray[4].toInt() < 0) {
+            val second: Int = if (byteArray[4].toInt() < 0) {
                 256 + byteArray[4]
             } else
                 byteArray[4].toInt()
@@ -108,21 +72,19 @@ class BluetoothCommunicationModel() {
         return byteArray.sliceArray(5..(5 + len))
     }
 
-
     fun getMessageFromFrame(): String {
         var message = ""
         for (x in 5..byteArray.size - 3)
-            message += " " + byteArray[x].toString();
+            message += " " + byteArray[x].toString()
         return message
     }
 
     private fun getAllMessage(): String {
         var message = ""
         for (x in 0 until byteArray.size)
-            message += " " + byteArray[x].toString();
+            message += " " + byteArray[x].toString()
         return message
     }
-
 
     private fun countChecksum() {
         var checksum = 0x43.toByte()
@@ -136,14 +98,13 @@ class BluetoothCommunicationModel() {
 
     @SuppressLint("LogNotTimber")
     fun logBtFrame() {
-        Log.d(
-            "AgribotFrame",
-            "Frame in dec:" + getAllMessage() + ", frame in hex:" + getAllMessageInHex()
+        Log.e(
+            "xd",
+            " frame in hex:" + getAllMessageInHex()
         )
     }
 
     infix fun Byte.shl(shift: Int): Byte = (this.toInt() shl shift).toByte()
-
 
     fun getCommand(): Int {
         return if (byteArray.size > 2)

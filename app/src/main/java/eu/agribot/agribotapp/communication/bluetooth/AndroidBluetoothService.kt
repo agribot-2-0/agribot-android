@@ -1,22 +1,21 @@
 package eu.agribot.agribotapp.communication.bluetooth
 
+import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothServerSocket
 import android.bluetooth.BluetoothSocket
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
-import java.util.*
-
+import java.util.UUID
 
 class AndroidBluetoothService(private val handler: Handler) : BluetoothService {
-    companion object {
 
+    companion object {
         const val MESSAGE_READ: Int = 0
         const val MESSAGE_WRITE: Int = 1
         const val MESSAGE_TOAST: Int = 2
@@ -51,7 +50,6 @@ class AndroidBluetoothService(private val handler: Handler) : BluetoothService {
                     bluetoothSocketType,
                     AGRIBOT_UUID_INSECURE
                 )
-
             }
 
             run() {
@@ -60,7 +58,6 @@ class AndroidBluetoothService(private val handler: Handler) : BluetoothService {
                     try {
                         bluetoothServerSocket?.accept()
                     } catch (e: IOException) {
-                        Log.e("xd", "Socket's accept() method failed", e)
                         shouldLoop = false
                     }
                     bluetoothServerSocket?.also {
@@ -72,38 +69,32 @@ class AndroidBluetoothService(private val handler: Handler) : BluetoothService {
         }
 
     override suspend fun connectBluetoothWithAgribot(
-        bluetoothDeviceAddress: String,
-        onError: () -> Unit
+        bluetoothDeviceAddress: String
     ) {
-        onConnect(bluetoothAdapter.getRemoteDevice(bluetoothDeviceAddress), onError)
+        onConnect(bluetoothDeviceAddress)
     }
 
-    private suspend fun onConnect(device: BluetoothDevice, onError: () -> Unit) =
+    private suspend fun onConnect(deviceAdress: String) =
         withContext(Dispatchers.IO) {
 
-            val bluetoothSocket: BluetoothSocket? by lazy(LazyThreadSafetyMode.NONE) {
-                device.createRfcommSocketToServiceRecord(AGRIBOT_UUID_SECURE)
-            }
-
-            run() {
-                try {
-                    bluetoothAdapter.cancelDiscovery()
-
-                    bluetoothSocket?.use { socket ->
-                        socket.connect()
-                    }
-                } catch (exception: IOException) {
-                    onError()
-                }
-
+            try {
+                val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+                val device: BluetoothDevice = bluetoothAdapter.getRemoteDevice(
+                    deviceAdress
+                )
+                bluetoothSocket = device.createInsecureRfcommSocketToServiceRecord(
+                    AGRIBOT_UUID_SECURE
+                )
+                BluetoothAdapter.getDefaultAdapter().cancelDiscovery()
+                bluetoothSocket?.connect()
+            } catch (e: IOException) {
             }
         }
 
-
-    override suspend fun receiveBluetoothMessage(handleMessage: (message: String) -> Unit) =
+    override suspend fun receiveBluetoothMessage(handleMessage: (message: ByteArray) -> Unit) =
         withContext(Dispatchers.IO) {
             val inputStream: InputStream = bluetoothSocket!!.inputStream
-            val buffer: ByteArray = ByteArray(1024)
+            val buffer = ByteArray(1024)
 
             run() {
                 var numBytes: Int
@@ -111,9 +102,7 @@ class AndroidBluetoothService(private val handler: Handler) : BluetoothService {
                 while (true) {
                     numBytes = try {
                         inputStream.read(buffer)
-                        Log.e("xd", "read buffer" + buffer)
                     } catch (e: IOException) {
-                        Log.d("xd", "Input stream was disconnected", e)
                         break
                     }
 
@@ -121,22 +110,18 @@ class AndroidBluetoothService(private val handler: Handler) : BluetoothService {
                         MESSAGE_READ, numBytes, -1,
                         buffer
                     )
-                    handleMessage(readMsg.toString())
+                    handleMessage(buffer)
                     readMsg.sendToTarget()
                 }
             }
         }
 
     override fun writeBluetoothMessage(message: ByteArray) {
+        val mmBuffer = ByteArray(1024)
         val outputStream: OutputStream = bluetoothSocket!!.outputStream
-        val buffer: ByteArray = ByteArray(1024) // mmBuffer store for the stream
-
         try {
             outputStream.write(message)
         } catch (e: IOException) {
-            Log.e("xd", "Error occurred when sending data", e)
-
-            // Send a failure message back to the activity.
             val writeErrorMsg = handler.obtainMessage(MESSAGE_TOAST)
             val bundle = Bundle().apply {
                 putString("toast", "Couldn't send data to the other device")
@@ -145,19 +130,18 @@ class AndroidBluetoothService(private val handler: Handler) : BluetoothService {
             handler.sendMessage(writeErrorMsg)
             return
         }
-
-        // Share the sent message with the UI activity.
         val writtenMsg = handler.obtainMessage(
-            MESSAGE_WRITE, -1, -1, buffer
+            MESSAGE_WRITE, -1, -1, mmBuffer
         )
         writtenMsg.sendToTarget()
     }
 
-
+    override fun setConnectionState(isConnected: Boolean) {
+        while (bluetoothSocket?.isConnected!!) {
+            isConnected
+        }
+        while (!bluetoothSocket?.isConnected!!) {
+            !isConnected
+        }
+    }
 }
-
-
-
-
-
-

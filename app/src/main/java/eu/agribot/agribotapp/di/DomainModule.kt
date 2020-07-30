@@ -1,7 +1,12 @@
 package eu.agribot.agribotapp.di
 
 import eu.agribot.agribotapp.domain.error.AuthenticationErrorHandler
-import eu.agribot.agribotapp.domain.service.*
+import eu.agribot.agribotapp.domain.service.AuthenticationService
+import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
+import eu.agribot.agribotapp.domain.service.BluetoothUtils
+import eu.agribot.agribotapp.domain.service.ManualModeService
+import eu.agribot.agribotapp.domain.service.PathManagementService
+import eu.agribot.agribotapp.domain.service.RemoteControlService
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
@@ -9,6 +14,7 @@ import org.koin.dsl.module
 /**
  * Koin module used to provide domain layer dependencies
  */
+
 val domainModule = module {
 
     single {
@@ -49,5 +55,9 @@ val domainModule = module {
         )
     }
 
-
+    single {
+        ManualModeService(
+            bluetoothUtils = get()
+        )
+    }
 }

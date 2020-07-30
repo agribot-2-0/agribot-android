@@ -3,55 +3,89 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-
         <variable
             name="viewModel"
             type="eu.agribot.agribotapp.ui.fragment.bluetoothconnection.BluetoothConnectionViewModel" />
     </data>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/margin_large"
+            android:gravity="center"
+            android:text="@string/nearby_devices_swipe_to_refresh_list"
+            android:textSize="@dimen/text_size_xlarge"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/margin_large"
+            android:src="@drawable/new_agribot" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_margin="8dp"
+            android:background="@color/base_green" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="40dp">
 
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size_xlarge"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:layout_margin="@dimen/margin_large"
-                android:text="@string/nearby_devices_swipe_to_refresh_list"/>
-
-            <ImageView
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/new_agribot"
-                android:layout_margin="@dimen/margin_large"
-                android:onClick="@{() -> viewModel.sendHandshake()}"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="4dp"
+                android:onClick="@{() -> viewModel.sendManualInit()}"
+                android:text="SendInit" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="4dp"
-                android:layout_margin="8dp"
-                android:background="@color/base_green"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="4dp"
+                android:onClick="@{() -> viewModel.runManualMode()}"
+                android:text="RUN MANUAL MODE" />
 
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/refresh_nearby_devices"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/nearby_device_list"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="4dp"
+                android:onClick="@{() -> viewModel.runEngine()}"
+                android:text="ENGINE ON" />
 
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="4dp"
+                android:onClick="@{() -> viewModel.stopEngine()}"
+                android:text="ENGINE OFF" />
 
         </LinearLayout>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refresh_nearby_devices"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/nearby_device_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </LinearLayout>
 
 </layout>

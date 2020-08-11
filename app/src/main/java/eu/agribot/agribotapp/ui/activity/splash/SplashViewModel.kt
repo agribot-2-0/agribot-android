@@ -37,4 +37,19 @@ class SplashViewModel(
             false -> postWelcomeActivityNavigationEvent()
         }
     }
+<<<<<<< HEAD
+=======
+
+    fun checkBluetoothEnable(showDialog: () -> Unit) {
+        when (bluetoothConnectionService.checkBluetoothEnable()) {
+            true -> beginSplashScreenDelay()
+            false -> showDialog.invoke()
+        }
+    }
+
+    fun enableBluetooth() {
+        bluetoothConnectionService.enableBluetooth()
+        beginSplashScreenDelay()
+    }
+>>>>>>> 0bd8dbd... static code analyze fix
 }

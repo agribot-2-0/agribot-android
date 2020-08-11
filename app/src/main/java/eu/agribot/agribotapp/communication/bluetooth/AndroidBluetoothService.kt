@@ -15,8 +15,11 @@ import java.io.OutputStream
 import java.util.UUID
 
 class AndroidBluetoothService(private val handler: Handler) : BluetoothService {
+<<<<<<< HEAD
     val inputStream: InputStream = bluetoothSocket!!.inputStream
     val outputStream: OutputStream = bluetoothSocket!!.outputStream
+=======
+>>>>>>> 0bd8dbd... static code analyze fix
 
     companion object {
         const val MESSAGE_READ: Int = 0

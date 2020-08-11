@@ -81,6 +81,7 @@ class ManualModeService(private val bluetoothUtils: BluetoothUtils) {
         if (strength == 0) {
             radius = 0.0
         } else {
+<<<<<<< HEAD
 
             if (joystickAngle < -15 && joystickAngle > 15) {
                 radius = MAX_ARCH
@@ -112,6 +113,9 @@ class ManualModeService(private val bluetoothUtils: BluetoothUtils) {
             } else {
                 sendChangedJoystickParametrs(radius, direction, forward, speed)
             }
+=======
+            sendChangedJoystickParametrs(radius, direction, forward, speed)
+>>>>>>> 0bd8dbd... static code analyze fix
         }
     }
 
@@ -137,8 +141,32 @@ class ManualModeService(private val bluetoothUtils: BluetoothUtils) {
         moveArcArray[6] = 0xff.toByte()
         moveArcArray[7] = 0xff.toByte()
         val moveBackFrame =
+<<<<<<< HEAD
             BluetoothMessageModel(BluetoothMessageModel.CMD_ONE, RIDE_THE_CURVE, moveArcArray)
 
         // bluetoothUtils.writeMessage(moveBackFrame.byteArray)
+=======
+            BluetoothMessageModel(
+                BluetoothMessageModel.CMD_ONE,
+                RIDE_THE_CURVE,
+                moveArcArray
+            )
+
+        bluetoothUtils.writeMessage(moveBackFrame.byteArray)
+    }
+
+    fun stopHeartbeat() {
+        bluetoothUtils.stopSendingHeartbeat()
+    }
+
+    fun sendHeartbeatError() {
+        bluetoothUtils.setWrongHeartbeat()
+    }
+
+    fun sendHanshakeAndHeartbeat() {
+        Handler().postDelayed({
+            bluetoothUtils.restartHandshakeAndHeartbeat()
+        }, RESTERT_HEARTBEAT_DELAY)
+>>>>>>> 0bd8dbd... static code analyze fix
     }
 }

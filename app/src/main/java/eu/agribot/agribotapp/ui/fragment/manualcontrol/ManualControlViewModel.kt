@@ -16,6 +16,22 @@ class ManualControlViewModel(
     private val bluetoothUtils: BluetoothUtils,
     private val manualModeService: ManualModeService
 ) : BaseViewModel() {
+<<<<<<< HEAD
+=======
+    companion object {
+        private const val CHANGE_HEARTBEAT_COLOR_DEALAY = 50L
+        private const val RESTART_HEARTBEAT_DELAY = 500L
+    }
+
+    // Status Info Live Data
+    val engineRotationsPerMinute: String =
+        diagnosticDataService.engineRotationsPerMinute.value.toString()
+    val torqueOfEngine: String = diagnosticDataService.torqueOfEngine.value.toString()
+    val engineFuelRate: String = diagnosticDataService.engineFuelRate.value.toString()
+    val fuelLevel: String = diagnosticDataService.fuelLevel.value.toString()
+    val fuelTemperature: String = diagnosticDataService.fuelTemperature.value.toString()
+    val batteryVoltage: String = diagnosticDataService.batteryVoltage.value.toString()
+>>>>>>> 0bd8dbd... static code analyze fix
 
     val heartBeatState: MutableLiveData<Boolean> = MutableLiveData()
 
@@ -36,6 +52,7 @@ class ManualControlViewModel(
     }
 
     fun manualControlNavEvent() {
+<<<<<<< HEAD
         if (!bluetoothUtils.connectionState) {
             navigationEvent.postValue(
                 BluetoothConnectionNavigationEvent()
@@ -43,6 +60,11 @@ class ManualControlViewModel(
         } else {
             Timber.e("Couldn't manualControlNavEvent")
         }
+=======
+        navigationEvent.postValue(
+            BluetoothConnectionNavigationEvent()
+        )
+>>>>>>> 0bd8dbd... static code analyze fix
     }
 
     fun sendEngineStopCommand() {
@@ -88,4 +110,31 @@ class ManualControlViewModel(
             }
         }, 0)
     }
+<<<<<<< HEAD
+=======
+
+    private fun sendHandshakeAndHeartbeat() = viewModelScope.launch {
+        delay(RESTART_HEARTBEAT_DELAY)
+        manualModeService.sendHanshakeAndHeartbeat()
+    }
+
+    fun stopAndRunHeartBeat() {
+        if (bluetoothUtils.isAgribotConnect) {
+            manualModeService.stopHeartbeat()
+            sendHandshakeAndHeartbeat()
+        } else {
+            Timber.e("No connection")
+        }
+    }
+
+    fun postValueOverrideMode() {
+        if (bluetoothUtils.isAgribotConnect) {
+            navigationEvent.postValue(
+                OverrideNavigationEvent()
+            )
+        } else {
+            showToastEvent.postValue("Agribot Disconnected")
+        }
+    }
+>>>>>>> 0bd8dbd... static code analyze fix
 }

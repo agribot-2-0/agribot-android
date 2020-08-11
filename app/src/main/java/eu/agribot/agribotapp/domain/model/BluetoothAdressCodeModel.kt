@@ -29,6 +29,7 @@ class BluetoothAdressCodeModel {
         const val GEO_DESTINATION_POINT = 66
 
         const val AGRIBOT_DIAGNOSTIC_DATA_1 = 100
+<<<<<<< HEAD
         const val AGRIBOT_DIAGNOSTIC_DATA_2 = 101
         const val AGRIBOT_DIAGNOSTIC_DATA_3 = 105
         const val AGRIBOT_DIAGNOSTIC_DATA_4 = 106
@@ -40,5 +41,7 @@ class BluetoothAdressCodeModel {
         const val AGRIBOT_ENGINGERRORS = 121
 
         var lastMoveCommand = -1
+=======
+>>>>>>> 0bd8dbd... static code analyze fix
     }
 }

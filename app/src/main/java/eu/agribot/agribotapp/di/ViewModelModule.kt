@@ -89,4 +89,11 @@ val viewModelModule = module {
             bluetoothAddress = get()
         )
     }
+<<<<<<< HEAD
+=======
+
+    viewModel {
+        OverrideViewModel(bluetoothUtils = get())
+    }
+>>>>>>> 0bd8dbd... static code analyze fix
 }

@@ -95,6 +95,7 @@ class BluetoothMessageModel() {
         byteArray[length + 2] = checksum
         byteArray[length + 3] = 0x0D
     }
+<<<<<<< HEAD
 
     @SuppressLint("LogNotTimber")
     fun logBtFrame() {
@@ -112,4 +113,6 @@ class BluetoothMessageModel() {
         else
             0
     }
+=======
+>>>>>>> 0bd8dbd... static code analyze fix
 }

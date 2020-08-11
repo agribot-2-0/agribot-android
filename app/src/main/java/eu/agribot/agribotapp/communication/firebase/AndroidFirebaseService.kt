@@ -1,12 +1,14 @@
 package eu.agribot.agribotapp.communication.firebase
 
-import android.util.Log
+import android.annotation.SuppressLint
 import com.google.firebase.auth.FirebaseAuth
+import timber.log.Timber
 
 class AndroidFirebaseService(
     override val firebaseAuth: FirebaseAuth
 ) : FirebaseService {
 
+    @SuppressLint("TimberArgCount")
     override fun login(
         loginEmail: String,
         loginPassword: String,
@@ -15,12 +17,12 @@ class AndroidFirebaseService(
     ) {
 
         firebaseAuth.signInWithEmailAndPassword(loginEmail, loginPassword)
-            .addOnSuccessListener { task ->
+            .addOnSuccessListener {
                 onSucess.invoke()
             }
             .addOnFailureListener { exception ->
                 onError(exception)
-                Log.e("xd", "error" + exception)
+                Timber.e(exception, "Authentication Error %s")
             }
     }
 
@@ -35,7 +37,7 @@ class AndroidFirebaseService(
             emailRegister,
             passwordRegister
         )
-            .addOnSuccessListener { task ->
+            .addOnSuccessListener {
                 onSucess.invoke()
             }
             .addOnFailureListener { exception ->
@@ -54,7 +56,7 @@ class AndroidFirebaseService(
         onError: (Exception) -> Unit
     ) {
         firebaseAuth.sendPasswordResetEmail(loginEmail)
-            .addOnSuccessListener { task ->
+            .addOnSuccessListener {
                 onSucess.invoke()
             }
             .addOnFailureListener { exception ->

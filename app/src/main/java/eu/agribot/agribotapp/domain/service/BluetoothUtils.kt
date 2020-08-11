@@ -143,9 +143,13 @@ class BluetoothUtils(private val bluetoothService: BluetoothService) {
         return message
     }
 
+<<<<<<< HEAD
     fun sendHandshake(
         sendMessage: (textMessage: ByteArray) -> Unit
     ) {
+=======
+    fun sendHandshake() {
+>>>>>>> 0bd8dbd... static code analyze fix
         val frame = BluetoothMessageModel(
             BluetoothAdressCodeModel.MOBILE_HANDSHAKE,
             ByteArray(1) { 1 }

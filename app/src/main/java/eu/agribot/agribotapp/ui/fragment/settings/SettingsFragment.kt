@@ -47,13 +47,13 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
     }
 
     private fun showSignOutDialog(logOutDecision: Boolean) {
-        if (logOutDecision == true) {
+        if (logOutDecision) {
             dialogManager.showSignOutDialog(viewModel::logOut)
         }
     }
 
     private fun showDeleteAccountDialog(deleteAccountDecision: Boolean) {
-        if (deleteAccountDecision == true) {
+        if (deleteAccountDecision) {
             dialogManager.showRemoveAccountDialog(viewModel::removeUser)
         }
     }

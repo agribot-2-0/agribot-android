@@ -3,10 +3,12 @@ package eu.agribot.agribotapp.ui.fragment.manualcontrol
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import androidx.core.content.ContextCompat
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.BluetoothConnectionNavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.OverrideNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolControlNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentManualControlBinding
 import io.github.controlwear.virtual.joystick.android.JoystickView
@@ -14,6 +16,10 @@ import kotlinx.android.synthetic.main.fragment_manual_control.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManualControlBinding>() {
+
+    companion object {
+        private const val DELAY_MANUAL_STEERING_START = 500L
+    }
 
     override val layoutResourceId: Int = R.layout.fragment_manual_control
     override val viewModel: ManualControlViewModel by viewModel()
@@ -28,22 +34,24 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
         delayManualSterring()
         viewModel.startWrongHeartbeatIcon()
         viewModel.setHeartbeatPositiveColor()
+        observeLiveData()
 
-        val joystick = view.findViewById(R.id.manual_control_joystick) as JoystickView
+        val joystick = view.findViewById(R.id.joyy) as JoystickView
         joystick.setOnMoveListener { angle, strength ->
             viewModel.onJoystickParametrsChanged(angle, strength)
         }
-<<<<<<< HEAD
-
-        viewModel.heartBeatState.observe(this::setHearBeatWrongColor)
-=======
->>>>>>> 0bd8dbd... static code analyze fix
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
         is ToolControlNavigationEvent -> navigateToToolControl()
         is BluetoothConnectionNavigationEvent -> navigateToBluetoothScreen()
+        is OverrideNavigationEvent -> navigateToOverrideMode()
         else -> Unit
+    }
+
+    private fun observeLiveData() {
+        viewModel.showToastEvent.observe(this::showToast)
+        viewModel.heartBeatState.observe(this::setHearBeatWrongColor)
     }
 
     private fun navigateToBluetoothScreen() {
@@ -54,24 +62,23 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
         navigationController?.navigate(R.id.action_manualControlFragment_to_toolControlFragment)
     }
 
-<<<<<<< HEAD
-=======
     private fun navigateToOverrideMode() {
         navigationController?.navigate(R.id.action_manualControlFragment_to_overrideFragment)
     }
 
->>>>>>> 0bd8dbd... static code analyze fix
     private fun delayManualSterring() {
         Handler().postDelayed({
             viewModel.sendManualSteeringStartFrame()
-        }, 500)
+        }, DELAY_MANUAL_STEERING_START)
     }
 
-    fun setHearBeatWrongColor(heartbeatState: Boolean) {
-        if (heartbeatState) {
-            heartbeatTEXT.setBackgroundColor(resources.getColor(R.color.red))
+    private fun setHearBeatWrongColor(heartbeatState: Boolean) {
+        if (!heartbeatState) {
+            heartbeat_icon.setColorFilter(ContextCompat.getColor(requireContext(), R.color.black))
         } else {
-            heartbeatTEXT.setBackgroundColor(resources.getColor(R.color.base_green))
+            heartbeat_icon.setColorFilter(
+                ContextCompat.getColor(requireContext(), R.color.red)
+            )
         }
     }
 }

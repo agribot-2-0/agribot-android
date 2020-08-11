@@ -14,7 +14,7 @@ class AutonomousModeFragment :
     BaseFragment<AutonomousModeViewModel, FragmentAutonomousModeBinding>() {
 
     private lateinit var mapFragment: SupportMapFragment
-    val ZOOM = 15F
+    private val ZOOM = 15F
 
     override val layoutResourceId: Int = R.layout.fragment_autonomous_mode
     override val viewModel: AutonomousModeViewModel by viewModel()
@@ -27,6 +27,7 @@ class AutonomousModeFragment :
         super.onViewCreated(view, savedInstanceState)
         initMap()
         viewModel.markers.observe(this::onMarkerChanged)
+        viewModel.showToastEvent.observe(this::showToast)
         viewModel.addDefaultMarker()
     }
 

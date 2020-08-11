@@ -96,7 +96,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_large"
-                android:text="@string/connect_to_agribot"
+                android:text="Połącz z Agribotem"
                 android:onClick="@{() -> viewModel.onToolBluetoothConnectClicked()}"/>
 
 
@@ -104,7 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_large"
-                android:text="Disconnect"
+                android:text="Zakończ połączenie"
                 android:onClick="@{() -> viewModel.disconnect()}"/>
 
 

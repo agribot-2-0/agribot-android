@@ -57,6 +57,7 @@ class BluetoothConnectionFragment :
                 }
                 BluetoothDevice.ACTION_ACL_DISCONNECTED == action -> {
                     showToast("ACTION DISCONNECTED")
+                    viewModel.setDisconnected()
                 }
             }
         }

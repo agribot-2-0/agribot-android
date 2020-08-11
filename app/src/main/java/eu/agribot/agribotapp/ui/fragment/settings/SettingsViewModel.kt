@@ -17,7 +17,7 @@ class SettingsViewModel(
 ) : BaseViewModel() {
     val showToastEvent: LiveEvent<String> = MutableLiveEvent()
     val user =
-        resourcesProvider.getString(R.string.login_As_Text) + " " + authenticationService.getCurrentUser().userEmail.toString()
+        resourcesProvider.getString(R.string.login_As_Text) + " " + authenticationService.getCurrentUser().userEmail
     val showSignoutDialogEvent: LiveEvent<Boolean> = MutableLiveEvent()
     val showDeleteAccountDialogEvent: LiveEvent<Boolean> = MutableLiveEvent()
 
@@ -26,12 +26,12 @@ class SettingsViewModel(
         postWelcomeActivityEvent()
     }
 
-    fun removeUserSucessfull() {
+    private fun removeUserSucessfull() {
         showToastEvent.postValue(resourcesProvider.getString(R.string.toast_remove_account_sucess))
         postWelcomeActivityEvent()
     }
 
-    fun removeUserFailed(removeUserProblem: String) {
+    private fun removeUserFailed(removeUserProblem: String) {
         showToastEvent.postValue(removeUserProblem)
     }
 
@@ -39,13 +39,13 @@ class SettingsViewModel(
         showSignoutDialogEvent.postValue(true)
     }
 
-    fun postWelcomeActivityEvent() {
+    private fun postWelcomeActivityEvent() {
         navigationEvent.postValue(
             WelcomeActivityNavigationEvent()
         )
     }
 
-    fun logOutInfo() {
+    private fun logOutInfo() {
         showToastEvent.postValue(resourcesProvider.getString(R.string.toast_logout_sucess))
     }
 
@@ -68,5 +68,6 @@ class SettingsViewModel(
 
     fun disconnect() {
         bluetoothUtils.disconnect()
+        showToastEvent.postValue("Disconnect !!")
     }
 }

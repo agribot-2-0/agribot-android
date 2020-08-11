@@ -24,14 +24,14 @@ class OverrideFragment : BaseFragment<OverrideViewModel, FragmentOverrideModeBin
         viewModel.onFrontClickEvent.observe(this::changeFrontTint)
         viewModel.onRearClickEvent.observe(this::changeRearTint)
 
-        val rotateJoystick = view.findViewById(R.id.override_rotate_joystick) as JoystickView
-        rotateJoystick.setOnMoveListener { angle, strength ->
-            viewModel.onRotateParametrChanged(angle, strength)
+        val leftJoystick = view.findViewById(R.id.left_right_hoy) as JoystickView
+        leftJoystick.setOnMoveListener { angle, strength ->
+            viewModel.onJoystickLeftParametrsChanged(angle, strength)
         }
 
-        val gasJoystick = view.findViewById(R.id.override_gas_joystick) as JoystickView
-        gasJoystick.setOnMoveListener { angle, strength ->
-            viewModel.onGasParametrChanged(angle, strength)
+        val joystick = view.findViewById(R.id.joyy) as JoystickView
+        joystick.setOnMoveListener { angle, strength ->
+            viewModel.onJoystickParametrsChanged(angle, strength)
         }
     }
 

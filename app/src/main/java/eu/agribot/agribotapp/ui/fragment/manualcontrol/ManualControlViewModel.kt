@@ -1,23 +1,28 @@
 package eu.agribot.agribotapp.ui.fragment.manualcontrol
 
 import android.os.Handler
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import eu.agribot.agribotapp.base.BaseViewModel
+import eu.agribot.agribotapp.common.livedata.LiveEvent
+import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.BluetoothConnectionNavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.OverrideNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolControlNavigationEvent
 import eu.agribot.agribotapp.domain.service.BluetoothUtils
+import eu.agribot.agribotapp.domain.service.DiagnosticDataService
 import eu.agribot.agribotapp.domain.service.ManualModeService
 import eu.agribot.agribotapp.domain.service.RemoteControlService
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class ManualControlViewModel(
     private val remoteControlService: RemoteControlService,
+    private val manualModeService: ManualModeService,
     private val bluetoothUtils: BluetoothUtils,
-    private val manualModeService: ManualModeService
+    diagnosticDataService: DiagnosticDataService
 ) : BaseViewModel() {
-<<<<<<< HEAD
-=======
     companion object {
         private const val CHANGE_HEARTBEAT_COLOR_DEALAY = 50L
         private const val RESTART_HEARTBEAT_DELAY = 500L
@@ -31,18 +36,26 @@ class ManualControlViewModel(
     val fuelLevel: String = diagnosticDataService.fuelLevel.value.toString()
     val fuelTemperature: String = diagnosticDataService.fuelTemperature.value.toString()
     val batteryVoltage: String = diagnosticDataService.batteryVoltage.value.toString()
->>>>>>> 0bd8dbd... static code analyze fix
 
+    // ManualVm varriable
+    val showToastEvent: LiveEvent<String> = MutableLiveEvent()
     val heartBeatState: MutableLiveData<Boolean> = MutableLiveData()
-
-    var connectionStatus: String = if (bluetoothUtils.connectionState) {
+    var connectionStatus: String = if (bluetoothUtils.isAgribotConnect) {
         "Agribot  jest połączony"
     } else {
         "Agribot nie jest połączony - Kliknij, aby połączyć"
     }
 
     fun onJoystickParametrsChanged(angle: Int, strength: Int) {
-        manualModeService.onJoystickConfigurationChanged(angle, strength)
+        if (bluetoothUtils.isAgribotConnect) {
+            manualModeService.onJoystickConfigurationChanged(angle, strength)
+        } else {
+            postValueAgribotDisconnected()
+        }
+    }
+
+    private fun postValueAgribotDisconnected() {
+        showToastEvent.postValue("Agribot Disconnected")
     }
 
     fun onToolControlClicked() {
@@ -52,19 +65,9 @@ class ManualControlViewModel(
     }
 
     fun manualControlNavEvent() {
-<<<<<<< HEAD
-        if (!bluetoothUtils.connectionState) {
-            navigationEvent.postValue(
-                BluetoothConnectionNavigationEvent()
-            )
-        } else {
-            Timber.e("Couldn't manualControlNavEvent")
-        }
-=======
         navigationEvent.postValue(
             BluetoothConnectionNavigationEvent()
         )
->>>>>>> 0bd8dbd... static code analyze fix
     }
 
     fun sendEngineStopCommand() {
@@ -72,7 +75,7 @@ class ManualControlViewModel(
             manualModeService.stopAgribotEngine()
             manualModeService.runAgribotEngine()
         } else {
-            Timber.e("Agribot Disconnected")
+            postValueAgribotDisconnected()
         }
     }
 
@@ -80,7 +83,7 @@ class ManualControlViewModel(
         if (bluetoothUtils.isAgribotConnect) {
             manualModeService.sendManualControlInitRequest()
         } else {
-            Timber.e("Agribot Disconnected")
+            postValueAgribotDisconnected()
         }
     }
 
@@ -88,30 +91,27 @@ class ManualControlViewModel(
         if (bluetoothUtils.isAgribotConnect) {
             manualModeService.sendStartManualControlFrame()
         } else {
-            Timber.e("Agribot Disconnected")
+            postValueAgribotDisconnected()
         }
     }
 
     fun startWrongHeartbeatIcon() {
-        bluetoothUtils.setWrongHeartbeat()
+        manualModeService.sendHeartbeatError()
     }
 
     fun setHeartbeatPositiveColor() {
         val handler = Handler()
         handler.postDelayed(object : Runnable {
             override fun run() {
-                Log.e("color", bluetoothUtils.heartbeatState.toString())
                 if (bluetoothUtils.heartbeatState) {
                     heartBeatState.postValue(true)
                 } else if (!bluetoothUtils.heartbeatState) {
                     heartBeatState.postValue(false)
                 }
-                handler.postDelayed(this, 50) // 1 sec delay
+                handler.postDelayed(this, CHANGE_HEARTBEAT_COLOR_DEALAY)
             }
         }, 0)
     }
-<<<<<<< HEAD
-=======
 
     private fun sendHandshakeAndHeartbeat() = viewModelScope.launch {
         delay(RESTART_HEARTBEAT_DELAY)
@@ -136,5 +136,4 @@ class ManualControlViewModel(
             showToastEvent.postValue("Agribot Disconnected")
         }
     }
->>>>>>> 0bd8dbd... static code analyze fix
 }

@@ -21,6 +21,14 @@
             app:popExitAnim="@anim/nav_slide_in_from_left" />
 
         <action
+            android:id="@+id/action_manualControlFragment_to_overrideFragment"
+            app:destination="@id/overrideMode"
+            app:enterAnim="@anim/nav_slide_in_from_right"
+            app:exitAnim="@anim/nav_slide_out_to_right"
+            app:popEnterAnim="@anim/nav_slide_out_to_left"
+            app:popExitAnim="@anim/nav_slide_in_from_left" />
+
+        <action
             android:id="@+id/action_manualControlFragment_to_bluetoothConnectionFragment"
             app:destination="@id/bluetoothConnectFragment"
             app:enterAnim="@anim/nav_slide_in_from_right"
@@ -31,18 +39,28 @@
     </fragment>
 
     <fragment
+        android:id="@+id/overrideMode"
+        android:name="eu.agribot.agribotapp.ui.fragment.override.OverrideFragment"
+        android:label="Override Mode"
+        tools:layout="@layout/fragment_override_mode">
+
+
+    </fragment>
+
+
+    <fragment
         android:id="@+id/bluetoothConnectFragment"
         android:name="eu.agribot.agribotapp.ui.fragment.bluetoothconnection.BluetoothConnectionFragment"
         android:label="BluetoothConnect"
         tools:layout="@layout/fragment_bluetooth_connection">
 
-    <action
-        android:id="@+id/action_bluetoothConnectionFragment_to_manualControlFragment"
-        app:destination="@id/manualControlFragment"
-        app:enterAnim="@anim/nav_slide_in_from_right"
-        app:exitAnim="@anim/nav_slide_out_to_right"
-        app:popEnterAnim="@anim/nav_slide_out_to_left"
-        app:popExitAnim="@anim/nav_slide_in_from_left" />
+        <action
+            android:id="@+id/action_bluetoothConnectionFragment_to_manualControlFragment"
+            app:destination="@id/manualControlFragment"
+            app:enterAnim="@anim/nav_slide_in_from_right"
+            app:exitAnim="@anim/nav_slide_out_to_right"
+            app:popEnterAnim="@anim/nav_slide_out_to_left"
+            app:popExitAnim="@anim/nav_slide_in_from_left" />
     </fragment>
 
     <fragment

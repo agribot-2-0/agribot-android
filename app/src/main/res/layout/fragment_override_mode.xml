@@ -23,7 +23,7 @@
             android:layout_weight="1">
 
             <io.github.controlwear.virtual.joystick.android.JoystickView
-                android:id="@+id/override_rotate_joystick"
+                android:id="@+id/left_right_hoy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -86,13 +86,12 @@
                 android:text="+"
                 android:textColor="@color/white"
                 android:textSize="32sp"
-                app:layout_constraintBottom_toTopOf="@+id/manual_control_joystick"
+                app:layout_constraintBottom_toTopOf="@+id/joyy"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-
             <io.github.controlwear.virtual.joystick.android.JoystickView
-                android:id="@+id/override_gas_joystick"
+                android:id="@+id/joyy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -106,8 +105,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
-
             <TextView
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
@@ -118,7 +115,7 @@
                 android:textSize="32sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/manual_control_joystick" />
+                app:layout_constraintTop_toBottomOf="@+id/joyy" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

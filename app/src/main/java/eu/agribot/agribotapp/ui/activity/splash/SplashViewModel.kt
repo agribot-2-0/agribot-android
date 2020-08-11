@@ -5,18 +5,20 @@ import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.navigation.events.MainActivityNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.WelcomeActivityNavigationEvent
 import eu.agribot.agribotapp.domain.service.AuthenticationService
+import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SplashViewModel(
-    private val authenticationService: AuthenticationService
+    private val authenticationService: AuthenticationService,
+    private val bluetoothConnectionService: BluetoothConnectionService
 ) : BaseViewModel() {
 
     companion object {
         const val SPLASH_SCREEN_TIMEOUT_MILLIS = 1000L
     }
 
-    fun beginSplashScreenDelay() = viewModelScope.launch {
+    private fun beginSplashScreenDelay() = viewModelScope.launch {
         delay(SPLASH_SCREEN_TIMEOUT_MILLIS)
         checkLoginStatusAndRedirect()
     }
@@ -37,8 +39,6 @@ class SplashViewModel(
             false -> postWelcomeActivityNavigationEvent()
         }
     }
-<<<<<<< HEAD
-=======
 
     fun checkBluetoothEnable(showDialog: () -> Unit) {
         when (bluetoothConnectionService.checkBluetoothEnable()) {
@@ -51,5 +51,4 @@ class SplashViewModel(
         bluetoothConnectionService.enableBluetooth()
         beginSplashScreenDelay()
     }
->>>>>>> 0bd8dbd... static code analyze fix
 }

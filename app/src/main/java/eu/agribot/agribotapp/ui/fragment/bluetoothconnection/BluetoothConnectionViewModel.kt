@@ -75,20 +75,12 @@ class BluetoothConnectionViewModel(
         }
     }
 
-    private fun sendMessage(message: ByteArray) {
-        viewModelScope.launch {
-            bluetoothUtils.writeMessage(message)
-        }
-    }
-
     fun initializeHeartbeatThread() {
         bluetoothUtils.initHeartbeat()
     }
 
     fun sendHandshake() {
-        bluetoothUtils.sendHandshake(
-            sendMessage = this::sendMessage
-        )
+        bluetoothUtils.sendHandshake()
         Handler().postDelayed({
             startSendingHeartBeat()
         }, HEARTBEAT_DELAY)
@@ -98,18 +90,6 @@ class BluetoothConnectionViewModel(
     private fun startSendingHeartBeat() {
         bluetoothUtils.startSendingHeartBeat()
         setConnected()
-    }
-
-    fun runManualMode() {
-        manualControlNavEvent()
-    }
-
-    fun runEngine() {
-        manualModeService.runAgribotEngine()
-    }
-
-    fun stopEngine() {
-        manualModeService.stopAgribotEngine()
     }
 
     private fun manualControlNavEvent() {
@@ -127,5 +107,9 @@ class BluetoothConnectionViewModel(
 
     fun setConnected() {
         bluetoothUtils.isAgribotConnect = true
+    }
+
+    fun setDisconnected() {
+        bluetoothUtils.isAgribotConnect = false
     }
 }

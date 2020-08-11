@@ -38,11 +38,6 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
     Screen when back is pressed
     */
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.checkBluetoothEnable(showDialog = this::showBluetoothDialog)
-    }
-
     private val navigationTopLevelDestinations = setOf(
         R.id.manualControlFragment,
         R.id.autonomousModeFragment,
@@ -153,10 +148,6 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         dialogManager.showExitDialog {
             this.finishAffinity()
         }
-    }
-
-    private fun showBluetoothDialog() {
-        dialogManager.showBluetoothDialog { viewModel.enableBluetooth() }
     }
 
     override fun onResume() {

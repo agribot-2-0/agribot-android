@@ -19,7 +19,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/margin_large"
             android:gravity="center"
-            android:text="@string/nearby_devices_swipe_to_refresh_list"
+            android:text="Lista DostÄpnych urzÄdzeĹ bluetooth"
             android:textSize="@dimen/text_size_xlarge"
             android:textStyle="bold" />
 
@@ -36,44 +36,6 @@
             android:layout_margin="8dp"
             android:background="@color/base_green" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginHorizontal="4dp"
-                android:onClick="@{() -> viewModel.sendManualInit()}"
-                android:text="SendInit" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginHorizontal="4dp"
-                android:onClick="@{() -> viewModel.runManualMode()}"
-                android:text="RUN MANUAL MODE" />
-
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginHorizontal="4dp"
-                android:onClick="@{() -> viewModel.runEngine()}"
-                android:text="ENGINE ON" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginHorizontal="4dp"
-                android:onClick="@{() -> viewModel.stopEngine()}"
-                android:text="ENGINE OFF" />
-
-        </LinearLayout>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/refresh_nearby_devices"

@@ -7,16 +7,6 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(private val bluetoothUtils: BluetoothUtils) : BaseViewModel() {
 
-    fun checkBluetoothEnable(showDialog: () -> Unit) {
-        when (bluetoothUtils.checkBluetoothEnable()) {
-            false -> showDialog.invoke()
-        }
-    }
-
-    fun enableBluetooth() {
-        bluetoothUtils.enableBluetooth()
-    }
-
     fun registerServer() {
         viewModelScope.launch {
             bluetoothUtils.runServer(true)

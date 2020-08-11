@@ -1,85 +1,96 @@
 package eu.agribot.agribotapp.domain.service
 
-import android.annotation.SuppressLint
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Process
-import android.util.Log
-import eu.agribot.agribotapp.communication.bluetooth.BluetoothService
+import eu.agribot.agribotapp.domain.error.AgribotErrorHandler
 import eu.agribot.agribotapp.domain.model.BluetoothAdressCodeModel
 import eu.agribot.agribotapp.domain.model.BluetoothMessageModel
 import timber.log.Timber
 
-class BluetoothUtils(private val bluetoothService: BluetoothService) {
+class BluetoothUtils(
+    private val bluetoothConnectionService: BluetoothConnectionService,
+    private val diagnosticDataService: DiagnosticDataService,
+    private val agribotErrorHandler: AgribotErrorHandler
+) {
     var isAgribotConnect: Boolean = false
     var heartbeatState: Boolean = false
 
     companion object {
         const val MOBILE_HEARTBEAT = 1
         private const val HEARTBEAT_DELAY_TIME = 50L
+        private const val WRONG_HEARTBEAT_DELAY_TIME = 1000L
     }
 
-    var connectionState: Boolean = true
     private var byteArray = ByteArray(0)
     private var heartbeatArray = ByteArray(1)
-    var heartbeatFrame = BluetoothMessageModel(
-        BluetoothMessageModel.CMD_ONE,
-        BluetoothAdressCodeModel.MOBILE_HEARTBEAT,
-        heartbeatArray
-    )
+    var heartbeatFrame =
+        BluetoothMessageModel(
+            BluetoothMessageModel.CMD_ONE,
+            BluetoothAdressCodeModel.MOBILE_HEARTBEAT,
+            heartbeatArray
+        )
 
     private var heartbeatHandlerThread =
         HandlerThread("HeartBeatThread", Process.THREAD_PRIORITY_DISPLAY)
     internal lateinit var heartbeatHandler: Handler
 
+    // Todo corutine
     private var heartbeatRunnable = object : Runnable {
 
         override fun run() {
             writeMessage(heartbeatFrame.byteArray)
             heartbeatArray[0]++
-            heartbeatFrame = BluetoothMessageModel(
-                BluetoothMessageModel.CMD_ONE,
-                BluetoothAdressCodeModel.MOBILE_HEARTBEAT,
-                heartbeatArray
-            )
+            heartbeatFrame =
+                BluetoothMessageModel(
+                    BluetoothMessageModel.CMD_ONE,
+                    BluetoothAdressCodeModel.MOBILE_HEARTBEAT,
+                    heartbeatArray
+                )
 
             if (heartbeatArray[0].toInt() % 4 == 0) {
-                Timber.e("modulo 4")
-                // sendStatusRequest()
+                sendStatusRequest()
             }
+
             if (heartbeatArray[0].toInt() % 50 == 0) {
                 Timber.e("modulo 50")
             }
 
-            if (connectionState) {
+            if (isAgribotConnect) {
                 heartbeatHandler.postDelayed(this, HEARTBEAT_DELAY_TIME)
             }
         }
     }
 
-    fun checkBluetoothEnable(): Boolean {
-        return bluetoothService.checkIsBluetoothEnable()
-    }
-
-    fun enableBluetooth() {
-        bluetoothService.enableBluetooth()
+    private fun sendStatusRequest() {
+        writeMessage(
+            BluetoothMessageModel(
+                BluetoothMessageModel.CMD_ONE,
+                BluetoothAdressCodeModel.AGRIBOT_DIAGNOSTIC_DATA_1,
+                ByteArray(1)
+            ).byteArray
+        )
     }
 
     suspend fun runServer(isSecurityConnection: Boolean) {
-        bluetoothService.registerBluetoothServer(isSecurityConnection)
+        bluetoothConnectionService.runServer(isSecurityConnection)
     }
 
     suspend fun connect(bluetoothDeviceAddress: String) {
-        bluetoothService.connectBluetoothWithAgribot(bluetoothDeviceAddress)
-        // setConnectionState()
+        bluetoothConnectionService.connect(bluetoothDeviceAddress)
     }
 
     fun disconnect() {
-        bluetoothService.disconnect()
+        bluetoothConnectionService.disconnect()
+        isAgribotConnect = false
+    }
+
+    fun writeMessage(byteMessage: ByteArray) {
+        bluetoothConnectionService.writeMessage(byteMessage)
     }
 
     suspend fun getMessage() {
-        bluetoothService.receiveBluetoothMessage(handleMessage = this::handleMessage)
+        bluetoothConnectionService.getMessage(handleMessage = this::handleMessage)
     }
 
     fun setWrongHeartbeat() {
@@ -87,19 +98,17 @@ class BluetoothUtils(private val bluetoothService: BluetoothService) {
         handler.postDelayed(object : Runnable {
             override fun run() {
                 heartbeatState = false
-                handler.postDelayed(this, 1000) // 1 sec delay
+                handler.postDelayed(this, WRONG_HEARTBEAT_DELAY_TIME)
             }
         }, 0)
     }
 
-    @SuppressLint("LogNotTimber")
     private fun handleMessage(message: ByteArray) {
         byteArray = message
         readFrames(message)
     }
 
     private fun readFrames(readBuf: ByteArray) {
-        heartbeatState = true
         try {
             if (readBuf[0] == 67.toByte()) {
                 val length = readBuf[1].toInt()
@@ -107,9 +116,11 @@ class BluetoothUtils(private val bluetoothService: BluetoothService) {
                     return
                 if (readBuf.isEmpty())
                     return
-                val btFrame = BluetoothMessageModel(readBuf)
+                val btFrame =
+                    BluetoothMessageModel(
+                        readBuf
+                    )
                 handleMessageFrame(btFrame)
-                // readFrames(readBuf.slice((length + 4)..readBuf.size).toByteArray())
             } else {
                 return
             }
@@ -119,52 +130,76 @@ class BluetoothUtils(private val bluetoothService: BluetoothService) {
     }
 
     private fun handleMessageFrame(messageFrame: BluetoothMessageModel) {
-        Timber.e("messageFrame : %s", messageFrame)
-        if (messageFrame.getAddress() == BluetoothAdressCodeModel.RIDE_THE_CURVE) {
-            Log.e("handleMessage", "POTWIERDZENIE JOYA!!!!!")
+        when {
+            messageFrame.getAddress() == BluetoothAdressCodeModel.RIDE_THE_CURVE -> {
+                Timber.e("Joystick Action Request")
+            }
+            messageFrame.getAddress() == BluetoothAdressCodeModel.MANUAL_STARTING_INIT -> {
+                Timber.e("Manual stering init request")
+            }
+            messageFrame.getAddress() == BluetoothAdressCodeModel.MANUAL_START -> {
+                Timber.e("Manual stering start request")
+            }
+            messageFrame.getAddress() == BluetoothAdressCodeModel.AGRIBOT_DIAGNOSTIC_DATA_1 -> {
+                readFirstDiagnosticData(messageFrame)
+            }
+            messageFrame.getAddress() == BluetoothAdressCodeModel.MOBILE_HEARTBEAT -> {
+                heartbeatState = true
+            }
+            messageFrame.getAddress() == BluetoothAdressCodeModel.AGRIBOT_ERROR -> {
+                agribotErrorHandler.handleAgribotError()
+            }
         }
-        if (messageFrame.getAddress() == BluetoothAdressCodeModel.MANUAL_STARTING_INIT) {
-            Log.e("handleMessage", "manual stering init request")
-            // manualModeService.sendStartManualControlFrame()
-        } else if (messageFrame.getAddress() == BluetoothAdressCodeModel.MANUAL_START) {
-            Log.e("handleMessage", "manual stering start request")
-        }
     }
 
-    @SuppressLint("LogNotTimber")
-    fun writeMessage(byteMessage: ByteArray) {
-        bluetoothService.writeBluetoothMessage(byteMessage)
+    private fun bytesToUnsingedInt(array: ByteArray): Int {
+        return bytesToUnsingedInt(array, true)
     }
 
-    private fun getAllMessageInHex(): String {
-        var message = ""
-        for (element in byteArray)
-            message += " " + String.format("%02X", element)
-        return message
+    private fun bytesToUnsingedInt(array: ByteArray, bigEndian: Boolean): Int {
+        var result = 0
+        if (bigEndian)
+            for (i in array.indices)
+                result += (array[array.size - 1 - i].toInt() and 0xFF) shl 8 * i
+        else
+            for (i in array.indices)
+                result += (array[i].toInt() and 0xFF) shl 8 * i
+        return result
     }
 
-<<<<<<< HEAD
-    fun sendHandshake(
-        sendMessage: (textMessage: ByteArray) -> Unit
-    ) {
-=======
+    private fun readFirstDiagnosticData(messageFrame: BluetoothMessageModel) {
+        if (messageFrame.getMessage().size < 8)
+            return
+        val engineRpm = bytesToUnsingedInt(messageFrame.getMessage().sliceArray(0..1))
+        val batteryVoltage =
+            bytesToUnsingedInt(messageFrame.getMessage().sliceArray(6..7)) * 0.001
+        diagnosticDataService.readFirstEngineData(
+            engineRpm,
+            messageFrame.getMessage()[2].toInt(),
+            messageFrame.getMessage()[3].toInt(),
+            messageFrame.getMessage()[4].toInt(),
+            messageFrame.getMessage()[5].toInt(),
+            batteryVoltage
+        )
+    }
+
     fun sendHandshake() {
->>>>>>> 0bd8dbd... static code analyze fix
         val frame = BluetoothMessageModel(
             BluetoothAdressCodeModel.MOBILE_HANDSHAKE,
             ByteArray(1) { 1 }
         )
-        frame.logBtFrame()
-        sendMessage(frame.byteArray)
+        writeMessage(frame.byteArray)
     }
 
     fun startSendingHeartBeat() {
         heartbeatArray[0] = 0.toByte()
-        heartbeatFrame = BluetoothMessageModel(
-            BluetoothMessageModel.CMD_ONE, MOBILE_HEARTBEAT,
-            heartbeatArray
-        )
-        if (connectionState)
+        heartbeatFrame =
+            BluetoothMessageModel(
+                BluetoothMessageModel.CMD_ONE,
+                MOBILE_HEARTBEAT,
+                heartbeatArray
+            )
+        if (isAgribotConnect)
             heartbeatHandler.post(heartbeatRunnable)
     }
 
@@ -172,5 +207,16 @@ class BluetoothUtils(private val bluetoothService: BluetoothService) {
         heartbeatHandlerThread = HandlerThread("HBThread", Process.THREAD_PRIORITY_DISPLAY)
         heartbeatHandlerThread.start()
         heartbeatHandler = Handler(heartbeatHandlerThread.looper)
+    }
+
+    fun stopSendingHeartbeat() {
+        heartbeatHandler.removeCallbacks(heartbeatRunnable)
+    }
+
+    fun restartHandshakeAndHeartbeat() {
+        sendHandshake()
+        Handler().postDelayed({
+            startSendingHeartBeat()
+        }, HEARTBEAT_DELAY_TIME)
     }
 }

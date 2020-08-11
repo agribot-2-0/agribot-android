@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.domain.service
 
+import android.os.Handler
 import eu.agribot.agribotapp.domain.model.BluetoothAdressCodeModel
 import eu.agribot.agribotapp.domain.model.BluetoothAdressCodeModel.Companion.RIDE_THE_CURVE
 import eu.agribot.agribotapp.domain.model.BluetoothMessageModel
@@ -18,15 +19,17 @@ class ManualModeService(private val bluetoothUtils: BluetoothUtils) {
         private const val B_FACTOR_RIGHT = -13.3
         private const val A_FACTOR_RIGHT_SECOND = -0.15333333333333332
         private const val B_FACTOR_RIGHT_SECOND = 14.299999999999997
+        private const val RESTERT_HEARTBEAT_DELAY = 300L
     }
 
     private val singleArray = ByteArray(1) { 255.toByte() }
-    var moveArcArray = ByteArray(8)
+    private var moveArcArray = ByteArray(8)
 
     fun sendManualControlInitRequest() {
         bluetoothUtils.writeMessage(
             BluetoothMessageModel(
-                BluetoothMessageModel.CMD_ONE, BluetoothAdressCodeModel.MANUAL_STARTING_INIT,
+                BluetoothMessageModel.CMD_ONE,
+                BluetoothAdressCodeModel.MANUAL_STARTING_INIT,
                 ByteArray(1)
             ).byteArray
         )
@@ -35,7 +38,8 @@ class ManualModeService(private val bluetoothUtils: BluetoothUtils) {
     fun sendStartManualControlFrame() {
         bluetoothUtils.writeMessage(
             BluetoothMessageModel(
-                BluetoothMessageModel.CMD_ONE, BluetoothAdressCodeModel.MANUAL_START,
+                BluetoothMessageModel.CMD_ONE,
+                BluetoothAdressCodeModel.MANUAL_START,
                 ByteArray(1)
             ).byteArray
         )
@@ -44,7 +48,9 @@ class ManualModeService(private val bluetoothUtils: BluetoothUtils) {
     fun runAgribotEngine() {
         bluetoothUtils.writeMessage(
             BluetoothMessageModel(
-                BluetoothMessageModel.CMD_ONE, BluetoothAdressCodeModel.START_ENGINE, singleArray
+                BluetoothMessageModel.CMD_ONE,
+                BluetoothAdressCodeModel.START_ENGINE,
+                singleArray
             ).byteArray
         )
     }
@@ -52,7 +58,9 @@ class ManualModeService(private val bluetoothUtils: BluetoothUtils) {
     fun stopAgribotEngine() {
         bluetoothUtils.writeMessage(
             BluetoothMessageModel(
-                BluetoothMessageModel.CMD_ONE, BluetoothAdressCodeModel.STOP_SIGNAL, singleArray
+                BluetoothMessageModel.CMD_ONE,
+                BluetoothAdressCodeModel.STOP_SIGNAL,
+                singleArray
             ).byteArray
         )
     }
@@ -78,60 +86,56 @@ class ManualModeService(private val bluetoothUtils: BluetoothUtils) {
             }
         }
 
-        if (strength == 0) {
-            radius = 0.0
+        if (joystickAngle < -15 && joystickAngle > 15) {
+            radius = MAX_ARCH
+        } else if (joystickAngle < -165 || joystickAngle > 165) {
+            radius = MAX_ARCH
+        } else if (joystickAngle < -15 && joystickAngle > -75) {
+            radius =
+                A_FACTOR_LEFT * joystickAngle + B_FACTOR_LEFT
+        } else if (joystickAngle < -75 && joystickAngle > -105) {
+            radius = MIN_ARCH
+        } else if (joystickAngle < -105 && joystickAngle > -165) {
+            radius =
+                A_FACTOR_LEFT_SECOND * joystickAngle + B_FACTOR_LEFT_SECOND
+        } else if (joystickAngle in 15..75) {
+            radius =
+                A_FACTOR_RIGHT * joystickAngle + B_FACTOR_RIGHT
+        } else if (joystickAngle in 76..105) {
+            radius = -MIN_ARCH
+        } else if (joystickAngle in 106..165) {
+            radius =
+                A_FACTOR_RIGHT_SECOND * joystickAngle + B_FACTOR_RIGHT_SECOND
+        }
+        val direction = if (radius > 0) 1 else 0
+        val speed = (strength * 2.3) * 0.3 / 152.0f
+        val forward = if (angle in 181..359) 0 else 1
+
+        if (angle == 0) {
+            sendInitJoystickParametrs()
         } else {
-<<<<<<< HEAD
-
-            if (joystickAngle < -15 && joystickAngle > 15) {
-                radius = MAX_ARCH
-            } else if (joystickAngle < -165 || joystickAngle > 165) {
-                radius = MAX_ARCH
-            } else if (joystickAngle < -15 && joystickAngle > -75) {
-                radius =
-                    A_FACTOR_LEFT * joystickAngle + B_FACTOR_LEFT
-            } else if (joystickAngle < -75 && joystickAngle > -105) {
-                radius = MIN_ARCH
-            } else if (joystickAngle < -105 && joystickAngle > -165) {
-                radius =
-                    A_FACTOR_LEFT_SECOND * joystickAngle + B_FACTOR_LEFT_SECOND
-            } else if (joystickAngle in 15..75) {
-                radius =
-                    A_FACTOR_RIGHT * joystickAngle + B_FACTOR_RIGHT
-            } else if (joystickAngle in 76..105) {
-                radius = -MIN_ARCH
-            } else if (joystickAngle in 106..165) {
-                radius =
-                    A_FACTOR_RIGHT_SECOND * joystickAngle + B_FACTOR_RIGHT_SECOND
-            }
-            val direction = if (radius > 0) 1 else 0
-            val speed = (strength * 2.3) * 0.3 / 152.0f
-            val forward = if (angle in 181..359) 0 else 1
-
-            if (strength < 20) {
-                sendInitJoystickParametrs(0, 0, 0)
-            } else {
-                sendChangedJoystickParametrs(radius, direction, forward, speed)
-            }
-=======
             sendChangedJoystickParametrs(radius, direction, forward, speed)
->>>>>>> 0bd8dbd... static code analyze fix
         }
     }
 
-    private fun sendInitJoystickParametrs(fwd: Int, dir: Int, speed: Int) {
-        moveArcArray[0] = fwd.toByte()
-        moveArcArray[1] = dir.toByte()
+    private fun sendInitJoystickParametrs() {
+        moveArcArray[0] = 0.toByte()
+        moveArcArray[1] = 0.toByte()
         moveArcArray[2] = 0
         moveArcArray[3] = 110.toByte()
         moveArcArray[4] = 0
-        moveArcArray[5] = speed.toByte()
+        moveArcArray[5] = 0.toByte()
         moveArcArray[6] = 0xff.toByte()
         moveArcArray[7] = 0xff.toByte()
         sendChangedJoystickParametrs(0.00, 0, 0, 0.0)
     }
 
-    fun sendChangedJoystickParametrs(radius: Double, direction: Int, forward: Int, speed: Double) {
+    private fun sendChangedJoystickParametrs(
+        radius: Double,
+        direction: Int,
+        forward: Int,
+        speed: Double
+    ) {
         moveArcArray[0] = forward.toByte()
         moveArcArray[1] = direction.toByte()
         moveArcArray[2] = 0
@@ -141,11 +145,6 @@ class ManualModeService(private val bluetoothUtils: BluetoothUtils) {
         moveArcArray[6] = 0xff.toByte()
         moveArcArray[7] = 0xff.toByte()
         val moveBackFrame =
-<<<<<<< HEAD
-            BluetoothMessageModel(BluetoothMessageModel.CMD_ONE, RIDE_THE_CURVE, moveArcArray)
-
-        // bluetoothUtils.writeMessage(moveBackFrame.byteArray)
-=======
             BluetoothMessageModel(
                 BluetoothMessageModel.CMD_ONE,
                 RIDE_THE_CURVE,
@@ -167,6 +166,5 @@ class ManualModeService(private val bluetoothUtils: BluetoothUtils) {
         Handler().postDelayed({
             bluetoothUtils.restartHandshakeAndHeartbeat()
         }, RESTERT_HEARTBEAT_DELAY)
->>>>>>> 0bd8dbd... static code analyze fix
     }
 }

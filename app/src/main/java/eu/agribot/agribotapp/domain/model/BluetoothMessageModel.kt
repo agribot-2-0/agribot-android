@@ -1,7 +1,5 @@
 package eu.agribot.agribotapp.domain.model
 
-import android.annotation.SuppressLint
-import android.util.Log
 import kotlin.experimental.xor
 
 class BluetoothMessageModel() {
@@ -30,8 +28,6 @@ class BluetoothMessageModel() {
     constructor(array: ByteArray) : this() {
         if (array[0] == 67.toByte()) {
             val length = array[1].toInt()
-            /*if(length + 4 < 0)
-                length = 0*/
             val newArray = ByteArray(length + 4)
             for (x in newArray.indices)
                 newArray[x] = array[x]
@@ -46,13 +42,6 @@ class BluetoothMessageModel() {
             byteArray[1].toInt()
         else
             -1
-    }
-
-    private fun getAllMessageInHex(): String {
-        var message = ""
-        for (element in byteArray)
-            message += " " + String.format("%02X", element)
-        return message
     }
 
     fun getAddress(): Int {
@@ -72,20 +61,6 @@ class BluetoothMessageModel() {
         return byteArray.sliceArray(5..(5 + len))
     }
 
-    fun getMessageFromFrame(): String {
-        var message = ""
-        for (x in 5..byteArray.size - 3)
-            message += " " + byteArray[x].toString()
-        return message
-    }
-
-    private fun getAllMessage(): String {
-        var message = ""
-        for (x in 0 until byteArray.size)
-            message += " " + byteArray[x].toString()
-        return message
-    }
-
     private fun countChecksum() {
         var checksum = 0x43.toByte()
         val length = byteArray[1]
@@ -95,24 +70,4 @@ class BluetoothMessageModel() {
         byteArray[length + 2] = checksum
         byteArray[length + 3] = 0x0D
     }
-<<<<<<< HEAD
-
-    @SuppressLint("LogNotTimber")
-    fun logBtFrame() {
-        Log.e(
-            "xd",
-            " frame in hex:" + getAllMessageInHex()
-        )
-    }
-
-    infix fun Byte.shl(shift: Int): Byte = (this.toInt() shl shift).toByte()
-
-    fun getCommand(): Int {
-        return if (byteArray.size > 2)
-            byteArray[2].toInt()
-        else
-            0
-    }
-=======
->>>>>>> 0bd8dbd... static code analyze fix
 }

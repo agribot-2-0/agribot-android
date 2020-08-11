@@ -81,7 +81,7 @@
         android:src="@drawable/ic_pressure"
         android:visibility="visible" />
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/progAndStart_btn"
         android:layout_width="0dp"
         android:layout_weight="4"
@@ -98,5 +98,4 @@
         android:textSize="@dimen/text_size_medium" />
 
 </LinearLayout>
-
 

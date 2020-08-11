@@ -49,7 +49,7 @@ class OverrideViewModel(private val bluetoothUtils: BluetoothUtils) : BaseViewMo
         }
     }
 
-    fun onGasParametrChanged(angle: Int, strength: Int) {
+    fun onJoystickParametrsChanged(angle: Int, strength: Int) {
         when (angle) {
             in 0..180 -> {
                 moveForward()
@@ -58,7 +58,7 @@ class OverrideViewModel(private val bluetoothUtils: BluetoothUtils) : BaseViewMo
         }
     }
 
-    fun onRotateParametrChanged(angle: Int, strength: Int) {
+    fun onJoystickLeftParametrsChanged(angle: Int, strength: Int) {
         when (angle) {
             in 90..180 -> {
                 rotateLeft()

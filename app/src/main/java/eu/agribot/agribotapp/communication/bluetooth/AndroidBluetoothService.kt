@@ -6,7 +6,6 @@ import android.bluetooth.BluetoothServerSocket
 import android.bluetooth.BluetoothSocket
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
@@ -15,11 +14,6 @@ import java.io.OutputStream
 import java.util.UUID
 
 class AndroidBluetoothService(private val handler: Handler) : BluetoothService {
-<<<<<<< HEAD
-    val inputStream: InputStream = bluetoothSocket!!.inputStream
-    val outputStream: OutputStream = bluetoothSocket!!.outputStream
-=======
->>>>>>> 0bd8dbd... static code analyze fix
 
     companion object {
         const val MESSAGE_READ: Int = 0
@@ -81,14 +75,9 @@ class AndroidBluetoothService(private val handler: Handler) : BluetoothService {
     }
 
     override fun disconnect() {
-        try {
-            inputStream.close()
-            outputStream.close()
-            bluetoothSocket?.close()
-        } catch (exception: IOException) {
-            Log.e("xd", "disconnect error" + exception)
-        }
-        bluetoothSocket = null
+        bluetoothSocket?.inputStream?.close()
+        bluetoothSocket?.outputStream?.close()
+        bluetoothSocket?.close()
     }
 
     private suspend fun onConnect(deviceAdress: String) =
@@ -110,7 +99,7 @@ class AndroidBluetoothService(private val handler: Handler) : BluetoothService {
 
     override suspend fun receiveBluetoothMessage(handleMessage: (message: ByteArray) -> Unit) =
         withContext(Dispatchers.IO) {
-
+            val inputStream: InputStream = bluetoothSocket!!.inputStream
             val buffer = ByteArray(1024)
 
             run() {
@@ -135,7 +124,7 @@ class AndroidBluetoothService(private val handler: Handler) : BluetoothService {
 
     override fun writeBluetoothMessage(message: ByteArray) {
         val mmBuffer = ByteArray(1024)
-
+        val outputStream: OutputStream = bluetoothSocket!!.outputStream
         try {
             outputStream.write(message)
         } catch (e: IOException) {

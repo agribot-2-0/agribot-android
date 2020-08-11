@@ -11,6 +11,7 @@ import eu.agribot.agribotapp.ui.fragment.autonomousmode.AutonomousModeViewModel
 import eu.agribot.agribotapp.ui.fragment.bluetoothconnection.BluetoothConnectionViewModel
 import eu.agribot.agribotapp.ui.fragment.bluetoothconnection.recycler.BluetoothNearbyListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.ManualControlViewModel
+import eu.agribot.agribotapp.ui.fragment.override.OverrideViewModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.PathManagementViewModel
 import eu.agribot.agribotapp.ui.fragment.settings.SettingsViewModel
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolControlViewModel
@@ -19,6 +20,11 @@ import eu.agribot.agribotapp.ui.fragment.weather.WeatherViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
+
+/**
+ * Koin module storing definitions
+ * For all ViewModels
+ */
 
 /**
  * Koin module storing definitions
@@ -34,7 +40,8 @@ val viewModelModule = module {
     }
     viewModel {
         SplashViewModel(
-            authenticationService = get()
+            authenticationService = get(),
+            bluetoothConnectionService = get()
 
         )
     }
@@ -46,8 +53,9 @@ val viewModelModule = module {
     viewModel {
         ManualControlViewModel(
             remoteControlService = get(),
+            manualModeService = get(),
             bluetoothUtils = get(),
-            manualModeService = get()
+            diagnosticDataService = get()
         )
     }
     viewModel { (context: Context) ->
@@ -68,8 +76,13 @@ val viewModelModule = module {
             authenticationService = get(),
             resourcesProvider = get { parametersOf(context) })
     }
-    viewModel { ToolControlViewModel() }
-    viewModel { AutonomousModeViewModel() }
+    viewModel {
+        ToolControlViewModel(
+            toolControlService = get(),
+            bluetoothUtils = get()
+        )
+    }
+    viewModel { AutonomousModeViewModel(autonomusModeService = get(), diagnosticDataService = get()) }
     viewModel { ToolManagementViewModel() }
     viewModel {
         PathManagementViewModel(
@@ -89,11 +102,8 @@ val viewModelModule = module {
             bluetoothAddress = get()
         )
     }
-<<<<<<< HEAD
-=======
 
     viewModel {
         OverrideViewModel(bluetoothUtils = get())
     }
->>>>>>> 0bd8dbd... static code analyze fix
 }

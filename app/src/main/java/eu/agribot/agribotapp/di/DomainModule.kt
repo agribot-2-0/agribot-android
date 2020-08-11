@@ -1,16 +1,16 @@
 package eu.agribot.agribotapp.di
 
+import eu.agribot.agribotapp.domain.error.AgribotErrorHandler
 import eu.agribot.agribotapp.domain.error.AuthenticationErrorHandler
-<<<<<<< HEAD
 import eu.agribot.agribotapp.domain.service.AuthenticationService
+import eu.agribot.agribotapp.domain.service.AutonomusModeService
 import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
 import eu.agribot.agribotapp.domain.service.BluetoothUtils
+import eu.agribot.agribotapp.domain.service.DiagnosticDataService
 import eu.agribot.agribotapp.domain.service.ManualModeService
 import eu.agribot.agribotapp.domain.service.PathManagementService
 import eu.agribot.agribotapp.domain.service.RemoteControlService
-=======
-import eu.agribot.agribotapp.domain.service.*
->>>>>>> 0bd8dbd... static code analyze fix
+import eu.agribot.agribotapp.domain.service.ToolControlService
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
@@ -55,13 +55,9 @@ val domainModule = module {
 
     single {
         BluetoothUtils(
-<<<<<<< HEAD
-            bluetoothService = get()
-=======
             bluetoothConnectionService = get(),
             diagnosticDataService = get(),
             agribotErrorHandler = get()
->>>>>>> 0bd8dbd... static code analyze fix
         )
     }
 
@@ -70,8 +66,6 @@ val domainModule = module {
             bluetoothUtils = get()
         )
     }
-<<<<<<< HEAD
-=======
 
     single {
         ToolControlService(
@@ -87,7 +81,5 @@ val domainModule = module {
 
     single { DiagnosticDataService() }
 
+    single { AgribotErrorHandler() }
 }
-
-
-

@@ -25,13 +25,13 @@ class OverrideFragment : BaseFragment<OverrideViewModel, FragmentOverrideModeBin
         viewModel.onRearClickEvent.observe(this::changeRearTint)
 
         val leftJoystick = view.findViewById(R.id.left_right_hoy) as JoystickView
-        leftJoystick.setOnMoveListener { angle, strength ->
-            viewModel.onJoystickLeftParametrsChanged(angle, strength)
+        leftJoystick.setOnMoveListener { angle, _ ->
+            viewModel.onJoystickLeftParametrsChanged(angle)
         }
 
         val joystick = view.findViewById(R.id.joyy) as JoystickView
-        joystick.setOnMoveListener { angle, strength ->
-            viewModel.onJoystickParametrsChanged(angle, strength)
+        joystick.setOnMoveListener { angle, _ ->
+            viewModel.onJoystickParametrsChanged(angle)
         }
     }
 

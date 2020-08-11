@@ -2,7 +2,9 @@ package eu.agribot.agribotapp.domain.service
 
 import eu.agribot.agribotapp.domain.model.BluetoothAdressCodeModel
 import eu.agribot.agribotapp.domain.model.BluetoothMessageModel
-
+/**
+ * Service to manage Agribot in Autonomus mode
+ */
 class AutonomusModeService(private val bluetoothUtils: BluetoothUtils) {
 
     fun runAutonomusMode(onDisconnected: () -> Unit) {

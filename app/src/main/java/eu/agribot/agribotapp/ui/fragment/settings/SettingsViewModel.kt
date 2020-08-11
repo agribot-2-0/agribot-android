@@ -68,6 +68,6 @@ class SettingsViewModel(
 
     fun disconnect() {
         bluetoothUtils.disconnect()
-        showToastEvent.postValue("Disconnect !!")
+        showToastEvent.postValue("Now Agribot is disconnected")
     }
 }

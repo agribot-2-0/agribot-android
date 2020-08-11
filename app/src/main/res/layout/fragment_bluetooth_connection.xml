@@ -19,7 +19,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/margin_large"
             android:gravity="center"
-            android:text="Lista DostÄpnych urzÄdzeĹ bluetooth"
+            android:text="@string/nerby_devices_list_item"
             android:textSize="@dimen/text_size_xlarge"
             android:textStyle="bold" />
 

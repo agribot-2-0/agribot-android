@@ -6,15 +6,19 @@ import eu.agribot.agribotapp.domain.model.BluetoothAdressCodeModel
 import eu.agribot.agribotapp.domain.model.BluetoothMessageModel
 import eu.agribot.agribotapp.domain.service.BluetoothUtils
 
+/**
+ * Develop class for use manual steering with TTControl
+ */
 class OverrideViewModel(private val bluetoothUtils: BluetoothUtils) : BaseViewModel() {
+
     val onFrontClickEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
     val onRearClickEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
-    var moveArray = ByteArray(8)
-    var front: Int = 0
-    var rear: Int = 0
-    var rotateArray = ByteArray(4)
+    private var moveArray = ByteArray(8)
+    private var front: Int = 0
+    private var rear: Int = 0
+    private var rotateArray = ByteArray(4)
 
-    var rotateFrame = BluetoothMessageModel(
+    private var rotateFrame = BluetoothMessageModel(
         BluetoothMessageModel.CMD_ONE,
         BluetoothAdressCodeModel.ROTATE_CARRIAGES,
         rotateArray
@@ -49,7 +53,7 @@ class OverrideViewModel(private val bluetoothUtils: BluetoothUtils) : BaseViewMo
         }
     }
 
-    fun onJoystickParametrsChanged(angle: Int, strength: Int) {
+    fun onJoystickParametrsChanged(angle: Int) {
         when (angle) {
             in 0..180 -> {
                 moveForward()
@@ -58,7 +62,7 @@ class OverrideViewModel(private val bluetoothUtils: BluetoothUtils) : BaseViewMo
         }
     }
 
-    fun onJoystickLeftParametrsChanged(angle: Int, strength: Int) {
+    fun onJoystickLeftParametrsChanged(angle: Int) {
         when (angle) {
             in 90..180 -> {
                 rotateLeft()
@@ -108,14 +112,6 @@ class OverrideViewModel(private val bluetoothUtils: BluetoothUtils) : BaseViewMo
             onRearClickEvent.postValue(true)
         } else {
             onRearClickEvent.postValue(false)
-        }
-    }
-
-    fun onProgressBarParametrChanges(progress: Int) {
-        if (progress > 0) {
-            rotateLeft()
-        } else if (progress < 0) {
-            rotateRight()
         }
     }
 

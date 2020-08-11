@@ -1,7 +1,9 @@
 package eu.agribot.agribotapp.domain.model
 
 import kotlin.experimental.xor
-
+/**
+ * Class to construct base bluetooth frame
+ */
 class BluetoothMessageModel() {
 
     companion object {

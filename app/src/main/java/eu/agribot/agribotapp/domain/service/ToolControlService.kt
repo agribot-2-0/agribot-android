@@ -3,6 +3,10 @@ package eu.agribot.agribotapp.domain.service
 import eu.agribot.agribotapp.domain.model.BluetoothAdressCodeModel
 import eu.agribot.agribotapp.domain.model.BluetoothMessageModel
 
+/**
+ * Service used to manage agribot tools
+ */
+
 class ToolControlService(private val bluetoothUtils: BluetoothUtils) {
     private var switchesArray = ByteArray(8)
 

@@ -8,9 +8,9 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_gravity="center"
         android:layout_margin="@dimen/margin_small"
+        android:layout_weight="1"
         android:orientation="horizontal">
 
         <FrameLayout
@@ -23,16 +23,16 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:tint="@android:color/white"
-                android:src="@drawable/ic_battery"/>
+                android:src="@drawable/ic_battery"
+                android:tint="@android:color/white" />
 
         </FrameLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="2">
+            android:layout_weight="2"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/battery_voltage"
@@ -40,16 +40,16 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textColor="@android:color/white"
-                android:text="X"/>
+                android:text="@string/no_data_status"
+                android:textColor="@android:color/white" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:textColor="@android:color/white"
                 android:layout_gravity="center"
-                android:text="V"/>
+                android:layout_weight="1"
+                android:text="@string/volt"
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
 
@@ -58,9 +58,9 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_gravity="center"
         android:layout_margin="@dimen/margin_small"
+        android:layout_weight="1"
         android:orientation="horizontal">
 
         <FrameLayout
@@ -72,16 +72,16 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:tint="@android:color/white"
-                android:src="@drawable/ic_velocity"/>
+                android:src="@drawable/ic_velocity"
+                android:tint="@android:color/white" />
 
         </FrameLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="2">
+            android:layout_weight="2"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/speed"
@@ -89,16 +89,16 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textColor="@android:color/white"
-                android:text="X"/>
+                android:text="@string/no_data_status"
+                android:textColor="@android:color/white" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:textColor="@android:color/white"
                 android:layout_gravity="center"
-                android:text="km/h"/>
+                android:layout_weight="1"
+                android:text="@string/kilometer_per_hour"
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
 
@@ -107,9 +107,9 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_gravity="center"
         android:layout_margin="@dimen/margin_small"
+        android:layout_weight="1"
         android:orientation="horizontal">
 
         <FrameLayout
@@ -121,33 +121,33 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:tint="@android:color/white"
-                android:src="@drawable/ic_rpm"/>
+                android:src="@drawable/ic_rpm"
+                android:tint="@android:color/white" />
 
         </FrameLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="2">
+            android:layout_weight="2"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/rpm"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:textColor="@android:color/white"
                 android:gravity="center"
-                android:text="X"/>
+                android:text="@string/no_data_status"
+                android:textColor="@android:color/white" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:textColor="@android:color/white"
                 android:layout_gravity="center"
-                android:text="RPM"/>
+                android:layout_weight="1"
+                android:text="@string/rpm"
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
 
@@ -156,9 +156,9 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_gravity="center"
         android:layout_margin="@dimen/margin_small"
+        android:layout_weight="1"
         android:orientation="horizontal">
 
         <FrameLayout
@@ -170,33 +170,33 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:tint="@android:color/white"
-                android:src="@drawable/ic_engine"/>
+                android:src="@drawable/ic_engine"
+                android:tint="@android:color/white" />
 
         </FrameLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="2">
+            android:layout_weight="2"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/torque"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:textColor="@android:color/white"
                 android:gravity="center"
-                android:text="X"/>
+                android:text="@string/no_data_status"
+                android:textColor="@android:color/white" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:textColor="@android:color/white"
                 android:layout_gravity="center"
-                android:text="%"/>
+                android:layout_weight="1"
+                android:text="@string/percent"
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
 
@@ -205,9 +205,9 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_gravity="center"
         android:layout_margin="@dimen/margin_small"
+        android:layout_weight="1"
         android:orientation="horizontal">
 
         <FrameLayout
@@ -219,33 +219,33 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:tint="@android:color/white"
-                android:src="@drawable/fuel_icon"/>
+                android:src="@drawable/fuel_icon"
+                android:tint="@android:color/white" />
 
         </FrameLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="2">
+            android:layout_weight="2"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/fuel_level"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:textColor="@android:color/white"
                 android:gravity="center"
-                android:text="X"/>
+                android:text="X"
+                android:textColor="@android:color/white" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:textColor="@android:color/white"
                 android:layout_gravity="center"
-                android:text="%"/>
+                android:layout_weight="1"
+                android:text="@string/percent"
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
 
@@ -254,9 +254,9 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_gravity="center"
         android:layout_margin="@dimen/margin_small"
+        android:layout_weight="1"
         android:orientation="horizontal">
 
         <FrameLayout
@@ -268,33 +268,33 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:tint="@android:color/white"
-                android:src="@drawable/ic_fuelhour"/>
+                android:src="@drawable/ic_fuelhour"
+                android:tint="@android:color/white" />
 
         </FrameLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="2">
+            android:layout_weight="2"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/fuel_rate"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:textColor="@android:color/white"
                 android:gravity="center"
-                android:text="X"/>
+                android:text="@string/no_data_status"
+                android:textColor="@android:color/white" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:textColor="@android:color/white"
                 android:layout_gravity="center"
-                android:text="l/h"/>
+                android:layout_weight="1"
+                android:text="@string/liter_per_hour"
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
 
@@ -303,9 +303,9 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_gravity="center"
         android:layout_margin="@dimen/margin_small"
+        android:layout_weight="1"
         android:orientation="horizontal">
 
         <FrameLayout
@@ -317,16 +317,16 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:tint="@android:color/white"
-                android:src="@drawable/ic_celsius" />
+                android:src="@drawable/ic_celsius"
+                android:tint="@android:color/white" />
 
         </FrameLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="2">
+            android:layout_weight="2"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/oil_temperature"
@@ -334,24 +334,20 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textColor="@android:color/white"
-                android:text="X"/>
+                android:text="@string/no_data_status"
+                android:textColor="@android:color/white" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:textColor="@android:color/white"
                 android:layout_gravity="center"
-                android:text="Â°C"/>
+                android:layout_weight="1"
+                android:text="@string/celcius_degree"
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
 
     </LinearLayout>
-
-
-
-
 
 
 </LinearLayout>

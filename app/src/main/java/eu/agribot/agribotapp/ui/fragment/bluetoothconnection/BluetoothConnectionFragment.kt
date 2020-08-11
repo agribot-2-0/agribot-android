@@ -56,7 +56,7 @@ class BluetoothConnectionFragment :
                     viewModel.setConnected()
                 }
                 BluetoothDevice.ACTION_ACL_DISCONNECTED == action -> {
-                    showToast("ACTION DISCONNECTED")
+                    showToast("Now Agribot is disconnected")
                     viewModel.setDisconnected()
                 }
             }

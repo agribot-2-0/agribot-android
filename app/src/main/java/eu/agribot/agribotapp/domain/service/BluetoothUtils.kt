@@ -7,6 +7,9 @@ import eu.agribot.agribotapp.domain.error.AgribotErrorHandler
 import eu.agribot.agribotapp.domain.model.BluetoothAdressCodeModel
 import eu.agribot.agribotapp.domain.model.BluetoothMessageModel
 import timber.log.Timber
+/**
+ * Service used to basic message-communication with Agribot
+ */
 
 class BluetoothUtils(
     private val bluetoothConnectionService: BluetoothConnectionService,

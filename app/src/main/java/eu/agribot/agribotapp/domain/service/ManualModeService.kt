@@ -6,6 +6,9 @@ import eu.agribot.agribotapp.domain.model.BluetoothAdressCodeModel.Companion.RID
 import eu.agribot.agribotapp.domain.model.BluetoothMessageModel
 import kotlin.math.abs
 
+/**
+ * Service used to manage Agribot in manual mode
+ */
 class ManualModeService(private val bluetoothUtils: BluetoothUtils) {
 
     companion object {

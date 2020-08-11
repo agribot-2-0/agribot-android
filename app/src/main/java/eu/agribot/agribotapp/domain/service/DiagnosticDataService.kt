@@ -1,7 +1,9 @@
 package eu.agribot.agribotapp.domain.service
 
 import androidx.lifecycle.MutableLiveData
-
+/**
+ * Service used to handle status info from Agribot
+ */
 class DiagnosticDataService {
     val engineRotationsPerMinute: MutableLiveData<Int> = MutableLiveData()
     val torqueOfEngine: MutableLiveData<Int> = MutableLiveData()

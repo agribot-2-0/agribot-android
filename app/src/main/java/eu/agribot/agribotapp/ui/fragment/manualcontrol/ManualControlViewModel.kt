@@ -41,9 +41,9 @@ class ManualControlViewModel(
     val showToastEvent: LiveEvent<String> = MutableLiveEvent()
     val heartBeatState: MutableLiveData<Boolean> = MutableLiveData()
     var connectionStatus: String = if (bluetoothUtils.isAgribotConnect) {
-        "Agribot  jest połączony"
+        "Agribot Connected"
     } else {
-        "Agribot nie jest połączony - Kliknij, aby połączyć"
+        "Agribot Disconnected - tap to connect"
     }
 
     fun onJoystickParametrsChanged(angle: Int, strength: Int) {

@@ -1,5 +1,9 @@
 package eu.agribot.agribotapp.domain.model
 
+/**
+ * Class with command code to communicate with Agribot
+ */
+
 class BluetoothAdressCodeModel {
 
     companion object {

@@ -126,6 +126,10 @@
     <string name="disconnect_button">Zakończ połączenie</string>
     <string name="override_button">Tryb Override</string>
     <string name="nerby_devices_list_item">Lista dostępnych urządzeń</string>
+    <string name="pto">PTO</string>
+    <string name="blue_tool">BLUE</string>
+    <string name="yellow_tool">YELLOW</string>
+    <string name="green_tool">GREEN</string>
 
 
 </resources>

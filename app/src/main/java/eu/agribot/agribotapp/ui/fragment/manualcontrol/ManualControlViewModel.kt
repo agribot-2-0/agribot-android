@@ -29,13 +29,13 @@ class ManualControlViewModel(
     }
 
     // Status Info Live Data
-    val engineRotationsPerMinute: String =
-        diagnosticDataService.engineRotationsPerMinute.value.toString()
-    val torqueOfEngine: String = diagnosticDataService.torqueOfEngine.value.toString()
-    val engineFuelRate: String = diagnosticDataService.engineFuelRate.value.toString()
-    val fuelLevel: String = diagnosticDataService.fuelLevel.value.toString()
-    val fuelTemperature: String = diagnosticDataService.fuelTemperature.value.toString()
-    val batteryVoltage: String = diagnosticDataService.batteryVoltage.value.toString()
+    val engineRotationsPerMinute: MutableLiveData<String> =
+        diagnosticDataService.engineRotationsPerMinute
+    val torqueOfEngine: MutableLiveData<String> = diagnosticDataService.torqueOfEngine
+    val engineFuelRate: MutableLiveData<String> = diagnosticDataService.engineFuelRate
+    val fuelLevel: MutableLiveData<String> = diagnosticDataService.fuelLevel
+    val fuelTemperature: MutableLiveData<String> = diagnosticDataService.fuelTemperature
+    val batteryVoltage: MutableLiveData<String> = diagnosticDataService.batteryVoltage
 
     // ManualVm varriable
     val showToastEvent: LiveEvent<String> = MutableLiveEvent()

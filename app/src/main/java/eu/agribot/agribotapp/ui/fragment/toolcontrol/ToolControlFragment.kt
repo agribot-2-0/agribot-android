@@ -2,6 +2,7 @@ package eu.agribot.agribotapp.ui.fragment.toolcontrol
 
 import android.os.Bundle
 import android.view.View
+import android.widget.SeekBar
 import com.warkiz.tickseekbar.OnSeekChangeListener
 import com.warkiz.tickseekbar.SeekParams
 import com.warkiz.tickseekbar.TickSeekBar
@@ -31,6 +32,7 @@ class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolContr
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.showToastEvent.observe(this::showToast)
+        viewModel.setDefaultToolsValue()
 
         listener1.onSeekChangeListener = object : OnSeekChangeListener {
             override fun onSeeking(seekParams: SeekParams) {
@@ -82,6 +84,158 @@ class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolContr
             override fun onStopTrackingTouch(seekBar: TickSeekBar) {
                 viewModel.setSwitchesStatus(RIGHT_DOWN_TUZ, seekBar.progress, true)
             }
+        }
+
+        left_pto_slider.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                Timber.e("bar ")
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                Timber.e("bar ")
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                viewModel.onSliderParametrChange(1, seekBar.progress)
+            }
+        })
+
+        left_blue_slider.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                Timber.e("bar ")
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                Timber.e("bar ")
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                viewModel.onSliderParametrChange(2, seekBar.progress)
+            }
+        })
+
+        left_yellow_slider.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                Timber.e("bar ")
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                Timber.e("bar ")
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                viewModel.onSliderParametrChange(3, seekBar.progress)
+            }
+        })
+
+        left_green_slider.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                Timber.e("bar ")
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                Timber.e("bar ")
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                viewModel.onSliderParametrChange(4, seekBar.progress)
+            }
+        })
+
+        right_pto_slider.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                Timber.e("bar ")
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                Timber.e("bar ")
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                viewModel.onSliderParametrChange(5, seekBar.progress)
+            }
+        })
+
+        right_blue_slider.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                Timber.e("bar ")
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                Timber.e("bar ")
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                viewModel.onSliderParametrChange(6, seekBar.progress)
+            }
+        })
+
+        right_yellow_slider.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                Timber.e("bar ")
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                Timber.e("bar ")
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                viewModel.onSliderParametrChange(7, seekBar.progress)
+            }
+        })
+
+        right_green_slider.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                Timber.e("bar ")
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                Timber.e("bar ")
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                viewModel.onSliderParametrChange(8, seekBar.progress)
+            }
+        })
+
+        left_pto_switch.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.leftPTOSwitch = isChecked
+        }
+
+        left_blue_switch.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.leftBlueSwitch = isChecked
+        }
+
+        left_yellow_switch.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.leftYellowSwitch = isChecked
+        }
+
+        left_green_switch.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.leftGreenSwitch = isChecked
+        }
+
+        right_pto_switch.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.rightPTOSwitch = isChecked
+        }
+
+        right_blue_switch.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.rightBlueSwitch = isChecked
+        }
+
+        right_yellow_switch.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.rightYellowSwitch = isChecked
+        }
+
+        right_green_switch.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.rightGreenSwitch = isChecked
         }
     }
 }

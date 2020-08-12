@@ -134,6 +134,10 @@
     <string name="minus" translatable="false">-</string>
     <string name="override_button">Override</string>
     <string name="nerby_devices_list_item">Available device list : </string>
+    <string name="pto">PTO</string>
+    <string name="blue_tool">BLUE</string>
+    <string name="yellow_tool">YELLOW</string>
+    <string name="green_tool">GREEN</string>
 
 
 </resources>

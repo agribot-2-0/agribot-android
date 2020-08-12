@@ -35,7 +35,6 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
         viewModel.startWrongHeartbeatIcon()
         viewModel.setHeartbeatPositiveColor()
         observeLiveData()
-
         val joystick = view.findViewById(R.id.joyy) as JoystickView
         joystick.setOnMoveListener { angle, strength ->
             viewModel.onJoystickParametrsChanged(angle, strength)

@@ -111,7 +111,7 @@ class ManualModeService(private val bluetoothUtils: BluetoothUtils) {
                 A_FACTOR_RIGHT_SECOND * joystickAngle + B_FACTOR_RIGHT_SECOND
         }
         val direction = if (radius > 0) 1 else 0
-        val speed = (strength * 2.3) * 0.3 / 152.0f
+        val speed = (strength * 0.003)
         val forward = if (angle in 181..359) 0 else 1
 
         if (angle == 0) {

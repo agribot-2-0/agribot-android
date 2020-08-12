@@ -64,7 +64,7 @@ class OverrideViewModel(private val bluetoothUtils: BluetoothUtils) : BaseViewMo
 
     fun onJoystickLeftParametrsChanged(angle: Int) {
         when (angle) {
-            in 90..180 -> {
+            in 90..270 -> {
                 rotateLeft()
             }
             else -> {

@@ -19,39 +19,5 @@ class OverrideFragment : BaseFragment<OverrideViewModel, FragmentOverrideModeBin
         viewBinding.viewModel = viewModel
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.onFrontClickEvent.observe(this::changeFrontTint)
-        viewModel.onRearClickEvent.observe(this::changeRearTint)
 
-        val leftJoystick = view.findViewById(R.id.left_right_hoy) as JoystickView
-        leftJoystick.setOnMoveListener { angle, _ ->
-            viewModel.onJoystickLeftParametrsChanged(angle)
-        }
-
-        val joystick = view.findViewById(R.id.joyy) as JoystickView
-        joystick.setOnMoveListener { angle, _ ->
-            viewModel.onJoystickParametrsChanged(angle)
-        }
-    }
-
-    private fun changeFrontTint(isClicked: Boolean) {
-        if (isClicked) {
-            front.setColorFilter(ContextCompat.getColor(requireContext(), R.color.base_green))
-            viewModel.setFront(true)
-        } else {
-            front.colorFilter = null
-            viewModel.setFront(false)
-        }
-    }
-
-    private fun changeRearTint(isClicked: Boolean) {
-        if (isClicked) {
-            viewModel.setRear(true)
-            rear.setColorFilter(ContextCompat.getColor(requireContext(), R.color.base_green))
-        } else {
-            rear.colorFilter = null
-            viewModel.setRear(false)
-        }
-    }
 }

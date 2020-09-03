@@ -1,38 +1,37 @@
 package eu.agribot.agribotapp.domain.service
 
-import eu.agribot.agribotapp.communication.bluetooth.BluetoothService
+import android.util.Log
+import eu.agribot.agribotapp.communication.bluetooth.connection.BluetoothConnectionManager
 
 /**
  * Domain Service used to basic bluetooth operations
  */
 
-class BluetoothConnectionService(val bluetoothService: BluetoothService) {
+class BluetoothConnectionService(
+    val bluetoothConnectionManager: BluetoothConnectionManager
+) {
 
     fun checkBluetoothEnable(): Boolean {
-        return bluetoothService.checkIsBluetoothEnable()
+        return bluetoothConnectionManager.checkIsBluetoothEnable()
     }
 
     fun enableBluetooth() {
-        bluetoothService.enableBluetooth()
+        bluetoothConnectionManager.enableBluetooth()
     }
 
     suspend fun runServer(isSecurityConnection: Boolean) {
-        bluetoothService.registerBluetoothServer(isSecurityConnection)
+        bluetoothConnectionManager.registerBluetoothServer(isSecurityConnection)
     }
 
     suspend fun connect(bluetoothDeviceAddress: String) {
-        bluetoothService.connectBluetoothWithAgribot(bluetoothDeviceAddress)
+        bluetoothConnectionManager.connectBluetoothWithAgribot(
+            bluetoothDeviceAddress
+        )
     }
+
 
     fun disconnect() {
-        bluetoothService.disconnect()
+        bluetoothConnectionManager.disconnect()
     }
 
-    fun writeMessage(byteMessage: ByteArray) {
-        bluetoothService.writeBluetoothMessage(byteMessage)
-    }
-
-    suspend fun getMessage(handleMessage: (ByteArray) -> Unit) {
-        bluetoothService.receiveBluetoothMessage(handleMessage)
-    }
 }

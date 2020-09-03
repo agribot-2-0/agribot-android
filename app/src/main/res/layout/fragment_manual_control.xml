@@ -13,8 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/shape_background_transparent"
-        android:orientation="horizontal"
-        android:baselineAligned="false">
+        android:baselineAligned="false"
+        android:orientation="horizontal">
 
 
         <LinearLayout
@@ -38,8 +38,8 @@
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/margin_small"
                     android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:baselineAligned="false">
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
 
                     <FrameLayout
                         android:layout_width="0dp"
@@ -68,7 +68,6 @@
                             android:layout_height="0dp"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="@{viewModel.batteryVoltage}"
                             android:textColor="@android:color/white" />
 
                         <TextView
@@ -149,9 +148,9 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:contentDescription="TODO"
                             android:src="@drawable/ic_rpm"
-                            android:tint="@android:color/white"
-                            android:contentDescription="TODO" />
+                            android:tint="@android:color/white" />
 
                     </FrameLayout>
 
@@ -167,7 +166,6 @@
                             android:layout_height="0dp"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="@{viewModel.engineRotationsPerMinute}"
                             android:textColor="@android:color/white" />
 
                         <TextView
@@ -216,7 +214,6 @@
                             android:layout_height="0dp"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="@{viewModel.torqueOfEngine}"
                             android:textColor="@android:color/white" />
 
                         <TextView
@@ -237,8 +234,8 @@
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/margin_small"
                     android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:baselineAligned="false">
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
 
                     <FrameLayout
                         android:layout_width="0dp"
@@ -266,7 +263,6 @@
                             android:layout_height="0dp"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="@{viewModel.fuelLevel}"
                             android:textColor="@android:color/white" />
 
                         <TextView
@@ -287,8 +283,8 @@
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/margin_small"
                     android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:baselineAligned="false">
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
 
                     <FrameLayout
                         android:layout_width="0dp"
@@ -316,7 +312,6 @@
                             android:layout_height="0dp"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="@{viewModel.engineFuelRate}"
                             android:textColor="@android:color/white" />
 
                         <TextView
@@ -337,8 +332,8 @@
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/margin_small"
                     android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:baselineAligned="false">
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
 
                     <FrameLayout
                         android:layout_width="0dp"
@@ -366,7 +361,6 @@
                             android:layout_height="0dp"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="@{viewModel.fuelTemperature}"
                             android:textColor="@android:color/white" />
 
                         <TextView
@@ -414,7 +408,6 @@
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/margin_medium"
                     android:background="@drawable/start_button_shape"
-                    android:onClick="@{() -> viewModel.sendEngineStopCommand()}"
                     android:padding="@dimen/margin_medium"
                     android:shadowColor="#40A858"
                     android:shadowRadius="5"
@@ -428,7 +421,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:onClick="@{() -> viewModel.manualControlNavEvent()}"
-                    android:text="@{viewModel.connectionStatus}"
                     android:textColor="@android:color/white"
                     android:textSize="16sp"
                     android:textStyle="italic" />
@@ -439,7 +431,6 @@
                     android:layout_width="64dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_medium"
-                    android:onClick="@{() -> viewModel.stopAndRunHeartBeat()}"
                     android:src="@drawable/heart" />
 
 
@@ -449,7 +440,6 @@
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/margin_medium"
                     android:background="@drawable/start_button_shape"
-                    android:onClick="@{() -> viewModel.postValueOverrideMode()}"
                     android:padding="@dimen/margin_medium"
                     android:shadowColor="#40A858"
                     android:shadowRadius="5"

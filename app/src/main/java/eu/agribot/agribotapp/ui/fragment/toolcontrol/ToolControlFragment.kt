@@ -28,7 +28,7 @@ class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolContr
     override fun bindViewVariables(viewBinding: FragmentToolControlBinding) {
         viewBinding.viewModel = viewModel
     }
-
+/*
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.showToastEvent.observe(this::showToast)
@@ -238,4 +238,6 @@ class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolContr
             viewModel.rightGreenSwitch = isChecked
         }
     }
+
+ */
 }

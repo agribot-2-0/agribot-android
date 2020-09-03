@@ -34,28 +34,24 @@ val viewModelModule = module {
 
     viewModel {
         BluetoothConnectionViewModel(
-            bluetoothUtils = get(),
-            manualModeService = get()
+            bluetoothConnectionService = get(), manualModeService = get()
         )
     }
     viewModel {
         SplashViewModel(
             authenticationService = get(),
             bluetoothConnectionService = get()
-
         )
     }
     viewModel {
         MainViewModel(
-            bluetoothUtils = get()
+            bluetoothConnectionService = get()
         )
     }
     viewModel {
         ManualControlViewModel(
             remoteControlService = get(),
-            manualModeService = get(),
-            bluetoothUtils = get(),
-            diagnosticDataService = get()
+            manualModeService = get()
         )
     }
     viewModel { (context: Context) ->
@@ -78,11 +74,10 @@ val viewModelModule = module {
     }
     viewModel {
         ToolControlViewModel(
-            toolControlService = get(),
-            bluetoothUtils = get()
+
         )
     }
-    viewModel { AutonomousModeViewModel(autonomusModeService = get(), diagnosticDataService = get()) }
+    viewModel { AutonomousModeViewModel() }
     viewModel { ToolManagementViewModel() }
     viewModel {
         PathManagementViewModel(
@@ -92,7 +87,6 @@ val viewModelModule = module {
     viewModel { WeatherViewModel() }
     viewModel { (context: Context) ->
         SettingsViewModel(
-            bluetoothUtils = get(),
             authenticationService = get(),
             resourcesProvider = get { parametersOf(context) })
     }
@@ -104,6 +98,6 @@ val viewModelModule = module {
     }
 
     viewModel {
-        OverrideViewModel(bluetoothUtils = get())
+        OverrideViewModel()
     }
 }

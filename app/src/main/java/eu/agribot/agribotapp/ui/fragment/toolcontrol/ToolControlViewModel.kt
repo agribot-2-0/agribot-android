@@ -3,12 +3,8 @@ package eu.agribot.agribotapp.ui.fragment.toolcontrol
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
-import eu.agribot.agribotapp.domain.service.BluetoothUtils
-import eu.agribot.agribotapp.domain.service.ToolControlService
 
 class ToolControlViewModel(
-    private val toolControlService: ToolControlService,
-    private val bluetoothUtils: BluetoothUtils
 ) : BaseViewModel() {
 
     // Tools bar LiveData
@@ -33,14 +29,7 @@ class ToolControlViewModel(
 
     val showToastEvent: MutableLiveEvent<String> = MutableLiveEvent()
 
-    fun setSwitchesStatus(switchNumber: Int, switchValue: Int, isActive: Boolean) {
 
-        if (bluetoothUtils.isAgribotConnect) {
-            toolControlService.writeSwitchesStatus(switchNumber, switchValue, isActive)
-        } else {
-            showToastEvent.postValue("Agribot Disconnected")
-        }
-    }
 
     fun setDefaultToolsValue() {
         onSliderParametrChange(1, 0)
@@ -95,8 +84,6 @@ class ToolControlViewModel(
         progres: Int,
         isChecked: Boolean
     ) {
-        if (bluetoothUtils.isAgribotConnect) {
-            toolControlService.writeSwitchesStatus(switchNumber, progres, isChecked)
-        }
+
     }
 }

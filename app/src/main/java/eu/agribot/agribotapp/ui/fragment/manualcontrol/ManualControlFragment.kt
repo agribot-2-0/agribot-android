@@ -30,14 +30,10 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.sendManualSteeringInitRequest()
-        delayManualSterring()
-        viewModel.startWrongHeartbeatIcon()
-        viewModel.setHeartbeatPositiveColor()
-        observeLiveData()
+
         val joystick = view.findViewById(R.id.joyy) as JoystickView
         joystick.setOnMoveListener { angle, strength ->
-            viewModel.onJoystickParametrsChanged(angle, strength)
+
         }
     }
 
@@ -48,10 +44,6 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
         else -> Unit
     }
 
-    private fun observeLiveData() {
-        viewModel.showToastEvent.observe(this::showToast)
-        viewModel.heartBeatState.observe(this::setHearBeatWrongColor)
-    }
 
     private fun navigateToBluetoothScreen() {
         navigationController?.navigate(R.id.action_manualControlFragment_to_bluetoothConnectionFragment)
@@ -65,11 +57,6 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
         navigationController?.navigate(R.id.action_manualControlFragment_to_overrideFragment)
     }
 
-    private fun delayManualSterring() {
-        Handler().postDelayed({
-            viewModel.sendManualSteeringStartFrame()
-        }, DELAY_MANUAL_STEERING_START)
-    }
 
     private fun setHearBeatWrongColor(heartbeatState: Boolean) {
         if (!heartbeatState) {

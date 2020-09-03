@@ -2,15 +2,7 @@ package eu.agribot.agribotapp.di
 
 import eu.agribot.agribotapp.domain.error.AgribotErrorHandler
 import eu.agribot.agribotapp.domain.error.AuthenticationErrorHandler
-import eu.agribot.agribotapp.domain.service.AuthenticationService
-import eu.agribot.agribotapp.domain.service.AutonomusModeService
-import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
-import eu.agribot.agribotapp.domain.service.BluetoothUtils
-import eu.agribot.agribotapp.domain.service.DiagnosticDataService
-import eu.agribot.agribotapp.domain.service.ManualModeService
-import eu.agribot.agribotapp.domain.service.PathManagementService
-import eu.agribot.agribotapp.domain.service.RemoteControlService
-import eu.agribot.agribotapp.domain.service.ToolControlService
+import eu.agribot.agribotapp.domain.service.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
@@ -30,7 +22,7 @@ val domainModule = module {
 
     single {
         RemoteControlService(
-            bluetoothService = get(),
+            bluetoothConnectionManager = get(),
             persistentStorage = get()
         )
     }
@@ -44,42 +36,26 @@ val domainModule = module {
 
     single {
         AuthenticationErrorHandler(
-            resourcesProvider = get { parametersOf(androidContext()) })
-    }
-
-    single {
-        BluetoothConnectionService(
-            bluetoothService = get()
+            resourcesProvider = get {
+                parametersOf(
+                    androidContext()
+                )
+            }
         )
     }
 
     single {
-        BluetoothUtils(
-            bluetoothConnectionService = get(),
-            diagnosticDataService = get(),
-            agribotErrorHandler = get()
+        BluetoothConnectionService(
+            bluetoothConnectionManager = get()
         )
     }
 
     single {
         ManualModeService(
-            bluetoothUtils = get()
+            bluetoothConnectionManager = get()
         )
     }
 
-    single {
-        ToolControlService(
-            bluetoothUtils = get()
-        )
-    }
-
-    single {
-        AutonomusModeService(
-            bluetoothUtils = get()
-        )
-    }
-
-    single { DiagnosticDataService() }
 
     single { AgribotErrorHandler() }
 }

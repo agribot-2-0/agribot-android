@@ -36,11 +36,21 @@
             android:layout_margin="8dp"
             android:background="@color/base_green" />
 
+        <ProgressBar
+            android:id="@+id/connectionBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="invisible"/>
+
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/refresh_nearby_devices"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/nearby_device_list"

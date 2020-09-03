@@ -8,12 +8,10 @@ import eu.agribot.agribotapp.common.navigation.events.BluetoothConnectionNavigat
 import eu.agribot.agribotapp.common.navigation.events.WelcomeActivityNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.service.AuthenticationService
-import eu.agribot.agribotapp.domain.service.BluetoothUtils
 
 class SettingsViewModel(
     private val authenticationService: AuthenticationService,
-    private val resourcesProvider: ResourcesProvider,
-    private val bluetoothUtils: BluetoothUtils
+    private val resourcesProvider: ResourcesProvider
 ) : BaseViewModel() {
     val showToastEvent: LiveEvent<String> = MutableLiveEvent()
     val user =
@@ -67,7 +65,6 @@ class SettingsViewModel(
     }
 
     fun disconnect() {
-        bluetoothUtils.disconnect()
         showToastEvent.postValue("Now Agribot is disconnected")
     }
 }

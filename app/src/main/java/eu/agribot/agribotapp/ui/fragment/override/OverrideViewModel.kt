@@ -2,14 +2,11 @@ package eu.agribot.agribotapp.ui.fragment.override
 
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
-import eu.agribot.agribotapp.domain.model.BluetoothAdressCodeModel
-import eu.agribot.agribotapp.domain.model.BluetoothMessageModel
-import eu.agribot.agribotapp.domain.service.BluetoothUtils
 
 /**
  * Develop class for use manual steering with TTControl
  */
-class OverrideViewModel(private val bluetoothUtils: BluetoothUtils) : BaseViewModel() {
+class OverrideViewModel() : BaseViewModel() {
 
     val onFrontClickEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
     val onRearClickEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
@@ -17,7 +14,7 @@ class OverrideViewModel(private val bluetoothUtils: BluetoothUtils) : BaseViewMo
     private var front: Int = 0
     private var rear: Int = 0
     private var rotateArray = ByteArray(4)
-
+/*
     private var rotateFrame = BluetoothMessageModel(
         BluetoothMessageModel.CMD_ONE,
         BluetoothAdressCodeModel.ROTATE_CARRIAGES,
@@ -142,4 +139,6 @@ class OverrideViewModel(private val bluetoothUtils: BluetoothUtils) : BaseViewMo
 
         bluetoothUtils.writeMessage(rotateFrame.byteArray)
     }
+
+ */
 }

@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.google.android.material.snackbar.Snackbar
+import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import timber.log.Timber
 
@@ -113,18 +114,4 @@ abstract class BaseFragment<viewModelType : BaseViewModel, viewDataBindingType :
         Toast.makeText(activity, toastText, Toast.LENGTH_LONG).show()
     }
 
-    fun showSnack(view: View, text: String) {
-        val snackbar = Snackbar.make(
-            view, text,
-            Snackbar.LENGTH_LONG
-        ).setAction("Action", null)
-        snackbar.setActionTextColor(Color.BLACK)
-        val snackbarView = snackbar.view
-        snackbarView.setBackgroundColor(Color.WHITE)
-        val textView =
-            snackbarView.findViewById(com.google.android.material.R.id.snackbar_text) as TextView
-        textView.setTextColor(Color.BLACK)
-        textView.textSize = 28f
-        snackbar.show()
-    }
 }

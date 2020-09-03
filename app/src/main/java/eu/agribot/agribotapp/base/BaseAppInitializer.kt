@@ -40,7 +40,7 @@ abstract class BaseAppInitializer(private val context: Context) : KoinComponent 
     private fun prepareKoin() {
         startKoin {
             androidContext(context)
-            androidLogger(Level.DEBUG)
+            androidLogger(Level.ERROR)
             modules(
                 appModule,
                 communicationModule,

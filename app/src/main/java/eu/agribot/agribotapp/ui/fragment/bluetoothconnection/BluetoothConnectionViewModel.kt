@@ -1,61 +1,40 @@
 package eu.agribot.agribotapp.ui.fragment.bluetoothconnection
 
-import android.bluetooth.BluetoothDevice
-import android.content.Intent
-import android.os.Handler
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.LiveEvent
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
-import eu.agribot.agribotapp.common.navigation.events.BluetoothConnectionNavigationEvent
-import eu.agribot.agribotapp.domain.service.BluetoothUtils
+import eu.agribot.agribotapp.communication.bluetooth.model.FoundBluetoothDevice
+import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
 import eu.agribot.agribotapp.domain.service.ManualModeService
 import eu.agribot.agribotapp.ui.fragment.bluetoothconnection.recycler.BluetoothNearbyListItemViewModel
 import kotlinx.coroutines.launch
 
 class BluetoothConnectionViewModel(
-    private val bluetoothUtils: BluetoothUtils,
+    private val bluetoothConnectionService: BluetoothConnectionService,
     private val manualModeService: ManualModeService
 ) :
     BaseViewModel() {
-
-    companion object {
-        private const val HEARTBEAT_DELAY: Long = 300
-    }
 
     val showSnackEvent: LiveEvent<String> = MutableLiveEvent()
     val discoveredDevices: MutableLiveData<List<BluetoothNearbyListItemViewModel>> =
         MutableLiveData(listOf())
 
-    private fun onBluetoothDeviceFound(deviceName: String, deviceAdress: String) {
+
+    fun onBluetoothDeviceFound(bluetoothDevice: FoundBluetoothDevice) {
         val isDeviceAlreadyAdded = discoveredDevices.value!!.any {
-            it.bluetoothAddress == deviceAdress
+            it.bluetoothAddress == bluetoothDevice.foundDeviceAdress
         }
         if (!isDeviceAlreadyAdded) {
             discoveredDevices.value = listOf(
                 BluetoothNearbyListItemViewModel(
-                    deviceName,
-                    deviceAdress
+                    bluetoothDevice.foundDeviceName,
+                    bluetoothDevice.foundDeviceAdress
                 ),
                 *discoveredDevices.value!!.toTypedArray()
             )
-        }
-    }
-
-    fun handleBluetoothAction(intent: Intent) {
-        val action = intent.action
-        if (BluetoothDevice.ACTION_FOUND == action) {
-            val device = intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
-            if (device != null) {
-                if (device.name != null) {
-                    onBluetoothDeviceFound(device.name, device.address)
-                } else {
-                    onBluetoothDeviceFound("No name", device.address)
-                }
-            } else {
-                showSnackEvent.postValue("No Bluetooth Device Avaliable")
-            }
         }
     }
 
@@ -63,53 +42,22 @@ class BluetoothConnectionViewModel(
         bluetoothDeviceAddress: String
     ) {
         viewModelScope.launch {
-            bluetoothUtils.connect(
+            bluetoothConnectionService.connect(
                 bluetoothDeviceAddress
             )
         }
     }
 
-    fun registerMessageListener() {
-        viewModelScope.launch {
-            bluetoothUtils.getMessage()
-        }
+    fun onBluetoothDeviceConnected() {
+        showSnackEvent.postValue("connected")
+
     }
 
-    fun initializeHeartbeatThread() {
-        bluetoothUtils.initHeartbeat()
+
+    fun onBluetoothDeviceDisconnected() {
+        Log.e("xd", "disconnected")
     }
 
-    fun sendHandshake() {
-        bluetoothUtils.sendHandshake()
-        Handler().postDelayed({
-            startSendingHeartBeat()
-        }, HEARTBEAT_DELAY)
-        manualControlNavEvent()
-    }
-
-    private fun startSendingHeartBeat() {
-        bluetoothUtils.startSendingHeartBeat()
-        setConnected()
-    }
-
-    private fun manualControlNavEvent() {
-        navigationEvent.postValue(
-            BluetoothConnectionNavigationEvent()
-        )
-        sendManualInit()
-    }
-
-    fun sendManualInit() {
-        Handler().postDelayed({
-            manualModeService.sendManualControlInitRequest()
-        }, HEARTBEAT_DELAY)
-    }
-
-    fun setConnected() {
-        bluetoothUtils.isAgribotConnect = true
-    }
-
-    fun setDisconnected() {
-        bluetoothUtils.isAgribotConnect = false
-    }
 }
+
+

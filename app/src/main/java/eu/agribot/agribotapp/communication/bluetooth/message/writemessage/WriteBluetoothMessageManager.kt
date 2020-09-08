@@ -1,6 +1,7 @@
 package eu.agribot.agribotapp.communication.bluetooth.message.writemessage
 
 import android.bluetooth.BluetoothSocket
+import eu.agribot.agribotapp.domain.model.ArcParametrs
 
 interface WriteBluetoothMessageManager {
 
@@ -8,7 +9,7 @@ interface WriteBluetoothMessageManager {
     fun sendManualControlInitMessage()
     fun sendManualControlStartMessage()
     fun sendManualSteeringDataMessage(
-        arcParametrsArray: ByteArray
+        arcParametrs: ArcParametrs
     )
 
     fun sendAutonomusModeInitMessage()
@@ -19,7 +20,26 @@ interface WriteBluetoothMessageManager {
     )
 
     fun sendDiagnosticDataRequestMessage()
-    fun sendOverrideModeVerticalSteeringMessage()
-    fun sendOverrideModeHorizontalSteeringMessage()
+    fun sendTTControlForwardMessage(
+        isFrontKartActive: Boolean,
+        isRearKartActive: Boolean
+    )
+
+    fun sendTTControlBackwardMessage(
+        isFrontKartActive: Boolean,
+        isRearKartActive: Boolean
+    )
+
+    fun sendTTControlTurnLeftMessage(
+        isFrontKartActive: Boolean,
+        isRearKartActive: Boolean
+    )
+
+    fun sendTTControlTurnRightMessage(
+        isFrontKartActive: Boolean,
+        isRearKartActive: Boolean
+    )
+
     fun startSendingHeartbeat()
+    fun stopSendingHeartbeat()
 }

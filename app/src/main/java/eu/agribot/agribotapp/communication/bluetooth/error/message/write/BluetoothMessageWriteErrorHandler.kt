@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.communication.bluetooth.error.message
+package eu.agribot.agribotapp.communication.bluetooth.error.message.write
 
 interface BluetoothMessageWriteErrorHandler {
 

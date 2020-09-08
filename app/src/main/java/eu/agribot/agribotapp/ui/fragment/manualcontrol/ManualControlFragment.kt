@@ -1,9 +1,7 @@
 package eu.agribot.agribotapp.ui.fragment.manualcontrol
 
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
-import androidx.core.content.ContextCompat
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
@@ -12,7 +10,6 @@ import eu.agribot.agribotapp.common.navigation.events.OverrideNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolControlNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentManualControlBinding
 import io.github.controlwear.virtual.joystick.android.JoystickView
-import kotlinx.android.synthetic.main.fragment_manual_control.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManualControlBinding>() {
@@ -33,8 +30,9 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
 
         val joystick = view.findViewById(R.id.joyy) as JoystickView
         joystick.setOnMoveListener { angle, strength ->
-
+            viewModel.onJoystickParametrChange(angle, strength)
         }
+        viewModel.runManualSteeringMode()
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
@@ -58,13 +56,4 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
     }
 
 
-    private fun setHearBeatWrongColor(heartbeatState: Boolean) {
-        if (!heartbeatState) {
-            heartbeat_icon.setColorFilter(ContextCompat.getColor(requireContext(), R.color.black))
-        } else {
-            heartbeat_icon.setColorFilter(
-                ContextCompat.getColor(requireContext(), R.color.red)
-            )
-        }
-    }
 }

@@ -40,9 +40,9 @@
 
     <fragment
         android:id="@+id/overrideMode"
-        android:name="eu.agribot.agribotapp.ui.fragment.override.OverrideFragment"
+        android:name="eu.agribot.agribotapp.ui.fragment.ttcontrol.TTControlModeFragment"
         android:label="Override Mode"
-        tools:layout="@layout/fragment_override_mode">
+        tools:layout="@layout/fragment_ttcontrol">
 
 
     </fragment>

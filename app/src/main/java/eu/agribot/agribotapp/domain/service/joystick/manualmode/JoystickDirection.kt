@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.domain.service.joystick
+package eu.agribot.agribotapp.domain.service.joystick.manualmode
 
 enum class JoystickDirection (val directory : Int) {
     LEFT(0),

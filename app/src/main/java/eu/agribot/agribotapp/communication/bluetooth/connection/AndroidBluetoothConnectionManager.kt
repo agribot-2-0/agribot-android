@@ -4,22 +4,17 @@ import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothServerSocket
 import android.bluetooth.BluetoothSocket
-import android.os.Handler
-import android.os.HandlerThread
-import android.os.Process
 import eu.agribot.agribotapp.communication.bluetooth.const.ConstatntConnectionValue.AGRIBOT_UUID_INSECURE
 import eu.agribot.agribotapp.communication.bluetooth.const.ConstatntConnectionValue.AGRIBOT_UUID_SECURE
 import eu.agribot.agribotapp.communication.bluetooth.error.connection.BluetoothConnectionErrorHandler
 import eu.agribot.agribotapp.communication.bluetooth.message.receivedmessage.ReceivedBluetoothMessageManager
-import eu.agribot.agribotapp.communication.bluetooth.message.writemessage.WriteBluetoothMessageManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
 
 class AndroidBluetoothConnectionManager(
     private val bluetoothConnectionErrorHandler: BluetoothConnectionErrorHandler,
-    private val bluetoothReceivedBluetoothMessageManager : ReceivedBluetoothMessageManager,
-    private val bluetoothMessageManager: WriteBluetoothMessageManager
+    private val bluetoothReceivedBluetoothMessageManager: ReceivedBluetoothMessageManager
 ) : BluetoothConnectionManager {
     private var bluetoothSocket: BluetoothSocket? = null
 

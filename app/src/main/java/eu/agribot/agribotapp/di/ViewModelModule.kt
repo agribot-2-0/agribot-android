@@ -11,11 +11,11 @@ import eu.agribot.agribotapp.ui.fragment.autonomousmode.AutonomousModeViewModel
 import eu.agribot.agribotapp.ui.fragment.bluetoothconnection.BluetoothConnectionViewModel
 import eu.agribot.agribotapp.ui.fragment.bluetoothconnection.recycler.BluetoothNearbyListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.ManualControlViewModel
-import eu.agribot.agribotapp.ui.fragment.override.OverrideViewModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.PathManagementViewModel
 import eu.agribot.agribotapp.ui.fragment.settings.SettingsViewModel
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolControlViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.ToolManagementViewModel
+import eu.agribot.agribotapp.ui.fragment.ttcontrol.TTControlViewModel
 import eu.agribot.agribotapp.ui.fragment.weather.WeatherViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.parameter.parametersOf
@@ -98,6 +98,6 @@ val viewModelModule = module {
     }
 
     viewModel {
-        OverrideViewModel()
+        TTControlViewModel(ttControlService = get())
     }
 }

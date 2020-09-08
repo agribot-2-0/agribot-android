@@ -2,77 +2,60 @@ package eu.agribot.agribotapp.communication.bluetooth.message.writemessage
 
 import android.bluetooth.BluetoothSocket
 import android.os.Handler
-import android.os.HandlerThread
-import android.os.Process
-import android.util.Log
 import eu.agribot.agribotapp.communication.bluetooth.const.BluetoothAdressCodeModel
-import eu.agribot.agribotapp.communication.bluetooth.const.ConstatntConnectionValue
-import eu.agribot.agribotapp.communication.bluetooth.error.message.BluetoothMessageWriteErrorHandler
+import eu.agribot.agribotapp.communication.bluetooth.const.ConstatntConnectionValue.ARC_MESSAGE_ARRAY_SIZE
+import eu.agribot.agribotapp.communication.bluetooth.const.ConstatntConnectionValue.EMPTY_CAN_ARRAY_SIZE
+import eu.agribot.agribotapp.communication.bluetooth.const.ConstatntConnectionValue.TTCONTROL_MOVE_BACK_FRONT_ARRAY_SIZE
+import eu.agribot.agribotapp.communication.bluetooth.const.ConstatntConnectionValue.TTCONTROL_MOVE_LEFT_RIGHT_ARRAY_SIZE
+import eu.agribot.agribotapp.communication.bluetooth.error.message.write.BluetoothMessageWriteErrorHandler
 import eu.agribot.agribotapp.communication.bluetooth.message.frame.BluetoothMessageFrame
+import eu.agribot.agribotapp.communication.bluetooth.message.frame.karts.AgribotKartsActivate
+import eu.agribot.agribotapp.communication.bluetooth.message.frame.karts.AgribotKartsRotate
 import eu.agribot.agribotapp.communication.bluetooth.model.CANmessageData
+import eu.agribot.agribotapp.domain.model.ArcParametrs
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.io.IOException
 import java.io.OutputStream
+import kotlin.math.abs
 
 class AndroidWriteBluetoothMessageManager(
     private val bluetoothWriteMessageHandler: Handler,
     private val bluetoothMessageWriteErrorHandler: BluetoothMessageWriteErrorHandler
 ) :
     WriteBluetoothMessageManager {
-    private var writeSocket: BluetoothSocket? = null
-    private val EMPTY_CAN_DATA = ByteArray(1)
+    private var bluetoothWriteSocket: BluetoothSocket? = null
+    private val EMPTY_CAN_DATA = ByteArray(EMPTY_CAN_ARRAY_SIZE)
     private val singleArray = ByteArray(1) { 255.toByte() }
-    private var heartbeatHandlerThread =
-        HandlerThread("HeartBeatThread", Process.THREAD_PRIORITY_DISPLAY)
-    private lateinit var heartbeatHandler: Handler
-    private val HEARTBEAT_DELAY_TIME = 50L
-    private var heartbeatArray = ByteArray(1)
+    private var ttControlForwardBackwardArray = ByteArray(TTCONTROL_MOVE_BACK_FRONT_ARRAY_SIZE)
+    private var ttControlLeftRightArray = ByteArray(TTCONTROL_MOVE_LEFT_RIGHT_ARRAY_SIZE)
 
+    var heartbeatScope = MainScope()
+    private val HEARTBEAT_DELAY_TIME = 50L
+    private var heartbeatArray = ByteArray(EMPTY_CAN_ARRAY_SIZE)
     var heartbeatFrame =
         BluetoothMessageFrame(
             CANmessageData(BluetoothAdressCodeModel.MOBILE_HEARTBEAT, heartbeatArray)
         )
 
-    private var heartbeatRunnable = object : Runnable {
-
-        override fun run() {
-            writeBluetoothMessage(heartbeatFrame.bluetoothMessageArray)
-            heartbeatArray[0]++
-            heartbeatFrame = BluetoothMessageFrame(
-                CANmessageData(BluetoothAdressCodeModel.MOBILE_HEARTBEAT, heartbeatArray)
-            )
-            heartbeatHandler.postDelayed(this, HEARTBEAT_DELAY_TIME)
-
-        }
-    }
-
-
     private fun writeBluetoothMessage(
         message: ByteArray
     ) {
-        val writeMessageBuffer = ByteArray(ConstatntConnectionValue.MESSAGE_BUFFER_SIZE)
-        val outputStream: OutputStream = writeSocket!!.outputStream
-        try {
-            outputStream.write(message)
-            Log.e("xd", "write" + message)
-        } catch (writeMessageException: IOException) {
-            bluetoothMessageWriteErrorHandler.onWriteMessageError(writeMessageException)
-            return
+        if (bluetoothWriteSocket != null) {
+            val outputStream: OutputStream = bluetoothWriteSocket!!.outputStream
+            try {
+                outputStream.write(message)
+            } catch (writeMessageException: IOException) {
+                bluetoothMessageWriteErrorHandler.onWriteMessageError(writeMessageException)
+                return
+            }
         }
-        val writtenMsg = bluetoothWriteMessageHandler.obtainMessage(
-            ConstatntConnectionValue.MESSAGE_WRITE, -1, -1, writeMessageBuffer
-        )
-        writtenMsg.sendToTarget()
-    }
-
-    private fun initializeHeartbeat() {
-        heartbeatHandlerThread = HandlerThread("HBThread", Process.THREAD_PRIORITY_DISPLAY)
-        heartbeatHandlerThread.start()
-        heartbeatHandler = Handler(heartbeatHandlerThread.looper)
     }
 
     override fun sendHandshakeMessage(bluetoothSocket: BluetoothSocket?) {
-        initializeHeartbeat()
-        writeSocket = bluetoothSocket
+        bluetoothWriteSocket = bluetoothSocket
         val handshakeFrame = BluetoothMessageFrame(
             CANmessageData(
                 BluetoothAdressCodeModel.MOBILE_HANDSHAKE, EMPTY_CAN_DATA
@@ -108,17 +91,25 @@ class AndroidWriteBluetoothMessageManager(
     }
 
     override fun sendManualSteeringDataMessage(
-        arcParametrsArray: ByteArray
+        arcParametrs: ArcParametrs
     ) {
+        val moveArcArray = ByteArray(ARC_MESSAGE_ARRAY_SIZE)
+        moveArcArray[0] = arcParametrs.forward.toByte()
+        moveArcArray[1] = arcParametrs.direction.toByte()
+        moveArcArray[2] = 0
+        moveArcArray[3] = (abs(arcParametrs.radius).toInt() * 10).toByte()
+        moveArcArray[4] = 0
+        moveArcArray[5] = (abs(arcParametrs.speed) * 100).toInt().toByte()
+        moveArcArray[6] = 0xff.toByte()
+        moveArcArray[7] = 0xff.toByte()
         val arcParametrsMessage = BluetoothMessageFrame(
             CANmessageData(
                 BluetoothAdressCodeModel.RIDE_THE_CURVE,
-                arcParametrsArray
+                moveArcArray
             )
         )
         writeBluetoothMessage(
             arcParametrsMessage.bluetoothMessageArray
-
         )
     }
 
@@ -130,11 +121,7 @@ class AndroidWriteBluetoothMessageManager(
                     EMPTY_CAN_DATA
                 )
             )
-
-        writeBluetoothMessage(
-            autonomusModeInitializationMessage.bluetoothMessageArray
-
-        )
+        writeBluetoothMessage(autonomusModeInitializationMessage.bluetoothMessageArray)
     }
 
     override fun sendStartEngineMessage() {
@@ -188,20 +175,110 @@ class AndroidWriteBluetoothMessageManager(
         )
     }
 
+    override fun sendTTControlForwardMessage(
+        isFrontKartActive: Boolean,
+        isRearKartActive: Boolean
+    ) {
+        ttControlForwardBackwardArray[0] = 1.toByte()
+        ttControlForwardBackwardArray[1] = 0xFF.toByte()
+        ttControlForwardBackwardArray[2] =
+            if (isFrontKartActive) AgribotKartsActivate.ACTIVE.active.toByte() else AgribotKartsActivate.INACTIVE.active.toByte()
+        ttControlForwardBackwardArray[3] =
+            if (isRearKartActive) AgribotKartsActivate.ACTIVE.active.toByte() else AgribotKartsActivate.INACTIVE.active.toByte()
 
-    override fun sendOverrideModeVerticalSteeringMessage() {
-        TODO("Not yet implemented")
+        val moveForwardArray = ttControlForwardBackwardArray
+        moveForwardArray[0] = 1.toByte()
+        moveForwardArray[1] = 0xFF.toByte()
+        val forwardMessageFrame = BluetoothMessageFrame(
+            CANmessageData(
+                BluetoothAdressCodeModel.MOVE_FORWARD_BACKWARD,
+                moveForwardArray
+            )
+        )
+        writeBluetoothMessage(forwardMessageFrame.bluetoothMessageArray)
     }
 
-    override fun sendOverrideModeHorizontalSteeringMessage() {
-        TODO("Not yet implemented")
+    override fun sendTTControlBackwardMessage(
+        isFrontKartActive: Boolean,
+        isRearKartActive: Boolean
+    ) {
+        ttControlForwardBackwardArray[0] = 0.toByte()
+        ttControlForwardBackwardArray[1] = 0xFF.toByte()
+        ttControlForwardBackwardArray[2] =
+            if (isFrontKartActive) AgribotKartsActivate.ACTIVE.active.toByte() else AgribotKartsActivate.INACTIVE.active.toByte()
+        ttControlForwardBackwardArray[3] =
+            if (isRearKartActive) AgribotKartsActivate.ACTIVE.active.toByte() else AgribotKartsActivate.INACTIVE.active.toByte()
+
+        val moveBackArray = ttControlForwardBackwardArray
+        moveBackArray[0] = 0.toByte()
+        moveBackArray[1] = 0xFF.toByte()
+
+        val backwardMessageFrame = BluetoothMessageFrame(
+            CANmessageData(
+                BluetoothAdressCodeModel.MOVE_FORWARD_BACKWARD,
+                moveBackArray
+            )
+        )
+        writeBluetoothMessage(backwardMessageFrame.bluetoothMessageArray)
     }
+
+    override fun sendTTControlTurnLeftMessage(
+        isFrontKartActive: Boolean,
+        isRearKartActive: Boolean
+    ) {
+        ttControlLeftRightArray[0] =
+            if (isFrontKartActive) AgribotKartsActivate.ACTIVE.active.toByte() else AgribotKartsActivate.INACTIVE.active.toByte()
+        ttControlLeftRightArray[1] = AgribotKartsRotate.LEFT.rotate
+        ttControlLeftRightArray[2] =
+            if (isRearKartActive) AgribotKartsActivate.ACTIVE.active.toByte() else AgribotKartsActivate.INACTIVE.active.toByte()
+        ttControlLeftRightArray[3] = AgribotKartsRotate.LEFT.rotate
+
+        val rotateFrame = BluetoothMessageFrame(
+            CANmessageData(BluetoothAdressCodeModel.ROTATE_CARRIAGES, ttControlLeftRightArray)
+        )
+
+        writeBluetoothMessage(rotateFrame.bluetoothMessageArray)
+    }
+
+    override fun sendTTControlTurnRightMessage(
+        isFrontKartActive: Boolean,
+        isRearKartActive: Boolean
+    ) {
+        ttControlLeftRightArray[0] =
+            if (isFrontKartActive) AgribotKartsActivate.ACTIVE.active.toByte() else AgribotKartsActivate.INACTIVE.active.toByte()
+        ttControlLeftRightArray[1] = AgribotKartsRotate.RIGHT.rotate
+        ttControlLeftRightArray[2] =
+            if (isRearKartActive) AgribotKartsActivate.ACTIVE.active.toByte() else AgribotKartsActivate.INACTIVE.active.toByte()
+        ttControlLeftRightArray[3] = AgribotKartsRotate.RIGHT.rotate
+
+        val rotateFrame = BluetoothMessageFrame(
+            CANmessageData(BluetoothAdressCodeModel.ROTATE_CARRIAGES, ttControlLeftRightArray)
+        )
+
+        writeBluetoothMessage(rotateFrame.bluetoothMessageArray)
+    }
+
 
     override fun startSendingHeartbeat() {
         heartbeatArray[0] = 0.toByte()
-        BluetoothMessageFrame(
-            CANmessageData(BluetoothAdressCodeModel.MOBILE_HEARTBEAT, heartbeatArray)
-        )
-        heartbeatHandler.post(heartbeatRunnable)
+        heartbeatScope.launch {
+            while (true) {
+                heartbeatFrame = BluetoothMessageFrame(
+                    CANmessageData(BluetoothAdressCodeModel.MOBILE_HEARTBEAT, heartbeatArray)
+                )
+                writeBluetoothMessage(heartbeatFrame.bluetoothMessageArray)
+                if (heartbeatArray[0].toInt() % 4 == 0) {
+                    sendDiagnosticDataRequestMessage()
+                }
+                delay(HEARTBEAT_DELAY_TIME)
+                heartbeatArray[0]++
+            }
+        }
     }
+
+    override fun stopSendingHeartbeat() {
+        heartbeatScope.cancel()
+        heartbeatScope = MainScope()
+    }
+
 }

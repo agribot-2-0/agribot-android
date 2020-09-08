@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment

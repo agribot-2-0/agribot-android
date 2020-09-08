@@ -1,29 +1,39 @@
 package eu.agribot.agribotapp.communication.bluetooth.message.receivedmessage
 
 import android.bluetooth.BluetoothSocket
-import android.util.Log
 import eu.agribot.agribotapp.communication.bluetooth.const.BluetoothAdressCodeModel
 import eu.agribot.agribotapp.communication.bluetooth.const.ConstatntConnectionValue
 import eu.agribot.agribotapp.communication.bluetooth.error.message.receive.BluetoothMessageReceiveErrorHandler
 import eu.agribot.agribotapp.communication.bluetooth.message.frame.BluetoothMessageFrame
 import eu.agribot.agribotapp.communication.bluetooth.message.writemessage.WriteBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.model.DiagnosticDataBD
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.io.IOException
 import java.io.InputStream
+
 
 class AndroidReceivedBluetoothMessageManager(
     private val receiveErrorHandler: BluetoothMessageReceiveErrorHandler,
     private val writeBluetoothMessageManager: WriteBluetoothMessageManager
 ) : ReceivedBluetoothMessageManager {
+    var counterScope = MainScope()
+    var diagnosticDataBD: DiagnosticDataBD? = null
+    var bluetoothSocket: BluetoothSocket? = null
+    private val HEARTBEAT_INIT_VALUE = 0
+    private val HEARTBEAT_COUNTER_MAX_VALUE = 20
+    private val HEARTBEAT_COUNTER_DELAY = 30L
 
-    override fun registerMessageReceiver(bluetoothSocket: BluetoothSocket?) {
+    override fun registerMessageReceiver(receivedBluetoothSocket: BluetoothSocket?) {
+        bluetoothSocket = receivedBluetoothSocket
         writeBluetoothMessageManager.sendHandshakeMessage(bluetoothSocket)
-        val inputStream: InputStream = bluetoothSocket!!.inputStream
+        val inputStream: InputStream = receivedBluetoothSocket!!.inputStream
         val receiveMessageBuffer = ByteArray(ConstatntConnectionValue.MESSAGE_BUFFER_SIZE)
         while (true) {
             try {
                 inputStream.read(receiveMessageBuffer)
-                Log.e("xd", "receive" + receiveMessageBuffer)
             } catch (receiveMessageException: IOException) {
                 receiveErrorHandler.onReceiveBluetoothMessageError(
                     receiveMessageException
@@ -61,9 +71,8 @@ class AndroidReceivedBluetoothMessageManager(
 
     private fun handleMessageFrame(bluetoothMessageFrame: BluetoothMessageFrame) {
         when (bluetoothMessageFrame.getAddress()) {
-
             BluetoothAdressCodeModel.AGRIBOT_HANDSHAKE -> {
-                 handleHandshakeMessage()
+                handleHandshakeMessage()
             }
 
             BluetoothAdressCodeModel.MOBILE_HEARTBEAT -> {
@@ -76,7 +85,6 @@ class AndroidReceivedBluetoothMessageManager(
 
             BluetoothAdressCodeModel.AGRIBOT_ERROR -> {
             }
-
 
         }
     }
@@ -92,10 +100,9 @@ class AndroidReceivedBluetoothMessageManager(
         } else {
             batteryVoltage.toString()
         }
-
         val fuelLevel: Double = bluetoothMessageFrame.getMessage()[3].toDouble() * 0.1
 
-        DiagnosticDataBD(
+        diagnosticDataBD = DiagnosticDataBD(
             engineRpm,
             bluetoothMessageFrame.getMessage()[2].toInt(),
             bluetoothMessageFrame.getMessage()[3].toDouble(),
@@ -125,9 +132,28 @@ class AndroidReceivedBluetoothMessageManager(
     }
 
     private fun handleHeartbeatMessage(bluetoothMessageFrame: BluetoothMessageFrame) {
+        restartHeartbearCounter()
         if (bluetoothMessageFrame.getMessage()[0].toInt() % 4 == 0) {
             writeBluetoothMessageManager.sendDiagnosticDataRequestMessage()
         }
     }
 
+    private fun restartHeartbearCounter() {
+        counterScope.cancel()
+        counterScope = MainScope()
+        startHeartbeatCounter()
+    }
+
+    private fun startHeartbeatCounter() {
+        counterScope.launch {
+            var heartbeatCounter = HEARTBEAT_INIT_VALUE
+            while (heartbeatCounter < HEARTBEAT_COUNTER_MAX_VALUE) {
+                delay(HEARTBEAT_COUNTER_DELAY)
+                heartbeatCounter++
+            }
+            writeBluetoothMessageManager.sendHandshakeMessage(bluetoothSocket)
+        }
+    }
 }
+
+

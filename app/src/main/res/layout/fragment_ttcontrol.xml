@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="eu.agribot.agribotapp.ui.fragment.override.OverrideViewModel" />
+            type="eu.agribot.agribotapp.ui.fragment.ttcontrol.TTControlViewModel" />
     </data>
 
     <LinearLayout
@@ -23,7 +23,7 @@
             android:layout_weight="1">
 
             <io.github.controlwear.virtual.joystick.android.JoystickView
-                android:id="@+id/left_right_hoy"
+                android:id="@+id/horizontal_joystick"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -49,17 +49,19 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/front"
+                android:id="@+id/front_kart"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:onClick="@{() -> viewModel.onFrontKartClicked()}"
                 android:src="@drawable/f_grey" />
 
             <ImageView
-                android:id="@+id/rear"
+                android:id="@+id/rear_kart"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:onClick="@{() -> viewModel.onRearKartClicked()}"
                 android:src="@drawable/r_grey" />
 
 
@@ -86,7 +88,7 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <io.github.controlwear.virtual.joystick.android.JoystickView
-                android:id="@+id/joyy"
+                android:id="@+id/vertical_joystick"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"

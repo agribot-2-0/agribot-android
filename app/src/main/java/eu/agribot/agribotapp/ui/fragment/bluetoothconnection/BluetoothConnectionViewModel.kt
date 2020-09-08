@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.LiveEvent
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
+import eu.agribot.agribotapp.common.navigation.events.ManualControlNavigationEvent
 import eu.agribot.agribotapp.communication.bluetooth.model.FoundBluetoothDevice
 import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
 import eu.agribot.agribotapp.domain.service.ManualModeService
@@ -49,15 +50,20 @@ class BluetoothConnectionViewModel(
     }
 
     fun onBluetoothDeviceConnected() {
-        showSnackEvent.postValue("connected")
-
+        showSnackEvent.postValue("Agribot Connected")
+        postManualSteeringNavigationEvent()
     }
-
 
     fun onBluetoothDeviceDisconnected() {
         Log.e("xd", "disconnected")
+
     }
 
+    private fun postManualSteeringNavigationEvent() {
+        navigationEvent.postValue(
+            ManualControlNavigationEvent()
+        )
+    }
 }
 
 

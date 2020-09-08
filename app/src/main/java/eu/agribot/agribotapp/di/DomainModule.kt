@@ -3,6 +3,9 @@ package eu.agribot.agribotapp.di
 import eu.agribot.agribotapp.domain.error.AgribotErrorHandler
 import eu.agribot.agribotapp.domain.error.AuthenticationErrorHandler
 import eu.agribot.agribotapp.domain.service.*
+import eu.agribot.agribotapp.domain.service.joystick.manualmode.ManualSteeringJoystickManager
+import eu.agribot.agribotapp.domain.service.joystick.ttcontroljoystick.TTControlHorizontalJoystickManager
+import eu.agribot.agribotapp.domain.service.joystick.ttcontroljoystick.TTControlVerticalJoystickManager
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
@@ -52,10 +55,23 @@ val domainModule = module {
 
     single {
         ManualModeService(
-            bluetoothConnectionManager = get()
+            bluetoothMessageManager = get(),
+            manualSteeringJoystickManager = get()
         )
     }
 
+    single { ManualSteeringJoystickManager(writeBluetoothMessageManager = get()) }
+
 
     single { AgribotErrorHandler() }
+
+    single {
+        TTControlService(horizontalJoystickManager = get(), verticalJoystickManager = get())
+    }
+
+    single {
+        TTControlVerticalJoystickManager(bluetoothMessageWriteManager = get())
+    }
+
+    single { TTControlHorizontalJoystickManager(bluetoothMessageWriteManager = get()) }
 }

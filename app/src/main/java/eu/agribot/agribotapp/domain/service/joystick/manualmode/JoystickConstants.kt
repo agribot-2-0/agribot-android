@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.domain.service.joystick
+package eu.agribot.agribotapp.domain.service.joystick.manualmode
 
 object JoystickConstants {
     const val MAX_ARCH = 11.0

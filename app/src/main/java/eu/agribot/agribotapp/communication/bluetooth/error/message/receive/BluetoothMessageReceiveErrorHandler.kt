@@ -1,5 +1,9 @@
 package eu.agribot.agribotapp.communication.bluetooth.error.message.receive
 
+import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
+
 interface BluetoothMessageReceiveErrorHandler {
-    fun onReceiveBluetoothMessageError(messageException: Exception)
+    fun onReceiveBluetoothMessageError()
+
+    fun observeMessageReceiveError(): MutableLiveEvent<String>
 }

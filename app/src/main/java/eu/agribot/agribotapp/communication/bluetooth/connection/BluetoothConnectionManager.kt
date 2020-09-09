@@ -16,7 +16,8 @@ interface BluetoothConnectionManager {
         isSecurityConnection: Boolean
     )
     suspend fun connectBluetoothWithAgribot(
-        bluetoothDeviceAddress: String)
+        bluetoothDeviceAddress: String
+    )
 
     fun disconnect()
 }

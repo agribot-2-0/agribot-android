@@ -1,38 +1,49 @@
 package eu.agribot.agribotapp.ui.fragment.bluetoothconnection
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.LiveEvent
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.ManualControlNavigationEvent
-import eu.agribot.agribotapp.communication.bluetooth.model.FoundBluetoothDevice
+import eu.agribot.agribotapp.common.resources.ResourcesProvider
+import eu.agribot.agribotapp.domain.model.todomain.FoundBluetoothDevice
+import eu.agribot.agribotapp.domain.permission.PermissionError
+import eu.agribot.agribotapp.domain.permission.PermissionManager
 import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
-import eu.agribot.agribotapp.domain.service.ManualModeService
 import eu.agribot.agribotapp.ui.fragment.bluetoothconnection.recycler.BluetoothNearbyListItemViewModel
 import kotlinx.coroutines.launch
 
 class BluetoothConnectionViewModel(
     private val bluetoothConnectionService: BluetoothConnectionService,
-    private val manualModeService: ManualModeService
+    private val resourcesProvider: ResourcesProvider,
+    private val permissionManager: PermissionManager
 ) :
     BaseViewModel() {
 
-    val showSnackEvent: LiveEvent<String> = MutableLiveEvent()
+    val toastEvent: LiveEvent<String> = MutableLiveEvent()
     val discoveredDevices: MutableLiveData<List<BluetoothNearbyListItemViewModel>> =
         MutableLiveData(listOf())
 
+    fun checkPermissions(onSucess: () -> Unit) {
+        permissionManager.requestLocationPermission(onSucess, onError = this::onPermissionError)
+    }
+
+    fun onPermissionError(permissionError: PermissionError) {
+        toastEvent.postValue(permissionError.name)
+    }
 
     fun onBluetoothDeviceFound(bluetoothDevice: FoundBluetoothDevice) {
         val isDeviceAlreadyAdded = discoveredDevices.value!!.any {
-            it.bluetoothAddress == bluetoothDevice.foundDeviceAdress
+            it.bluetoothAddress == bluetoothDevice.deviceAdress
         }
         if (!isDeviceAlreadyAdded) {
             discoveredDevices.value = listOf(
                 BluetoothNearbyListItemViewModel(
-                    bluetoothDevice.foundDeviceName,
-                    bluetoothDevice.foundDeviceAdress
+                    bluetoothDevice.deviceName,
+                    bluetoothDevice.deviceAdress
+
                 ),
                 *discoveredDevices.value!!.toTypedArray()
             )
@@ -50,13 +61,12 @@ class BluetoothConnectionViewModel(
     }
 
     fun onBluetoothDeviceConnected() {
-        showSnackEvent.postValue("Agribot Connected")
+        toastEvent.postValue(resourcesProvider.getString(R.string.connected))
         postManualSteeringNavigationEvent()
     }
 
     fun onBluetoothDeviceDisconnected() {
-        Log.e("xd", "disconnected")
-
+        toastEvent.postValue(resourcesProvider.getString(R.string.disconnected))
     }
 
     private fun postManualSteeringNavigationEvent() {
@@ -65,5 +75,3 @@ class BluetoothConnectionViewModel(
         )
     }
 }
-
-

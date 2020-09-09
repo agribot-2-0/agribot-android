@@ -1,0 +1,14 @@
+package eu.agribot.agribotapp.communication.bluetooth.message.frame
+
+object FrameConstant {
+    const val ARC_MESSAGE_ARRAY_SIZE = 8
+    const val EMPTY_CAN_ARRAY_SIZE = 1
+    const val TTCONTROL_MOVE_BACK_FRONT_ARRAY_SIZE = 8
+    const val TTCONTROL_MOVE_LEFT_RIGHT_ARRAY_SIZE = 4
+
+    const val START_FRAME = 0x43.toByte()
+    const val COMMAND = 0x00.toByte()
+    const val CONSTANT_FRAME_ELEMENTS_SIZE = 7
+    const val EMPTY_ARRAY = 0
+    const val DUMMY_BYTE = 0xFF.toByte()
+}

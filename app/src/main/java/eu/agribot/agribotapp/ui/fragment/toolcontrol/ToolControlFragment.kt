@@ -2,209 +2,100 @@ package eu.agribot.agribotapp.ui.fragment.toolcontrol
 
 import android.os.Bundle
 import android.view.View
-import android.widget.SeekBar
-import com.warkiz.tickseekbar.OnSeekChangeListener
-import com.warkiz.tickseekbar.SeekParams
-import com.warkiz.tickseekbar.TickSeekBar
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.databinding.FragmentToolControlBinding
 import kotlinx.android.synthetic.main.fragment_tool_control.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolControlBinding>() {
 
     override val layoutResourceId: Int = R.layout.fragment_tool_control
     override val viewModel: ToolControlViewModel by viewModel()
 
-    companion object {
-        const val LEFT_UP_TUZ = 6
-        const val LEFT_DOWN_TUZ = 5
-        const val RIGHT_UP_TUZ = 12
-        const val RIGHT_DOWN_TUZ = 11
-    }
-
     override fun bindViewVariables(viewBinding: FragmentToolControlBinding) {
         viewBinding.viewModel = viewModel
     }
-/*
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.showToastEvent.observe(this::showToast)
-        viewModel.setDefaultToolsValue()
+        left_up_bar.setOnSeekBarChangeListener(
+            ToolsBarChangeListener(
+                this::showProgressToast,
+                viewModel::onLeftUpTuzChange
+            )
+        )
 
-        listener1.onSeekChangeListener = object : OnSeekChangeListener {
-            override fun onSeeking(seekParams: SeekParams) {
-            }
+        left_down_bar.setOnSeekBarChangeListener(
+            ToolsBarChangeListener(
+                this::showProgressToast,
+                viewModel::onLeftDownTuzChange
+            )
+        )
 
-            override fun onStartTrackingTouch(seekBar: TickSeekBar?) {
-                Timber.e("on start")
-            }
+        right_up_bar.setOnSeekBarChangeListener(
+            ToolsBarChangeListener(
+                this::showProgressToast,
+                viewModel::onRightUpTuzChange
+            )
+        )
 
-            override fun onStopTrackingTouch(seekBar: TickSeekBar) {
-                viewModel.setSwitchesStatus(LEFT_UP_TUZ, seekBar.progress, true)
-            }
-        }
+        right_down_bar.setOnSeekBarChangeListener(
+            ToolsBarChangeListener(
+                this::showProgressToast,
+                viewModel::onRightDownTuzChange
+            )
+        )
 
-        listener2.onSeekChangeListener = object : OnSeekChangeListener {
-            override fun onSeeking(seekParams: SeekParams) {
-            }
+        left_pto_slider.setOnSeekBarChangeListener(
+            ToolsBarChangeListener(
+                this::showProgressToast,
+                viewModel::onLeftPTOChanged
+            )
+        )
+        left_blue_slider.setOnSeekBarChangeListener(
+            ToolsBarChangeListener(
+                this::showProgressToast,
+                viewModel::onLeftBlueChanged
+            )
+        )
+        left_yellow_slider.setOnSeekBarChangeListener(
+            ToolsBarChangeListener(
+                this::showProgressToast,
+                viewModel::onLeftYellowChanged
+            )
+        )
+        left_green_slider.setOnSeekBarChangeListener(
+            ToolsBarChangeListener(
+                this::showProgressToast,
+                viewModel::onLeftGreenChanged
+            )
+        )
 
-            override fun onStartTrackingTouch(seekBar: TickSeekBar?) {
-                Timber.e("on start")
-            }
-
-            override fun onStopTrackingTouch(seekBar: TickSeekBar) {
-                viewModel.setSwitchesStatus(LEFT_DOWN_TUZ, seekBar.progress, true)
-            }
-        }
-
-        listener3.onSeekChangeListener = object : OnSeekChangeListener {
-            override fun onSeeking(seekParams: SeekParams) {
-            }
-
-            override fun onStartTrackingTouch(seekBar: TickSeekBar?) {
-                Timber.e("on start")
-            }
-
-            override fun onStopTrackingTouch(seekBar: TickSeekBar) {
-                viewModel.setSwitchesStatus(RIGHT_UP_TUZ, seekBar.progress, true)
-            }
-        }
-
-        listener4.onSeekChangeListener = object : OnSeekChangeListener {
-            override fun onSeeking(seekParams: SeekParams) {
-            }
-
-            override fun onStartTrackingTouch(seekBar: TickSeekBar?) {
-                Timber.e("on start")
-            }
-
-            override fun onStopTrackingTouch(seekBar: TickSeekBar) {
-                viewModel.setSwitchesStatus(RIGHT_DOWN_TUZ, seekBar.progress, true)
-            }
-        }
-
-        left_pto_slider.setOnSeekBarChangeListener(object :
-            SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                Timber.e("bar ")
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar) {
-                Timber.e("bar ")
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-                viewModel.onSliderParametrChange(1, seekBar.progress)
-            }
-        })
-
-        left_blue_slider.setOnSeekBarChangeListener(object :
-            SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                Timber.e("bar ")
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar) {
-                Timber.e("bar ")
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-                viewModel.onSliderParametrChange(2, seekBar.progress)
-            }
-        })
-
-        left_yellow_slider.setOnSeekBarChangeListener(object :
-            SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                Timber.e("bar ")
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar) {
-                Timber.e("bar ")
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-                viewModel.onSliderParametrChange(3, seekBar.progress)
-            }
-        })
-
-        left_green_slider.setOnSeekBarChangeListener(object :
-            SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                Timber.e("bar ")
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar) {
-                Timber.e("bar ")
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-                viewModel.onSliderParametrChange(4, seekBar.progress)
-            }
-        })
-
-        right_pto_slider.setOnSeekBarChangeListener(object :
-            SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                Timber.e("bar ")
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar) {
-                Timber.e("bar ")
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-                viewModel.onSliderParametrChange(5, seekBar.progress)
-            }
-        })
-
-        right_blue_slider.setOnSeekBarChangeListener(object :
-            SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                Timber.e("bar ")
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar) {
-                Timber.e("bar ")
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-                viewModel.onSliderParametrChange(6, seekBar.progress)
-            }
-        })
-
-        right_yellow_slider.setOnSeekBarChangeListener(object :
-            SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                Timber.e("bar ")
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar) {
-                Timber.e("bar ")
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-                viewModel.onSliderParametrChange(7, seekBar.progress)
-            }
-        })
-
-        right_green_slider.setOnSeekBarChangeListener(object :
-            SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                Timber.e("bar ")
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar) {
-                Timber.e("bar ")
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-                viewModel.onSliderParametrChange(8, seekBar.progress)
-            }
-        })
+        right_pto_slider.setOnSeekBarChangeListener(
+            ToolsBarChangeListener(
+                this::showProgressToast,
+                viewModel::onRightPTOChanged
+            )
+        )
+        right_blue_slider.setOnSeekBarChangeListener(
+            ToolsBarChangeListener(
+                this::showProgressToast,
+                viewModel::onRightBlueChanged
+            )
+        )
+        right_yellow_slider.setOnSeekBarChangeListener(
+            ToolsBarChangeListener(
+                this::showProgressToast,
+                viewModel::onRightYellowChanged
+            )
+        )
+        right_green_slider.setOnSeekBarChangeListener(
+            ToolsBarChangeListener(
+                this::showProgressToast,
+                viewModel::onRightGreenChanged
+            )
+        )
 
         left_pto_switch.setOnCheckedChangeListener { _, isChecked ->
             viewModel.leftPTOSwitch = isChecked
@@ -239,5 +130,7 @@ class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolContr
         }
     }
 
- */
+    private fun showProgressToast(progress: Int) {
+        showToast("$progress %")
+    }
 }

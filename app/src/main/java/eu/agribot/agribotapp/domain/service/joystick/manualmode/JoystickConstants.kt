@@ -1,6 +1,7 @@
 package eu.agribot.agribotapp.domain.service.joystick.manualmode
 
 object JoystickConstants {
+    const val INITIALIZE_JOYSTICK_ANGLE = 0
     const val MAX_ARCH = 11.0
     const val MIN_ARCH = 1.8
     const val A_FACTOR_LEFT = 0.15333333333333332
@@ -46,7 +47,4 @@ object JoystickConstants {
     const val RIGHT_ANGLE = 90
     const val FULL_TURN_ANGLE = 260
     const val SEMI_TURN_ANGLE = 180
-
-
 }
-

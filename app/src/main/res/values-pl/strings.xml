@@ -130,5 +130,9 @@
     <string name="yellow_tool">YELLOW</string>
     <string name="green_tool">GREEN</string>
 
+    <string name="disconnected">Połączenie z Agribotem zakończone</string>
+    <string name="empty_data">X</string>
+    <string name="connected">Połączono z Agribotem</string>
+
 
 </resources>

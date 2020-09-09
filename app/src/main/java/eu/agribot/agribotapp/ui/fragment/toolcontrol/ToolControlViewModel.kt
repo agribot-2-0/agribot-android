@@ -2,12 +2,25 @@ package eu.agribot.agribotapp.ui.fragment.toolcontrol
 
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.base.BaseViewModel
-import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
+import eu.agribot.agribotapp.domain.model.fromdomain.SwitchSettings
+import eu.agribot.agribotapp.domain.service.ManualModeService
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.LEFT_BLUE
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.LEFT_DOWN_TUZ
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.LEFT_GREEN
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.LEFT_PTO
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.LEFT_UP_TUZ
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.LEFT_YELLOW
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.RIGHT_BLUE
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.RIGHT_DOWN_TUZ
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.RIGHT_GREEN
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.RIGHT_PTO
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.RIGHT_UP_TUZ
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.RIGHT_YELLOW
 
 class ToolControlViewModel(
+    private val manualModeService: ManualModeService
 ) : BaseViewModel() {
 
-    // Tools bar LiveData
     val leftPTO: MutableLiveData<String> = MutableLiveData()
     val leftBlue: MutableLiveData<String> = MutableLiveData()
     val leftYellow: MutableLiveData<String> = MutableLiveData()
@@ -27,63 +40,107 @@ class ToolControlViewModel(
     var rightYellowSwitch: Boolean = false
     var rightGreenSwitch: Boolean = false
 
-    val showToastEvent: MutableLiveEvent<String> = MutableLiveEvent()
-
-
-
-    fun setDefaultToolsValue() {
-        onSliderParametrChange(1, 0)
-        onSliderParametrChange(2, 0)
-        onSliderParametrChange(3, 0)
-        onSliderParametrChange(4, 0)
-        onSliderParametrChange(5, 0)
-        onSliderParametrChange(6, 0)
-        onSliderParametrChange(7, 0)
-        onSliderParametrChange(8, 0)
+    fun onLeftUpTuzChange(tuzProgress: Int) {
+        manualModeService.onSwitchParametrChanged(SwitchSettings(LEFT_UP_TUZ, true, tuzProgress))
     }
 
-    fun onSliderParametrChange(sliderNumber: Int, sliderValue: Int) {
-        when (sliderNumber) {
-            1 -> {
-                leftPTO.value = "$sliderValue rpm"
-                onToolsParametrValueChange(1, sliderValue, leftPTOSwitch)
-            }
-            2 -> {
-                leftBlue.value = "$sliderValue rpm"
-                onToolsParametrValueChange(4, sliderValue, leftBlueSwitch)
-            }
-            3 -> {
-                leftYellow.value = "$sliderValue rpm"
-                onToolsParametrValueChange(3, sliderValue, leftYellowSwitch)
-            }
-            4 -> {
-                leftGreen.value = "$sliderValue rpm"
-                onToolsParametrValueChange(2, sliderValue, leftGreenSwitch)
-            }
-            5 -> {
-                rightPTO.value = "$sliderValue rpm"
-                onToolsParametrValueChange(7, sliderValue, rightPTOSwitch)
-            }
-            6 -> {
-                rightBlue.value = "$sliderValue rpm"
-                onToolsParametrValueChange(10, sliderValue, rightBlueSwitch)
-            }
-            7 -> {
-                rightYellow.value = "$sliderValue rpm"
-                onToolsParametrValueChange(9, sliderValue, rightYellowSwitch)
-            }
-            8 -> {
-                rightGreen.value = "$sliderValue rpm"
-                onToolsParametrValueChange(8, sliderValue, rightGreenSwitch)
-            }
-        }
+    fun onLeftDownTuzChange(tuzProgress: Int) {
+        manualModeService.onSwitchParametrChanged(SwitchSettings(LEFT_DOWN_TUZ, true, tuzProgress))
     }
 
-    private fun onToolsParametrValueChange(
-        switchNumber: Int,
-        progres: Int,
-        isChecked: Boolean
-    ) {
+    fun onRightUpTuzChange(tuzProgress: Int) {
+        manualModeService.onSwitchParametrChanged(SwitchSettings(RIGHT_UP_TUZ, true, tuzProgress))
+    }
 
+    fun onRightDownTuzChange(tuzProgress: Int) {
+        manualModeService.onSwitchParametrChanged(SwitchSettings(RIGHT_DOWN_TUZ, true, tuzProgress))
+    }
+
+    fun onLeftPTOChanged(toolProgress: Int) {
+        leftPTO.value = "$toolProgress rpm"
+        manualModeService.onSwitchParametrChanged(
+            SwitchSettings(
+                LEFT_PTO,
+                leftPTOSwitch,
+                toolProgress
+            )
+        )
+    }
+
+    fun onLeftBlueChanged(toolProgress: Int) {
+        leftBlue.value = "$toolProgress rpm"
+        manualModeService.onSwitchParametrChanged(
+            SwitchSettings(
+                LEFT_BLUE,
+                leftBlueSwitch,
+                toolProgress
+            )
+        )
+    }
+
+    fun onLeftYellowChanged(toolProgress: Int) {
+        leftYellow.value = "$toolProgress rpm"
+        manualModeService.onSwitchParametrChanged(
+            SwitchSettings(
+                LEFT_YELLOW,
+                leftYellowSwitch,
+                toolProgress
+            )
+        )
+    }
+
+    fun onLeftGreenChanged(toolProgress: Int) {
+        leftGreen.value = "$toolProgress rpm"
+        manualModeService.onSwitchParametrChanged(
+            SwitchSettings(
+                LEFT_GREEN,
+                leftGreenSwitch,
+                toolProgress
+            )
+        )
+    }
+
+    fun onRightPTOChanged(toolProgress: Int) {
+        rightPTO.value = "$toolProgress rpm"
+        manualModeService.onSwitchParametrChanged(
+            SwitchSettings(
+                RIGHT_PTO,
+                rightPTOSwitch,
+                toolProgress
+            )
+        )
+    }
+
+    fun onRightBlueChanged(toolProgress: Int) {
+        rightBlue.value = "$toolProgress rpm"
+        manualModeService.onSwitchParametrChanged(
+            SwitchSettings(
+                RIGHT_BLUE,
+                rightBlueSwitch,
+                toolProgress
+            )
+        )
+    }
+
+    fun onRightYellowChanged(toolProgress: Int) {
+        rightYellow.value = "$toolProgress rpm"
+        manualModeService.onSwitchParametrChanged(
+            SwitchSettings(
+                RIGHT_YELLOW,
+                rightYellowSwitch,
+                toolProgress
+            )
+        )
+    }
+
+    fun onRightGreenChanged(toolProgress: Int) {
+        rightGreen.value = "$toolProgress rpm"
+        manualModeService.onSwitchParametrChanged(
+            SwitchSettings(
+                RIGHT_GREEN,
+                rightGreenSwitch,
+                toolProgress
+            )
+        )
     }
 }

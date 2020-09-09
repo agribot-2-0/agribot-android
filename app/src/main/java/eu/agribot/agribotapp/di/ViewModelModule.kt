@@ -32,9 +32,11 @@ import org.koin.dsl.module
  */
 val viewModelModule = module {
 
-    viewModel {
+    viewModel { (context: Context) ->
         BluetoothConnectionViewModel(
-            bluetoothConnectionService = get(), manualModeService = get()
+            bluetoothConnectionService = get(),
+            resourcesProvider = get { parametersOf(context) },
+            permissionManager = get()
         )
     }
     viewModel {
@@ -48,10 +50,11 @@ val viewModelModule = module {
             bluetoothConnectionService = get()
         )
     }
-    viewModel {
+    viewModel { (context: Context) ->
         ManualControlViewModel(
             remoteControlService = get(),
-            manualModeService = get()
+            manualModeService = get(),
+            resourcesProvider = get { parametersOf(context) }
         )
     }
     viewModel { (context: Context) ->
@@ -74,10 +77,10 @@ val viewModelModule = module {
     }
     viewModel {
         ToolControlViewModel(
-
+            manualModeService = get()
         )
     }
-    viewModel { AutonomousModeViewModel() }
+    viewModel { AutonomousModeViewModel(autonomySevice = get()) }
     viewModel { ToolManagementViewModel() }
     viewModel {
         PathManagementViewModel(
@@ -85,10 +88,13 @@ val viewModelModule = module {
         )
     }
     viewModel { WeatherViewModel() }
+
     viewModel { (context: Context) ->
         SettingsViewModel(
             authenticationService = get(),
-            resourcesProvider = get { parametersOf(context) })
+            resourcesProvider = get { parametersOf(context) },
+            bluetoothConnectionService = get()
+        )
     }
     viewModel {
         BluetoothNearbyListItemViewModel(

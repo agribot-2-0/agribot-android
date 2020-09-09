@@ -1,9 +1,9 @@
 package eu.agribot.agribotapp.communication.bluetooth.message.frame
 
-import eu.agribot.agribotapp.communication.bluetooth.const.FrameConstant
-import eu.agribot.agribotapp.communication.bluetooth.const.FrameConstant.CONSTANT_FRAME_ELEMENTS_SIZE
-import eu.agribot.agribotapp.communication.bluetooth.const.FrameConstant.EMPTY_ARRAY
-import eu.agribot.agribotapp.communication.bluetooth.const.FrameConstant.START_FRAME
+import eu.agribot.agribotapp.communication.bluetooth.message.frame.FrameConstant.CONSTANT_FRAME_ELEMENTS_SIZE
+import eu.agribot.agribotapp.communication.bluetooth.message.frame.FrameConstant.DUMMY_BYTE
+import eu.agribot.agribotapp.communication.bluetooth.message.frame.FrameConstant.EMPTY_ARRAY
+import eu.agribot.agribotapp.communication.bluetooth.message.frame.FrameConstant.START_FRAME
 import eu.agribot.agribotapp.communication.bluetooth.model.CANmessageData
 import kotlin.experimental.xor
 
@@ -17,14 +17,14 @@ class BluetoothMessageFrame() {
     constructor(CANmessageData: CANmessageData) : this() {
         val bluetoothFrameLength = CANmessageData.canData.size
         bluetoothMessageArray =
-            ByteArray(bluetoothFrameLength + CONSTANT_FRAME_ELEMENTS_SIZE) { 0.toByte() }
+            ByteArray(bluetoothFrameLength + CONSTANT_FRAME_ELEMENTS_SIZE) { EMPTY_ARRAY.toByte() }
         bluetoothMessageArray[0] = START_FRAME
         bluetoothMessageArray[1] = (bluetoothFrameLength + 3).toByte()
         bluetoothMessageArray[2] = FrameConstant.COMMAND
         bluetoothMessageArray[3] = (CANmessageData.canAdress shr 8).toByte()
-        bluetoothMessageArray[4] = (CANmessageData.canAdress and 0xFF).toByte()
-        if (bluetoothFrameLength > 0) {
-            for (x in 0 until bluetoothFrameLength)
+        bluetoothMessageArray[4] = (CANmessageData.canAdress and DUMMY_BYTE.toInt()).toByte()
+        if (bluetoothFrameLength > EMPTY_ARRAY) {
+            for (x in EMPTY_ARRAY until bluetoothFrameLength)
                 bluetoothMessageArray[x + 5] = CANmessageData.canData[x]
         }
         countChecksum()
@@ -50,7 +50,7 @@ class BluetoothMessageFrame() {
     fun getAddress(): Int {
         return if (getLength() > 2) {
             val firstElementAdressCode = (bluetoothMessageArray[3].toInt() * 256)
-            val secondElementAdressCode: Int = if (bluetoothMessageArray[4].toInt() < 0) {
+            val secondElementAdressCode: Int = if (bluetoothMessageArray[4].toInt() < EMPTY_ARRAY) {
                 256 + bluetoothMessageArray[4]
             } else
                 bluetoothMessageArray[4].toInt()
@@ -65,7 +65,7 @@ class BluetoothMessageFrame() {
     }
 
     private fun countChecksum() {
-        var checksum = 0x43.toByte()
+        var checksum = START_FRAME
         val length = bluetoothMessageArray[1]
         for (x in 1..length + 1) {
             checksum = checksum.xor(bluetoothMessageArray[x])

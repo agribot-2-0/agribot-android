@@ -1,12 +1,16 @@
 package eu.agribot.agribotapp.communication.bluetooth.error.connection
 
+import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
+
 interface BluetoothConnectionErrorHandler {
 
-    fun onCreateBluetoothServerError(createServerException: Exception)
+    fun onCreateBluetoothServerError()
 
-    fun onBluetoothConnectionError(connectionException: Exception)
+    fun onBluetoothConnectionError()
 
-    fun onSendBluetoothMessageError(sendBluetoohMessageException: Exception)
+    fun onSendBluetoothMessageError()
 
-    fun onReceiveBluetoothMessageError(receiveMessageException: Exception)
+    fun onReceiveBluetoothMessageError()
+
+    fun observeConnectionsError(): MutableLiveEvent<String>
 }

@@ -1,7 +1,7 @@
 package eu.agribot.agribotapp.domain.service.joystick.manualmode
 
 import eu.agribot.agribotapp.communication.bluetooth.message.writemessage.WriteBluetoothMessageManager
-import eu.agribot.agribotapp.domain.model.ArcParametrs
+import eu.agribot.agribotapp.domain.model.fromdomain.ArcParametrs
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.A_FACTOR_LEFT
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.A_FACTOR_LEFT_SECOND
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.A_FACTOR_RIGHT
@@ -18,6 +18,7 @@ import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstant
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.FRONT_MIN_ANGLE
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.FRONT_RIGHT_MAX_ANGLE
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.FRONT_RIGHT_MIN_ANGLE
+import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.INITIALIZE_JOYSTICK_ANGLE
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.LEFT_MAX_ANGLE
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.LEFT_MIN_ANGLE
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.MAX_ARCH
@@ -41,7 +42,7 @@ import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstant
 class ManualSteeringJoystickManager(private val writeBluetoothMessageManager: WriteBluetoothMessageManager) {
 
     fun onJoystickConfigurationChanged(angle: Int, strength: Int) {
-        var joystickAngle = 0
+        var joystickAngle = INITIALIZE_JOYSTICK_ANGLE
         var radius: Double = MAX_ARCH
 
         when (angle) {
@@ -97,6 +98,6 @@ class ManualSteeringJoystickManager(private val writeBluetoothMessageManager: Wr
     }
 
     private fun sendChangedJoystickParmaetrs(arcParametrs: ArcParametrs) {
-        writeBluetoothMessageManager.sendManualSteeringDataMessage(arcParametrs)
+        writeBluetoothMessageManager.sendManualSteeringDataMessage(arcParametrs.toCommunicationModel())
     }
 }

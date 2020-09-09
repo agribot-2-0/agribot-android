@@ -13,9 +13,7 @@ import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseActivity
 import eu.agribot.agribotapp.common.dialog.DialogManager
 import eu.agribot.agribotapp.databinding.ActivityMainBinding
-import kotlinx.android.synthetic.main.activity_main.mainDrawerLayout
-import kotlinx.android.synthetic.main.activity_main.mainDrawerNV
-import kotlinx.android.synthetic.main.activity_main.mainToolbar
+import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -37,6 +35,13 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
     List of destinations that should not return to previous
     Screen when back is pressed
     */
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.connectionErrors.observe(this::showToast)
+        viewModel.writeMessageErrors.observe(this::showToast)
+        viewModel.receiveMessageErrors.observe(this::showToast)
+    }
 
     private val navigationTopLevelDestinations = setOf(
         R.id.manualControlFragment,

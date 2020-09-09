@@ -27,7 +27,7 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.showToastEvent.observe(this::showToast)
+        viewModel.toastEvent.observe(this::showToast)
         viewModel.showSignoutDialogEvent.observe(this::showSignOutDialog)
         viewModel.showDeleteAccountDialogEvent.observe(this::showDeleteAccountDialog)
     }

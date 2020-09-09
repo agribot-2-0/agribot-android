@@ -9,7 +9,8 @@ class TTControlService(
 ) {
 
     fun onHorizontalJoystickParametrsChanged(
-        angle: Int, isFrontKartActive: Boolean,
+        angle: Int,
+        isFrontKartActive: Boolean,
         isRearKartActive: Boolean
     ) {
         horizontalJoystickManager.onHorizontalJoystickAngleChanged(
@@ -20,7 +21,8 @@ class TTControlService(
     }
 
     fun onVerticalJoystickParametrsChanged(
-        angle: Int, isFrontKartActive: Boolean,
+        angle: Int,
+        isFrontKartActive: Boolean,
         isRearKartActive: Boolean
     ) {
         verticalJoystickManager.onVerticalJoystickAngleChanged(

@@ -8,7 +8,6 @@ object BluetoothAdressCodeModel {
     const val MOBILE_HEARTBEAT = 1
     const val MOBILE_HANDSHAKE = 10
     const val AGRIBOT_HANDSHAKE = 11
-    const val AGRIBOT_ERROR = 200
 
     const val MANUAL_STARTING_INIT = 20
     const val MANUAL_START = 21
@@ -23,4 +22,3 @@ object BluetoothAdressCodeModel {
     const val AGRIBOT_SET_SWITCH = 60
     const val AGRIBOT_DIAGNOSTIC_DATA_1 = 100
 }
-

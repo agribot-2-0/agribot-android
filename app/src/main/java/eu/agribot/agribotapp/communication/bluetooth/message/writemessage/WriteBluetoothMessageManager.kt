@@ -1,7 +1,8 @@
 package eu.agribot.agribotapp.communication.bluetooth.message.writemessage
 
 import android.bluetooth.BluetoothSocket
-import eu.agribot.agribotapp.domain.model.ArcParametrs
+import eu.agribot.agribotapp.communication.bluetooth.model.tocommunication.ArcParametrsBD
+import eu.agribot.agribotapp.communication.bluetooth.model.tocommunication.SwitchSettingsBD
 
 interface WriteBluetoothMessageManager {
 
@@ -9,14 +10,14 @@ interface WriteBluetoothMessageManager {
     fun sendManualControlInitMessage()
     fun sendManualControlStartMessage()
     fun sendManualSteeringDataMessage(
-        arcParametrs: ArcParametrs
+        arcParametrs: ArcParametrsBD
     )
 
     fun sendAutonomusModeInitMessage()
     fun sendStartEngineMessage()
     fun sendStopThreadMessage()
     fun sendSwitchSettingsMessage(
-        switchSettingsArray: ByteArray
+        switchSettings: SwitchSettingsBD
     )
 
     fun sendDiagnosticDataRequestMessage()

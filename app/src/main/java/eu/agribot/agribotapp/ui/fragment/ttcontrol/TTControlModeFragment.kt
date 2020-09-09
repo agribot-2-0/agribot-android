@@ -10,7 +10,6 @@ import io.github.controlwear.virtual.joystick.android.JoystickView
 import kotlinx.android.synthetic.main.fragment_ttcontrol.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 class TTControlModeFragment : BaseFragment<TTControlViewModel, FragmentTtcontrolBinding>() {
 
     override val layoutResourceId: Int = R.layout.fragment_ttcontrol
@@ -49,5 +48,4 @@ class TTControlModeFragment : BaseFragment<TTControlViewModel, FragmentTtcontrol
             rear_kart.colorFilter = null
         }
     }
-
 }

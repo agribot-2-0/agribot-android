@@ -11,15 +11,12 @@ import eu.agribot.agribotapp.common.navigation.events.ToolControlNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentManualControlBinding
 import io.github.controlwear.virtual.joystick.android.JoystickView
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManualControlBinding>() {
 
-    companion object {
-        private const val DELAY_MANUAL_STEERING_START = 500L
-    }
-
     override val layoutResourceId: Int = R.layout.fragment_manual_control
-    override val viewModel: ManualControlViewModel by viewModel()
+    override val viewModel: ManualControlViewModel by viewModel { parametersOf(requireContext()) }
 
     override fun bindViewVariables(viewBinding: FragmentManualControlBinding) {
         viewBinding.viewModel = viewModel
@@ -28,7 +25,7 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val joystick = view.findViewById(R.id.joyy) as JoystickView
+        val joystick = view.findViewById(R.id.manual_mode_joystick) as JoystickView
         joystick.setOnMoveListener { angle, strength ->
             viewModel.onJoystickParametrChange(angle, strength)
         }
@@ -42,7 +39,6 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
         else -> Unit
     }
 
-
     private fun navigateToBluetoothScreen() {
         navigationController?.navigate(R.id.action_manualControlFragment_to_bluetoothConnectionFragment)
     }
@@ -54,6 +50,4 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
     private fun navigateToOverrideMode() {
         navigationController?.navigate(R.id.action_manualControlFragment_to_overrideFragment)
     }
-
-
 }

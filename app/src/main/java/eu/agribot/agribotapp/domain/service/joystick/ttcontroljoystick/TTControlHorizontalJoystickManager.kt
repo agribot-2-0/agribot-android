@@ -7,7 +7,8 @@ import eu.agribot.agribotapp.domain.service.joystick.ttcontroljoystick.TTControl
 class TTControlHorizontalJoystickManager(private val bluetoothMessageWriteManager: WriteBluetoothMessageManager) {
 
     fun onHorizontalJoystickAngleChanged(
-        angle: Int, isFrontKartActive: Boolean,
+        angle: Int,
+        isFrontKartActive: Boolean,
         isRearKartActive: Boolean
     ) {
         when (angle) {
@@ -19,7 +20,6 @@ class TTControlHorizontalJoystickManager(private val bluetoothMessageWriteManage
             }
         }
     }
-
 
     private fun turnLeft(
         isFrontKartActive: Boolean,
@@ -40,6 +40,4 @@ class TTControlHorizontalJoystickManager(private val bluetoothMessageWriteManage
             isRearKartActive
         )
     }
-
-
 }

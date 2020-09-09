@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -32,11 +33,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/margin_xxlarge" />
 
-                <Switch
-                    android:id="@+id/left_up_switch"
-                    android:layout_width="wrap_content"
+                <androidx.appcompat.widget.AppCompatSeekBar
+                    android:id="@+id/left_up_bar"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center" />
+                    android:layout_margin="@dimen/margin_medium"
+                    android:progress="50"
+                    android:progressDrawable="@drawable/slider_progress"
+                    android:splitTrack="false"
+                    android:theme="@style/Widget.AppCompat.SeekBar.Discrete"
+                    android:thumb="@drawable/slider_thumb" />
 
 
                 <View
@@ -45,11 +51,16 @@
                     android:layout_weight="1" />
 
 
-                <Switch
-                    android:id="@+id/left_down_switch"
-                    android:layout_width="wrap_content"
+                <androidx.appcompat.widget.AppCompatSeekBar
+                    android:id="@+id/left_down_bar"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center" />
+                    android:layout_margin="@dimen/margin_medium"
+                    android:progress="50"
+                    android:progressDrawable="@drawable/slider_progress"
+                    android:splitTrack="false"
+                    android:theme="@style/Widget.AppCompat.SeekBar.Discrete"
+                    android:thumb="@drawable/slider_thumb" />
 
                 <View
                     android:layout_width="match_parent"
@@ -82,11 +93,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/margin_xxlarge" />
 
-                <Switch
-                    android:id="@+id/right_up_switch"
-                    android:layout_width="wrap_content"
+                <androidx.appcompat.widget.AppCompatSeekBar
+                    android:id="@+id/right_up_bar"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center" />
+                    android:layout_margin="@dimen/margin_medium"
+                    android:progress="50"
+                    android:progressDrawable="@drawable/slider_progress"
+                    android:splitTrack="false"
+                    android:theme="@style/Widget.AppCompat.SeekBar.Discrete"
+                    android:thumb="@drawable/slider_thumb" />
 
 
                 <View
@@ -95,11 +111,16 @@
                     android:layout_weight="1" />
 
 
-                <Switch
-                    android:id="@+id/right_down_switch"
-                    android:layout_width="wrap_content"
+                <androidx.appcompat.widget.AppCompatSeekBar
+                    android:id="@+id/right_down_bar"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center" />
+                    android:layout_margin="@dimen/margin_medium"
+                    android:progress="50"
+                    android:progressDrawable="@drawable/slider_progress"
+                    android:splitTrack="false"
+                    android:theme="@style/Widget.AppCompat.SeekBar.Discrete"
+                    android:thumb="@drawable/slider_thumb" />
 
                 <View
                     android:layout_width="match_parent"
@@ -108,18 +129,6 @@
 
 
         </LinearLayout>
-
-        <androidx.appcompat.widget.AppCompatSeekBar
-            android:id="@+id/tools_seek_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_medium"
-            android:progress="50"
-            android:progressDrawable="@drawable/slider_progress"
-            android:splitTrack="false"
-            android:theme="@style/Widget.AppCompat.SeekBar.Discrete"
-            android:thumb="@drawable/slider_thumb" />
-
 
         <View
             android:layout_width="match_parent"

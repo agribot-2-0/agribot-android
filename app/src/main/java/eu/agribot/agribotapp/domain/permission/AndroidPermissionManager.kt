@@ -2,37 +2,49 @@ package eu.agribot.agribotapp.domain.permission
 
 import android.Manifest
 import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.karumi.dexter.Dexter
-import com.karumi.dexter.MultiplePermissionsReport
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 
-
-class AndroidPermissionManager(val context: Context) : PermissionManager {
-    private val permissions = listOf(
-        Manifest.permission.BLUETOOTH,
-        Manifest.permission.BLUETOOTH_ADMIN,
-        Manifest.permission.ACCESS_FINE_LOCATION
-    )
-
+class AndroidPermissionManager(
+    private val context: Context
+) : PermissionManager {
     override fun requestLocationPermission(
         onSuccess: () -> Unit,
-        onError: () -> Unit
+        onError: (PermissionError) -> Unit
     ) {
         Dexter.withContext(context)
-            .withPermissions(permissions).withListener(object : MultiplePermissionsListener {
-                override fun onPermissionsChecked(report: MultiplePermissionsReport) {
-                    onSuccess.invoke()
-                }
-
-                override fun onPermissionRationaleShouldBeShown(
-                    permissions: List<PermissionRequest?>?, token: PermissionToken?
-                ) {
-                    onError.invoke()
-                }
-            }).check()
+            .withPermissions(
+                getPermissions()
+            )
+            .withListener(
+                PermissionListener(
+                    onSuccess,
+                    onError
+                )
+            )
+            .withErrorListener { onError(PermissionError.BLOCKED) }
+            .check()
     }
+
+    private fun getPermissions() =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            getPermissionsForAndroidQ()
+        } else {
+            getDefaultPermissions()
+        }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private fun getPermissionsForAndroidQ() = listOf(
+        Manifest.permission.ACCESS_FINE_LOCATION,
+        Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+        Manifest.permission.BLUETOOTH,
+        Manifest.permission.BLUETOOTH_ADMIN
+    )
+
+    private fun getDefaultPermissions() = listOf(
+        Manifest.permission.ACCESS_FINE_LOCATION,
+        Manifest.permission.BLUETOOTH,
+        Manifest.permission.BLUETOOTH_ADMIN
+    )
 }
-
-

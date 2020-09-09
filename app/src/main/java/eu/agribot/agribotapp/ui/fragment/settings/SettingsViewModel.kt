@@ -8,12 +8,14 @@ import eu.agribot.agribotapp.common.navigation.events.BluetoothConnectionNavigat
 import eu.agribot.agribotapp.common.navigation.events.WelcomeActivityNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.service.AuthenticationService
+import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
 
 class SettingsViewModel(
     private val authenticationService: AuthenticationService,
-    private val resourcesProvider: ResourcesProvider
+    private val resourcesProvider: ResourcesProvider,
+    private val bluetoothConnectionService: BluetoothConnectionService
 ) : BaseViewModel() {
-    val showToastEvent: LiveEvent<String> = MutableLiveEvent()
+    val toastEvent: LiveEvent<String> = MutableLiveEvent()
     val user =
         resourcesProvider.getString(R.string.login_As_Text) + " " + authenticationService.getCurrentUser().userEmail
     val showSignoutDialogEvent: LiveEvent<Boolean> = MutableLiveEvent()
@@ -25,12 +27,12 @@ class SettingsViewModel(
     }
 
     private fun removeUserSucessfull() {
-        showToastEvent.postValue(resourcesProvider.getString(R.string.toast_remove_account_sucess))
+        toastEvent.postValue(resourcesProvider.getString(R.string.toast_remove_account_sucess))
         postWelcomeActivityEvent()
     }
 
     private fun removeUserFailed(removeUserProblem: String) {
-        showToastEvent.postValue(removeUserProblem)
+        toastEvent.postValue(removeUserProblem)
     }
 
     fun logOutButtonAction() {
@@ -44,7 +46,7 @@ class SettingsViewModel(
     }
 
     private fun logOutInfo() {
-        showToastEvent.postValue(resourcesProvider.getString(R.string.toast_logout_sucess))
+        toastEvent.postValue(resourcesProvider.getString(R.string.toast_logout_sucess))
     }
 
     fun removeTextClicked() {
@@ -65,6 +67,7 @@ class SettingsViewModel(
     }
 
     fun disconnect() {
-        showToastEvent.postValue("Now Agribot is disconnected")
+        bluetoothConnectionService.disconnect()
+        toastEvent.postValue(resourcesProvider.getString(R.string.disconnected))
     }
 }

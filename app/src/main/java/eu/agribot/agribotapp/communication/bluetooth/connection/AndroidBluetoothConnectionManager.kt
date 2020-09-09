@@ -18,7 +18,6 @@ class AndroidBluetoothConnectionManager(
 ) : BluetoothConnectionManager {
     private var bluetoothSocket: BluetoothSocket? = null
 
-
     override fun checkIsBluetoothEnable(): Boolean = when {
         bluetoothAdapter.isEnabled -> true
         else -> false
@@ -89,9 +88,7 @@ class AndroidBluetoothConnectionManager(
                 bluetoothSocket?.connect()
                 bluetoothReceivedBluetoothMessageManager.registerMessageReceiver(bluetoothSocket)
             } catch (bluetoothConnectionError: IOException) {
-                bluetoothConnectionErrorHandler.onBluetoothConnectionError(bluetoothConnectionError)
+                bluetoothConnectionErrorHandler.onBluetoothConnectionError()
             }
         }
-
-
 }

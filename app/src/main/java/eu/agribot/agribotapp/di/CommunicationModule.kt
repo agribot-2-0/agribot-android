@@ -1,15 +1,14 @@
 package eu.agribot.agribotapp.di
 
-import android.os.Handler
 import com.google.firebase.auth.FirebaseAuth
 import eu.agribot.agribotapp.communication.bluetooth.connection.AndroidBluetoothConnectionManager
 import eu.agribot.agribotapp.communication.bluetooth.connection.BluetoothConnectionManager
 import eu.agribot.agribotapp.communication.bluetooth.error.connection.AndroidBluetoothConnectionErrorHandler
 import eu.agribot.agribotapp.communication.bluetooth.error.connection.BluetoothConnectionErrorHandler
-import eu.agribot.agribotapp.communication.bluetooth.error.message.write.AndroidBluetoothMessageWriteErrorHandler
-import eu.agribot.agribotapp.communication.bluetooth.error.message.write.BluetoothMessageWriteErrorHandler
 import eu.agribot.agribotapp.communication.bluetooth.error.message.receive.AndroidBluetoothMessageReceiveErrorHandler
 import eu.agribot.agribotapp.communication.bluetooth.error.message.receive.BluetoothMessageReceiveErrorHandler
+import eu.agribot.agribotapp.communication.bluetooth.error.message.write.AndroidBluetoothMessageWriteErrorHandler
+import eu.agribot.agribotapp.communication.bluetooth.error.message.write.BluetoothMessageWriteErrorHandler
 import eu.agribot.agribotapp.communication.bluetooth.message.receivedmessage.AndroidReceivedBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.message.receivedmessage.ReceivedBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.message.writemessage.AndroidWriteBluetoothMessageManager
@@ -20,7 +19,6 @@ import eu.agribot.agribotapp.communication.persistence.PersistentStorage
 import eu.agribot.agribotapp.communication.persistence.SharedPreferencesPersistentStorage
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
-
 
 /**
  * Koin module used to provide communication layer dependencies
@@ -37,16 +35,15 @@ val communicationModule = module {
     single<ReceivedBluetoothMessageManager> {
         AndroidReceivedBluetoothMessageManager(
             receiveErrorHandler = get(),
-            writeBluetoothMessageManager = get())
+            writeBluetoothMessageManager = get()
+        )
     }
 
     single<WriteBluetoothMessageManager> {
         AndroidWriteBluetoothMessageManager(
-            bluetoothMessageWriteErrorHandler = get(),
-            bluetoothWriteMessageHandler = Handler()
+            bluetoothMessageWriteErrorHandler = get()
         )
     }
-
 
     single<FirebaseService> {
         AndroidFirebaseService(
@@ -61,20 +58,14 @@ val communicationModule = module {
     }
 
     single<BluetoothMessageWriteErrorHandler> {
-        AndroidBluetoothMessageWriteErrorHandler(
-
-        )
+        AndroidBluetoothMessageWriteErrorHandler()
     }
 
     single<BluetoothMessageReceiveErrorHandler> {
-        AndroidBluetoothMessageReceiveErrorHandler(
-
-        )
+        AndroidBluetoothMessageReceiveErrorHandler()
     }
 
     single<BluetoothConnectionErrorHandler> {
-        AndroidBluetoothConnectionErrorHandler(
-
-        )
+        AndroidBluetoothConnectionErrorHandler()
     }
 }

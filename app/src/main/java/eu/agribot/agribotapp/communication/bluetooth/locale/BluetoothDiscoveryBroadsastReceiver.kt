@@ -6,13 +6,15 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import eu.agribot.agribotapp.communication.bluetooth.model.FoundBluetoothDevice
+import eu.agribot.agribotapp.communication.bluetooth.model.fromcommunication.FoundBluetoothDeviceBD
+import eu.agribot.agribotapp.domain.model.todomain.FoundBluetoothDevice
 
 class BluetoothDiscoveryBroadcastReceiver(
     val onDeviceFound: (foundBluetoothDevice: FoundBluetoothDevice) -> Unit,
     val onDeviceConnected: () -> Unit,
     val onDeviceDisconnected: () -> Unit
 ) : BroadcastReceiver() {
+    private val NO_BLUETOOTH_DEVICE_NAME: String = "NO NAME"
 
     companion object {
         val FILTER = IntentFilter().apply {
@@ -28,15 +30,15 @@ class BluetoothDiscoveryBroadcastReceiver(
 
     override fun onReceive(context: Context, intent: Intent) {
         val device = intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
-        val foundBluetoothDevice: FoundBluetoothDevice
+        val foundBluetoothDeviceBD: FoundBluetoothDeviceBD
         if (device != null) {
-            foundBluetoothDevice = if (device.name != null) {
-                FoundBluetoothDevice(device.name, device.address)
+            foundBluetoothDeviceBD = if (device.name != null) {
+                FoundBluetoothDeviceBD(device.name, device.address)
             } else {
-                FoundBluetoothDevice("No name", device.address)
+                FoundBluetoothDeviceBD(NO_BLUETOOTH_DEVICE_NAME, device.address)
             }
             when (intent.action) {
-                BluetoothDevice.ACTION_FOUND -> onDeviceFound(foundBluetoothDevice)
+                BluetoothDevice.ACTION_FOUND -> onDeviceFound(foundBluetoothDeviceBD.toDomainModel())
                 BluetoothDevice.ACTION_ACL_CONNECTED -> onDeviceConnected()
                 BluetoothDevice.ACTION_ACL_DISCONNECTED -> onDeviceDisconnected()
             }

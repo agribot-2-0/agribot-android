@@ -1,23 +1,27 @@
 package eu.agribot.agribotapp.communication.bluetooth.error.connection
 
-import android.util.Log
+import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 
 class AndroidBluetoothConnectionErrorHandler : BluetoothConnectionErrorHandler {
+    private val connectionErrors: MutableLiveEvent<String> = MutableLiveEvent()
 
-    override fun onCreateBluetoothServerError(createServerException: Exception) {
-        Log.e("error", "onCreateBluetoothServerError : " + createServerException)
+    override fun onCreateBluetoothServerError() {
+        connectionErrors.postValue("Create Bluetooth Server Error")
     }
 
-    override fun onBluetoothConnectionError(connectionException: Exception) {
-        Log.e("error", "onBluetoothConnectionError : " + connectionException)
+    override fun onBluetoothConnectionError() {
+        connectionErrors.postValue("Bluetooth Connection Error")
     }
 
-    override fun onSendBluetoothMessageError(sendBluetoohMessageException: Exception) {
-        Log.e("error", "onSendBluetoothMessageError : " + sendBluetoohMessageException)
+    override fun onSendBluetoothMessageError() {
+        connectionErrors.postValue("Send Bluetooth Message Error")
     }
 
-    override fun onReceiveBluetoothMessageError(receiveMessageException: Exception) {
-        Log.e("error", "onReceiveBluetoothMessageError : " + receiveMessageException)
+    override fun onReceiveBluetoothMessageError() {
+        connectionErrors.postValue("Receive Bluetooth Message Error")
     }
 
+    override fun observeConnectionsError(): MutableLiveEvent<String> {
+        return connectionErrors
+    }
 }

@@ -1,8 +1,15 @@
 package eu.agribot.agribotapp.di
 
-import eu.agribot.agribotapp.domain.error.AgribotErrorHandler
 import eu.agribot.agribotapp.domain.error.AuthenticationErrorHandler
-import eu.agribot.agribotapp.domain.service.*
+import eu.agribot.agribotapp.domain.permission.AndroidPermissionManager
+import eu.agribot.agribotapp.domain.permission.PermissionManager
+import eu.agribot.agribotapp.domain.service.AuthenticationService
+import eu.agribot.agribotapp.domain.service.AutonomySevice
+import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
+import eu.agribot.agribotapp.domain.service.ManualModeService
+import eu.agribot.agribotapp.domain.service.PathManagementService
+import eu.agribot.agribotapp.domain.service.RemoteControlService
+import eu.agribot.agribotapp.domain.service.TTControlService
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.ManualSteeringJoystickManager
 import eu.agribot.agribotapp.domain.service.joystick.ttcontroljoystick.TTControlHorizontalJoystickManager
 import eu.agribot.agribotapp.domain.service.joystick.ttcontroljoystick.TTControlVerticalJoystickManager
@@ -49,21 +56,22 @@ val domainModule = module {
 
     single {
         BluetoothConnectionService(
-            bluetoothConnectionManager = get()
+            bluetoothConnectionManager = get(),
+            bluetoothConnectionErrorHandler = get(),
+            bluetoothMessageWriteErrorHandler = get(),
+            bluetoothMessageReceiveErrorHandler = get()
         )
     }
 
     single {
         ManualModeService(
-            bluetoothMessageManager = get(),
-            manualSteeringJoystickManager = get()
+            manualSteeringJoystickManager = get(),
+            writeBluetoothMessageManager = get(),
+            receivedBluetoothMessageManager = get()
         )
     }
 
     single { ManualSteeringJoystickManager(writeBluetoothMessageManager = get()) }
-
-
-    single { AgribotErrorHandler() }
 
     single {
         TTControlService(horizontalJoystickManager = get(), verticalJoystickManager = get())
@@ -74,4 +82,16 @@ val domainModule = module {
     }
 
     single { TTControlHorizontalJoystickManager(bluetoothMessageWriteManager = get()) }
+
+    single { AutonomySevice(bluetoothMessageManager = get()) }
+
+    single<PermissionManager> {
+        AndroidPermissionManager(
+            context = get {
+                parametersOf(
+                    androidContext()
+                )
+            }
+        )
+    }
 }

@@ -61,11 +61,13 @@ val communicationModule = module {
         AndroidBluetoothMessageWriteErrorHandler()
     }
 
-    single<BluetoothMessageReceiveErrorHandler> {
+    single<BluetoothMessageReceiveErrorHandler>
+    {
         AndroidBluetoothMessageReceiveErrorHandler()
     }
 
-    single<BluetoothConnectionErrorHandler> {
+    single<BluetoothConnectionErrorHandler>
+    {
         AndroidBluetoothConnectionErrorHandler()
     }
 }

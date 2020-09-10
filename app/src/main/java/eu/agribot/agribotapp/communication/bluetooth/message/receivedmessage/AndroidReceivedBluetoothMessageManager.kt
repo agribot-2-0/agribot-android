@@ -81,6 +81,10 @@ class AndroidReceivedBluetoothMessageManager(
                 handleHeartbeatMessage(bluetoothMessageFrame)
             }
 
+            BluetoothAdressCodeModel.AGRIBOT_ERROR -> {
+                receiveErrorHandler.handleAgribotError()
+            }
+
             BluetoothAdressCodeModel.AGRIBOT_DIAGNOSTIC_DATA_1 -> {
                 handleDiagnosticData(bluetoothMessageFrame)
             }

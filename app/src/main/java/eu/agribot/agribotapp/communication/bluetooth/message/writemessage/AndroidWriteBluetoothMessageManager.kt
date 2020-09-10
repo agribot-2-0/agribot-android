@@ -2,10 +2,10 @@ package eu.agribot.agribotapp.communication.bluetooth.message.writemessage
 
 import android.bluetooth.BluetoothSocket
 import eu.agribot.agribotapp.communication.bluetooth.const.BluetoothAdressCodeModel
-import eu.agribot.agribotapp.communication.bluetooth.message.frame.FrameConstant.DUMMY_BYTE
 import eu.agribot.agribotapp.communication.bluetooth.error.message.write.BluetoothMessageWriteErrorHandler
 import eu.agribot.agribotapp.communication.bluetooth.message.frame.BluetoothMessageFrame
 import eu.agribot.agribotapp.communication.bluetooth.message.frame.FrameConstant.ARC_MESSAGE_ARRAY_SIZE
+import eu.agribot.agribotapp.communication.bluetooth.message.frame.FrameConstant.DUMMY_BYTE
 import eu.agribot.agribotapp.communication.bluetooth.message.frame.FrameConstant.EMPTY_CAN_ARRAY_SIZE
 import eu.agribot.agribotapp.communication.bluetooth.message.frame.FrameConstant.TTCONTROL_MOVE_BACK_FRONT_ARRAY_SIZE
 import eu.agribot.agribotapp.communication.bluetooth.message.frame.FrameConstant.TTCONTROL_MOVE_LEFT_RIGHT_ARRAY_SIZE
@@ -27,13 +27,13 @@ class AndroidWriteBluetoothMessageManager(
 ) :
     WriteBluetoothMessageManager {
     private var bluetoothWriteSocket: BluetoothSocket? = null
-    private val EMPTY_CAN_DATA = ByteArray(EMPTY_CAN_ARRAY_SIZE)
+    private val EMPTY_CAN_DATA = ByteArray(EMPTY_CAN_ARRAY_SIZE) { 1 }
     private val singleArray = ByteArray(1) { DUMMY_BYTE }
     private var ttControlForwardBackwardArray = ByteArray(TTCONTROL_MOVE_BACK_FRONT_ARRAY_SIZE)
     private var ttControlLeftRightArray = ByteArray(TTCONTROL_MOVE_LEFT_RIGHT_ARRAY_SIZE)
     private var switchesArray = ByteArray(8)
     var heartbeatScope = MainScope()
-    private val HEARTBEAT_DELAY_TIME = 50L
+    private val HEARTBEAT_DELAY_TIME = 150L
     private var heartbeatArray = ByteArray(EMPTY_CAN_ARRAY_SIZE)
     var heartbeatFrame =
         BluetoothMessageFrame(
@@ -49,6 +49,7 @@ class AndroidWriteBluetoothMessageManager(
                 outputStream.write(message)
             } catch (writeMessageException: IOException) {
                 bluetoothMessageWriteErrorHandler.onWriteMessageError()
+                stopSendingHeartbeat()
                 return
             }
         }
@@ -271,11 +272,11 @@ class AndroidWriteBluetoothMessageManager(
                 heartbeatFrame = BluetoothMessageFrame(
                     CANmessageData(BluetoothAdressCodeModel.MOBILE_HEARTBEAT, heartbeatArray)
                 )
+                delay(HEARTBEAT_DELAY_TIME)
                 writeBluetoothMessage(heartbeatFrame.bluetoothMessageArray)
                 if (heartbeatArray[0].toInt() % 4 == 0) {
                     sendDiagnosticDataRequestMessage()
                 }
-                delay(HEARTBEAT_DELAY_TIME)
                 heartbeatArray[0]++
             }
         }

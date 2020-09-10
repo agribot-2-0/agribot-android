@@ -13,4 +13,9 @@ object FrameConstant {
     const val DUMMY_BYTE = 0xFF.toByte()
     const val END_OF_FRAME_BYTE = 0x0D.toByte()
     const val CONSTANT_ELEMENTS_OF_FRAME_SIZE = 3
+    const val BIT_SHIFT = 8
+    const val ADDRESS_FLAG = 256
+    const val TWO_ELEMENT_ADDRES = 2
+    const val CONST_ELEMENT_OF_FRAME_SIZE = 4
+    const val BYTE_ARRAY_OF_CHECKSUM = 0x00.toByte()
 }

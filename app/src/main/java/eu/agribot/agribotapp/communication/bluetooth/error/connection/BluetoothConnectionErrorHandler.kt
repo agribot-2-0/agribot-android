@@ -8,9 +8,5 @@ interface BluetoothConnectionErrorHandler {
 
     fun onBluetoothConnectionError()
 
-    fun onSendBluetoothMessageError()
-
-    fun onReceiveBluetoothMessageError()
-
     fun observeConnectionsError(): MutableLiveEvent<String>
 }

@@ -133,6 +133,11 @@
     <string name="disconnected">Połączenie z Agribotem zakończone</string>
     <string name="empty_data">X</string>
     <string name="connected">Połączono z Agribotem</string>
+    <string name="heartbeat_error">Heartbeat Error</string>
+    <string name="send_message_error">Send Message Error</string>
+    <string name="receive_message_error">Receive Message Error</string>
+    <string name="create_server_error">Create Bluetooth Server Error</string>
+    <string name="connection_error">Bluetooth Connection Error</string>
 
 
 </resources>

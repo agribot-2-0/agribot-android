@@ -26,6 +26,7 @@ class ManualControlViewModel(
     val fuelLevel: MutableLiveData<String> = MutableLiveData()
     val fuelTemperature: MutableLiveData<String> = MutableLiveData()
     val REFRESH_DELAY = 100L
+    val JOYSTICK_DELAY = 150L
 
     fun onToolControlClicked() {
         navigationEvent.postValue(
@@ -64,7 +65,8 @@ class ManualControlViewModel(
         )
     }
 
-    fun onJoystickParametrChange(angel: Int, strength: Int) {
+    fun onJoystickParametrChange(angel: Int, strength: Int) = viewModelScope.launch {
+        delay(JOYSTICK_DELAY)
         manualModeService.onManualSteeringJoystickParametrChanged(angel, strength)
     }
 

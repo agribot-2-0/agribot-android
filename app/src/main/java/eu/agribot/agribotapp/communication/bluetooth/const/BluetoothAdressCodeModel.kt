@@ -12,7 +12,7 @@ object BluetoothAdressCodeModel {
     const val MANUAL_STARTING_INIT = 20
     const val MANUAL_START = 21
     const val AUTO_START = 30
-
+    const val AGRIBOT_ERROR = 200
     const val START_ENGINE = 90
     const val STOP_SIGNAL = 255
     const val MOVE_FORWARD_BACKWARD = 50

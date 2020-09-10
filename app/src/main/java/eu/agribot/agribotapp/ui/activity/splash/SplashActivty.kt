@@ -46,7 +46,7 @@ class SplashActivty : BaseActivity<SplashViewModel, ActivitySplashBinding>() {
         startActivity(MainActivity.getStartingIntent(this))
     }
 
-    private fun showBluetoothDialog(showDiaglog : Boolean) {
+    private fun showBluetoothDialog(showDiaglog: Boolean) {
         if (showDiaglog)
         dialogManager.showBluetoothDialog { viewModel.enableBluetooth() }
     }

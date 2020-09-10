@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.navigation.events.BluetoothConnectionNavigationEvent
-import eu.agribot.agribotapp.common.navigation.events.OverrideNavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.TTControlNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolControlNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.service.ManualModeService
@@ -79,7 +79,7 @@ class ManualControlViewModel(
 
     fun onTTControlButtonClicked() {
         navigationEvent.postValue(
-            OverrideNavigationEvent()
+            TTControlNavigationEvent()
         )
     }
 }

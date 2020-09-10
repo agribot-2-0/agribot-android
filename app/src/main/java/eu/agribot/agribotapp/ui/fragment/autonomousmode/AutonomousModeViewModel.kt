@@ -6,9 +6,9 @@ import com.google.android.gms.maps.model.MarkerOptions
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.LiveEvent
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
-import eu.agribot.agribotapp.domain.service.AutonomySevice
+import eu.agribot.agribotapp.domain.service.AutonomyService
 
-class AutonomousModeViewModel(private val autonomySevice: AutonomySevice) : BaseViewModel() {
+class AutonomousModeViewModel(private val autonomyService: AutonomyService) : BaseViewModel() {
 
     private val agriBotLatLng = LatLng(51.11322, 17.01958)
     val showToastEvent: LiveEvent<String> = MutableLiveEvent()
@@ -20,6 +20,6 @@ class AutonomousModeViewModel(private val autonomySevice: AutonomySevice) : Base
     }
 
     fun sendInitAutoMode() {
-        autonomySevice.sendInitAutonomyMode()
+        autonomyService.sendInitAutonomyMode()
     }
 }

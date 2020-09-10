@@ -2,6 +2,8 @@ package eu.agribot.agribotapp.ui.activity.splash
 
 import androidx.lifecycle.viewModelScope
 import eu.agribot.agribotapp.base.BaseViewModel
+import eu.agribot.agribotapp.common.livedata.LiveEvent
+import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.MainActivityNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.WelcomeActivityNavigationEvent
 import eu.agribot.agribotapp.domain.service.AuthenticationService
@@ -13,7 +15,7 @@ class SplashViewModel(
     private val authenticationService: AuthenticationService,
     private val bluetoothConnectionService: BluetoothConnectionService
 ) : BaseViewModel() {
-
+    val postDialogEvent : MutableLiveEvent<Boolean> = MutableLiveEvent()
     companion object {
         const val SPLASH_SCREEN_TIMEOUT_MILLIS = 1000L
     }
@@ -40,10 +42,10 @@ class SplashViewModel(
         }
     }
 
-    fun checkBluetoothEnable(showDialog: () -> Unit) {
+    fun handleCurrentBluetoothStatus() {
         when (bluetoothConnectionService.checkBluetoothEnable()) {
             true -> beginSplashScreenDelay()
-            false -> showDialog.invoke()
+            false -> postDialogEvent.postValue(true)
         }
     }
 

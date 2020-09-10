@@ -29,6 +29,7 @@ class AndroidBluetoothConnectionManager(
 
     override suspend fun registerBluetoothServer(isSecurityConnection: Boolean) =
         withContext(Dispatchers.IO) {
+
             val bluetoothSocketType =
                 if (isSecurityConnection) ConnectionSecurity.SECURE.security else ConnectionSecurity.UNSECURE.security
 

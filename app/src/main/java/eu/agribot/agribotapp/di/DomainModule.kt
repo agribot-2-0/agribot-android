@@ -4,7 +4,7 @@ import eu.agribot.agribotapp.domain.error.AuthenticationErrorHandler
 import eu.agribot.agribotapp.domain.permission.AndroidPermissionManager
 import eu.agribot.agribotapp.domain.permission.PermissionManager
 import eu.agribot.agribotapp.domain.service.AuthenticationService
-import eu.agribot.agribotapp.domain.service.AutonomySevice
+import eu.agribot.agribotapp.domain.service.AutonomyService
 import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
 import eu.agribot.agribotapp.domain.service.ManualModeService
 import eu.agribot.agribotapp.domain.service.PathManagementService
@@ -83,7 +83,7 @@ val domainModule = module {
 
     single { TTControlHorizontalJoystickManager(bluetoothMessageWriteManager = get()) }
 
-    single { AutonomySevice(bluetoothMessageManager = get()) }
+    single { AutonomyService(bluetoothMessageManager = get()) }
 
     single<PermissionManager> {
         AndroidPermissionManager(

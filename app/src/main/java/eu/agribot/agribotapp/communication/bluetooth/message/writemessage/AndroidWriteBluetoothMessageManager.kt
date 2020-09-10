@@ -9,8 +9,8 @@ import eu.agribot.agribotapp.communication.bluetooth.message.frame.FrameConstant
 import eu.agribot.agribotapp.communication.bluetooth.message.frame.FrameConstant.EMPTY_CAN_ARRAY_SIZE
 import eu.agribot.agribotapp.communication.bluetooth.message.frame.FrameConstant.TTCONTROL_MOVE_BACK_FRONT_ARRAY_SIZE
 import eu.agribot.agribotapp.communication.bluetooth.message.frame.FrameConstant.TTCONTROL_MOVE_LEFT_RIGHT_ARRAY_SIZE
-import eu.agribot.agribotapp.communication.bluetooth.message.frame.karts.AgribotKartsRotate
-import eu.agribot.agribotapp.communication.bluetooth.message.frame.karts.AgribotToolActivationStatus
+import eu.agribot.agribotapp.communication.bluetooth.message.frame.carts.AgribotCartsRotate
+import eu.agribot.agribotapp.communication.bluetooth.message.frame.carts.AgribotToolActivationStatus
 import eu.agribot.agribotapp.communication.bluetooth.model.CANmessageData
 import eu.agribot.agribotapp.communication.bluetooth.model.tocommunication.ArcParametrsBD
 import eu.agribot.agribotapp.communication.bluetooth.model.tocommunication.SwitchSettingsBD
@@ -234,10 +234,10 @@ class AndroidWriteBluetoothMessageManager(
     ) {
         ttControlLeftRightArray[0] =
             if (isFrontKartActive) AgribotToolActivationStatus.ACTIVE.active else AgribotToolActivationStatus.INACTIVE.active
-        ttControlLeftRightArray[1] = AgribotKartsRotate.LEFT.rotate
+        ttControlLeftRightArray[1] = AgribotCartsRotate.LEFT.rotate
         ttControlLeftRightArray[2] =
             if (isRearKartActive) AgribotToolActivationStatus.ACTIVE.active else AgribotToolActivationStatus.INACTIVE.active
-        ttControlLeftRightArray[3] = AgribotKartsRotate.LEFT.rotate
+        ttControlLeftRightArray[3] = AgribotCartsRotate.LEFT.rotate
 
         val rotateFrame = BluetoothMessageFrame(
             CANmessageData(BluetoothAdressCodeModel.ROTATE_CARRIAGES, ttControlLeftRightArray)
@@ -252,10 +252,10 @@ class AndroidWriteBluetoothMessageManager(
     ) {
         ttControlLeftRightArray[0] =
             if (isFrontKartActive) AgribotToolActivationStatus.ACTIVE.active else AgribotToolActivationStatus.INACTIVE.active
-        ttControlLeftRightArray[1] = AgribotKartsRotate.RIGHT.rotate
+        ttControlLeftRightArray[1] = AgribotCartsRotate.RIGHT.rotate
         ttControlLeftRightArray[2] =
             if (isRearKartActive) AgribotToolActivationStatus.ACTIVE.active else AgribotToolActivationStatus.INACTIVE.active
-        ttControlLeftRightArray[3] = AgribotKartsRotate.RIGHT.rotate
+        ttControlLeftRightArray[3] = AgribotCartsRotate.RIGHT.rotate
 
         val rotateFrame = BluetoothMessageFrame(
             CANmessageData(BluetoothAdressCodeModel.ROTATE_CARRIAGES, ttControlLeftRightArray)

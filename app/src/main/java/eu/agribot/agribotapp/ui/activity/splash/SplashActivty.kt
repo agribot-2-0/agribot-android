@@ -26,7 +26,8 @@ class SplashActivty : BaseActivity<SplashViewModel, ActivitySplashBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.checkBluetoothEnable(showDialog = this::showBluetoothDialog)
+        viewModel.handleCurrentBluetoothStatus()
+        viewModel.postDialogEvent.observe(this:: showBluetoothDialog)
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
@@ -45,7 +46,8 @@ class SplashActivty : BaseActivity<SplashViewModel, ActivitySplashBinding>() {
         startActivity(MainActivity.getStartingIntent(this))
     }
 
-    private fun showBluetoothDialog() {
+    private fun showBluetoothDialog(showDiaglog : Boolean) {
+        if (showDiaglog)
         dialogManager.showBluetoothDialog { viewModel.enableBluetooth() }
     }
 }

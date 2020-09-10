@@ -80,7 +80,7 @@ val viewModelModule = module {
             manualModeService = get()
         )
     }
-    viewModel { AutonomousModeViewModel(autonomySevice = get()) }
+    viewModel { AutonomousModeViewModel(autonomyService = get()) }
     viewModel { ToolManagementViewModel() }
     viewModel {
         PathManagementViewModel(

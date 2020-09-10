@@ -6,7 +6,7 @@ import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.BluetoothConnectionNavigationEvent
-import eu.agribot.agribotapp.common.navigation.events.OverrideNavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.TTControlNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolControlNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentManualControlBinding
 import io.github.controlwear.virtual.joystick.android.JoystickView
@@ -35,7 +35,7 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
         is ToolControlNavigationEvent -> navigateToToolControl()
         is BluetoothConnectionNavigationEvent -> navigateToBluetoothScreen()
-        is OverrideNavigationEvent -> navigateToOverrideMode()
+        is TTControlNavigationEvent -> navigateToOverrideMode()
         else -> Unit
     }
 

@@ -5,8 +5,8 @@ import eu.agribot.agribotapp.domain.model.todomain.DiagnosticData
 class DiagnosticCommunicationDataBD(
     val engineRotationsPerMinute: Int = 1,
     val torqueOfEngine: Int = 1,
-    val engineFuelRate: Double = 1.0,
-    val fuelLevel: Double = 1.0,
+    val engineFuelRate: String = " ",
+    val fuelLevel: Int = 1,
     val fuelTemperature: Int = 1,
     val batteryVoltage: String = " "
 

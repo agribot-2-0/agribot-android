@@ -7,7 +7,23 @@ import eu.agribot.agribotapp.communication.bluetooth.error.message.receive.Bluet
 import eu.agribot.agribotapp.communication.bluetooth.message.frame.BluetoothMessageFrame
 import eu.agribot.agribotapp.communication.bluetooth.message.frame.FrameConstant.DUMMY_BYTE
 import eu.agribot.agribotapp.communication.bluetooth.message.receivedmessage.ConstantReceivedMessage.BATTERY_VOLTAGE_RATIO
+import eu.agribot.agribotapp.communication.bluetooth.message.receivedmessage.ConstantReceivedMessage.EIGHT_BYTE_MESSAGE
+import eu.agribot.agribotapp.communication.bluetooth.message.receivedmessage.ConstantReceivedMessage.FIRST_DIGIT
+import eu.agribot.agribotapp.communication.bluetooth.message.receivedmessage.ConstantReceivedMessage.FOURTH_DIGIT
+import eu.agribot.agribotapp.communication.bluetooth.message.receivedmessage.ConstantReceivedMessage.FOUR_DIGIT_NUMBER
 import eu.agribot.agribotapp.communication.bluetooth.message.receivedmessage.ConstantReceivedMessage.FUEL_LEVEL_RATIO
+import eu.agribot.agribotapp.communication.bluetooth.message.receivedmessage.ConstantReceivedMessage.LENGHT_BYTE_POSITION
+import eu.agribot.agribotapp.communication.bluetooth.message.receivedmessage.ConstantReceivedMessage.START_FRAME_MESSAGE
+import eu.agribot.agribotapp.communication.bluetooth.message.receivedmessage.ConstantReceivedMessage.START_OF_FRAME_POSITION
+import eu.agribot.agribotapp.communication.bluetooth.message.receivedmessage.ConstantReceivedMessage.VOLTAGE_DROP
+import eu.agribot.agribotapp.communication.bluetooth.message.receivedmessage.DiagnosticDataArrayPosition.ACCUMULATOR_VOLTAGE_SECOND_BYTE_POSITION
+import eu.agribot.agribotapp.communication.bluetooth.message.receivedmessage.DiagnosticDataArrayPosition.ACCUMULATOR_VOLTGE_FIRST_BYTE_POSITION
+import eu.agribot.agribotapp.communication.bluetooth.message.receivedmessage.DiagnosticDataArrayPosition.ENGINE_FUEL_RATE_BYTE_POSITION
+import eu.agribot.agribotapp.communication.bluetooth.message.receivedmessage.DiagnosticDataArrayPosition.ENGINE_ROTATIONS_FIRST_BYTE_POSITION
+import eu.agribot.agribotapp.communication.bluetooth.message.receivedmessage.DiagnosticDataArrayPosition.ENGINE_ROTATIONS_SECOND_BYTE_POSITION
+import eu.agribot.agribotapp.communication.bluetooth.message.receivedmessage.DiagnosticDataArrayPosition.FUEL_LEVEL_BYTE_POSITION
+import eu.agribot.agribotapp.communication.bluetooth.message.receivedmessage.DiagnosticDataArrayPosition.FUEL_TEMPERATURE_BYTE_POSITION
+import eu.agribot.agribotapp.communication.bluetooth.message.receivedmessage.DiagnosticDataArrayPosition.TORQUE_OF_ENGINE_BYTE_POSITION
 import eu.agribot.agribotapp.communication.bluetooth.message.writemessage.WriteBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.model.fromcommunication.DiagnosticCommunicationDataBD
 import kotlinx.coroutines.MainScope
@@ -52,8 +68,8 @@ class AndroidReceivedBluetoothMessageManager(
         bluetoothMessage: ByteArray
     ) {
         try {
-            if (bluetoothMessage[0] == 67.toByte()) {
-                val length = bluetoothMessage[1].toInt()
+            if (bluetoothMessage[START_OF_FRAME_POSITION] == START_FRAME_MESSAGE.toByte()) {
+                val length = bluetoothMessage[LENGHT_BYTE_POSITION].toInt()
                 if (length <= 0)
                     return
                 if (bluetoothMessage.isEmpty())
@@ -92,25 +108,50 @@ class AndroidReceivedBluetoothMessageManager(
     }
 
     private fun handleDiagnosticData(bluetoothMessageFrame: BluetoothMessageFrame) {
-        if (bluetoothMessageFrame.getMessage().size < 8)
+        if (bluetoothMessageFrame.getMessage().size < EIGHT_BYTE_MESSAGE)
             return
-        val engineRpm = bytesToUnsingedInt(bluetoothMessageFrame.getMessage().sliceArray(0..1))
-        val batteryVoltage =
-            bytesToUnsingedInt(bluetoothMessageFrame.getMessage().sliceArray(6..7)) * BATTERY_VOLTAGE_RATIO
-        val batteryInfo: String = if (batteryVoltage.toString().length > 4) {
-            batteryVoltage.toString().slice(0..4)
+
+        val accumulatorVoltage =
+            (bytesToUnsingedInt(
+                bluetoothMessageFrame.getMessage()
+                    .sliceArray(ACCUMULATOR_VOLTGE_FIRST_BYTE_POSITION..ACCUMULATOR_VOLTAGE_SECOND_BYTE_POSITION)
+            ))
+
+        val batteryVoltageInfo: String
+        batteryVoltageInfo = if (accumulatorVoltage.toString().length > FOUR_DIGIT_NUMBER) {
+            (accumulatorVoltage * BATTERY_VOLTAGE_RATIO + VOLTAGE_DROP).toString()
+                .slice(FIRST_DIGIT..FOURTH_DIGIT)
         } else {
-            batteryVoltage.toString()
+            (accumulatorVoltage * BATTERY_VOLTAGE_RATIO + VOLTAGE_DROP).toString()
         }
-        val fuelLevel: Double = bluetoothMessageFrame.getMessage()[3].toDouble() * FUEL_LEVEL_RATIO
+
+        val engineRotations =
+            bytesToUnsingedInt(
+                bluetoothMessageFrame.getMessage()
+                    .sliceArray(ENGINE_ROTATIONS_FIRST_BYTE_POSITION..ENGINE_ROTATIONS_SECOND_BYTE_POSITION)
+            )
+        val torqueOfEngine = bluetoothMessageFrame.getMessage()[TORQUE_OF_ENGINE_BYTE_POSITION]
+
+        val engineFuelRate =
+            bluetoothMessageFrame.getMessage()[ENGINE_FUEL_RATE_BYTE_POSITION] / FUEL_LEVEL_RATIO
+
+        val engineFuelRateInfo: String
+        engineFuelRateInfo = if (engineFuelRate.toString().length > FOUR_DIGIT_NUMBER) {
+            engineFuelRate.toString().slice(FIRST_DIGIT..FOURTH_DIGIT)
+        } else {
+            engineFuelRate.toString()
+        }
+
+        val fuelLevel = bluetoothMessageFrame.getMessage()[FUEL_LEVEL_BYTE_POSITION]
+        val fuelTemperature = bluetoothMessageFrame.getMessage()[FUEL_TEMPERATURE_BYTE_POSITION]
 
         agribotDiagnosticData = DiagnosticCommunicationDataBD(
-            engineRpm,
-            bluetoothMessageFrame.getMessage()[2].toInt(),
-            bluetoothMessageFrame.getMessage()[3].toDouble(),
-            fuelLevel,
-            bluetoothMessageFrame.getMessage()[5].toInt(),
-            batteryInfo
+            engineRotationsPerMinute = engineRotations,
+            torqueOfEngine = torqueOfEngine.toInt(),
+            engineFuelRate = engineFuelRateInfo,
+            fuelLevel = fuelLevel.toInt(),
+            fuelTemperature = fuelTemperature.toInt(),
+            batteryVoltage = batteryVoltageInfo
         )
     }
 

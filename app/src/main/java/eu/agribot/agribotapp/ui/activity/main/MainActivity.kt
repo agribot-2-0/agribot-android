@@ -38,6 +38,8 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.registerServer()
+        viewModel.refreshBluetoothErrorsList()
         viewModel.connectionErrors.observe(this::showToast)
         viewModel.writeMessageErrors.observe(this::showToast)
         viewModel.receiveMessageErrors.observe(this::showToast)
@@ -153,10 +155,5 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         dialogManager.showExitDialog {
             this.finishAffinity()
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.registerServer()
     }
 }

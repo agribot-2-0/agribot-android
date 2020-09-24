@@ -4,21 +4,42 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainViewModel(private val bluetoothConnectionService: BluetoothConnectionService) :
     BaseViewModel() {
     val connectionErrors: MutableLiveData<String> =
-        bluetoothConnectionService.observeBluetoothConnectionErrors()
+        MutableLiveData()
     val writeMessageErrors: MutableLiveData<String> =
-        bluetoothConnectionService.observeBluetoothWriteMessageErrors()
+        MutableLiveData()
     val receiveMessageErrors: MutableLiveData<String> =
-        bluetoothConnectionService.observeBluetoothReceiveMessageErrors()
+        MutableLiveData()
+    val ERROR_REFRESH_DELAY = 10000L
 
     fun registerServer() {
         viewModelScope.launch {
             bluetoothConnectionService.runServer(true)
             bluetoothConnectionService.runServer(false)
+        }
+    }
+
+    fun refreshBluetoothErrorsList() = viewModelScope.launch {
+        while (true) {
+            delay(ERROR_REFRESH_DELAY)
+            if (bluetoothConnectionService.getBluetoothConnectionErrors() != null) {
+                connectionErrors.value = bluetoothConnectionService.getBluetoothConnectionErrors()
+            } else if (bluetoothConnectionService.getBluetoothWriteMessageErrors()
+                != null
+            ) {
+                writeMessageErrors.value =
+                    bluetoothConnectionService.getBluetoothWriteMessageErrors()
+            } else if (bluetoothConnectionService.getBluetoothReceiveMessageErrors()
+                != null
+            ) {
+                receiveMessageErrors.value =
+                    bluetoothConnectionService.getBluetoothReceiveMessageErrors()
+            }
         }
     }
 }

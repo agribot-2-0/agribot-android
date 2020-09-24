@@ -20,7 +20,6 @@ import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.RIGHT_YELLOW
 class ToolControlViewModel(
     private val manualModeService: ManualModeService
 ) : BaseViewModel() {
-
     val leftPTO: MutableLiveData<String> = MutableLiveData()
     val leftBlue: MutableLiveData<String> = MutableLiveData()
     val leftYellow: MutableLiveData<String> = MutableLiveData()

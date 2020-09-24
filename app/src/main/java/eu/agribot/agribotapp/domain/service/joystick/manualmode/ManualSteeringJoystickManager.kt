@@ -1,6 +1,6 @@
 package eu.agribot.agribotapp.domain.service.joystick.manualmode
 
-import eu.agribot.agribotapp.communication.bluetooth.message.writemessage.WriteBluetoothMessageManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.writemessage.WriteBluetoothMessageManager
 import eu.agribot.agribotapp.domain.model.fromdomain.ArcParametrs
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.A_FACTOR_LEFT
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.A_FACTOR_LEFT_SECOND

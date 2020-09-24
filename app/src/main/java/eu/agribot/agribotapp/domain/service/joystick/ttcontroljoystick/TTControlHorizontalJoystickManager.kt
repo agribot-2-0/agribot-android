@@ -1,6 +1,6 @@
 package eu.agribot.agribotapp.domain.service.joystick.ttcontroljoystick
 
-import eu.agribot.agribotapp.communication.bluetooth.message.writemessage.WriteBluetoothMessageManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.writemessage.WriteBluetoothMessageManager
 import eu.agribot.agribotapp.domain.service.joystick.ttcontroljoystick.TTControlJoystickConstant.HORIZONTAL_QUATER_MAXIMUM_ANGLE
 import eu.agribot.agribotapp.domain.service.joystick.ttcontroljoystick.TTControlJoystickConstant.HORIZONTAL_QUATER_MINIMUM_ANGLE
 

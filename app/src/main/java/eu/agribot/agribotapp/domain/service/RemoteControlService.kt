@@ -1,6 +1,6 @@
 package eu.agribot.agribotapp.domain.service
 
-import eu.agribot.agribotapp.communication.bluetooth.connection.BluetoothConnectionManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.connection.BluetoothConnectionManager
 import eu.agribot.agribotapp.communication.persistence.PersistentStorage
 import timber.log.Timber
 

@@ -1,7 +1,7 @@
 package eu.agribot.agribotapp.domain.service
 
-import eu.agribot.agribotapp.communication.bluetooth.message.receivedmessage.ReceivedBluetoothMessageManager
-import eu.agribot.agribotapp.communication.bluetooth.message.writemessage.WriteBluetoothMessageManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.receivedmessage.ReceivedBluetoothMessageManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.writemessage.WriteBluetoothMessageManager
 import eu.agribot.agribotapp.domain.model.fromdomain.SwitchSettings
 import eu.agribot.agribotapp.domain.model.todomain.DiagnosticData
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.ManualSteeringJoystickManager

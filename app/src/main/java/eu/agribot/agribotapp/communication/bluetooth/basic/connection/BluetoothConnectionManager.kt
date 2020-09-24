@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.communication.bluetooth.connection
+package eu.agribot.agribotapp.communication.bluetooth.basic.connection
 
 import android.bluetooth.BluetoothAdapter
 
@@ -11,10 +11,13 @@ interface BluetoothConnectionManager {
         get() = BluetoothAdapter.getDefaultAdapter()
 
     fun checkIsBluetoothEnable(): Boolean
+
     fun enableBluetooth()
+
     suspend fun registerBluetoothServer(
-        isSecurityConnection: Boolean
+        isSecureConnection: Boolean
     )
+
     suspend fun connectBluetoothWithAgribot(
         bluetoothDeviceAddress: String
     )

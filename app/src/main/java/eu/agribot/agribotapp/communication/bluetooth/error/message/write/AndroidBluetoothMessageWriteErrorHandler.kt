@@ -1,20 +1,22 @@
 package eu.agribot.agribotapp.communication.bluetooth.error.message.write
 
-import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
+import eu.agribot.agribotapp.communication.bluetooth.error.BluetothErrorCode.BLUETOOTH_HEARTBEAT_ERROR_CODE
+import eu.agribot.agribotapp.communication.bluetooth.error.BluetothErrorCode.BLUETOOTH_WRITE_MESSAGE_ERROR_CODE
+import eu.agribot.agribotapp.communication.bluetooth.model.fromcommunication.BluetoothErrorInfoBD
 
-class AndroidBluetoothMessageWriteErrorHandler() :
+class AndroidBluetoothMessageWriteErrorHandler :
     BluetoothMessageWriteErrorHandler {
-    val writeMessageError: MutableLiveEvent<String> = MutableLiveEvent()
+    private var writeMessageError: BluetoothErrorInfoBD? = null
 
     override fun onHeartBeatError() {
-        writeMessageError.postValue("Heartbeat Error")
+        writeMessageError = BluetoothErrorInfoBD(BLUETOOTH_HEARTBEAT_ERROR_CODE)
     }
 
     override fun onWriteMessageError() {
-        writeMessageError.postValue("Send message Error")
+        writeMessageError = BluetoothErrorInfoBD(BLUETOOTH_WRITE_MESSAGE_ERROR_CODE)
     }
 
-    override fun observeWriteMessageError(): MutableLiveEvent<String> {
+    override fun getMessageWriteError(): BluetoothErrorInfoBD? {
         return writeMessageError
     }
 }

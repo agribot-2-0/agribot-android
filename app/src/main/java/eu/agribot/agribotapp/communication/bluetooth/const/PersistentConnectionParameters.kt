@@ -2,7 +2,7 @@ package eu.agribot.agribotapp.communication.bluetooth.const
 
 import java.util.UUID
 
-object ConstatntConnectionValue {
+object PersistentConnectionParameters {
 
     const val MESSAGE_BUFFER_SIZE = 1024
     val AGRIBOT_UUID_SECURE: UUID =

@@ -34,7 +34,7 @@
             android:layout_margin="@dimen/margin_medium"
             android:text="@{viewModel.bluetoothAddress}"
             android:textColor="?android:textColorPrimary"
-            android:textSize="@dimen/text_size_xlarge"
+            android:textSize="@dimen/text_size_medium"
             tools:text="ADRESS" />
 
         <View

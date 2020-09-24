@@ -1,10 +1,10 @@
 package eu.agribot.agribotapp.communication.bluetooth.error.message.write
 
-import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
+import eu.agribot.agribotapp.communication.bluetooth.model.fromcommunication.BluetoothErrorInfoBD
 
 interface BluetoothMessageWriteErrorHandler {
 
     fun onHeartBeatError()
     fun onWriteMessageError()
-    fun observeWriteMessageError(): MutableLiveEvent<String>
+    fun getMessageWriteError(): BluetoothErrorInfoBD?
 }

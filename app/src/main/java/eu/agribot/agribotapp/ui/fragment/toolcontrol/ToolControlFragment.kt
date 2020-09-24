@@ -19,83 +19,6 @@ class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolContr
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        left_up_bar.setOnSeekBarChangeListener(
-            ToolsBarChangeListener(
-                this::showProgressToast,
-                viewModel::onLeftUpTuzChange
-            )
-        )
-
-        left_down_bar.setOnSeekBarChangeListener(
-            ToolsBarChangeListener(
-                this::showProgressToast,
-                viewModel::onLeftDownTuzChange
-            )
-        )
-
-        right_up_bar.setOnSeekBarChangeListener(
-            ToolsBarChangeListener(
-                this::showProgressToast,
-                viewModel::onRightUpTuzChange
-            )
-        )
-
-        right_down_bar.setOnSeekBarChangeListener(
-            ToolsBarChangeListener(
-                this::showProgressToast,
-                viewModel::onRightDownTuzChange
-            )
-        )
-
-        left_pto_slider.setOnSeekBarChangeListener(
-            ToolsBarChangeListener(
-                this::showProgressToast,
-                viewModel::onLeftPTOChanged
-            )
-        )
-        left_blue_slider.setOnSeekBarChangeListener(
-            ToolsBarChangeListener(
-                this::showProgressToast,
-                viewModel::onLeftBlueChanged
-            )
-        )
-        left_yellow_slider.setOnSeekBarChangeListener(
-            ToolsBarChangeListener(
-                this::showProgressToast,
-                viewModel::onLeftYellowChanged
-            )
-        )
-        left_green_slider.setOnSeekBarChangeListener(
-            ToolsBarChangeListener(
-                this::showProgressToast,
-                viewModel::onLeftGreenChanged
-            )
-        )
-
-        right_pto_slider.setOnSeekBarChangeListener(
-            ToolsBarChangeListener(
-                this::showProgressToast,
-                viewModel::onRightPTOChanged
-            )
-        )
-        right_blue_slider.setOnSeekBarChangeListener(
-            ToolsBarChangeListener(
-                this::showProgressToast,
-                viewModel::onRightBlueChanged
-            )
-        )
-        right_yellow_slider.setOnSeekBarChangeListener(
-            ToolsBarChangeListener(
-                this::showProgressToast,
-                viewModel::onRightYellowChanged
-            )
-        )
-        right_green_slider.setOnSeekBarChangeListener(
-            ToolsBarChangeListener(
-                this::showProgressToast,
-                viewModel::onRightGreenChanged
-            )
-        )
 
         left_pto_switch.setOnCheckedChangeListener { _, isChecked ->
             viewModel.leftPTOSwitch = isChecked
@@ -128,9 +51,5 @@ class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolContr
         right_green_switch.setOnCheckedChangeListener { _, isChecked ->
             viewModel.rightGreenSwitch = isChecked
         }
-    }
-
-    private fun showProgressToast(progress: Int) {
-        showToast("$progress %")
     }
 }

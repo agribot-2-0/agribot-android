@@ -11,6 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/base_green"
         android:orientation="vertical">
 
         <TextView
@@ -19,38 +20,17 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/margin_large"
             android:gravity="center"
+            android:textColor="@color/white"
             android:text="@string/nerby_devices_list_item"
             android:textSize="@dimen/text_size_xlarge"
             android:textStyle="bold" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/margin_large"
-            android:src="@drawable/new_agribot" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:layout_margin="8dp"
-            android:background="@color/base_green" />
-
-        <ProgressBar
-            android:id="@+id/connectionBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="invisible"/>
-
-
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/refresh_nearby_devices"
+            android:layout_margin="@dimen/margin_xlarge"
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-
-
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/nearby_device_list"

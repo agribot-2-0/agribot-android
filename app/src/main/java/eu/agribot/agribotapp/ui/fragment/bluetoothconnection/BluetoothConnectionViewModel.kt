@@ -30,7 +30,7 @@ class BluetoothConnectionViewModel(
         permissionManager.requestLocationPermission(onSucess, onError = this::onPermissionError)
     }
 
-    fun onPermissionError(permissionError: PermissionError) {
+    private fun onPermissionError(permissionError: PermissionError) {
         toastEvent.postValue(permissionError.name)
     }
 

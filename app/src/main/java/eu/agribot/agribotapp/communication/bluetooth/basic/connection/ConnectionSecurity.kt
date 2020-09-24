@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.communication.bluetooth.connection
+package eu.agribot.agribotapp.communication.bluetooth.basic.connection
 
 enum class ConnectionSecurity(val security: String) {
     SECURE("Secure"),

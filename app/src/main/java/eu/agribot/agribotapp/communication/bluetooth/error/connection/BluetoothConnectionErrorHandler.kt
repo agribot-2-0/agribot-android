@@ -1,6 +1,6 @@
 package eu.agribot.agribotapp.communication.bluetooth.error.connection
 
-import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
+import eu.agribot.agribotapp.communication.bluetooth.model.fromcommunication.BluetoothErrorInfoBD
 
 interface BluetoothConnectionErrorHandler {
 
@@ -8,5 +8,5 @@ interface BluetoothConnectionErrorHandler {
 
     fun onBluetoothConnectionError()
 
-    fun observeConnectionsError(): MutableLiveEvent<String>
+    fun getConnectionsError(): BluetoothErrorInfoBD?
 }

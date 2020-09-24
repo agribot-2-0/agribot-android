@@ -1,39 +1,38 @@
-package eu.agribot.agribotapp.communication.bluetooth.connection
+package eu.agribot.agribotapp.communication.bluetooth.basic.connection
 
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothServerSocket
 import android.bluetooth.BluetoothSocket
-import eu.agribot.agribotapp.communication.bluetooth.const.ConstatntConnectionValue.AGRIBOT_UUID_INSECURE
-import eu.agribot.agribotapp.communication.bluetooth.const.ConstatntConnectionValue.AGRIBOT_UUID_SECURE
+import eu.agribot.agribotapp.communication.bluetooth.const.PersistentConnectionParameters.AGRIBOT_UUID_INSECURE
+import eu.agribot.agribotapp.communication.bluetooth.const.PersistentConnectionParameters.AGRIBOT_UUID_SECURE
 import eu.agribot.agribotapp.communication.bluetooth.error.connection.BluetoothConnectionErrorHandler
-import eu.agribot.agribotapp.communication.bluetooth.message.receivedmessage.ReceivedBluetoothMessageManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.receivedmessage.ReceivedBluetoothMessageManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.connection.socket.BluetoothSocketManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
 
 class AndroidBluetoothConnectionManager(
     private val bluetoothConnectionErrorHandler: BluetoothConnectionErrorHandler,
-    private val bluetoothReceivedBluetoothMessageManager: ReceivedBluetoothMessageManager
+    private val bluetoothReceivedBluetoothMessageManager: ReceivedBluetoothMessageManager,
+    private val bluetoothSocketManager: BluetoothSocketManager
 ) : BluetoothConnectionManager {
     private var bluetoothSocket: BluetoothSocket? = null
 
-    override fun checkIsBluetoothEnable(): Boolean = when {
-        bluetoothAdapter.isEnabled -> true
-        else -> false
-    }
+    override fun checkIsBluetoothEnable() = bluetoothAdapter.isEnabled
 
     override fun enableBluetooth() {
         bluetoothAdapter.enable()
     }
 
-    override suspend fun registerBluetoothServer(isSecurityConnection: Boolean) =
+    override suspend fun registerBluetoothServer(isSecureConnection: Boolean) =
         withContext(Dispatchers.IO) {
 
             val bluetoothSocketType =
-                if (isSecurityConnection) ConnectionSecurity.SECURE.security else ConnectionSecurity.UNSECURE.security
+                if (isSecureConnection) ConnectionSecurity.SECURE.security else ConnectionSecurity.UNSECURE.security
 
-            val bluetoothServerSocket: BluetoothServerSocket? = if (isSecurityConnection) {
+            val bluetoothServerSocket: BluetoothServerSocket? = if (isSecureConnection) {
                 bluetoothAdapter.listenUsingRfcommWithServiceRecord(
                     bluetoothSocketType,
                     AGRIBOT_UUID_SECURE
@@ -85,9 +84,12 @@ class AndroidBluetoothConnectionManager(
                 bluetoothSocket = device.createInsecureRfcommSocketToServiceRecord(
                     AGRIBOT_UUID_SECURE
                 )
-                BluetoothAdapter.getDefaultAdapter().cancelDiscovery()
-                bluetoothSocket?.connect()
-                bluetoothReceivedBluetoothMessageManager.registerMessageReceiver(bluetoothSocket)
+                if (bluetoothSocket != null) {
+                    BluetoothAdapter.getDefaultAdapter().cancelDiscovery()
+                    bluetoothSocket!!.connect()
+                    bluetoothSocketManager.setBluetoothSocket(bluetoothSocket!!)
+                    bluetoothReceivedBluetoothMessageManager.registerMessageReceiver()
+                }
             } catch (bluetoothConnectionError: IOException) {
                 bluetoothConnectionErrorHandler.onBluetoothConnectionError()
             }

@@ -1,20 +1,22 @@
 package eu.agribot.agribotapp.communication.bluetooth.error.message.receive
 
-import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
+import eu.agribot.agribotapp.communication.bluetooth.error.BluetothErrorCode.BLUETOOTH_RECEIVE_MESSAGE_CODE
+import eu.agribot.agribotapp.communication.bluetooth.error.BluetothErrorCode.ERROR_FROM_AGRIBOT_CODE
+import eu.agribot.agribotapp.communication.bluetooth.model.fromcommunication.BluetoothErrorInfoBD
 
 class AndroidBluetoothMessageReceiveErrorHandler() :
     BluetoothMessageReceiveErrorHandler {
-    val receiveMessageError: MutableLiveEvent<String> = MutableLiveEvent()
+    private var receiveMessageError: BluetoothErrorInfoBD? = null
 
     override fun onReceiveBluetoothMessageError() {
-        receiveMessageError.postValue("Receive Message Error")
+        receiveMessageError = BluetoothErrorInfoBD(BLUETOOTH_RECEIVE_MESSAGE_CODE)
     }
 
     override fun handleAgribotError() {
-        receiveMessageError.postValue("Agribot Error")
+        receiveMessageError = BluetoothErrorInfoBD(ERROR_FROM_AGRIBOT_CODE)
     }
 
-    override fun observeMessageReceiveError(): MutableLiveEvent<String> {
+    override fun getMessageReceiveError(): BluetoothErrorInfoBD? {
         return receiveMessageError
     }
 }

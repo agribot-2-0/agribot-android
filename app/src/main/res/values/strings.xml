@@ -150,6 +150,10 @@
     <string name="receive_message_error">Problem z odebraniem wiadomości</string>
     <string name="create_server_error">Problem z utworzeniem serwera Bluetooth</string>
     <string name="connection_error">Problem z połączeniem bluetooth</string>
+    <string name="tuz_down_up">TUZ Down/Up</string>
+    <string name="front_hitch">Front Hitch</string>
+    <string name="back_hitch">Back Hitch</string>
+
 
 
 </resources>

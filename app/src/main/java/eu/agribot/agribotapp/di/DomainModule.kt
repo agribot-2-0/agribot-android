@@ -59,7 +59,8 @@ val domainModule = module {
             bluetoothConnectionManager = get(),
             bluetoothConnectionErrorHandler = get(),
             bluetoothMessageWriteErrorHandler = get(),
-            bluetoothMessageReceiveErrorHandler = get()
+            bluetoothMessageReceiveErrorHandler = get(),
+            bluetoothWriteBluetoothMessageManager = get()
         )
     }
 
@@ -83,7 +84,7 @@ val domainModule = module {
 
     single { TTControlHorizontalJoystickManager(bluetoothMessageWriteManager = get()) }
 
-    single { AutonomyService(bluetoothMessageManager = get()) }
+    single { AutonomyService(bluetoothConnectionService = get()) }
 
     single<PermissionManager> {
         AndroidPermissionManager(

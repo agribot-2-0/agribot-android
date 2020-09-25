@@ -138,6 +138,9 @@
     <string name="receive_message_error">Receive Message Error</string>
     <string name="create_server_error">Create Bluetooth Server Error</string>
     <string name="connection_error">Bluetooth Connection Error</string>
+    <string name="tuz_down_up">Wózki góra/dół</string>
+    <string name="front_hitch">Przednie zaczepy</string>
+    <string name="back_hitch">Tylne zaczepy</string>
 
 
 </resources>

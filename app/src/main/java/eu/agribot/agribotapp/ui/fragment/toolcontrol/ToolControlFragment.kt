@@ -2,10 +2,23 @@ package eu.agribot.agribotapp.ui.fragment.toolcontrol
 
 import android.os.Bundle
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.databinding.FragmentToolControlBinding
-import kotlinx.android.synthetic.main.fragment_tool_control.*
+import eu.agribot.agribotapp.domain.model.TuzSwitchModel
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.BACK_DOWN_TUZ
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.BACK_UP_TUZ
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.FRONT_DOWN_TUZ
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.FRONT_UP_TUZ
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemAdapter
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
+import kotlinx.android.synthetic.main.fragment_tool_control.back_hitch_recycler
+import kotlinx.android.synthetic.main.fragment_tool_control.checkBox_back_tuz_down
+import kotlinx.android.synthetic.main.fragment_tool_control.checkBox_back_tuz_up
+import kotlinx.android.synthetic.main.fragment_tool_control.checkBox_front_tuz_down
+import kotlinx.android.synthetic.main.fragment_tool_control.checkBox_front_tuz_up
+import kotlinx.android.synthetic.main.fragment_tool_control.front_hitch_recycler
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolControlBinding>() {
@@ -17,39 +30,92 @@ class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolContr
         viewBinding.viewModel = viewModel
     }
 
+    private val frontHitchAdapter =
+        HitchListItemAdapter(this::onFrontHitchRecyclerParametersChanged)
+    private val backHitchAdapter =
+        HitchListItemAdapter(this::onBackHitchRecyclerParametersChanged)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupRecyclers()
+        viewModel.createToolsLists()
+        viewModel.frontToolsList.observe(this::addFrontTools)
+        viewModel.backToolsList.observe(this::addBackTools)
+        setCheckboxListeners()
+    }
 
-        left_pto_switch.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.leftPTOSwitch = isChecked
+    private fun setCheckboxListeners() {
+        checkBox_front_tuz_up.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                checkBox_front_tuz_down.isChecked = false
+                checkBox_back_tuz_down.isChecked = false
+                checkBox_back_tuz_up.isChecked = false
+                viewModel.onActivateTuzParametrChanged(TuzSwitchModel(FRONT_UP_TUZ, true))
+            } else {
+                viewModel.onActivateTuzParametrChanged(TuzSwitchModel(FRONT_UP_TUZ, false))
+            }
         }
+        checkBox_front_tuz_down.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                checkBox_front_tuz_up.isChecked = false
+                checkBox_back_tuz_down.isChecked = false
+                checkBox_back_tuz_up.isChecked = false
+                viewModel.onActivateTuzParametrChanged(TuzSwitchModel(FRONT_DOWN_TUZ, true))
+            } else {
+                viewModel.onActivateTuzParametrChanged(TuzSwitchModel(FRONT_DOWN_TUZ, false))
+            }
+        }
+        checkBox_back_tuz_down.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                checkBox_back_tuz_up.isChecked = false
+                checkBox_front_tuz_down.isChecked = false
+                checkBox_front_tuz_up.isChecked = false
+                viewModel.onActivateTuzParametrChanged(TuzSwitchModel(BACK_DOWN_TUZ, true))
+            } else {
+                viewModel.onActivateTuzParametrChanged(TuzSwitchModel(BACK_DOWN_TUZ, false))
+            }
+        }
+        checkBox_back_tuz_up.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                checkBox_front_tuz_up.isChecked = false
+                checkBox_back_tuz_down.isChecked = false
+                checkBox_front_tuz_down.isChecked = false
+                viewModel.onActivateTuzParametrChanged(TuzSwitchModel(BACK_UP_TUZ, true))
+            } else {
+                viewModel.onActivateTuzParametrChanged(TuzSwitchModel(BACK_UP_TUZ, false))
+            }
+        }
+    }
 
-        left_blue_switch.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.leftBlueSwitch = isChecked
-        }
+    private fun onFrontHitchRecyclerParametersChanged(
+        sliderNumber: Int,
+        sliderValue: Int,
+        isActivated: Boolean
+    ) {
+        viewModel.onHitchParametersChanged(sliderNumber, sliderValue, isActivated)
+    }
 
-        left_yellow_switch.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.leftYellowSwitch = isChecked
-        }
+    private fun onBackHitchRecyclerParametersChanged(
+        sliderNumber: Int,
+        sliderValue: Int,
+        isActivated: Boolean
+    ) {
+        viewModel.onHitchParametersChanged(sliderNumber, sliderValue, isActivated)
+    }
 
-        left_green_switch.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.leftGreenSwitch = isChecked
-        }
+    private fun setupRecyclers() {
+        front_hitch_recycler.adapter = frontHitchAdapter
+        front_hitch_recycler.layoutManager = LinearLayoutManager(requireActivity())
 
-        right_pto_switch.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.rightPTOSwitch = isChecked
-        }
+        back_hitch_recycler.adapter = backHitchAdapter
+        back_hitch_recycler.layoutManager = LinearLayoutManager(requireActivity())
+    }
 
-        right_blue_switch.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.rightBlueSwitch = isChecked
-        }
+    private fun addFrontTools(tools: List<HitchListItemViewModel>) {
+        frontHitchAdapter.items = tools
+    }
 
-        right_yellow_switch.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.rightYellowSwitch = isChecked
-        }
-
-        right_green_switch.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.rightGreenSwitch = isChecked
-        }
+    private fun addBackTools(tools: List<HitchListItemViewModel>) {
+        backHitchAdapter.items = tools
     }
 }

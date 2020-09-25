@@ -1,6 +1,7 @@
 package eu.agribot.agribotapp.domain.service
 
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.BluetoothConnectionManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.writemessage.WriteBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.error.BluetothErrorCode.BLUETOOTH_CONNECTION_ERROR_CODE
 import eu.agribot.agribotapp.communication.bluetooth.error.BluetothErrorCode.BLUETOOTH_HEARTBEAT_ERROR_CODE
 import eu.agribot.agribotapp.communication.bluetooth.error.BluetothErrorCode.BLUETOOTH_RECEIVE_MESSAGE_CODE
@@ -18,6 +19,7 @@ import eu.agribot.agribotapp.domain.model.todomain.BluetoothErrorInfo
 
 class BluetoothConnectionService(
     val bluetoothConnectionManager: BluetoothConnectionManager,
+    private val bluetoothWriteBluetoothMessageManager: WriteBluetoothMessageManager,
     private val bluetoothConnectionErrorHandler: BluetoothConnectionErrorHandler,
     private val bluetoothMessageWriteErrorHandler: BluetoothMessageWriteErrorHandler,
     private val bluetoothMessageReceiveErrorHandler: BluetoothMessageReceiveErrorHandler
@@ -89,5 +91,9 @@ class BluetoothConnectionService(
         } else {
             "Undefined Error"
         }
+    }
+
+    fun initAutonomyMode() {
+        bluetoothWriteBluetoothMessageManager.sendAutonomusModeInitMessage()
     }
 }

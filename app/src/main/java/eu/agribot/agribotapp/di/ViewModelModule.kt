@@ -14,6 +14,7 @@ import eu.agribot.agribotapp.ui.fragment.manualcontrol.ManualControlViewModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.PathManagementViewModel
 import eu.agribot.agribotapp.ui.fragment.settings.SettingsViewModel
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolControlViewModel
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.ToolManagementViewModel
 import eu.agribot.agribotapp.ui.fragment.ttcontrol.TTControlViewModel
 import eu.agribot.agribotapp.ui.fragment.weather.WeatherViewModel
@@ -100,6 +101,13 @@ val viewModelModule = module {
         BluetoothNearbyListItemViewModel(
             bluetoothName = get(),
             bluetoothAddress = get()
+        )
+    }
+
+    viewModel {
+        HitchListItemViewModel(
+            toolName = get(),
+            switchNumber = get()
         )
     }
 

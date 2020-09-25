@@ -6,7 +6,6 @@ import androidx.core.content.ContextCompat
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.databinding.FragmentTtcontrolBinding
-import io.github.controlwear.virtual.joystick.android.JoystickView
 import kotlinx.android.synthetic.main.fragment_ttcontrol.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -23,12 +22,10 @@ class TTControlModeFragment : BaseFragment<TTControlViewModel, FragmentTtcontrol
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val horizontalJoystick = horizontal_joystick as JoystickView
-        horizontalJoystick.setOnMoveListener { angle, _ ->
+        horizontal_joystick.setOnMoveListener { angle, _ ->
             viewModel.onHorizontalJoystickParametrsChanged(angle)
         }
-        val verticalJoystick = vertical_joystick as JoystickView
-        verticalJoystick.setOnMoveListener { angle, _ ->
+        vertical_joystick.setOnMoveListener { angle, _ ->
             viewModel.onVerticalJoystickParametrsChanged(angle)
         }
     }

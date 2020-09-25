@@ -2,23 +2,28 @@ package eu.agribot.agribotapp.ui.fragment.toolcontrol
 
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.base.BaseViewModel
-import eu.agribot.agribotapp.domain.model.TuzSwitchModel
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.TuzSwitchesState
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.TuzSwitchessActive
 import eu.agribot.agribotapp.domain.model.fromdomain.SwitchSettings
 import eu.agribot.agribotapp.domain.service.ManualModeService
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.BACK_BLUE
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.BACK_GREEN
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.BACK_PTO
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.BACK_YELLOW
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.BLUE_TOOL
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.FRONT_BLUE
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.FRONT_GREEN
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.FRONT_PTO
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.FRONT_YELLOW
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.GREEN_TOOL
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.GREEN_TOOL_LIST_POSITION
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.PTO_TOOL
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.PTO_TOOL_LIST_POSITION
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolsList.YELLOW_TOOL
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.BACK_BLUE
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.BACK_DOWN_TUZ
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.BACK_GREEN
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.BACK_PTO
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.BACK_UP_TUZ
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.BACK_YELLOW
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.BLUE_TOOL
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.FRONT_BLUE
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.FRONT_DOWN_TUZ
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.FRONT_GREEN
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.FRONT_PTO
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.FRONT_UP_TUZ
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.FRONT_YELLOW
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.GREEN_TOOL
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.GREEN_TOOL_LIST_POSITION
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.PTO_TOOL
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.PTO_TOOL_LIST_POSITION
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.YELLOW_TOOL
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
 
 class ToolControlViewModel(
@@ -28,7 +33,8 @@ class ToolControlViewModel(
         MutableLiveData(listOf())
     val backToolsList: MutableLiveData<List<HitchListItemViewModel>> =
         MutableLiveData(listOf())
-    private val activeTuz: MutableLiveData<TuzSwitchModel> = MutableLiveData()
+    private val activeTuz: MutableLiveData<TuzSwitchessActive> = MutableLiveData()
+    val switchessActive: MutableLiveData<TuzSwitchesState> = MutableLiveData()
 
     fun onHitchParametersChanged(
         sliderNumber: Int,
@@ -44,8 +50,50 @@ class ToolControlViewModel(
         )
     }
 
-    fun onActivateTuzParametrChanged(tuzSwitchModel: TuzSwitchModel) {
-        activeTuz.value = tuzSwitchModel
+    fun onActivateTuzParametrChanged(tuzNumber: Int, isTuzActive: Boolean) {
+        activeTuz.value = TuzSwitchessActive(tuzNumber, isTuzActive)
+        when (tuzNumber) {
+            FRONT_UP_TUZ -> {
+                if (isTuzActive) {
+                    switchessActive.value = TuzSwitchesState(
+                        frontUpTuzChecked = true,
+                        frontBottomTuzChecked = false,
+                        rearUpTuzChecked = false,
+                        rearBottomTuzChecked = false
+                    )
+                }
+            }
+            FRONT_DOWN_TUZ -> {
+                if (isTuzActive) {
+                    switchessActive.value = TuzSwitchesState(
+                        frontUpTuzChecked = false,
+                        frontBottomTuzChecked = true,
+                        rearUpTuzChecked = false,
+                        rearBottomTuzChecked = false
+                    )
+                }
+            }
+            BACK_UP_TUZ -> {
+                if (isTuzActive) {
+                    switchessActive.value = TuzSwitchesState(
+                        frontUpTuzChecked = false,
+                        frontBottomTuzChecked = false,
+                        rearUpTuzChecked = true,
+                        rearBottomTuzChecked = false
+                    )
+                }
+            }
+            BACK_DOWN_TUZ -> {
+                if (isTuzActive) {
+                    switchessActive.value = TuzSwitchesState(
+                        frontUpTuzChecked = false,
+                        frontBottomTuzChecked = false,
+                        rearUpTuzChecked = false,
+                        rearBottomTuzChecked = true
+                    )
+                }
+            }
+        }
     }
 
     fun onTuzParametersChanged(progress: Int) {

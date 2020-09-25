@@ -46,10 +46,8 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
         startActivity(WelcomeActivity.getStartingIntent(requireContext()))
     }
 
-    private fun showSignOutDialog(logOutDecision: Boolean) {
-        if (logOutDecision) {
-            dialogManager.showSignOutDialog(viewModel::logOut)
-        }
+    private fun showSignOutDialog(logOut: Boolean) {
+        dialogManager.showSignOutDialog(viewModel::logOut)
     }
 
     private fun showDeleteAccountDialog(deleteAccountDecision: Boolean) {

@@ -7,9 +7,11 @@ import android.widget.SeekBar
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import eu.agribot.agribotapp.databinding.ListItemHitchBinding
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.RecyclerConstant.DEFAULT_SLIDER_VALUE
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.RecyclerConstant.SLIDER_UNIT
-import kotlinx.android.synthetic.main.list_item_hitch.view.*
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.RecyclerConstant.DEFAULT_SLIDER_VALUE
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.RecyclerConstant.SLIDER_UNIT
+import kotlinx.android.synthetic.main.list_item_hitch.view.recycler_seekbar
+import kotlinx.android.synthetic.main.list_item_hitch.view.recycler_switch
+import kotlinx.android.synthetic.main.list_item_hitch.view.recycler_tool_value
 
 class HitchListItemAdapter(
     val onItemCharacteristicChange: (position: Int, sliderValue: Int, isActivated: Boolean) -> Unit
@@ -64,17 +66,29 @@ class HitchListItemAdapter(
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {
                 itemSliderValue = seekBar.progress
-                onItemParametrsChange(item.switchNumber, itemSliderValue, isItemActive)
+                onItemParametrsChange(
+                    item.switchNumber,
+                    itemSliderValue,
+                    isItemActive
+                )
             }
         })
 
         holder.itemView.recycler_switch.setOnCheckedChangeListener { _, isChecked ->
             isItemActive = isChecked
-            onItemParametrsChange(item.switchNumber, itemSliderValue, isItemActive)
+            onItemParametrsChange(
+                item.switchNumber,
+                itemSliderValue,
+                isItemActive
+            )
         }
     }
 
-    private fun onItemParametrsChange(sliderNumber: Int, sliderValue: Int, isActivated: Boolean) {
+    private fun onItemParametrsChange(
+        sliderNumber: Int,
+        sliderValue: Int,
+        isActivated: Boolean
+    ) {
         onItemCharacteristicChange(sliderNumber, sliderValue, isActivated)
     }
 }

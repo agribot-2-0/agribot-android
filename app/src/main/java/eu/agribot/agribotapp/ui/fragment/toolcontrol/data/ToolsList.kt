@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.toolcontrol
+package eu.agribot.agribotapp.ui.fragment.toolcontrol.data
 
 object ToolsList {
     const val FRONT_UP_TUZ = 6

@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler
+package eu.agribot.agribotapp.ui.fragment.toolcontrol.data
 
 object RecyclerConstant {
     const val DEFAULT_SLIDER_VALUE = "0 RPM"

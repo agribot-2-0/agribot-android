@@ -28,7 +28,7 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
         manual_mode_joystick.setOnMoveListener { angle, strength ->
             viewModel.onJoystickParametrChange(angle, strength)
         }
-        viewModel.runManualSteeringMode()
+        viewModel.sendStartManualModeInfo()
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {

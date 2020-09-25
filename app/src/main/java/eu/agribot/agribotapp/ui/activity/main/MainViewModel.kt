@@ -15,7 +15,7 @@ class MainViewModel(private val bluetoothConnectionService: BluetoothConnectionS
         MutableLiveData()
     val receiveMessageErrors: MutableLiveData<String> =
         MutableLiveData()
-    val ERROR_REFRESH_DELAY = 10000L
+    val checkErrorDelay = 10000L
 
     fun registerServer() {
         viewModelScope.launch {
@@ -26,7 +26,7 @@ class MainViewModel(private val bluetoothConnectionService: BluetoothConnectionS
 
     fun refreshBluetoothErrorsList() = viewModelScope.launch {
         while (true) {
-            delay(ERROR_REFRESH_DELAY)
+            delay(checkErrorDelay)
             if (bluetoothConnectionService.getBluetoothConnectionErrors() != null) {
                 connectionErrors.value = bluetoothConnectionService.getBluetoothConnectionErrors()
             } else if (bluetoothConnectionService.getBluetoothWriteMessageErrors()

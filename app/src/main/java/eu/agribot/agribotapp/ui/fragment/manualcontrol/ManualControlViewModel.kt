@@ -25,8 +25,8 @@ class ManualControlViewModel(
     val engineFuelRate: MutableLiveData<String> = MutableLiveData()
     val fuelLevel: MutableLiveData<String> = MutableLiveData()
     val fuelTemperature: MutableLiveData<String> = MutableLiveData()
-    val REFRESH_DELAY = 100L
-    val JOYSTICK_DELAY = 150L
+    private val refreshDiagnosticDataDelay = 100L
+    val sendJoysticMessageDelay = 150L
 
     fun onToolControlClicked() {
         navigationEvent.postValue(
@@ -36,18 +36,16 @@ class ManualControlViewModel(
 
     private fun refreshDiagnosticData() = viewModelScope.launch {
         while (true) {
-            delay(REFRESH_DELAY)
+            delay(refreshDiagnosticDataDelay)
             if (manualModeService.getDiagnosticData() != null) {
-                accumulatorVoltage.value = manualModeService.getDiagnosticData()?.batteryVoltage
-                engineRotations.value =
-                    manualModeService.getDiagnosticData()?.engineRotationsPerMinute.toString()
-                torqueOfEngine.value =
-                    manualModeService.getDiagnosticData()?.torqueOfEngine.toString()
-                engineFuelRate.value =
-                    manualModeService.getDiagnosticData()?.engineFuelRate.toString()
-                fuelLevel.value = manualModeService.getDiagnosticData()?.fuelLevel.toString()
-                fuelTemperature.value =
-                    manualModeService.getDiagnosticData()?.fuelTemperature.toString()
+                manualModeService.getDiagnosticData()?.let { diagnosticData ->
+                    accumulatorVoltage.value = diagnosticData.batteryVoltage
+                    engineRotations.value = diagnosticData.engineRotationsPerMinute.toString()
+                    torqueOfEngine.value = diagnosticData.torqueOfEngine.toString()
+                    engineFuelRate.value = diagnosticData.fuelLevel.toString()
+                    fuelLevel.value = diagnosticData.fuelLevel.toString()
+                    fuelTemperature.value = diagnosticData.fuelTemperature.toString()
+                }
             } else {
                 accumulatorVoltage.value = resourcesProvider.getString(R.string.empty_data)
                 engineRotations.value = resourcesProvider.getString(R.string.empty_data)
@@ -66,11 +64,11 @@ class ManualControlViewModel(
     }
 
     fun onJoystickParametrChange(angel: Int, strength: Int) = viewModelScope.launch {
-        delay(JOYSTICK_DELAY)
+        delay(sendJoysticMessageDelay)
         manualModeService.onManualSteeringJoystickParametrChanged(angel, strength)
     }
 
-    fun runManualSteeringMode() = viewModelScope.launch {
+    fun sendStartManualModeInfo() = viewModelScope.launch {
         manualModeService.runManualMode()
         refreshDiagnosticData()
     }

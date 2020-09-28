@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.receivedmessage
+package eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage
 
 object ConstantReceivedMessage {
     const val BATTERY_VOLTAGE_RATIO = 0.001
@@ -15,4 +15,6 @@ object ConstantReceivedMessage {
     const val HEARTBEAT_INIT_VALUE = 0
     const val HEARTBEAT_COUNTER_MAX_VALUE = 20
     const val HEARTBEAT_COUNTER_DELAY = 30L
+    const val HEARTBEAT_DIAGNOSTIC_DATA = 4
+    const val ARRAY_BIT_SHIFT = 8
 }

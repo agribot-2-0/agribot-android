@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.receivedmessage
+package eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage
 
 object DiagnosticDataArrayPosition {
     const val ACCUMULATOR_VOLTGE_FIRST_BYTE_POSITION = 6

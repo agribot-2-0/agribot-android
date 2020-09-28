@@ -1,10 +1,11 @@
 package eu.agribot.agribotapp.domain.service.joystick.ttcontroljoystick
 
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.writemessage.WriteBluetoothMessageManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator.BluetoothMessageCreator
+import eu.agribot.agribotapp.domain.model.fromdomain.TuzActivate
 import eu.agribot.agribotapp.domain.service.joystick.ttcontroljoystick.TTControlJoystickConstant.HORIZONTAL_QUATER_MAXIMUM_ANGLE
 import eu.agribot.agribotapp.domain.service.joystick.ttcontroljoystick.TTControlJoystickConstant.HORIZONTAL_QUATER_MINIMUM_ANGLE
 
-class TTControlHorizontalJoystickManager(private val bluetoothMessageWriteManager: WriteBluetoothMessageManager) {
+class TTControlHorizontalJoystickManager(private val messageCreator: BluetoothMessageCreator) {
 
     fun onHorizontalJoystickAngleChanged(
         angle: Int,
@@ -25,9 +26,11 @@ class TTControlHorizontalJoystickManager(private val bluetoothMessageWriteManage
         isFrontKartActive: Boolean,
         isRearKartActive: Boolean
     ) {
-        bluetoothMessageWriteManager.sendTTControlTurnLeftMessage(
-            isFrontKartActive,
-            isRearKartActive
+        messageCreator.createTTControlLeftMessage(
+            TuzActivate(
+                isFrontKartActive,
+                isRearKartActive
+            ).toCommunicationModel()
         )
     }
 
@@ -35,9 +38,11 @@ class TTControlHorizontalJoystickManager(private val bluetoothMessageWriteManage
         isFrontKartActive: Boolean,
         isRearKartActive: Boolean
     ) {
-        bluetoothMessageWriteManager.sendTTControlTurnRightMessage(
-            isFrontKartActive,
-            isRearKartActive
+        messageCreator.createTTControlRightMessage(
+            TuzActivate(
+                isFrontKartActive,
+                isRearKartActive
+            ).toCommunicationModel()
         )
     }
 }

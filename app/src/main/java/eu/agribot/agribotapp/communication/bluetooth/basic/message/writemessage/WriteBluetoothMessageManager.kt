@@ -1,44 +1,25 @@
-package eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.writemessage
-
-import eu.agribot.agribotapp.communication.bluetooth.model.tocommunication.ArcParametrsBD
-import eu.agribot.agribotapp.communication.bluetooth.model.tocommunication.SwitchSettingsBD
+package eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage
 
 interface WriteBluetoothMessageManager {
 
     fun sendHandshakeMessage()
     fun sendManualControlInitMessage()
     fun sendManualControlStartMessage()
-    fun sendManualSteeringDataMessage(
-        arcParametrs: ArcParametrsBD
-    )
+    fun sendManualSteeringDataMessage(arcArray: ByteArray)
 
     fun sendAutonomusModeInitMessage()
     fun sendStartEngineMessage()
     fun sendStopThreadMessage()
-    fun sendSwitchSettingsMessage(
-        switchSettings: SwitchSettingsBD
-    )
+    fun sendSwitchSettingsMessage(switchSettingsArray: ByteArray)
 
     fun sendDiagnosticDataRequestMessage()
-    fun sendTTControlForwardMessage(
-        isFrontKartActive: Boolean,
-        isRearKartActive: Boolean
-    )
+    fun sendTTControlForwardMessage(moveForwardArray: ByteArray)
 
-    fun sendTTControlBackwardMessage(
-        isFrontKartActive: Boolean,
-        isRearKartActive: Boolean
-    )
+    fun sendTTControlBackwardMessage(moveBackArray: ByteArray)
 
-    fun sendTTControlTurnLeftMessage(
-        isFrontKartActive: Boolean,
-        isRearKartActive: Boolean
-    )
+    fun sendTTControlTurnLeftMessage(moveLeftArray: ByteArray)
 
-    fun sendTTControlTurnRightMessage(
-        isFrontKartActive: Boolean,
-        isRearKartActive: Boolean
-    )
+    fun sendTTControlTurnRightMessage(moveRightArray: ByteArray)
 
     fun startSendingHeartbeat()
     fun stopSendingHeartbeat()

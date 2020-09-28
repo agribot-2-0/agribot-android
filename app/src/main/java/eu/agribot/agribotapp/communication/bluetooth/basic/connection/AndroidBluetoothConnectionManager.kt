@@ -7,7 +7,7 @@ import android.bluetooth.BluetoothSocket
 import eu.agribot.agribotapp.communication.bluetooth.const.PersistentConnectionParameters.AGRIBOT_UUID_INSECURE
 import eu.agribot.agribotapp.communication.bluetooth.const.PersistentConnectionParameters.AGRIBOT_UUID_SECURE
 import eu.agribot.agribotapp.communication.bluetooth.error.connection.BluetoothConnectionErrorHandler
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.receivedmessage.ReceivedBluetoothMessageManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ReceivedBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.socket.BluetoothSocketManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.frame
+package eu.agribot.agribotapp.communication.bluetooth.basic.message.frame
 
 object FrameConstant {
     const val ARC_MESSAGE_ARRAY_SIZE = 8
@@ -17,5 +17,4 @@ object FrameConstant {
     const val ADDRESS_FLAG = 256
     const val TWO_ELEMENT_ADDRES = 2
     const val CONST_ELEMENT_OF_FRAME_SIZE = 4
-    const val BYTE_ARRAY_OF_CHECKSUM = 0x00.toByte()
 }

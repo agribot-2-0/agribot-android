@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.receivedmessage
+package eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage
 
 import eu.agribot.agribotapp.communication.bluetooth.model.fromcommunication.DiagnosticCommunicationDataBD
 

@@ -1,32 +1,34 @@
-package eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.receivedmessage
+package eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage
 
 import eu.agribot.agribotapp.communication.bluetooth.const.BluetoothAdressCodeModel
 import eu.agribot.agribotapp.communication.bluetooth.const.PersistentConnectionParameters
 import eu.agribot.agribotapp.communication.bluetooth.error.message.receive.BluetoothMessageReceiveErrorHandler
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.frame.BluetoothMessageFrame
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.frame.FrameConstant.DUMMY_BYTE
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.receivedmessage.ConstantReceivedMessage.BATTERY_VOLTAGE_RATIO
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.receivedmessage.ConstantReceivedMessage.EIGHT_BYTE_MESSAGE
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.receivedmessage.ConstantReceivedMessage.FIRST_DIGIT
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.receivedmessage.ConstantReceivedMessage.FOURTH_DIGIT
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.receivedmessage.ConstantReceivedMessage.FOUR_DIGIT_NUMBER
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.receivedmessage.ConstantReceivedMessage.FUEL_LEVEL_RATIO
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.receivedmessage.ConstantReceivedMessage.HEARTBEAT_COUNTER_DELAY
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.receivedmessage.ConstantReceivedMessage.HEARTBEAT_COUNTER_MAX_VALUE
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.receivedmessage.ConstantReceivedMessage.HEARTBEAT_INIT_VALUE
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.receivedmessage.ConstantReceivedMessage.LENGHT_BYTE_POSITION
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.receivedmessage.ConstantReceivedMessage.START_FRAME_MESSAGE
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.receivedmessage.ConstantReceivedMessage.START_OF_FRAME_POSITION
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.receivedmessage.ConstantReceivedMessage.VOLTAGE_DROP
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.receivedmessage.DiagnosticDataArrayPosition.ACCUMULATOR_VOLTAGE_SECOND_BYTE_POSITION
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.receivedmessage.DiagnosticDataArrayPosition.ACCUMULATOR_VOLTGE_FIRST_BYTE_POSITION
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.receivedmessage.DiagnosticDataArrayPosition.ENGINE_FUEL_RATE_BYTE_POSITION
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.receivedmessage.DiagnosticDataArrayPosition.ENGINE_ROTATIONS_FIRST_BYTE_POSITION
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.receivedmessage.DiagnosticDataArrayPosition.ENGINE_ROTATIONS_SECOND_BYTE_POSITION
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.receivedmessage.DiagnosticDataArrayPosition.FUEL_LEVEL_BYTE_POSITION
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.receivedmessage.DiagnosticDataArrayPosition.FUEL_TEMPERATURE_BYTE_POSITION
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.receivedmessage.DiagnosticDataArrayPosition.TORQUE_OF_ENGINE_BYTE_POSITION
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.writemessage.WriteBluetoothMessageManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.BluetoothMessageFrame
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.FrameConstant.DUMMY_BYTE
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.ARRAY_BIT_SHIFT
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.BATTERY_VOLTAGE_RATIO
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.EIGHT_BYTE_MESSAGE
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.FIRST_DIGIT
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.FOURTH_DIGIT
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.FOUR_DIGIT_NUMBER
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.FUEL_LEVEL_RATIO
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.HEARTBEAT_COUNTER_DELAY
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.HEARTBEAT_COUNTER_MAX_VALUE
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.HEARTBEAT_DIAGNOSTIC_DATA
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.HEARTBEAT_INIT_VALUE
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.LENGHT_BYTE_POSITION
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.START_FRAME_MESSAGE
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.START_OF_FRAME_POSITION
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.VOLTAGE_DROP
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.DiagnosticDataArrayPosition.ACCUMULATOR_VOLTAGE_SECOND_BYTE_POSITION
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.DiagnosticDataArrayPosition.ACCUMULATOR_VOLTGE_FIRST_BYTE_POSITION
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.DiagnosticDataArrayPosition.ENGINE_FUEL_RATE_BYTE_POSITION
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.DiagnosticDataArrayPosition.ENGINE_ROTATIONS_FIRST_BYTE_POSITION
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.DiagnosticDataArrayPosition.ENGINE_ROTATIONS_SECOND_BYTE_POSITION
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.DiagnosticDataArrayPosition.FUEL_LEVEL_BYTE_POSITION
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.DiagnosticDataArrayPosition.FUEL_TEMPERATURE_BYTE_POSITION
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.DiagnosticDataArrayPosition.TORQUE_OF_ENGINE_BYTE_POSITION
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.WriteBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.model.fromcommunication.DiagnosticCommunicationDataBD
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.socket.BluetoothSocketManager
 import kotlinx.coroutines.MainScope
@@ -151,10 +153,10 @@ class AndroidReceivedBluetoothMessageManager(
         var result = 0
         if (bigEndian)
             for (i in array.indices)
-                result += (array[array.size - 1 - i].toInt() and DUMMY_BYTE.toInt()) shl 8 * i
+                result += (array[array.size - 1 - i].toInt() and DUMMY_BYTE.toInt()) shl ARRAY_BIT_SHIFT * i
         else
             for (i in array.indices)
-                result += (array[i].toInt() and DUMMY_BYTE.toInt()) shl 8 * i
+                result += (array[i].toInt() and DUMMY_BYTE.toInt()) shl ARRAY_BIT_SHIFT * i
         return result
     }
 
@@ -164,7 +166,7 @@ class AndroidReceivedBluetoothMessageManager(
 
     private fun handleHeartbeatMessage(bluetoothMessageFrame: BluetoothMessageFrame) {
         restartHeartbearCounter()
-        if (bluetoothMessageFrame.getMessage()[0].toInt() % 4 == 0) {
+        if (bluetoothMessageFrame.getMessage()[0].toInt() % HEARTBEAT_DIAGNOSTIC_DATA == 0) {
             writeBluetoothMessageManager.sendDiagnosticDataRequestMessage()
         }
     }

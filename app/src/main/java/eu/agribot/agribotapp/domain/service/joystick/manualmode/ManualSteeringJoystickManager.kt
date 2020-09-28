@@ -1,6 +1,6 @@
 package eu.agribot.agribotapp.domain.service.joystick.manualmode
 
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.writemessage.WriteBluetoothMessageManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator.BluetoothMessageCreator
 import eu.agribot.agribotapp.domain.model.fromdomain.ArcParametrs
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.A_FACTOR_LEFT
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.A_FACTOR_LEFT_SECOND
@@ -39,7 +39,9 @@ import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstant
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.STOCK_JOYSTICK_SECOND_THIRD_QUARTER_MAX
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.STOCK_JOYSTICK_SECOND_THIRD_QUARTER_MIN
 
-class ManualSteeringJoystickManager(private val writeBluetoothMessageManager: WriteBluetoothMessageManager) {
+class ManualSteeringJoystickManager(
+    private val messageCreator: BluetoothMessageCreator
+) {
 
     fun onJoystickConfigurationChanged(angle: Int, strength: Int) {
         var joystickAngle = INITIALIZE_JOYSTICK_ANGLE
@@ -98,6 +100,6 @@ class ManualSteeringJoystickManager(private val writeBluetoothMessageManager: Wr
     }
 
     private fun sendChangedJoystickParmaetrs(arcParametrs: ArcParametrs) {
-        writeBluetoothMessageManager.sendManualSteeringDataMessage(arcParametrs.toCommunicationModel())
+        messageCreator.createARCMessage(arcParametrs.toCommunicationModel())
     }
 }

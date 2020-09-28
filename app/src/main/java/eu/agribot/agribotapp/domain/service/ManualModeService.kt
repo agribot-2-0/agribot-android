@@ -1,7 +1,8 @@
 package eu.agribot.agribotapp.domain.service
 
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.receivedmessage.ReceivedBluetoothMessageManager
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.writemessage.WriteBluetoothMessageManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ReceivedBluetoothMessageManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.WriteBluetoothMessageManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator.BluetoothMessageCreator
 import eu.agribot.agribotapp.domain.model.fromdomain.SwitchSettings
 import eu.agribot.agribotapp.domain.model.todomain.DiagnosticData
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.ManualSteeringJoystickManager
@@ -12,7 +13,8 @@ import kotlinx.coroutines.withContext
 class ManualModeService(
     private val manualSteeringJoystickManager: ManualSteeringJoystickManager,
     private val writeBluetoothMessageManager: WriteBluetoothMessageManager,
-    private val receivedBluetoothMessageManager: ReceivedBluetoothMessageManager
+    private val receivedBluetoothMessageManager: ReceivedBluetoothMessageManager,
+    private val messageCreator: BluetoothMessageCreator
 ) {
     private val START_MANUAL_MODE_DELAY = 100L
     fun onManualSteeringJoystickParametrChanged(joystickAngle: Int, joystickStrength: Int) {
@@ -34,7 +36,7 @@ class ManualModeService(
     }
 
     fun onSwitchParametrChanged(switchSettings: SwitchSettings) {
-        writeBluetoothMessageManager.sendSwitchSettingsMessage(switchSettings.toCommunicationModel())
+        messageCreator.createSwitchesMessage(switchSettings.toCommunicationModel())
     }
 
     fun getDiagnosticData(): DiagnosticData? {

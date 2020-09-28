@@ -68,21 +68,22 @@ val domainModule = module {
         ManualModeService(
             manualSteeringJoystickManager = get(),
             writeBluetoothMessageManager = get(),
-            receivedBluetoothMessageManager = get()
+            receivedBluetoothMessageManager = get(),
+            messageCreator = get()
         )
     }
 
-    single { ManualSteeringJoystickManager(writeBluetoothMessageManager = get()) }
+    single { ManualSteeringJoystickManager(messageCreator = get()) }
 
     single {
         TTControlService(horizontalJoystickManager = get(), verticalJoystickManager = get())
     }
 
     single {
-        TTControlVerticalJoystickManager(bluetoothMessageWriteManager = get())
+        TTControlVerticalJoystickManager(messageCreator = get())
     }
 
-    single { TTControlHorizontalJoystickManager(bluetoothMessageWriteManager = get()) }
+    single { TTControlHorizontalJoystickManager(messageCreator = get()) }
 
     single { AutonomyService(bluetoothConnectionService = get()) }
 

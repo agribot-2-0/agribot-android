@@ -14,21 +14,21 @@ import eu.agribot.agribotapp.communication.bluetooth.locale.BluetoothDiscoveryBr
 import eu.agribot.agribotapp.databinding.FragmentBluetoothConnectionBinding
 import eu.agribot.agribotapp.ui.fragment.bluetoothconnection.recycler.BluetoothNearbyListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.bluetoothconnection.recycler.BluetoothNearbyListItemViewModel
-import kotlinx.android.synthetic.main.fragment_bluetooth_connection.*
+import kotlinx.android.synthetic.main.fragment_bluetooth_connection.nearby_device_list
+import kotlinx.android.synthetic.main.fragment_bluetooth_connection.refresh_nearby_devices
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class BluetoothConnectionFragment :
     BaseFragment<BluetoothConnectionViewModel, FragmentBluetoothConnectionBinding>() {
-    private var adapter = BluetoothNearbyListItemAdapter(onClickSelectedItem = this :: connectWithSelectedDevice)
+    private var adapter =
+        BluetoothNearbyListItemAdapter(onClickSelectedItem = this::connectWithSelectedDevice)
     override val layoutResourceId: Int = R.layout.fragment_bluetooth_connection
     override val viewModel: BluetoothConnectionViewModel by viewModel { parametersOf(requireContext()) }
 
-    companion object {
-        private lateinit var bluetoothAdapter: BluetoothAdapter
-        private lateinit var bluetoothDiscoveryBroadcastReceiver: BroadcastReceiver
-        lateinit var bluetoothDeviceAddress: String
-    }
+    private lateinit var bluetoothAdapter: BluetoothAdapter
+    private lateinit var bluetoothDiscoveryBroadcastReceiver: BroadcastReceiver
+    lateinit var bluetoothDeviceAddress: String
 
     override fun bindViewVariables(viewBinding: FragmentBluetoothConnectionBinding) {
         viewBinding.viewModel = viewModel

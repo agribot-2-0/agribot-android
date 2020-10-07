@@ -1,5 +1,5 @@
 package eu.agribot.agribotapp.communication.bluetooth.model.fromcommunication
 
-interface BaseCommunicationDataModel<T> {
+interface BaseBluetoothDataModel<T> {
     fun toDomainModel(): T
 }

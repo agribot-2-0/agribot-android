@@ -7,9 +7,14 @@ import eu.agribot.agribotapp.communication.bluetooth.model.tocommunication.TuzAc
 interface BluetoothMessageCreator {
 
     fun createARCMessage(arcParametrsBD: ArcParametrsBD)
+
     fun createSwitchesMessage(switchSettingsBD: SwitchSettingsBD)
+
     fun createTTControlForwardMessage(tuzActivateBD: TuzActivateBD)
+
     fun createTTControlBackwardMessage(tuzActivateBD: TuzActivateBD)
+
     fun createTTControlLeftMessage(tuzActivateBD: TuzActivateBD)
+
     fun createTTControlRightMessage(tuzActivateBD: TuzActivateBD)
 }

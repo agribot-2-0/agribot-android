@@ -40,6 +40,7 @@ class BluetoothMessageFrame() {
 
         bluetoothMessageArray[FIRST_BYTE_OF_ADRESS_POSITION] =
             getFirstAdressElement(canMessageData)
+
         bluetoothMessageArray[SECOND_BYTE_OF_ADRESS_POSITION] =
             getSecondAdressElement(canMessageData)
 
@@ -47,8 +48,10 @@ class BluetoothMessageFrame() {
             for (x in EMPTY_ARRAY until canDataFrameSize)
                 bluetoothMessageArray[x + 5] = canMessageData.canData[x]
         }
+
         bluetoothMessageArray[getLength() + 2] =
             getChecksumByte(bluetoothMessageArray.sliceArray(START_OF_FRAME_POSITION..getLength() + 1))
+
         bluetoothMessageArray[getLength() + 3] = END_OF_FRAME_BYTE
     }
 

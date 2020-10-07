@@ -13,7 +13,9 @@ import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseActivity
 import eu.agribot.agribotapp.common.dialog.DialogManager
 import eu.agribot.agribotapp.databinding.ActivityMainBinding
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.mainDrawerLayout
+import kotlinx.android.synthetic.main.activity_main.mainDrawerNV
+import kotlinx.android.synthetic.main.activity_main.mainToolbar
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -35,6 +37,14 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
     List of destinations that should not return to previous
     Screen when back is pressed
     */
+    private val navigationTopLevelDestinations = setOf(
+        R.id.manualControlFragment,
+        R.id.autonomousModeFragment,
+        R.id.toolManagementFragment,
+        R.id.pathManagementFragment,
+        R.id.weatherFragment,
+        R.id.settingsFragment
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,15 +54,6 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         viewModel.writeMessageErrors.observe(this::showToast)
         viewModel.receiveMessageErrors.observe(this::showToast)
     }
-
-    private val navigationTopLevelDestinations = setOf(
-        R.id.manualControlFragment,
-        R.id.autonomousModeFragment,
-        R.id.toolManagementFragment,
-        R.id.pathManagementFragment,
-        R.id.weatherFragment,
-        R.id.settingsFragment
-    )
 
     private val appBarConfiguration by lazy {
         AppBarConfiguration(

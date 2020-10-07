@@ -1,9 +1,9 @@
 package eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.writemessage
 
+import eu.agribot.agribotapp.communication.bluetooth.basic.connection.socket.BluetoothSocketManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.BluetoothMessageFrame
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.FrameConstant.DUMMY_BYTE
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.FrameConstant.EMPTY_CAN_ARRAY_SIZE
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.socket.BluetoothSocketManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.WriteBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.const.BluetoothAdressCodeModel
 import eu.agribot.agribotapp.communication.bluetooth.error.message.write.BluetoothMessageWriteErrorHandler
@@ -20,15 +20,18 @@ class AndroidWriteBluetoothMessageManager(
     private val bluetoothSocketManager: BluetoothSocketManager
 ) :
     WriteBluetoothMessageManager {
-    private val EMPTY_CAN_DATA = ByteArray(EMPTY_CAN_ARRAY_SIZE) { 1 }
+
+    companion object {
+        const val HEARTBEAT_DELAY_TIME = 150L
+    }
+
+    private val emptyCanData = ByteArray(EMPTY_CAN_ARRAY_SIZE) { 1 }
     private val singleArray = ByteArray(1) { DUMMY_BYTE }
-    var heartbeatScope = MainScope()
-    private val HEARTBEAT_DELAY_TIME = 150L
+    private var heartbeatScope = MainScope()
     private var heartbeatArray = ByteArray(EMPTY_CAN_ARRAY_SIZE)
-    var heartbeatFrame =
-        BluetoothMessageFrame(
-            CANmessageData(BluetoothAdressCodeModel.MOBILE_HEARTBEAT, heartbeatArray)
-        )
+    private var heartbeatFrame = BluetoothMessageFrame(
+        CANmessageData(BluetoothAdressCodeModel.MOBILE_HEARTBEAT, heartbeatArray)
+    )
 
     private fun writeBluetoothMessage(
         message: ByteArray
@@ -49,7 +52,7 @@ class AndroidWriteBluetoothMessageManager(
     override fun sendHandshakeMessage() {
         val handshakeFrame = BluetoothMessageFrame(
             CANmessageData(
-                BluetoothAdressCodeModel.MOBILE_HANDSHAKE, EMPTY_CAN_DATA
+                BluetoothAdressCodeModel.MOBILE_HANDSHAKE, emptyCanData
             )
         )
         writeBluetoothMessage(
@@ -61,7 +64,7 @@ class AndroidWriteBluetoothMessageManager(
         val manualControlInitFrame = BluetoothMessageFrame(
             CANmessageData(
                 BluetoothAdressCodeModel.MANUAL_STARTING_INIT,
-                EMPTY_CAN_DATA
+                emptyCanData
             )
         )
         writeBluetoothMessage(
@@ -73,7 +76,7 @@ class AndroidWriteBluetoothMessageManager(
         val manualControlStartMessage =
             BluetoothMessageFrame(
                 CANmessageData(
-                    BluetoothAdressCodeModel.MANUAL_START, EMPTY_CAN_DATA
+                    BluetoothAdressCodeModel.MANUAL_START, emptyCanData
                 )
             )
         writeBluetoothMessage(
@@ -100,7 +103,7 @@ class AndroidWriteBluetoothMessageManager(
             BluetoothMessageFrame(
                 CANmessageData(
                     BluetoothAdressCodeModel.AUTO_START,
-                    EMPTY_CAN_DATA
+                    emptyCanData
                 )
             )
         writeBluetoothMessage(autonomusModeInitializationMessage.bluetoothMessageArray)
@@ -151,7 +154,7 @@ class AndroidWriteBluetoothMessageManager(
     override fun sendDiagnosticDataRequestMessage() {
         val diagnosticDataRequestMessage = BluetoothMessageFrame(
             CANmessageData(
-                BluetoothAdressCodeModel.AGRIBOT_DIAGNOSTIC_DATA_1, EMPTY_CAN_DATA
+                BluetoothAdressCodeModel.AGRIBOT_DIAGNOSTIC_DATA_1, emptyCanData
             )
         )
         writeBluetoothMessage(
@@ -161,7 +164,8 @@ class AndroidWriteBluetoothMessageManager(
 
     override fun sendTTControlForwardMessage(
         moveForwardArray: ByteArray
-    ) { val forwardMessageFrame = BluetoothMessageFrame(
+    ) {
+        val forwardMessageFrame = BluetoothMessageFrame(
             CANmessageData(
                 BluetoothAdressCodeModel.MOVE_FORWARD_BACKWARD,
                 moveForwardArray

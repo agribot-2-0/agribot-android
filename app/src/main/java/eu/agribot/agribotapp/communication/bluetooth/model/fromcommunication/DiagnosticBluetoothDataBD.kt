@@ -2,7 +2,7 @@ package eu.agribot.agribotapp.communication.bluetooth.model.fromcommunication
 
 import eu.agribot.agribotapp.domain.model.todomain.DiagnosticData
 
-class DiagnosticCommunicationDataBD(
+data class DiagnosticBluetoothDataBD(
     val engineRotationsPerMinute: Int = 1,
     val torqueOfEngine: Int = 1,
     val engineFuelRate: String = " ",
@@ -10,7 +10,7 @@ class DiagnosticCommunicationDataBD(
     val fuelTemperature: Int = 1,
     val batteryVoltage: String = " "
 
-) : BaseCommunicationDataModel<DiagnosticData> {
+) : BaseBluetoothDataModel<DiagnosticData> {
     override fun toDomainModel() = DiagnosticData(
         engineRotationsPerMinute = this.engineRotationsPerMinute,
         torqueOfEngine = this.torqueOfEngine,

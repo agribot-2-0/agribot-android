@@ -21,8 +21,6 @@ class BluetoothNearbyListItemAdapter(val onClickSelectedItem: (BluetoothNearbyLi
             }.dispatchUpdatesTo(this)
         }
 
-    var selectedItem: ((BluetoothNearbyListItemViewModel) -> Unit)? = onClickSelectedItem
-
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -41,7 +39,7 @@ class BluetoothNearbyListItemAdapter(val onClickSelectedItem: (BluetoothNearbyLi
         val item = items[position]
         holder.bind(item)
         holder.itemView.setOnClickListener {
-            selectedItem?.invoke(item)
+            onClickSelectedItem.invoke(item)
         }
     }
 }

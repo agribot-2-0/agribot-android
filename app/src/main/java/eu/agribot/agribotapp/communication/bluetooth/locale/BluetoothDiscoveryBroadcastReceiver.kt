@@ -14,9 +14,8 @@ class BluetoothDiscoveryBroadcastReceiver(
     val onDeviceConnected: () -> Unit,
     val onDeviceDisconnected: () -> Unit
 ) : BroadcastReceiver() {
-    private val NO_BLUETOOTH_DEVICE_NAME: String = "NO NAME"
-
     companion object {
+        const val NO_BLUETOOTH_DEVICE_NAME: String = "NO NAME"
         val FILTER = IntentFilter().apply {
             addAction(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED)
             addAction(BluetoothAdapter.EXTRA_CONNECTION_STATE)

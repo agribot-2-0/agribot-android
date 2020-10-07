@@ -9,24 +9,26 @@ import eu.agribot.agribotapp.common.navigation.events.TTControlNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolControlNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.service.ManualModeService
-import eu.agribot.agribotapp.domain.service.RemoteControlService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ManualControlViewModel(
-    private val remoteControlService: RemoteControlService,
     private val manualModeService: ManualModeService,
     private val resourcesProvider: ResourcesProvider
 
 ) : BaseViewModel() {
+
+    companion object {
+        const val REFRESH_DIAGNOSTIC_DATA_DELAY = 100L
+        const val SEND_JOYSTICK_MESSAGE_DELAY = 150L
+    }
+
     val accumulatorVoltage: MutableLiveData<String> = MutableLiveData()
     val engineRotations: MutableLiveData<String> = MutableLiveData()
     val torqueOfEngine: MutableLiveData<String> = MutableLiveData()
     val engineFuelRate: MutableLiveData<String> = MutableLiveData()
     val fuelLevel: MutableLiveData<String> = MutableLiveData()
     val fuelTemperature: MutableLiveData<String> = MutableLiveData()
-    private val refreshDiagnosticDataDelay = 100L
-    val sendJoysticMessageDelay = 150L
 
     fun onToolControlClicked() {
         navigationEvent.postValue(
@@ -36,7 +38,7 @@ class ManualControlViewModel(
 
     private fun refreshDiagnosticData() = viewModelScope.launch {
         while (true) {
-            delay(refreshDiagnosticDataDelay)
+            delay(REFRESH_DIAGNOSTIC_DATA_DELAY)
             if (manualModeService.getDiagnosticData() != null) {
                 manualModeService.getDiagnosticData()?.let { diagnosticData ->
                     accumulatorVoltage.value = diagnosticData.batteryVoltage
@@ -64,7 +66,7 @@ class ManualControlViewModel(
     }
 
     fun onJoystickParametrChange(angel: Int, strength: Int) = viewModelScope.launch {
-        delay(sendJoysticMessageDelay)
+        delay(SEND_JOYSTICK_MESSAGE_DELAY)
         manualModeService.onManualSteeringJoystickParametrChanged(angel, strength)
     }
 

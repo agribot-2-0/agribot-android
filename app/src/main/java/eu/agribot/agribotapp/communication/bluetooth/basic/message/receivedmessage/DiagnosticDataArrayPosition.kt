@@ -2,9 +2,11 @@ package eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmess
 
 object DiagnosticDataArrayPosition {
     const val ACCUMULATOR_VOLTGE_FIRST_BYTE_POSITION = 6
+
     const val ACCUMULATOR_VOLTAGE_SECOND_BYTE_POSITION = 7
 
     const val ENGINE_ROTATIONS_FIRST_BYTE_POSITION = 0
+
     const val ENGINE_ROTATIONS_SECOND_BYTE_POSITION = 1
 
     const val TORQUE_OF_ENGINE_BYTE_POSITION = 2

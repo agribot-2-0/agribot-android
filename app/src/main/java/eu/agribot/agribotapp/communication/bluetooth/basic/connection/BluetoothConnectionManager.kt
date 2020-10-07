@@ -14,13 +14,9 @@ interface BluetoothConnectionManager {
 
     fun enableBluetooth()
 
-    suspend fun registerBluetoothServer(
-        isSecureConnection: Boolean
-    )
+    suspend fun registerBluetoothServer(isSecureConnection: Boolean)
 
-    suspend fun connectBluetoothWithAgribot(
-        bluetoothDeviceAddress: String
-    )
+    suspend fun connectBluetoothWithAgribot(bluetoothDeviceAddress: String)
 
     fun disconnect()
 }

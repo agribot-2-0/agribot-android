@@ -53,7 +53,6 @@ val viewModelModule = module {
     }
     viewModel { (context: Context) ->
         ManualControlViewModel(
-            remoteControlService = get(),
             manualModeService = get(),
             resourcesProvider = get { parametersOf(context) }
         )
@@ -61,7 +60,8 @@ val viewModelModule = module {
     viewModel { (context: Context) ->
         PasswordReminderViewModel(
             authenticationService = get(),
-            resourcesProvider = get { parametersOf(context) })
+            resourcesProvider = get { parametersOf(context) }
+        )
     }
     viewModel { WelcomeViewModel() }
 
@@ -74,7 +74,8 @@ val viewModelModule = module {
     viewModel { (context: Context) ->
         SignupViewModel(
             authenticationService = get(),
-            resourcesProvider = get { parametersOf(context) })
+            resourcesProvider = get { parametersOf(context) }
+        )
     }
     viewModel {
         ToolControlViewModel(

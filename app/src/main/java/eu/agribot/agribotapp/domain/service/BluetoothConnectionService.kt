@@ -25,11 +25,11 @@ class BluetoothConnectionService(
     private val bluetoothMessageReceiveErrorHandler: BluetoothMessageReceiveErrorHandler
 ) {
     private val connectionErrors: BluetoothErrorInfo? =
-        bluetoothConnectionErrorHandler.getConnectionsError()?.toDomainModel()
+        bluetoothConnectionErrorHandler.getConnectionsError()
     private val writeMessageErrors: BluetoothErrorInfo? =
-        bluetoothMessageWriteErrorHandler.getMessageWriteError()?.toDomainModel()
+        bluetoothMessageWriteErrorHandler.getMessageWriteError()
     private val receiveMessageErrors: BluetoothErrorInfo? =
-        bluetoothMessageReceiveErrorHandler.getMessageReceiveError()?.toDomainModel()
+        bluetoothMessageReceiveErrorHandler.getMessageReceiveError()
 
     fun checkBluetoothEnable(): Boolean {
         return bluetoothConnectionManager.checkIsBluetoothEnable()

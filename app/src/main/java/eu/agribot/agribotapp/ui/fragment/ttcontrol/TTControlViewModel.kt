@@ -18,14 +18,14 @@ class TTControlViewModel(private val ttControlService: TTControlService) : BaseV
         rearKart.value = rearKart.value != true
     }
 
-    fun onVerticalJoystickParametrsChanged(verticalAngle: Int) {
+    fun onVerticalJoystickParametersChanged(verticalAngle: Int) {
         ttControlService.onVerticalJoystickParametrsChanged(
             verticalAngle,
             frontKart.value!!, rearKart.value!!
         )
     }
 
-    fun onHorizontalJoystickParametrsChanged(horizontalAngle: Int) {
+    fun onHorizontalJoystickParametersChanged(horizontalAngle: Int) {
         ttControlService.onHorizontalJoystickParametrsChanged(
             horizontalAngle,
             frontKart.value!!, rearKart.value!!

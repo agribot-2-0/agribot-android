@@ -28,7 +28,7 @@ class BluetoothConnectionFragment :
 
     private lateinit var bluetoothAdapter: BluetoothAdapter
     private lateinit var bluetoothDiscoveryBroadcastReceiver: BroadcastReceiver
-    lateinit var bluetoothDeviceAddress: String
+    private lateinit var bluetoothDeviceAddress: String
 
     override fun bindViewVariables(viewBinding: FragmentBluetoothConnectionBinding) {
         viewBinding.viewModel = viewModel

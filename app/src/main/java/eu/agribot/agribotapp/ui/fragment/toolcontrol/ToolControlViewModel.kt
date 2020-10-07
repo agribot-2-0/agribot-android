@@ -2,8 +2,6 @@ package eu.agribot.agribotapp.ui.fragment.toolcontrol
 
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.base.BaseViewModel
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.TuzSwitchesState
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.TuzSwitchessActive
 import eu.agribot.agribotapp.domain.model.fromdomain.SwitchSettings
 import eu.agribot.agribotapp.domain.service.ManualModeService
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.BACK_BLUE
@@ -24,6 +22,8 @@ import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.GREEN_TOOL_L
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.PTO_TOOL
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.PTO_TOOL_LIST_POSITION
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.YELLOW_TOOL
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.TuzSwitchesActive
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.TuzSwitchesState
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
 
 class ToolControlViewModel(
@@ -33,8 +33,8 @@ class ToolControlViewModel(
         MutableLiveData(listOf())
     val backToolsList: MutableLiveData<List<HitchListItemViewModel>> =
         MutableLiveData(listOf())
-    private val activeTuz: MutableLiveData<TuzSwitchessActive> = MutableLiveData()
-    val switchessActive: MutableLiveData<TuzSwitchesState> = MutableLiveData()
+    private val activeTuz: MutableLiveData<TuzSwitchesActive> = MutableLiveData()
+    val switchesActive: MutableLiveData<TuzSwitchesState> = MutableLiveData()
 
     fun onHitchParametersChanged(
         sliderNumber: Int,
@@ -51,41 +51,35 @@ class ToolControlViewModel(
     }
 
     fun onActivateTuzParametrChanged(tuzNumber: Int, isTuzActive: Boolean) {
-        activeTuz.value = TuzSwitchessActive(tuzNumber, isTuzActive)
-        when (tuzNumber) {
-            FRONT_UP_TUZ -> {
-                if (isTuzActive) {
-                    switchessActive.value = TuzSwitchesState(
+        activeTuz.value = TuzSwitchesActive(tuzNumber, isTuzActive)
+        if (isTuzActive) {
+            when (tuzNumber) {
+                FRONT_UP_TUZ -> {
+                    switchesActive.value = TuzSwitchesState(
                         frontUpTuzChecked = true,
                         frontBottomTuzChecked = false,
                         rearUpTuzChecked = false,
                         rearBottomTuzChecked = false
                     )
                 }
-            }
-            FRONT_DOWN_TUZ -> {
-                if (isTuzActive) {
-                    switchessActive.value = TuzSwitchesState(
+                FRONT_DOWN_TUZ -> {
+                    switchesActive.value = TuzSwitchesState(
                         frontUpTuzChecked = false,
                         frontBottomTuzChecked = true,
                         rearUpTuzChecked = false,
                         rearBottomTuzChecked = false
                     )
                 }
-            }
-            BACK_UP_TUZ -> {
-                if (isTuzActive) {
-                    switchessActive.value = TuzSwitchesState(
+                BACK_UP_TUZ -> {
+                    switchesActive.value = TuzSwitchesState(
                         frontUpTuzChecked = false,
                         frontBottomTuzChecked = false,
                         rearUpTuzChecked = true,
                         rearBottomTuzChecked = false
                     )
                 }
-            }
-            BACK_DOWN_TUZ -> {
-                if (isTuzActive) {
-                    switchessActive.value = TuzSwitchesState(
+                BACK_DOWN_TUZ -> {
+                    switchesActive.value = TuzSwitchesState(
                         frontUpTuzChecked = false,
                         frontBottomTuzChecked = false,
                         rearUpTuzChecked = false,
@@ -111,7 +105,8 @@ class ToolControlViewModel(
             HitchListItemViewModel(
                 toolName,
                 switchNumber
-            ), *frontToolsList.value!!.toTypedArray()
+            ),
+            *frontToolsList.value!!.toTypedArray()
         )
     }
 
@@ -120,7 +115,8 @@ class ToolControlViewModel(
             HitchListItemViewModel(
                 toolName,
                 switchNumber
-            ), *backToolsList.value!!.toTypedArray()
+            ),
+            *backToolsList.value!!.toTypedArray()
         )
     }
 

@@ -31,7 +31,7 @@ class AutonomousModeFragment :
         viewModel.addDefaultMarker()
     }
 
-    fun initMap() {
+    private fun initMap() {
         mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
     }
 

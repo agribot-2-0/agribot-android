@@ -41,7 +41,7 @@ class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolContr
         viewModel.createToolsLists()
         viewModel.frontToolsList.observe(this::addFrontTools)
         viewModel.backToolsList.observe(this::addBackTools)
-        viewModel.switchessActive.observe(this::showSwitchesState)
+        viewModel.switchesActive.observe(this::showSwitchesState)
         setCheckboxListeners()
     }
 

@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/statusPrimaryDark"
     android:orientation="horizontal">
 
@@ -24,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_battery"
-                android:tint="@android:color/white" />
+                app:tint="@android:color/white" />
 
         </FrameLayout>
 
@@ -73,7 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_velocity"
-                android:tint="@android:color/white" />
+                app:tint="@android:color/white" />
 
         </FrameLayout>
 
@@ -122,7 +123,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_rpm"
-                android:tint="@android:color/white" />
+                app:tint="@android:color/white" />
 
         </FrameLayout>
 
@@ -171,7 +172,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_engine"
-                android:tint="@android:color/white" />
+                app:tint="@android:color/white" />
 
         </FrameLayout>
 
@@ -220,7 +221,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/fuel_icon"
-                android:tint="@android:color/white" />
+                app:tint="@android:color/white" />
 
         </FrameLayout>
 
@@ -269,7 +270,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_fuelhour"
-                android:tint="@android:color/white" />
+                app:tint="@android:color/white" />
 
         </FrameLayout>
 
@@ -318,7 +319,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_celsius"
-                android:tint="@android:color/white" />
+                app:tint="@android:color/white" />
 
         </FrameLayout>
 

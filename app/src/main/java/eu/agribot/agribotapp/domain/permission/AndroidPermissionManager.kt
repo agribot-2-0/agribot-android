@@ -9,7 +9,7 @@ import com.karumi.dexter.Dexter
 class AndroidPermissionManager(
     private val context: Context
 ) : PermissionManager {
-    override fun requestLocationPermission(
+    override fun requestPermission(
         onSuccess: () -> Unit,
         onError: (PermissionError) -> Unit
     ) {

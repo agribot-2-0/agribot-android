@@ -27,7 +27,7 @@ class BluetoothConnectionViewModel(
         MutableLiveData(listOf())
 
     fun checkPermissions(onSucess: () -> Unit) {
-        permissionManager.requestLocationPermission(onSucess, onError = this::onPermissionError)
+        permissionManager.requestPermission(onSucess, onError = this::onPermissionError)
     }
 
     private fun onPermissionError(permissionError: PermissionError) {

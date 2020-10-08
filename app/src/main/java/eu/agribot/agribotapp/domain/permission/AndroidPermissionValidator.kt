@@ -17,10 +17,24 @@ class AndroidPermissionValidator(val context: Context) :
         }
     }
 
+    override fun hasBluetoothPermissions(): Boolean {
+        return hasBluetoothPermission()
+    }
+
+    override fun hasBluetoothAdminPermissions(): Boolean {
+        return hasBluetoothAdminPermission()
+    }
+
     @RequiresApi(Build.VERSION_CODES.Q)
     private fun hasLocationPermissionWithBackground() =
         context.checkSelfPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
 
     private fun hasLocationPermission() =
         context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+
+    private fun hasBluetoothPermission() =
+        context.checkSelfPermission(Manifest.permission.BLUETOOTH) == PackageManager.PERMISSION_GRANTED
+
+    private fun hasBluetoothAdminPermission() =
+        context.checkSelfPermission(Manifest.permission.BLUETOOTH_ADMIN) == PackageManager.PERMISSION_GRANTED
 }

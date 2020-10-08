@@ -18,8 +18,8 @@ class SettingsViewModel(
     val toastEvent: LiveEvent<String> = MutableLiveEvent()
     val user =
         resourcesProvider.getString(R.string.login_As_Text) + " " + authenticationService.getCurrentUser().userEmail
-    val showSignoutDialogEvent: LiveEvent<Boolean> = MutableLiveEvent()
     val showDeleteAccountDialogEvent: LiveEvent<Boolean> = MutableLiveEvent()
+    val showSignoutDialogEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
 
     fun logOut() {
         authenticationService.logOut(signOutInformation = this::logOutInfo)
@@ -39,6 +39,10 @@ class SettingsViewModel(
         showSignoutDialogEvent.postValue(true)
     }
 
+    fun removeTextClicked() {
+        showDeleteAccountDialogEvent.postValue(true)
+    }
+
     private fun postWelcomeActivityEvent() {
         navigationEvent.postValue(
             WelcomeActivityNavigationEvent()
@@ -47,10 +51,6 @@ class SettingsViewModel(
 
     private fun logOutInfo() {
         toastEvent.postValue(resourcesProvider.getString(R.string.toast_logout_sucess))
-    }
-
-    fun removeTextClicked() {
-        showDeleteAccountDialogEvent.postValue(true)
     }
 
     fun removeUser() {

@@ -29,7 +29,7 @@ class MainViewModel(private val bluetoothConnectionService: BluetoothConnectionS
     }
 
     fun refreshBluetoothErrorsList() = viewModelScope.launch {
-        while (true) {
+        while (bluetoothConnectionService.checkBluetoothEnable()) {
             delay(CHECK_BLUETOOTH_ERROR_DELAY)
             when {
                 bluetoothConnectionService.getBluetoothConnectionErrors() != null -> {

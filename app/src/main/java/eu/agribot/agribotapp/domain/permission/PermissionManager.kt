@@ -1,7 +1,7 @@
 package eu.agribot.agribotapp.domain.permission
 
 interface PermissionManager {
-    fun requestLocationPermission(
+    fun requestPermission(
         onSuccess: () -> Unit,
         onError: (PermissionError) -> Unit
     )

@@ -19,12 +19,12 @@ class TTControlModeFragment : BaseFragment<TTControlViewModel, FragmentTtcontrol
 
     override fun bindViewVariables(viewBinding: FragmentTtcontrolBinding) {
         viewBinding.viewModel = viewModel
-        viewModel.frontKart.observe(this::onFrontKartChanged)
-        viewModel.rearKart.observe(this::onRearKartChanged)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.frontKart.observe(this::onFrontKartChanged)
+        viewModel.rearKart.observe(this::onRearKartChanged)
         horizontal_joystick.setOnMoveListener { angle, _ ->
             viewModel.onHorizontalJoystickParametersChanged(angle)
         }

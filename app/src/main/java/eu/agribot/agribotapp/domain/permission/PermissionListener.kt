@@ -30,7 +30,39 @@ class PermissionListener(
             onError(PermissionError.BACKGROUND_LOCATION_DENIED_PERMANENTLY)
         hasDeniedBackgroundLocation(report) ->
             onError(PermissionError.BACKGROUND_LOCATION_DENIED)
+        hasPermamentlyDeniedBluetooth(report) ->
+            onError(PermissionError.BLUETOOTH_DENIED_PERMANENTLY)
+        hasDeniedBluetooth(report) ->
+            onError(PermissionError.BLUETOOTH_DENIED)
+        hasPermamentlyDeniedBluetoothAdmin(report) ->
+            onError(PermissionError.BLUETOOTH_DENIED_PERMANENTLY)
+        hasDeniedBluetoothAdmin(report) ->
+            onError(PermissionError.BLUETOOTH_DENIED)
         else -> onSuccess.invoke()
+    }
+
+    private fun hasPermamentlyDeniedBluetoothAdmin(report: MultiplePermissionsReport): Boolean {
+        return report.deniedPermissionResponses.any {
+            it.permissionName == Manifest.permission.BLUETOOTH_ADMIN && it.isPermanentlyDenied
+        }
+    }
+
+    private fun hasDeniedBluetoothAdmin(report: MultiplePermissionsReport): Boolean {
+        return report.deniedPermissionResponses.any {
+            it.permissionName == Manifest.permission.BLUETOOTH_ADMIN
+        }
+    }
+
+    private fun hasPermamentlyDeniedBluetooth(report: MultiplePermissionsReport): Boolean {
+        return report.deniedPermissionResponses.any {
+            it.permissionName == Manifest.permission.BLUETOOTH && it.isPermanentlyDenied
+        }
+    }
+
+    private fun hasDeniedBluetooth(report: MultiplePermissionsReport): Boolean {
+        return report.deniedPermissionResponses.any {
+            it.permissionName == Manifest.permission.BLUETOOTH
+        }
     }
 
     private fun hasPermanentlyDeniedBackgroundLocation(report: MultiplePermissionsReport): Boolean {

@@ -28,8 +28,8 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.toastEvent.observe(this::showToast)
-        viewModel.showSignoutDialogEvent.observe(this::showSignOutDialog)
         viewModel.showDeleteAccountDialogEvent.observe(this::showDeleteAccountDialog)
+        viewModel.showSignoutDialogEvent.observe(this::showSignOutDialog)
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
@@ -46,8 +46,10 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
         startActivity(WelcomeActivity.getStartingIntent(requireContext()))
     }
 
-    private fun showSignOutDialog(logOut: Boolean) {
-        dialogManager.showSignOutDialog(viewModel::logOut)
+    private fun showSignOutDialog(isSignoutDecision: Boolean) {
+        if (isSignoutDecision) {
+            dialogManager.showSignOutDialog(viewModel::logOut)
+        }
     }
 
     private fun showDeleteAccountDialog(deleteAccountDecision: Boolean) {

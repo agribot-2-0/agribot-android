@@ -14,7 +14,7 @@
     <string name="title_group_control">Control</string>
     <string name="title_manual_control">Manual Control</string>
     <string name="title_tool_control">Tool Control</string>
-    <string name="title_autonomous_mode">Autonomous Mode</string>
+    <string name="title_dashboard">Dashboard</string>
     <string name="title_tool_management">Tool Management</string>
     <string name="title_path_management">Path Management</string>
     <string name="title_group_other">Other</string>

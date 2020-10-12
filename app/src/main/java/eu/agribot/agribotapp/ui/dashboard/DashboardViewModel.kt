@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.autonomousmode
+package eu.agribot.agribotapp.ui.dashboard
 
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
@@ -8,7 +8,7 @@ import eu.agribot.agribotapp.common.livedata.LiveEvent
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.domain.service.AutonomyService
 
-class AutonomousModeViewModel(private val autonomyService: AutonomyService) : BaseViewModel() {
+class DashboardViewModel(private val autonomyService: AutonomyService) : BaseViewModel() {
 
     private val agriBotLatLng = LatLng(51.11322, 17.01958)
     val showToastEvent: LiveEvent<String> = MutableLiveEvent()

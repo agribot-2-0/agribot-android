@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.autonomousmode
+package eu.agribot.agribotapp.ui.dashboard
 
 import android.os.Bundle
 import android.view.View
@@ -7,19 +7,19 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.MarkerOptions
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
-import eu.agribot.agribotapp.databinding.FragmentAutonomousModeBinding
+import eu.agribot.agribotapp.databinding.FragmentDashboardBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class AutonomousModeFragment :
-    BaseFragment<AutonomousModeViewModel, FragmentAutonomousModeBinding>() {
+class DashboardFragment :
+    BaseFragment<DashboardViewModel, FragmentDashboardBinding>() {
 
     private lateinit var mapFragment: SupportMapFragment
     private val ZOOM = 15F
 
-    override val layoutResourceId: Int = R.layout.fragment_autonomous_mode
-    override val viewModel: AutonomousModeViewModel by viewModel()
+    override val layoutResourceId: Int = R.layout.fragment_dashboard
+    override val viewModel: DashboardViewModel by viewModel()
 
-    override fun bindViewVariables(viewBinding: FragmentAutonomousModeBinding) {
+    override fun bindViewVariables(viewBinding: FragmentDashboardBinding) {
         viewBinding.viewModel = viewModel
     }
 

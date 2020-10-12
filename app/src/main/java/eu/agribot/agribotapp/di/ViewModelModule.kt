@@ -7,7 +7,7 @@ import eu.agribot.agribotapp.ui.activity.authentication.signup.SignupViewModel
 import eu.agribot.agribotapp.ui.activity.authentication.welcome.WelcomeViewModel
 import eu.agribot.agribotapp.ui.activity.main.MainViewModel
 import eu.agribot.agribotapp.ui.activity.splash.SplashViewModel
-import eu.agribot.agribotapp.ui.fragment.autonomousmode.AutonomousModeViewModel
+import eu.agribot.agribotapp.ui.dashboard.DashboardViewModel
 import eu.agribot.agribotapp.ui.fragment.bluetoothconnection.BluetoothConnectionViewModel
 import eu.agribot.agribotapp.ui.fragment.bluetoothconnection.recycler.BluetoothNearbyListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.ManualControlViewModel
@@ -82,7 +82,7 @@ val viewModelModule = module {
             manualModeService = get()
         )
     }
-    viewModel { AutonomousModeViewModel(autonomyService = get()) }
+    viewModel { DashboardViewModel(autonomyService = get()) }
     viewModel { ToolManagementViewModel() }
     viewModel {
         PathManagementViewModel(

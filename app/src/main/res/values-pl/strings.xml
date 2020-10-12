@@ -14,7 +14,7 @@
     <string name="title_group_control">Control</string>
     <string name="title_manual_control">Tryb Manualny</string>
     <string name="title_tool_control">Kontrola Narzędzi</string>
-    <string name="title_autonomous_mode">Tryb Autonomiczny</string>
+    <string name="title_dashboard">Panel Sterowania</string>
     <string name="title_tool_management">Zarządzanie Narzędziami</string>
     <string name="title_path_management">Zarządzanie ścieżkami</string>
     <string name="title_group_other">Inne</string>

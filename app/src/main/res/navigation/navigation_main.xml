@@ -64,10 +64,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/autonomousModeFragment"
-        android:name="eu.agribot.agribotapp.ui.fragment.autonomousmode.AutonomousModeFragment"
-        android:label="@string/title_autonomous_mode"
-        tools:layout="@layout/fragment_autonomous_mode" />
+        android:id="@+id/dashboardFragment"
+        android:name="eu.agribot.agribotapp.ui.dashboard.DashboardFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/toolManagementFragment"

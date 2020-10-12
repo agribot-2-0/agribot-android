@@ -14,9 +14,12 @@ class AuthenticationService(
         loginSucess: () -> Unit,
         loginFailed: (error: String) -> Unit
     ) {
-        firebaseService.login(userLogin, userPassword, loginSucess, onError = {
-            loginFailed(authenticationErrorHandler.getMessageForLoginException(it))
-        })
+        firebaseService.login(
+            userLogin, userPassword, loginSucess,
+            onError = {
+                loginFailed(authenticationErrorHandler.getMessageForLoginException(it))
+            }
+        )
     }
 
     fun resetEmail(
@@ -24,9 +27,12 @@ class AuthenticationService(
         confirmSending: () -> Unit,
         errorSending: (error: String) -> Unit
     ) {
-        firebaseService.sendResetPasswordEmail(userLogin, confirmSending, onError = {
-            errorSending(authenticationErrorHandler.getMessageForPasswordReminderException(it))
-        })
+        firebaseService.sendResetPasswordEmail(
+            userLogin, confirmSending,
+            onError = {
+                errorSending(authenticationErrorHandler.getMessageForPasswordReminderException(it))
+            }
+        )
     }
 
     fun logOut(signOutInformation: () -> Unit) {
@@ -39,9 +45,12 @@ class AuthenticationService(
         registerSucess: () -> Unit,
         registerFailed: (error: String) -> Unit
     ) {
-        firebaseService.register(userLogin, userPassword, registerSucess, onError = {
-            registerFailed(authenticationErrorHandler.getMessageForSignupException(it))
-        })
+        firebaseService.register(
+            userLogin, userPassword, registerSucess,
+            onError = {
+                registerFailed(authenticationErrorHandler.getMessageForSignupException(it))
+            }
+        )
     }
 
     data class AppUser(
@@ -63,6 +72,7 @@ class AuthenticationService(
             onSucessRemove,
             onError = {
                 onErrorRemove(authenticationErrorHandler.getMessageForSignupException(it))
-            })
+            }
+        )
     }
 }

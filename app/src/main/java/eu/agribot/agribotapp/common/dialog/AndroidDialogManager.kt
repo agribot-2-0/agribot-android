@@ -36,4 +36,15 @@ class AndroidDialogManager(
             negativeButton(R.string.cancel)
         }
     }
+
+    override fun showBluetoothDialog(
+        onTurnOnBluetoothConfirmed: () -> Unit
+    ) {
+        MaterialDialog(context).show {
+            title(R.string.dialog_bluetooth_title)
+            message(R.string.dialog_bluetooth_message)
+            positiveButton(R.string.dialog_bluetooth_positive_message) { onTurnOnBluetoothConfirmed() }
+            negativeButton(R.string.cancel)
+        }
+    }
 }

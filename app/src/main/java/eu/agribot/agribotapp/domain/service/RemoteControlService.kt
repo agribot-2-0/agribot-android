@@ -1,11 +1,11 @@
 package eu.agribot.agribotapp.domain.service
 
-import eu.agribot.agribotapp.communication.bluetooth.BluetoothService
+import eu.agribot.agribotapp.communication.bluetooth.basic.connection.BluetoothConnectionManager
 import eu.agribot.agribotapp.communication.persistence.PersistentStorage
 import timber.log.Timber
 
 class RemoteControlService(
-    private val bluetoothService: BluetoothService,
+    private val bluetoothConnectionManager: BluetoothConnectionManager,
     private val persistentStorage: PersistentStorage
 ) {
 

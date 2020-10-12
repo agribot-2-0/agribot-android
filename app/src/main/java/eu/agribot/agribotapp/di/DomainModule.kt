@@ -1,9 +1,18 @@
 package eu.agribot.agribotapp.di
 
 import eu.agribot.agribotapp.domain.error.AuthenticationErrorHandler
+import eu.agribot.agribotapp.domain.permission.AndroidPermissionManager
+import eu.agribot.agribotapp.domain.permission.PermissionManager
 import eu.agribot.agribotapp.domain.service.AuthenticationService
+import eu.agribot.agribotapp.domain.service.AutonomyService
+import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
+import eu.agribot.agribotapp.domain.service.ManualModeService
 import eu.agribot.agribotapp.domain.service.PathManagementService
 import eu.agribot.agribotapp.domain.service.RemoteControlService
+import eu.agribot.agribotapp.domain.service.TTControlService
+import eu.agribot.agribotapp.domain.service.joystick.manualmode.ManualSteeringJoystickManager
+import eu.agribot.agribotapp.domain.service.joystick.ttcontroljoystick.TTControlHorizontalJoystickManager
+import eu.agribot.agribotapp.domain.service.joystick.ttcontroljoystick.TTControlVerticalJoystickManager
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
@@ -11,6 +20,7 @@ import org.koin.dsl.module
 /**
  * Koin module used to provide domain layer dependencies
  */
+
 val domainModule = module {
 
     single {
@@ -22,7 +32,7 @@ val domainModule = module {
 
     single {
         RemoteControlService(
-            bluetoothService = get(),
+            bluetoothConnectionManager = get(),
             persistentStorage = get()
         )
     }
@@ -36,6 +46,54 @@ val domainModule = module {
 
     single {
         AuthenticationErrorHandler(
-            resourcesProvider = get { parametersOf(androidContext()) })
+            resourcesProvider = get {
+                parametersOf(
+                    androidContext()
+                )
+            }
+        )
+    }
+
+    single {
+        BluetoothConnectionService(
+            bluetoothConnectionManager = get(),
+            bluetoothConnectionErrorHandler = get(),
+            bluetoothMessageWriteErrorHandler = get(),
+            bluetoothMessageReceiveErrorHandler = get(),
+            bluetoothWriteBluetoothMessageManager = get()
+        )
+    }
+
+    single {
+        ManualModeService(
+            manualSteeringJoystickManager = get(),
+            writeBluetoothMessageManager = get(),
+            receivedBluetoothMessageManager = get(),
+            messageCreator = get()
+        )
+    }
+
+    single { ManualSteeringJoystickManager(messageCreator = get()) }
+
+    single {
+        TTControlService(horizontalJoystickManager = get(), verticalJoystickManager = get())
+    }
+
+    single {
+        TTControlVerticalJoystickManager(messageCreator = get())
+    }
+
+    single { TTControlHorizontalJoystickManager(messageCreator = get()) }
+
+    single { AutonomyService(bluetoothConnectionService = get()) }
+
+    single<PermissionManager> {
+        AndroidPermissionManager(
+            context = get {
+                parametersOf(
+                    androidContext()
+                )
+            }
+        )
     }
 }

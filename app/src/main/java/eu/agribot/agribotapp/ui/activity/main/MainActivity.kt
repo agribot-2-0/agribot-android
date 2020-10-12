@@ -46,6 +46,15 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         R.id.settingsFragment
     )
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.registerServer()
+        viewModel.refreshBluetoothErrorsList()
+        viewModel.connectionErrors.observe(this::showToast)
+        viewModel.writeMessageErrors.observe(this::showToast)
+        viewModel.receiveMessageErrors.observe(this::showToast)
+    }
+
     private val appBarConfiguration by lazy {
         AppBarConfiguration(
             topLevelDestinationIds = navigationTopLevelDestinations,

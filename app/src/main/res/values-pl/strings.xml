@@ -25,6 +25,10 @@
     <string name="dialog_exit_title">Zamknij Aplikacje</string>
     <string name="dialog_exit_message">Jesteś pewny, że chcesz wyjść?</string>
 
+    <string name="dialog_bluetooth_title">Application want to turn on Bluetooth</string>
+    <string name="dialog_bluetooth_message">Do you agree to enable Bluetooth</string>
+    <string name="dialog_bluetooth_positive_message">Enable!</string>
+
     <!-- Tool Control -->
     <string name="pto">PTO</string>
     <string name="no_rpm">0 rpm</string>
@@ -115,6 +119,28 @@
     <string name="too_short_password">Za krótkie hasło [Hasło powinno mieć minimum 6 znaków]</string>
     <string name="badly_email_formated">Zły format adresu email.</string>
     <string name="no_internet_connection">Brak połączenia z internetem</string>
+    <string name="connect_to_agribot">Connect to Agribot</string>
+    <string name="nearby_devices_swipe_to_refresh_list">Nearby_Devices_List</string>
+
+    <string name="connect_with_agribot_button">Połącz z Agribotem</string>
+    <string name="disconnect_button">Zakończ połączenie</string>
+    <string name="override_button">Tryb Override</string>
+    <string name="nerby_devices_list_item">Lista dostępnych urządzeń</string>
+    <string name="blue_tool">BLUE</string>
+    <string name="yellow_tool">YELLOW</string>
+    <string name="green_tool">GREEN</string>
+
+    <string name="disconnected">Połączenie z Agribotem zakończone</string>
+    <string name="empty_data">X</string>
+    <string name="connected">Połączono z Agribotem</string>
+    <string name="heartbeat_error">Heartbeat Error</string>
+    <string name="send_message_error">Send Message Error</string>
+    <string name="receive_message_error">Receive Message Error</string>
+    <string name="create_server_error">Create Bluetooth Server Error</string>
+    <string name="connection_error">Bluetooth Connection Error</string>
+    <string name="tuz_down_up">Wózki góra/dół</string>
+    <string name="front_hitch">Przednie zaczepy</string>
+    <string name="back_hitch">Tylne zaczepy</string>
 
 
 </resources>

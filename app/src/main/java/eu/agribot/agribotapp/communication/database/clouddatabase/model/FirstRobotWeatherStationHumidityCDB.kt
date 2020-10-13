@@ -6,13 +6,13 @@ import java.util.Date
 
 data class FirstRobotWeatherStationHumidityCDB(
     val accuracy: Int = -1,
-    val humidity: Int = -1,
+    val value: Int = -1,
     val timestamp: Timestamp = Timestamp(Date(1590508315L))
 ) : BaseCloudDatabaseModel<FirstRobotWeatherStationHumidity> {
 
     override fun toDomainModel() = FirstRobotWeatherStationHumidity(
         accuracy = this.accuracy,
-        humidity = this.humidity,
+        value = this.value,
         timestamp = this.timestamp
     )
 }

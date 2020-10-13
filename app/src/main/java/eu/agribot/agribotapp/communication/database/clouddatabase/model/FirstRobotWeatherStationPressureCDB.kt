@@ -1,10 +1,17 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase.model
 
-import eu.agribot.agribotapp.domain.model.FirstRobotWeatherStationPressure
+import com.google.firebase.Timestamp
+import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationPressure
 
-class FirstRobotWeatherStationPressureCDB(val pressure: Int = -1) :
+class FirstRobotWeatherStationPressureCDB(
+    val accuracy: Int = -1,
+    val timestamp: Timestamp = Timestamp(0, 0),
+    val value: Double = 1.0
+) :
     BaseCloudDatabaseModel<FirstRobotWeatherStationPressure> {
     override fun toDomainModel() = FirstRobotWeatherStationPressure(
-        pressure = this.pressure
+        accuracy = this.accuracy,
+        timestamp = this.timestamp,
+        value = this.value
     )
 }

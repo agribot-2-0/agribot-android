@@ -1,6 +1,15 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase
 
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.*
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.EngineHealthCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.FirstRobotHealthEngineCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.FirstRobotWeatherStationHumidityCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.FirstRobotWeatherStationPressureCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.FirstRobotWeatherStationTemperatureCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.FirstRobotWeatherStationWindCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotLocalizationPoseCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskDetailsCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskItemCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserInfoCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.programtasks.NewRobotTaskDetailsCDB
 
 interface CloudDatabase {
@@ -62,7 +71,12 @@ interface CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     )
 
-    fun createNewTask(taskName: String, newRobotTaskDetailsCDB: NewRobotTaskDetailsCDB, onDatabaseSucess: () -> Unit, onDatabaseError: (Throwable) -> Unit)
+    fun createNewTask(
+        taskName: String,
+        newRobotTaskDetailsCDB: NewRobotTaskDetailsCDB,
+        onDatabaseSucess: () -> Unit,
+        onDatabaseError: (Throwable) -> Unit
+    )
 
     fun getTaskDetails(
         taskID: String,
@@ -76,7 +90,11 @@ interface CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     )
 
-    fun deleteSelectedTask(taskID: String, onDeleteSucess: () -> Unit, onDeleteError: (Throwable) -> Unit)
+    fun deleteSelectedTask(
+        taskID: String,
+        onDeleteSucess: () -> Unit,
+        onDeleteError: (Throwable) -> Unit
+    )
 
     fun getTaskItem(
         onGetTaskItem: (taskItemCDB: TaskItemCDB) -> Unit,

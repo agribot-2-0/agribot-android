@@ -5,15 +5,16 @@
         <menu>
 
             <group android:checkableBehavior="single">
-                <item
-                    android:id="@+id/manualControlFragment"
-                    android:icon="@drawable/ic_remote_black"
-                    android:title="@string/title_manual_control" />
 
                 <item
                     android:id="@+id/dashboardFragment"
                     android:icon="@drawable/ic_computer_black"
                     android:title="@string/title_dashboard" />
+
+                <item
+                    android:id="@+id/manualControlFragment"
+                    android:icon="@drawable/ic_remote_black"
+                    android:title="@string/title_manual_control" />
 
                 <item
                     android:id="@+id/toolManagementFragment"

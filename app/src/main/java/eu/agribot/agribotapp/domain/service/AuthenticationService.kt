@@ -1,6 +1,6 @@
 package eu.agribot.agribotapp.domain.service
 
-import eu.agribot.agribotapp.communication.firebase.FirebaseService
+import eu.agribot.agribotapp.communication.database.firebase.FirebaseService
 import eu.agribot.agribotapp.domain.error.AuthenticationErrorHandler
 
 class AuthenticationService(

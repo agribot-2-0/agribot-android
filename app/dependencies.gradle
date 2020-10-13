@@ -19,7 +19,10 @@ def versions = [
 		'firebaseAuth'    : '19.4.0',
 		'playVersion'     : '15.0.0',
 		'serviceAuth'     : '18.1.0',
-		'dexter'          : '6.2.1'
+		'dexter'          : '6.2.1',
+		'firestore'       : '21.6.0',
+		'firestorage'     : '19.2.0'
+
 
 ]
 
@@ -85,6 +88,12 @@ dependencies {
 	//FirebaseAuth
 	implementation "com.google.firebase:firebase-auth:$versions.firebaseAuth"
 	implementation "com.google.android.gms:play-services-auth:$versions.serviceAuth"
+
+	//FirebaseFirestore
+	implementation "com.google.firebase:firebase-firestore-ktx:$versions.firestore"
+
+	//FirebaseFiresorage
+	implementation "com.google.firebase:firebase-storage-ktx:$versions.firestorage"
 
 	//Dexter
 	implementation "com.karumi:dexter:$versions.dexter"

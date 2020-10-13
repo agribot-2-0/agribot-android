@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.communication.firebase
+package eu.agribot.agribotapp.communication.database.firebase
 
 import com.google.firebase.auth.FirebaseAuth
 

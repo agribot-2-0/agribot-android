@@ -17,8 +17,12 @@ import eu.agribot.agribotapp.communication.bluetooth.error.message.receive.Andro
 import eu.agribot.agribotapp.communication.bluetooth.error.message.receive.BluetoothMessageReceiveErrorHandler
 import eu.agribot.agribotapp.communication.bluetooth.error.message.write.AndroidBluetoothMessageWriteErrorHandler
 import eu.agribot.agribotapp.communication.bluetooth.error.message.write.BluetoothMessageWriteErrorHandler
-import eu.agribot.agribotapp.communication.firebase.AndroidFirebaseService
-import eu.agribot.agribotapp.communication.firebase.FirebaseService
+import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabase
+import eu.agribot.agribotapp.communication.database.clouddatabase.FirebaseDatabase
+import eu.agribot.agribotapp.communication.database.firebase.AndroidFirebaseService
+import eu.agribot.agribotapp.communication.database.firebase.FirebaseService
+import eu.agribot.agribotapp.communication.firestorage.AndroidFirestorageService
+import eu.agribot.agribotapp.communication.firestorage.FirestorageService
 import eu.agribot.agribotapp.communication.persistence.PersistentStorage
 import eu.agribot.agribotapp.communication.persistence.SharedPreferencesPersistentStorage
 import org.koin.android.ext.koin.androidContext
@@ -68,6 +72,14 @@ val communicationModule = module {
         SharedPreferencesPersistentStorage(
             context = androidContext()
         )
+    }
+
+    single<CloudDatabase> {
+        FirebaseDatabase()
+    }
+
+    single<FirestorageService> {
+        AndroidFirestorageService(context = androidContext())
     }
 
     single<BluetoothMessageWriteErrorHandler> {

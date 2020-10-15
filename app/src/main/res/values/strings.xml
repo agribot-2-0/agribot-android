@@ -158,6 +158,13 @@
     <string name="edit_task_button">Edit task</string>
     <string name="path_name">\"Nazwa ścieżki: \"</string>
     <string name="delete_sucess_text">Task deleted sucessfully</string>
-    <string name="start_time">\"Start Time: \"</string>
+    <string name="start_time">Start Time: "</string>
+    <string name="no_path_text">No Path Selected</string>
+    <string name="no_temperature_text">No Temperature Selected</string>
+    <string name="no_humidity_text">No Humidity Selected</string>
+    <string name="no_pressure_text">No Pressure Selected</string>
+    <string name="no_wind_text">No Wind Selected</string>
+    <string name="no_start_date">No start Date</string>
+
 
 </resources>

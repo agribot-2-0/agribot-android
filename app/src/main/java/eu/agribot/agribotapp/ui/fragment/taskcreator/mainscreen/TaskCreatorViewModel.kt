@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.MarkerOptions
 import eu.agribot.agribotapp.R
@@ -12,6 +13,7 @@ import eu.agribot.agribotapp.domain.model.TaskItem
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.TaskListItemViewModel
+import java.text.SimpleDateFormat
 
 class TaskCreatorViewModel(
     private val resourcesProvider: ResourcesProvider,
@@ -20,6 +22,7 @@ class TaskCreatorViewModel(
 ) : BaseViewModel() {
     val markers: MutableLiveData<MarkerOptions> = MutableLiveData()
     val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
+    val taskDate: MutableLiveData<String> = MutableLiveData()
     val taskList: MutableLiveData<List<TaskListItemViewModel>> = MutableLiveData(listOf())
     val pathName: MutableLiveData<String> = MutableLiveData()
     val temperature: MutableLiveData<String> = MutableLiveData()
@@ -87,8 +90,16 @@ class TaskCreatorViewModel(
         )
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun onGotTaskDetails(taskDetails: TaskDetails) {
         taskCreatorDataManager.updateAllTaskParameters(taskDetails)
+        if (!taskDetails.start_time_estimated) {
+            val dateFormat = SimpleDateFormat(TaskDetailsElements.DATE_FORMAT.detailsElement)
+            taskDate.value =
+                resourcesProvider.getString(R.string.start_time) + dateFormat.format(taskDetails.start_time!!.toDate())
+        } else {
+            taskDate.value = "No start Date"
+        }
         pathName.value =
             resourcesProvider.getString(R.string.path_name) + taskDetails.path_name
         temperature.value =

@@ -22,6 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="80dp"
             android:text="Send to Database"
+            android:onClick="@{() -> viewModel.sendTaskData()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

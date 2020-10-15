@@ -5,5 +5,6 @@ enum class TaskDetailsElements (val detailsElement : String) {
     TEMPERATURE_UNIT("°C"),
     SPEED_UNIT("km/h"),
     PRESSURE_UNIT("hPa"),
-    PERCENT("%")
+    PERCENT("%"),
+    DATE_FORMAT("dd/MM/yy HH:mm")
 }

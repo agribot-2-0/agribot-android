@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.domain.service.cloud
 
+import android.util.Log
 import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabase
 import eu.agribot.agribotapp.domain.model.EngineHealth
 import eu.agribot.agribotapp.domain.model.FirstRobotHealthEngine
@@ -11,6 +12,8 @@ import eu.agribot.agribotapp.domain.model.TaskDetails
 import eu.agribot.agribotapp.domain.model.TaskItem
 import eu.agribot.agribotapp.domain.model.UserInfo
 import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationPressure
+import eu.agribot.agribotapp.domain.model.program.weather.toCommunication.NewRobotTaskDetails
+import java.lang.Exception
 
 class CloudDatabaseService(
     val cloudDatabase: CloudDatabase
@@ -197,5 +200,19 @@ class CloudDatabaseService(
             onDatabaseError = {
                 onError(it.message!!)
             })
+    }
+
+    fun programTaskToRobot(taskName: String, newRobotTaskDetails: NewRobotTaskDetails) {
+        Log.e("xd","programTask")
+        cloudDatabase.createNewTask(taskName, newRobotTaskDetails.toCommunicationModel(), onDatabaseSucess = this :: onsucess, onDatabaseError = this::onError)
+    }
+
+    fun onsucess(){
+        Log.e("xd", "send sucess")
+    }
+
+    fun onError(error : Throwable){
+        Log.e("xd", "send error" + error)
+
     }
 }

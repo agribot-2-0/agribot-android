@@ -155,7 +155,7 @@ val viewModelModule = module {
     viewModel {
         CreatorToolSelectViewModel(
             taskCreatorDataManager = get(),
-            autonomyService = get()
+            cloudDatabaseService = get()
         )
     }
 
@@ -174,6 +174,5 @@ val viewModelModule = module {
         )
 
     }
-
 
 }

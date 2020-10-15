@@ -7,12 +7,19 @@ import eu.agribot.agribotapp.ui.activity.authentication.signup.SignupViewModel
 import eu.agribot.agribotapp.ui.activity.authentication.welcome.WelcomeViewModel
 import eu.agribot.agribotapp.ui.activity.main.MainViewModel
 import eu.agribot.agribotapp.ui.activity.splash.SplashViewModel
-import eu.agribot.agribotapp.ui.dashboard.DashboardViewModel
 import eu.agribot.agribotapp.ui.fragment.bluetoothconnection.BluetoothConnectionViewModel
 import eu.agribot.agribotapp.ui.fragment.bluetoothconnection.recycler.BluetoothNearbyListItemViewModel
+import eu.agribot.agribotapp.ui.fragment.dashboard.DashboardViewModel
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.ManualControlViewModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.PathManagementViewModel
 import eu.agribot.agribotapp.ui.fragment.settings.SettingsViewModel
+import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.TaskCreatorViewModel
+import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.TaskListItemViewModel
+import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.CreatorPathSelectViewModel
+import eu.agribot.agribotapp.ui.fragment.taskcreator.taskname.CreatorTaskNameViewModel
+import eu.agribot.agribotapp.ui.fragment.taskcreator.timeselect.CreatorTimeSelectViewModel
+import eu.agribot.agribotapp.ui.fragment.taskcreator.toolselect.CreatorToolSelectViewModel
+import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.CreatorWeatherSelectViewModel
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolControlViewModel
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.ToolManagementViewModel
@@ -113,6 +120,60 @@ val viewModelModule = module {
     }
 
     viewModel {
-        TTControlViewModel(ttControlService = get())
+        TTControlViewModel(
+            ttControlService = get()
+        )
     }
+
+    viewModel {
+        TaskListItemViewModel(
+            taskName = get(),
+            pathName = get()
+        )
+    }
+
+    viewModel {
+        CreatorPathSelectViewModel(
+            cloudStorageService = get(),
+            cloudDatabaseService = get(),
+            taskCreatorDataManager = get()
+        )
+    }
+
+    viewModel {
+        CreatorTaskNameViewModel(
+            taskCreatorDataManager = get()
+        )
+    }
+
+    viewModel {
+        CreatorTimeSelectViewModel(
+            taskCreatorDataManager = get()
+        )
+    }
+
+    viewModel {
+        CreatorToolSelectViewModel(
+            taskCreatorDataManager = get(),
+            autonomyService = get()
+        )
+    }
+
+    viewModel {
+        CreatorWeatherSelectViewModel(
+            taskCreatorDataManager = get(),
+            cloudDatabaseService = get()
+        )
+    }
+
+    viewModel { (context: Context) ->
+        TaskCreatorViewModel(
+            resourcesProvider = get { parametersOf(context) },
+            cloudDatabaseService = get(),
+            taskCreatorDataManager = get(),
+        )
+
+    }
+
+
 }

@@ -1,0 +1,130 @@
+package eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect
+
+import android.os.Bundle
+import android.util.Log
+import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.maps.android.kml.KmlLayer
+import eu.agribot.agribotapp.R
+import eu.agribot.agribotapp.base.BaseFragment
+import eu.agribot.agribotapp.common.navigation.NavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.CreatorTaskTimeNavigationEvent
+import eu.agribot.agribotapp.databinding.FragmentCreatorPathSelectBinding
+import eu.agribot.agribotapp.ui.fragment.autonomousmode.recycler.CloudFileListItemAdapter
+import eu.agribot.agribotapp.ui.fragment.autonomousmode.recycler.CloudFileListItemViewModel
+import kotlinx.android.synthetic.main.fragment_creator_path_select.recycler_path_select
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.io.IOException
+import java.io.InputStream
+
+class FragmentCreatorPathSelectFragment :
+    BaseFragment<CreatorPathSelectViewModel, FragmentCreatorPathSelectBinding>(),
+    OnMapReadyCallback {
+    companion object {
+        private const val MIN_ZOOM = 5F
+        private const val MAX_ZOOM = 22F
+        private const val MAP_SIZE = 256
+        private var marker: Marker? = null
+    }
+
+    override val layoutResourceId: Int = R.layout.fragment_creator_path_select
+    override val viewModel: CreatorPathSelectViewModel by viewModel()
+    private var adapter = CloudFileListItemAdapter(this::onItemClicked)
+    private var googleMaps: GoogleMap? = null
+    var botMarker: Marker? = null
+    var kmlLayer: KmlLayer? = null
+
+    override fun bindViewVariables(viewBinding: FragmentCreatorPathSelectBinding) {
+        viewBinding.viewModel = viewModel
+    }
+
+    override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
+        is CreatorTaskTimeNavigationEvent -> navigateToCreatorTaskTimeFragment()
+        else -> Unit
+    }
+
+    private fun updateMarker(agribotMarker: MarkerOptions) {
+        if (googleMaps != null && agribotMarker.position != null) {
+            if (botMarker != null) {
+                botMarker!!.remove()
+            }
+            try {
+                botMarker = googleMaps!!.addMarker(
+                    MarkerOptions()
+                      //  .icon(BitmapDescriptorFactory.fromResource(R.drawable.tank))
+                        .position(agribotMarker.position)
+                        .anchor(0.5f, 0.5f)
+                        .rotation(agribotMarker.rotation)
+                        .flat(true)
+                )
+                googleMaps!!.moveCamera(
+                    CameraUpdateFactory.newLatLngZoom(
+                        agribotMarker.position, 21F
+                    )
+                )
+            } catch (exception: IOException) {
+                showToast("Problem z dodaniem markera na mape")
+            }
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.checkPathSelected()
+        viewModel.availableFiles.observe(this::addToAvailableFile)
+        viewModel.downloadAvailableFileList()
+        viewModel.getAgribotPosition()
+        viewModel.selectedLayer.observe(this::setSelectedLayer)
+        viewModel.markers.observe(this::updateMarker)
+        viewModel.toastEvent.observe(this::showToast)
+        val mapFragment =
+            childFragmentManager.findFragmentById(R.id.creator_map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+        setupRecycler()
+    }
+
+    private fun navigateToCreatorTaskTimeFragment() {
+        navigationController?.navigate(R.id.action_taskPathCreatorFragment_to_taskTimeCreatorFragment)
+    }
+
+    private fun onItemClicked(availibleFile: CloudFileListItemViewModel) {
+        viewModel.downloadSelectedFile(availibleFile.fileName)
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        viewModel.setupMap(googleMap)
+    }
+
+    private fun setupRecycler() {
+        recycler_path_select.adapter = adapter
+        recycler_path_select.layoutManager = LinearLayoutManager(requireActivity())
+    }
+
+    private fun addToAvailableFile(fileInfo: List<CloudFileListItemViewModel>) {
+        adapter.items = fileInfo
+    }
+
+    private fun setSelectedLayer(mapStream: InputStream) {
+        kmlLayer?.removeLayerFromMap()
+        kmlLayer = null
+        try {
+            kmlLayer = KmlLayer(googleMaps, mapStream, requireContext())
+            kmlLayer!!.removeLayerFromMap()
+            kmlLayer!!.containers
+            kmlLayer!!.addLayerToMap()
+        } catch (exception: Exception) {
+            Log.e("xd", "exception" + exception)
+        }
+    }
+
+
+
+
+}

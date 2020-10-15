@@ -156,34 +156,34 @@ class CloudDatabaseService(
 
     fun getTaskItem(
         onGetTaskItem: (TaskItem) -> Unit,
-        onError: (error: String) -> Unit
+        onGetTaskItemError: (error: String) -> Unit
     ) {
         cloudDatabase.getTaskItem(
             onGetTaskItem = { onGetTaskItem(it.toDomainModel()) },
             onDatabaseError = {
-                onError(it.message!!)
+                onGetTaskItemError(it.message!!)
             })
     }
 
     fun getTaskDetails(
         taskId: String,
         onGetTaskDetails: (TaskDetails) -> Unit,
-        onError: (error: String) -> Unit
+        onGetTaskDetailsError: (error: String) -> Unit
     ) {
         cloudDatabase.getTaskDetails(
             taskId,
             onGotTaskDetails = { onGetTaskDetails(it.toDomainModel()) }, onDatabaseError = {
-                onError(it.message!!)
+                onGetTaskDetailsError(it.message!!)
             })
     }
 
     fun deleteSelectedTask(
         taskName: String,
-        onSucess: () -> Unit,
-        onError: (error: String) -> Unit
+        onDeleteSucess: () -> Unit,
+        onDeleteError: (error: String) -> Unit
     ) {
-        cloudDatabase.deleteSelectedTask(taskName, onSucess, onDeleteError = {
-            onError(it.message!!)
+        cloudDatabase.deleteSelectedTask(taskName, onDeleteSucess, onDeleteError = {
+            onDeleteError(it.message!!)
         })
     }
 

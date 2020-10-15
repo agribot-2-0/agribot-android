@@ -10,6 +10,8 @@ import eu.agribot.agribotapp.domain.service.ManualModeService
 import eu.agribot.agribotapp.domain.service.PathManagementService
 import eu.agribot.agribotapp.domain.service.RemoteControlService
 import eu.agribot.agribotapp.domain.service.TTControlService
+import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
+import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.ManualSteeringJoystickManager
 import eu.agribot.agribotapp.domain.service.joystick.ttcontroljoystick.TTControlHorizontalJoystickManager
 import eu.agribot.agribotapp.domain.service.joystick.ttcontroljoystick.TTControlVerticalJoystickManager
@@ -95,5 +97,15 @@ val domainModule = module {
                 )
             }
         )
+    }
+
+    single {
+        CloudDatabaseService(
+            cloudDatabase = get()
+        )
+    }
+
+    single {
+        TaskCreatorDataManager()
     }
 }

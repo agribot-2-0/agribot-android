@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.dashboard
+package eu.agribot.agribotapp.ui.fragment.dashboard
 
 import android.os.Bundle
 import android.view.View

@@ -141,6 +141,11 @@
     <string name="tuz_down_up">Wózki góra/dół</string>
     <string name="front_hitch">Przednie zaczepy</string>
     <string name="back_hitch">Tylne zaczepy</string>
+    <string name="task_creator">Kreator Zadań</string>
+    <string name="delete_task_button">Usuń zadanie</string>
+    <string name="edit_task_button">Edytuj zadanie</string>
+    <string name="path_name">\"Nazwa ścieżki: \"</string>
+    <string name="delete_sucess_text">Task deleted sucessfully</string>
 
 
 </resources>

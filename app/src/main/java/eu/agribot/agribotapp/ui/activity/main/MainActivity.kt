@@ -42,6 +42,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
         R.id.dashboardFragment,
         R.id.toolManagementFragment,
         R.id.pathManagementFragment,
+        R.id.creatorFragment,
         R.id.weatherFragment,
         R.id.settingsFragment
     )

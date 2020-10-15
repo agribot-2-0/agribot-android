@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="eu.agribot.agribotapp.ui.dashboard.DashboardViewModel" />
+            type="eu.agribot.agribotapp.ui.fragment.dashboard.DashboardViewModel" />
     </data>
 
     <LinearLayout

@@ -32,6 +32,12 @@
     <item android:title="@string/title_group_other">
         <menu>
             <group android:checkableBehavior="single">
+
+                <item
+                    android:id="@+id/creatorFragment"
+                    android:icon="@drawable/ic_add_button`"
+                    android:title="@string/task_creator" />
+
                 <item
                     android:id="@+id/weatherFragment"
                     android:icon="@drawable/ic_weather_black"

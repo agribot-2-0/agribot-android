@@ -98,5 +98,8 @@ dependencies {
 	//Dexter
 	implementation "com.karumi:dexter:$versions.dexter"
 
+	//MapUtility
+	implementation 'com.google.maps.android:android-maps-utils:0.4.4'
+
 
 }

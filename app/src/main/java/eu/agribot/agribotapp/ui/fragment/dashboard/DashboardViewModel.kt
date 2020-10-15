@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.dashboard
+package eu.agribot.agribotapp.ui.fragment.dashboard
 
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng

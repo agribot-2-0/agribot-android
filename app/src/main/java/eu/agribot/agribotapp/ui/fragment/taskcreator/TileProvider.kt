@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.domain.service.cloud
+package eu.agribot.agribotapp.ui.fragment.taskcreator
 
 import com.google.android.gms.maps.model.UrlTileProvider
 import java.net.MalformedURLException

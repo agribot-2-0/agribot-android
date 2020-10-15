@@ -165,6 +165,7 @@
     <string name="no_pressure_text">No Pressure Selected</string>
     <string name="no_wind_text">No Wind Selected</string>
     <string name="no_start_date">No start Date</string>
+    <string name="map_tile_problem">Problem z dodaniem nakładki na mape</string>
 
 
 </resources>

@@ -1,7 +1,9 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator
 
-enum class MapParameters (val mapParametr : Int) {
-    MIN_ZOOM(15),
-    MAX_ZOOM(22),
-    MAP_SIZE(256)
+enum class MapParameters (val mapParametr : Float) {
+    MIN_ZOOM(15F),
+    MAX_ZOOM(22F),
+    MAP_SIZE(256F),
+    TRANSPARENCY_VALUE(0.4F),
+    ANCHOR(0.5F)
 }

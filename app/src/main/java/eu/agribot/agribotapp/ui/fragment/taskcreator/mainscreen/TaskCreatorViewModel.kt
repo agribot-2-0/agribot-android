@@ -2,12 +2,14 @@ package eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskNameNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
+import eu.agribot.agribotapp.domain.model.RobotLocalizationPose
 import eu.agribot.agribotapp.domain.model.TaskDetails
 import eu.agribot.agribotapp.domain.model.TaskItem
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
@@ -36,6 +38,25 @@ class TaskCreatorViewModel(
             onGetTaskItemError = this::postToastErrorMessageEvent
         )
     }
+
+    fun getAgribotPosition() {
+        cloudDatabaseService.getFirstRobotLocalizationPose(
+            onSuccess = this::setCurrentRobotPosition,
+            onError = this::postToastErrorMessageEvent
+        )
+    }
+
+    private fun setCurrentRobotPosition(robotLocalizationPose: RobotLocalizationPose) {
+        markers.value = MarkerOptions()
+            .rotation(robotLocalizationPose.heading)
+            .position(
+                LatLng(
+                    robotLocalizationPose.latitude,
+                    robotLocalizationPose.longitude
+                )
+            )
+    }
+
 
     private fun onAvailableTaskFound(taskItem: TaskItem) {
         val isTaskAlreadyAdded = taskList.value!!.any { foundTask ->

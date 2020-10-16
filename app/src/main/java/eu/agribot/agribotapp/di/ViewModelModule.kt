@@ -89,7 +89,14 @@ val viewModelModule = module {
             manualModeService = get()
         )
     }
-    viewModel { DashboardViewModel(autonomyService = get()) }
+    viewModel { (context: Context) ->
+        DashboardViewModel(
+            autonomyService = get(),
+            cloudDatabaseService = get(),
+            resourcesProvider = get { parametersOf(context) },
+            cloudStorageService = get()
+        )
+    }
     viewModel { ToolManagementViewModel() }
     viewModel {
         PathManagementViewModel(

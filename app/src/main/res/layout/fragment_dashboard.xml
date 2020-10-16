@@ -45,7 +45,7 @@
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <TableLayout
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/margin_xlarge"
@@ -54,146 +54,209 @@
                     android:layout_marginBottom="@dimen/margin_xlarge"
                     android:layout_weight="1"
                     android:background="@drawable/rounded_corner_layout"
-                    android:collapseColumns="3">
+                    android:orientation="vertical">
 
 
-                    <TableRow
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_xlarge"
-                        android:gravity="center">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="@dimen/margin_xlarge"
-                            android:textSize="@dimen/text_size_xlarge"
-                            android:gravity="center"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_size_xlarge"
-                            android:textStyle="bold"
-                            android:gravity="center"
-                            android:layout_marginHorizontal="@dimen/margin_xlarge" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_size_xlarge"
-                            android:gravity="center"
-                            android:textStyle="bold"
-                            android:layout_marginHorizontal="@dimen/margin_xlarge" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
                         android:layout_margin="@dimen/margin_medium"
-                        android:gravity="center">
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="@dimen/margin_xlarge"
-                            android:gravity="center"
-                            android:text="Data" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:layout_marginHorizontal="@dimen/margin_xlarge"
-                            android:text="Temperature" />
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/margin_medium"
+                                android:layout_weight="2"
+                                android:background="@drawable/rounded_corner_layout"
+                                android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:layout_marginHorizontal="@dimen/margin_xlarge"
-                            android:text="Wind" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="@string/start_date" />
 
-                    </TableRow>
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="@{viewModel.taskDate}"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/margin_medium"
+                                android:layout_weight="1"
+                                android:background="@drawable/rounded_corner_layout"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="@string/wind" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="@{viewModel.wind}"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                        </LinearLayout>
 
 
-                    <TableRow
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/margin_medium"
+                                android:layout_weight="1"
+                                android:background="@drawable/rounded_corner_layout"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="Temperature" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="@{viewModel.temperature}"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/margin_medium"
+                                android:layout_weight="1"
+                                android:background="@drawable/rounded_corner_layout"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                   android:text="Pressure" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="@{viewModel.pressure}"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/margin_medium"
+                                android:layout_weight="1"
+                                android:background="@drawable/rounded_corner_layout"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="Humidity" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="@{viewModel.humidity}"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                    <TableLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_medium">
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:layout_marginHorizontal="@dimen/margin_xlarge"
-                            android:textSize="@dimen/text_size_xlarge"
-                            android:textStyle="bold"
-                            android:text="Time" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_size_xlarge"
-                            android:textStyle="bold"
-                            android:gravity="center"
-                            android:layout_marginHorizontal="@dimen/margin_xlarge" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_size_xlarge"
-                            android:textStyle="bold"
-                            android:gravity="center"
-                            android:layout_marginHorizontal="@dimen/margin_xlarge" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_margin="@dimen/margin_medium"
-                        android:gravity="center">
+                        android:collapseColumns="2">
 
-                        <TextView
+                        <TableRow
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:layout_marginHorizontal="@dimen/margin_xlarge"
-                            android:text="Czas" />
+                            android:background="@drawable/rounded_corner_layout"
+                            android:layout_margin="@dimen/margin_medium"
+                            android:layout_gravity="center">
 
-                        <TextView
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginHorizontal="@dimen/margin_medium"
+                                android:text="Aktualne zadanie: "
+                                android:textStyle="bold" />
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginHorizontal="@dimen/margin_medium"
+                                android:text="@{viewModel.currentTask}" />
+
+
+                        </TableRow>
+
+                        <TableRow
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:layout_marginHorizontal="@dimen/margin_xlarge"
-                            android:text="Humidity" />
+                            android:layout_margin="@dimen/margin_medium"
+                            android:background="@drawable/rounded_corner_layout"
+                            android:layout_gravity="center">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:layout_marginHorizontal="@dimen/margin_xlarge"
-                            android:text="Pressure" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginHorizontal="@dimen/margin_medium"
+                                android:text="Aktualna ścieżka: "
+                                android:textStyle="bold" />
 
-                    </TableRow>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:background="@color/gray"
-                        android:layout_margin="@dimen/margin_xlarge"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginHorizontal="@dimen/margin_medium"
+                                android:text="@{viewModel.pathName}" />
 
-                </TableLayout>
+
+                        </TableRow>
+
+
+                    </TableLayout>
+
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -251,6 +314,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="42dp"
                             android:layout_gravity="center"
+                            android:src="@drawable/ic_celsius"
                             android:layout_margin="@dimen/margin_xlarge" />
 
                         <TextView
@@ -258,7 +322,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_margin="@dimen/margin_small"
-                            android:text="30 km/h"
+                            android:text="@string/no_data_available"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -274,6 +338,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="42dp"
                             android:layout_gravity="center"
+                            android:src="@drawable/ic_celsius"
                             android:layout_margin="@dimen/margin_xlarge" />
 
                         <TextView
@@ -281,7 +346,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_margin="@dimen/margin_small"
-                            android:text="30 km/h"
+                            android:text="@string/no_data_available"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -304,14 +369,15 @@
                             android:layout_width="match_parent"
                             android:layout_height="42dp"
                             android:layout_gravity="center"
-                            android:layout_margin="@dimen/margin_xlarge"/>
+                            android:src="@drawable/ic_celsius"
+                            android:layout_margin="@dimen/margin_xlarge" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_margin="@dimen/margin_small"
-                            android:text="30 km/h"
+                            android:text="@string/no_data_available"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -327,6 +393,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="42dp"
                             android:layout_gravity="center"
+                            android:src="@drawable/ic_celsius"
                             android:layout_margin="@dimen/margin_xlarge" />
 
                         <TextView
@@ -334,7 +401,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_margin="@dimen/margin_small"
-                            android:text="30 km/h"
+                            android:text="@string/no_data_available"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </TableRow>
@@ -355,6 +422,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="42dp"
                             android:layout_gravity="center"
+                            android:src="@drawable/ic_celsius"
                             android:layout_margin="@dimen/margin_xlarge" />
 
                         <TextView
@@ -362,7 +430,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_margin="@dimen/margin_small"
-                            android:text="30 km/h"
+                            android:text="@string/no_data_available"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -377,6 +445,7 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="43dp"
+                            android:src="@drawable/ic_celsius"
                             android:layout_gravity="center"
                             android:layout_margin="@dimen/margin_xlarge" />
 
@@ -385,10 +454,17 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_margin="@dimen/margin_small"
-                            android:text="30 km/h"
+                            android:text="@string/no_data_available"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </TableRow>
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_xxlarge"
+                    android:text="Rozpocznij zadanie" />
 
 
             </TableLayout>

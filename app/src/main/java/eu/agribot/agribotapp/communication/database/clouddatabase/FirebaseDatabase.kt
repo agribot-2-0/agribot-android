@@ -269,9 +269,10 @@ class FirebaseDatabase() : CloudDatabase {
             }
     }
 
-    override fun getCurrentTaskName(
+    override fun getCurrentTaskDetails(
         robotName: String,
-        onGetCurrentTaskSucess: (taskDetailsCDB: TaskDetailsCDB) -> Unit,
+        onGetCurrentTaskNameSucess: (currentTaskName: String) -> Unit,
+        onGetCurrentTaskDetailsSucess: (taskDetailsCDB: TaskDetailsCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
@@ -282,9 +283,14 @@ class FirebaseDatabase() : CloudDatabase {
                     return@addSnapshotListener
                 }
                 if (snapshot != null && snapshot.exists()) {
-                    snapshot.toObject(ActualTaskCDB::class.java)?.let {
+                    snapshot.toObject(ActualTaskCDB::class.java)?.let { it ->
                         if (it.actual_task != "") {
-                            getTaskDetails(it.actual_task, onGetCurrentTaskSucess, onDatabaseError)
+                            onGetCurrentTaskNameSucess(it.actual_task)
+                            getTaskDetails(
+                                it.actual_task,
+                                onGetCurrentTaskDetailsSucess,
+                                onDatabaseError
+                            )
                         }
                     }
                 }

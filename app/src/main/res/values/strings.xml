@@ -168,6 +168,9 @@
     <string name="map_tile_problem">Problem z dodaniem nakładki na mape</string>
     <string name="marker_problem">Problem z dodaniem markera na mape</string>
     <string name="layer_problem">Path Layer Problem</string>
+    <string name="start_date">Start Date</string>
+    <string name="wind">Wind</string>
+    <string name="no_data_available">No Data</string>
 
 
 </resources>

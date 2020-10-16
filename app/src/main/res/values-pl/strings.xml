@@ -155,6 +155,7 @@
     <string name="no_start_date">Brak daty startu</string>
     <string name="map_tile_problem">Problem z dodaniem nakładki na mape</string>
     <string name="marker_problem">Problem z dodaniem markera na mape</string>
+    <string name="no_data_available">Brak Danych</string>
 
 
 </resources>

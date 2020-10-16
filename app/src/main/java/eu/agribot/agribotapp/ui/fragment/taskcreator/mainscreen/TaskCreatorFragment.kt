@@ -38,7 +38,6 @@ import java.io.InputStream
 class TaskCreatorFragment :
     BaseFragment<TaskCreatorViewModel, FragmentCreatorConfiguratorBinding>(), OnMapReadyCallback {
 
-
     override val layoutResourceId: Int = R.layout.fragment_creator_configurator
     override val viewModel: TaskCreatorViewModel by viewModel { parametersOf(requireContext()) }
     private var googleMapFragment: GoogleMap? = null
@@ -71,7 +70,6 @@ class TaskCreatorFragment :
                 DividerItemDecoration.VERTICAL
             )
         )
-
         ItemTouchHelper(
             SwipeRecyclerHelper(
                 task_recycler,
@@ -157,7 +155,7 @@ class TaskCreatorFragment :
                 )
                 googleMapFragment?.moveCamera(
                     CameraUpdateFactory.newLatLngZoom(
-                        agribotMarker.position, MapParameters.MAX_ZOOM.mapParametr
+                        agribotMarker.position, MapParameters.MIN_ZOOM.mapParametr
                     )
                 )
             } catch (exception: IOException) {

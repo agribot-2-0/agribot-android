@@ -84,9 +84,10 @@ interface CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     )
 
-    fun getCurrentTaskName(
+    fun getCurrentTaskDetails(
         robotName: String,
-        onGetCurrentTaskSucess: (taskDetailsCDB: TaskDetailsCDB) -> Unit,
+        onGetCurrentTaskNameSucess: (currentTaskName: String) -> Unit,
+        onGetCurrentTaskDetailsSucess: (taskDetailsCDB: TaskDetailsCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 

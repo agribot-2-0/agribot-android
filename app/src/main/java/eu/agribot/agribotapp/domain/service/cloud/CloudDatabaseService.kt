@@ -189,13 +189,15 @@ class CloudDatabaseService(
         })
     }
 
-    fun getActualTaskName(
-        onGetCurrentTaskSucess: (TaskDetails) -> Unit,
+    fun getActualTaskDetails(
+        onGetCurrentTaskDetailsSucess: (TaskDetails) -> Unit,
+        onGetCurrentTaskNameSucess: (taskName: String) -> Unit,
         onError: (error: String) -> Unit
     ) {
-        cloudDatabase.getCurrentTaskName(
+        cloudDatabase.getCurrentTaskDetails(
             robotName = "ADI75R1",
-            onGetCurrentTaskSucess = { onGetCurrentTaskSucess(it.toDomainModel()) },
+            onGetCurrentTaskNameSucess = onGetCurrentTaskNameSucess,
+            onGetCurrentTaskDetailsSucess = { onGetCurrentTaskDetailsSucess(it.toDomainModel()) },
             onDatabaseError = {
                 onError(it.message!!)
             })
@@ -203,7 +205,12 @@ class CloudDatabaseService(
 
     fun programTaskToRobot(taskName: String, newRobotTaskDetails: NewRobotTaskDetails) {
         Log.e("xd", "programTask")
-        cloudDatabase.createNewTask(taskName, newRobotTaskDetails.toCommunicationModel(), onDatabaseSucess = this :: onsucess, onDatabaseError = this::onError)
+        cloudDatabase.createNewTask(
+            taskName,
+            newRobotTaskDetails.toCommunicationModel(),
+            onDatabaseSucess = this::onsucess,
+            onDatabaseError = this::onError
+        )
     }
 
     fun onsucess() {

@@ -9,6 +9,7 @@ import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskNameNavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.CreatorTaskPathNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.model.RobotLocalizationPose
 import eu.agribot.agribotapp.domain.model.TaskDetails
@@ -48,7 +49,7 @@ class TaskCreatorViewModel(
         )
     }
 
-    fun downloadSelectedFile(fileName: String) {
+    private fun downloadSelectedFile(fileName: String) {
         try {
             cloudStorageService.downloadFile(
                 fileName + ".kml",
@@ -82,7 +83,6 @@ class TaskCreatorViewModel(
                 )
             )
     }
-
 
     private fun onAvailableTaskFound(taskItem: TaskItem) {
         val isTaskAlreadyAdded = taskList.value!!.any { foundTask ->
@@ -121,8 +121,7 @@ class TaskCreatorViewModel(
                 onGetTaskDetailsError = this::postToastErrorMessageEvent
             )
         }
-
-
+        navigationEvent.postValue(CreatorTaskPathNavigationEvent())
     }
 
     private fun updateTaskDetails(taskDetails: TaskDetails) {
@@ -208,7 +207,6 @@ class TaskCreatorViewModel(
             wind.value = resourcesProvider.getString(R.string.no_wind_text)
         }
 
-
     }
 
     fun onNewTaskButtonClicked() {
@@ -224,6 +222,5 @@ class TaskCreatorViewModel(
     private fun postToastInformationMessageEvent(informationMessage: String) {
         toastMessageEvent.postValue(informationMessage)
     }
-
 
 }

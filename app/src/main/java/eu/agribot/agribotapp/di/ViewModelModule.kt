@@ -171,8 +171,7 @@ val viewModelModule = module {
             resourcesProvider = get { parametersOf(context) },
             cloudDatabaseService = get(),
             taskCreatorDataManager = get(),
+            cloudStorageService = get()
         )
-
     }
-
 }

@@ -40,11 +40,13 @@ class FragmentCreatorWeatherSelect :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setPickersConditions()
-        setPickersValue()
+        setPickersMinMaxValue()
         onPickerValuesChanged()
         viewModel.checkIsWeatherSelected()
         viewModel.getRobotDataValue()
+        viewModel.pickerValues.observe(this::setPickersCurrentValues)
     }
+
 
     private fun setPickersConditions() {
         temperature_condition.minValue = 0
@@ -64,22 +66,25 @@ class FragmentCreatorWeatherSelect :
         pressure_condition.displayedValues = arrayPicker
     }
 
-    private fun setPickersValue() {
-        temperature_value.minValue = 0
-        temperature_value.maxValue = 70
-        temperature_value.value = 20
+    private fun setPickersCurrentValues(pickerValues: PickerValuesData) {
+        temperature_value.value = pickerValues.temperatureValue
+        humidity_value.value = pickerValues.humidityValue
+        wind_value.value = pickerValues.windValue
+        pressure_value.value = pickerValues.pressureValue
+    }
 
-        humidity_value.minValue = 0
-        humidity_value.maxValue = 100
-        humidity_value.value = 50
+    private fun setPickersMinMaxValue() {
+        temperature_value.minValue = PickersMinMaxValues.MIN_TEMP_VALUE.value
+        temperature_value.maxValue = PickersMinMaxValues.MAX_TEMP_VALUE.value
 
-        wind_value.minValue = 0
-        wind_value.maxValue = 150
-        wind_value.value = 10
+        humidity_value.minValue = PickersMinMaxValues.MIN_HUMIDITY_VALUE.value
+        humidity_value.maxValue = PickersMinMaxValues.MAX_HUMIDITY_VALUE.value
 
-        pressure_value.minValue = 950
-        pressure_value.maxValue = 1050
-        pressure_value.value = 1013
+        wind_value.minValue = PickersMinMaxValues.MIN_WIND_VALUE.value
+        wind_value.maxValue = PickersMinMaxValues.MAX_WIND_VALUE.value
+
+        pressure_value.minValue = PickersMinMaxValues.MIN_PRESSURE_VALUE.value
+        pressure_value.maxValue = PickersMinMaxValues.MAX_PRESSURE_VALUE.value
     }
 
     private fun onPickerValuesChanged() {

@@ -1,7 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -27,12 +26,6 @@ import java.io.InputStream
 class FragmentCreatorPathSelectFragment :
     BaseFragment<CreatorPathSelectViewModel, FragmentCreatorPathSelectBinding>(),
     OnMapReadyCallback {
-    companion object {
-        private const val MIN_ZOOM = 5F
-        private const val MAX_ZOOM = 22F
-        private const val MAP_SIZE = 256
-        private var marker: Marker? = null
-    }
 
     override val layoutResourceId: Int = R.layout.fragment_creator_path_select
     override val viewModel: CreatorPathSelectViewModel by viewModel()
@@ -58,7 +51,7 @@ class FragmentCreatorPathSelectFragment :
             try {
                 botMarker = googleMaps!!.addMarker(
                     MarkerOptions()
-                      //  .icon(BitmapDescriptorFactory.fromResource(R.drawable.tank))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.tank))
                         .position(agribotMarker.position)
                         .anchor(0.5f, 0.5f)
                         .rotation(agribotMarker.rotation)
@@ -70,7 +63,7 @@ class FragmentCreatorPathSelectFragment :
                     )
                 )
             } catch (exception: IOException) {
-                showToast("Problem z dodaniem markera na mape")
+                showToast(getString(R.string.marker_problem))
             }
         }
     }
@@ -99,7 +92,7 @@ class FragmentCreatorPathSelectFragment :
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        viewModel.setupMap(googleMap)
+        //viewModel.setupMap(googleMap)
     }
 
     private fun setupRecycler() {
@@ -112,19 +105,19 @@ class FragmentCreatorPathSelectFragment :
     }
 
     private fun setSelectedLayer(mapStream: InputStream) {
-        kmlLayer?.removeLayerFromMap()
-        kmlLayer = null
-        try {
-            kmlLayer = KmlLayer(googleMaps, mapStream, requireContext())
-            kmlLayer!!.removeLayerFromMap()
-            kmlLayer!!.containers
-            kmlLayer!!.addLayerToMap()
-        } catch (exception: Exception) {
-            Log.e("xd", "exception" + exception)
+        if (kmlLayer != null) {
+            kmlLayer?.removeLayerFromMap()
+        } else {
+            try {
+                kmlLayer = KmlLayer(googleMaps, mapStream, requireContext())
+                kmlLayer!!.removeLayerFromMap()
+                kmlLayer!!.containers
+                kmlLayer!!.addLayerToMap()
+            } catch (exception: Exception) {
+                showToast(getString(R.string.layer_problem))
+            }
         }
     }
-
-
 
 
 }

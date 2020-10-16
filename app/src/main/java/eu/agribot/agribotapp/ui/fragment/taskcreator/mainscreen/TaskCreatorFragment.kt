@@ -14,6 +14,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.TileOverlayOptions
+import com.google.maps.android.kml.KmlLayer
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
@@ -32,6 +33,7 @@ import kotlinx.android.synthetic.main.fragment_creator_configurator.task_recycle
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.io.IOException
+import java.io.InputStream
 
 class TaskCreatorFragment :
     BaseFragment<TaskCreatorViewModel, FragmentCreatorConfiguratorBinding>(), OnMapReadyCallback {
@@ -41,7 +43,7 @@ class TaskCreatorFragment :
     override val viewModel: TaskCreatorViewModel by viewModel { parametersOf(requireContext()) }
     private var googleMapFragment: GoogleMap? = null
     private var adapter = TaskListItemAdapter(this::onItemClicked)
-
+    var mapPathLayer: KmlLayer? = null
     override fun bindViewVariables(viewBinding: FragmentCreatorConfiguratorBinding) {
         viewBinding.viewModel = viewModel
     }
@@ -55,6 +57,7 @@ class TaskCreatorFragment :
         setupRecycler()
         viewModel.getAvailableTask()
         viewModel.getAgribotPosition()
+        viewModel.selectedLayer.observe(this::setSelectedLayer)
         viewModel.markers.observe(this::updateMapMarker)
         viewModel.taskList.observe(this::addToTaskList)
     }
@@ -160,6 +163,16 @@ class TaskCreatorFragment :
             } catch (exception: IOException) {
                 showToast("marker exception$exception")
             }
+        }
+    }
+
+    private fun setSelectedLayer(mapStream: InputStream) {
+        if (mapPathLayer != null) {
+            mapPathLayer!!.removeLayerFromMap()
+        } else {
+            mapPathLayer = KmlLayer(googleMapFragment, mapStream, requireContext())
+            mapPathLayer!!.containers
+            mapPathLayer!!.addLayerToMap()
         }
     }
 

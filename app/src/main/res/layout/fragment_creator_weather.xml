@@ -76,7 +76,7 @@
                     android:text="°C"
                     android:textSize="@dimen/text_size_xlarge" />
 
-                <CheckBox
+                <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/temperature_checkbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -129,7 +129,7 @@
                     android:textSize="@dimen/text_size_xlarge" />
 
 
-                <CheckBox
+                <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/humidity_checkbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -192,7 +192,7 @@
                     android:text="km/h"
                     android:textSize="@dimen/text_size_xlarge" />
 
-                <CheckBox
+                <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/wind_checkbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -244,7 +244,7 @@
                     android:text="hPa"
                     android:textSize="@dimen/text_size_xlarge" />
 
-                <CheckBox
+                <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/pressure_checkbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />

@@ -166,6 +166,8 @@
     <string name="no_wind_text">No Wind Selected</string>
     <string name="no_start_date">No start Date</string>
     <string name="map_tile_problem">Problem z dodaniem nakładki na mape</string>
+    <string name="marker_problem">Problem z dodaniem markera na mape</string>
+    <string name="layer_problem">Path Layer Problem</string>
 
 
 </resources>

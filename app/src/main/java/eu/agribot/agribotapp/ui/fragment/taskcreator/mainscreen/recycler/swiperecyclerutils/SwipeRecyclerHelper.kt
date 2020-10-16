@@ -10,6 +10,5 @@ class SwipeRecyclerHelper(
 
     override fun instantiateUnderlayButton(position: Int): List<UnderlayButton> {
         return listOf(deleteButton(position), editButton(position))
-
     }
 }

@@ -25,7 +25,6 @@ class CreatorPathSelectViewModel(
 ) : BaseViewModel() {
     val availableFiles: MutableLiveData<List<CloudFileListItemViewModel>> =
         MutableLiveData(listOf())
-    val robotPathName: MutableLiveData<String> = MutableLiveData()
     val markers: MutableLiveData<MarkerOptions> = MutableLiveData()
     val selectedLayer: MutableLiveData<InputStream> = MutableLiveData()
     var isPathSelected = false
@@ -46,21 +45,18 @@ class CreatorPathSelectViewModel(
 
     fun checkPathSelected() {
         isPathSelected = taskCreatorDataManager.getPathName() != null
-        Log.e("xd", "Path : " + taskCreatorDataManager.getPathName())
     }
 
     fun downloadAvailableFileList() {
         cloudStorageService.downloadFilesList(
             onFileAvailable = this::onAvailableFileFound,
-            onError = this::onError
+            onError = this::onCloudDataException
         )
     }
 
     fun downloadSelectedFile(fileName: String) {
         isPathSelected = true
-        val withoutKmL = fileName.replace(".kml", "")
-        val withoutseparatot = withoutKmL.split("_")
-        robotPathName.value = withoutseparatot.component1()
+        taskCreatorDataManager.onUpdatePathName(fileName)
         try {
             cloudStorageService.downloadFile(
                 fileName,
@@ -68,12 +64,8 @@ class CreatorPathSelectViewModel(
                 onDownloadSucess = this::onFileAlreadyDownloaded
             )
         } catch (exception: IOException) {
-            Log.e("xd", "exception  " + exception)
+            onCloudDataException(exception.toString())
         }
-    }
-
-    fun addTileToMap() {
-       //mapService.addTileOverlay(onMapException = this::onError)
     }
 
     private fun onFileAlreadyDownloaded(file: File) {
@@ -81,13 +73,10 @@ class CreatorPathSelectViewModel(
         selectedLayer.value = fileInputStream
     }
 
-    private fun onError(error: String) {
-    }
-
     fun getAgribotPosition() {
         cloudDatabaseService.getFirstRobotLocalizationPose(
             onSuccess = this::setCurrentRobotPosition,
-            onError = this::onError
+            onError = this::onCloudDataException
         )
     }
 
@@ -102,13 +91,6 @@ class CreatorPathSelectViewModel(
             )
     }
 
-    fun setSavedLayer() {
-        if (taskCreatorDataManager.getPathName() != null) {
-            val fileInputStream: InputStream = FileInputStream(taskCreatorDataManager.getPathName())
-            selectedLayer.value = fileInputStream
-        }
-    }
-
     fun onNextButtonClicked() {
         if (isPathSelected) {
             navigationEvent.postValue(
@@ -119,7 +101,8 @@ class CreatorPathSelectViewModel(
         }
     }
 
-    fun setupMap(googleMap: GoogleMap) {
-        //mapService.setupMap(googleMap)
+    private fun onCloudDataException(exception : String){
+        toastEvent.postValue(exception)
     }
+
 }

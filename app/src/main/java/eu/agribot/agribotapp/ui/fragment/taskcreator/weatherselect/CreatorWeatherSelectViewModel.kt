@@ -7,9 +7,11 @@ import eu.agribot.agribotapp.common.navigation.events.CreatorTaskToolsNavigation
 import eu.agribot.agribotapp.domain.model.FirstRobotWeatherStationHumidity
 import eu.agribot.agribotapp.domain.model.FirstRobotWeatherStationTemperature
 import eu.agribot.agribotapp.domain.model.FirstRobotWeatherStationWind
+import eu.agribot.agribotapp.domain.model.TaskDetails
 import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationPressure
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
+import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.TaskDetailsElements
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.PickerNumber.CONDITION_EQUAL
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.PickerNumber.CONDITION_LESS
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.PickerNumber.CONDITION_MORE
@@ -31,7 +33,7 @@ class CreatorWeatherSelectViewModel(
     private val taskCreatorDataManager: TaskCreatorDataManager
 ) :
     BaseViewModel() {
-
+    val pickerValues :  MutableLiveData<PickerValuesData> = MutableLiveData()
     val actualTemperature: MutableLiveData<String> = MutableLiveData()
     val actualHumidity: MutableLiveData<String> = MutableLiveData()
     val actualWind: MutableLiveData<String> = MutableLiveData()
@@ -39,19 +41,19 @@ class CreatorWeatherSelectViewModel(
 
 
     fun checkIsWeatherSelected(){
-        if (taskCreatorDataManager.getTemperatureValue() != "*"){
+        if (taskCreatorDataManager.getTemperatureValue() != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement){
             Log.e("xd", taskCreatorDataManager.getTemperatureValue())
             Log.e("xd", taskCreatorDataManager.getTemperatureCondition())
         }
-        if (taskCreatorDataManager.getHumidityValue() != "*"){
+        if (taskCreatorDataManager.getHumidityValue() != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement){
             Log.e("xd", taskCreatorDataManager.getHumidityValue())
             Log.e("xd", taskCreatorDataManager.getHumidityCondition())
         }
-        if (taskCreatorDataManager.getWindValue() != "*"){
+        if (taskCreatorDataManager.getWindValue() != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement){
             Log.e("xd", taskCreatorDataManager.getWindValue())
             Log.e("xd", taskCreatorDataManager.getWindCondition())
         }
-        if (taskCreatorDataManager.getPressureValue() != "*"){
+        if (taskCreatorDataManager.getPressureValue() != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement){
             Log.e("xd", taskCreatorDataManager.getPressureValue())
             Log.e("xd", taskCreatorDataManager.getPressureValue())
         }

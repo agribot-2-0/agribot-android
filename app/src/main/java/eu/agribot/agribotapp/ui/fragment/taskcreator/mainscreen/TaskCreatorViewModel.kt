@@ -1,6 +1,7 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -13,16 +14,24 @@ import eu.agribot.agribotapp.domain.model.RobotLocalizationPose
 import eu.agribot.agribotapp.domain.model.TaskDetails
 import eu.agribot.agribotapp.domain.model.TaskItem
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
+import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.TaskListItemViewModel
+import java.io.File
+import java.io.FileInputStream
+import java.io.IOException
+import java.io.InputStream
 import java.text.SimpleDateFormat
 
 class TaskCreatorViewModel(
     private val resourcesProvider: ResourcesProvider,
     private val cloudDatabaseService: CloudDatabaseService,
+    private val cloudStorageService: CloudStorageService,
     private val taskCreatorDataManager: TaskCreatorDataManager
+
 ) : BaseViewModel() {
     val markers: MutableLiveData<MarkerOptions> = MutableLiveData()
+    val selectedLayer: MutableLiveData<InputStream> = MutableLiveData()
     val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val taskDate: MutableLiveData<String> = MutableLiveData()
     val taskList: MutableLiveData<List<TaskListItemViewModel>> = MutableLiveData(listOf())
@@ -37,6 +46,23 @@ class TaskCreatorViewModel(
             onGetTaskItem = this::onAvailableTaskFound,
             onGetTaskItemError = this::postToastErrorMessageEvent
         )
+    }
+
+    fun downloadSelectedFile(fileName: String) {
+        try {
+            cloudStorageService.downloadFile(
+                fileName + ".kml",
+                onFileAlreadyDownloaded = this::onFileAlreadyDownloaded,
+                onDownloadSucess = this::onFileAlreadyDownloaded
+            )
+        } catch (exception: IOException) {
+            Log.e("xd", "exception  " + exception)
+        }
+    }
+
+    private fun onFileAlreadyDownloaded(file: File) {
+        val fileInputStream: InputStream = FileInputStream(file)
+        selectedLayer.value = fileInputStream
     }
 
     fun getAgribotPosition() {
@@ -109,6 +135,7 @@ class TaskCreatorViewModel(
             onGetTaskDetails = this::onGotTaskDetails,
             onGetTaskDetailsError = this::postToastErrorMessageEvent
         )
+        downloadSelectedFile(taskListItemViewModel.pathName)
     }
 
     @SuppressLint("SimpleDateFormat")

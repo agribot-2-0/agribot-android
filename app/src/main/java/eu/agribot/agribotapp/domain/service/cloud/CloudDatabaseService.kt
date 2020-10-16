@@ -13,7 +13,6 @@ import eu.agribot.agribotapp.domain.model.TaskItem
 import eu.agribot.agribotapp.domain.model.UserInfo
 import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationPressure
 import eu.agribot.agribotapp.domain.model.program.weather.toCommunication.NewRobotTaskDetails
-import java.lang.Exception
 
 class CloudDatabaseService(
     val cloudDatabase: CloudDatabase
@@ -203,16 +202,15 @@ class CloudDatabaseService(
     }
 
     fun programTaskToRobot(taskName: String, newRobotTaskDetails: NewRobotTaskDetails) {
-        Log.e("xd","programTask")
+        Log.e("xd", "programTask")
         cloudDatabase.createNewTask(taskName, newRobotTaskDetails.toCommunicationModel(), onDatabaseSucess = this :: onsucess, onDatabaseError = this::onError)
     }
 
-    fun onsucess(){
+    fun onsucess() {
         Log.e("xd", "send sucess")
     }
 
-    fun onError(error : Throwable){
+    fun onError(error: Throwable) {
         Log.e("xd", "send error" + error)
-
     }
 }

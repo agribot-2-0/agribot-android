@@ -96,7 +96,13 @@ class TaskCreatorDataManager {
 
     fun getPathName(): String? {
         return if (pathName.value != null) {
-            pathName.value!!.toString()
+            if (pathName.value!!.contains("_")) {
+                pathName.value!!.replace("_", "")
+            } else if (pathName.value!!.contains(".kml")) {
+                pathName.value!!.replace(".kml", "")
+            } else {
+                pathName.value!!.toString()
+            }
         } else {
             null
         }

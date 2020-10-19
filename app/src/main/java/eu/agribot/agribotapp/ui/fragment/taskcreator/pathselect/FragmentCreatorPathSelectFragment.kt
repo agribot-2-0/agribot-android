@@ -84,11 +84,19 @@ class FragmentCreatorPathSelectFragment :
         viewModel.selectedLayer.observe(this::addSelectedLayer)
         viewModel.markers.observe(this::updateMarker)
         viewModel.toastEvent.observe(this::showToast)
+        viewModel.backButtonEvent.observe(this::backToPreviousFragment)
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.creator_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         setupRecycler()
     }
+
+
+    private fun backToPreviousFragment(isBackAction: Boolean) {
+        if (isBackAction)
+            requireActivity().onBackPressed()
+    }
+
 
     private fun navigateToCreatorTaskTimeFragment() {
         navigationController?.navigate(R.id.action_taskPathCreatorFragment_to_taskTimeCreatorFragment)

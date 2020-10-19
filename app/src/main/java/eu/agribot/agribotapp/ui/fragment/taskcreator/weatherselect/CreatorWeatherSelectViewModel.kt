@@ -5,6 +5,7 @@ import androidx.annotation.DrawableRes
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
+import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskToolsNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.model.FirstRobotWeatherStationHumidity
@@ -14,7 +15,6 @@ import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationPressure
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.WeatherSettingsListItemViewModel
-import timber.log.Timber
 
 class CreatorWeatherSelectViewModel(
     private val cloudDatabaseService: CloudDatabaseService,
@@ -30,6 +30,7 @@ class CreatorWeatherSelectViewModel(
     private val actualHumidity: MutableLiveData<String> = MutableLiveData()
     private val actualWind: MutableLiveData<String> = MutableLiveData()
     private val actualPressure: MutableLiveData<String> = MutableLiveData()
+    val backButtonEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
 
 
     fun onConditionChanged(condition: String, itemPosition: Int) {
@@ -103,6 +104,9 @@ class CreatorWeatherSelectViewModel(
         }
     }
 
+    fun onPreviousButtonClicked() {
+        backButtonEvent.postValue(true)
+    }
 
     fun getRobotDataValue() {
         getFirstRobotTemperature()

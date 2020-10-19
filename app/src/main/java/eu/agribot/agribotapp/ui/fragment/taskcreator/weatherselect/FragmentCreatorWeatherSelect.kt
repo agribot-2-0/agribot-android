@@ -36,6 +36,12 @@ class FragmentCreatorWeatherSelect :
         viewModel.getRobotDataValue()
         viewModel.weatherAttributeList.observe(this::addAvaliableWeatherAttribute)
         setupRecyclerView()
+        viewModel.backButtonEvent.observe(this::backToPreviousFragment)
+    }
+
+    private fun backToPreviousFragment(isBackAction: Boolean) {
+        if (isBackAction)
+        requireActivity().onBackPressed()
     }
 
     private fun onConditionPickerChanged(condition: String, itemPosition: Int) {

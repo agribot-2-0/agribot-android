@@ -21,6 +21,7 @@ class CreatorPathSelectViewModel(
     private val cloudDatabaseService: CloudDatabaseService,
     private val taskCreatorDataManager: TaskCreatorDataManager
 ) : BaseViewModel() {
+    val backButtonEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
     val availableFiles: MutableLiveData<List<CloudFileListItemViewModel>> =
         MutableLiveData(listOf())
     val markers: MutableLiveData<MarkerOptions> = MutableLiveData()
@@ -39,6 +40,10 @@ class CreatorPathSelectViewModel(
                 ), *availableFiles.value!!.toTypedArray()
             )
         }
+    }
+
+    fun onPreviousButtonClicked() {
+        backButtonEvent.postValue(true)
     }
 
     fun checkPathSelected() {
@@ -99,7 +104,7 @@ class CreatorPathSelectViewModel(
         }
     }
 
-    private fun onCloudDataException(exception : String){
+    private fun onCloudDataException(exception: String) {
         toastEvent.postValue(exception)
     }
 

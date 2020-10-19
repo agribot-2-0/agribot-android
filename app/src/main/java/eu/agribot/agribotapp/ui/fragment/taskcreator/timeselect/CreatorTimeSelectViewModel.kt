@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.Timestamp
 import eu.agribot.agribotapp.base.BaseViewModel
+import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskWeatherNavigationEvent
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
 import java.util.*
@@ -20,6 +21,7 @@ class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreator
     private val yearData: MutableLiveData<Int> = MutableLiveData()
     private val monthData: MutableLiveData<Int> = MutableLiveData()
     private val dayOfMonthData: MutableLiveData<Int> = MutableLiveData()
+    val backButtonEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
 
     private val minuteData: MutableLiveData<Int> = MutableLiveData()
     private val hourData: MutableLiveData<Int> = MutableLiveData()
@@ -31,6 +33,10 @@ class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreator
             Log.e("xd", "IS TIME ESTIMATED")
         }
 
+    }
+
+    fun onPreviousButtonClicked() {
+        backButtonEvent.postValue(true)
     }
 
     fun setCallendarSettings(day: Int, month: Int, year: Int) {

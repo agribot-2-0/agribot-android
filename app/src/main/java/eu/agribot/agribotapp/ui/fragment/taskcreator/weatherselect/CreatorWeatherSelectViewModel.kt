@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect
 
-import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.R
@@ -26,6 +25,11 @@ class CreatorWeatherSelectViewModel(
         MutableLiveData(
             listOf()
         )
+    private val temperatureItemActive: MutableLiveData<Boolean> = MutableLiveData()
+    private val windItemActive: MutableLiveData<Boolean> = MutableLiveData()
+    private val humidityItemActive: MutableLiveData<Boolean> = MutableLiveData()
+    private val pressureItemActive: MutableLiveData<Boolean> = MutableLiveData()
+
     private val actualTemperature: MutableLiveData<String> = MutableLiveData()
     private val actualHumidity: MutableLiveData<String> = MutableLiveData()
     private val actualWind: MutableLiveData<String> = MutableLiveData()
@@ -34,16 +38,113 @@ class CreatorWeatherSelectViewModel(
 
 
     fun onConditionChanged(condition: String, itemPosition: Int) {
-        Log.e("condition", "condition: " + condition + "position: " + itemPosition)
+        when (itemPosition) {
+            WeatherItemNumber.WIND_ITEM.itemNumber -> {
+                when (condition) {
+                    PickerSymbols.PICKER_CONDITION_BIGGER.symbol -> {
+                        taskCreatorDataManager.onUpdatewindCondition(PickerSymbols.CLOUD_DATA_CONDITION_MORE.symbol)
+                    }
+                    PickerSymbols.PICKER_CONDITION_LESS.symbol -> {
+                        taskCreatorDataManager.onUpdatewindCondition(PickerSymbols.CLOUD_DATA_CONDITION_LESS.symbol)
+                    }
+                    PickerSymbols.PICKER_CONDITION_EQUAL.symbol -> {
+                        taskCreatorDataManager.onUpdatewindCondition(PickerSymbols.CLOUD_DATA_CONDITION_EQUAL.symbol)
+                    }
+                }
+            }
+            WeatherItemNumber.PRESSURE_ITEM.itemNumber -> {
+                when (condition) {
+                    PickerSymbols.PICKER_CONDITION_BIGGER.symbol -> {
+                        taskCreatorDataManager.onUpdatepressureCondition(PickerSymbols.CLOUD_DATA_CONDITION_MORE.symbol)
+                    }
+                    PickerSymbols.PICKER_CONDITION_LESS.symbol -> {
+                        taskCreatorDataManager.onUpdatepressureCondition(PickerSymbols.CLOUD_DATA_CONDITION_LESS.symbol)
+                    }
+                    PickerSymbols.PICKER_CONDITION_EQUAL.symbol -> {
+                        taskCreatorDataManager.onUpdatepressureCondition(PickerSymbols.CLOUD_DATA_CONDITION_EQUAL.symbol)
+                    }
+                }
+            }
+            WeatherItemNumber.HUMIDITY_ITEM.itemNumber -> {
+                when (condition) {
+                    PickerSymbols.PICKER_CONDITION_BIGGER.symbol -> {
+                        taskCreatorDataManager.onUpdatehumidityCondition(PickerSymbols.CLOUD_DATA_CONDITION_MORE.symbol)
+                    }
+                    PickerSymbols.PICKER_CONDITION_LESS.symbol -> {
+                        taskCreatorDataManager.onUpdatehumidityCondition(PickerSymbols.CLOUD_DATA_CONDITION_LESS.symbol)
+                    }
+                    PickerSymbols.PICKER_CONDITION_EQUAL.symbol -> {
+                        taskCreatorDataManager.onUpdatehumidityCondition(PickerSymbols.CLOUD_DATA_CONDITION_EQUAL.symbol)
+                    }
+                }
+            }
+            WeatherItemNumber.TEMPERATURE_ITEM.itemNumber -> {
+                when (condition) {
+                    PickerSymbols.PICKER_CONDITION_BIGGER.symbol -> {
+                        taskCreatorDataManager.onUpdateTemperatureCondition(PickerSymbols.CLOUD_DATA_CONDITION_MORE.symbol)
+                    }
+                    PickerSymbols.PICKER_CONDITION_LESS.symbol -> {
+                        taskCreatorDataManager.onUpdateTemperatureCondition(PickerSymbols.CLOUD_DATA_CONDITION_LESS.symbol)
+                    }
+                    PickerSymbols.PICKER_CONDITION_EQUAL.symbol -> {
+                        taskCreatorDataManager.onUpdateTemperatureCondition(PickerSymbols.CLOUD_DATA_CONDITION_EQUAL.symbol)
+                    }
+                }
+            }
+        }
     }
 
     fun onValueChanged(value: Int, itemPosition: Int) {
-        Log.e("value", "value: " + value + "position: " + itemPosition)
+        when (itemPosition) {
+            WeatherItemNumber.WIND_ITEM.itemNumber -> {
+                if (windItemActive.value == true) {
+                    taskCreatorDataManager.onUpdatewindValue(value.toString())
+                } else {
+                    taskCreatorDataManager.onUpdatewindValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
+                }
+            }
+            WeatherItemNumber.PRESSURE_ITEM.itemNumber -> {
+                if (pressureItemActive.value == true) {
+                    taskCreatorDataManager.onUpdatewindValue(value.toString())
+                    taskCreatorDataManager.onUpdatepressureValue(value.toString())
+                } else {
+                    taskCreatorDataManager.onUpdatepressureValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
+                }
+            }
+            WeatherItemNumber.HUMIDITY_ITEM.itemNumber -> {
+                if (humidityItemActive.value == true) {
+                    taskCreatorDataManager.onUpdatewindValue(value.toString())
+                    taskCreatorDataManager.onUpdatehumidityValue(value.toString())
+                } else {
+                    taskCreatorDataManager.onUpdatewindValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
+                }
+            }
+            WeatherItemNumber.TEMPERATURE_ITEM.itemNumber -> {
+                if (temperatureItemActive.value == true) {
+                    taskCreatorDataManager.onUpdateTemperatureValue(value.toString())
+                } else {
+                    taskCreatorDataManager.onUpdateTemperatureValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
+                }
+            }
+        }
 
     }
 
     fun onSwitchParametrChange(position: Int, isActivated: Boolean) {
-        Log.e("switch", "position: " + position + "activate: " + isActivated)
+        when (position) {
+            WeatherItemNumber.WIND_ITEM.itemNumber -> {
+                windItemActive.value = isActivated
+            }
+            WeatherItemNumber.PRESSURE_ITEM.itemNumber -> {
+                pressureItemActive.value = isActivated
+            }
+            WeatherItemNumber.HUMIDITY_ITEM.itemNumber -> {
+                humidityItemActive.value = isActivated
+            }
+            WeatherItemNumber.TEMPERATURE_ITEM.itemNumber -> {
+                temperatureItemActive.value = isActivated
+            }
+        }
 
     }
 
@@ -55,19 +156,24 @@ class CreatorWeatherSelectViewModel(
         maximumPickerValue: Int,
         currentValue: String
     ) {
-        weatherAttributeList.value = listOf(
-            WeatherSettingsListItemViewModel(
-                weatherAttributeIcon,
-                conditionArray,
-                minimumPickerValue,
-                maximumPickerValue,
-                currentValue
-            ),
-            *weatherAttributeList.value!!.toTypedArray()
-        )
+        val isFileAlreadyAdded = weatherAttributeList.value!!.any {
+            it.weatherAttributeIcon == weatherAttributeIcon
+        }
+        if (!isFileAlreadyAdded) {
+            weatherAttributeList.value = listOf(
+                WeatherSettingsListItemViewModel(
+                    weatherAttributeIcon,
+                    conditionArray,
+                    minimumPickerValue,
+                    maximumPickerValue,
+                    currentValue
+                ),
+                *weatherAttributeList.value!!.toTypedArray()
+            )
+        }
     }
 
-    fun createWeatherParametersList() {
+    private fun createWeatherParametersList() {
         val iconResId = listOf(
             R.drawable.ic_celsius,
             R.drawable.ic_humidity,
@@ -78,7 +184,8 @@ class CreatorWeatherSelectViewModel(
         val minimumPickerValue = listOf(
             PickersMinMaxValues.MIN_TEMP_VALUE.value,
             PickersMinMaxValues.MIN_HUMIDITY_VALUE.value,
-            PickersMinMaxValues.MIN_PRESSURE_VALUE.value, PickersMinMaxValues.MIN_WIND_VALUE.value
+            PickersMinMaxValues.MIN_PRESSURE_VALUE.value,
+            PickersMinMaxValues.MIN_WIND_VALUE.value
         )
         val maximumPickerValue = listOf(
             PickersMinMaxValues.MAX_TEMP_VALUE.value,
@@ -152,7 +259,6 @@ class CreatorWeatherSelectViewModel(
     }
 
     private fun onFirstRobotTemperatureSucess(firstRobotWeatherStationTemperature: FirstRobotWeatherStationTemperature) {
-        Log.e("xd", firstRobotWeatherStationTemperature.temperature.toString())
         actualTemperature.value =
             firstRobotWeatherStationTemperature.temperature.toString() + " °C"
     }

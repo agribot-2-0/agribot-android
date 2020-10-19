@@ -161,6 +161,9 @@
     <string name="temperature">Temperatura</string>
     <string name="pressure">Ciśnienie</string>
     <string name="humidity">Wilgotność</string>
+    <string name="back_button">Powrót</string>
+    <string name="configuration_progress">Postęp konfiguracji</string>
+    <string name="set_time_question">Czy chcesz ustawic czas?</string>
 
 
 </resources>

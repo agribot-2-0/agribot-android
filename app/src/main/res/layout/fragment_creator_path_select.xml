@@ -11,7 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#f1f1f1">
+        android:background="@color/background_gray">
 
         <LinearLayout
             android:id="@+id/linearLayout2"
@@ -142,7 +142,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin_medium"
                         android:gravity="center"
-                        android:text="Wroc" />
+                        android:onClick="@{()-> viewModel.onPreviousButtonClicked()}"
+                        android:text="@string/back_button" />
 
                     <com.google.android.material.button.MaterialButton
                         android:layout_width="wrap_content"
@@ -150,7 +151,7 @@
                         android:layout_gravity="center"
                         android:layout_margin="@dimen/margin_medium"
                         android:onClick="@{()-> viewModel.onNextButtonClicked()}"
-                        android:text="Dalej" />
+                        android:text="@string/next_button" />
 
 
                 </LinearLayout>

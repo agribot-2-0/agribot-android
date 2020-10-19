@@ -10,6 +10,7 @@ import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskWeatherNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentCreatorTimeSelectBinding
 import kotlinx.android.synthetic.main.fragment_creator_time_select.date_picker
+import kotlinx.android.synthetic.main.fragment_creator_time_select.time_activator
 import kotlinx.android.synthetic.main.fragment_creator_time_select.time_picker
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -49,6 +50,10 @@ class FragmentCreatorTimeSelect :
 
         date_picker.setOnDateChangedListener { view, year, monthOfYear, dayOfMonth ->
             viewModel.setCallendarSettings(dayOfMonth, monthOfYear, year)
+        }
+
+        time_activator.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.setTimeActivator(isChecked)
         }
     }
 }

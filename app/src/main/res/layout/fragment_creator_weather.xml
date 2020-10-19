@@ -60,7 +60,7 @@
                     android:layout_margin="@dimen/margin_medium"
                     android:gravity="center"
                     android:onClick="@{()-> viewModel.onPreviousButtonClicked()}"
-                    android:text="Powrót" />
+                    android:text="@string/back_button" />
 
                 <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
@@ -68,7 +68,7 @@
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/margin_medium"
                     android:onClick="@{()-> viewModel.onNextButtonClicked()}"
-                    android:text="Dalej" />
+                    android:text="@string/next_button" />
 
             </LinearLayout>
 

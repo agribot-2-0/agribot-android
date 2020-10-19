@@ -9,7 +9,7 @@ import eu.agribot.agribotapp.ui.activity.main.MainViewModel
 import eu.agribot.agribotapp.ui.activity.splash.SplashViewModel
 import eu.agribot.agribotapp.ui.fragment.bluetoothconnection.BluetoothConnectionViewModel
 import eu.agribot.agribotapp.ui.fragment.bluetoothconnection.recycler.BluetoothNearbyListItemViewModel
-import eu.agribot.agribotapp.ui.fragment.dashboard.DashboardViewModel
+import eu.agribot.agribotapp.ui.fragment.controlPanel.ControlPanelViewModel
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.ManualControlViewModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.PathManagementViewModel
 import eu.agribot.agribotapp.ui.fragment.settings.SettingsViewModel
@@ -90,14 +90,7 @@ val viewModelModule = module {
             manualModeService = get()
         )
     }
-    viewModel { (context: Context) ->
-        DashboardViewModel(
-            autonomyService = get(),
-            cloudDatabaseService = get(),
-            resourcesProvider = get { parametersOf(context) },
-            cloudStorageService = get()
-        )
-    }
+
     viewModel { ToolManagementViewModel() }
     viewModel {
         PathManagementViewModel(
@@ -145,6 +138,15 @@ val viewModelModule = module {
             cloudStorageService = get(),
             cloudDatabaseService = get(),
             taskCreatorDataManager = get()
+        )
+    }
+
+    viewModel { (context: Context) ->
+        ControlPanelViewModel(
+            autonomyService = get(),
+            cloudDatabaseService = get(),
+            resourcesProvider = get { parametersOf(context) },
+            cloudStorageService = get()
         )
     }
 

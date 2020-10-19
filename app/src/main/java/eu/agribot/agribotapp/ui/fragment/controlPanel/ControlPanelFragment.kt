@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.dashboard
+package eu.agribot.agribotapp.ui.fragment.controlPanel
 
 import android.os.Bundle
 import android.os.Environment
@@ -13,25 +13,25 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.TileOverlayOptions
 import com.google.maps.android.kml.KmlLayer
 import eu.agribot.agribotapp.R
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import eu.agribot.agribotapp.base.BaseFragment
-import eu.agribot.agribotapp.databinding.FragmentDashboardBinding
+import eu.agribot.agribotapp.databinding.FragmentControlPanelBinding
 import eu.agribot.agribotapp.ui.fragment.taskcreator.MapParameters
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TileProvider
 import eu.agribot.agribotapp.ui.fragment.taskcreator.URLPath
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.io.IOException
 import java.io.InputStream
 
-class DashboardFragment :
-    BaseFragment<DashboardViewModel, FragmentDashboardBinding>(), OnMapReadyCallback {
+class ControlPanelFragment :
+    BaseFragment<ControlPanelViewModel, FragmentControlPanelBinding>(), OnMapReadyCallback {
 
-    override val layoutResourceId: Int = R.layout.fragment_dashboard
-    override val viewModel: DashboardViewModel by viewModel { parametersOf(requireContext()) }
+    override val layoutResourceId: Int = R.layout.fragment_control_panel
+    override val viewModel: ControlPanelViewModel by viewModel { parametersOf(requireContext()) }
     private var googleMapFragment: GoogleMap? = null
     var mapPathLayer: KmlLayer? = null
 
-    override fun bindViewVariables(viewBinding: FragmentDashboardBinding) {
+    override fun bindViewVariables(viewBinding: FragmentControlPanelBinding) {
         viewBinding.viewModel = viewModel
     }
 

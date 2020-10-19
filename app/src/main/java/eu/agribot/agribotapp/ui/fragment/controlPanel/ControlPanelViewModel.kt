@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.dashboard
+package eu.agribot.agribotapp.ui.fragment.controlPanel
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -21,7 +21,7 @@ import java.io.IOException
 import java.io.InputStream
 import java.text.SimpleDateFormat
 
-class DashboardViewModel(
+class ControlPanelViewModel(
     private val autonomyService: AutonomyService,
     val cloudDatabaseService: CloudDatabaseService,
     val resourcesProvider: ResourcesProvider,
@@ -99,6 +99,7 @@ class DashboardViewModel(
     }
 
     private fun onGotCurrentTaskDetails(taskDetails: TaskDetails) {
+        Log.e("xd", "got task details: " + taskDetails)
         if (!taskDetails.start_time_estimated) {
             val dateFormat = SimpleDateFormat(TaskDetailsElements.DATE_FORMAT.detailsElement)
             taskDate.value =

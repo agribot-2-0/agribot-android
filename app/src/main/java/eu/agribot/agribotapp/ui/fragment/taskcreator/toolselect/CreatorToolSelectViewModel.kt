@@ -1,6 +1,7 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.toolselect
 
 import eu.agribot.agribotapp.base.BaseViewModel
+import eu.agribot.agribotapp.common.navigation.events.DashboardNavigationEvent
 import eu.agribot.agribotapp.domain.model.program.weather.toCommunication.NewRobotTaskDetails
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
@@ -29,5 +30,13 @@ class CreatorToolSelectViewModel(
             )
         )
 
+        postDashboardNavigationEvent()
+
     }
+
+    private fun postDashboardNavigationEvent() {
+        navigationEvent.postValue(DashboardNavigationEvent())
+    }
+
+
 }

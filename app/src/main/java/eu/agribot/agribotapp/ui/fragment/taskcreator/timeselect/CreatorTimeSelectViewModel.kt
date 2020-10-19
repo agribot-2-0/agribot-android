@@ -35,6 +35,10 @@ class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreator
 
     }
 
+    fun setTimeActivator(isChecked : Boolean){
+            taskCreatorDataManager.onUpdateTimestampEstimated(!isChecked)
+    }
+
     fun onPreviousButtonClicked() {
         backButtonEvent.postValue(true)
     }

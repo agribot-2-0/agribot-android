@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="eu.agribot.agribotapp.ui.fragment.dashboard.DashboardViewModel" />
+            type="eu.agribot.agribotapp.ui.fragment.controlPanel.ControlPanelViewModel" />
     </data>
 
     <LinearLayout
@@ -156,7 +156,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
-                                   android:text="@string/pressure" />
+                                    android:text="@string/pressure" />
 
                                 <TextView
                                     android:layout_width="wrap_content"

@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase
 
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.ActualTaskCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.EngineHealthCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.FirstRobotHealthEngineCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.FirstRobotWeatherStationHumidityCDB
@@ -88,6 +89,13 @@ interface CloudDatabase {
         robotName: String,
         onGetCurrentTaskNameSucess: (currentTaskName: String) -> Unit,
         onGetCurrentTaskDetailsSucess: (taskDetailsCDB: TaskDetailsCDB) -> Unit,
+        onDatabaseError: (Throwable) -> Unit
+    )
+
+    fun setCurrenttask(
+        robotName: String,
+        actualTaskCDB: ActualTaskCDB,
+        onSetCurrentTaskNameSucess: () -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 

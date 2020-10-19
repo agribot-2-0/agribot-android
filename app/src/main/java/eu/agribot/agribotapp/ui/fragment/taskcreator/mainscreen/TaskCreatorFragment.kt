@@ -17,6 +17,7 @@ import com.google.maps.android.kml.KmlLayer
 import com.google.maps.android.kml.KmlPolygon
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
+import eu.agribot.agribotapp.common.dialog.DialogManager
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskNameNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskPathNavigationEvent
@@ -30,15 +31,16 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.swipere
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.swiperecyclerutils.SwipeRecyclerClickListener
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.swiperecyclerutils.SwipeRecyclerHelper
 import kotlinx.android.synthetic.main.fragment_creator_configurator.task_recycler
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.io.IOException
 import java.io.InputStream
 
-
 class TaskCreatorFragment :
     BaseFragment<TaskCreatorViewModel, FragmentCreatorConfiguratorBinding>(), OnMapReadyCallback {
 
+    private val dialogManager: DialogManager by inject { parametersOf(requireContext()) }
     override val layoutResourceId: Int = R.layout.fragment_creator_configurator
     override val viewModel: TaskCreatorViewModel by viewModel { parametersOf(requireContext()) }
     private var googleMapFragment: GoogleMap? = null
@@ -85,8 +87,12 @@ class TaskCreatorFragment :
             getString(R.string.delete_task_button),
             resources.getDimension(R.dimen.text_size_small),
             android.R.color.holo_red_light,
-            SwipeRecyclerClickListener(position, onButtonClicked = viewModel::onDeleteButtonClicked)
+            SwipeRecyclerClickListener(position, onButtonClicked = this::showDeleteTaskDialog)
         )
+    }
+
+    private fun showDeleteTaskDialog(itemPosition: Int) {
+        dialogManager.showDeleteTaskDialog(itemPosition, viewModel::onDeleteButtonClicked)
     }
 
     private fun editButton(position: Int): SwipeHelper.UnderlayButton {
@@ -121,7 +127,6 @@ class TaskCreatorFragment :
         adapter.items = task
     }
 
-
     private fun addTileOverlay() {
         val tileProvider =
             TileProvider(
@@ -139,7 +144,6 @@ class TaskCreatorFragment :
             Log.e("xd", "Problem z dodaniem nakładki na mape" + exception)
         }
     }
-
 
     private fun onGotSelectedLayer(mapStream: InputStream) {
         if (mapPathLayer != null) {
@@ -175,10 +179,4 @@ class TaskCreatorFragment :
         googleMapFragment!!.setMaxZoomPreference(MapParameters.MAX_ZOOM.mapParametr)
         addTileOverlay()
     }
-
 }
-
-
-
-
-

@@ -14,6 +14,8 @@ import com.google.android.gms.maps.model.TileOverlayOptions
 import com.google.maps.android.kml.KmlLayer
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
+import eu.agribot.agribotapp.common.navigation.NavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.TaskSelectNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentControlPanelBinding
 import eu.agribot.agribotapp.ui.fragment.taskcreator.MapParameters
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TileProvider
@@ -35,13 +37,22 @@ class ControlPanelFragment :
         viewBinding.viewModel = viewModel
     }
 
+    override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
+        is TaskSelectNavigationEvent -> handleTaskSelectNavigationEvent()
+        else -> Unit
+    }
+
+    private fun handleTaskSelectNavigationEvent() {
+        navigationController?.navigate(R.id.action_dashboard_to_taskSelectFragment)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.dashboard_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         viewModel.getAgribotPosition()
-        viewModel.getCurrentTask()
+        viewModel.getActualTask()
         viewModel.pathStream.observe(this::onGotSelectedLayer)
         viewModel.markers.observe(this::updateMapMarker)
         viewModel.toastMessageEvent.observe(this::showToast)

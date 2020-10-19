@@ -107,5 +107,4 @@ class CreatorPathSelectViewModel(
     private fun onCloudDataException(exception: String) {
         toastEvent.postValue(exception)
     }
-
 }

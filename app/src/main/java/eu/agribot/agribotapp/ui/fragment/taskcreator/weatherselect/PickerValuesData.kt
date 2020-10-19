@@ -6,4 +6,3 @@ data class PickerValuesData(
     val pressureValue: Int,
     val humidityValue: Int
 )
-

@@ -8,6 +8,7 @@ import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.LiveEvent
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
+import eu.agribot.agribotapp.common.navigation.events.TaskSelectNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.model.RobotLocalizationPose
 import eu.agribot.agribotapp.domain.model.TaskDetails
@@ -47,7 +48,6 @@ class ControlPanelViewModel(
 
     private fun checkIsFileExist(fileName: String) {
         if (fileName.contains(pathName.value.toString(), ignoreCase = true)) {
-            Log.e("xd", "Jest")
             try {
                 cloudStorageService.downloadFile(
                     fileName,
@@ -61,7 +61,6 @@ class ControlPanelViewModel(
     }
 
     private fun onFileAlreadyDownloaded(file: File) {
-        Log.e("xd", "File: " + file )
 
         val fileInputStream: InputStream = FileInputStream(file)
         pathStream.value = fileInputStream
@@ -89,7 +88,7 @@ class ControlPanelViewModel(
         toastMessageEvent.postValue(errorMessage)
     }
 
-    fun getCurrentTask() {
+    fun getActualTask() {
         cloudDatabaseService.getActualTaskDetails(
             onGetCurrentTaskDetailsSucess = this::onGotCurrentTaskDetails,
             onGetCurrentTaskNameSucess = this::onGotCurrentTaskName,
@@ -169,6 +168,10 @@ class ControlPanelViewModel(
             wind.value = resourcesProvider.getString(R.string.no_wind_text)
         }
         checkIsCurrentPathExistInStorage()
+    }
+
+    fun onSelectTaskButtonClicked() {
+        navigationEvent.postValue(TaskSelectNavigationEvent())
     }
 
     fun sendInitAutoMode() {

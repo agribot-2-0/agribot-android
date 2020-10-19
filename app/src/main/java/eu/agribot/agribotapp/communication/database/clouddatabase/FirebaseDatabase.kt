@@ -297,6 +297,27 @@ class FirebaseDatabase() : CloudDatabase {
             }
     }
 
+    override fun setCurrenttask(
+        robotName: String,
+        actualTaskCDB: ActualTaskCDB,
+        onSetCurrentTaskNameSucess: () -> Unit,
+        onDatabaseError: (Throwable) -> Unit
+    ) {
+        database.collection(COLLECTION_ROBOTS)
+            .document(robotName)
+            .update(
+                mapOf(
+                    "actual_task" to actualTaskCDB.actual_task
+                )
+            )
+            .addOnSuccessListener {
+                onSetCurrentTaskNameSucess()
+            }
+            .addOnFailureListener { exception ->
+                onDatabaseError(exception)
+            }
+    }
+
     override fun deleteSelectedTask(
         taskID: String,
         onDeleteSucess: () -> Unit,

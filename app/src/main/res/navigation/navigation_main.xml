@@ -75,7 +75,16 @@
         android:id="@+id/dashboardFragment"
         android:name="eu.agribot.agribotapp.ui.fragment.controlPanel.ControlPanelFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_control_panel" />
+        tools:layout="@layout/fragment_control_panel">
+
+        <action
+            android:id="@+id/action_dashboard_to_taskSelectFragment"
+            app:destination="@id/selectTaskFragment"
+            app:enterAnim="@anim/nav_slide_in_from_right"
+            app:exitAnim="@anim/nav_slide_out_to_right"
+            app:popEnterAnim="@anim/nav_slide_out_to_left"
+            app:popExitAnim="@anim/nav_slide_in_from_left" />
+    </fragment>
 
     <fragment
         android:id="@+id/pathManagementFragment"
@@ -190,6 +199,12 @@
             app:popEnterAnim="@anim/nav_slide_out_to_left"
             app:popExitAnim="@anim/nav_slide_in_from_left" />
     </fragment>
+
+    <fragment
+        android:id="@+id/selectTaskFragment"
+        android:name="eu.agribot.agribotapp.ui.fragment.controlPanel.taskselect.TaskSelectFragment"
+        android:label="@string/select_task_label"
+        tools:layout="@layout/fragment_creator_tool_select" />
 
     <fragment
         android:id="@+id/creatorFragment"

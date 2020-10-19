@@ -1,6 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen
 
-enum class TaskDetailsElements (val detailsElement : String) {
+enum class TaskDetailsElements(val detailsElement: String) {
     SEPARATOR(" "),
     TEMPERATURE_UNIT("°C"),
     SPEED_UNIT("km/h"),
@@ -14,5 +14,4 @@ enum class TaskDetailsElements (val detailsElement : String) {
     LESS_SYMBOL("<"),
     MORE_SYMBOL(">"),
     EQUAL_SYMBOL("="),
-
 }

@@ -464,7 +464,8 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_xxlarge"
-                    android:text="Rozpocznij zadanie" />
+                    android:onClick="@{()->viewModel.onSelectTaskButtonClicked()}"
+                    android:text="@string/start_task_button" />
 
 
             </TableLayout>

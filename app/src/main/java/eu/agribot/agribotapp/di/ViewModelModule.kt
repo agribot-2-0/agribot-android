@@ -10,6 +10,7 @@ import eu.agribot.agribotapp.ui.activity.splash.SplashViewModel
 import eu.agribot.agribotapp.ui.fragment.bluetoothconnection.BluetoothConnectionViewModel
 import eu.agribot.agribotapp.ui.fragment.bluetoothconnection.recycler.BluetoothNearbyListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.controlPanel.ControlPanelViewModel
+import eu.agribot.agribotapp.ui.fragment.controlPanel.taskselect.TaskSelectViewModel
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.ManualControlViewModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.PathManagementViewModel
 import eu.agribot.agribotapp.ui.fragment.settings.SettingsViewModel
@@ -195,4 +196,6 @@ val viewModelModule = module {
             cloudStorageService = get()
         )
     }
+
+    viewModel { TaskSelectViewModel(cloudDatabaseService = get()) }
 }

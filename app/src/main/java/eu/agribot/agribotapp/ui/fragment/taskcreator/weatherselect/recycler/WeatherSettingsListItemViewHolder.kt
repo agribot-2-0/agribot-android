@@ -5,7 +5,7 @@ import eu.agribot.agribotapp.databinding.ListItemWeatherSettingsBinding
 
 class WeatherSettingsListItemViewHolder(viewBinding: ListItemWeatherSettingsBinding) :
     BaseViewHolder<WeatherSettingsListItemViewModel, ListItemWeatherSettingsBinding>(
-     viewBinding
+        viewBinding
     ) {
     override fun bind(viewModel: WeatherSettingsListItemViewModel) {
         viewBinding.viewModel = viewModel

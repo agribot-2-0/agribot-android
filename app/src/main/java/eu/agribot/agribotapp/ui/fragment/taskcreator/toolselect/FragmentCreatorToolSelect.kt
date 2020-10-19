@@ -22,7 +22,7 @@ class FragmentCreatorToolSelect :
         else -> Unit
     }
 
-    private fun handleDashboardNavigationEvent(){
+    private fun handleDashboardNavigationEvent() {
         navigationController?.navigate(R.id.action_taskCreatorTaskToolFragment_to_dashboardFragment)
     }
 }

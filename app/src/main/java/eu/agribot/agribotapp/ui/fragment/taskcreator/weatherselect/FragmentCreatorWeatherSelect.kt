@@ -15,7 +15,6 @@ import kotlinx.android.synthetic.main.fragment_creator_weather.weather_settings_
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
-
 class FragmentCreatorWeatherSelect :
     BaseFragment<CreatorWeatherSelectViewModel, FragmentCreatorWeatherBinding>() {
 
@@ -59,7 +58,6 @@ class FragmentCreatorWeatherSelect :
     private fun setupRecyclerView() {
         weather_settings_recycler.adapter = recyclerAdapter
         weather_settings_recycler.layoutManager = GridLayoutManager(context, 2)
-
     }
 
     private fun addAvaliableWeatherAttribute(weatherAttribute: List<WeatherSettingsListItemViewModel>) {

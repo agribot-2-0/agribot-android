@@ -36,7 +36,6 @@ class CreatorWeatherSelectViewModel(
     private val actualPressure: MutableLiveData<String> = MutableLiveData()
     val backButtonEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
 
-
     fun onConditionChanged(condition: String, itemPosition: Int) {
         when (itemPosition) {
             WeatherItemNumber.WIND_ITEM.itemNumber -> {
@@ -127,7 +126,6 @@ class CreatorWeatherSelectViewModel(
                 }
             }
         }
-
     }
 
     fun onSwitchParametrChange(position: Int, isActivated: Boolean) {
@@ -145,9 +143,7 @@ class CreatorWeatherSelectViewModel(
                 temperatureItemActive.value = isActivated
             }
         }
-
     }
-
 
     private fun addToWeatherAttributeList(
         @DrawableRes weatherAttributeIcon: Int,
@@ -270,7 +266,6 @@ class CreatorWeatherSelectViewModel(
     private fun onFirstRobotPressureSucess(firstRobotWeatherStationPressure: FirstRobotWeatherStationPressure) {
         actualPressure.value = firstRobotWeatherStationPressure.value.toString() + " hPa"
     }
-
 
     fun onNextButtonClicked() {
         navigationEvent.postValue(

@@ -31,12 +31,9 @@ class CreatorToolSelectViewModel(
         )
 
         postDashboardNavigationEvent()
-
     }
 
     private fun postDashboardNavigationEvent() {
         navigationEvent.postValue(DashboardNavigationEvent())
     }
-
-
 }

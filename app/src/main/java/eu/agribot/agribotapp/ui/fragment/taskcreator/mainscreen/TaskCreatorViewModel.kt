@@ -41,14 +41,12 @@ class TaskCreatorViewModel(
     val pressure: MutableLiveData<String> = MutableLiveData()
     val wind: MutableLiveData<String> = MutableLiveData()
 
-
     fun getAvailableTask() {
         cloudDatabaseService.getTaskItem(
             onGetTaskItem = this::onAvailableTaskFound,
             onGetTaskItemError = this::postToastErrorMessageEvent
         )
     }
-
 
     private fun checkIsCurrentPathExistInStorage() {
         cloudStorageService.downloadFilesList(
@@ -122,7 +120,6 @@ class TaskCreatorViewModel(
         )
     }
 
-
     private fun onDeleteSucess() {
         postToastInformationMessageEvent(resourcesProvider.getString(R.string.delete_sucess_text))
     }
@@ -151,7 +148,6 @@ class TaskCreatorViewModel(
             onGetTaskDetails = this::onGotTaskDetails,
             onGetTaskDetailsError = this::postToastErrorMessageEvent
         )
-
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -224,7 +220,6 @@ class TaskCreatorViewModel(
             wind.value = resourcesProvider.getString(R.string.no_wind_text)
         }
         checkIsCurrentPathExistInStorage()
-
     }
 
     fun onNewTaskButtonClicked() {
@@ -240,5 +235,4 @@ class TaskCreatorViewModel(
     private fun postToastInformationMessageEvent(informationMessage: String) {
         toastMessageEvent.postValue(informationMessage)
     }
-
 }

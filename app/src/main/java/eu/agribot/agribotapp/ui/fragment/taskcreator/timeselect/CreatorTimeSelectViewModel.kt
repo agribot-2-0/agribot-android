@@ -1,13 +1,14 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.timeselect
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.Timestamp
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskWeatherNavigationEvent
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
-import java.util.*
+import java.util.GregorianCalendar
+import java.util.Calendar
+import java.util.TimeZone
 
 class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreatorDataManager) :
     BaseViewModel() {
@@ -26,17 +27,8 @@ class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreator
     private val minuteData: MutableLiveData<Int> = MutableLiveData()
     private val hourData: MutableLiveData<Int> = MutableLiveData()
 
-    fun checkIsDateSelected(){
-        if(!taskCreatorDataManager.getTimeEstimated()){
-           Log.e("xd", "TIMESTAMP: " + taskCreatorDataManager.getTimeStamp()!!.toDate())
-        }else {
-            Log.e("xd", "IS TIME ESTIMATED")
-        }
-
-    }
-
-    fun setTimeActivator(isChecked : Boolean){
-            taskCreatorDataManager.onUpdateTimestampEstimated(!isChecked)
+    fun setTimeActivator(isChecked: Boolean) {
+        taskCreatorDataManager.onUpdateTimestampEstimated(!isChecked)
     }
 
     fun onPreviousButtonClicked() {

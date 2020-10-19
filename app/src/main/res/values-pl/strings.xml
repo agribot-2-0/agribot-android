@@ -29,6 +29,14 @@
     <string name="dialog_bluetooth_message">Do you agree to enable Bluetooth</string>
     <string name="dialog_bluetooth_positive_message">Enable!</string>
 
+    <string name="dialog_task_select_tittle">Wybór zadania</string>
+    <string name="dialog_task_select_message">Czy chcesz rozpocząć to zadanie?</string>
+    <string name="dialog_task_select_confirm">Rozpocznij!</string>
+
+    <string name="dialog_task_delete_tittle">Usunięcie zadania</string>
+    <string name="dialog_task_delete_message">Czy chcesz usunąć to zadanie?</string>
+    <string name="dialog_task_delete_confirm">Usuń!</string>
+
     <!-- Tool Control -->
     <string name="pto">PTO</string>
     <string name="no_rpm">0 rpm</string>
@@ -164,6 +172,9 @@
     <string name="back_button">Powrót</string>
     <string name="configuration_progress">Postęp konfiguracji</string>
     <string name="set_time_question">Czy chcesz ustawic czas?</string>
-
+    <string name="start_task_button">Rozpocznij zadanie</string>
+    <string name="select_task_label">Wybór zadania</string>
+    <string name="layer_problem">Problem ze ścieżką</string>
+    <string name="next_button">Dalej</string>
 
 </resources>

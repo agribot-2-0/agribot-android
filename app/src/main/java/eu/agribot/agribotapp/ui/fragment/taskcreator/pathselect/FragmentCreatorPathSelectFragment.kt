@@ -40,7 +40,6 @@ class FragmentCreatorPathSelectFragment :
     var botMarker: Marker? = null
     var mapPathLayer: KmlLayer? = null
 
-
     override fun bindViewVariables(viewBinding: FragmentCreatorPathSelectBinding) {
         viewBinding.viewModel = viewModel
     }
@@ -91,12 +90,10 @@ class FragmentCreatorPathSelectFragment :
         setupRecycler()
     }
 
-
     private fun backToPreviousFragment(isBackAction: Boolean) {
         if (isBackAction)
             requireActivity().onBackPressed()
     }
-
 
     private fun navigateToCreatorTaskTimeFragment() {
         navigationController?.navigate(R.id.action_taskPathCreatorFragment_to_taskTimeCreatorFragment)
@@ -114,7 +111,6 @@ class FragmentCreatorPathSelectFragment :
     private fun addToAvailableFile(fileInfo: List<CloudFileListItemViewModel>) {
         adapter.items = fileInfo
     }
-
 
     private fun addTileOverlay() {
         val tileProvider =
@@ -173,5 +169,4 @@ class FragmentCreatorPathSelectFragment :
         googleMapFragment!!.setMaxZoomPreference(MapParameters.MAX_ZOOM.mapParametr)
         addTileOverlay()
     }
-
 }

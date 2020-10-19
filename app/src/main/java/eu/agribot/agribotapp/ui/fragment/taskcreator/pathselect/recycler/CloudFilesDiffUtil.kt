@@ -1,7 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler
 
 import androidx.recyclerview.widget.DiffUtil
-import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler.CloudFileListItemViewModel
 
 class CloudFilesDiffUtil(
     private val oldList: List<CloudFileListItemViewModel>,

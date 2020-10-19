@@ -29,6 +29,14 @@
     <string name="dialog_bluetooth_message">Do you agree to enable Bluetooth</string>
     <string name="dialog_bluetooth_positive_message">Enable!</string>
 
+    <string name="dialog_task_select_tittle">Task select</string>
+    <string name="dialog_task_select_message">Do you want to start this task?</string>
+    <string name="dialog_task_select_confirm">Run!</string>
+
+    <string name="dialog_task_delete_tittle">Task delete</string>
+    <string name="dialog_task_delete_message">Do you want to delete this task?</string>
+    <string name="dialog_task_delete_confirm">Delete!</string>
+
     <!-- Tool Control -->
     <string name="pto">PTO</string>
     <string name="no_rpm">0 rpm</string>
@@ -167,7 +175,6 @@
     <string name="no_start_date">No start Date</string>
     <string name="map_tile_problem">Problem z dodaniem nakładki na mape</string>
     <string name="marker_problem">Problem z dodaniem markera na mape</string>
-    <string name="layer_problem">Path Layer Problem</string>
     <string name="start_date">Start Date</string>
     <string name="wind">Wind</string>
     <string name="no_data_available">No Data</string>
@@ -175,9 +182,12 @@
     <string name="pressure">Pressure</string>
     <string name="humidity">Humidity</string>
     <string name="back_button">Powrót</string>
-    <string name="next_button">Dalej</string>
+    <string name="layer_problem">Path Layer Problem</string>
+    <string name="next_button">Next</string>
     <string name="configuration_progress">Postęp konfiguracji</string>
     <string name="set_time_question">Czy chcesz ustawic czas?</string>
+    <string name="start_task_button">Rozpocznij zadanie</string>
+    <string name="select_task_label">Select Task</string>
 
 
 </resources>

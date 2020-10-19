@@ -2,6 +2,7 @@ package eu.agribot.agribotapp.domain.service.cloud
 
 import android.util.Log
 import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabase
+import eu.agribot.agribotapp.domain.model.ActualTask
 import eu.agribot.agribotapp.domain.model.EngineHealth
 import eu.agribot.agribotapp.domain.model.FirstRobotHealthEngine
 import eu.agribot.agribotapp.domain.model.FirstRobotWeatherStationHumidity
@@ -210,6 +211,14 @@ class CloudDatabaseService(
             newRobotTaskDetails.toCommunicationModel(),
             onDatabaseSucess = this::onsucess,
             onDatabaseError = this::onError
+        )
+    }
+
+    fun setCurrentTask(actualTask: ActualTask) {
+        cloudDatabase.setCurrenttask(
+            robotName = "ADI75R1",
+            actualTask.toCommunicationModel(),
+            this::onsucess, this::onError
         )
     }
 

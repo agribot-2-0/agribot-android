@@ -20,6 +20,7 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.taskname.CreatorTaskNameVie
 import eu.agribot.agribotapp.ui.fragment.taskcreator.timeselect.CreatorTimeSelectViewModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.toolselect.CreatorToolSelectViewModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.CreatorWeatherSelectViewModel
+import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.WeatherSettingsListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolControlViewModel
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.ToolManagementViewModel
@@ -166,10 +167,21 @@ val viewModelModule = module {
         )
     }
 
-    viewModel {
+    viewModel { (context: Context) ->
         CreatorWeatherSelectViewModel(
             taskCreatorDataManager = get(),
-            cloudDatabaseService = get()
+            cloudDatabaseService = get(),
+            resourcesProvider = get { parametersOf(context) }
+        )
+    }
+
+    viewModel {
+        WeatherSettingsListItemViewModel(
+            conditionArray = get(),
+            currentValue = get(),
+            weatherAttributeIcon = get(),
+            minimumPickerValue = get(),
+            maximumPickerValue = get()
         )
     }
 

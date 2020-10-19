@@ -171,6 +171,9 @@
     <string name="start_date">Start Date</string>
     <string name="wind">Wind</string>
     <string name="no_data_available">No Data</string>
+    <string name="temperature">Temperature</string>
+    <string name="pressure">Pressure</string>
+    <string name="humidity">Humidity</string>
 
 
 </resources>

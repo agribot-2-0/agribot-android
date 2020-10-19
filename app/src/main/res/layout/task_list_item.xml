@@ -9,34 +9,42 @@
             type="eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.TaskListItemViewModel" />
     </data>
 
-    <LinearLayout
+
+    <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="@dimen/margin_medium"
-        android:background="@drawable/rounded_corner_layout"
-        android:orientation="vertical">
+        android:layout_margin="8dp"
+        android:orientation="vertical"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="6dp">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@{viewModel.taskName}"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_medium"
-            android:textStyle="bold" />
+            android:orientation="vertical"
+            android:padding="@dimen/margin_medium">
 
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginBottom="@dimen/margin_xlarge"
-            android:gravity="center"
-            android:text="@{viewModel.pathName}"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_small" />
-        
-    </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:gravity="center"
+                android:text="@{viewModel.taskName}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_medium"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:gravity="center"
+                android:text="@{viewModel.pathName}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_small" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </layout>
 

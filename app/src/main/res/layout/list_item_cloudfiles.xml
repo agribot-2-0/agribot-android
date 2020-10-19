@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="eu.agribot.agribotapp.ui.fragment.autonomousmode.recycler.CloudFileListItemViewModel" />
+            type="eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler.CloudFileListItemViewModel" />
     </data>
 
     <LinearLayout

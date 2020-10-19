@@ -42,6 +42,7 @@ class TaskCreatorViewModel(
     val pressure: MutableLiveData<String> = MutableLiveData()
     val wind: MutableLiveData<String> = MutableLiveData()
 
+
     fun getAvailableTask() {
         cloudDatabaseService.getTaskItem(
             onGetTaskItem = this::onAvailableTaskFound,
@@ -49,15 +50,31 @@ class TaskCreatorViewModel(
         )
     }
 
-    private fun downloadSelectedFile(fileName: String) {
-        try {
-            cloudStorageService.downloadFile(
-                fileName + ".kml",
-                onFileAlreadyDownloaded = this::onFileAlreadyDownloaded,
-                onDownloadSucess = this::onFileAlreadyDownloaded
-            )
-        } catch (exception: IOException) {
-            Log.e("xd", "exception  " + exception)
+
+    private fun checkIsCurrentPathExistInStorage() {
+        cloudStorageService.downloadFilesList(
+            onFileAvailable = this::checkIsFileExist,
+            onError = this::postToastErrorMessageEvent
+        )
+    }
+
+    private fun checkIsFileExist(fileName: String) {
+        Log.e("xd", "file  " + fileName + "  path:  " + pathName.value)
+
+        if (fileName.contains("drzewna", ignoreCase = true)) {
+            Log.e("xd", "file  " + fileName + "  path:  " + pathName.value)
+            Log.e("xd", "ZAWIERA")
+            try {
+                cloudStorageService.downloadFile(
+                    fileName,
+                    onFileAlreadyDownloaded = this::onFileAlreadyDownloaded,
+                    onDownloadSucess = this::onFileAlreadyDownloaded
+                )
+            } catch (exception: IOException) {
+                postToastErrorMessageEvent("Add PathLayer to map problem")
+            }
+        } else {
+            Log.e("xd", "NIE ZAWIERA")
         }
     }
 
@@ -104,7 +121,14 @@ class TaskCreatorViewModel(
             onDeleteError = this::postToastErrorMessageEvent,
             onDeleteSucess = this::onDeleteSucess
         )
+        taskList.value = taskList.value!!.minus(
+            TaskListItemViewModel(
+                taskList.value?.get(positionOnList)!!.taskName,
+                taskList.value?.get(positionOnList)!!.pathName
+            )
+        )
     }
+
 
     private fun onDeleteSucess() {
         postToastInformationMessageEvent(resourcesProvider.getString(R.string.delete_sucess_text))
@@ -134,7 +158,7 @@ class TaskCreatorViewModel(
             onGetTaskDetails = this::onGotTaskDetails,
             onGetTaskDetailsError = this::postToastErrorMessageEvent
         )
-        downloadSelectedFile(taskListItemViewModel.pathName)
+
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -206,6 +230,7 @@ class TaskCreatorViewModel(
         } else {
             wind.value = resourcesProvider.getString(R.string.no_wind_text)
         }
+        checkIsCurrentPathExistInStorage()
 
     }
 

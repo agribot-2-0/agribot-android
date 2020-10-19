@@ -1,6 +1,8 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect
 
 import android.os.Bundle
+import android.os.Environment
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -10,14 +12,18 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.TileOverlayOptions
 import com.google.maps.android.kml.KmlLayer
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskTimeNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentCreatorPathSelectBinding
-import eu.agribot.agribotapp.ui.fragment.autonomousmode.recycler.CloudFileListItemAdapter
-import eu.agribot.agribotapp.ui.fragment.autonomousmode.recycler.CloudFileListItemViewModel
+import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler.CloudFileListItemAdapter
+import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler.CloudFileListItemViewModel
+import eu.agribot.agribotapp.ui.fragment.taskcreator.MapParameters
+import eu.agribot.agribotapp.ui.fragment.taskcreator.TileProvider
+import eu.agribot.agribotapp.ui.fragment.taskcreator.URLPath
 import kotlinx.android.synthetic.main.fragment_creator_path_select.recycler_path_select
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.IOException
@@ -30,9 +36,10 @@ class FragmentCreatorPathSelectFragment :
     override val layoutResourceId: Int = R.layout.fragment_creator_path_select
     override val viewModel: CreatorPathSelectViewModel by viewModel()
     private var adapter = CloudFileListItemAdapter(this::onItemClicked)
-    private var googleMaps: GoogleMap? = null
+    private var googleMapFragment: GoogleMap? = null
     var botMarker: Marker? = null
-    var kmlLayer: KmlLayer? = null
+    var mapPathLayer: KmlLayer? = null
+
 
     override fun bindViewVariables(viewBinding: FragmentCreatorPathSelectBinding) {
         viewBinding.viewModel = viewModel
@@ -44,12 +51,12 @@ class FragmentCreatorPathSelectFragment :
     }
 
     private fun updateMarker(agribotMarker: MarkerOptions) {
-        if (googleMaps != null && agribotMarker.position != null) {
+        if (googleMapFragment != null && agribotMarker.position != null) {
             if (botMarker != null) {
                 botMarker!!.remove()
             }
             try {
-                botMarker = googleMaps!!.addMarker(
+                botMarker = googleMapFragment!!.addMarker(
                     MarkerOptions()
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.tank))
                         .position(agribotMarker.position)
@@ -57,7 +64,7 @@ class FragmentCreatorPathSelectFragment :
                         .rotation(agribotMarker.rotation)
                         .flat(true)
                 )
-                googleMaps!!.moveCamera(
+                googleMapFragment!!.moveCamera(
                     CameraUpdateFactory.newLatLngZoom(
                         agribotMarker.position, 21F
                     )
@@ -74,7 +81,7 @@ class FragmentCreatorPathSelectFragment :
         viewModel.availableFiles.observe(this::addToAvailableFile)
         viewModel.downloadAvailableFileList()
         viewModel.getAgribotPosition()
-        viewModel.selectedLayer.observe(this::setSelectedLayer)
+        viewModel.selectedLayer.observe(this::addSelectedLayer)
         viewModel.markers.observe(this::updateMarker)
         viewModel.toastEvent.observe(this::showToast)
         val mapFragment =
@@ -91,10 +98,6 @@ class FragmentCreatorPathSelectFragment :
         viewModel.downloadSelectedFile(availibleFile.fileName)
     }
 
-    override fun onMapReady(googleMap: GoogleMap) {
-        //viewModel.setupMap(googleMap)
-    }
-
     private fun setupRecycler() {
         recycler_path_select.adapter = adapter
         recycler_path_select.layoutManager = LinearLayoutManager(requireActivity())
@@ -104,20 +107,63 @@ class FragmentCreatorPathSelectFragment :
         adapter.items = fileInfo
     }
 
-    private fun setSelectedLayer(mapStream: InputStream) {
-        if (kmlLayer != null) {
-            kmlLayer?.removeLayerFromMap()
-        } else {
+
+    private fun addTileOverlay() {
+        val tileProvider =
+            TileProvider(
+                MapParameters.MAP_SIZE.mapParametr.toInt(),
+                MapParameters.MAP_SIZE.mapParametr.toInt(),
+                URLPath.FILE.path + Environment.getExternalStorageDirectory().absolutePath +
+                        URLPath.PATH.path
+            )
+        try {
+            googleMapFragment!!.addTileOverlay(
+                TileOverlayOptions().transparency(MapParameters.TRANSPARENCY_VALUE.mapParametr)
+                    .tileProvider(tileProvider)
+            )
+        } catch (exception: IOException) {
+            Log.e("xd", "Problem z dodaniem nakładki na mape" + exception)
+        }
+    }
+
+    private fun updateMapMarker(agribotMarker: MarkerOptions) {
+        if (agribotMarker.position != null) {
             try {
-                kmlLayer = KmlLayer(googleMaps, mapStream, requireContext())
-                kmlLayer!!.removeLayerFromMap()
-                kmlLayer!!.containers
-                kmlLayer!!.addLayerToMap()
-            } catch (exception: Exception) {
-                showToast(getString(R.string.layer_problem))
+                googleMapFragment?.addMarker(
+                    MarkerOptions()
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.tank))
+                        .position(agribotMarker.position)
+                        .anchor(MapParameters.ANCHOR.mapParametr, MapParameters.ANCHOR.mapParametr)
+                        .rotation(agribotMarker.rotation)
+                        .flat(true)
+                )
+                googleMapFragment?.moveCamera(
+                    CameraUpdateFactory.newLatLngZoom(
+                        agribotMarker.position, MapParameters.MID_ZOOM.mapParametr
+                    )
+                )
+            } catch (exception: IOException) {
+                showToast("marker exception$exception")
             }
         }
     }
 
+    private fun addSelectedLayer(mapStream: InputStream) {
+        if (mapPathLayer != null) {
+            mapPathLayer!!.removeLayerFromMap()
+        } else {
+            mapPathLayer = KmlLayer(googleMapFragment, mapStream, requireContext())
+            mapPathLayer!!.containers
+            mapPathLayer!!.addLayerToMap()
+        }
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        googleMapFragment = googleMap
+        googleMapFragment!!.mapType = GoogleMap.MAP_TYPE_NORMAL
+        googleMapFragment!!.setMinZoomPreference(MapParameters.MIN_ZOOM.mapParametr)
+        googleMapFragment!!.setMaxZoomPreference(MapParameters.MAX_ZOOM.mapParametr)
+        addTileOverlay()
+    }
 
 }

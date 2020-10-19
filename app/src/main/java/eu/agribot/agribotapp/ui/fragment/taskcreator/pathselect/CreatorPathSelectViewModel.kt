@@ -1,8 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import eu.agribot.agribotapp.base.BaseViewModel
@@ -12,7 +10,7 @@ import eu.agribot.agribotapp.domain.model.RobotLocalizationPose
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
-import eu.agribot.agribotapp.ui.fragment.autonomousmode.recycler.CloudFileListItemViewModel
+import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler.CloudFileListItemViewModel
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException

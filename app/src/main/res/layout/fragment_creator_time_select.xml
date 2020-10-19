@@ -14,7 +14,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#f1f1f1">
+        android:background="@color/background_gray">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -79,43 +79,26 @@
 
             </LinearLayout>
 
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/time_activator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"/>
 
-                <RadioGroup
-                    android:layout_width="0dp"
+
+                <ProgressBar
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="481dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="@dimen/margin_xlarge"
-                    android:layout_weight="2"
-
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Path" />
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Time" />
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Weather" />
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tools" />
-
-                </RadioGroup>
+                    android:progress="25" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"

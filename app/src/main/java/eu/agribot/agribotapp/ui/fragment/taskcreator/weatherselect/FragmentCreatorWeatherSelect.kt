@@ -1,37 +1,31 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.recyclerview.widget.GridLayoutManager
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskToolsNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentCreatorWeatherBinding
-import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.PickerNumber.PICKER_HUMIDITY_CONDITION
-import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.PickerNumber.PICKER_HUMIDITY_VALUE
-import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.PickerNumber.PICKER_PRESSURE_CONDITION
-import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.PickerNumber.PICKER_PRESSURE_VALUE
-import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.PickerNumber.PICKER_TEMPERATURE_CONDITION
-import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.PickerNumber.PICKER_TEMPERATURE_VALUE
-import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.PickerNumber.PICKER_WIND_CONDITION
-import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.PickerNumber.PICKER_WIND_VALUE
-import kotlinx.android.synthetic.main.fragment_creator_weather.humidity_condition
-import kotlinx.android.synthetic.main.fragment_creator_weather.humidity_value
-import kotlinx.android.synthetic.main.fragment_creator_weather.pressure_condition
-import kotlinx.android.synthetic.main.fragment_creator_weather.pressure_value
-import kotlinx.android.synthetic.main.fragment_creator_weather.temperature_condition
-import kotlinx.android.synthetic.main.fragment_creator_weather.temperature_value
-import kotlinx.android.synthetic.main.fragment_creator_weather.wind_condition
-import kotlinx.android.synthetic.main.fragment_creator_weather.wind_value
+import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.WeatherSettingsListItemAdapter
+import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.WeatherSettingsListItemViewModel
+import kotlinx.android.synthetic.main.fragment_creator_weather.weather_settings_recycler
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
+
 
 class FragmentCreatorWeatherSelect :
     BaseFragment<CreatorWeatherSelectViewModel, FragmentCreatorWeatherBinding>() {
 
-    var arrayPicker = arrayOf("<", ">", "=")
-
     override val layoutResourceId: Int = R.layout.fragment_creator_weather
-    override val viewModel: CreatorWeatherSelectViewModel by viewModel()
+    override val viewModel: CreatorWeatherSelectViewModel by viewModel { parametersOf(requireContext()) }
+    val recyclerAdapter = WeatherSettingsListItemAdapter(
+        this::onConditionPickerChanged,
+        this::onValuePickerChanged,
+        this::onItemSwitchParametrChange
+    )
 
     override fun bindViewVariables(viewBinding: FragmentCreatorWeatherBinding) {
         viewBinding.viewModel = viewModel
@@ -39,103 +33,32 @@ class FragmentCreatorWeatherSelect :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setPickersConditions()
-        setPickersMinMaxValue()
-        onPickerValuesChanged()
-        viewModel.checkIsWeatherSelected()
         viewModel.getRobotDataValue()
-        viewModel.pickerValues.observe(this::setPickersCurrentValues)
+        viewModel.weatherAttributeList.observe(this::addAvaliableWeatherAttribute)
+        setupRecyclerView()
     }
 
-
-    private fun setPickersConditions() {
-        temperature_condition.minValue = 0
-        temperature_condition.maxValue = arrayPicker.size - 1
-        temperature_condition.displayedValues = arrayPicker
-
-        humidity_condition.minValue = 0
-        humidity_condition.maxValue = arrayPicker.size - 1
-        humidity_condition.displayedValues = arrayPicker
-
-        wind_condition.minValue = 0
-        wind_condition.maxValue = arrayPicker.size - 1
-        wind_condition.displayedValues = arrayPicker
-
-        pressure_condition.minValue = 0
-        pressure_condition.maxValue = arrayPicker.size - 1
-        pressure_condition.displayedValues = arrayPicker
+    private fun onConditionPickerChanged(condition: String, itemPosition: Int) {
+        viewModel.onConditionChanged(condition, itemPosition)
     }
 
-    private fun setPickersCurrentValues(pickerValues: PickerValuesData) {
-        temperature_value.value = pickerValues.temperatureValue
-        humidity_value.value = pickerValues.humidityValue
-        wind_value.value = pickerValues.windValue
-        pressure_value.value = pickerValues.pressureValue
+    private fun onValuePickerChanged(value: Int, itemPosition: Int) {
+        viewModel.onValueChanged(value, itemPosition)
     }
 
-    private fun setPickersMinMaxValue() {
-        temperature_value.minValue = PickersMinMaxValues.MIN_TEMP_VALUE.value
-        temperature_value.maxValue = PickersMinMaxValues.MAX_TEMP_VALUE.value
-
-        humidity_value.minValue = PickersMinMaxValues.MIN_HUMIDITY_VALUE.value
-        humidity_value.maxValue = PickersMinMaxValues.MAX_HUMIDITY_VALUE.value
-
-        wind_value.minValue = PickersMinMaxValues.MIN_WIND_VALUE.value
-        wind_value.maxValue = PickersMinMaxValues.MAX_WIND_VALUE.value
-
-        pressure_value.minValue = PickersMinMaxValues.MIN_PRESSURE_VALUE.value
-        pressure_value.maxValue = PickersMinMaxValues.MAX_PRESSURE_VALUE.value
+    private fun onItemSwitchParametrChange(position: Int, isActivated: Boolean) {
+        viewModel.onSwitchParametrChange(position, isActivated)
     }
 
-    private fun onPickerValuesChanged() {
-        temperature_condition.setOnValueChangedListener { _, _, newVal ->
-            viewModel.onWeatherParametrsChanged(
-                PICKER_TEMPERATURE_CONDITION,
-                newVal
-            )
-        }
-        temperature_value.setOnValueChangedListener { _, _, newVal ->
-            viewModel.onWeatherParametrsChanged(
-                PICKER_TEMPERATURE_VALUE,
-                newVal
-            )
-        }
-        humidity_condition.setOnValueChangedListener { _, _, newVal ->
-            viewModel.onWeatherParametrsChanged(
-                PICKER_HUMIDITY_CONDITION,
-                newVal
-            )
-        }
-        humidity_value.setOnValueChangedListener { _, _, newVal ->
-            viewModel.onWeatherParametrsChanged(
-                PICKER_HUMIDITY_VALUE,
-                newVal
-            )
-        }
-        wind_value.setOnValueChangedListener { _, _, newVal ->
-            viewModel.onWeatherParametrsChanged(
-                PICKER_WIND_VALUE,
-                newVal
-            )
-        }
-        wind_condition.setOnValueChangedListener { _, _, newVal ->
-            viewModel.onWeatherParametrsChanged(
-                PICKER_WIND_CONDITION,
-                newVal
-            )
-        }
-        pressure_value.setOnValueChangedListener { _, _, newVal ->
-            viewModel.onWeatherParametrsChanged(
-                PICKER_PRESSURE_VALUE,
-                newVal
-            )
-        }
-        pressure_condition.setOnValueChangedListener { _, _, newVal ->
-            viewModel.onWeatherParametrsChanged(
-                PICKER_PRESSURE_CONDITION,
-                newVal
-            )
-        }
+    private fun setupRecyclerView() {
+        weather_settings_recycler.adapter = recyclerAdapter
+        weather_settings_recycler.layoutManager = GridLayoutManager(context, 2)
+
+    }
+
+    private fun addAvaliableWeatherAttribute(weatherAttribute: List<WeatherSettingsListItemViewModel>) {
+        Log.e("xd", "items: " + weatherAttribute)
+        recyclerAdapter.items = weatherAttribute
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {

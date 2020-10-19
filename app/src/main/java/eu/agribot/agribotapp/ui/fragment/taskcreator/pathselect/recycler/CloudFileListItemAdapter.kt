@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.autonomousmode.recycler
+package eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

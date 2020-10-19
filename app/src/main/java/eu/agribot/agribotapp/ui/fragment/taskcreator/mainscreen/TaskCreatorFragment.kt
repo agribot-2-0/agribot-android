@@ -11,10 +11,10 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.TileOverlayOptions
 import com.google.maps.android.kml.KmlLayer
+import com.google.maps.android.kml.KmlPolygon
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
@@ -34,6 +34,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.io.IOException
 import java.io.InputStream
+
 
 class TaskCreatorFragment :
     BaseFragment<TaskCreatorViewModel, FragmentCreatorConfiguratorBinding>(), OnMapReadyCallback {
@@ -56,8 +57,7 @@ class TaskCreatorFragment :
         setupRecycler()
         viewModel.getAvailableTask()
         viewModel.getAgribotPosition()
-        viewModel.selectedLayer.observe(this::setSelectedLayer)
-        viewModel.markers.observe(this::updateMapMarker)
+        viewModel.selectedLayer.observe(this::addSelectedLayer)
         viewModel.taskList.observe(this::addToTaskList)
     }
 
@@ -140,38 +140,28 @@ class TaskCreatorFragment :
         }
     }
 
-    private fun updateMapMarker(
-        agribotMarker: MarkerOptions,
-    ) {
-        if (agribotMarker.position != null) {
-            try {
-                googleMapFragment?.addMarker(
-                    MarkerOptions()
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.tank))
-                        .position(agribotMarker.position)
-                        .anchor(MapParameters.ANCHOR.mapParametr, MapParameters.ANCHOR.mapParametr)
-                        .rotation(agribotMarker.rotation)
-                        .flat(true)
-                )
-                googleMapFragment?.moveCamera(
-                    CameraUpdateFactory.newLatLngZoom(
-                        agribotMarker.position, MapParameters.MIN_ZOOM.mapParametr
-                    )
-                )
-            } catch (exception: IOException) {
-                showToast("marker exception$exception")
-            }
-        }
-    }
 
-    private fun setSelectedLayer(mapStream: InputStream) {
+    private fun addSelectedLayer(mapStream: InputStream) {
         if (mapPathLayer != null) {
             mapPathLayer!!.removeLayerFromMap()
         } else {
             mapPathLayer = KmlLayer(googleMapFragment, mapStream, requireContext())
             mapPathLayer!!.containers
             mapPathLayer!!.addLayerToMap()
+           // moveCameraToKml(mapPathLayer!!)
         }
+    }
+
+    private fun moveCameraToKml(kmlLayer: KmlLayer) {
+        var container = kmlLayer.containers.iterator().next()
+        container = container.containers.iterator().next()
+        val placemark = container.placemarks.iterator().next()
+        val polygon = placemark.geometry as KmlPolygon
+        val builder = LatLngBounds.Builder()
+        for (latLng in polygon.outerBoundaryCoordinates) {
+            builder.include(latLng)
+        }
+        googleMapFragment!!.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 1))
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

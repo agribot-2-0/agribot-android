@@ -57,7 +57,7 @@ class TaskCreatorFragment :
         setupRecycler()
         viewModel.getAvailableTask()
         viewModel.getAgribotPosition()
-        viewModel.selectedLayer.observe(this::addSelectedLayer)
+        viewModel.selectedLayer.observe(this::onGotSelectedLayer)
         viewModel.taskList.observe(this::addToTaskList)
     }
 
@@ -141,15 +141,19 @@ class TaskCreatorFragment :
     }
 
 
-    private fun addSelectedLayer(mapStream: InputStream) {
+    private fun onGotSelectedLayer(mapStream: InputStream) {
         if (mapPathLayer != null) {
             mapPathLayer!!.removeLayerFromMap()
+            setSelectedLayer(mapStream)
         } else {
-            mapPathLayer = KmlLayer(googleMapFragment, mapStream, requireContext())
-            mapPathLayer!!.containers
-            mapPathLayer!!.addLayerToMap()
-           // moveCameraToKml(mapPathLayer!!)
+            setSelectedLayer(mapStream)
         }
+    }
+
+    private fun setSelectedLayer(mapStream: InputStream) {
+        mapPathLayer = KmlLayer(googleMapFragment, mapStream, requireContext())
+        mapPathLayer!!.containers
+        mapPathLayer!!.addLayerToMap()
     }
 
     private fun moveCameraToKml(kmlLayer: KmlLayer) {

@@ -13,12 +13,12 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.TileOverlayOptions
 import com.google.maps.android.kml.KmlLayer
 import eu.agribot.agribotapp.R
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.databinding.FragmentControlPanelBinding
 import eu.agribot.agribotapp.ui.fragment.taskcreator.MapParameters
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TileProvider
 import eu.agribot.agribotapp.ui.fragment.taskcreator.URLPath
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.io.IOException
 import java.io.InputStream
@@ -42,7 +42,7 @@ class ControlPanelFragment :
         mapFragment.getMapAsync(this)
         viewModel.getAgribotPosition()
         viewModel.getCurrentTask()
-        viewModel.pathStream.observe(this::addSelectedLayer)
+        viewModel.pathStream.observe(this::onGotSelectedLayer)
         viewModel.markers.observe(this::updateMapMarker)
         viewModel.toastMessageEvent.observe(this::showToast)
     }
@@ -87,14 +87,19 @@ class ControlPanelFragment :
         }
     }
 
-    private fun addSelectedLayer(mapStream: InputStream) {
+    private fun onGotSelectedLayer(mapStream: InputStream) {
         if (mapPathLayer != null) {
             mapPathLayer!!.removeLayerFromMap()
+            setSelectedLayer(mapStream)
         } else {
-            mapPathLayer = KmlLayer(googleMapFragment, mapStream, requireContext())
-            mapPathLayer!!.containers
-            mapPathLayer!!.addLayerToMap()
+            setSelectedLayer(mapStream)
         }
+    }
+
+    private fun setSelectedLayer(mapStream: InputStream) {
+        mapPathLayer = KmlLayer(googleMapFragment, mapStream, requireContext())
+        mapPathLayer!!.containers
+        mapPathLayer!!.addLayerToMap()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

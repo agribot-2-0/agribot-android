@@ -1,7 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -59,11 +58,7 @@ class TaskCreatorViewModel(
     }
 
     private fun checkIsFileExist(fileName: String) {
-        Log.e("xd", "file  " + fileName + "  path:  " + pathName.value)
-
-        if (fileName.contains("drzewna", ignoreCase = true)) {
-            Log.e("xd", "file  " + fileName + "  path:  " + pathName.value)
-            Log.e("xd", "ZAWIERA")
+        if (fileName.contains(pathName.value!!.toString(), ignoreCase = false)) {
             try {
                 cloudStorageService.downloadFile(
                     fileName,
@@ -73,8 +68,6 @@ class TaskCreatorViewModel(
             } catch (exception: IOException) {
                 postToastErrorMessageEvent("Add PathLayer to map problem")
             }
-        } else {
-            Log.e("xd", "NIE ZAWIERA")
         }
     }
 
@@ -109,7 +102,7 @@ class TaskCreatorViewModel(
             taskList.value = listOf(
                 TaskListItemViewModel(
                     taskItem.taskName,
-                    resourcesProvider.getString(R.string.path_name) + taskItem.pathName
+                    taskItem.pathName
                 ), *taskList.value!!.toTypedArray()
             )
         }
@@ -173,7 +166,7 @@ class TaskCreatorViewModel(
         }
         if (taskDetails.path_name != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
             pathName.value =
-                resourcesProvider.getString(R.string.path_name) + taskDetails.path_name
+                taskDetails.path_name
         } else {
             pathName.value = resourcesProvider.getString(R.string.no_path_text)
         }

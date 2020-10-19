@@ -47,6 +47,7 @@ class ControlPanelViewModel(
 
     private fun checkIsFileExist(fileName: String) {
         if (fileName.contains(pathName.value.toString(), ignoreCase = true)) {
+            Log.e("xd", "Jest")
             try {
                 cloudStorageService.downloadFile(
                     fileName,
@@ -60,6 +61,8 @@ class ControlPanelViewModel(
     }
 
     private fun onFileAlreadyDownloaded(file: File) {
+        Log.e("xd", "File: " + file )
+
         val fileInputStream: InputStream = FileInputStream(file)
         pathStream.value = fileInputStream
     }

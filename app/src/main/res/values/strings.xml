@@ -188,6 +188,21 @@
     <string name="set_time_question">Czy chcesz ustawic czas?</string>
     <string name="start_task_button">Rozpocznij zadanie</string>
     <string name="select_task_label">Select Task</string>
+    <string name="not_kml_polygon_layer">This Layer haven\'t a KML points</string>
+    <string name="task_name">Task Name : </string>
+    <string name="path_name_text">Path Name : </string>
+    <string name="step_4">STEP 4</string>
+    <string name="select_tool">Select tool</string>
+    <string name="send_to_database">Send to Database</string>
+    <string name="step_2">STEP 2</string>
+    <string name="choose_time">Choose time</string>
+    <string name="type_task_name">Podaj nazwe zadania</string>
+    <string name="task_name_text">Nazwa Zadania</string>
+    <string name="choose_path_for_the_agribot">Choose path for the Agribot</string>
+    <string name="step_1">STEP 1</string>
+    <string name="available_task_list">Lista dostępnych zadań</string>
+    <string name="step_3">Step 3</string>
+    <string name="select_weather_parameters">Select weather parameters</string>
 
 
 </resources>

@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.domain.service.cloud
 
-import android.util.Log
 import eu.agribot.agribotapp.communication.database.firestorage.FirestorageService
 import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
 import eu.agribot.agribotapp.domain.service.AuthenticationService
@@ -16,7 +15,6 @@ class CloudStorageService(
         onFileAvailable: (fileName: String) -> Unit,
         onError: (exception: String) -> Unit
     ) {
-        Log.e("xd", "downloadFile")
         firestorageService.listAllItem(
             authenticationService.getCurrentUser().userUID,
             onFileAvailable, onError

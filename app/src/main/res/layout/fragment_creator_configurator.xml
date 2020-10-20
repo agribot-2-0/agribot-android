@@ -35,7 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:text="Lista dostępnych zadań"
+                    android:text="@string/available_task_list"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_xlarge"
                     android:textStyle="bold" />

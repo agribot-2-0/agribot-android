@@ -3,6 +3,7 @@ package eu.agribot.agribotapp.ui.fragment.controlPanel.taskselect
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
+import eu.agribot.agribotapp.common.navigation.events.DashboardNavigationEvent
 import eu.agribot.agribotapp.domain.model.ActualTask
 import eu.agribot.agribotapp.domain.model.TaskItem
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
@@ -27,6 +28,7 @@ class TaskSelectViewModel(
                 actual_task = taskName
             )
         )
+        postDashboardNavigationEvent()
     }
 
     private fun onAvailableTaskFound(taskItem: TaskItem) {
@@ -45,5 +47,9 @@ class TaskSelectViewModel(
 
     private fun postToastErrorMessageEvent(toastText: String) {
         toastEvent.postValue(toastText)
+    }
+
+    private fun postDashboardNavigationEvent() {
+        navigationEvent.postValue(DashboardNavigationEvent())
     }
 }

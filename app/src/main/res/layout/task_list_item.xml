@@ -10,8 +10,7 @@
     </data>
 
 
-    <androidx.cardview.widget.CardView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/cardview_task_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,33 +19,68 @@
         app:cardCornerRadius="2dp"
         app:cardElevation="6dp">
 
-        <LinearLayout
+        <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:collapseColumns="2"
             android:padding="@dimen/margin_medium">
 
-
-            <TextView
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_medium"
-                android:gravity="center"
-                android:text="@{viewModel.taskName}"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size_medium"
-                android:textStyle="bold" />
+                android:gravity="center">
 
 
-            <TextView
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:gravity="center"
+                    android:text="@string/task_name"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:gravity="center"
+                    android:text="@{viewModel.taskName}"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold" />
+
+            </TableRow>
+
+            <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_medium"
-                android:gravity="center"
-                android:text="@{viewModel.pathName}"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size_small" />
-        </LinearLayout>
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:gravity="center"
+                    android:text="@string/path_name_text"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="italic" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:gravity="center"
+                    android:textStyle="italic"
+                    android:text="@{viewModel.pathName}"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_small" />
+            </TableRow>
+        </TableLayout>
     </androidx.cardview.widget.CardView>
 </layout>
 

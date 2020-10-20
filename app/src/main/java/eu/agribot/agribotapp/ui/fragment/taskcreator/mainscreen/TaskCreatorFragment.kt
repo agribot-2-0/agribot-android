@@ -2,7 +2,6 @@ package eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen
 
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -12,11 +11,9 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.TileOverlayOptions
 import com.google.maps.android.kml.KmlContainer
 import com.google.maps.android.kml.KmlLayer
-import com.google.maps.android.kml.KmlPolygon
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.dialog.DialogManager
@@ -32,7 +29,7 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.TaskLis
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.swiperecyclerutils.SwipeHelper
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.swiperecyclerutils.SwipeRecyclerClickListener
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.swiperecyclerutils.SwipeRecyclerHelper
-import kotlinx.android.synthetic.main.fragment_creator_configurator.task_recycler
+import kotlinx.android.synthetic.main.fragment_creator_configurator.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -60,7 +57,6 @@ class TaskCreatorFragment :
         mapFragment.getMapAsync(this)
         setupRecycler()
         viewModel.getAvailableTask()
-        viewModel.getAgribotPosition()
         viewModel.selectedLayer.observe(this::onGotSelectedLayer)
         viewModel.taskList.observe(this::addToTaskList)
         viewModel.cameraPosition.observe((this::updateMapCameraPosition))
@@ -152,7 +148,7 @@ class TaskCreatorFragment :
                     .tileProvider(tileProvider)
             )
         } catch (exception: IOException) {
-            Log.e("xd", "Problem z dodaniem nakładki na mape" + exception)
+            showToast("Problem with add Overlay")
         }
     }
 
@@ -173,20 +169,8 @@ class TaskCreatorFragment :
             val container: Iterable<KmlContainer> = mapPathLayer!!.containers
             viewModel.accessContainers(container)
         } catch (exception: IOException) {
-            Log.e("xd", "error" + exception)
+            showToast("Map Layer Problem")
         }
-    }
-
-    private fun moveCameraToKml(kmlLayer: KmlLayer) {
-        var container = kmlLayer.containers.iterator().next()
-        container = container.containers.iterator().next()
-        val placemark = container.placemarks.iterator().next()
-        val polygon = placemark.geometry as KmlPolygon
-        val builder = LatLngBounds.Builder()
-        for (latLng in polygon.outerBoundaryCoordinates) {
-            builder.include(latLng)
-        }
-        googleMapFragment!!.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 1))
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

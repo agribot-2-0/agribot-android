@@ -176,5 +176,20 @@
     <string name="select_task_label">Wybór zadania</string>
     <string name="layer_problem">Problem ze ścieżką</string>
     <string name="next_button">Dalej</string>
+    <string name="not_kml_polygon_layer">This Layer haven\'t a KML points</string>
+    <string name="task_name">Nazwa zadania : </string>
+    <string name="path_name_text">Nazwa ścieżki : </string>
+    <string name="select_tool">Wybór narzędzi</string>
+    <string name="step_4">KROK 4</string>
+    <string name="send_to_database">Zaprogramuj zadanie</string>
+    <string name="step_2">KROK 2</string>
+    <string name="choose_time">Wybierz czas</string>
+    <string name="type_task_name">Podaj nazwe zadania</string>
+    <string name="task_name_text">Nazwa Zadania</string>
+    <string name="choose_path_for_the_agribot">Wybierz ścieżkę Agribota</string>
+    <string name="step_1">KROK 1</string>
+    <string name="available_task_list">Lista dostępnych zadań</string>
+    <string name="step_3">KROK 3</string>
+    <string name="select_weather_parameters">Wybierz parametry pogodowe</string>
 
 </resources>

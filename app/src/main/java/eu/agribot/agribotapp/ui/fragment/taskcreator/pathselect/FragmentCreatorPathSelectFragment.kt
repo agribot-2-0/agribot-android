@@ -51,7 +51,6 @@ class FragmentCreatorPathSelectFragment :
         viewModel.checkPathSelected()
         viewModel.availableFiles.observe(this::addToAvailableFile)
         viewModel.downloadAvailableFileList()
-        viewModel.getAgribotPosition()
         viewModel.selectedLayer.observe(this::onGotSelectedLayer)
         viewModel.toastEvent.observe(this::showToast)
         viewModel.backButtonEvent.observe(this::backToPreviousFragment)

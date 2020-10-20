@@ -2,14 +2,12 @@ package eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect
 
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.kml.KmlContainer
 import com.google.maps.android.kml.KmlPlacemark
 import com.google.maps.android.kml.KmlPolygon
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskTimeNavigationEvent
-import eu.agribot.agribotapp.domain.model.RobotLocalizationPose
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
@@ -24,10 +22,11 @@ class CreatorPathSelectViewModel(
     private val cloudDatabaseService: CloudDatabaseService,
     private val taskCreatorDataManager: TaskCreatorDataManager
 ) : BaseViewModel() {
+    val fileListPathsList: MutableLiveData<List<CloudFileListItemViewModel>> =
+        MutableLiveData(listOf())
     val backButtonEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
     val availableFiles: MutableLiveData<List<CloudFileListItemViewModel>> =
         MutableLiveData(listOf())
-    val markers: MutableLiveData<MarkerOptions> = MutableLiveData()
     val selectedLayer: MutableLiveData<InputStream> = MutableLiveData()
     var isPathSelected = false
     val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
@@ -59,15 +58,37 @@ class CreatorPathSelectViewModel(
     }
 
     private fun onAvailableFileFound(fileName: String) {
+        onFileInStorageFound(fileName)
         val isFileAlreadyAdded = availableFiles.value!!.any {
             it.fileName == fileName
         }
         if (!isFileAlreadyAdded) {
             availableFiles.value = listOf(
                 CloudFileListItemViewModel(
-                    fileName
+                    formatFilename(fileName)
                 ), *availableFiles.value!!.toTypedArray()
             )
+        }
+    }
+
+    private fun onFileInStorageFound(fileName: String) {
+        val isFileAlreadyAdded = fileListPathsList.value!!.any { file ->
+            file.fileName == fileName
+        }
+        if (!isFileAlreadyAdded) {
+            fileListPathsList.value = listOf(
+                CloudFileListItemViewModel(
+                    fileName
+                ), *fileListPathsList.value!!.toTypedArray()
+            )
+        }
+    }
+
+    private fun formatFilename(fileName: String): String {
+        return if (fileName.contains("_")) {
+            fileName.substringBefore("_")
+        } else {
+            fileName.substringBefore(".")
         }
     }
 
@@ -89,37 +110,22 @@ class CreatorPathSelectViewModel(
     fun downloadSelectedFile(fileName: String) {
         isPathSelected = true
         taskCreatorDataManager.onUpdatePathName(fileName)
-        try {
-            cloudStorageService.downloadFile(
-                fileName,
-                onGotFile = this::onFileAlreadyDownloaded
-            )
-        } catch (exception: IOException) {
-            onCloudDataException(exception.toString())
+        for (item in fileListPathsList.value!!) {
+            if (item.fileName.contains(fileName))
+                try {
+                    cloudStorageService.downloadFile(
+                        item.fileName,
+                        onGotFile = this::onGotPathFile
+                    )
+                } catch (exception: IOException) {
+                    onCloudDataException(exception.toString())
+                }
         }
     }
 
-    private fun onFileAlreadyDownloaded(file: File) {
+    private fun onGotPathFile(file: File) {
         val fileInputStream: InputStream = FileInputStream(file)
         selectedLayer.value = fileInputStream
-    }
-
-    fun getAgribotPosition() {
-        cloudDatabaseService.getFirstRobotLocalizationPose(
-            onSuccess = this::setCurrentRobotPosition,
-            onError = this::onCloudDataException
-        )
-    }
-
-    private fun setCurrentRobotPosition(robotLocalizationPose: RobotLocalizationPose) {
-        markers.value = MarkerOptions()
-            .rotation(robotLocalizationPose.heading)
-            .position(
-                LatLng(
-                    robotLocalizationPose.latitude,
-                    robotLocalizationPose.longitude
-                )
-            )
     }
 
     fun onNextButtonClicked() {

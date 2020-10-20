@@ -13,10 +13,11 @@ class CreatorToolSelectViewModel(
     BaseViewModel() {
 
     fun sendTaskData() {
+        postDashboardNavigationEvent()
         cloudDatabaseService.programTaskToRobot(
             taskName = taskCreatorDataManager.getTaskName(),
             newRobotTaskDetails = NewRobotTaskDetails(
-                path_name = taskCreatorDataManager.getPathName().toString(),
+                path_name = formatPathName(),
                 start_time = taskCreatorDataManager.getTimeStamp(),
                 start_time_estimated = taskCreatorDataManager.getTimeEstimated(),
                 temperature_value = taskCreatorDataManager.getTemperatureValue(),
@@ -29,8 +30,14 @@ class CreatorToolSelectViewModel(
                 pressure_condition = taskCreatorDataManager.getPressureCondition()
             )
         )
+    }
 
-        postDashboardNavigationEvent()
+    private fun formatPathName(): String {
+        return if (taskCreatorDataManager.getPathName().toString().contains("_")) {
+            taskCreatorDataManager.getPathName().toString().substringBefore("_")
+        } else {
+            taskCreatorDataManager.getPathName().toString().substringBefore(".")
+        }
     }
 
     private fun postDashboardNavigationEvent() {

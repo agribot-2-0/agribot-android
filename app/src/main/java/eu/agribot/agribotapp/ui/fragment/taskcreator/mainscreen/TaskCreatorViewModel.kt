@@ -3,7 +3,6 @@ package eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen
 import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.kml.KmlContainer
 import com.google.maps.android.kml.KmlPlacemark
 import com.google.maps.android.kml.KmlPolygon
@@ -13,7 +12,6 @@ import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskNameNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskPathNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
-import eu.agribot.agribotapp.domain.model.RobotLocalizationPose
 import eu.agribot.agribotapp.domain.model.TaskDetails
 import eu.agribot.agribotapp.domain.model.TaskItem
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
@@ -33,7 +31,6 @@ class TaskCreatorViewModel(
     private val taskCreatorDataManager: TaskCreatorDataManager
 
 ) : BaseViewModel() {
-    val markers: MutableLiveData<MarkerOptions> = MutableLiveData()
     val selectedLayer: MutableLiveData<InputStream> = MutableLiveData()
     val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val taskDate: MutableLiveData<String> = MutableLiveData()
@@ -65,6 +62,8 @@ class TaskCreatorViewModel(
                 val geometry = placemark.geometry
                 if (geometry is KmlPolygon) {
                     cameraPosition.value = geometry.outerBoundaryCoordinates[0]
+                } else {
+                    postToastErrorMessageEvent(resourcesProvider.getString(R.string.not_kml_polygon_layer))
                 }
             }
         }
@@ -89,7 +88,7 @@ class TaskCreatorViewModel(
             try {
                 cloudStorageService.downloadFile(
                     fileName,
-                    onGotFile = this::onFileAlreadyDownloaded
+                    onGotFile = this::onGotPathFile
                 )
             } catch (exception: IOException) {
                 postToastErrorMessageEvent("Add PathLayer to map problem")
@@ -97,27 +96,9 @@ class TaskCreatorViewModel(
         }
     }
 
-    private fun onFileAlreadyDownloaded(file: File) {
+    private fun onGotPathFile(file: File) {
         val fileInputStream: InputStream = FileInputStream(file)
         selectedLayer.value = fileInputStream
-    }
-
-    fun getAgribotPosition() {
-        cloudDatabaseService.getFirstRobotLocalizationPose(
-            onSuccess = this::setCurrentRobotPosition,
-            onError = this::postToastErrorMessageEvent
-        )
-    }
-
-    private fun setCurrentRobotPosition(robotLocalizationPose: RobotLocalizationPose) {
-        markers.value = MarkerOptions()
-            .rotation(robotLocalizationPose.heading)
-            .position(
-                LatLng(
-                    robotLocalizationPose.latitude,
-                    robotLocalizationPose.longitude
-                )
-            )
     }
 
     private fun onAvailableTaskFound(taskItem: TaskItem) {

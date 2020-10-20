@@ -1,6 +1,7 @@
 package eu.agribot.agribotapp.di
 
 import eu.agribot.agribotapp.domain.error.AuthenticationErrorHandler
+import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
 import eu.agribot.agribotapp.domain.permission.AndroidPermissionManager
 import eu.agribot.agribotapp.domain.permission.PermissionManager
 import eu.agribot.agribotapp.domain.service.AuthenticationService
@@ -111,6 +112,16 @@ val domainModule = module {
     }
 
     single {
-        CloudStorageService(firestorageService = get(), authenticationService = get())
+        CloudStorageService(firestorageService = get(), authenticationService = get(), cloudStorageErrorHandler = get())
+    }
+
+    single {
+        CloudStorageErrorHandler(
+            resourcesProvider = get {
+                parametersOf(
+                    androidContext()
+                )
+            }
+        )
     }
 }

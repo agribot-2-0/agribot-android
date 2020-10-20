@@ -1,18 +1,21 @@
-package eu.agribot.agribotapp.communication.firestorage
+package eu.agribot.agribotapp.communication.database.firestorage
 
-import android.app.DownloadManager
 import android.content.Context
-import android.net.Uri
-import android.os.Environment
-import android.util.Log
+import com.downloader.Error
+import com.downloader.OnDownloadListener
+import com.downloader.PRDownloader
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
+import eu.agribot.agribotapp.communication.database.firestorage.downloader.DownloaderUtils
 import java.io.File
 
-class AndroidFirestorageService(private val context: Context) :
+class AndroidFirestorageService(
+    private val context: Context,
+    private val downloaderUtils: DownloaderUtils
+) :
     FirestorageService {
-    val storage = Firebase.storage
+    private val storage = Firebase.storage
 
     override fun listAllItem(
         currentUserID: String,
@@ -33,56 +36,60 @@ class AndroidFirestorageService(private val context: Context) :
             }
     }
 
-    override fun downloadFile(
+    override fun onFileToDownloadSelect(
         currentUserID: String,
         fileName: String,
-        onFileAlreadyDownloaded: (file: File) -> Unit,
-        onDownloadSucess: (file: File) -> Unit
-
+        onGotFile: (file: File) -> Unit,
+        onDownloadError: (error: Throwable) -> Unit
     ) {
-
-        val newFile = File(
-            Environment.getExternalStorageDirectory().absolutePath + File.separator +
-                    "Android" + File.separator + "data" + File.separator + "eu.agribot.agribotapp" +
-                    File.separator + "user_data" + File.separator + "user_paths" + File.separator + fileName
-        )
-        if (newFile.exists()) {
-            onFileAlreadyDownloaded.invoke(newFile)
+        val file = File(downloaderUtils.getRootDirPath(context, "/user_path"), fileName)
+        if (file.exists()) {
+            onGotFile(file)
         } else {
             val storageReference: StorageReference = storage.reference
-            storageReference.child("$currentUserID/paths/$fileName").downloadUrl.addOnSuccessListener { uri ->
-                isFileDownloaded(
-                    context, uri, fileName, onDownloadSucess
+            storageReference.child(currentUserID + DownloaderPath.PATH_SOURCE.filePath + fileName).downloadUrl.addOnSuccessListener { url ->
+                downloadFileFromUrl(
+                    context,
+                    url.toString(),
+                    fileName,
+                    onGotFile,
+                    onDownloadError
                 )
             }.addOnFailureListener { exception ->
-                Log.e("xd", "exception " + exception)
+                onDownloadError(exception)
             }
         }
     }
 
-    private fun isFileDownloaded(
+    private fun downloadFileFromUrl(
         context: Context,
-        uri: Uri,
+        url: String,
         fileName: String,
-        onDownloadSucess: (file: File) -> Unit
+        onDownloadSucess: (file: File) -> Unit,
+        onDownloadError: (error: Throwable) -> Unit
     ) {
-        val file: File = File(
-            Environment.getExternalStorageDirectory().absolutePath + File.separator +
-                    "Android" + File.separator + "data" + File.separator + "eu.agribot.agribotapp" +
-                    File.separator + "user_data" + File.separator + "user_paths" + File.separator + fileName
+        PRDownloader.download(
+            url,
+            downloaderUtils.getRootDirPath(context, DownloaderPath.LAYER_PATH.filePath),
+            fileName
         )
-        val downloadMeanger: DownloadManager =
-            context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-        val request: DownloadManager.Request = DownloadManager.Request(uri)
-            .setTitle("File Download")
-            .setDescription("simle")
-            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
-            .setDestinationUri(Uri.fromFile(file))
-        try {
-            downloadMeanger.enqueue(request)
-            onDownloadSucess(file)
-        } catch (exception: Exception) {
-            Log.e("xd", "exc" + exception)
-        }
+            .build()
+            .start(object : OnDownloadListener {
+                override fun onDownloadComplete() {
+                    onDownloadSucess(
+                        File(
+                            downloaderUtils.getRootDirPath(
+                                context,
+                                DownloaderPath.LAYER_PATH.filePath
+                            ),
+                            fileName
+                        )
+                    )
+                }
+
+                override fun onError(error: Error) {
+                    onDownloadError(error.connectionException)
+                }
+            })
     }
 }

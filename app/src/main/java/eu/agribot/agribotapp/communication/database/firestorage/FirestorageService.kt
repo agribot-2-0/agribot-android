@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.communication.firestorage
+package eu.agribot.agribotapp.communication.database.firestorage
 
 import java.io.File
 
@@ -10,10 +10,10 @@ interface FirestorageService {
         onError: (exception: String) -> Unit
     )
 
-    fun downloadFile(
+    fun onFileToDownloadSelect(
         currentUserID: String,
         fileName: String,
-        onFileAlreadyDownloaded: (file: File) -> Unit,
-        onDownloadSucess: (file: File) -> Unit
+        onGotFile: (file: File) -> Unit,
+        onDownloadError: (error: Throwable) -> Unit
     )
 }

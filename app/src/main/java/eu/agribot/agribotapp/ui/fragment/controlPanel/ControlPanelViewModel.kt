@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.ui.fragment.controlPanel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -80,8 +79,7 @@ class ControlPanelViewModel(
             try {
                 cloudStorageService.downloadFile(
                     fileName,
-                    onFileAlreadyDownloaded = this::onFileAlreadyDownloaded,
-                    onDownloadSucess = this::onFileAlreadyDownloaded
+                    onGotFile = this::onFileAlreadyDownloaded
                 )
             } catch (exception: IOException) {
                 postToastErrorMessageEvent("Add PathLayer to map problem")
@@ -130,7 +128,6 @@ class ControlPanelViewModel(
     }
 
     private fun onGotCurrentTaskDetails(taskDetails: TaskDetails) {
-        Log.e("xd", "got task details: " + taskDetails)
         if (!taskDetails.start_time_estimated) {
             val dateFormat = SimpleDateFormat(TaskDetailsElements.DATE_FORMAT.detailsElement)
             taskDate.value =

@@ -1,18 +1,22 @@
 package eu.agribot.agribotapp.domain.service.cloud
 
-import eu.agribot.agribotapp.communication.firestorage.FirestorageService
+import android.util.Log
+import eu.agribot.agribotapp.communication.database.firestorage.FirestorageService
+import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
 import eu.agribot.agribotapp.domain.service.AuthenticationService
 import java.io.File
 
 class CloudStorageService(
     private val firestorageService: FirestorageService,
-    private val authenticationService: AuthenticationService
+    private val authenticationService: AuthenticationService,
+    private val cloudStorageErrorHandler: CloudStorageErrorHandler
 ) {
 
     fun downloadFilesList(
         onFileAvailable: (fileName: String) -> Unit,
         onError: (exception: String) -> Unit
     ) {
+        Log.e("xd", "downloadFile")
         firestorageService.listAllItem(
             authenticationService.getCurrentUser().userUID,
             onFileAvailable, onError
@@ -21,12 +25,13 @@ class CloudStorageService(
 
     fun downloadFile(
         fileName: String,
-        onFileAlreadyDownloaded: (file: File) -> Unit,
-        onDownloadSucess: (file: File) -> Unit
+        onGotFile: (file: File) -> Unit
     ) {
-        firestorageService.downloadFile(
+        firestorageService.onFileToDownloadSelect(
             authenticationService.getCurrentUser().userUID,
-            fileName, onFileAlreadyDownloaded, onDownloadSucess
+            fileName,
+            onGotFile,
+            onDownloadError = { cloudStorageErrorHandler.getStorageError(it as Exception) }
         )
     }
 }

@@ -92,8 +92,7 @@ class CreatorPathSelectViewModel(
         try {
             cloudStorageService.downloadFile(
                 fileName,
-                onFileAlreadyDownloaded = this::onFileAlreadyDownloaded,
-                onDownloadSucess = this::onFileAlreadyDownloaded
+                onGotFile = this::onFileAlreadyDownloaded
             )
         } catch (exception: IOException) {
             onCloudDataException(exception.toString())

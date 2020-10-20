@@ -89,8 +89,7 @@ class TaskCreatorViewModel(
             try {
                 cloudStorageService.downloadFile(
                     fileName,
-                    onFileAlreadyDownloaded = this::onFileAlreadyDownloaded,
-                    onDownloadSucess = this::onFileAlreadyDownloaded
+                    onGotFile = this::onFileAlreadyDownloaded
                 )
             } catch (exception: IOException) {
                 postToastErrorMessageEvent("Add PathLayer to map problem")

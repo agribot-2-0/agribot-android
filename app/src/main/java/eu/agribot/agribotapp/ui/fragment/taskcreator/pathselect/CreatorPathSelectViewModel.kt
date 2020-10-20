@@ -3,6 +3,9 @@ package eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.maps.android.kml.KmlContainer
+import com.google.maps.android.kml.KmlPlacemark
+import com.google.maps.android.kml.KmlPolygon
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskTimeNavigationEvent
@@ -28,6 +31,32 @@ class CreatorPathSelectViewModel(
     val selectedLayer: MutableLiveData<InputStream> = MutableLiveData()
     var isPathSelected = false
     val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
+    val cameraPosition: MutableLiveData<LatLng> = MutableLiveData()
+
+    fun accessContainers(containers: Iterable<KmlContainer?>) {
+        for (container in containers) {
+            if (container != null) {
+                if (container.hasContainers()) {
+                    accessContainers(container.containers)
+                } else {
+                    if (container.hasPlacemarks()) {
+                        accessPlacemarks(container.placemarks)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun accessPlacemarks(placemarks: Iterable<KmlPlacemark?>) {
+        for (placemark in placemarks) {
+            if (placemark != null) {
+                val geometry = placemark.geometry
+                if (geometry is KmlPolygon) {
+                    cameraPosition.value = geometry.outerBoundaryCoordinates[0]
+                }
+            }
+        }
+    }
 
     private fun onAvailableFileFound(fileName: String) {
         val isFileAlreadyAdded = availableFiles.value!!.any {

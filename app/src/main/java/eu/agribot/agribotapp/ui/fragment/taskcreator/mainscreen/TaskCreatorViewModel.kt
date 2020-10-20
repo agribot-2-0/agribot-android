@@ -4,6 +4,9 @@ import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.maps.android.kml.KmlContainer
+import com.google.maps.android.kml.KmlPlacemark
+import com.google.maps.android.kml.KmlPolygon
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
@@ -40,6 +43,32 @@ class TaskCreatorViewModel(
     val humidity: MutableLiveData<String> = MutableLiveData()
     val pressure: MutableLiveData<String> = MutableLiveData()
     val wind: MutableLiveData<String> = MutableLiveData()
+    val cameraPosition: MutableLiveData<LatLng> = MutableLiveData()
+
+    fun accessContainers(containers: Iterable<KmlContainer?>) {
+        for (container in containers) {
+            if (container != null) {
+                if (container.hasContainers()) {
+                    accessContainers(container.containers)
+                } else {
+                    if (container.hasPlacemarks()) {
+                        accessPlacemarks(container.placemarks)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun accessPlacemarks(placemarks: Iterable<KmlPlacemark?>) {
+        for (placemark in placemarks) {
+            if (placemark != null) {
+                val geometry = placemark.geometry
+                if (geometry is KmlPolygon) {
+                    cameraPosition.value = geometry.outerBoundaryCoordinates[0]
+                }
+            }
+        }
+    }
 
     fun getAvailableTask() {
         cloudDatabaseService.getTaskItem(

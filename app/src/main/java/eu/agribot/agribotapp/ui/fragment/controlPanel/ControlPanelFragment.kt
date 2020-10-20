@@ -2,15 +2,16 @@ package eu.agribot.agribotapp.ui.fragment.controlPanel
 
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
 import android.view.View
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.TileOverlayOptions
+import com.google.maps.android.kml.KmlContainer
 import com.google.maps.android.kml.KmlLayer
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
@@ -56,6 +57,15 @@ class ControlPanelFragment :
         viewModel.pathStream.observe(this::onGotSelectedLayer)
         viewModel.markers.observe(this::updateMapMarker)
         viewModel.toastMessageEvent.observe(this::showToast)
+        viewModel.cameraPosition.observe((this::updateMapCameraPosition))
+    }
+
+    private fun updateMapCameraPosition(latLng: LatLng) {
+        googleMapFragment?.moveCamera(
+            CameraUpdateFactory.newLatLngZoom(
+                latLng, MapParameters.MID_ZOOM.mapParametr
+            )
+        )
     }
 
     private fun addTileOverlay() {
@@ -72,7 +82,7 @@ class ControlPanelFragment :
                     .tileProvider(tileProvider)
             )
         } catch (exception: IOException) {
-            Log.e("xd", "Problem z dodaniem nakładki na mape" + exception)
+            showToast("Map Tile Problem")
         }
     }
 
@@ -111,6 +121,12 @@ class ControlPanelFragment :
         mapPathLayer = KmlLayer(googleMapFragment, mapStream, requireContext())
         mapPathLayer!!.containers
         mapPathLayer!!.addLayerToMap()
+        try {
+            val container: Iterable<KmlContainer> = mapPathLayer!!.containers
+            viewModel.accessContainers(container)
+        } catch (exception: IOException) {
+            showToast("Map Layer Problem")
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

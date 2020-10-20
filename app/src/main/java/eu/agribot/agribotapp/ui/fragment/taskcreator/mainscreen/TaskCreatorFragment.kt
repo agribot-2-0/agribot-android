@@ -11,8 +11,10 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.TileOverlayOptions
+import com.google.maps.android.kml.KmlContainer
 import com.google.maps.android.kml.KmlLayer
 import com.google.maps.android.kml.KmlPolygon
 import eu.agribot.agribotapp.R
@@ -61,6 +63,15 @@ class TaskCreatorFragment :
         viewModel.getAgribotPosition()
         viewModel.selectedLayer.observe(this::onGotSelectedLayer)
         viewModel.taskList.observe(this::addToTaskList)
+        viewModel.cameraPosition.observe((this::updateMapCameraPosition))
+    }
+
+    private fun updateMapCameraPosition(latLng: LatLng) {
+        googleMapFragment?.moveCamera(
+            CameraUpdateFactory.newLatLngZoom(
+                latLng, MapParameters.MID_ZOOM.mapParametr
+            )
+        )
     }
 
     private fun setupRecycler() {
@@ -158,6 +169,12 @@ class TaskCreatorFragment :
         mapPathLayer = KmlLayer(googleMapFragment, mapStream, requireContext())
         mapPathLayer!!.containers
         mapPathLayer!!.addLayerToMap()
+        try {
+            val container: Iterable<KmlContainer> = mapPathLayer!!.containers
+            viewModel.accessContainers(container)
+        } catch (exception: IOException) {
+            Log.e("xd", "error" + exception)
+        }
     }
 
     private fun moveCameraToKml(kmlLayer: KmlLayer) {

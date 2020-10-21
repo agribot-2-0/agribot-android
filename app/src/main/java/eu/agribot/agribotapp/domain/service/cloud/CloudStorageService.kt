@@ -29,7 +29,8 @@ class CloudStorageService(
             authenticationService.getCurrentUser().userUID,
             fileName,
             onGotFile,
-            onDownloadError = { cloudStorageErrorHandler.getStorageError(it as Exception) }
+            onDownloadError = { cloudStorageErrorHandler.getStorageError(it as Exception) }\\\\\\\\\\\\\
         )
     }
+
 }

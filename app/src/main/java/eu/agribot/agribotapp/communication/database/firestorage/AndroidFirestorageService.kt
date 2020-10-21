@@ -1,6 +1,7 @@
 package eu.agribot.agribotapp.communication.database.firestorage
 
 import android.content.Context
+import android.util.Log
 import com.downloader.Error
 import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
@@ -23,8 +24,8 @@ class AndroidFirestorageService(
         onError: (exception: String) -> Unit
     ) {
         val storage = Firebase.storage
-        val listRef = storage.reference.child("$currentUserID/paths")
-
+        val listRef = storage.reference.child("$currentUserID/paths/")
+        Log.e("xd", "ref " + listRef)
         listRef.listAll()
             .addOnSuccessListener { listResult ->
                 listResult.items.forEach { item ->
@@ -47,7 +48,7 @@ class AndroidFirestorageService(
             onGotFile(file)
         } else {
             val storageReference: StorageReference = storage.reference
-            storageReference.child(currentUserID + DownloaderPath.PATH_SOURCE.filePath + fileName).downloadUrl.addOnSuccessListener { url ->
+            storageReference.child("$currentUserID/paths/$fileName").downloadUrl.addOnSuccessListener { url ->
                 downloadFileFromUrl(
                     context,
                     url.toString(),

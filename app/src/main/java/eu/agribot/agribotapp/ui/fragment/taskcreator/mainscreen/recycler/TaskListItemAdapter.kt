@@ -1,10 +1,10 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.databinding.TaskListItemBinding
 import kotlinx.android.synthetic.main.task_list_item.view.*
 
@@ -39,13 +39,12 @@ class TaskListItemAdapter(val onClickSelectedItem: (TaskListItemViewModel) -> Un
     override fun onBindViewHolder(holder: TaskListItemViewHolder, position: Int) {
         val item = items[position]
         holder.bind(item)
-        holder.itemView.cardview_task_item.setCardBackgroundColor(Color.WHITE)
+        holder.itemView.cardview_task_item.setBackgroundResource(R.color.white)
         if (selectedItemPosition == position) {
-            holder.itemView.cardview_task_item.setCardBackgroundColor(Color.GREEN)
+            holder.itemView.cardview_task_item.setBackgroundResource(R.color.base_green_lighter)
         }
         holder.itemView.setOnClickListener {
             selectedItem?.invoke(item)
-            holder.itemView.cardview_task_item.setCardBackgroundColor(Color.WHITE)
             selectedItemPosition = holder.adapterPosition
             notifyDataSetChanged()
         }

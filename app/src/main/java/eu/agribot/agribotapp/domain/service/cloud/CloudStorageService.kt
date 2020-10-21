@@ -32,5 +32,4 @@ class CloudStorageService(
             onDownloadError = { cloudStorageErrorHandler.getStorageError(it as Exception) }
         )
     }
-
 }

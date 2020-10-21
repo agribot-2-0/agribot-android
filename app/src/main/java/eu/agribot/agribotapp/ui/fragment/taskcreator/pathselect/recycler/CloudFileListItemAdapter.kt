@@ -1,12 +1,13 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.databinding.ListItemCloudfilesBinding
 import kotlinx.android.synthetic.main.list_item_cloudfiles.view.*
+import kotlinx.android.synthetic.main.task_list_item.view.*
 
 class CloudFileListItemAdapter(val onClickSelectedItem: (CloudFileListItemViewModel) -> Unit) :
     RecyclerView.Adapter<CloudFileListItemViewHolder>() {
@@ -39,14 +40,13 @@ class CloudFileListItemAdapter(val onClickSelectedItem: (CloudFileListItemViewMo
         val item = items[position]
         holder.bind(item)
 
-        holder.itemView.card_list_file.setCardBackgroundColor(Color.WHITE)
+        holder.itemView.cardview_task_item.setBackgroundResource(R.color.white)
         if (selectedItemPosition == position) {
-            holder.itemView.card_list_file.setCardBackgroundColor(Color.GREEN)
+            holder.itemView.cardview_task_item.setBackgroundResource(R.color.base_green_lighter)
         }
 
         holder.itemView.setOnClickListener {
             selectedItem?.invoke(item)
-            holder.itemView.card_list_file.setCardBackgroundColor(Color.WHITE)
             selectedItemPosition = holder.adapterPosition
             notifyDataSetChanged()
         }

@@ -52,7 +52,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@drawable/ic_car_battery"
-                            android:tint="@color/base_green"
+                            app:tint="@color/base_green"
                             android:height="40dp"
                             android:width="40dp" />
 
@@ -104,7 +104,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:src="@drawable/ic_rpm"
-                            android:tint="@color/base_green" />
+                            app:tint="@color/base_green" />
 
                     </FrameLayout>
 
@@ -153,7 +153,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:src="@drawable/ic_engine"
-                            android:tint="@color/base_green" />
+                            app:tint="@color/base_green" />
 
                     </FrameLayout>
 
@@ -203,7 +203,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:src="@drawable/fuel_icon"
-                            android:tint="@color/base_green" />
+                            app:tint="@color/base_green" />
 
                     </FrameLayout>
 
@@ -253,7 +253,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:src="@drawable/ic_fuelhour"
-                            android:tint="@color/base_green" />
+                            app:tint="@color/base_green" />
 
                     </FrameLayout>
 
@@ -303,7 +303,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:src="@drawable/ic_celsius"
-                            android:tint="@color/base_green" />
+                            app:tint="@color/base_green" />
 
                     </FrameLayout>
 

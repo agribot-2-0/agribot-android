@@ -4,8 +4,8 @@ import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.kml.KmlContainer
+import com.google.maps.android.kml.KmlLineString
 import com.google.maps.android.kml.KmlPlacemark
-import com.google.maps.android.kml.KmlPolygon
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
@@ -59,11 +59,11 @@ class TaskCreatorViewModel(
     private fun accessPlacemarks(placemarks: Iterable<KmlPlacemark?>) {
         for (placemark in placemarks) {
             if (placemark != null) {
-                val geometry = placemark.geometry
-                if (geometry is KmlPolygon) {
-                    cameraPosition.value = geometry.outerBoundaryCoordinates[0]
-                } else {
-                    postToastErrorMessageEvent(resourcesProvider.getString(R.string.not_kml_polygon_layer))
+                try {
+                    val kmlLineString = placemark.geometry as KmlLineString
+                    cameraPosition.value = kmlLineString.geometryObject[0]
+                } catch (exception: Exception) {
+                    postToastErrorMessageEvent("Kml LatLngException")
                 }
             }
         }

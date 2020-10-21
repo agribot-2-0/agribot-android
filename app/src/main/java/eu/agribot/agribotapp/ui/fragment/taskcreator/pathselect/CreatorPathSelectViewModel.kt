@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.kml.KmlContainer
+import com.google.maps.android.kml.KmlLineString
 import com.google.maps.android.kml.KmlPlacemark
-import com.google.maps.android.kml.KmlPolygon
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskTimeNavigationEvent
@@ -56,9 +56,11 @@ class CreatorPathSelectViewModel(
     private fun accessPlacemarks(placemarks: Iterable<KmlPlacemark?>) {
         for (placemark in placemarks) {
             if (placemark != null) {
-                val geometry = placemark.geometry
-                if (geometry is KmlPolygon) {
-                    cameraPosition.value = geometry.outerBoundaryCoordinates[0]
+                try {
+                    val kmlLineString = placemark.geometry as KmlLineString
+                    cameraPosition.value = kmlLineString.geometryObject[0]
+                } catch (exception: Exception) {
+                    toastEvent.postValue("Kml LatLngException")
                 }
             }
         }

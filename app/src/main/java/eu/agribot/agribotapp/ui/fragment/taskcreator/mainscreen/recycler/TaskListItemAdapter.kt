@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -36,9 +37,11 @@ class TaskListItemAdapter(val onClickSelectedItem: (TaskListItemViewModel) -> Un
 
     override fun getItemCount(): Int = items.size
 
+    @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: TaskListItemViewHolder, position: Int) {
         val item = items[position]
         holder.bind(item)
+
         holder.itemView.cardview_task_item.setBackgroundResource(R.color.white)
         if (selectedItemPosition == position) {
             holder.itemView.cardview_task_item.setBackgroundResource(R.color.base_green_lighter)

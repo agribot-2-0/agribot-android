@@ -149,7 +149,7 @@
     <string name="tuz_down_up">Wózki góra/dół</string>
     <string name="front_hitch">Przednie zaczepy</string>
     <string name="back_hitch">Tylne zaczepy</string>
-    <string name="task_creator">Kreator Zadań</string>
+    <string name="task_creator">Zarządzanie zadaniami</string>
     <string name="delete_task_button">Usuń zadanie</string>
     <string name="edit_task_button">Edytuj zadanie</string>
     <string name="path_name">Nazwa ścieżki: </string>
@@ -188,7 +188,7 @@
     <string name="task_name_text">Nazwa Zadania</string>
     <string name="choose_path_for_the_agribot">Wybierz ścieżkę Agribota</string>
     <string name="step_1">KROK 1</string>
-    <string name="available_task_list">Lista dostępnych zadań</string>
+    <string name="available_task_list">Zadania</string>
     <string name="step_3">KROK 3</string>
     <string name="select_weather_parameters">Wybierz parametry pogodowe</string>
 

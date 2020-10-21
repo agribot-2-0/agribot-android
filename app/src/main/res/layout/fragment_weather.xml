@@ -12,7 +12,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/backgroundWhite">
+        android:background="@color/background_gray">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -34,10 +34,6 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <WebView
-                    android:id="@+id/WeatherForecast"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
 
             </LinearLayout>
 
@@ -47,7 +43,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="75dp"
                 android:layout_alignParentEnd="true"
-                android:background="@drawable/shape_background"
+                android:background="@color/background_gray"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 

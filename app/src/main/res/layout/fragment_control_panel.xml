@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:layout_margin="@dimen/margin_medium"
             android:layout_weight="3"
-            android:background="#f1f1f1"
+            android:background="@color/background_gray"
             android:orientation="vertical">
 
             <LinearLayout
@@ -270,7 +270,8 @@
                     <DatePicker
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="@dimen/margin_small" />
+                        android:layout_margin="@dimen/margin_small"
+                        />
                 </LinearLayout>
 
 

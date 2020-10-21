@@ -161,10 +161,10 @@
     <string name="tuz_down_up">TUZ Down/Up</string>
     <string name="front_hitch">Front Hitch</string>
     <string name="back_hitch">Back Hitch</string>
-    <string name="task_creator">Task Creator</string>
+    <string name="task_creator">Task Management</string>
     <string name="delete_task_button">Delete task</string>
     <string name="edit_task_button">Edit task</string>
-    <string name="path_name">\"Nazwa ścieżki: \"</string>
+    <string name="path_name">Path name</string>
     <string name="delete_sucess_text">Task deleted sucessfully</string>
     <string name="start_time">Start Time: "</string>
     <string name="no_path_text">No Path Selected</string>
@@ -196,11 +196,11 @@
     <string name="send_to_database">Send to Database</string>
     <string name="step_2">STEP 2</string>
     <string name="choose_time">Choose time</string>
-    <string name="type_task_name">Podaj nazwe zadania</string>
-    <string name="task_name_text">Nazwa Zadania</string>
+    <string name="type_task_name">Give task name</string>
+    <string name="task_name_text">Task name</string>
     <string name="choose_path_for_the_agribot">Choose path for the Agribot</string>
     <string name="step_1">STEP 1</string>
-    <string name="available_task_list">Lista dostępnych zadań</string>
+    <string name="available_task_list">Tasks</string>
     <string name="step_3">Step 3</string>
     <string name="select_weather_parameters">Select weather parameters</string>
 

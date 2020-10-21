@@ -11,8 +11,8 @@
     </data>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:background="@color/background_gray"
         android:orientation="horizontal">
 
@@ -20,14 +20,14 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/margin_xxlarge"
+            android:layout_margin="@dimen/margin_medium"
             android:layout_weight="1"
             android:background="@drawable/rounded_corner_layout"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@color/base_green"
                 android:orientation="vertical">
 
@@ -55,7 +55,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
                         android:layout_gravity="end|bottom"
-                        android:layout_margin="16dp"
+                        android:layout_margin="@dimen/margin_large"
                         android:background="@android:color/transparent"
                         android:backgroundTint="@color/white"
                         android:onClick="@{()-> viewModel.onNewTaskButtonClicked()}"
@@ -81,7 +81,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/margin_xlarge"
+            android:layout_margin="@dimen/margin_medium"
             android:layout_weight="1"
             android:orientation="vertical">
 

@@ -9,14 +9,15 @@
     </data>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/background_gray">
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/background_gray"
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/margin_medium"
+            android:layout_margin="@dimen/margin_small"
             android:layout_weight="3"
             android:background="@color/background_gray"
             android:orientation="vertical">
@@ -24,8 +25,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginStart="@dimen/margin_xlarge"
-                android:layout_marginTop="@dimen/margin_xlarge"
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_small"
                 android:layout_weight="1"
                 android:background="@drawable/rounded_corner_layout">
 
@@ -48,10 +49,10 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/margin_xlarge"
-                    android:layout_marginTop="@dimen/margin_xlarge"
-                    android:layout_marginEnd="@dimen/margin_medium"
-                    android:layout_marginBottom="@dimen/margin_xlarge"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:layout_marginBottom="@dimen/margin_small"
                     android:layout_weight="1"
                     android:background="@drawable/rounded_corner_layout"
                     android:orientation="vertical">
@@ -60,7 +61,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_margin="@dimen/margin_medium"
+                        android:layout_margin="@dimen/margin_small"
                         android:layout_weight="1"
                         android:orientation="vertical">
 
@@ -261,9 +262,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    android:layout_marginTop="@dimen/margin_xlarge"
-                    android:layout_marginBottom="@dimen/margin_xlarge"
+                    android:layout_margin="@dimen/margin_small"
                     android:layout_weight="1"
                     android:background="@drawable/rounded_corner_layout">
 
@@ -283,10 +282,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_xlarge"
-            android:layout_marginEnd="@dimen/margin_xlarge"
-            android:layout_marginBottom="@dimen/margin_xlarge"
+            android:layout_margin="@dimen/margin_medium"
             android:layout_weight="1"
             android:background="@drawable/rounded_corner_layout"
             android:orientation="vertical">
@@ -464,7 +460,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_medium"
-                    android:layout_marginTop="@dimen/margin_xxlarge"
                     android:onClick="@{()->viewModel.onSelectTaskButtonClicked()}"
                     android:text="@string/start_task_button" />
 

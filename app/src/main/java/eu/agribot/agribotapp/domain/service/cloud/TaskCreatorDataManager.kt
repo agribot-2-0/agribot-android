@@ -98,7 +98,7 @@ class TaskCreatorDataManager {
         return if (pathName.value != null) {
             pathName.value!!
         } else {
-            "Invalid Path"
+            "empty_path"
         }
     }
 

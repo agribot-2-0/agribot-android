@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.kml.KmlContainer
@@ -22,7 +23,7 @@ class CreatorPathSelectViewModel(
     private val cloudDatabaseService: CloudDatabaseService,
     private val taskCreatorDataManager: TaskCreatorDataManager
 ) : BaseViewModel() {
-    val fileListPathsList: MutableLiveData<List<CloudFileListItemViewModel>> =
+    private val fileListPathsList: MutableLiveData<List<CloudFileListItemViewModel>> =
         MutableLiveData(listOf())
     val backButtonEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
     val availableFiles: MutableLiveData<List<CloudFileListItemViewModel>> =
@@ -31,6 +32,12 @@ class CreatorPathSelectViewModel(
     var isPathSelected = false
     val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val cameraPosition: MutableLiveData<LatLng> = MutableLiveData()
+
+    fun getSavedPath() {
+        if (taskCreatorDataManager.getPathName() != "empty_path" && taskCreatorDataManager.getPathName() != null) {
+            downloadSelectedFile(taskCreatorDataManager.getPathName()!!)
+        }
+    }
 
     fun accessContainers(containers: Iterable<KmlContainer?>) {
         for (container in containers) {
@@ -82,6 +89,7 @@ class CreatorPathSelectViewModel(
                 ), *fileListPathsList.value!!.toTypedArray()
             )
         }
+        getSavedPath()
     }
 
     private fun formatFilename(fileName: String): String {
@@ -108,6 +116,7 @@ class CreatorPathSelectViewModel(
     }
 
     fun downloadSelectedFile(fileName: String) {
+        Log.e("xd", "filename: " + fileName)
         isPathSelected = true
         taskCreatorDataManager.onUpdatePathName(fileName)
         for (item in fileListPathsList.value!!) {

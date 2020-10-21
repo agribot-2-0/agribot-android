@@ -48,12 +48,13 @@ class FragmentCreatorPathSelectFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.checkPathSelected()
         viewModel.availableFiles.observe(this::addToAvailableFile)
         viewModel.downloadAvailableFileList()
         viewModel.selectedLayer.observe(this::onGotSelectedLayer)
         viewModel.toastEvent.observe(this::showToast)
         viewModel.backButtonEvent.observe(this::backToPreviousFragment)
+        viewModel.checkPathSelected()
+
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.creator_map) as SupportMapFragment
         mapFragment.getMapAsync(this)

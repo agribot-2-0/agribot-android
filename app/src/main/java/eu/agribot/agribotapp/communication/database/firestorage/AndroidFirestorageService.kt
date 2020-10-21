@@ -1,7 +1,6 @@
 package eu.agribot.agribotapp.communication.database.firestorage
 
 import android.content.Context
-import android.util.Log
 import com.downloader.Error
 import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
@@ -45,7 +44,6 @@ class AndroidFirestorageService(
     ) {
         val file = File(downloaderUtils.getRootDirPath(context, "/user_path"), fileName)
         if (file.exists()) {
-            Log.e("xd", "File Exist" + fileName)
             onGotFile(file)
         } else {
             val storageReference: StorageReference = storage.reference

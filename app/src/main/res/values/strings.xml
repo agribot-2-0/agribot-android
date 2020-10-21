@@ -15,8 +15,8 @@
     <string name="title_manual_control">Manual Control</string>
     <string name="title_tool_control">Tool Control</string>
     <string name="title_dashboard">Dashboard</string>
-    <string name="title_tool_management">Tool Management</string>
-    <string name="title_path_management">Path Management</string>
+    <string name="title_tool_management">Tools</string>
+    <string name="title_path_management">Paths</string>
     <string name="title_group_other">Other</string>
     <string name="title_weather">Weather</string>
     <string name="title_settings">Settings</string>
@@ -161,7 +161,7 @@
     <string name="tuz_down_up">TUZ Down/Up</string>
     <string name="front_hitch">Front Hitch</string>
     <string name="back_hitch">Back Hitch</string>
-    <string name="task_creator">Task Management</string>
+    <string name="task_creator">Tasks</string>
     <string name="delete_task_button">Delete task</string>
     <string name="edit_task_button">Edit task</string>
     <string name="path_name">Path name</string>
@@ -203,6 +203,7 @@
     <string name="available_task_list">Tasks</string>
     <string name="step_3">Step 3</string>
     <string name="select_weather_parameters">Select weather parameters</string>
+    <string name="title_group_management">Management</string>
 
 
 </resources>

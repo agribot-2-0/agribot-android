@@ -58,7 +58,7 @@
                 android:layout_width="617dp"
                 android:layout_height="397dp"
                 android:layout_gravity="center"
-                android:src="@drawable/agri_jarek" />
+                android:src="@drawable/agribot" />
 
             <View
                 android:layout_width="match_parent"

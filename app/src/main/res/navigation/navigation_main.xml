@@ -64,7 +64,6 @@
     </fragment>
 
 
-
     <fragment
         android:id="@+id/toolManagementFragment"
         android:name="eu.agribot.agribotapp.ui.fragment.toolmanagement.ToolManagementFragment"
@@ -123,7 +122,7 @@
         android:id="@+id/taskCreatorTaskNameFragment"
         android:name="eu.agribot.agribotapp.ui.fragment.taskcreator.taskname.CreatorTaskNameFragment"
         android:label="Task Creator"
-        tools:layout="@layout/fragment_creator_configurator">
+        tools:layout="@layout/fragment_creator_task_name">
 
 
         <action
@@ -189,7 +188,7 @@
         android:id="@+id/taskCreatorTaskToolFragment"
         android:name="eu.agribot.agribotapp.ui.fragment.taskcreator.toolselect.FragmentCreatorToolSelect"
         android:label="Task Creator"
-        tools:layout="@layout/fragment_creator_tool_select" >
+        tools:layout="@layout/fragment_creator_tool_select">
 
         <action
             android:id="@+id/action_taskCreatorTaskToolFragment_to_dashboardFragment"
@@ -204,7 +203,7 @@
         android:id="@+id/selectTaskFragment"
         android:name="eu.agribot.agribotapp.ui.fragment.controlPanel.taskselect.TaskSelectFragment"
         android:label="@string/select_task_label"
-        tools:layout="@layout/fragment_creator_tool_select">
+        tools:layout="@layout/fragment_task_select">
 
         <action
             android:id="@+id/action_selectTaskFragment_to_dashboardFragment"

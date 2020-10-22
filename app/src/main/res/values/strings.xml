@@ -204,6 +204,7 @@
     <string name="step_3">Step 3</string>
     <string name="select_weather_parameters">Select weather parameters</string>
     <string name="title_group_management">Management</string>
+    <string name="tool_mode">Tool mode</string>
 
 
 </resources>

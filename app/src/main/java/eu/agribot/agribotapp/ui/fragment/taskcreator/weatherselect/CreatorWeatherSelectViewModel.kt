@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect
 
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.R
@@ -8,9 +9,9 @@ import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskToolsNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.model.FirstRobotWeatherStationHumidity
-import eu.agribot.agribotapp.domain.model.FirstRobotWeatherStationTemperature
-import eu.agribot.agribotapp.domain.model.FirstRobotWeatherStationWind
 import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationPressure
+import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationTemperature
+import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationWind
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.WeatherSettingsListItemViewModel
@@ -30,7 +31,7 @@ class CreatorWeatherSelectViewModel(
     private val humidityItemActive: MutableLiveData<Boolean> = MutableLiveData()
     private val pressureItemActive: MutableLiveData<Boolean> = MutableLiveData()
 
-    private val actualTemperature: MutableLiveData<String> = MutableLiveData()
+    val actualTemperature: MutableLiveData<String> = MutableLiveData()
     private val actualHumidity: MutableLiveData<String> = MutableLiveData()
     private val actualWind: MutableLiveData<String> = MutableLiveData()
     private val actualPressure: MutableLiveData<String> = MutableLiveData()
@@ -152,21 +153,22 @@ class CreatorWeatherSelectViewModel(
         maximumPickerValue: Int,
         currentValue: String
     ) {
+        Log.e("xd", "Current Weather: " + currentValue)
         val isFileAlreadyAdded = weatherAttributeList.value!!.any {
             it.weatherAttributeIcon == weatherAttributeIcon
         }
-        if (!isFileAlreadyAdded) {
-            weatherAttributeList.value = listOf(
-                WeatherSettingsListItemViewModel(
-                    weatherAttributeIcon,
-                    conditionArray,
-                    minimumPickerValue,
-                    maximumPickerValue,
-                    currentValue
-                ),
-                *weatherAttributeList.value!!.toTypedArray()
-            )
-        }
+        // if (!isFileAlreadyAdded) {
+        weatherAttributeList.value = listOf(
+            WeatherSettingsListItemViewModel(
+                weatherAttributeIcon,
+                conditionArray,
+                minimumPickerValue,
+                maximumPickerValue,
+                currentValue
+            ),
+            *weatherAttributeList.value!!.toTypedArray()
+        )
+        // }
     }
 
     private fun createWeatherParametersList() {
@@ -221,28 +223,28 @@ class CreatorWeatherSelectViewModel(
 
     private fun getFirstRobotHumidity() {
         cloudDatabaseService.getFirstRobotWeatherStationHumidity(
-            this::onFirstRobotHumiditySucess,
+            this::onGetFirstRobotHumiditySucess,
             this::onSampleDataError
         )
     }
 
     private fun getFirstRobotTemperature() {
         cloudDatabaseService.getFirstRobotWeatherStationTemperature(
-            this::onFirstRobotTemperatureSucess,
+            this::onGetFirstRobotTemperatureSucess,
             this::onSampleDataError
         )
     }
 
     private fun getFirstRobotWind() {
         cloudDatabaseService.getFirstRobotWeatherStationWind(
-            this::onFirstRobotWindSucess,
+            this::onGetFirstRobotWindSucess,
             this::onSampleDataError
         )
     }
 
     private fun getFirstRobotPressure() {
         cloudDatabaseService.getFirstRobotWeatherStationPressure(
-            this::onFirstRobotPressureSucess,
+            this::onGetFirstRobotPressureSucess,
             this::onSampleDataError
         )
     }
@@ -250,20 +252,20 @@ class CreatorWeatherSelectViewModel(
     private fun onSampleDataError(sampleString: String) {
     }
 
-    private fun onFirstRobotHumiditySucess(firstRobotWeatherStationHumidity: FirstRobotWeatherStationHumidity) {
+    private fun onGetFirstRobotHumiditySucess(firstRobotWeatherStationHumidity: FirstRobotWeatherStationHumidity) {
         actualHumidity.value = firstRobotWeatherStationHumidity.value.toString() + "%"
     }
 
-    private fun onFirstRobotTemperatureSucess(firstRobotWeatherStationTemperature: FirstRobotWeatherStationTemperature) {
+    private fun onGetFirstRobotTemperatureSucess(firstRobotWeatherStationTemperature: FirstRobotWeatherStationTemperature) {
         actualTemperature.value =
-            firstRobotWeatherStationTemperature.temperature.toString() + " °C"
+            firstRobotWeatherStationTemperature.value.toString() + " °C"
     }
 
-    private fun onFirstRobotWindSucess(firstRobotWeatherStationWind: FirstRobotWeatherStationWind) {
-        actualWind.value = firstRobotWeatherStationWind.speed.toString() + " km/h"
+    private fun onGetFirstRobotWindSucess(firstRobotWeatherStationWind: FirstRobotWeatherStationWind) {
+        actualWind.value = firstRobotWeatherStationWind.speed_value.toString() + " km/h"
     }
 
-    private fun onFirstRobotPressureSucess(firstRobotWeatherStationPressure: FirstRobotWeatherStationPressure) {
+    private fun onGetFirstRobotPressureSucess(firstRobotWeatherStationPressure: FirstRobotWeatherStationPressure) {
         actualPressure.value = firstRobotWeatherStationPressure.value.toString() + " hPa"
     }
 

@@ -33,7 +33,7 @@ class CreatorPathSelectViewModel(
     val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val cameraPosition: MutableLiveData<LatLng> = MutableLiveData()
 
-    fun getSavedPath() {
+    private fun getSavedPath() {
         if (taskCreatorDataManager.getPathName() != "empty_path" && taskCreatorDataManager.getPathName() != null) {
             downloadSelectedFile(taskCreatorDataManager.getPathName()!!)
         }

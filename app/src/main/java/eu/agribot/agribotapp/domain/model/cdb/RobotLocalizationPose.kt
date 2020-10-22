@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.domain.model
+package eu.agribot.agribotapp.domain.model.cdb
 
 import com.google.firebase.Timestamp
 

@@ -12,7 +12,7 @@ import eu.agribot.agribotapp.common.livedata.LiveEvent
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.TaskSelectNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
-import eu.agribot.agribotapp.domain.model.RobotLocalizationPose
+import eu.agribot.agribotapp.domain.model.cdb.RobotLocalizationPose
 import eu.agribot.agribotapp.domain.model.TaskDetails
 import eu.agribot.agribotapp.domain.service.AutonomyService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
@@ -96,7 +96,7 @@ class ControlPanelViewModel(
     }
 
     fun getAgribotPosition() {
-        cloudDatabaseService.getFirstRobotLocalizationPose(
+        cloudDatabaseService.getSecondRobotLocalizationPose(
             onSuccess = this::setCurrentRobotPosition,
             onError = this::postToastErrorMessageEvent
         )

@@ -1,5 +1,9 @@
-package eu.agribot.agribotapp.domain.model
+package eu.agribot.agribotapp.domain.model.cdb
+
+import com.google.firebase.Timestamp
 
 data class FirstRobotWeatherStationWind(
-    val speed: Int
+    val speed_accuracy: Int,
+    val speed_value: Int,
+    val timestamp: Timestamp
 )

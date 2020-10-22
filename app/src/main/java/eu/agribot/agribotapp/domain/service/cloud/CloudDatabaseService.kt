@@ -6,9 +6,9 @@ import eu.agribot.agribotapp.domain.model.ActualTask
 import eu.agribot.agribotapp.domain.model.EngineHealth
 import eu.agribot.agribotapp.domain.model.FirstRobotHealthEngine
 import eu.agribot.agribotapp.domain.model.FirstRobotWeatherStationHumidity
-import eu.agribot.agribotapp.domain.model.FirstRobotWeatherStationTemperature
-import eu.agribot.agribotapp.domain.model.FirstRobotWeatherStationWind
-import eu.agribot.agribotapp.domain.model.RobotLocalizationPose
+import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationTemperature
+import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationWind
+import eu.agribot.agribotapp.domain.model.cdb.RobotLocalizationPose
 import eu.agribot.agribotapp.domain.model.TaskDetails
 import eu.agribot.agribotapp.domain.model.TaskItem
 import eu.agribot.agribotapp.domain.model.UserInfo

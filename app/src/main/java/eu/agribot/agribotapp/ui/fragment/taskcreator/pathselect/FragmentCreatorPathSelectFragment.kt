@@ -120,7 +120,7 @@ class FragmentCreatorPathSelectFragment :
     }
 
     private fun setSelectedLayer(mapStream: InputStream) {
-        mapPathLayer = KmlLayer(googleMapFragment, mapStream, requireContext())
+        mapPathLayer = KmlLayer(googleMapFragment!!, mapStream, requireContext())
         mapPathLayer!!.containers
         mapPathLayer!!.addLayerToMap()
         try {

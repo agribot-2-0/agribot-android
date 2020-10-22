@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import eu.agribot.agribotapp.databinding.ListItemWeatherSettingsBinding
 import kotlinx.android.synthetic.main.list_item_weather_settings.view.activation_switch
 import kotlinx.android.synthetic.main.list_item_weather_settings.view.condition
-import kotlinx.android.synthetic.main.list_item_weather_settings.view.current_value
 import kotlinx.android.synthetic.main.list_item_weather_settings.view.value
 import kotlinx.android.synthetic.main.list_item_weather_settings.view.weather_icon
 
@@ -48,7 +47,6 @@ class WeatherSettingsListItemAdapter(
         holder.itemView.weather_icon.setImageResource(item.weatherAttributeIcon)
         holder.itemView.value.minValue = item.minimumPickerValue
         holder.itemView.value.maxValue = item.maximumPickerValue
-        holder.itemView.current_value.text = item.currentValue
         holder.itemView.condition.minValue = 0
         holder.itemView.condition.value = 1
         holder.itemView.condition.maxValue = 2

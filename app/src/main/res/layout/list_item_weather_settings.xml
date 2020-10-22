@@ -10,13 +10,12 @@
     </data>
 
 
-    <androidx.cardview.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:foregroundGravity="center"
-        android:background="@color/background_gray"
         android:layout_margin="@dimen/margin_small"
+        android:background="@color/background_gray"
+        android:foregroundGravity="center"
         card_view:cardCornerRadius="7dp"
         card_view:cardElevation="7dp"
         card_view:cardMaxElevation="7dp">
@@ -24,16 +23,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner_layout"
             android:gravity="center"
-            android:padding="@dimen/margin_large"
-            android:background="@drawable/rounded_corner_layout">
+            android:padding="@dimen/margin_large">
 
-            <TextView
-                android:id="@+id/current_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/base_green" />
 
             <ImageView
                 android:id="@+id/weather_icon"

@@ -205,6 +205,7 @@
     <string name="select_weather_parameters">Select weather parameters</string>
     <string name="title_group_management">Management</string>
     <string name="tool_mode">Tool mode</string>
+    <string name="current_wearher">Current Weather</string>
 
 
 </resources>

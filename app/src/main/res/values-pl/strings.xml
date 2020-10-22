@@ -193,5 +193,6 @@
     <string name="select_weather_parameters">Wybierz parametry pogodowe</string>
     <string name="title_group_management">Zarządzanie</string>
     <string name="tool_mode">Tool mode</string>
+    <string name="current_wearher">Aktualne warunki pogodowe</string>
 
 </resources>

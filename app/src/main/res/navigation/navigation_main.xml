@@ -121,7 +121,7 @@
     <fragment
         android:id="@+id/taskCreatorTaskNameFragment"
         android:name="eu.agribot.agribotapp.ui.fragment.taskcreator.taskname.CreatorTaskNameFragment"
-        android:label="Task Creator"
+        android:label="@string/type_task_name"
         tools:layout="@layout/fragment_creator_task_name">
 
 
@@ -139,7 +139,7 @@
     <fragment
         android:id="@+id/taskCreatorTaskPathFragment"
         android:name="eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.FragmentCreatorPathSelectFragment"
-        android:label="Task Creator"
+        android:label="@string/choose_path_for_the_agribot"
         tools:layout="@layout/fragment_creator_path_select">
 
         <action
@@ -155,7 +155,7 @@
     <fragment
         android:id="@+id/taskCreatorTaskTimeFragment"
         android:name="eu.agribot.agribotapp.ui.fragment.taskcreator.timeselect.FragmentCreatorTimeSelect"
-        android:label="Task Creator"
+        android:label="@string/choose_time"
         tools:layout="@layout/fragment_creator_time_select">
 
         <action
@@ -171,7 +171,7 @@
     <fragment
         android:id="@+id/taskCreatorTaskWeatherFragment"
         android:name="eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.FragmentCreatorWeatherSelect"
-        android:label="Task Creator"
+        android:label="@string/select_weather_parameters"
         tools:layout="@layout/fragment_creator_weather">
 
         <action
@@ -187,7 +187,7 @@
     <fragment
         android:id="@+id/taskCreatorTaskToolFragment"
         android:name="eu.agribot.agribotapp.ui.fragment.taskcreator.toolselect.FragmentCreatorToolSelect"
-        android:label="Task Creator"
+        android:label="@string/select_tool"
         tools:layout="@layout/fragment_creator_tool_select">
 
         <action
@@ -218,7 +218,7 @@
     <fragment
         android:id="@+id/creatorFragment"
         android:name="eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.TaskCreatorFragment"
-        android:label="Task Creator"
+        android:label="@string/title_tool_management"
         tools:layout="@layout/fragment_creator_configurator">
 
         <action

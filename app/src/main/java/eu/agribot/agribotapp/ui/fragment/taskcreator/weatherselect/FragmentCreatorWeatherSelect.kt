@@ -61,6 +61,7 @@ class FragmentCreatorWeatherSelect :
 
     private fun addAvaliableWeatherAttribute(weatherAttribute: List<WeatherSettingsListItemViewModel>) {
         recyclerAdapter.items = weatherAttribute
+        recyclerAdapter.updateList(weatherAttribute)
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {

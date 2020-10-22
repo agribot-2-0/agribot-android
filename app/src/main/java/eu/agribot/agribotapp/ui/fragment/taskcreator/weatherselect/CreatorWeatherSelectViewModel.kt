@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
@@ -35,6 +36,12 @@ class CreatorWeatherSelectViewModel(
     val actualWind: MutableLiveData<String> = MutableLiveData()
     val actualPressure: MutableLiveData<String> = MutableLiveData()
     val backButtonEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
+    val conditionSymbols = arrayOf("<", ">", "=")
+    fun getPreSetWeatherAttributes() {
+        if (taskCreatorDataManager.getTemperatureValue() != "*") {
+            temperatureItemActive.value = true
+        }
+    }
 
     fun onConditionChanged(condition: String, itemPosition: Int) {
         when (itemPosition) {
@@ -148,55 +155,86 @@ class CreatorWeatherSelectViewModel(
     private fun addToWeatherAttributeList(
         weatherSelectDataModel: WeatherSelectDataModel
     ) {
-        val isWeatherAttributeAlreadyAdded = weatherAttributeList.value!!.any {
-            it.weatherAttributeIcon == weatherSelectDataModel.weatherAttributeIcon
+        val isAttributeAlreadyAdded = weatherAttributeList.value!!.any { arrtibute ->
+            arrtibute.id == weatherSelectDataModel.id
         }
-        if (!isWeatherAttributeAlreadyAdded) {
+
+        if (!isAttributeAlreadyAdded)
             weatherAttributeList.value = listOf(
                 WeatherSettingsListItemViewModel(
+                    weatherSelectDataModel.id,
                     weatherSelectDataModel.weatherAttributeIcon,
                     weatherSelectDataModel.conditionArray,
                     weatherSelectDataModel.minimumPickerValue,
                     weatherSelectDataModel.maximumPickerValue,
                     weatherSelectDataModel.currentValue,
+                    weatherSelectDataModel.isSwitchActive
                 ),
                 *weatherAttributeList.value!!.toTypedArray()
             )
+        else {
+            for (i in weatherAttributeList.value!!.indices) {
+                if (weatherAttributeList.value!![i].id == weatherSelectDataModel.id) {
+                    weatherAttributeList.value = weatherAttributeList.value!!.minus((weatherAttributeList.value!![i]))
+
+                    weatherAttributeList.value = listOf(
+                        WeatherSettingsListItemViewModel(
+                            weatherSelectDataModel.id,
+                            weatherSelectDataModel.weatherAttributeIcon,
+                            weatherSelectDataModel.conditionArray,
+                            weatherSelectDataModel.minimumPickerValue,
+                            weatherSelectDataModel.maximumPickerValue,
+                            weatherSelectDataModel.currentValue,
+                            weatherSelectDataModel.isSwitchActive
+                        ),
+                        *weatherAttributeList.value!!.toTypedArray()
+                    )
+                }
+            }
         }
     }
 
     private fun createWeatherParametersList() {
-        val conditionSymbols = arrayOf("<", ">", "=")
 
         val temperatureModel = WeatherSelectDataModel(
+            id = 1,
             conditionArray = conditionSymbols,
             weatherAttributeIcon = R.drawable.ic_celsius,
-            currentValue = actualTemperature.value.toString(),
+            currentValue = "",
             minimumPickerValue = PickersMinMaxValues.MIN_TEMP_VALUE.value,
-            maximumPickerValue = PickersMinMaxValues.MAX_TEMP_VALUE.value
+            maximumPickerValue = PickersMinMaxValues.MAX_TEMP_VALUE.value,
+            isSwitchActive = false
         )
 
         val windModel = WeatherSelectDataModel(
+            id = 2,
             conditionArray = conditionSymbols,
             weatherAttributeIcon = R.drawable.ic_wind,
-            currentValue = actualWind.value.toString(),
+            currentValue = "",
             minimumPickerValue = PickersMinMaxValues.MIN_WIND_VALUE.value,
-            maximumPickerValue = PickersMinMaxValues.MAX_WIND_VALUE.value
+            maximumPickerValue = PickersMinMaxValues.MAX_WIND_VALUE.value,
+            isSwitchActive = false
+
         )
 
         val pressureModel = WeatherSelectDataModel(
+            id = 3,
             conditionArray = conditionSymbols,
             weatherAttributeIcon = R.drawable.ic_pressure,
-            currentValue = actualPressure.value.toString(),
+            currentValue = "",
             minimumPickerValue = PickersMinMaxValues.MIN_PRESSURE_VALUE.value,
-            maximumPickerValue = PickersMinMaxValues.MAX_PRESSURE_VALUE.value
+            maximumPickerValue = PickersMinMaxValues.MAX_PRESSURE_VALUE.value,
+            isSwitchActive = false
+
         )
         val humidityModel = WeatherSelectDataModel(
+            id = 4,
             conditionArray = conditionSymbols,
             weatherAttributeIcon = R.drawable.ic_humidity,
-            currentValue = actualHumidity.value.toString(),
+            currentValue = "",
             minimumPickerValue = PickersMinMaxValues.MIN_HUMIDITY_VALUE.value,
-            maximumPickerValue = PickersMinMaxValues.MAX_HUMIDITY_VALUE.value
+            maximumPickerValue = PickersMinMaxValues.MAX_HUMIDITY_VALUE.value,
+            isSwitchActive = false
         )
 
         for (i in 0..3) {
@@ -209,8 +247,6 @@ class CreatorWeatherSelectViewModel(
                 )[i]
             )
         }
-
-
     }
 
     fun onPreviousButtonClicked() {
@@ -258,27 +294,64 @@ class CreatorWeatherSelectViewModel(
 
     private fun onGetFirstRobotHumiditySucess(firstRobotWeatherStationHumidity: FirstRobotWeatherStationHumidity) {
         actualHumidity.value = firstRobotWeatherStationHumidity.value.toString() + "%"
-        createWeatherParametersList()
-
+        addToWeatherAttributeList(
+            WeatherSelectDataModel(
+                id = 4,
+                conditionArray = conditionSymbols,
+                weatherAttributeIcon = R.drawable.ic_humidity,
+                currentValue = actualHumidity.value.toString(),
+                minimumPickerValue = PickersMinMaxValues.MIN_HUMIDITY_VALUE.value,
+                maximumPickerValue = PickersMinMaxValues.MAX_HUMIDITY_VALUE.value,
+                isSwitchActive = false
+            )
+        )
     }
 
     private fun onGetFirstRobotTemperatureSucess(firstRobotWeatherStationTemperature: FirstRobotWeatherStationTemperature) {
-        actualTemperature.value =
-            firstRobotWeatherStationTemperature.value.toString() + " °C"
-        createWeatherParametersList()
-
+        actualTemperature.value = firstRobotWeatherStationTemperature.value.toString() + " °C"
+        Log.e("xd", "Actual Temperature" + firstRobotWeatherStationTemperature.value)
+        addToWeatherAttributeList(
+            WeatherSelectDataModel(
+                id = 1,
+                conditionArray = conditionSymbols,
+                weatherAttributeIcon = R.drawable.ic_celsius,
+                currentValue = actualTemperature.value.toString(),
+                minimumPickerValue = PickersMinMaxValues.MIN_TEMP_VALUE.value,
+                maximumPickerValue = PickersMinMaxValues.MAX_TEMP_VALUE.value,
+                isSwitchActive = false
+            )
+        )
     }
 
     private fun onGetFirstRobotWindSucess(firstRobotWeatherStationWind: FirstRobotWeatherStationWind) {
         actualWind.value = firstRobotWeatherStationWind.speed_value.toString() + " km/h"
-        createWeatherParametersList()
-
+        addToWeatherAttributeList(
+            WeatherSelectDataModel(
+                id = 2,
+                conditionArray = conditionSymbols,
+                weatherAttributeIcon = R.drawable.ic_wind,
+                currentValue = actualWind.value.toString(),
+                minimumPickerValue = PickersMinMaxValues.MIN_WIND_VALUE.value,
+                maximumPickerValue = PickersMinMaxValues.MAX_WIND_VALUE.value,
+                isSwitchActive = false
+            )
+        )
     }
 
     private fun onGetFirstRobotPressureSucess(firstRobotWeatherStationPressure: FirstRobotWeatherStationPressure) {
         actualPressure.value = firstRobotWeatherStationPressure.value.toString() + " hPa"
-        createWeatherParametersList()
+        addToWeatherAttributeList(
+            WeatherSelectDataModel(
+                id = 3,
+                conditionArray = conditionSymbols,
+                weatherAttributeIcon = R.drawable.ic_pressure,
+                currentValue = actualPressure.value.toString(),
+                minimumPickerValue = PickersMinMaxValues.MIN_PRESSURE_VALUE.value,
+                maximumPickerValue = PickersMinMaxValues.MAX_PRESSURE_VALUE.value,
+                isSwitchActive = false
 
+            )
+        )
     }
 
     fun onNextButtonClicked() {

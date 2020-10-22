@@ -17,4 +17,8 @@ class WeatherSettingListItemDiffUtil(
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         return oldList[oldItemPosition].currentValue == newList[newItemPosition].currentValue
     }
+
+    override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {
+        return super.getChangePayload(oldItemPosition, newItemPosition)
+    }
 }

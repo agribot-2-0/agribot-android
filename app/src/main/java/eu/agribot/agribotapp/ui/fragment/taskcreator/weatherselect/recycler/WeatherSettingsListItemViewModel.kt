@@ -4,9 +4,12 @@ import androidx.annotation.DrawableRes
 import eu.agribot.agribotapp.base.BaseViewModel
 
 data class WeatherSettingsListItemViewModel(
-    @DrawableRes val weatherAttributeIcon: Int,
+    val id: Int,
+    @DrawableRes
+val weatherAttributeIcon: Int,
     val conditionArray: Array<String>,
     val minimumPickerValue: Int,
     val maximumPickerValue: Int,
-    val currentValue: String
+    var currentValue: String,
+    val isSwitchActive: Boolean
 ) : BaseViewModel()

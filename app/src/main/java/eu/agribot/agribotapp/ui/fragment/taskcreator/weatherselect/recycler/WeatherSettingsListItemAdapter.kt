@@ -5,10 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import eu.agribot.agribotapp.databinding.ListItemWeatherSettingsBinding
-import kotlinx.android.synthetic.main.list_item_weather_settings.view.activation_switch
-import kotlinx.android.synthetic.main.list_item_weather_settings.view.condition
-import kotlinx.android.synthetic.main.list_item_weather_settings.view.value
-import kotlinx.android.synthetic.main.list_item_weather_settings.view.weather_icon
+import kotlinx.android.synthetic.main.list_item_weather_settings.view.*
 
 class WeatherSettingsListItemAdapter(
     val onConditionPickerValueChanged: (condition: String, itemPosition: Int) -> Unit,
@@ -28,6 +25,11 @@ class WeatherSettingsListItemAdapter(
             }.dispatchUpdatesTo(this)
         }
     var isItemActive = false
+
+    fun updateList(newList: List<WeatherSettingsListItemViewModel>) {
+        val diffResult = DiffUtil.calculateDiff(WeatherSettingListItemDiffUtil(this.items, newList))
+        diffResult.dispatchUpdatesTo(this)
+    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

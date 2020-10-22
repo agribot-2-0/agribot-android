@@ -180,11 +180,13 @@ val viewModelModule = module {
 
     viewModel {
         WeatherSettingsListItemViewModel(
+            id = get(),
             conditionArray = get(),
             currentValue = get(),
             weatherAttributeIcon = get(),
             minimumPickerValue = get(),
-            maximumPickerValue = get()
+            maximumPickerValue = get(),
+            isSwitchActive = get()
         )
     }
 

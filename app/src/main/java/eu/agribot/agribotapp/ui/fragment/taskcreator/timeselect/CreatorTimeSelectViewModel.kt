@@ -6,9 +6,10 @@ import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskWeatherNavigationEvent
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
+import java.util.Date
 import java.util.GregorianCalendar
-import java.util.Calendar
 import java.util.TimeZone
+import java.util.Calendar
 
 class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreatorDataManager) :
     BaseViewModel() {
@@ -26,6 +27,18 @@ class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreator
 
     private val minuteData: MutableLiveData<Int> = MutableLiveData()
     private val hourData: MutableLiveData<Int> = MutableLiveData()
+    val date: MutableLiveData<Date> = MutableLiveData()
+    val isTimePreset: MutableLiveData<Boolean> = MutableLiveData()
+
+    fun getPreSetDate() {
+        if (!taskCreatorDataManager.getTimeEstimated() && taskCreatorDataManager.getTimeStamp() != null) {
+            val date: Date = taskCreatorDataManager.getTimeStamp()!!.toDate()
+            this.date.value = date
+            isTimePreset.value = true
+        } else {
+            isTimePreset.value = false
+        }
+    }
 
     fun setTimeActivator(isChecked: Boolean) {
         taskCreatorDataManager.onUpdateTimestampEstimated(!isChecked)

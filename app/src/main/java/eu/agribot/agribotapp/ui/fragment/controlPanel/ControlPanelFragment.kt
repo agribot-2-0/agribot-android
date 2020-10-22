@@ -91,7 +91,7 @@ class ControlPanelFragment :
             try {
                 googleMapFragment?.addMarker(
                     MarkerOptions()
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.tank))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_agibot_marker))
                         .position(agribotMarker.position)
                         .anchor(MapParameters.ANCHOR.mapParametr, MapParameters.ANCHOR.mapParametr)
                         .rotation(agribotMarker.rotation)

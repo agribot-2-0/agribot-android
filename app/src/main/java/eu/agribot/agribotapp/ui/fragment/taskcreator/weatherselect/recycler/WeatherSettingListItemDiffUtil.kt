@@ -7,7 +7,7 @@ class WeatherSettingListItemDiffUtil(
     private val newList: List<WeatherSettingsListItemViewModel>
 ) : DiffUtil.Callback() {
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition] == newList[newItemPosition]
+        return oldList[oldItemPosition].weatherAttributeIcon == newList[newItemPosition].weatherAttributeIcon
     }
 
     override fun getOldListSize() = oldList.size

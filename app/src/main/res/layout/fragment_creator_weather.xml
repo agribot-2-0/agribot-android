@@ -14,117 +14,83 @@
         android:background="@color/background_gray"
         android:orientation="vertical">
 
-        <LinearLayout
+        <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="12dp"
-            android:layout_margin="@dimen/margin_small"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_small"
+            android:layout_weight="0.5"
+            android:gravity="center"
             android:background="@drawable/rounded_corner_layout"
+            android:collapseColumns="9"
             android:orientation="horizontal">
 
-            <TextView
+            <TableRow
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_small"
-                android:layout_weight="1"
-                android:text="@string/step_3"
-                android:textSize="@dimen/text_size_xlarge"
-                android:textStyle="bold" />
+                android:layout_gravity="center">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_small"
-                android:layout_weight="1"
-                android:text="@string/select_weather_parameters"
-                android:textSize="@dimen/text_size_large"
-                android:textStyle="bold" />
-
-            <TableLayout
-                android:layout_width="0dp"
-                android:layout_weight="4"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-               android:layout_marginHorizontal="@dimen/margin_medium"
-                android:collapseColumns="9">
-
-                <TableRow
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center">
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="@dimen/margin_large"
+                    android:text="@string/current_weather" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_small"
-                        android:layout_weight="1"
-                        android:text="@string/current_wearher"
-                        android:textSize="@dimen/text_size_large"
-                        android:textStyle="bold" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/margin_medium"
-                        android:src="@drawable/ic_celsius"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/margin_medium"
-                        android:gravity="center"
-                        android:text="@{viewModel.actualTemperature}" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_celsius" />
 
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/margin_medium"
-                        android:src="@drawable/ic_wind" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="@dimen/margin_large"
+                    android:text="@{viewModel.actualTemperature}" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_marginHorizontal="@dimen/margin_medium"
-                        android:text="@{viewModel.actualWind}" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_humidity" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="@dimen/margin_large"
+                    android:text="@{viewModel.actualHumidity}" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/margin_medium"
-                        android:src="@drawable/ic_humidity" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_wind" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_marginHorizontal="@dimen/margin_medium"
-                        android:text="@{viewModel.actualHumidity}" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="@dimen/margin_large"
+                    android:text="@{viewModel.actualWind}" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_marginHorizontal="@dimen/margin_medium"
-                        android:src="@drawable/ic_pressure" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_pressure" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_marginHorizontal="@dimen/margin_medium"
-                        android:text="@{viewModel.actualPressure}" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="@dimen/margin_large"
+                    android:text="@{viewModel.actualPressure}" />
 
-
-                </TableRow>
-
-
-            </TableLayout>
-
-
-        </LinearLayout>
+            </TableRow>
+        </TableLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

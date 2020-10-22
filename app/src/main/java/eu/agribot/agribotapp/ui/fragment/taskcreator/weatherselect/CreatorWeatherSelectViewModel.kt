@@ -153,22 +153,22 @@ class CreatorWeatherSelectViewModel(
         maximumPickerValue: Int,
         currentValue: String
     ) {
-        Log.e("xd", "Current Weather: " + currentValue)
         val isFileAlreadyAdded = weatherAttributeList.value!!.any {
-            it.weatherAttributeIcon == weatherAttributeIcon
+            it.currentValue == currentValue
+            it.currentValue == "null"
         }
-        // if (!isFileAlreadyAdded) {
-        weatherAttributeList.value = listOf(
-            WeatherSettingsListItemViewModel(
-                weatherAttributeIcon,
-                conditionArray,
-                minimumPickerValue,
-                maximumPickerValue,
-                currentValue
-            ),
-            *weatherAttributeList.value!!.toTypedArray()
-        )
-        // }
+       // if (!isFileAlreadyAdded) {
+            weatherAttributeList.value = listOf(
+                WeatherSettingsListItemViewModel(
+                    weatherAttributeIcon,
+                    conditionArray,
+                    minimumPickerValue,
+                    maximumPickerValue,
+                    currentValue
+                ),
+                *weatherAttributeList.value!!.toTypedArray()
+            )
+      //  }
     }
 
     private fun createWeatherParametersList() {
@@ -254,19 +254,27 @@ class CreatorWeatherSelectViewModel(
 
     private fun onGetFirstRobotHumiditySucess(firstRobotWeatherStationHumidity: FirstRobotWeatherStationHumidity) {
         actualHumidity.value = firstRobotWeatherStationHumidity.value.toString() + "%"
+        createWeatherParametersList()
+
     }
 
     private fun onGetFirstRobotTemperatureSucess(firstRobotWeatherStationTemperature: FirstRobotWeatherStationTemperature) {
         actualTemperature.value =
             firstRobotWeatherStationTemperature.value.toString() + " °C"
+        createWeatherParametersList()
+
     }
 
     private fun onGetFirstRobotWindSucess(firstRobotWeatherStationWind: FirstRobotWeatherStationWind) {
         actualWind.value = firstRobotWeatherStationWind.speed_value.toString() + " km/h"
+        createWeatherParametersList()
+
     }
 
     private fun onGetFirstRobotPressureSucess(firstRobotWeatherStationPressure: FirstRobotWeatherStationPressure) {
         actualPressure.value = firstRobotWeatherStationPressure.value.toString() + " hPa"
+        createWeatherParametersList()
+
     }
 
     fun onNextButtonClicked() {

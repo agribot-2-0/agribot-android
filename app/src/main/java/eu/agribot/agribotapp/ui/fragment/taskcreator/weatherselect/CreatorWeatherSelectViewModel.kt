@@ -110,6 +110,8 @@ class CreatorWeatherSelectViewModel(
                     taskCreatorDataManager.onUpdatepressureValue(value.toString())
                 } else {
                     taskCreatorDataManager.onUpdatepressureValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
+                    taskCreatorDataManager.onUpdatepressureCondition(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
+
                 }
             }
             WeatherItemNumber.HUMIDITY_ITEM.itemNumber -> {
@@ -130,19 +132,27 @@ class CreatorWeatherSelectViewModel(
         }
     }
 
-    fun onSwitchParametrChange(position: Int, isActivated: Boolean) {
-        when (position) {
+    fun onSwitchParametrChange(itemID: Int, isActivated: Boolean) {
+        when (itemID) {
             WeatherItemNumber.WIND_ITEM.itemNumber -> {
                 windItemActive.value = isActivated
+                taskCreatorDataManager.onUpdatewindValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
+                taskCreatorDataManager.onUpdatewindCondition(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
             }
             WeatherItemNumber.PRESSURE_ITEM.itemNumber -> {
                 pressureItemActive.value = isActivated
+                taskCreatorDataManager.onUpdatepressureValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
+                taskCreatorDataManager.onUpdatepressureValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
             }
             WeatherItemNumber.HUMIDITY_ITEM.itemNumber -> {
                 humidityItemActive.value = isActivated
+                taskCreatorDataManager.onUpdatehumidityValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
+                taskCreatorDataManager.onUpdatehumidityCondition(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
             }
             WeatherItemNumber.TEMPERATURE_ITEM.itemNumber -> {
                 temperatureItemActive.value = isActivated
+                taskCreatorDataManager.onUpdateTemperatureCondition(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
+                taskCreatorDataManager.onUpdateTemperatureValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
             }
         }
     }

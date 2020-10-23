@@ -94,10 +94,9 @@ class WeatherSettingsListItemAdapter(
         }
 
         holder.itemView.activation_switch.setOnCheckedChangeListener { _, isChecked ->
-            isItemActive = isChecked
             onItemSwitchParametrChange(
-                position,
-                isItemActive
+                item.id,
+                isChecked
             )
         }
     }

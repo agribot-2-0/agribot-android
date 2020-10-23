@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
@@ -168,14 +167,16 @@ class CreatorWeatherSelectViewModel(
                     weatherSelectDataModel.minimumPickerValue,
                     weatherSelectDataModel.maximumPickerValue,
                     weatherSelectDataModel.currentValue,
-                    weatherSelectDataModel.isSwitchActive
+                    weatherSelectDataModel.isSwitchActive,
+                    weatherSelectDataModel.settedValue
                 ),
                 *weatherAttributeList.value!!.toTypedArray()
             )
         else {
             for (i in weatherAttributeList.value!!.indices) {
                 if (weatherAttributeList.value!![i].id == weatherSelectDataModel.id) {
-                    weatherAttributeList.value = weatherAttributeList.value!!.minus((weatherAttributeList.value!![i]))
+                    weatherAttributeList.value =
+                        weatherAttributeList.value!!.minus((weatherAttributeList.value!![i]))
 
                     weatherAttributeList.value = listOf(
                         WeatherSettingsListItemViewModel(
@@ -185,7 +186,9 @@ class CreatorWeatherSelectViewModel(
                             weatherSelectDataModel.minimumPickerValue,
                             weatherSelectDataModel.maximumPickerValue,
                             weatherSelectDataModel.currentValue,
-                            weatherSelectDataModel.isSwitchActive
+                            weatherSelectDataModel.isSwitchActive,
+                            weatherSelectDataModel.settedValue
+
                         ),
                         *weatherAttributeList.value!!.toTypedArray()
                     )
@@ -196,46 +199,78 @@ class CreatorWeatherSelectViewModel(
 
     private fun createWeatherParametersList() {
 
-        val temperatureModel = WeatherSelectDataModel(
-            id = 1,
-            conditionArray = conditionSymbols,
-            weatherAttributeIcon = R.drawable.ic_celsius,
-            currentValue = "",
-            minimumPickerValue = PickersMinMaxValues.MIN_TEMP_VALUE.value,
-            maximumPickerValue = PickersMinMaxValues.MAX_TEMP_VALUE.value,
-            isSwitchActive = false
-        )
+        val temperatureModel =
+            WeatherSelectDataModel(
+                id = 1,
+                conditionArray = conditionSymbols,
+                weatherAttributeIcon = R.drawable.ic_celsius,
+                currentValue = "",
+                minimumPickerValue = PickersMinMaxValues.MIN_TEMP_VALUE.value,
+                maximumPickerValue = PickersMinMaxValues.MAX_TEMP_VALUE.value,
+                isSwitchActive = taskCreatorDataManager.getTemperatureValue() != "*",
+                settedValue = if (taskCreatorDataManager.getTemperatureValue() != "*") {
+                    (taskCreatorDataManager.getTemperatureValue()
+                        .toInt())
+                } else {
+                    -1
+                }
+            )
 
-        val windModel = WeatherSelectDataModel(
-            id = 2,
-            conditionArray = conditionSymbols,
-            weatherAttributeIcon = R.drawable.ic_wind,
-            currentValue = "",
-            minimumPickerValue = PickersMinMaxValues.MIN_WIND_VALUE.value,
-            maximumPickerValue = PickersMinMaxValues.MAX_WIND_VALUE.value,
-            isSwitchActive = false
 
-        )
+        val windModel =
+            WeatherSelectDataModel(
+                id = 2,
+                conditionArray = conditionSymbols,
+                weatherAttributeIcon = R.drawable.ic_wind,
+                currentValue = "",
+                minimumPickerValue = PickersMinMaxValues.MIN_WIND_VALUE.value,
+                maximumPickerValue = PickersMinMaxValues.MAX_WIND_VALUE.value,
+                isSwitchActive = taskCreatorDataManager.getWindValue() != "*",
+                settedValue = if (taskCreatorDataManager.getWindValue() != "*") {
+                    (taskCreatorDataManager.getWindValue()
+                        .toInt())
+                } else {
+                    -1
+                }
 
-        val pressureModel = WeatherSelectDataModel(
-            id = 3,
-            conditionArray = conditionSymbols,
-            weatherAttributeIcon = R.drawable.ic_pressure,
-            currentValue = "",
-            minimumPickerValue = PickersMinMaxValues.MIN_PRESSURE_VALUE.value,
-            maximumPickerValue = PickersMinMaxValues.MAX_PRESSURE_VALUE.value,
-            isSwitchActive = false
+            )
 
-        )
-        val humidityModel = WeatherSelectDataModel(
-            id = 4,
-            conditionArray = conditionSymbols,
-            weatherAttributeIcon = R.drawable.ic_humidity,
-            currentValue = "",
-            minimumPickerValue = PickersMinMaxValues.MIN_HUMIDITY_VALUE.value,
-            maximumPickerValue = PickersMinMaxValues.MAX_HUMIDITY_VALUE.value,
-            isSwitchActive = false
-        )
+
+        val pressureModel =
+            WeatherSelectDataModel(
+                id = 3,
+                conditionArray = conditionSymbols,
+                weatherAttributeIcon = R.drawable.ic_pressure,
+                currentValue = "",
+                minimumPickerValue = PickersMinMaxValues.MIN_PRESSURE_VALUE.value,
+                maximumPickerValue = PickersMinMaxValues.MAX_PRESSURE_VALUE.value,
+                isSwitchActive = taskCreatorDataManager.getPressureValue() != "*",
+                settedValue = if (taskCreatorDataManager.getPressureValue() != "*") {
+                    (taskCreatorDataManager.getPressureValue()
+                        .toInt())
+                } else {
+                    -1
+                }
+
+            )
+
+
+        val humidityModel =
+            WeatherSelectDataModel(
+                id = 4,
+                conditionArray = conditionSymbols,
+                weatherAttributeIcon = R.drawable.ic_humidity,
+                currentValue = "",
+                minimumPickerValue = PickersMinMaxValues.MIN_HUMIDITY_VALUE.value,
+                maximumPickerValue = PickersMinMaxValues.MAX_HUMIDITY_VALUE.value,
+                isSwitchActive = taskCreatorDataManager.getHumidityValue() != "*",
+                settedValue = if (taskCreatorDataManager.getHumidityValue() != "*") {
+                    (taskCreatorDataManager.getHumidityValue()
+                        .toInt())
+                } else {
+                    -1
+                }
+            )
 
         for (i in 0..3) {
             addToWeatherAttributeList(
@@ -302,14 +337,15 @@ class CreatorWeatherSelectViewModel(
                 currentValue = actualHumidity.value.toString(),
                 minimumPickerValue = PickersMinMaxValues.MIN_HUMIDITY_VALUE.value,
                 maximumPickerValue = PickersMinMaxValues.MAX_HUMIDITY_VALUE.value,
-                isSwitchActive = false
+                isSwitchActive = taskCreatorDataManager.getHumidityValue() != "*",
+                settedValue = if (taskCreatorDataManager.getHumidityValue() != "*") (taskCreatorDataManager.getHumidityValue()
+                    .toInt()) else -1
             )
         )
     }
 
     private fun onGetFirstRobotTemperatureSucess(firstRobotWeatherStationTemperature: FirstRobotWeatherStationTemperature) {
         actualTemperature.value = firstRobotWeatherStationTemperature.value.toString() + " °C"
-        Log.e("xd", "Actual Temperature" + firstRobotWeatherStationTemperature.value)
         addToWeatherAttributeList(
             WeatherSelectDataModel(
                 id = 1,
@@ -318,7 +354,9 @@ class CreatorWeatherSelectViewModel(
                 currentValue = actualTemperature.value.toString(),
                 minimumPickerValue = PickersMinMaxValues.MIN_TEMP_VALUE.value,
                 maximumPickerValue = PickersMinMaxValues.MAX_TEMP_VALUE.value,
-                isSwitchActive = false
+                isSwitchActive = taskCreatorDataManager.getTemperatureValue() != "*",
+                settedValue = if (taskCreatorDataManager.getTemperatureValue() != "*") (taskCreatorDataManager.getTemperatureValue()
+                    .toInt()) else -1
             )
         )
     }
@@ -333,7 +371,10 @@ class CreatorWeatherSelectViewModel(
                 currentValue = actualWind.value.toString(),
                 minimumPickerValue = PickersMinMaxValues.MIN_WIND_VALUE.value,
                 maximumPickerValue = PickersMinMaxValues.MAX_WIND_VALUE.value,
-                isSwitchActive = false
+                isSwitchActive = taskCreatorDataManager.getWindValue() != "*",
+                settedValue = if (taskCreatorDataManager.getWindValue() != "*") (taskCreatorDataManager.getWindValue()
+                    .toInt()) else -1
+
             )
         )
     }
@@ -348,7 +389,9 @@ class CreatorWeatherSelectViewModel(
                 currentValue = actualPressure.value.toString(),
                 minimumPickerValue = PickersMinMaxValues.MIN_PRESSURE_VALUE.value,
                 maximumPickerValue = PickersMinMaxValues.MAX_PRESSURE_VALUE.value,
-                isSwitchActive = false
+                isSwitchActive = taskCreatorDataManager.getPressureValue() != "*",
+                settedValue = if (taskCreatorDataManager.getPressureValue() != "*") (taskCreatorDataManager.getPressureValue()
+                    .toInt()) else -1
 
             )
         )

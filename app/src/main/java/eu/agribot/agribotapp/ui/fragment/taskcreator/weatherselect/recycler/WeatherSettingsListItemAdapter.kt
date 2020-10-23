@@ -49,10 +49,18 @@ class WeatherSettingsListItemAdapter(
         holder.itemView.weather_icon.setImageResource(item.weatherAttributeIcon)
         holder.itemView.value.minValue = item.minimumPickerValue
         holder.itemView.value.maxValue = item.maximumPickerValue
+        holder.itemView.value.value = if (item.settedValue != -1) {
+            item.settedValue
+        }else{
+            (item.minimumPickerValue + item.maximumPickerValue)/2
+        }
+
         holder.itemView.condition.minValue = 0
         holder.itemView.condition.value = 1
         holder.itemView.condition.maxValue = 2
         holder.itemView.condition.displayedValues = item.conditionArray
+
+        holder.itemView.activation_switch.isChecked = item.isSwitchActive
 
         holder.itemView.condition.setOnValueChangedListener { _, _, value ->
             onConditionPickerValueChanged(item.conditionArray[value], position)

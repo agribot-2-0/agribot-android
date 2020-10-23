@@ -11,5 +11,6 @@ val weatherAttributeIcon: Int,
     val minimumPickerValue: Int,
     val maximumPickerValue: Int,
     var currentValue: String,
-    val isSwitchActive: Boolean
+    val isSwitchActive: Boolean,
+    val settedValue : Int
 ) : BaseViewModel()

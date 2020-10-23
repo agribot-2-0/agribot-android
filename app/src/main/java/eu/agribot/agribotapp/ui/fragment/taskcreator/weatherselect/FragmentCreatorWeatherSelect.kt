@@ -39,7 +39,8 @@ class FragmentCreatorWeatherSelect :
 
     private fun backToPreviousFragment(isBackAction: Boolean) {
         if (isBackAction)
-            requireActivity().onBackPressed()
+            navigationController?.navigate(R.id.action_taskCreatorTaskWeatherFragment_to_taskCreatorTaskTimeFragment)
+
     }
 
     private fun onConditionPickerChanged(condition: String, itemPosition: Int) {

@@ -203,7 +203,7 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/fuel_icon"
+                            android:src="@drawable/ic_fuel"
                             app:tint="@color/base_green" />
 
                     </FrameLayout>
@@ -303,7 +303,7 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/ic_celsius"
+                            android:src="@drawable/ic_thermometer"
                             app:tint="@color/base_green" />
 
                     </FrameLayout>

@@ -312,7 +312,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="42dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_celsius"
+                            android:src="@drawable/ic_thermometer"
                             android:layout_margin="@dimen/margin_xlarge" />
 
                         <TextView
@@ -336,7 +336,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="42dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_celsius"
+                            android:src="@drawable/ic_thermometer"
                             android:layout_margin="@dimen/margin_xlarge" />
 
                         <TextView
@@ -367,7 +367,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="42dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_celsius"
+                            android:src="@drawable/ic_thermometer"
                             android:layout_margin="@dimen/margin_xlarge" />
 
                         <TextView
@@ -391,7 +391,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="42dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_celsius"
+                            android:src="@drawable/ic_thermometer"
                             android:layout_margin="@dimen/margin_xlarge" />
 
                         <TextView
@@ -420,7 +420,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="42dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_celsius"
+                            android:src="@drawable/ic_thermometer"
                             android:layout_margin="@dimen/margin_xlarge" />
 
                         <TextView
@@ -443,7 +443,7 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="43dp"
-                            android:src="@drawable/ic_celsius"
+                            android:src="@drawable/ic_thermometer"
                             android:layout_gravity="center"
                             android:layout_margin="@dimen/margin_xlarge" />
 
@@ -475,7 +475,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="42dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_celsius"
+                            android:src="@drawable/ic_thermometer"
                             android:layout_margin="@dimen/margin_xlarge" />
 
                         <TextView
@@ -498,7 +498,7 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="43dp"
-                            android:src="@drawable/ic_celsius"
+                            android:src="@drawable/ic_thermometer"
                             android:layout_gravity="center"
                             android:layout_margin="@dimen/margin_xlarge" />
 

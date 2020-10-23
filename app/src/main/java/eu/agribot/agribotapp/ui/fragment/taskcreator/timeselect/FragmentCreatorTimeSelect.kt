@@ -11,8 +11,7 @@ import eu.agribot.agribotapp.common.navigation.events.CreatorTaskWeatherNavigati
 import eu.agribot.agribotapp.databinding.FragmentCreatorTimeSelectBinding
 import kotlinx.android.synthetic.main.fragment_creator_time_select.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.Calendar
-import java.util.Date
+import java.util.*
 
 class FragmentCreatorTimeSelect :
     BaseFragment<CreatorTimeSelectViewModel, FragmentCreatorTimeSelectBinding>() {
@@ -35,7 +34,7 @@ class FragmentCreatorTimeSelect :
 
     private fun backToPreviousFragment(isBackAction: Boolean) {
         if (isBackAction)
-            navigationController?.navigate(R.id.action_taskCreatorTaskWeatherFragment_to_taskCreatorTaskTimeFragment)
+            navigationController?.navigate(R.id.action_taskCreatorTaskTimeFragment_to_taskCreatorTaskPathFragment)
 
     }
 

@@ -149,6 +149,9 @@
             app:exitAnim="@anim/nav_slide_out_to_right"
             app:popEnterAnim="@anim/nav_slide_out_to_left"
             app:popExitAnim="@anim/nav_slide_in_from_left" />
+        <action
+            android:id="@+id/action_taskCreatorTaskPathFragment_to_taskCreatorTaskNameFragment"
+            app:destination="@id/taskCreatorTaskNameFragment" />
 
     </fragment>
 

@@ -2,6 +2,7 @@ package eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect
 
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -72,11 +73,14 @@ class FragmentCreatorPathSelectFragment :
 
     private fun backToPreviousFragment(isBackAction: Boolean) {
         if (isBackAction)
-            requireActivity().onBackPressed()
+            navigationController?.navigate(
+                R.id.action_taskCreatorTaskPathFragment_to_taskCreatorTaskNameFragment
+            )
     }
 
     private fun navigateToCreatorTaskTimeFragment() {
         navigationController?.navigate(R.id.action_taskPathCreatorFragment_to_taskTimeCreatorFragment)
+
     }
 
     private fun onItemClicked(availibleFile: CloudFileListItemViewModel) {
@@ -122,15 +126,20 @@ class FragmentCreatorPathSelectFragment :
     }
 
     private fun setSelectedLayer(mapStream: InputStream) {
-        mapPathLayer = KmlLayer(googleMapFragment!!, mapStream, requireContext())
-        mapPathLayer!!.containers
-        mapPathLayer!!.addLayerToMap()
         try {
-            val container: Iterable<KmlContainer> = mapPathLayer!!.containers
-            viewModel.accessContainers(container)
-        } catch (exception: IOException) {
-            showToast("Map Layer Problem")
+            mapPathLayer = KmlLayer(googleMapFragment!!, mapStream, requireContext())
+            mapPathLayer!!.containers
+            mapPathLayer!!.addLayerToMap()
+            try {
+                val container: Iterable<KmlContainer> = mapPathLayer!!.containers
+                viewModel.accessContainers(container)
+            } catch (exception: IOException) {
+                showToast("Map Layer Problem")
+            }
+        } catch (exception: Exception) {
+            Log.e("xd", "SET LAYER EXCEPTION: " + exception)
         }
+
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -139,5 +148,41 @@ class FragmentCreatorPathSelectFragment :
         googleMapFragment!!.setMinZoomPreference(MapParameters.MIN_ZOOM.mapParametr)
         googleMapFragment!!.setMaxZoomPreference(MapParameters.MAX_ZOOM.mapParametr)
         addTileOverlay()
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+        Log.e("xd", "onStart()")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.e("xd", "onResume()")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.e("xd", "onPause()")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.e("xd" ,"onStop()")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.e("xd", "onDestroyView()")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.e("xd" ,"onDestroy()")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        Log.e("xd" ,"onDetach()")
     }
 }

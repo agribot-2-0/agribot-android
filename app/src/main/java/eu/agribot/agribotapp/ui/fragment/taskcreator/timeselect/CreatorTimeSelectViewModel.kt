@@ -80,7 +80,6 @@ class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreator
             dayOfMonthData.value = GregorianCalendar.DAY_OF_MONTH
             taskCreatorDataManager.onUpdateTimestampEstimated(true)
         }
-
         hourData.value = hour
         minuteData.value = minute
         val tempCalendar = Calendar.getInstance()
@@ -97,9 +96,7 @@ class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreator
                 minuteData.value!!
             )
         gregorianCalendar.timeZone = TimeZone.getTimeZone("GMT")
-
         val calendar = (gregorianCalendar.timeInMillis) / 1000
-
         val timestamp = Timestamp(calendar, 0)
         taskCreatorDataManager.onUpdateTimestamp(timestamp)
         taskCreatorDataManager.onUpdateTimestampEstimated(false)

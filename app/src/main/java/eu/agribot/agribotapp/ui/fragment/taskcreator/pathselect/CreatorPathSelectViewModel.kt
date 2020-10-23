@@ -137,6 +137,7 @@ class CreatorPathSelectViewModel(
     private fun onGotPathFile(file: File) {
         val fileInputStream: InputStream = FileInputStream(file)
         selectedLayer.value = fileInputStream
+        selectedLayer.value!!.close()
     }
 
     fun onNextButtonClicked() {

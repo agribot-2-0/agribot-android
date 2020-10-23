@@ -7,13 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import eu.agribot.agribotapp.databinding.ListItemWeatherSettingsBinding
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.PickerSymbols
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.PickersMinMaxValues
+import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.weatherattributes.WeatherAttribute
 import kotlinx.android.synthetic.main.list_item_weather_settings.view.*
 
 
 class WeatherSettingsListItemAdapter(
-    val onConditionPickerValueChanged: (condition: String, itemPosition: Int) -> Unit,
-    val onValuePickerValueChanged: (value: Int, itemPosition: Int) -> Unit,
-    val onItemSwitchParametrChange: (position: Int, isActivated: Boolean) -> Unit
+    val onWeatherAttributeChanged: (weatherAttribute: WeatherAttribute) -> Unit
 ) : RecyclerView.Adapter<WeatherSettingsListItemViewHolder>() {
 
     var items = listOf<WeatherSettingsListItemViewModel>()
@@ -53,6 +52,9 @@ class WeatherSettingsListItemAdapter(
         holder.itemView.value.minValue = item.minimumPickerValue
         holder.itemView.value.maxValue = item.maximumPickerValue
 
+        var value = holder.itemView.value.value
+        val condition = item.conditionArray[holder.itemView.condition.value]
+        var isWeatherAttributeActive = holder.itemView.activation_switch.isChecked
 
         holder.itemView.condition.minValue = PickersMinMaxValues.LESS_POSITION.value
         holder.itemView.condition.maxValue = PickersMinMaxValues.EQUAL_POSITION.value
@@ -86,18 +88,41 @@ class WeatherSettingsListItemAdapter(
         holder.itemView.activation_switch.isChecked = item.isSwitchActive
 
         holder.itemView.condition.setOnValueChangedListener { _, _, value ->
-            onConditionPickerValueChanged(item.conditionArray[value], position)
+            onWeatherAttributeChanged(
+                WeatherAttribute(
+                    attributeID = item.id,
+                    weatherValue = value,
+                    weatherCondition = item.conditionArray[value],
+                    isWeatherActive = isWeatherAttributeActive
+                )
+            )
         }
 
         holder.itemView.value.setOnValueChangedListener { _, _, newVal ->
-            onValuePickerValueChanged(newVal, position)
+            value = newVal
+            onWeatherAttributeChanged(
+                WeatherAttribute(
+                    attributeID = item.id,
+                    weatherValue = value,
+                    weatherCondition = condition,
+                    isWeatherActive = isWeatherAttributeActive
+                )
+            )
         }
 
         holder.itemView.activation_switch.setOnCheckedChangeListener { _, isChecked ->
-            onItemSwitchParametrChange(
-                item.id,
-                isChecked
+            isWeatherAttributeActive = isChecked
+            onWeatherAttributeChanged(
+                WeatherAttribute(
+                    attributeID = item.id,
+                    weatherValue = value,
+                    weatherCondition = condition,
+                    isWeatherActive = isWeatherAttributeActive
+                )
             )
         }
+
     }
+
+
 }

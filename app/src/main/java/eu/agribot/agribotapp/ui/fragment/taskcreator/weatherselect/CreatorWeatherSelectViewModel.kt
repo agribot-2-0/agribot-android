@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
@@ -14,6 +15,7 @@ import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationWind
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.WeatherSettingsListItemViewModel
+import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.weatherattributes.WeatherAttribute
 
 class CreatorWeatherSelectViewModel(
     private val cloudDatabaseService: CloudDatabaseService,
@@ -38,123 +40,74 @@ class CreatorWeatherSelectViewModel(
     val conditionSymbols = arrayOf("<", ">", "=")
 
 
-    fun onConditionChanged(condition: String, itemPosition: Int) {
-        when (itemPosition) {
-            WeatherItemNumber.WIND_ITEM.itemNumber -> {
-                when (condition) {
-                    PickerSymbols.PICKER_CONDITION_BIGGER.symbol -> {
-                        taskCreatorDataManager.onUpdatewindCondition(PickerSymbols.CLOUD_DATA_CONDITION_MORE.symbol)
-                    }
-                    PickerSymbols.PICKER_CONDITION_LESS.symbol -> {
-                        taskCreatorDataManager.onUpdatewindCondition(PickerSymbols.CLOUD_DATA_CONDITION_LESS.symbol)
-                    }
-                    PickerSymbols.PICKER_CONDITION_EQUAL.symbol -> {
-                        taskCreatorDataManager.onUpdatewindCondition(PickerSymbols.CLOUD_DATA_CONDITION_EQUAL.symbol)
-                    }
+    fun onWeatherAttributeChanged(weatherAttribute: WeatherAttribute) {
+
+        Log.e("xd", "Condition: " + weatherAttribute.weatherCondition)
+        when (weatherAttribute.attributeID) {
+            WeatherItemNumber.TEMPERATURE_ITEM.itemNumber -> {
+                if (weatherAttribute.isWeatherActive) {
+                    taskCreatorDataManager.onUpdateTemperatureValue(weatherAttribute.weatherValue.toString())
+                    taskCreatorDataManager.onUpdateTemperatureCondition(
+                        changeConditionSymbolToText(
+                            weatherAttribute.weatherCondition
+                        )
+                    )
+                } else {
+                    taskCreatorDataManager.onUpdateTemperatureValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
+                    taskCreatorDataManager.onUpdateTemperatureCondition(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
                 }
             }
-            WeatherItemNumber.PRESSURE_ITEM.itemNumber -> {
-                when (condition) {
-                    PickerSymbols.PICKER_CONDITION_BIGGER.symbol -> {
-                        taskCreatorDataManager.onUpdatepressureCondition(PickerSymbols.CLOUD_DATA_CONDITION_MORE.symbol)
-                    }
-                    PickerSymbols.PICKER_CONDITION_LESS.symbol -> {
-                        taskCreatorDataManager.onUpdatepressureCondition(PickerSymbols.CLOUD_DATA_CONDITION_LESS.symbol)
-                    }
-                    PickerSymbols.PICKER_CONDITION_EQUAL.symbol -> {
-                        taskCreatorDataManager.onUpdatepressureCondition(PickerSymbols.CLOUD_DATA_CONDITION_EQUAL.symbol)
-                    }
+            WeatherItemNumber.WIND_ITEM.itemNumber -> {
+                if (weatherAttribute.isWeatherActive) {
+                    taskCreatorDataManager.onUpdatewindValue(weatherAttribute.weatherValue.toString())
+                    taskCreatorDataManager.onUpdatewindCondition(
+                        changeConditionSymbolToText(
+                            weatherAttribute.weatherCondition
+                        )
+                    )
+                } else {
+                    taskCreatorDataManager.onUpdatewindValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
+                    taskCreatorDataManager.onUpdatewindCondition(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
                 }
             }
             WeatherItemNumber.HUMIDITY_ITEM.itemNumber -> {
-                when (condition) {
-                    PickerSymbols.PICKER_CONDITION_BIGGER.symbol -> {
-                        taskCreatorDataManager.onUpdatehumidityCondition(PickerSymbols.CLOUD_DATA_CONDITION_MORE.symbol)
-                    }
-                    PickerSymbols.PICKER_CONDITION_LESS.symbol -> {
-                        taskCreatorDataManager.onUpdatehumidityCondition(PickerSymbols.CLOUD_DATA_CONDITION_LESS.symbol)
-                    }
-                    PickerSymbols.PICKER_CONDITION_EQUAL.symbol -> {
-                        taskCreatorDataManager.onUpdatehumidityCondition(PickerSymbols.CLOUD_DATA_CONDITION_EQUAL.symbol)
-                    }
-                }
-            }
-            WeatherItemNumber.TEMPERATURE_ITEM.itemNumber -> {
-                when (condition) {
-                    PickerSymbols.PICKER_CONDITION_BIGGER.symbol -> {
-                        taskCreatorDataManager.onUpdateTemperatureCondition(PickerSymbols.CLOUD_DATA_CONDITION_MORE.symbol)
-                    }
-                    PickerSymbols.PICKER_CONDITION_LESS.symbol -> {
-                        taskCreatorDataManager.onUpdateTemperatureCondition(PickerSymbols.CLOUD_DATA_CONDITION_LESS.symbol)
-                    }
-                    PickerSymbols.PICKER_CONDITION_EQUAL.symbol -> {
-                        taskCreatorDataManager.onUpdateTemperatureCondition(PickerSymbols.CLOUD_DATA_CONDITION_EQUAL.symbol)
-                    }
-                }
-            }
-        }
-    }
-
-    fun onValueChanged(value: Int, itemPosition: Int) {
-        when (itemPosition) {
-            WeatherItemNumber.WIND_ITEM.itemNumber -> {
-                if (windItemActive.value == true) {
-                    taskCreatorDataManager.onUpdatewindValue(value.toString())
+                if (weatherAttribute.isWeatherActive) {
+                    taskCreatorDataManager.onUpdatehumidityValue(weatherAttribute.weatherValue.toString())
+                    taskCreatorDataManager.onUpdatehumidityCondition(
+                        changeConditionSymbolToText(
+                            weatherAttribute.weatherCondition
+                        )
+                    )
                 } else {
-                    taskCreatorDataManager.onUpdatewindValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
+                    taskCreatorDataManager.onUpdatehumidityValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
+                    taskCreatorDataManager.onUpdatehumidityCondition(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
                 }
             }
             WeatherItemNumber.PRESSURE_ITEM.itemNumber -> {
-                if (pressureItemActive.value == true) {
-                    taskCreatorDataManager.onUpdatewindValue(value.toString())
-                    taskCreatorDataManager.onUpdatepressureValue(value.toString())
+                if (weatherAttribute.isWeatherActive) {
+                    taskCreatorDataManager.onUpdatepressureValue(weatherAttribute.weatherValue.toString())
+                    taskCreatorDataManager.onUpdatepressureCondition(
+                        changeConditionSymbolToText(
+                            weatherAttribute.weatherCondition
+                        )
+                    )
                 } else {
                     taskCreatorDataManager.onUpdatepressureValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
                     taskCreatorDataManager.onUpdatepressureCondition(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
+                }
+            }
 
-                }
-            }
-            WeatherItemNumber.HUMIDITY_ITEM.itemNumber -> {
-                if (humidityItemActive.value == true) {
-                    taskCreatorDataManager.onUpdatewindValue(value.toString())
-                    taskCreatorDataManager.onUpdatehumidityValue(value.toString())
-                } else {
-                    taskCreatorDataManager.onUpdatewindValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
-                }
-            }
-            WeatherItemNumber.TEMPERATURE_ITEM.itemNumber -> {
-                if (temperatureItemActive.value == true) {
-                    taskCreatorDataManager.onUpdateTemperatureValue(value.toString())
-                } else {
-                    taskCreatorDataManager.onUpdateTemperatureValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
-                }
-            }
         }
     }
 
-    fun onSwitchParametrChange(itemID: Int, isActivated: Boolean) {
-        when (itemID) {
-            WeatherItemNumber.WIND_ITEM.itemNumber -> {
-                windItemActive.value = isActivated
-                taskCreatorDataManager.onUpdatewindValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
-                taskCreatorDataManager.onUpdatewindCondition(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
-            }
-            WeatherItemNumber.PRESSURE_ITEM.itemNumber -> {
-                pressureItemActive.value = isActivated
-                taskCreatorDataManager.onUpdatepressureValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
-                taskCreatorDataManager.onUpdatepressureValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
-            }
-            WeatherItemNumber.HUMIDITY_ITEM.itemNumber -> {
-                humidityItemActive.value = isActivated
-                taskCreatorDataManager.onUpdatehumidityValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
-                taskCreatorDataManager.onUpdatehumidityCondition(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
-            }
-            WeatherItemNumber.TEMPERATURE_ITEM.itemNumber -> {
-                temperatureItemActive.value = isActivated
-                taskCreatorDataManager.onUpdateTemperatureCondition(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
-                taskCreatorDataManager.onUpdateTemperatureValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
-            }
+    fun changeConditionSymbolToText(symbol: String): String {
+        return when (symbol) {
+            PickerSymbols.PICKER_CONDITION_BIGGER.symbol -> PickerSymbols.CLOUD_DATA_CONDITION_MORE.symbol
+            PickerSymbols.PICKER_CONDITION_LESS.symbol -> PickerSymbols.CLOUD_DATA_CONDITION_LESS.symbol
+            PickerSymbols.PICKER_CONDITION_EQUAL.symbol -> PickerSymbols.CLOUD_DATA_CONDITION_EQUAL.symbol
+            else -> "*"
         }
+
     }
 
     private fun addToWeatherAttributeList(

@@ -1,6 +1,7 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import eu.agribot.agribotapp.R
@@ -10,6 +11,7 @@ import eu.agribot.agribotapp.common.navigation.events.CreatorTaskToolsNavigation
 import eu.agribot.agribotapp.databinding.FragmentCreatorWeatherBinding
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.WeatherSettingsListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.WeatherSettingsListItemViewModel
+import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.weatherattributes.WeatherAttribute
 import kotlinx.android.synthetic.main.fragment_creator_weather.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -20,9 +22,7 @@ class FragmentCreatorWeatherSelect :
     override val layoutResourceId: Int = R.layout.fragment_creator_weather
     override val viewModel: CreatorWeatherSelectViewModel by viewModel { parametersOf(requireContext()) }
     private val recyclerAdapter = WeatherSettingsListItemAdapter(
-        this::onConditionPickerChanged,
-        this::onValuePickerChanged,
-        this::onItemSwitchParametrChange
+        this::onWeatherAttributeChanged
     )
 
     override fun bindViewVariables(viewBinding: FragmentCreatorWeatherBinding) {
@@ -43,17 +43,10 @@ class FragmentCreatorWeatherSelect :
 
     }
 
-    private fun onConditionPickerChanged(condition: String, itemPosition: Int) {
-        viewModel.onConditionChanged(condition, itemPosition)
+    private fun onWeatherAttributeChanged(weatherAttribute: WeatherAttribute) {
+        viewModel.onWeatherAttributeChanged(weatherAttribute)
     }
 
-    private fun onValuePickerChanged(value: Int, itemPosition: Int) {
-        viewModel.onValueChanged(value, itemPosition)
-    }
-
-    private fun onItemSwitchParametrChange(itemPosition: Int, isActivated: Boolean) {
-        viewModel.onSwitchParametrChange(itemPosition, isActivated)
-    }
 
     private fun setupRecyclerView() {
         weather_settings_recycler.adapter = recyclerAdapter

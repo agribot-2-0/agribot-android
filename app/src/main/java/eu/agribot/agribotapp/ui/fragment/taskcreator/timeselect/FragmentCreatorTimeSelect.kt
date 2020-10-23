@@ -62,6 +62,7 @@ class FragmentCreatorTimeSelect :
 
     private fun setDatePicker(date: Date) {
         val calendar = Calendar.getInstance()
+        calendar.timeZone = TimeZone.getTimeZone("GMT")
         calendar.time = date
         date_picker.updateDate(
             calendar.get(Calendar.YEAR),
@@ -69,47 +70,8 @@ class FragmentCreatorTimeSelect :
             calendar.get(Calendar.DAY_OF_MONTH)
         )
 
-        Log.e(
-            "xd",
-            "time: " + calendar.get(Calendar.HOUR_OF_DAY) + "minute: " + calendar.get(Calendar.MINUTE)
-        )
         time_picker.hour = calendar.get(Calendar.HOUR_OF_DAY)
         time_picker.minute = calendar.get(Calendar.MINUTE)
     }
 
-
-    override fun onStart() {
-        super.onStart()
-        Log.e("xd", "onStart()")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.e("xd", "onResume()")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.e("xd", "onPause()")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.e("xd", "onStop()")
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Log.e("xd", "onDestroyView()")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.e("xd", "onDestroy()")
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        Log.e("xd", "onDetach()")
-    }
 }

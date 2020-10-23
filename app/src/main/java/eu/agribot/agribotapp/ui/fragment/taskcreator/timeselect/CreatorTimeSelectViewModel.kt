@@ -48,7 +48,7 @@ class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreator
         backButtonEvent.postValue(true)
     }
 
-    fun setCallendarSettings(day: Int, month: Int, year: Int) {
+    fun onDateChange(day: Int, month: Int, year: Int) {
         if (minuteData.value == null && hourData.value == null) {
             minuteData.value = GregorianCalendar.MINUTE
             hourData.value = GregorianCalendar.HOUR

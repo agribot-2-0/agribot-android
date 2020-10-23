@@ -114,8 +114,10 @@ class FragmentCreatorPathSelectFragment :
         if (mapPathLayer != null) {
             mapPathLayer!!.removeLayerFromMap()
             setSelectedLayer(mapStream)
+            mapStream.close()
         } else {
             setSelectedLayer(mapStream)
+            mapStream.close()
         }
     }
 

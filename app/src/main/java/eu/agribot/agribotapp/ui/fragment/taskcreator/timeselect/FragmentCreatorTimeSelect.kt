@@ -52,7 +52,7 @@ class FragmentCreatorTimeSelect :
         }
 
         date_picker.setOnDateChangedListener { _, year, monthOfYear, dayOfMonth ->
-            viewModel.setCallendarSettings(dayOfMonth, monthOfYear, year)
+            viewModel.onDateChange(dayOfMonth, monthOfYear, year)
         }
 
         time_activator.setOnCheckedChangeListener { _, isChecked ->
@@ -60,7 +60,7 @@ class FragmentCreatorTimeSelect :
         }
     }
 
-    fun setDatePicker(date: Date) {
+    private fun setDatePicker(date: Date) {
         val calendar = Calendar.getInstance()
         calendar.time = date
         date_picker.updateDate(

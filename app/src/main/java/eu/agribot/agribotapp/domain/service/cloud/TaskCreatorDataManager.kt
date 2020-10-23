@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.domain.service.cloud
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.Timestamp
 import eu.agribot.agribotapp.domain.model.TaskDetails
@@ -48,6 +49,9 @@ class TaskCreatorDataManager {
 
     fun onUpdateTimestamp(timestamp: Timestamp) {
         timestampData.value = timestamp
+        Log.e("xd", "update timestamp: " + timestamp.toDate())
+
+
     }
 
     fun onUpdateTemperatureValue(temperatureValue: String?) {

@@ -68,7 +68,12 @@ class FragmentCreatorTimeSelect :
             calendar.get(Calendar.MONTH),
             calendar.get(Calendar.DAY_OF_MONTH)
         )
-        time_picker.hour = calendar.get(Calendar.HOUR)
+
+        Log.e(
+            "xd",
+            "time: " + calendar.get(Calendar.HOUR_OF_DAY) + "minute: " + calendar.get(Calendar.MINUTE)
+        )
+        time_picker.hour = calendar.get(Calendar.HOUR_OF_DAY)
         time_picker.minute = calendar.get(Calendar.MINUTE)
     }
 
@@ -90,7 +95,7 @@ class FragmentCreatorTimeSelect :
 
     override fun onStop() {
         super.onStop()
-        Log.e("xd" ,"onStop()")
+        Log.e("xd", "onStop()")
     }
 
     override fun onDestroyView() {
@@ -100,11 +105,11 @@ class FragmentCreatorTimeSelect :
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.e("xd" ,"onDestroy()")
+        Log.e("xd", "onDestroy()")
     }
 
     override fun onDetach() {
         super.onDetach()
-        Log.e("xd" ,"onDetach()")
+        Log.e("xd", "onDetach()")
     }
 }

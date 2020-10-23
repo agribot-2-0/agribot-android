@@ -71,7 +71,7 @@
     <string name="tractor">Tractor</string>
 
     <!-- Path Select View -->
-    <string name="paths">Paths:</string>
+    <string name="paths">Paths</string>
     <string name="delete_path_button">Delete Path</string>
 
     <!-- Welcome Activity -->
@@ -161,7 +161,7 @@
     <string name="tuz_down_up">TUZ Down/Up</string>
     <string name="front_hitch">Front Hitch</string>
     <string name="back_hitch">Back Hitch</string>
-    <string name="task_creator">Tasks</string>
+    <string name="title_task_creator">Tasks</string>
     <string name="delete_task_button">Delete task</string>
     <string name="edit_task_button">Edit task</string>
     <string name="path_name">Path name</string>
@@ -206,6 +206,7 @@
     <string name="title_group_management">Management</string>
     <string name="tool_mode">Tool mode</string>
     <string name="current_weather">Current Weather</string>
+    <string name="tool_picture">TOOL PICTURE</string>
 
 
 </resources>

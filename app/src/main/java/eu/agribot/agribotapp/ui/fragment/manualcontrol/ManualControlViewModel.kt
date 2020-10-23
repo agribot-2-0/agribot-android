@@ -59,12 +59,6 @@ class ManualControlViewModel(
         }
     }
 
-    fun manualControlNavEvent() {
-        navigationEvent.postValue(
-            BluetoothConnectionNavigationEvent()
-        )
-    }
-
     fun onJoystickParametrChange(angel: Int, strength: Int) = viewModelScope.launch {
         delay(SEND_JOYSTICK_MESSAGE_DELAY)
         manualModeService.onManualSteeringJoystickParametrChanged(angel, strength)

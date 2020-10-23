@@ -28,8 +28,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:background="@color/background_gray"
+                android:background="@drawable/rounded_corner_layout"
                 android:orientation="horizontal"
+                android:layout_margin="@dimen/margin_small"
                 tools:ignore="NestedWeights">
 
                 <LinearLayout
@@ -358,10 +359,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:layout_margin="@dimen/margin_small"
+                android:background="@drawable/rounded_corner_layout"
                 android:orientation="horizontal">
 
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -374,17 +377,7 @@
                     android:textSize="@dimen/text_size_medium" />
 
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:onClick="@{() -> viewModel.manualControlNavEvent()}"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    android:textStyle="italic" />
-
-
-                <Button
+               <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -406,7 +399,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/background_gray"
+            android:background="@drawable/rounded_corner_layout"
+            android:layout_margin="@dimen/margin_small"
             android:orientation="vertical">
 
 
@@ -428,19 +422,19 @@
                 android:orientation="horizontal">
 
 
-                <ImageButton
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_angle"
-                    android:tint="@color/base_green" />
+<!--                <ImageButton-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:src="@drawable/ic_angle"-->
+<!--                    android:tint="@color/base_green" />-->
 
-                <ImageButton
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_dog_walk"
-                    android:tint="@color/base_green" />
+<!--                <ImageButton-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:src="@drawable/ic_dog_walk"-->
+<!--                    android:tint="@color/base_green" />-->
 
 
             </LinearLayout>

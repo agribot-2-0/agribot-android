@@ -26,17 +26,17 @@
                 <item
                 android:id="@+id/creatorFragment"
                 android:icon="@drawable/ic_add_task"
-                android:title="@string/task_creator" />
-
-                <item
-                    android:id="@+id/toolManagementFragment"
-                    android:icon="@drawable/ic_build_black"
-                    android:title="@string/title_tool_management" />
+                android:title="@string/title_task_creator" />
 
                 <item
                     android:id="@+id/pathManagementFragment"
                     android:icon="@drawable/ic_edit_location_black"
                     android:title="@string/title_path_management" />
+
+                <item
+                    android:id="@+id/toolManagementFragment"
+                    android:icon="@drawable/ic_build_black"
+                    android:title="@string/title_tool_management" />
             </group>
         </menu>
     </item>

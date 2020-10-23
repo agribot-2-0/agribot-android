@@ -19,7 +19,7 @@
             android:layout_height="0dp"
             android:layout_margin="@dimen/margin_small"
             android:layout_weight="7"
-            android:background="@drawable/rounded_corner_layout">
+            android:background="@color/background_gray">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/weather_settings_recycler"

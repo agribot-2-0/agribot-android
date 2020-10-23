@@ -150,8 +150,8 @@
     <string name="front_hitch">Przednie zaczepy</string>
     <string name="back_hitch">Tylne zaczepy</string>
     <string name="title_task_creator">Zadania</string>
-    <string name="delete_task_button">Usuń zadanie</string>
-    <string name="edit_task_button">Edytuj zadanie</string>
+    <string name="delete_task_button">Usuń</string>
+    <string name="edit_task_button">Edytuj</string>
     <string name="path_name">Nazwa ścieżki</string>
     <string name="delete_sucess_text">Task deleted sucessfully</string>
     <string name="start_time">Czas Startu: "</string>

@@ -59,7 +59,7 @@
                         android:background="@android:color/transparent"
                         android:backgroundTint="@color/white"
                         android:onClick="@{()-> viewModel.onNewTaskButtonClicked()}"
-                        android:src="@drawable/ic_add_task"
+                        android:src="@drawable/ic_add"
                         app:rippleColor="@color/white" />
 
                     <androidx.recyclerview.widget.RecyclerView

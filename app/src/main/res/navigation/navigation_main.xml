@@ -200,15 +200,11 @@
         tools:layout="@layout/fragment_creator_tool_select">
 
         <action
-            android:id="@+id/action_taskCreatorTaskToolFragment_to_dashboardFragment"
-            app:destination="@id/dashboardFragment"
-            app:enterAnim="@anim/nav_slide_in_from_right"
-            app:exitAnim="@anim/nav_slide_out_to_right"
-            app:popEnterAnim="@anim/nav_slide_out_to_left"
-            app:popExitAnim="@anim/nav_slide_in_from_left" />
-        <action
             android:id="@+id/action_taskCreatorTaskToolFragment_to_taskCreatorTaskWeatherFragment"
             app:destination="@id/taskCreatorTaskWeatherFragment" />
+        <action
+            android:id="@+id/action_taskCreatorTaskToolFragment_to_creatorFragment"
+            app:destination="@id/creatorFragment" />
     </fragment>
 
     <fragment

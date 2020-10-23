@@ -187,7 +187,8 @@ val viewModelModule = module {
             minimumPickerValue = get(),
             maximumPickerValue = get(),
             isSwitchActive = get(),
-            settedValue = get()
+            settedValue = get(),
+            settedCondition = get()
         )
     }
 

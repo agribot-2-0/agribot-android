@@ -36,11 +36,7 @@ class CreatorWeatherSelectViewModel(
     val actualPressure: MutableLiveData<String> = MutableLiveData()
     val backButtonEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
     val conditionSymbols = arrayOf("<", ">", "=")
-    fun getPreSetWeatherAttributes() {
-        if (taskCreatorDataManager.getTemperatureValue() != "*") {
-            temperatureItemActive.value = true
-        }
-    }
+
 
     fun onConditionChanged(condition: String, itemPosition: Int) {
         when (itemPosition) {
@@ -168,30 +164,27 @@ class CreatorWeatherSelectViewModel(
                     weatherSelectDataModel.maximumPickerValue,
                     weatherSelectDataModel.currentValue,
                     weatherSelectDataModel.isSwitchActive,
-                    weatherSelectDataModel.settedValue
+                    weatherSelectDataModel.settedValue,
+                    weatherSelectDataModel.settedCondition
                 ),
                 *weatherAttributeList.value!!.toTypedArray()
             )
         else {
-            for (i in weatherAttributeList.value!!.indices) {
-                if (weatherAttributeList.value!![i].id == weatherSelectDataModel.id) {
-                    weatherAttributeList.value =
-                        weatherAttributeList.value!!.minus((weatherAttributeList.value!![i]))
-
-                    weatherAttributeList.value = listOf(
-                        WeatherSettingsListItemViewModel(
-                            weatherSelectDataModel.id,
-                            weatherSelectDataModel.weatherAttributeIcon,
-                            weatherSelectDataModel.conditionArray,
-                            weatherSelectDataModel.minimumPickerValue,
-                            weatherSelectDataModel.maximumPickerValue,
-                            weatherSelectDataModel.currentValue,
-                            weatherSelectDataModel.isSwitchActive,
-                            weatherSelectDataModel.settedValue
-
-                        ),
-                        *weatherAttributeList.value!!.toTypedArray()
+            weatherAttributeList.value = weatherAttributeList.value!!.map { oldAttribute ->
+                if (oldAttribute.id == weatherSelectDataModel.id) {
+                    WeatherSettingsListItemViewModel(
+                        weatherSelectDataModel.id,
+                        weatherSelectDataModel.weatherAttributeIcon,
+                        weatherSelectDataModel.conditionArray,
+                        weatherSelectDataModel.minimumPickerValue,
+                        weatherSelectDataModel.maximumPickerValue,
+                        weatherSelectDataModel.currentValue,
+                        weatherSelectDataModel.isSwitchActive,
+                        weatherSelectDataModel.settedValue,
+                        weatherSelectDataModel.settedCondition
                     )
+                } else {
+                    oldAttribute
                 }
             }
         }
@@ -213,6 +206,11 @@ class CreatorWeatherSelectViewModel(
                         .toInt())
                 } else {
                     -1
+                },
+                settedCondition = if (taskCreatorDataManager.getTemperatureValue() != "*") {
+                    taskCreatorDataManager.getTemperatureCondition()
+                } else {
+                    "more"
                 }
             )
 
@@ -231,6 +229,11 @@ class CreatorWeatherSelectViewModel(
                         .toInt())
                 } else {
                     -1
+                },
+                settedCondition = if (taskCreatorDataManager.getWindCondition() != "*") {
+                    taskCreatorDataManager.getWindCondition()
+                } else {
+                    "more"
                 }
 
             )
@@ -250,6 +253,11 @@ class CreatorWeatherSelectViewModel(
                         .toInt())
                 } else {
                     -1
+                },
+                settedCondition = if (taskCreatorDataManager.getPressureValue() != "*") {
+                    taskCreatorDataManager.getPressureCondition()
+                } else {
+                    "more"
                 }
 
             )
@@ -269,6 +277,11 @@ class CreatorWeatherSelectViewModel(
                         .toInt())
                 } else {
                     -1
+                },
+                settedCondition = if (taskCreatorDataManager.getHumidityValue() != "*") {
+                    taskCreatorDataManager.getHumidityCondition()
+                } else {
+                    "more"
                 }
             )
 
@@ -338,8 +351,17 @@ class CreatorWeatherSelectViewModel(
                 minimumPickerValue = PickersMinMaxValues.MIN_HUMIDITY_VALUE.value,
                 maximumPickerValue = PickersMinMaxValues.MAX_HUMIDITY_VALUE.value,
                 isSwitchActive = taskCreatorDataManager.getHumidityValue() != "*",
-                settedValue = if (taskCreatorDataManager.getHumidityValue() != "*") (taskCreatorDataManager.getHumidityValue()
-                    .toInt()) else -1
+                settedValue = if (taskCreatorDataManager.getHumidityValue() != "*") {
+                    (taskCreatorDataManager.getHumidityValue()
+                        .toInt())
+                } else {
+                    -1
+                },
+                settedCondition = if (taskCreatorDataManager.getHumidityValue() != "*") {
+                    taskCreatorDataManager.getHumidityCondition()
+                } else {
+                    "more"
+                }
             )
         )
     }
@@ -355,8 +377,17 @@ class CreatorWeatherSelectViewModel(
                 minimumPickerValue = PickersMinMaxValues.MIN_TEMP_VALUE.value,
                 maximumPickerValue = PickersMinMaxValues.MAX_TEMP_VALUE.value,
                 isSwitchActive = taskCreatorDataManager.getTemperatureValue() != "*",
-                settedValue = if (taskCreatorDataManager.getTemperatureValue() != "*") (taskCreatorDataManager.getTemperatureValue()
-                    .toInt()) else -1
+                settedValue = if (taskCreatorDataManager.getTemperatureValue() != "*") {
+                    (taskCreatorDataManager.getTemperatureValue()
+                        .toInt())
+                } else {
+                    -1
+                },
+                settedCondition = if (taskCreatorDataManager.getTemperatureValue() != "*") {
+                    taskCreatorDataManager.getTemperatureCondition()
+                } else {
+                    "more"
+                }
             )
         )
     }
@@ -372,8 +403,17 @@ class CreatorWeatherSelectViewModel(
                 minimumPickerValue = PickersMinMaxValues.MIN_WIND_VALUE.value,
                 maximumPickerValue = PickersMinMaxValues.MAX_WIND_VALUE.value,
                 isSwitchActive = taskCreatorDataManager.getWindValue() != "*",
-                settedValue = if (taskCreatorDataManager.getWindValue() != "*") (taskCreatorDataManager.getWindValue()
-                    .toInt()) else -1
+                settedValue = if (taskCreatorDataManager.getWindValue() != "*") {
+                    (taskCreatorDataManager.getWindValue()
+                        .toInt())
+                } else {
+                    -1
+                },
+                settedCondition = if (taskCreatorDataManager.getWindValue() != "*") {
+                    taskCreatorDataManager.getWindCondition()
+                } else {
+                    "more"
+                }
 
             )
         )
@@ -390,8 +430,17 @@ class CreatorWeatherSelectViewModel(
                 minimumPickerValue = PickersMinMaxValues.MIN_PRESSURE_VALUE.value,
                 maximumPickerValue = PickersMinMaxValues.MAX_PRESSURE_VALUE.value,
                 isSwitchActive = taskCreatorDataManager.getPressureValue() != "*",
-                settedValue = if (taskCreatorDataManager.getPressureValue() != "*") (taskCreatorDataManager.getPressureValue()
-                    .toInt()) else -1
+                settedValue = if (taskCreatorDataManager.getPressureValue() != "*") {
+                    (taskCreatorDataManager.getPressureValue()
+                        .toInt())
+                } else {
+                    -1
+                },
+                settedCondition = if (taskCreatorDataManager.getPressureValue() != "*") {
+                    taskCreatorDataManager.getPressureCondition()
+                } else {
+                    "more"
+                }
 
             )
         )

@@ -1,11 +1,13 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import eu.agribot.agribotapp.databinding.ListItemWeatherSettingsBinding
 import kotlinx.android.synthetic.main.list_item_weather_settings.view.*
+
 
 class WeatherSettingsListItemAdapter(
     val onConditionPickerValueChanged: (condition: String, itemPosition: Int) -> Unit,
@@ -49,10 +51,26 @@ class WeatherSettingsListItemAdapter(
         holder.itemView.weather_icon.setImageResource(item.weatherAttributeIcon)
         holder.itemView.value.minValue = item.minimumPickerValue
         holder.itemView.value.maxValue = item.maximumPickerValue
-        holder.itemView.value.value = if (item.settedValue != -1) {
-            item.settedValue
-        }else{
-            (item.minimumPickerValue + item.maximumPickerValue)/2
+
+        if (item.settedValue != -1) {
+            holder.itemView.value.value = item.settedValue
+            when (item.settedCondition) {
+                "less" -> {
+                    Log.e("xd", " less")
+                    for (i in item.conditionArray.indices) if (item.conditionArray[i].contains("<"))
+                        holder.itemView.condition.value = i
+                }
+                "more" -> {
+                    for (i in item.conditionArray.indices) if (item.conditionArray[i].contains(">"))
+                        holder.itemView.condition.value = i
+                }
+                "equal" -> {
+                    for (i in item.conditionArray.indices) if (item.conditionArray[i].contains("="))
+                        holder.itemView.condition.value = i
+                }
+            }
+        } else {
+            holder.itemView.value.value = (item.minimumPickerValue + item.maximumPickerValue) / 2
         }
 
         holder.itemView.condition.minValue = 0

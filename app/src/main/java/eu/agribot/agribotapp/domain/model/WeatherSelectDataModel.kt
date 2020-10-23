@@ -10,5 +10,6 @@ data class WeatherSelectDataModel(
     val maximumPickerValue: Int,
     val currentValue: String,
     val isSwitchActive: Boolean,
-    val settedValue : Int
+    val settedValue: Int,
+    val settedCondition: String
 )

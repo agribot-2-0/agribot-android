@@ -1,11 +1,12 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import eu.agribot.agribotapp.databinding.ListItemWeatherSettingsBinding
+import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.PickerSymbols
+import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.PickersMinMaxValues
 import kotlinx.android.synthetic.main.list_item_weather_settings.view.*
 
 
@@ -52,31 +53,35 @@ class WeatherSettingsListItemAdapter(
         holder.itemView.value.minValue = item.minimumPickerValue
         holder.itemView.value.maxValue = item.maximumPickerValue
 
+
+        holder.itemView.condition.minValue = PickersMinMaxValues.LESS_POSITION.value
+        holder.itemView.condition.maxValue = PickersMinMaxValues.EQUAL_POSITION.value
+        holder.itemView.condition.displayedValues = item.conditionArray
+
+        when (item.settedCondition) {
+            PickerSymbols.CLOUD_DATA_CONDITION_LESS.symbol -> {
+                holder.itemView.condition.value = PickersMinMaxValues.LESS_POSITION.value
+            }
+
+            PickerSymbols.CLOUD_DATA_CONDITION_MORE.symbol -> {
+                holder.itemView.condition.value = PickersMinMaxValues.MORE_POSITION.value
+            }
+
+            PickerSymbols.CLOUD_DATA_CONDITION_EQUAL.symbol -> {
+                holder.itemView.condition.value = PickersMinMaxValues.EQUAL_POSITION.value
+            }
+            else -> {
+                holder.itemView.condition.value = 1
+            }
+        }
+
         if (item.settedValue != -1) {
             holder.itemView.value.value = item.settedValue
-            when (item.settedCondition) {
-                "less" -> {
-                    Log.e("xd", " less")
-                    for (i in item.conditionArray.indices) if (item.conditionArray[i].contains("<"))
-                        holder.itemView.condition.value = i
-                }
-                "more" -> {
-                    for (i in item.conditionArray.indices) if (item.conditionArray[i].contains(">"))
-                        holder.itemView.condition.value = i
-                }
-                "equal" -> {
-                    for (i in item.conditionArray.indices) if (item.conditionArray[i].contains("="))
-                        holder.itemView.condition.value = i
-                }
-            }
         } else {
             holder.itemView.value.value = (item.minimumPickerValue + item.maximumPickerValue) / 2
         }
 
-        holder.itemView.condition.minValue = 0
-        holder.itemView.condition.value = 1
-        holder.itemView.condition.maxValue = 2
-        holder.itemView.condition.displayedValues = item.conditionArray
+
 
         holder.itemView.activation_switch.isChecked = item.isSwitchActive
 

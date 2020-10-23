@@ -11,5 +11,11 @@ enum class PickersMinMaxValues(val value: Int) {
     MAX_PRESSURE_VALUE(1050),
 
     MIN_WIND_VALUE(0),
-    MAX_WIND_VALUE(150)
+    MAX_WIND_VALUE(150),
+
+    LESS_POSITION(0),
+    MORE_POSITION(1),
+    EQUAL_POSITION(2),
+
+    NO_WEATHER_VALUE_SYMBOL(-1)
 }

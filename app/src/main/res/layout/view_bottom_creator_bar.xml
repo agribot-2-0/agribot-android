@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_large"
         android:padding="@dimen/margin_large"
-        android:progress="90"
+        android:progress="80"
         android:progressBackgroundTint="@color/base_green"
         android:progressTint="@color/base_green"
         app:layout_constraintBottom_toBottomOf="parent"

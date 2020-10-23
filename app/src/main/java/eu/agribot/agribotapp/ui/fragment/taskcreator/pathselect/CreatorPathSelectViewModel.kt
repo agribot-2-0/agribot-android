@@ -118,7 +118,6 @@ class CreatorPathSelectViewModel(
     }
 
     fun downloadSelectedFile(fileName: String) {
-        Log.e("xd", "filename: " + fileName)
         isPathSelected = true
         taskCreatorDataManager.onUpdatePathName(fileName)
         for (item in fileListPathsList.value!!) {

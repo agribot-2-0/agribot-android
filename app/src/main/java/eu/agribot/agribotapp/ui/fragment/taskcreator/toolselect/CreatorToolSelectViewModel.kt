@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.toolselect
 
+import com.google.firebase.Timestamp
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.navigation.events.DashboardNavigationEvent
 import eu.agribot.agribotapp.domain.model.program.weather.toCommunication.NewRobotTaskDetails
@@ -11,14 +12,18 @@ class CreatorToolSelectViewModel(
     private val cloudDatabaseService: CloudDatabaseService
 ) :
     BaseViewModel() {
-
+    private val NULL_VALUE_TIMESTAMP = 946728000L
     fun sendTaskData() {
         postDashboardNavigationEvent()
         cloudDatabaseService.programTaskToRobot(
             taskName = taskCreatorDataManager.getTaskName(),
             newRobotTaskDetails = NewRobotTaskDetails(
                 path_name = formatPathName(),
-                start_time = taskCreatorDataManager.getTimeStamp(),
+                start_time = if (taskCreatorDataManager.getTimeEstimated()) {
+                    Timestamp(NULL_VALUE_TIMESTAMP, 0)
+                } else {
+                    taskCreatorDataManager.getTimeStamp()
+                },
                 start_time_estimated = taskCreatorDataManager.getTimeEstimated(),
                 temperature_value = taskCreatorDataManager.getTemperatureValue(),
                 temperature_condition = taskCreatorDataManager.getTemperatureCondition(),

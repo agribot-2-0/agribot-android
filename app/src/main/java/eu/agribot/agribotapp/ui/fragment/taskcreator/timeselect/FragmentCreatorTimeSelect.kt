@@ -2,6 +2,7 @@ package eu.agribot.agribotapp.ui.fragment.taskcreator.timeselect
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import eu.agribot.agribotapp.R
@@ -69,5 +70,41 @@ class FragmentCreatorTimeSelect :
         )
         time_picker.hour = calendar.get(Calendar.HOUR)
         time_picker.minute = calendar.get(Calendar.MINUTE)
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+        Log.e("xd", "onStart()")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.e("xd", "onResume()")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.e("xd", "onPause()")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.e("xd" ,"onStop()")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.e("xd", "onDestroyView()")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.e("xd" ,"onDestroy()")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        Log.e("xd" ,"onDetach()")
     }
 }

@@ -153,7 +153,7 @@ class FragmentCreatorPathSelectFragment :
 
     override fun onStart() {
         super.onStart()
-        Log.e("xd", "onStart()")
+        Log.e("xd", "PATH onStart()")
     }
 
     override fun onResume() {

@@ -227,7 +227,7 @@
     <fragment
         android:id="@+id/creatorFragment"
         android:name="eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.TaskCreatorFragment"
-        android:label="@string/title_tool_management"
+        android:label="@string/title_task_creator"
         tools:layout="@layout/fragment_creator_configurator">
 
         <action

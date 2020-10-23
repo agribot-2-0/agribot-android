@@ -9,29 +9,23 @@
             type="eu.agribot.agribotapp.ui.fragment.weather.WeatherViewModel" />
     </data>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background_gray">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="30dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
-
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
-                android:layout_margin="10dp"
-                android:layout_toLeftOf="@id/rightControlsMenu"
-                android:layout_weight="1"
-                android:gravity="center"
+                android:layout_margin="@dimen/margin_small"
+                android:layout_weight="7"
+                android:background="@drawable/rounded_corner_layout"
                 android:orientation="horizontal">
 
 
@@ -39,12 +33,11 @@
 
             <LinearLayout
                 android:id="@+id/rightControlsMenu"
-                android:layout_width="186dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="75dp"
-                android:layout_alignParentEnd="true"
-                android:background="@color/background_gray"
-                android:gravity="center_vertical"
+                android:layout_margin="@dimen/margin_small"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_corner_layout"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -205,7 +198,7 @@
 
             </LinearLayout>
 
-        </RelativeLayout>
+        </LinearLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
 </layout>

@@ -162,8 +162,8 @@
     <string name="front_hitch">Front Hitch</string>
     <string name="back_hitch">Back Hitch</string>
     <string name="title_task_creator">Tasks</string>
-    <string name="delete_task_button">Delete task</string>
-    <string name="edit_task_button">Edit task</string>
+    <string name="delete_task_button">Delete</string>
+    <string name="edit_task_button">Edit</string>
     <string name="path_name">Path name</string>
     <string name="delete_sucess_text">Task deleted sucessfully</string>
     <string name="start_time">Start Time: "</string>
@@ -181,7 +181,7 @@
     <string name="temperature">Temperature</string>
     <string name="pressure">Pressure</string>
     <string name="humidity">Humidity</string>
-    <string name="back_button">Powrót</string>
+    <string name="back_button">Back</string>
     <string name="layer_problem">Path Layer Problem</string>
     <string name="next_button">Next</string>
     <string name="configuration_progress">Postęp konfiguracji</string>

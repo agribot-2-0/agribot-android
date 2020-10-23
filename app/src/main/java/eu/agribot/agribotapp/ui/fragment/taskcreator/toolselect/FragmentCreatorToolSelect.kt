@@ -33,7 +33,7 @@ class FragmentCreatorToolSelect :
     }
 
     private fun navigateToDashboard() {
-        navigationController?.navigate(R.id.action_taskCreatorTaskToolFragment_to_dashboardFragment)
+        navigationController?.navigate(R.id.action_taskCreatorTaskToolFragment_to_creatorFragment)
     }
 
     private fun navigateToWeatherAttributionsFragment() {

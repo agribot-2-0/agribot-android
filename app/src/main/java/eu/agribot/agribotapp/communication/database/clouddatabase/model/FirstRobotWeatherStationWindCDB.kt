@@ -5,7 +5,7 @@ import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationWind
 
 data class FirstRobotWeatherStationWindCDB(
     val speed_accuracy: Int = -1,
-    val speed_value: Int = -1,
+    val speed_value: Double = 1.0,
     val timestamp: Timestamp = Timestamp(0, 0)
 ) :
     BaseCloudDatabaseModel<FirstRobotWeatherStationWind> {

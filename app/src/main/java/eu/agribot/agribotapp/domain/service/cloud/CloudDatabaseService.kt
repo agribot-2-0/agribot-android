@@ -1,22 +1,13 @@
 package eu.agribot.agribotapp.domain.service.cloud
 
-import android.util.Log
 import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabase
-import eu.agribot.agribotapp.domain.model.ActualTask
-import eu.agribot.agribotapp.domain.model.EngineHealth
-import eu.agribot.agribotapp.domain.model.FirstRobotHealthEngine
-import eu.agribot.agribotapp.domain.model.FirstRobotWeatherStationHumidity
-import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationTemperature
-import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationWind
-import eu.agribot.agribotapp.domain.model.cdb.RobotLocalizationPose
-import eu.agribot.agribotapp.domain.model.TaskDetails
-import eu.agribot.agribotapp.domain.model.TaskItem
-import eu.agribot.agribotapp.domain.model.cdb.UserInfo
-import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationPressure
-import eu.agribot.agribotapp.domain.model.program.weather.toCommunication.NewRobotTaskDetails
+import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
+import eu.agribot.agribotapp.domain.model.cdb.*
+import eu.agribot.agribotapp.domain.model.cdb.taskprogram.taskmodel.NewRobotTaskDetails
 
 class CloudDatabaseService(
-    val cloudDatabase: CloudDatabase
+    val cloudDatabase: CloudDatabase,
+    val cloudStorageErrorHandler: CloudStorageErrorHandler
 ) {
     fun getEngineHealth(
         onSuccess: (EngineHealth) -> Unit,
@@ -205,28 +196,21 @@ class CloudDatabaseService(
     }
 
     fun programTaskToRobot(taskName: String, newRobotTaskDetails: NewRobotTaskDetails) {
-        Log.e("xd", "programTask")
         cloudDatabase.createNewTask(
             taskName,
             newRobotTaskDetails.toCommunicationModel(),
-            onDatabaseSucess = this::onsucess,
-            onDatabaseError = this::onError
+            onDatabaseError = { cloudStorageErrorHandler.getStorageError(it as Exception) }
         )
     }
 
     fun setCurrentTask(actualTask: ActualTask) {
         cloudDatabase.setCurrenttask(
+            actualTaskCDB = actualTask.toCommunicationModel(),
             robotName = "ADI75R1",
-            actualTask.toCommunicationModel(),
-            this::onsucess, this::onError
+            onDatabaseError = { cloudStorageErrorHandler.getStorageError(it as Exception) }
         )
+
     }
 
-    fun onsucess() {
-        Log.e("xd", "send sucess")
-    }
 
-    fun onError(error: Throwable) {
-        Log.e("xd", "send error" + error)
-    }
 }

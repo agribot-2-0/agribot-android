@@ -56,7 +56,6 @@ class FragmentCreatorPathSelectFragment :
         viewModel.downloadAvailableFileList()
         viewModel.selectedLayer.observe(this::onGotSelectedLayer)
         viewModel.toastEvent.observe(this::showToast)
-        viewModel.backButtonEvent.observe(this::backToPreviousFragment)
 
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.creator_map) as SupportMapFragment
@@ -73,14 +72,7 @@ class FragmentCreatorPathSelectFragment :
         )
     }
 
-    private fun backToPreviousFragment(isBackAction: Boolean) {
-        if (isBackAction)
-            navigationController?.navigate(
-                R.id.action_taskCreatorTaskPathFragment_to_creatorFragment
-            )
-    }
-
-    private fun navigateToCreatorTaskTimeFragment() {
+   private fun navigateToCreatorTaskTimeFragment() {
         navigationController?.navigate(R.id.action_taskPathCreatorFragment_to_taskTimeCreatorFragment)
     }
 
@@ -111,7 +103,7 @@ class FragmentCreatorPathSelectFragment :
                     .tileProvider(tileProvider)
             )
         } catch (exception: IOException) {
-            showToast("Add tile to map problem")
+            showToast(getString(R.string.map_tile_problem))
         }
     }
 
@@ -135,7 +127,7 @@ class FragmentCreatorPathSelectFragment :
                 val container: Iterable<KmlContainer> = mapPathLayer!!.containers
                 viewModel.accessContainers(container)
             } catch (exception: IOException) {
-                showToast("Map Layer Problem")
+                showToast(getString(R.string.kml_layer_problem))
             }
         } catch (exception: Exception) {
             exception.stackTrace

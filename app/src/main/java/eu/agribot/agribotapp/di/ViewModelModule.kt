@@ -134,26 +134,27 @@ val viewModelModule = module {
         )
     }
 
-    viewModel {
+    viewModel { (context: Context) ->
         CreatorPathSelectViewModel(
             cloudStorageService = get(),
-            cloudDatabaseService = get(),
-            taskCreatorDataManager = get()
+            taskCreatorDataManager = get(),
+            resourcesProvider = get { parametersOf(context) }
+
         )
     }
 
     viewModel { (context: Context) ->
         ControlPanelViewModel(
-            autonomyService = get(),
             cloudDatabaseService = get(),
             resourcesProvider = get { parametersOf(context) },
             cloudStorageService = get()
         )
     }
 
-    viewModel {
+    viewModel { (context: Context) ->
         CreatorTaskNameViewModel(
-            taskCreatorDataManager = get()
+            taskCreatorDataManager = get(),
+            resourcesProvider = get { parametersOf(context) },
         )
     }
 
@@ -202,4 +203,7 @@ val viewModelModule = module {
     }
 
     viewModel { TaskSelectViewModel(cloudDatabaseService = get()) }
+
+
+
 }

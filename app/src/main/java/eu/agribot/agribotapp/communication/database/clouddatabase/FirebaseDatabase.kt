@@ -235,15 +235,11 @@ class FirebaseDatabase() : CloudDatabase {
     override fun createNewTask(
         taskName: String,
         newRobotTaskDetailsCDB: NewRobotTaskDetailsCDB,
-        onDatabaseSucess: () -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
             .document(DOCUMENT_ADI75R1_TASKS_LIST + taskName)
             .set(newRobotTaskDetailsCDB)
-            .addOnSuccessListener {
-                onDatabaseSucess()
-            }
             .addOnFailureListener { exception ->
                 onDatabaseError(exception)
             }
@@ -300,7 +296,6 @@ class FirebaseDatabase() : CloudDatabase {
     override fun setCurrenttask(
         robotName: String,
         actualTaskCDB: ActualTaskCDB,
-        onSetCurrentTaskNameSucess: () -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
@@ -310,9 +305,6 @@ class FirebaseDatabase() : CloudDatabase {
                     "actual_task" to actualTaskCDB.actual_task
                 )
             )
-            .addOnSuccessListener {
-                onSetCurrentTaskNameSucess()
-            }
             .addOnFailureListener { exception ->
                 onDatabaseError(exception)
             }

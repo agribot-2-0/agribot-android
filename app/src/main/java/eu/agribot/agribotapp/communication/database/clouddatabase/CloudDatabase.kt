@@ -75,7 +75,6 @@ interface CloudDatabase {
     fun createNewTask(
         taskName: String,
         newRobotTaskDetailsCDB: NewRobotTaskDetailsCDB,
-        onDatabaseSucess: () -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 
@@ -95,7 +94,6 @@ interface CloudDatabase {
     fun setCurrenttask(
         robotName: String,
         actualTaskCDB: ActualTaskCDB,
-        onSetCurrentTaskNameSucess: () -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 

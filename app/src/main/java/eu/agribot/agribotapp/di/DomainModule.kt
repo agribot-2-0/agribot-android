@@ -103,7 +103,8 @@ val domainModule = module {
 
     single {
         CloudDatabaseService(
-            cloudDatabase = get()
+            cloudDatabase = get(),
+            cloudStorageErrorHandler = get()
         )
     }
 

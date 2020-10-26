@@ -149,9 +149,6 @@
             app:exitAnim="@anim/nav_slide_out_to_right"
             app:popEnterAnim="@anim/nav_slide_out_to_left"
             app:popExitAnim="@anim/nav_slide_in_from_left" />
-        <action
-            android:id="@+id/action_taskCreatorTaskPathFragment_to_creatorFragment"
-            app:destination="@id/creatorFragment" />
 
     </fragment>
 
@@ -168,9 +165,6 @@
             app:exitAnim="@anim/nav_slide_out_to_right"
             app:popEnterAnim="@anim/nav_slide_out_to_left"
             app:popExitAnim="@anim/nav_slide_in_from_left" />
-        <action
-            android:id="@+id/action_taskCreatorTaskTimeFragment_to_taskCreatorTaskPathFragment"
-            app:destination="@id/taskCreatorTaskPathFragment" />
 
     </fragment>
 
@@ -187,9 +181,6 @@
             app:exitAnim="@anim/nav_slide_out_to_right"
             app:popEnterAnim="@anim/nav_slide_out_to_left"
             app:popExitAnim="@anim/nav_slide_in_from_left" />
-        <action
-            android:id="@+id/action_taskCreatorTaskWeatherFragment_to_taskCreatorTaskTimeFragment"
-            app:destination="@id/taskCreatorTaskTimeFragment" />
 
     </fragment>
 
@@ -199,9 +190,6 @@
         android:label="@string/select_tool"
         tools:layout="@layout/fragment_creator_tool_select">
 
-        <action
-            android:id="@+id/action_taskCreatorTaskToolFragment_to_taskCreatorTaskWeatherFragment"
-            app:destination="@id/taskCreatorTaskWeatherFragment" />
         <action
             android:id="@+id/action_taskCreatorTaskToolFragment_to_creatorFragment"
             app:destination="@id/creatorFragment" />

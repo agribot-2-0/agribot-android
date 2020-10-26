@@ -207,6 +207,10 @@
     <string name="tool_mode">Tool mode</string>
     <string name="current_weather">Current Weather</string>
     <string name="tool_picture">TOOL PICTURE</string>
+    <string name="kml_layer_problem">Map Layer Problem</string>
+    <string name="empty_task_name">No task name</string>
+    <string name="no_path_selected">No path file selected</string>
+    <string name="map_marker_problem">Problem with map marker</string>
 
 
 </resources>

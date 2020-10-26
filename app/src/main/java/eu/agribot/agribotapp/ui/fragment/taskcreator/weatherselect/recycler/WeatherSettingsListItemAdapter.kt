@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.list_item_weather_settings.view.*
 class WeatherSettingsListItemAdapter(
     val onWeatherAttributeChanged: (weatherAttribute: WeatherAttribute) -> Unit
 ) : RecyclerView.Adapter<WeatherSettingsListItemViewHolder>() {
-
+    val errorValue = -1
     var items = listOf<WeatherSettingsListItemViewModel>()
         set(value) {
             DiffUtil.calculateDiff(
@@ -61,7 +61,7 @@ class WeatherSettingsListItemAdapter(
                 PickersMinMaxValues.EQUAL_POSITION.value
             }
             else -> {
-                1
+                errorValue
             }
         }
         holder.itemView.condition.minValue = PickersMinMaxValues.LESS_POSITION.value
@@ -72,7 +72,7 @@ class WeatherSettingsListItemAdapter(
         var isSwitchActive = item.isSwitchActive
         holder.itemView.activation_switch.isChecked = isSwitchActive
 
-        var itemValue = if (item.settedValue != -1) {
+        var itemValue = if (item.settedValue !=errorValue) {
             holder.itemView.value.value
         } else {
             (item.minimumPickerValue + (item.maximumPickerValue - item.minimumPickerValue) / 2)

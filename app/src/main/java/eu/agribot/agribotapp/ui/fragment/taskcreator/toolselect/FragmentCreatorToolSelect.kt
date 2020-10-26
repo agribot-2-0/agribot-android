@@ -22,7 +22,6 @@ class FragmentCreatorToolSelect :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        left_button.setOnClickListener { navigateToWeatherAttributionsFragment() }
         right_button.setOnClickListener { viewModel.sendTaskData() }
     }
 
@@ -35,7 +34,4 @@ class FragmentCreatorToolSelect :
         navigationController?.navigate(R.id.action_taskCreatorTaskToolFragment_to_creatorFragment)
     }
 
-    private fun navigateToWeatherAttributionsFragment() {
-        navigationController?.navigate(R.id.action_taskCreatorTaskToolFragment_to_taskCreatorTaskWeatherFragment)
-    }
 }

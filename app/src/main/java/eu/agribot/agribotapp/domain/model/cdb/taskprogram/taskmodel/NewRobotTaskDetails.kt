@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.domain.model.program.weather.toCommunication
+package eu.agribot.agribotapp.domain.model.cdb.taskprogram.taskmodel
 
 import com.google.firebase.Timestamp
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.programtasks.NewRobotTaskDetailsCDB

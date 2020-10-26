@@ -3,9 +3,10 @@ package eu.agribot.agribotapp.ui.fragment.taskcreator.toolselect
 import com.google.firebase.Timestamp
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.navigation.events.DashboardNavigationEvent
-import eu.agribot.agribotapp.domain.model.program.weather.toCommunication.NewRobotTaskDetails
+import eu.agribot.agribotapp.domain.model.cdb.taskprogram.taskmodel.NewRobotTaskDetails
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
+import eu.agribot.agribotapp.ui.fragment.taskcreator.PathNameFileSymbol
 
 class CreatorToolSelectViewModel(
     private val taskCreatorDataManager: TaskCreatorDataManager,
@@ -38,10 +39,10 @@ class CreatorToolSelectViewModel(
     }
 
     private fun formatPathName(): String {
-        return if (taskCreatorDataManager.getPathName().toString().contains("_")) {
-            taskCreatorDataManager.getPathName().toString().substringBefore("_")
+        return if (taskCreatorDataManager.getPathName().toString().contains(PathNameFileSymbol.VARSION_SEPARATOR.symbol)) {
+            taskCreatorDataManager.getPathName().toString().substringBefore(PathNameFileSymbol.VARSION_SEPARATOR.symbol)
         } else {
-            taskCreatorDataManager.getPathName().toString().substringBefore(".")
+            taskCreatorDataManager.getPathName().toString().substringBefore(PathNameFileSymbol.FILE_FORMAT_SEPARATOR.symbol)
         }
     }
 

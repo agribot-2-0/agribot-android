@@ -4,8 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.DashboardNavigationEvent
-import eu.agribot.agribotapp.domain.model.ActualTask
-import eu.agribot.agribotapp.domain.model.TaskItem
+import eu.agribot.agribotapp.domain.model.cdb.ActualTask
+import eu.agribot.agribotapp.domain.model.cdb.TaskItem
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.TaskListItemViewModel
 

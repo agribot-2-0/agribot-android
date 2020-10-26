@@ -68,7 +68,31 @@
         android:id="@+id/toolManagementFragment"
         android:name="eu.agribot.agribotapp.ui.fragment.toolmanagement.ToolManagementFragment"
         android:label="@string/title_tool_management"
-        tools:layout="@layout/fragment_tool_management" />
+        tools:layout="@layout/fragment_tool_management" >
+        <action
+            android:id="@+id/action_toolManagementFragment_to_toolManagementNameFragment"
+            app:destination="@id/toolManagementNameFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/toolManagementNameFragment"
+        android:name="eu.agribot.agribotapp.ui.fragment.toolmanagement.toolname.ToolNameFragment"
+        android:label="@string/title_tool_management"
+        tools:layout="@layout/fragment_tool_management_name" >
+        <action
+            android:id="@+id/action_toolManagementNameFragment_to_toolManagementParamsFragment"
+            app:destination="@id/toolManagementParamsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/toolManagementParamsFragment"
+        android:name="eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams.ToolParamsFragment"
+        android:label="@string/title_tool_management"
+        tools:layout="@layout/fragment_tool_management_params" >
+        <action
+            android:id="@+id/action_toolManagementParamsFragment_to_toolManagementFragment"
+            app:destination="@id/toolManagementFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/dashboardFragment"
@@ -120,7 +144,7 @@
 
     <fragment
         android:id="@+id/taskCreatorTaskNameFragment"
-        android:name="eu.agribot.agribotapp.ui.fragment.toolmanagement.toolname.ToolNameFragment"
+        android:name="eu.agribot.agribotapp.ui.fragment.toolmanagement.toolname.ToolParamsFragment"
         android:label="@string/type_task_name"
         tools:layout="@layout/fragment_creator_task_name">
 

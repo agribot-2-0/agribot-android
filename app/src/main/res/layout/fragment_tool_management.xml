@@ -57,6 +57,7 @@
                         android:layout_margin="@dimen/margin_large"
                         android:background="@android:color/transparent"
                         android:backgroundTint="@color/white"
+                        android:onClick="@{()-> viewModel.onNewToolButtonClicked()}"
                         android:src="@drawable/ic_add"
                         app:rippleColor="@color/white" />
 

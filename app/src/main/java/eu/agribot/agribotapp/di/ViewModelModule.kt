@@ -26,6 +26,7 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.Weat
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolControlViewModel
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.ToolManagementViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams.ToolParamsViewModel
 import eu.agribot.agribotapp.ui.fragment.ttcontrol.TTControlViewModel
 import eu.agribot.agribotapp.ui.fragment.weather.WeatherViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -97,6 +98,10 @@ val viewModelModule = module {
 
     viewModel {
         ToolNameViewModel()
+    }
+
+    viewModel {
+        ToolParamsViewModel()
     }
 
     viewModel {

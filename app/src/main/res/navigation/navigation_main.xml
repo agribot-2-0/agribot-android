@@ -120,7 +120,7 @@
 
     <fragment
         android:id="@+id/taskCreatorTaskNameFragment"
-        android:name="eu.agribot.agribotapp.ui.fragment.taskcreator.taskname.ToolNameFragment"
+        android:name="eu.agribot.agribotapp.ui.fragment.toolmanagement.toolname.ToolNameFragment"
         android:label="@string/type_task_name"
         tools:layout="@layout/fragment_creator_task_name">
 

@@ -18,7 +18,7 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.TaskCreatorViewM
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.TaskListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.CreatorPathSelectViewModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.taskname.CreatorTaskNameViewModel
-import eu.agribot.agribotapp.ui.fragment.taskcreator.taskname.ToolNameViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolname.ToolNameViewModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.timeselect.CreatorTimeSelectViewModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.toolselect.CreatorToolSelectViewModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.CreatorWeatherSelectViewModel

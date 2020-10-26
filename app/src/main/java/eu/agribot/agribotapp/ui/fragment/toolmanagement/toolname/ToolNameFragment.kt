@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.taskcreator.taskname
+package eu.agribot.agribotapp.ui.fragment.toolmanagement.toolname
 
 import android.os.Bundle
 import android.view.View

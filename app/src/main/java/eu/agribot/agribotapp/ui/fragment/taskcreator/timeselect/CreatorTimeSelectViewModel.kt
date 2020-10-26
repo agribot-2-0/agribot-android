@@ -6,7 +6,10 @@ import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskWeatherNavigationEvent
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TaskDetailsElements
-import java.util.*
+import java.util.Date
+import java.util.Calendar
+import java.util.GregorianCalendar
+import java.util.TimeZone
 
 class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreatorDataManager) :
     BaseViewModel() {
@@ -40,7 +43,6 @@ class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreator
     fun setTimeActivator(isChecked: Boolean) {
         taskCreatorDataManager.onUpdateTimestampEstimated(!isChecked)
     }
-
 
     fun onDateChange(day: Int, month: Int, year: Int) {
         if (minuteData.value == null && hourData.value == null) {
@@ -90,7 +92,8 @@ class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreator
                 hourData.value!!,
                 minuteData.value!!
             )
-        gregorianCalendar.timeZone = TimeZone.getTimeZone(TaskDetailsElements.TIMEZONE.detailsElement)
+        gregorianCalendar.timeZone =
+            TimeZone.getTimeZone(TaskDetailsElements.TIMEZONE.detailsElement)
         val calendar = (gregorianCalendar.timeInMillis) / miliToSecondDivide
         val timestamp = Timestamp(calendar, 0)
         taskCreatorDataManager.onUpdateTimestamp(timestamp)

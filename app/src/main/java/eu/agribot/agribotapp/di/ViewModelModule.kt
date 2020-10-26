@@ -151,13 +151,6 @@ val viewModelModule = module {
         )
     }
 
-    viewModel { (context: Context) ->
-        CreatorTaskNameViewModel(
-            taskCreatorDataManager = get(),
-            resourcesProvider = get { parametersOf(context) },
-        )
-    }
-
     viewModel {
         CreatorTimeSelectViewModel(
             taskCreatorDataManager = get()
@@ -204,6 +197,9 @@ val viewModelModule = module {
 
     viewModel { TaskSelectViewModel(cloudDatabaseService = get()) }
 
-
-
+    viewModel { (context: Context) ->
+        CreatorTaskNameViewModel(
+            taskCreatorDataManager = get(),
+            resourcesProvider = get { parametersOf(context) })
+    }
 }

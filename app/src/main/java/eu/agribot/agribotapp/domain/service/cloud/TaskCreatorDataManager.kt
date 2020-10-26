@@ -23,7 +23,7 @@ class TaskCreatorDataManager {
     private val startTimeEstimated: MutableLiveData<Boolean> = MutableLiveData()
     private val defaultTimestamp = 946728000L
     private val nullValueSymbol = "*"
-    private val emptyPath =  "empty_path"
+    private val emptyPath = "empty_path"
     private val emptyTaskNameText = "null"
 
     fun updateAllTaskParameters(taskDetails: TaskDetails) {

@@ -105,7 +105,6 @@ class CreatorPathSelectViewModel(
         }
     }
 
-
     fun checkPathSelected() {
         isPathSelected = taskCreatorDataManager.getPathName() != null
     }

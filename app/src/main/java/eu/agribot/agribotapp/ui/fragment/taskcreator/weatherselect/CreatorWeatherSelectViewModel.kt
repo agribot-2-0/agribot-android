@@ -22,7 +22,7 @@ class CreatorWeatherSelectViewModel(
     private val resourcesProvider: ResourcesProvider
 ) :
     BaseViewModel() {
-    val toastEvent : MutableLiveEvent<String> = MutableLiveEvent()
+    val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val weatherAttributeList: MutableLiveData<List<WeatherSettingsListItemViewModel>> =
         MutableLiveData(
             listOf()

@@ -12,6 +12,7 @@ import eu.agribot.agribotapp.databinding.FragmentCreatorTimeSelectBinding
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TaskDetailsElements
 import kotlinx.android.synthetic.main.fragment_creator_time_select.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import java.util.Calendar
 import java.util.Date
 import java.util.TimeZone
@@ -20,7 +21,7 @@ class FragmentCreatorTimeSelect :
     BaseFragment<CreatorTimeSelectViewModel, FragmentCreatorTimeSelectBinding>() {
 
     override val layoutResourceId: Int = R.layout.fragment_creator_time_select
-    override val viewModel: CreatorTimeSelectViewModel by viewModel()
+    override val viewModel: CreatorTimeSelectViewModel by viewModel { parametersOf(requireContext()) }
 
     override fun bindViewVariables(viewBinding: FragmentCreatorTimeSelectBinding) {
         viewBinding.viewModel = viewModel
@@ -35,7 +36,7 @@ class FragmentCreatorTimeSelect :
         navigationController?.navigate(R.id.action_taskTimeCreatorFragment_to_taskWeatherCreatorFragment)
     }
 
-       @RequiresApi(Build.VERSION_CODES.O)
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getPreSetDate()

@@ -200,5 +200,4 @@ class ControlPanelViewModel(
     fun onSelectTaskButtonClicked() {
         navigationEvent.postValue(TaskSelectNavigationEvent())
     }
-
 }

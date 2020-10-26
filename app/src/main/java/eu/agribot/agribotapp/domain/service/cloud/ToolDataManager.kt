@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.domain.service.cloud
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
 
@@ -14,6 +15,7 @@ class ToolDataManager {
     fun updateAllToolParameters(toolDetails: ToolDetails) {
         onUpdateRfid(toolDetails.rfid)
         onUpdatePto(toolDetails.pto)
+        Log.e("xd", "ToolDetails: " + toolDetails)
     }
 
     fun onUpdateToolName(toolName: String) {

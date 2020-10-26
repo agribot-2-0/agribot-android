@@ -1,6 +1,6 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase.model
 
-import eu.agribot.agribotapp.domain.model.UserInfo
+import eu.agribot.agribotapp.domain.model.cdb.UserInfo
 
 data class UserInfoCDB(
     val robot_name: String = "",

@@ -118,19 +118,24 @@ class ControlPanelFragment :
     }
 
     private fun setSelectedLayer(mapStream: InputStream) {
-        mapPathLayer = KmlLayer(googleMapFragment, mapStream, requireContext())
-        mapPathLayer!!.containers
-        mapPathLayer!!.addLayerToMap()
         try {
-            val container: Iterable<KmlContainer> = mapPathLayer!!.containers
-            viewModel.accessContainers(container)
-        } catch (exception: IOException) {
-            showToast("Map Layer Problem")
+            mapPathLayer = KmlLayer(googleMapFragment, mapStream, requireContext())
+            mapPathLayer!!.containers
+            mapPathLayer!!.addLayerToMap()
+            try {
+                val container: Iterable<KmlContainer> = mapPathLayer!!.containers
+                viewModel.accessContainers(container)
+            } catch (exception: IOException) {
+                showToast("Map Layer Problem")
+            }
+        }catch (exception : Exception){
+            exception.stackTrace
         }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         googleMapFragment = googleMap
+        googleMapFragment!!.clear()
         googleMapFragment!!.mapType = GoogleMap.MAP_TYPE_NORMAL
         googleMapFragment!!.setMinZoomPreference(MapParameters.MIN_ZOOM.mapParametr)
         googleMapFragment!!.setMaxZoomPreference(MapParameters.MAX_ZOOM.mapParametr)

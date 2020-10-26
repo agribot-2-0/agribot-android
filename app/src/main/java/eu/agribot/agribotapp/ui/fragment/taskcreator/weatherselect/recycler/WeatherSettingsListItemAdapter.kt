@@ -26,7 +26,6 @@ class WeatherSettingsListItemAdapter(
                 field = value
             }.dispatchUpdatesTo(this)
         }
-    var isItemActive = false
 
     fun updateList(newList: List<WeatherSettingsListItemViewModel>) {
         val diffResult = DiffUtil.calculateDiff(WeatherSettingListItemDiffUtil(this.items, newList))
@@ -87,12 +86,12 @@ class WeatherSettingsListItemAdapter(
 
         holder.itemView.activation_switch.isChecked = item.isSwitchActive
 
-        holder.itemView.condition.setOnValueChangedListener { _, _, value ->
+        holder.itemView.condition.setOnValueChangedListener { _, _, conditionValue ->
             onWeatherAttributeChanged(
                 WeatherAttribute(
                     attributeID = item.id,
-                    weatherValue = value,
-                    weatherCondition = item.conditionArray[value],
+                    weatherValue = conditionValue,
+                    weatherCondition = item.conditionArray[conditionValue],
                     isWeatherActive = isWeatherAttributeActive
                 )
             )

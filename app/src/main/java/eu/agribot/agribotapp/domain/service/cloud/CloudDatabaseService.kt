@@ -11,7 +11,7 @@ import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationWind
 import eu.agribot.agribotapp.domain.model.cdb.RobotLocalizationPose
 import eu.agribot.agribotapp.domain.model.TaskDetails
 import eu.agribot.agribotapp.domain.model.TaskItem
-import eu.agribot.agribotapp.domain.model.UserInfo
+import eu.agribot.agribotapp.domain.model.cdb.UserInfo
 import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationPressure
 import eu.agribot.agribotapp.domain.model.program.weather.toCommunication.NewRobotTaskDetails
 

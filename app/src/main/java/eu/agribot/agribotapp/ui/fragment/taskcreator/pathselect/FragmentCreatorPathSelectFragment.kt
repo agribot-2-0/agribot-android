@@ -24,6 +24,7 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.URLPath
 import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler.CloudFileListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler.CloudFileListItemViewModel
 import kotlinx.android.synthetic.main.fragment_creator_path_select.*
+import kotlinx.android.synthetic.main.fragment_path_management.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.IOException
 import java.io.InputStream
@@ -136,14 +137,15 @@ class FragmentCreatorPathSelectFragment :
             } catch (exception: IOException) {
                 showToast("Map Layer Problem")
             }
-        } catch (exception: Exception) {
-            Log.e("xd", "SET LAYER EXCEPTION: " + exception)
+        }catch (exception : Exception){
+            exception.stackTrace
         }
 
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         googleMapFragment = googleMap
+        googleMapFragment!!.clear()
         googleMapFragment!!.mapType = GoogleMap.MAP_TYPE_NORMAL
         googleMapFragment!!.setMinZoomPreference(MapParameters.MIN_ZOOM.mapParametr)
         googleMapFragment!!.setMaxZoomPreference(MapParameters.MAX_ZOOM.mapParametr)

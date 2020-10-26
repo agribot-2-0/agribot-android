@@ -151,7 +151,7 @@ class CreatorWeatherSelectViewModel(
             WeatherSelectDataModel(
                 id = WeatherItemNumber.TEMPERATURE_ITEM.itemNumber,
                 conditionArray = conditionSymbols,
-                weatherAttributeIcon = R.drawable.ic_celsius,
+                weatherAttributeIcon = R.drawable.ic_thermometer,
                 currentValue = "",
                 minimumPickerValue = PickersMinMaxValues.MIN_TEMP_VALUE.value,
                 maximumPickerValue = PickersMinMaxValues.MAX_TEMP_VALUE.value,
@@ -304,7 +304,7 @@ class CreatorWeatherSelectViewModel(
             WeatherSelectDataModel(
                 id = WeatherItemNumber.TEMPERATURE_ITEM.itemNumber,
                 conditionArray = conditionSymbols,
-                weatherAttributeIcon = R.drawable.ic_celsius,
+                weatherAttributeIcon = R.drawable.ic_thermometer,
                 currentValue = actualTemperature.value.toString(),
                 minimumPickerValue = PickersMinMaxValues.MIN_TEMP_VALUE.value,
                 maximumPickerValue = PickersMinMaxValues.MAX_TEMP_VALUE.value,

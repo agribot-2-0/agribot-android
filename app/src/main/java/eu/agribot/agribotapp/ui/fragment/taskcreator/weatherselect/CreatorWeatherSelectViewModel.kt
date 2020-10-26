@@ -38,6 +38,7 @@ class CreatorWeatherSelectViewModel(
     fun onWeatherAttributeChanged(weatherAttribute: WeatherAttribute) {
         when (weatherAttribute.attributeID) {
             WeatherItemNumber.TEMPERATURE_ITEM.itemNumber -> {
+                Log.e("xd", "weather det: " + weatherAttribute)
                 if (weatherAttribute.isWeatherActive) {
                     taskCreatorDataManager.onUpdateTemperatureValue(weatherAttribute.weatherValue.toString())
                     taskCreatorDataManager.onUpdateTemperatureCondition(

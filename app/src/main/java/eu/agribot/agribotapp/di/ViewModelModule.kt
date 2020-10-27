@@ -96,7 +96,7 @@ val viewModelModule = module {
 
     viewModel { ToolManagementViewModel() }
 
-    viewModel {(context: Context) ->
+    viewModel {
         ToolNameViewModel(
             toolDataManager = get()
         )

@@ -1,7 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.toolmanagement.toolname
 
-import android.os.Bundle
-import android.view.View
+
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.navigation.NavigationEvent

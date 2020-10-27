@@ -18,7 +18,6 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.TaskCreatorViewM
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.TaskListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.CreatorPathSelectViewModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.taskname.CreatorTaskNameViewModel
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolname.ToolNameViewModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.timeselect.CreatorTimeSelectViewModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.toolselect.CreatorToolSelectViewModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.CreatorWeatherSelectViewModel
@@ -26,6 +25,8 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.Weat
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolControlViewModel
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.ToolManagementViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.ToolListItemViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolname.ToolNameViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams.ToolParamsViewModel
 import eu.agribot.agribotapp.ui.fragment.ttcontrol.TTControlViewModel
 import eu.agribot.agribotapp.ui.fragment.weather.WeatherViewModel
@@ -46,181 +47,182 @@ val viewModelModule = module {
 
     viewModel { (context: Context) ->
         BluetoothConnectionViewModel(
-            bluetoothConnectionService = get(),
-            resourcesProvider = get { parametersOf(context) },
-            permissionManager = get()
+                bluetoothConnectionService = get(),
+                resourcesProvider = get { parametersOf(context) },
+                permissionManager = get()
         )
     }
     viewModel {
         SplashViewModel(
-            authenticationService = get(),
-            bluetoothConnectionService = get()
+                authenticationService = get(),
+                bluetoothConnectionService = get()
         )
     }
     viewModel {
         MainViewModel(
-            bluetoothConnectionService = get()
+                bluetoothConnectionService = get()
         )
     }
     viewModel { (context: Context) ->
         ManualControlViewModel(
-            manualModeService = get(),
-            resourcesProvider = get { parametersOf(context) }
+                manualModeService = get(),
+                resourcesProvider = get { parametersOf(context) }
         )
     }
     viewModel { (context: Context) ->
         PasswordReminderViewModel(
-            authenticationService = get(),
-            resourcesProvider = get { parametersOf(context) }
+                authenticationService = get(),
+                resourcesProvider = get { parametersOf(context) }
         )
     }
     viewModel { WelcomeViewModel() }
 
     viewModel { (context: Context) ->
         LoginViewModel(
-            authenticationService = get(),
-            resourcesProvider = get { parametersOf(context) }
+                authenticationService = get(),
+                resourcesProvider = get { parametersOf(context) }
         )
     }
     viewModel { (context: Context) ->
         SignupViewModel(
-            authenticationService = get(),
-            resourcesProvider = get { parametersOf(context) }
+                authenticationService = get(),
+                resourcesProvider = get { parametersOf(context) }
         )
     }
     viewModel {
         ToolControlViewModel(
-            manualModeService = get()
-        )
-    }
-
-    viewModel { (context: Context) ->
-        ToolManagementViewModel(
-            resourcesProvider = get{ parametersOf(context) },
-            cloudDatabaseService = get()
+                manualModeService = get()
         )
     }
 
     viewModel {
         ToolNameViewModel(
-            toolDataManager = get()
+                toolDataManager = get()
         )
     }
 
     viewModel {
         ToolParamsViewModel(
-            toolDataManager = get(),
-            cloudDatabaseService = get()
+                toolDataManager = get(),
+                cloudDatabaseService = get()
         )
     }
 
     viewModel {
         PathManagementViewModel(
-            pathManagementService = get()
+                pathManagementService = get()
         )
     }
     viewModel { WeatherViewModel() }
 
     viewModel { (context: Context) ->
         SettingsViewModel(
-            authenticationService = get(),
-            resourcesProvider = get { parametersOf(context) },
-            bluetoothConnectionService = get()
+                authenticationService = get(),
+                resourcesProvider = get { parametersOf(context) },
+                bluetoothConnectionService = get()
         )
     }
     viewModel {
         BluetoothNearbyListItemViewModel(
-            bluetoothName = get(),
-            bluetoothAddress = get()
+                bluetoothName = get(),
+                bluetoothAddress = get()
         )
     }
 
     viewModel {
         HitchListItemViewModel(
-            toolName = get(),
-            switchNumber = get()
+                toolName = get(),
+                switchNumber = get()
         )
     }
 
     viewModel {
         TTControlViewModel(
-            ttControlService = get()
+                ttControlService = get()
         )
     }
 
     viewModel {
         TaskListItemViewModel(
-            taskName = get(),
-            pathName = get()
+                taskName = get(),
+                pathName = get()
         )
     }
 
     viewModel {
         CreatorPathSelectViewModel(
-            cloudStorageService = get(),
-            cloudDatabaseService = get(),
-            taskCreatorDataManager = get()
+                cloudStorageService = get(),
+                cloudDatabaseService = get(),
+                taskCreatorDataManager = get()
         )
     }
 
     viewModel { (context: Context) ->
         ControlPanelViewModel(
-            autonomyService = get(),
-            cloudDatabaseService = get(),
-            resourcesProvider = get { parametersOf(context) },
-            cloudStorageService = get()
+                autonomyService = get(),
+                cloudDatabaseService = get(),
+                resourcesProvider = get { parametersOf(context) },
+                cloudStorageService = get()
         )
     }
 
     viewModel {
         CreatorTaskNameViewModel(
-            taskCreatorDataManager = get()
+                taskCreatorDataManager = get()
         )
     }
 
     viewModel {
         CreatorTimeSelectViewModel(
-            taskCreatorDataManager = get()
+                taskCreatorDataManager = get()
         )
     }
 
     viewModel {
         CreatorToolSelectViewModel(
-            taskCreatorDataManager = get(),
-            cloudDatabaseService = get()
+                taskCreatorDataManager = get(),
+                cloudDatabaseService = get()
         )
     }
 
     viewModel { (context: Context) ->
         CreatorWeatherSelectViewModel(
-            taskCreatorDataManager = get(),
-            cloudDatabaseService = get(),
-            resourcesProvider = get { parametersOf(context) }
+                taskCreatorDataManager = get(),
+                cloudDatabaseService = get(),
+                resourcesProvider = get { parametersOf(context) }
         )
     }
 
     viewModel {
         WeatherSettingsListItemViewModel(
-            id = get(),
-            conditionArray = get(),
-            currentValue = get(),
-            weatherAttributeIcon = get(),
-            minimumPickerValue = get(),
-            maximumPickerValue = get(),
-            isSwitchActive = get(),
-            settedValue = get(),
-            settedCondition = get()
+                id = get(),
+                conditionArray = get(),
+                currentValue = get(),
+                weatherAttributeIcon = get(),
+                minimumPickerValue = get(),
+                maximumPickerValue = get(),
+                isSwitchActive = get(),
+                settedValue = get(),
+                settedCondition = get()
         )
     }
 
     viewModel { (context: Context) ->
         TaskCreatorViewModel(
-            resourcesProvider = get { parametersOf(context) },
-            cloudDatabaseService = get(),
-            taskCreatorDataManager = get(),
-            cloudStorageService = get()
+                resourcesProvider = get { parametersOf(context) },
+                cloudDatabaseService = get(),
+                taskCreatorDataManager = get(),
+                cloudStorageService = get()
         )
     }
 
     viewModel { TaskSelectViewModel(cloudDatabaseService = get()) }
+
+    viewModel { ToolListItemViewModel(toolName = get()) }
+
+    viewModel { (context: Context) ->
+        ToolManagementViewModel(
+                resourcesProvider = get { parametersOf(context) },
+                cloudDatabaseService = get())
+    }
 }

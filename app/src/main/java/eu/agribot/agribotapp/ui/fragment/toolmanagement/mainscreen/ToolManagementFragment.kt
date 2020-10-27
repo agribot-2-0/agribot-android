@@ -26,8 +26,8 @@ class ToolManagementFragment :
 
     private val dialogManager: DialogManager by inject { parametersOf(requireContext()) }
     override val layoutResourceId: Int = R.layout.fragment_tool_management
-    override val viewModel: ToolManagementViewModel by viewModel()
-//    private var adapter = ToolListItemAdapter(this::onItemClicked)
+    override val viewModel: ToolManagementViewModel by viewModel { parametersOf(requireContext()) }
+    private var adapter = ToolListItemAdapter(this::onItemClicked)
 
     private fun onItemClicked(toolListItemViewModel: ToolListItemViewModel) {
         viewModel.onTaskSelected(toolListItemViewModel)

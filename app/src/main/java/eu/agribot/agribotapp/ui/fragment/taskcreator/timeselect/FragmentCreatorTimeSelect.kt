@@ -2,7 +2,6 @@ package eu.agribot.agribotapp.ui.fragment.taskcreator.timeselect
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import eu.agribot.agribotapp.R
@@ -12,7 +11,9 @@ import eu.agribot.agribotapp.common.navigation.events.CreatorTaskWeatherNavigati
 import eu.agribot.agribotapp.databinding.FragmentCreatorTimeSelectBinding
 import kotlinx.android.synthetic.main.fragment_creator_time_select.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.TimeZone
 
 class FragmentCreatorTimeSelect :
     BaseFragment<CreatorTimeSelectViewModel, FragmentCreatorTimeSelectBinding>() {
@@ -36,7 +37,6 @@ class FragmentCreatorTimeSelect :
     private fun backToPreviousFragment(isBackAction: Boolean) {
         if (isBackAction)
             navigationController?.navigate(R.id.action_taskCreatorTaskTimeFragment_to_taskCreatorTaskPathFragment)
-
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -73,5 +73,4 @@ class FragmentCreatorTimeSelect :
         time_picker.hour = calendar.get(Calendar.HOUR_OF_DAY)
         time_picker.minute = calendar.get(Calendar.MINUTE)
     }
-
 }

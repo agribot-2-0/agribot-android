@@ -14,5 +14,4 @@ enum class PickerSymbols(val symbol: String) {
     CLOUD_DATA_CONDITION_MORE("more"),
 
     CLOUD_DATA_CONDITION_EQUAL("equal"),
-
 }

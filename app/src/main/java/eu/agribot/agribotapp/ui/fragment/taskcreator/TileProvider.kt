@@ -7,7 +7,6 @@ import kotlin.math.pow
 
 class TileProvider(width: Int, height: Int, private val baseUrl: String) :
     UrlTileProvider(width, height) {
-
     override fun getTileUrl(x: Int, y: Int, zoom: Int): URL? {
         try {
             return URL(

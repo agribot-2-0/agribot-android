@@ -47,7 +47,6 @@ class FragmentCreatorWeatherSelect :
         viewModel.onWeatherAttributeChanged(weatherAttribute)
     }
 
-
     private fun setupRecyclerView() {
         weather_settings_recycler.adapter = recyclerAdapter
         weather_settings_recycler.layoutManager = GridLayoutManager(context, 2)

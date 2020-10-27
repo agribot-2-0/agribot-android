@@ -5,7 +5,6 @@ import android.view.View
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
-import eu.agribot.agribotapp.common.navigation.events.CreatorTaskWeatherNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.DashboardNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentCreatorToolSelectBinding
 import kotlinx.android.synthetic.main.view_bottom_creator_bar.*

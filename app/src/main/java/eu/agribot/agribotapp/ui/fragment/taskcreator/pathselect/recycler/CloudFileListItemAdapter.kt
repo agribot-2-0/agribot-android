@@ -11,7 +11,8 @@ import kotlinx.android.synthetic.main.list_item_cloudfiles.view.*
 
 class CloudFileListItemAdapter(val onClickSelectedItem: (CloudFileListItemViewModel) -> Unit) :
     RecyclerView.Adapter<CloudFileListItemViewHolder>() {
-    var selectedItemPosition = -1
+    val initializationItemPosition = -1
+    var selectedItemPosition = initializationItemPosition
 
     var items = listOf<CloudFileListItemViewModel>()
         set(value) {
@@ -42,7 +43,9 @@ class CloudFileListItemAdapter(val onClickSelectedItem: (CloudFileListItemViewMo
         holder.bind(item)
 
         holder.itemView.card_list_file.setBackgroundResource(R.color.white)
-        if (selectedItemPosition == position) {
+        if (selectedItemPosition == initializationItemPosition && item.isFileSelected) {
+            holder.itemView.card_list_file.setBackgroundResource(R.color.base_green_lighter)
+        } else if (selectedItemPosition == position) {
             holder.itemView.card_list_file.setBackgroundResource(R.color.base_green_lighter)
         }
 

@@ -106,4 +106,9 @@ interface CloudDatabase {
         onDatabaseSucess: () -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
+
+    fun getTool(
+        onGetToolItem: (toolItemCDB: TooltemCDB) -> Unit,
+        onDatabaseError: (Throwable) -> Unit
+    )
 }

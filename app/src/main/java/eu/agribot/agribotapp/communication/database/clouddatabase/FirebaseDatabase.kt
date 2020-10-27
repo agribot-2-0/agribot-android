@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore.getInstance
 import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabasePaths.COLLECTION_ENGINE
@@ -17,18 +18,7 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabaseP
 import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabasePaths.DOCUMENT_HEALTH
 import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabasePaths.DOCUMENT_ROBOTS_ADI75R1
 import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabasePaths.DOCUMENT_TOOLS
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.ActualTaskCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.EngineHealthCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.FirstRobotHealthEngineCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.FirstRobotWeatherStationHumidityCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.FirstRobotWeatherStationPressureCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.FirstRobotWeatherStationTemperatureCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.FirstRobotWeatherStationWindCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotLocalizationPoseCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskDetailsCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.ToolDetailsCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskItemCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserInfoCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.*
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.programtasks.NewRobotTaskDetailsCDB
 
 class FirebaseDatabase() : CloudDatabase {
@@ -380,6 +370,37 @@ class FirebaseDatabase() : CloudDatabase {
             }
             .addOnFailureListener { exception ->
                 onDatabaseError(exception)
+            }
+    }
+
+    override fun getTool(
+        onGetToolItem: (toolItemCDB: TooltemCDB) -> Unit,
+        onDatabaseError: (Throwable) -> Unit
+    ) {
+        database.collection("$COLLECTION_USER/$currentFirebaseUser/$DOCUMENT_TOOLS")
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    Log.w("FirebaseDatabase", document.id)
+//                    database.collection(COLLECTION_ROBOTS)
+//                        .document(DOCUMENT_ADI75R1_TASKS_LIST + document.id)
+//                        .addSnapshotListener { snapshot, databaseException ->
+//                            if (databaseException != null) {
+//                                onDatabaseError(Throwable("Could not parse firebase data"))
+//                                return@addSnapshotListener
+//                            }
+////                            if (snapshot != null && snapshot.exists()) {
+////                                snapshot.toObject(TaskDetailsCDB::class.java)?.let {
+////                                    onGetTaskItem(
+////                                        TaskItemCDB(
+////                                            taskName = document.id,
+////                                            pathName = it.path_name
+////                                        )
+////                                    )
+////                                }
+////                            }
+//                        }
+                }
             }
     }
 

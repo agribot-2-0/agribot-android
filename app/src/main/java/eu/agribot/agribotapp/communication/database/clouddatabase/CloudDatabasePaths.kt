@@ -21,4 +21,6 @@ object CloudDatabasePaths {
     const val COLLECTION_USER = "users"
     const val DOCUMENT_ROBOTS_ADI75R1 = "/robots/ADI75R1"
     const val COLLECTION_TASK_ITEM = "robots/ADI75R1/tasks"
+
+    const val DOCUMENT_TOOLS = "tools"
 }

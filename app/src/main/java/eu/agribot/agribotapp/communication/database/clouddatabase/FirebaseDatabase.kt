@@ -16,6 +16,7 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabaseP
 import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabasePaths.DOCUMENT_ADI75R2_LOCALIZATION_POSE
 import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabasePaths.DOCUMENT_HEALTH
 import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabasePaths.DOCUMENT_ROBOTS_ADI75R1
+import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabasePaths.DOCUMENT_TOOLS
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.ActualTaskCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.EngineHealthCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.FirstRobotHealthEngineCDB
@@ -25,6 +26,7 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.model.FirstRob
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.FirstRobotWeatherStationWindCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotLocalizationPoseCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskDetailsCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.ToolDetailsCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskItemCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserInfoCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.programtasks.NewRobotTaskDetailsCDB
@@ -363,4 +365,22 @@ class FirebaseDatabase() : CloudDatabase {
                 }
             }
     }
+
+    override fun addNewTool(
+        toolName: String,
+        toolDetailsCDB: ToolDetailsCDB,
+        onDatabaseSucess: () -> Unit,
+        onDatabaseError: (Throwable) -> Unit
+    ) {
+        database.collection(COLLECTION_USER)
+            .document("$currentFirebaseUser/$DOCUMENT_TOOLS/$toolName")
+            .set(toolDetailsCDB)
+            .addOnSuccessListener {
+                onDatabaseSucess()
+            }
+            .addOnFailureListener { exception ->
+                onDatabaseError(exception)
+            }
+    }
+
 }

@@ -3,7 +3,7 @@ package eu.agribot.agribotapp.ui.fragment.taskcreator.toolselect
 import com.google.firebase.Timestamp
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.navigation.events.DashboardNavigationEvent
-import eu.agribot.agribotapp.domain.model.program.weather.toCommunication.NewRobotTaskDetails
+import eu.agribot.agribotapp.domain.model.cdb.taskprogram.taskmodel.NewRobotTaskDetails
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
 

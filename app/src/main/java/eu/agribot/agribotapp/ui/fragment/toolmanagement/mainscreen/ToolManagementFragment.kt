@@ -1,10 +1,11 @@
-package eu.agribot.agribotapp.ui.fragment.toolmanagement
+package eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen
 
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolNameNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentToolManagementBinding
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.ToolManagementViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ToolManagementFragment :

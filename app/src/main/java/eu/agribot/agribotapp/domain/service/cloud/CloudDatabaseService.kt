@@ -2,18 +2,14 @@ package eu.agribot.agribotapp.domain.service.cloud
 
 import android.util.Log
 import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabase
-import eu.agribot.agribotapp.domain.model.ActualTask
-import eu.agribot.agribotapp.domain.model.EngineHealth
-import eu.agribot.agribotapp.domain.model.FirstRobotHealthEngine
-import eu.agribot.agribotapp.domain.model.FirstRobotWeatherStationHumidity
+import eu.agribot.agribotapp.domain.model.*
 import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationTemperature
 import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationWind
 import eu.agribot.agribotapp.domain.model.cdb.RobotLocalizationPose
-import eu.agribot.agribotapp.domain.model.TaskDetails
-import eu.agribot.agribotapp.domain.model.TaskItem
 import eu.agribot.agribotapp.domain.model.cdb.UserInfo
 import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationPressure
-import eu.agribot.agribotapp.domain.model.program.weather.toCommunication.NewRobotTaskDetails
+import eu.agribot.agribotapp.domain.model.cdb.taskprogram.taskmodel.AddToolDetails
+import eu.agribot.agribotapp.domain.model.cdb.taskprogram.taskmodel.NewRobotTaskDetails
 
 class CloudDatabaseService(
     val cloudDatabase: CloudDatabase
@@ -219,6 +215,15 @@ class CloudDatabaseService(
             robotName = "ADI75R1",
             actualTask.toCommunicationModel(),
             this::onsucess, this::onError
+        )
+    }
+
+    fun addTool(toolName: String, addToolDetails: AddToolDetails) {
+        cloudDatabase.addNewTool(
+            toolName,
+            addToolDetails.toCommunicationModel(),
+            onDatabaseSucess = this::onsucess,
+            onDatabaseError = this::onError
         )
     }
 

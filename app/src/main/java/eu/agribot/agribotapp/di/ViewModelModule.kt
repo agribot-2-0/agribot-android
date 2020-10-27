@@ -25,7 +25,7 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.CreatorWeathe
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.WeatherSettingsListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolControlViewModel
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.ToolManagementViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.ToolManagementViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams.ToolParamsViewModel
 import eu.agribot.agribotapp.ui.fragment.ttcontrol.TTControlViewModel
 import eu.agribot.agribotapp.ui.fragment.weather.WeatherViewModel
@@ -96,12 +96,17 @@ val viewModelModule = module {
 
     viewModel { ToolManagementViewModel() }
 
-    viewModel {
-        ToolNameViewModel()
+    viewModel {(context: Context) ->
+        ToolNameViewModel(
+            toolDataManager = get()
+        )
     }
 
     viewModel {
-        ToolParamsViewModel()
+        ToolParamsViewModel(
+            toolDataManager = get(),
+            cloudDatabaseService = get()
+        )
     }
 
     viewModel {

@@ -27,24 +27,18 @@ class CreatorWeatherSelectViewModel(
         MutableLiveData(
             listOf()
         )
-    private val temperatureItemActive: MutableLiveData<Boolean> = MutableLiveData()
-    private val windItemActive: MutableLiveData<Boolean> = MutableLiveData()
-    private val humidityItemActive: MutableLiveData<Boolean> = MutableLiveData()
-    private val pressureItemActive: MutableLiveData<Boolean> = MutableLiveData()
-
-    val actualTemperature: MutableLiveData<String> = MutableLiveData()
-    val actualHumidity: MutableLiveData<String> = MutableLiveData()
-    val actualWind: MutableLiveData<String> = MutableLiveData()
-    val actualPressure: MutableLiveData<String> = MutableLiveData()
+    private val actualTemperature: MutableLiveData<String> = MutableLiveData()
+    private val actualHumidity: MutableLiveData<String> = MutableLiveData()
+    private val actualWind: MutableLiveData<String> = MutableLiveData()
+    private val actualPressure: MutableLiveData<String> = MutableLiveData()
     val backButtonEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
     val conditionSymbols = arrayOf("<", ">", "=")
 
 
     fun onWeatherAttributeChanged(weatherAttribute: WeatherAttribute) {
-
-        Log.e("xd", "Condition: " + weatherAttribute.weatherCondition)
         when (weatherAttribute.attributeID) {
             WeatherItemNumber.TEMPERATURE_ITEM.itemNumber -> {
+                Log.e("xd", "weather det: " + weatherAttribute)
                 if (weatherAttribute.isWeatherActive) {
                     taskCreatorDataManager.onUpdateTemperatureValue(weatherAttribute.weatherValue.toString())
                     taskCreatorDataManager.onUpdateTemperatureCondition(
@@ -100,14 +94,13 @@ class CreatorWeatherSelectViewModel(
         }
     }
 
-    fun changeConditionSymbolToText(symbol: String): String {
+    private fun changeConditionSymbolToText(symbol: String): String {
         return when (symbol) {
             PickerSymbols.PICKER_CONDITION_BIGGER.symbol -> PickerSymbols.CLOUD_DATA_CONDITION_MORE.symbol
             PickerSymbols.PICKER_CONDITION_LESS.symbol -> PickerSymbols.CLOUD_DATA_CONDITION_LESS.symbol
             PickerSymbols.PICKER_CONDITION_EQUAL.symbol -> PickerSymbols.CLOUD_DATA_CONDITION_EQUAL.symbol
-            else -> "*"
+            else -> PickerSymbols.PICKER_DEFAULT_VALUE.symbol
         }
-
     }
 
     private fun addToWeatherAttributeList(
@@ -168,7 +161,8 @@ class CreatorWeatherSelectViewModel(
                     (taskCreatorDataManager.getTemperatureValue()
                         .toInt())
                 } else {
-                    -1
+                    PickersMinMaxValues.NO_WEATHER_VALUE_SYMBOL.value
+
                 },
                 settedCondition = if (taskCreatorDataManager.getTemperatureValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
                     taskCreatorDataManager.getTemperatureCondition()
@@ -192,7 +186,8 @@ class CreatorWeatherSelectViewModel(
                     (taskCreatorDataManager.getWindValue()
                         .toInt())
                 } else {
-                    -1
+                    PickersMinMaxValues.NO_WEATHER_VALUE_SYMBOL.value
+
                 },
                 settedCondition = if (taskCreatorDataManager.getWindCondition() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol
                 ) {
@@ -215,7 +210,7 @@ class CreatorWeatherSelectViewModel(
                     (taskCreatorDataManager.getPressureValue()
                         .toInt())
                 } else {
-                    -1
+                    PickersMinMaxValues.NO_WEATHER_VALUE_SYMBOL.value
                 },
                 settedCondition = if (taskCreatorDataManager.getPressureValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
                     taskCreatorDataManager.getPressureCondition()
@@ -301,6 +296,7 @@ class CreatorWeatherSelectViewModel(
     }
 
     private fun onSampleDataError(sampleString: String) {
+
     }
 
     private fun onGetFirstRobotTemperatureSucess(firstRobotWeatherStationTemperature: FirstRobotWeatherStationTemperature) {

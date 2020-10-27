@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.kml.KmlContainer
@@ -69,7 +68,7 @@ class CreatorPathSelectViewModel(
     private fun onAvailableFileFound(fileName: String) {
         onFileInStorageFound(fileName)
         val isFileAlreadyAdded = availableFiles.value!!.any {
-            it.fileName == fileName
+            it.fileName == formatFilename(fileName)
         }
         if (!isFileAlreadyAdded) {
             availableFiles.value = listOf(
@@ -136,7 +135,7 @@ class CreatorPathSelectViewModel(
     private fun onGotPathFile(file: File) {
         val fileInputStream: InputStream = FileInputStream(file)
         selectedLayer.value = fileInputStream
-        selectedLayer.value!!.close()
+        fileInputStream.close()
     }
 
     fun onNextButtonClicked() {

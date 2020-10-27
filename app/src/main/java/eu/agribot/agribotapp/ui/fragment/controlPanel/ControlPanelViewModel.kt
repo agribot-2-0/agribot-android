@@ -90,7 +90,6 @@ class ControlPanelViewModel(
     }
 
     private fun onFileAlreadyDownloaded(file: File) {
-
         val fileInputStream: InputStream = FileInputStream(file)
         pathStream.value = fileInputStream
     }

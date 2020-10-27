@@ -26,7 +26,6 @@ class WeatherSettingsListItemAdapter(
                 field = value
             }.dispatchUpdatesTo(this)
         }
-    var isItemActive = false
 
     fun updateList(newList: List<WeatherSettingsListItemViewModel>) {
         val diffResult = DiffUtil.calculateDiff(WeatherSettingListItemDiffUtil(this.items, newList))
@@ -48,80 +47,76 @@ class WeatherSettingsListItemAdapter(
     override fun onBindViewHolder(holder: WeatherSettingsListItemViewHolder, position: Int) {
         val item = items[position]
         holder.bind(item)
+
         holder.itemView.weather_icon.setImageResource(item.weatherAttributeIcon)
-        holder.itemView.value.minValue = item.minimumPickerValue
-        holder.itemView.value.maxValue = item.maximumPickerValue
-
-        var value = holder.itemView.value.value
-        val condition = item.conditionArray[holder.itemView.condition.value]
-        var isWeatherAttributeActive = holder.itemView.activation_switch.isChecked
-
-        holder.itemView.condition.minValue = PickersMinMaxValues.LESS_POSITION.value
-        holder.itemView.condition.maxValue = PickersMinMaxValues.EQUAL_POSITION.value
-        holder.itemView.condition.displayedValues = item.conditionArray
-
-        when (item.settedCondition) {
+        var condition = when (item.settedCondition) {
             PickerSymbols.CLOUD_DATA_CONDITION_LESS.symbol -> {
-                holder.itemView.condition.value = PickersMinMaxValues.LESS_POSITION.value
+                PickersMinMaxValues.LESS_POSITION.value
             }
 
             PickerSymbols.CLOUD_DATA_CONDITION_MORE.symbol -> {
-                holder.itemView.condition.value = PickersMinMaxValues.MORE_POSITION.value
+                PickersMinMaxValues.MORE_POSITION.value
             }
 
             PickerSymbols.CLOUD_DATA_CONDITION_EQUAL.symbol -> {
-                holder.itemView.condition.value = PickersMinMaxValues.EQUAL_POSITION.value
+                PickersMinMaxValues.EQUAL_POSITION.value
             }
             else -> {
-                holder.itemView.condition.value = 1
+                1
             }
         }
+        holder.itemView.condition.minValue = PickersMinMaxValues.LESS_POSITION.value
+        holder.itemView.condition.maxValue = PickersMinMaxValues.EQUAL_POSITION.value
+        holder.itemView.condition.displayedValues = item.conditionArray
+        holder.itemView.condition.value = condition
 
-        if (item.settedValue != -1) {
-            holder.itemView.value.value = item.settedValue
+        var isSwitchActive = item.isSwitchActive
+        holder.itemView.activation_switch.isChecked = isSwitchActive
+
+        var itemValue = if (item.settedValue != -1) {
+            holder.itemView.value.value
         } else {
-            holder.itemView.value.value = (item.minimumPickerValue + item.maximumPickerValue) / 2
+            (item.minimumPickerValue + (item.maximumPickerValue - item.minimumPickerValue) / 2)
         }
+        holder.itemView.value.minValue = item.minimumPickerValue
+        holder.itemView.value.maxValue = item.maximumPickerValue
+        holder.itemView.value.value = itemValue
 
-
-
-        holder.itemView.activation_switch.isChecked = item.isSwitchActive
-
-        holder.itemView.condition.setOnValueChangedListener { _, _, value ->
+        holder.itemView.activation_switch.setOnCheckedChangeListener { _, isChecked ->
+            isSwitchActive = isChecked
             onWeatherAttributeChanged(
                 WeatherAttribute(
                     attributeID = item.id,
-                    weatherValue = value,
-                    weatherCondition = item.conditionArray[value],
-                    isWeatherActive = isWeatherAttributeActive
+                    weatherValue = itemValue,
+                    weatherCondition = item.conditionArray[condition],
+                    isWeatherActive = isChecked
+                )
+            )
+        }
+
+        holder.itemView.condition.setOnValueChangedListener { _, _, conditionValue ->
+            condition = conditionValue
+            onWeatherAttributeChanged(
+                WeatherAttribute(
+                    attributeID = item.id,
+                    weatherValue = itemValue,
+                    weatherCondition = item.conditionArray[condition],
+                    isWeatherActive = isSwitchActive
                 )
             )
         }
 
         holder.itemView.value.setOnValueChangedListener { _, _, newVal ->
-            value = newVal
+            itemValue = newVal
             onWeatherAttributeChanged(
                 WeatherAttribute(
                     attributeID = item.id,
-                    weatherValue = value,
-                    weatherCondition = condition,
-                    isWeatherActive = isWeatherAttributeActive
+                    weatherValue = itemValue,
+                    weatherCondition = item.conditionArray[condition],
+                    isWeatherActive = isSwitchActive
                 )
             )
         }
-
-        holder.itemView.activation_switch.setOnCheckedChangeListener { _, isChecked ->
-            isWeatherAttributeActive = isChecked
-            onWeatherAttributeChanged(
-                WeatherAttribute(
-                    attributeID = item.id,
-                    weatherValue = value,
-                    weatherCondition = condition,
-                    isWeatherActive = isWeatherAttributeActive
-                )
-            )
-        }
-
     }
 
 

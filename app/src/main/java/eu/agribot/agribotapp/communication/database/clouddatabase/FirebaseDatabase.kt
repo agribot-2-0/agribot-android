@@ -373,7 +373,7 @@ class FirebaseDatabase() : CloudDatabase {
             }
     }
 
-    override fun getTool(
+    override fun getToolItem(
         onGetToolItem: (toolItemCDB: TooltemCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
@@ -382,23 +382,27 @@ class FirebaseDatabase() : CloudDatabase {
             .addOnSuccessListener { result ->
                 for (document in result) {
                     Log.w("FirebaseDatabase", document.id)
+                    onGetToolItem(
+                        TooltemCDB(
+                            toolName = document.id,
+                        )
+                    )
 //                    database.collection(COLLECTION_ROBOTS)
 //                        .document(DOCUMENT_ADI75R1_TASKS_LIST + document.id)
 //                        .addSnapshotListener { snapshot, databaseException ->
-//                            if (databaseException != null) {
-//                                onDatabaseError(Throwable("Could not parse firebase data"))
-//                                return@addSnapshotListener
-//                            }
-////                            if (snapshot != null && snapshot.exists()) {
-////                                snapshot.toObject(TaskDetailsCDB::class.java)?.let {
-////                                    onGetTaskItem(
-////                                        TaskItemCDB(
-////                                            taskName = document.id,
-////                                            pathName = it.path_name
-////                                        )
-////                                    )
-////                                }
+////                            if (databaseException != null) {
+////                                onDatabaseError(Throwable("Could not parse firebase data"))
+////                                return@addSnapshotListener
 ////                            }
+//                            if (snapshot != null && snapshot.exists()) {
+//                                snapshot.toObject(TaskDetailsCDB::class.java)?.let {
+//                                    onGetToolItem(
+//                                        TooltemCDB(
+//                                            toolName = document.id,
+//                                        )
+//                                    )
+//                                }
+//                            }
 //                        }
                 }
             }

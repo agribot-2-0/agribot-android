@@ -6,6 +6,7 @@ import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolNameNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
+import eu.agribot.agribotapp.domain.model.ToolItem
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.ToolListItemViewModel
 
@@ -22,7 +23,7 @@ class ToolManagementViewModel(
         )
     }
 
-    fun onTaskSelected(toolListItemViewModel: ToolListItemViewModel) {
+    fun onToolSelected(toolListItemViewModel: ToolListItemViewModel) {
 //        cloudDatabaseService.getTaskDetails(
 //            taskId = taskListItemViewModel.taskName,
 //            onGetTaskDetails = this::onGotTaskDetails,
@@ -40,6 +41,26 @@ class ToolManagementViewModel(
 //            TaskListItemViewModel(
 //                toolList.value?.get(positionOnList)!!.toolName)
 //        )
+    }
+
+    fun getAvailableTool() {
+        cloudDatabaseService.getToolItem(
+            onGetToolItem = this::onAvailableToolFound,
+            onGetToolItemError = this::postToastErrorMessageEvent
+        )
+    }
+
+    private fun onAvailableToolFound(toolItem: ToolItem) {
+//        val isTaskAlreadyAdded = toolList.value!!.any { foundTool ->
+//            foundTool.toolList == toolItem.toolName
+//        }
+//        if (!isTaskAlreadyAdded) {
+            toolList.value = listOf(
+                ToolListItemViewModel(
+                    toolItem.toolName,
+                ), *toolList.value!!.toTypedArray()
+            )
+//        }
     }
 
     fun onEditButtonClicked(positionOnList: Int) {

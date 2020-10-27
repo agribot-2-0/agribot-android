@@ -227,6 +227,17 @@ class CloudDatabaseService(
         )
     }
 
+    fun getToolItem(
+        onGetToolItem: (ToolItem) -> Unit,
+        onGetToolItemError: (error: String) -> Unit
+    ) {
+        cloudDatabase.getToolItem(
+            onGetToolItem = { onGetToolItem(it.toDomainModel()) },
+            onDatabaseError = {
+                onGetToolItemError(it.message!!)
+            })
+    }
+
     fun onsucess() {
         Log.e("xd", "send sucess")
     }

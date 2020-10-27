@@ -1,8 +1,11 @@
 package eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen
 
+import android.os.Bundle
+import android.view.View
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.maps.SupportMapFragment
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.dialog.DialogManager
@@ -17,6 +20,7 @@ import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.ToolManagemen
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.ToolListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.ToolListItemViewModel
 import kotlinx.android.synthetic.main.fragment_creator_configurator.*
+import kotlinx.android.synthetic.main.fragment_tool_management.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -30,26 +34,36 @@ class ToolManagementFragment :
     private var adapter = ToolListItemAdapter(this::onItemClicked)
 
     private fun onItemClicked(toolListItemViewModel: ToolListItemViewModel) {
-        viewModel.onTaskSelected(toolListItemViewModel)
+        viewModel.onToolSelected(toolListItemViewModel)
     }
 
-//    private fun setupRecycler() {
-//        task_recycler.adapter = adapter
-//        task_recycler.layoutManager = LinearLayoutManager(requireActivity())
-//        task_recycler.addItemDecoration(
-//            DividerItemDecoration(
-//                requireContext(),
-//                DividerItemDecoration.VERTICAL
-//            )
-//        )
-//        ItemTouchHelper(
-//            SwipeRecyclerHelper(
-//                task_recycler,
-//                deleteButton = this::deleteButton,
-//                editButton = this::editButton
-//            )
-//        ).attachToRecyclerView(task_recycler)
-//    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.toastMessageEvent.observe(this::showToast)
+        setupRecycler()
+        viewModel.getAvailableTool()
+//        viewModel.selectedLayer.observe(this::onGotSelectedLayer)
+//        viewModel.taskList.observe(this::addToTaskList)
+//        viewModel.cameraPosition.observe((this::updateMapCameraPosition))
+    }
+
+    private fun setupRecycler() {
+        tool_recycler.adapter = adapter
+        tool_recycler.layoutManager = LinearLayoutManager(requireActivity())
+        tool_recycler.addItemDecoration(
+            DividerItemDecoration(
+                requireContext(),
+                DividerItemDecoration.VERTICAL
+            )
+        )
+        ItemTouchHelper(
+            SwipeRecyclerHelper(
+                tool_recycler,
+                deleteButton = this::deleteButton,
+                editButton = this::editButton
+            )
+        ).attachToRecyclerView(tool_recycler)
+    }
 
     private fun deleteButton(position: Int): SwipeHelper.UnderlayButton {
         return SwipeHelper.UnderlayButton(

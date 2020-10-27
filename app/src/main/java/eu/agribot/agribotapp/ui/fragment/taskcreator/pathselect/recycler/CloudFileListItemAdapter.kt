@@ -1,6 +1,7 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -41,6 +42,13 @@ class CloudFileListItemAdapter(val onClickSelectedItem: (CloudFileListItemViewMo
         val item = items[position]
         holder.bind(item)
 
+        Log.e("xd", "isActive? : " + item.isFileSelected)
+        if (item.isFileSelected){
+            Log.e("xd", " is item active: " + item.fileName)
+        }
+        else{
+
+        }
         holder.itemView.card_list_file.setBackgroundResource(R.color.white)
         if (selectedItemPosition == position) {
             holder.itemView.card_list_file.setBackgroundResource(R.color.base_green_lighter)

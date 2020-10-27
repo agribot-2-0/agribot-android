@@ -1,9 +1,11 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -24,8 +26,8 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.URLPath
 import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler.CloudFileListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler.CloudFileListItemViewModel
 import kotlinx.android.synthetic.main.fragment_creator_path_select.*
-import kotlinx.android.synthetic.main.fragment_path_management.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.io.File
 import java.io.IOException
 import java.io.InputStream
 
@@ -50,12 +52,12 @@ class FragmentCreatorPathSelectFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.checkPathSelected()
         viewModel.availableFiles.observe(this::addToAvailableFile)
         viewModel.downloadAvailableFileList()
         viewModel.selectedLayer.observe(this::onGotSelectedLayer)
         viewModel.toastEvent.observe(this::showToast)
         viewModel.backButtonEvent.observe(this::backToPreviousFragment)
-        viewModel.checkPathSelected()
 
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.creator_map) as SupportMapFragment
@@ -102,14 +104,15 @@ class FragmentCreatorPathSelectFragment :
             TileProvider(
                 MapParameters.MAP_SIZE.mapParametr.toInt(),
                 MapParameters.MAP_SIZE.mapParametr.toInt(),
-                URLPath.FILE.path + Environment.getExternalStorageDirectory().absolutePath +
-                        URLPath.PATH.path
+                getRootDirPath(requireContext(), URLPath.MAP_PATH.path)
             )
         try {
             googleMapFragment!!.addTileOverlay(
-                TileOverlayOptions().transparency(MapParameters.TRANSPARENCY_VALUE.mapParametr)
+                TileOverlayOptions()
+                    .transparency(MapParameters.TRANSPARENCY_VALUE.mapParametr)
                     .tileProvider(tileProvider)
             )
+
         } catch (exception: IOException) {
             showToast("Add tile to map problem")
         }
@@ -137,10 +140,22 @@ class FragmentCreatorPathSelectFragment :
             } catch (exception: IOException) {
                 showToast("Map Layer Problem")
             }
-        }catch (exception : Exception){
+        } catch (exception: Exception) {
             exception.stackTrace
         }
 
+    }
+
+    private fun getRootDirPath(context: Context, pathDirection: String): String {
+        return if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()) {
+            val file: File = ContextCompat.getExternalFilesDirs(
+                context.applicationContext,
+                null
+            )[0]
+          URLPath.FILE.path + file.absolutePath + pathDirection
+        } else {
+            context.applicationContext.filesDir.absolutePath
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

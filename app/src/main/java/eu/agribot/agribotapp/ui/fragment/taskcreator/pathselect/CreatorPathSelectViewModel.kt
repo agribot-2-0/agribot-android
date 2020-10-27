@@ -31,9 +31,11 @@ class CreatorPathSelectViewModel(
     var isPathSelected = false
     val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val cameraPosition: MutableLiveData<LatLng> = MutableLiveData()
+    val currentPathName: MutableLiveData<String> = MutableLiveData()
 
     private fun getSavedPath() {
         if (taskCreatorDataManager.getPathName() != "empty_path" && taskCreatorDataManager.getPathName() != null) {
+            currentPathName.value = taskCreatorDataManager.getPathName()!!
             downloadSelectedFile(taskCreatorDataManager.getPathName()!!)
         }
     }
@@ -65,28 +67,28 @@ class CreatorPathSelectViewModel(
         }
     }
 
-    private fun onAvailableFileFound(fileName: String) {
-        onFileInStorageFound(fileName)
+    private fun onAvailableFileFound(fileName: String, isFileActive: Boolean) {
         val isFileAlreadyAdded = availableFiles.value!!.any {
             it.fileName == formatFilename(fileName)
         }
         if (!isFileAlreadyAdded) {
             availableFiles.value = listOf(
                 CloudFileListItemViewModel(
-                    formatFilename(fileName)
+                    formatFilename(fileName),
+                    isFileActive
                 ), *availableFiles.value!!.toTypedArray()
             )
         }
     }
 
-    private fun onFileInStorageFound(fileName: String) {
+    private fun onFileInStorageFound(fileName: String, isActive: Boolean) {
         val isFileAlreadyAdded = fileListPathsList.value!!.any { file ->
             file.fileName == fileName
         }
         if (!isFileAlreadyAdded) {
             fileListPathsList.value = listOf(
                 CloudFileListItemViewModel(
-                    fileName
+                    fileName, isActive
                 ), *fileListPathsList.value!!.toTypedArray()
             )
         }
@@ -111,9 +113,15 @@ class CreatorPathSelectViewModel(
 
     fun downloadAvailableFileList() {
         cloudStorageService.downloadFilesList(
-            onFileAvailable = this::onAvailableFileFound,
+            onFileAvailable = this::createListFiles,
             onError = this::onCloudDataException
         )
+    }
+
+    private fun createListFiles(fileName: String) {
+        val isActive = fileName.contains(taskCreatorDataManager.getPathName().toString())
+        onAvailableFileFound(fileName, isActive)
+        onFileInStorageFound(fileName, isActive)
     }
 
     fun downloadSelectedFile(fileName: String) {

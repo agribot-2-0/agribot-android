@@ -1,8 +1,10 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Environment
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,6 +35,7 @@ import kotlinx.android.synthetic.main.fragment_creator_configurator.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import java.io.File
 import java.io.IOException
 import java.io.InputStream
 
@@ -134,13 +137,25 @@ class TaskCreatorFragment :
         adapter.items = task
     }
 
+    private fun getRootDirPath(context: Context, pathDirection: String): String {
+        return if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()) {
+            val file: File = ContextCompat.getExternalFilesDirs(
+                context.applicationContext,
+                null
+            )[0]
+            URLPath.FILE.path + file.absolutePath + pathDirection
+        } else {
+            context.applicationContext.filesDir.absolutePath
+        }
+    }
+
     private fun addTileOverlay() {
         val tileProvider =
             TileProvider(
                 MapParameters.MAP_SIZE.mapParametr.toInt(),
                 MapParameters.MAP_SIZE.mapParametr.toInt(),
-                URLPath.FILE.path + Environment.getExternalStorageDirectory().absolutePath +
-                        URLPath.PATH.path
+                getRootDirPath(requireContext(), URLPath.MAP_PATH.path)
+
             )
         try {
             googleMapFragment!!.addTileOverlay(

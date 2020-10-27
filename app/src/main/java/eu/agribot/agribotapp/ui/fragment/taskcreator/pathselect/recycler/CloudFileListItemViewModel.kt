@@ -4,5 +4,5 @@ import eu.agribot.agribotapp.base.BaseViewModel
 
 data class CloudFileListItemViewModel(
     val fileName: String,
-    val isFileSelected : Boolean
+    val isFileSelected: Boolean
 ) : BaseViewModel()

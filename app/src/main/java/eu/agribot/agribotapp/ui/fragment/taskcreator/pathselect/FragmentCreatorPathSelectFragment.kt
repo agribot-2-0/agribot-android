@@ -3,7 +3,6 @@ package eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect
 import android.content.Context
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -83,7 +82,6 @@ class FragmentCreatorPathSelectFragment :
 
     private fun navigateToCreatorTaskTimeFragment() {
         navigationController?.navigate(R.id.action_taskPathCreatorFragment_to_taskTimeCreatorFragment)
-
     }
 
     private fun onItemClicked(availibleFile: CloudFileListItemViewModel) {
@@ -112,7 +110,6 @@ class FragmentCreatorPathSelectFragment :
                     .transparency(MapParameters.TRANSPARENCY_VALUE.mapParametr)
                     .tileProvider(tileProvider)
             )
-
         } catch (exception: IOException) {
             showToast("Add tile to map problem")
         }
@@ -143,7 +140,6 @@ class FragmentCreatorPathSelectFragment :
         } catch (exception: Exception) {
             exception.stackTrace
         }
-
     }
 
     private fun getRootDirPath(context: Context, pathDirection: String): String {
@@ -152,7 +148,7 @@ class FragmentCreatorPathSelectFragment :
                 context.applicationContext,
                 null
             )[0]
-          URLPath.FILE.path + file.absolutePath + pathDirection
+            URLPath.FILE.path + file.absolutePath + pathDirection
         } else {
             context.applicationContext.filesDir.absolutePath
         }
@@ -166,6 +162,4 @@ class FragmentCreatorPathSelectFragment :
         googleMapFragment!!.setMaxZoomPreference(MapParameters.MAX_ZOOM.mapParametr)
         addTileOverlay()
     }
-
-
 }

@@ -34,7 +34,6 @@ class CreatorWeatherSelectViewModel(
     val backButtonEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
     val conditionSymbols = arrayOf("<", ">", "=")
 
-
     fun onWeatherAttributeChanged(weatherAttribute: WeatherAttribute) {
         when (weatherAttribute.attributeID) {
             WeatherItemNumber.TEMPERATURE_ITEM.itemNumber -> {
@@ -90,7 +89,6 @@ class CreatorWeatherSelectViewModel(
                     taskCreatorDataManager.onUpdatepressureCondition(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
                 }
             }
-
         }
     }
 
@@ -162,7 +160,6 @@ class CreatorWeatherSelectViewModel(
                         .toInt())
                 } else {
                     PickersMinMaxValues.NO_WEATHER_VALUE_SYMBOL.value
-
                 },
                 settedCondition = if (taskCreatorDataManager.getTemperatureValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
                     taskCreatorDataManager.getTemperatureCondition()
@@ -170,7 +167,6 @@ class CreatorWeatherSelectViewModel(
                     PickerSymbols.PICKER_DEFAULT_VALUE.symbol
                 }
             )
-
 
         val windModel =
             WeatherSelectDataModel(
@@ -187,7 +183,6 @@ class CreatorWeatherSelectViewModel(
                         .toInt())
                 } else {
                     PickersMinMaxValues.NO_WEATHER_VALUE_SYMBOL.value
-
                 },
                 settedCondition = if (taskCreatorDataManager.getWindCondition() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol
                 ) {
@@ -234,7 +229,6 @@ class CreatorWeatherSelectViewModel(
                         .toInt())
                 } else {
                     PickersMinMaxValues.NO_WEATHER_VALUE_SYMBOL.value
-
                 },
                 settedCondition = if (taskCreatorDataManager.getHumidityValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
                     taskCreatorDataManager.getHumidityCondition()
@@ -296,7 +290,6 @@ class CreatorWeatherSelectViewModel(
     }
 
     private fun onSampleDataError(sampleString: String) {
-
     }
 
     private fun onGetFirstRobotTemperatureSucess(firstRobotWeatherStationTemperature: FirstRobotWeatherStationTemperature) {
@@ -368,7 +361,6 @@ class CreatorWeatherSelectViewModel(
                         .toInt())
                 } else {
                     PickersMinMaxValues.NO_WEATHER_VALUE_SYMBOL.value
-
                 },
                 settedCondition = if (taskCreatorDataManager.getPressureValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
                     taskCreatorDataManager.getPressureCondition()
@@ -396,7 +388,6 @@ class CreatorWeatherSelectViewModel(
                         .toInt())
                 } else {
                     PickersMinMaxValues.NO_WEATHER_VALUE_SYMBOL.value
-
                 },
                 settedCondition = if (taskCreatorDataManager.getHumidityValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
                     taskCreatorDataManager.getHumidityCondition()
@@ -406,7 +397,6 @@ class CreatorWeatherSelectViewModel(
             )
         )
     }
-
 
     fun onNextButtonClicked() {
         navigationEvent.postValue(

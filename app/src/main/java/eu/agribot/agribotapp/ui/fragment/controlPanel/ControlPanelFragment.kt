@@ -71,7 +71,6 @@ class ControlPanelFragment :
         )
     }
 
-
     private fun getRootDirPath(context: Context, pathDirection: String): String {
         return if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()) {
             val file: File = ContextCompat.getExternalFilesDirs(
@@ -143,7 +142,7 @@ class ControlPanelFragment :
             } catch (exception: IOException) {
                 showToast("Map Layer Problem")
             }
-        }catch (exception : Exception){
+        } catch (exception: Exception) {
             exception.stackTrace
         }
     }

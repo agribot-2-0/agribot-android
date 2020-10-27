@@ -10,7 +10,6 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.PickersMinMax
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.weatherattributes.WeatherAttribute
 import kotlinx.android.synthetic.main.list_item_weather_settings.view.*
 
-
 class WeatherSettingsListItemAdapter(
     val onWeatherAttributeChanged: (weatherAttribute: WeatherAttribute) -> Unit
 ) : RecyclerView.Adapter<WeatherSettingsListItemViewHolder>() {
@@ -118,6 +117,4 @@ class WeatherSettingsListItemAdapter(
             )
         }
     }
-
-
 }

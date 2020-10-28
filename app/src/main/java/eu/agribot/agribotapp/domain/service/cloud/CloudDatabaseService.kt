@@ -238,6 +238,16 @@ class CloudDatabaseService(
             })
     }
 
+    fun deleteTool(
+        toolName: String,
+        onDeleteSucess: () -> Unit,
+        onDeleteError: (error: String) -> Unit
+    ) {
+        cloudDatabase.deleteTool(toolName, onDeleteSucess, onDeleteError = {
+            onDeleteError(it.message!!)
+        })
+    }
+
     fun onsucess() {
         Log.e("xd", "send sucess")
     }

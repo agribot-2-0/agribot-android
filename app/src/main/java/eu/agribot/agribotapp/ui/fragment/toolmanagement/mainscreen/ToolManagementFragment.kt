@@ -13,6 +13,7 @@ import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolNameNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentToolManagementBinding
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.TaskListItemAdapter
+import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.TaskListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.swiperecyclerutils.SwipeHelper
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.swiperecyclerutils.SwipeRecyclerClickListener
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.swiperecyclerutils.SwipeRecyclerHelper
@@ -33,6 +34,15 @@ class ToolManagementFragment :
     override val viewModel: ToolManagementViewModel by viewModel { parametersOf(requireContext()) }
     private var adapter = ToolListItemAdapter(this::onItemClicked)
 
+    override fun bindViewVariables(viewBinding: FragmentToolManagementBinding) {
+        viewBinding.viewModel = viewModel
+    }
+
+    override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
+        is ToolNameNavigationEvent -> navigateToToolName()
+        else -> Unit
+    }
+
     private fun onItemClicked(toolListItemViewModel: ToolListItemViewModel) {
         viewModel.onToolSelected(toolListItemViewModel)
     }
@@ -42,9 +52,8 @@ class ToolManagementFragment :
         viewModel.toastMessageEvent.observe(this::showToast)
         setupRecycler()
         viewModel.getAvailableTool()
-//        viewModel.selectedLayer.observe(this::onGotSelectedLayer)
-//        viewModel.taskList.observe(this::addToTaskList)
-//        viewModel.cameraPosition.observe((this::updateMapCameraPosition))
+        viewModel.toolList.observe(this::addToToolList)
+
     }
 
     private fun setupRecycler() {
@@ -75,6 +84,10 @@ class ToolManagementFragment :
         )
     }
 
+    private fun addToToolList(task: List<ToolListItemViewModel>) {
+        adapter.items = task
+    }
+
     private fun showDeleteTaskDialog(itemPosition: Int) {
         dialogManager.showDeleteTaskDialog(itemPosition, viewModel::onDeleteButtonClicked)
     }
@@ -87,15 +100,6 @@ class ToolManagementFragment :
             android.R.color.holo_blue_light,
             SwipeRecyclerClickListener(position, onButtonClicked = viewModel::onEditButtonClicked)
         )
-    }
-
-    override fun bindViewVariables(viewBinding: FragmentToolManagementBinding) {
-        viewBinding.viewModel = viewModel
-    }
-
-    override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
-        is ToolNameNavigationEvent -> navigateToToolName()
-        else -> Unit
     }
 
     private fun navigateToToolName() {

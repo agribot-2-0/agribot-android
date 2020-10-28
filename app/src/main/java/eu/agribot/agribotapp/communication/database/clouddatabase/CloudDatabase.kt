@@ -111,4 +111,10 @@ interface CloudDatabase {
         onGetToolItem: (toolItemCDB: TooltemCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
+
+    fun deleteTool(
+        toolName: String,
+        onDeleteSucess: () -> Unit,
+        onDeleteError: (Throwable) -> Unit
+    )
 }

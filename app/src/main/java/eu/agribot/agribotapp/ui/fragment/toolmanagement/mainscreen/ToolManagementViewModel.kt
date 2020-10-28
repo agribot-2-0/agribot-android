@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
@@ -32,15 +33,15 @@ class ToolManagementViewModel(
     }
 
     fun onDeleteButtonClicked(positionOnList: Int) {
-        cloudDatabaseService.deleteSelectedTask(
+        cloudDatabaseService.deleteTool(
             toolList.value?.get(positionOnList)!!.toolName,
             onDeleteError = this::postToastErrorMessageEvent,
             onDeleteSucess = this::onDeleteSucess
         )
-//        toolList.value = toolList.value!!.minus(
-//            TaskListItemViewModel(
-//                toolList.value?.get(positionOnList)!!.toolName)
-//        )
+        toolList.value = toolList.value!!.minus(
+            ToolListItemViewModel(
+                toolList.value?.get(positionOnList)!!.toolName)
+        )
     }
 
     fun getAvailableTool() {
@@ -51,16 +52,18 @@ class ToolManagementViewModel(
     }
 
     private fun onAvailableToolFound(toolItem: ToolItem) {
-//        val isTaskAlreadyAdded = toolList.value!!.any { foundTool ->
-//            foundTool.toolList == toolItem.toolName
-//        }
-//        if (!isTaskAlreadyAdded) {
+        val isTaskAlreadyAdded = toolList.value!!.any { foundTool ->
+            foundTool.toolName == toolItem.toolName
+        }
+        if (!isTaskAlreadyAdded) {
+            Log.w("ToolManagementViewModel", "onAvailableToolFound")
             toolList.value = listOf(
                 ToolListItemViewModel(
                     toolItem.toolName,
                 ), *toolList.value!!.toTypedArray()
             )
-//        }
+//            toolList.postValue(listOf(ToolListItemViewModel("test")))
+        }
     }
 
     fun onEditButtonClicked(positionOnList: Int) {

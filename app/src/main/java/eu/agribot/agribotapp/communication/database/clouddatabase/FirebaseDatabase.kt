@@ -387,25 +387,25 @@ class FirebaseDatabase() : CloudDatabase {
                             toolName = document.id,
                         )
                     )
-//                    database.collection(COLLECTION_ROBOTS)
-//                        .document(DOCUMENT_ADI75R1_TASKS_LIST + document.id)
-//                        .addSnapshotListener { snapshot, databaseException ->
-////                            if (databaseException != null) {
-////                                onDatabaseError(Throwable("Could not parse firebase data"))
-////                                return@addSnapshotListener
-////                            }
-//                            if (snapshot != null && snapshot.exists()) {
-//                                snapshot.toObject(TaskDetailsCDB::class.java)?.let {
-//                                    onGetToolItem(
-//                                        TooltemCDB(
-//                                            toolName = document.id,
-//                                        )
-//                                    )
-//                                }
-//                            }
-//                        }
                 }
             }
     }
+
+        override fun deleteTool(
+            toolName: String,
+            onDeleteSucess: () -> Unit,
+            onDeleteError: (Throwable) -> Unit
+        ) {
+            database.collection("$COLLECTION_USER/$currentFirebaseUser/$DOCUMENT_TOOLS")
+                .document(toolName)
+                .delete()
+                .addOnSuccessListener {
+                    onDeleteSucess()
+                }
+                .addOnFailureListener { exception ->
+                    onDeleteError(exception)
+                }
+        }
+
 
 }

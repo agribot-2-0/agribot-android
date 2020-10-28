@@ -223,6 +223,7 @@ val viewModelModule = module {
     viewModel { (context: Context) ->
         ToolManagementViewModel(
                 resourcesProvider = get { parametersOf(context) },
-                cloudDatabaseService = get())
+                cloudDatabaseService = get(),
+                toolDataManager = get())
     }
 }

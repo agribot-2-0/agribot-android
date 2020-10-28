@@ -219,7 +219,7 @@ class CloudDatabaseService(
     }
 
     fun addTool(toolName: String, addToolDetails: AddToolDetails) {
-        cloudDatabase.addNewTool(
+        cloudDatabase.addTool(
             toolName,
             addToolDetails.toCommunicationModel(),
             onDatabaseSucess = this::onsucess,
@@ -246,6 +246,18 @@ class CloudDatabaseService(
         cloudDatabase.deleteTool(toolName, onDeleteSucess, onDeleteError = {
             onDeleteError(it.message!!)
         })
+    }
+
+    fun getToolDetails(
+        toolName: String,
+        onGetToolDetails: (ToolDetails) -> Unit,
+        onGetToolDetailsError: (error: String) -> Unit
+    ) {
+        cloudDatabase.getToolDetails(
+            toolName,
+            onGetToolDetailsSucess = { onGetToolDetails(it.toDomainModel()) }, onDatabaseError = {
+                onGetToolDetailsError(it.message!!)
+            })
     }
 
     fun onsucess() {

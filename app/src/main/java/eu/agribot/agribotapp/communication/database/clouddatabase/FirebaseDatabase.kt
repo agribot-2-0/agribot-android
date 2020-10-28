@@ -356,7 +356,7 @@ class FirebaseDatabase() : CloudDatabase {
             }
     }
 
-    override fun addNewTool(
+    override fun addTool(
         toolName: String,
         toolDetailsCDB: ToolDetailsCDB,
         onDatabaseSucess: () -> Unit,
@@ -391,21 +391,41 @@ class FirebaseDatabase() : CloudDatabase {
             }
     }
 
-        override fun deleteTool(
-            toolName: String,
-            onDeleteSucess: () -> Unit,
-            onDeleteError: (Throwable) -> Unit
-        ) {
-            database.collection("$COLLECTION_USER/$currentFirebaseUser/$DOCUMENT_TOOLS")
-                .document(toolName)
-                .delete()
-                .addOnSuccessListener {
-                    onDeleteSucess()
+    override fun deleteTool(
+        toolName: String,
+        onDeleteSucess: () -> Unit,
+        onDeleteError: (Throwable) -> Unit
+    ) {
+        database.collection("$COLLECTION_USER/$currentFirebaseUser/$DOCUMENT_TOOLS")
+            .document(toolName)
+            .delete()
+            .addOnSuccessListener {
+                onDeleteSucess()
+            }
+            .addOnFailureListener { exception ->
+                onDeleteError(exception)
+            }
+    }
+
+    override fun getToolDetails(
+        toolName: String,
+        onGetToolDetailsSucess: (toolDetailsCDB: ToolDetailsCDB) -> Unit,
+        onDatabaseError: (Throwable) -> Unit
+    ) {
+        database.collection("$COLLECTION_USER/$currentFirebaseUser/$DOCUMENT_TOOLS")
+            .document(toolName)
+            .addSnapshotListener { snapshot, databaseException ->
+                if (databaseException != null) {
+                    onDatabaseError(Throwable("Could not parse firebase data"))
+                    return@addSnapshotListener
                 }
-                .addOnFailureListener { exception ->
-                    onDeleteError(exception)
+                if (snapshot != null && snapshot.exists()) {
+                    snapshot.toObject(ToolDetailsCDB::class.java)?.let {
+                        onGetToolDetailsSucess(it)
+                    }
                 }
-        }
+            }
+    }
 
 
 }

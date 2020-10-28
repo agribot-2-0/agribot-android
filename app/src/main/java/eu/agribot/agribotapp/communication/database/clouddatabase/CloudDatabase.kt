@@ -100,15 +100,10 @@ interface CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     )
 
-    fun addNewTool(
+    fun addTool(
         toolName: String,
         toolDetailsCDB: ToolDetailsCDB,
         onDatabaseSucess: () -> Unit,
-        onDatabaseError: (Throwable) -> Unit
-    )
-
-    fun getToolItem(
-        onGetToolItem: (toolItemCDB: TooltemCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 
@@ -117,4 +112,17 @@ interface CloudDatabase {
         onDeleteSucess: () -> Unit,
         onDeleteError: (Throwable) -> Unit
     )
+
+    fun getToolItem(
+        onGetToolItem: (toolItemCDB: TooltemCDB) -> Unit,
+        onDatabaseError: (Throwable) -> Unit
+    )
+
+    fun getToolDetails(
+        toolName: String,
+        onGetToolDetailsSucess: (toolDetailsCDB: ToolDetailsCDB) -> Unit,
+        onDatabaseError: (Throwable) -> Unit
+    )
+
+
 }

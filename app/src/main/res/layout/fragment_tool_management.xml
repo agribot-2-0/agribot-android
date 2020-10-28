@@ -110,7 +110,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_margin="@dimen/margin_small"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:background="@drawable/rounded_corner_layout"
                 android:orientation="vertical">
 
@@ -135,7 +135,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:progressBackgroundTint="@color/base_green"
-                            android:layout_margin="@dimen/margin_medium" />
+                            android:layout_margin="@dimen/margin_medium"
+                            android:progress="@{viewModel.ptoValue}"/>
                     </LinearLayout>
 
 
@@ -144,6 +145,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin_medium"
                         android:layout_weight="1"
+                        android:text="@{viewModel.ptoString}"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -169,7 +171,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:progressBackgroundTint="@color/base_green"
-                            android:layout_margin="@dimen/margin_medium" />
+                            android:layout_margin="@dimen/margin_medium"/>
                     </LinearLayout>
 
 
@@ -271,7 +273,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:progressBackgroundTint="@color/base_green"
-                            android:layout_margin="@dimen/margin_medium" />
+                            android:layout_margin="@dimen/margin_medium"
+                            android:progress="@{viewModel.tplUpDownValue}" />
                     </LinearLayout>
 
 
@@ -306,7 +309,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:progressBackgroundTint="@color/base_green"
-                            android:layout_margin="@dimen/margin_medium" />
+                            android:layout_margin="@dimen/margin_medium"
+                            android:progress="@{viewModel.tplPushPullValue}"  />
                     </LinearLayout>
 
 

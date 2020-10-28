@@ -5,18 +5,27 @@ import eu.agribot.agribotapp.domain.model.ToolDetails
 
 class ToolDataManager {
     private val toolName: MutableLiveData<String> = MutableLiveData()
-    private val rfid: MutableLiveData<String> = MutableLiveData()
+    private val rfid: MutableLiveData<Int> = MutableLiveData()
+    private val pto: MutableLiveData<Double> = MutableLiveData()
+    private val tplUpDown: MutableLiveData<Double> = MutableLiveData()
+    private val tplPushPull: MutableLiveData<Double> = MutableLiveData()
+
 
     fun updateAllToolParameters(toolDetails: ToolDetails) {
         onUpdateRfid(toolDetails.rfid)
+        onUpdatePto(toolDetails.pto)
     }
 
     fun onUpdateToolName(toolName: String) {
         this.toolName.value = toolName
     }
 
-    fun onUpdateRfid(rfid: String) {
+    fun onUpdateRfid(rfid: Int) {
         this.rfid.value = rfid
+    }
+
+    fun onUpdatePto(pto: Double) {
+        this.pto.value = pto
     }
 
     fun getToolName(): String {
@@ -27,11 +36,19 @@ class ToolDataManager {
         }
     }
 
-    fun getRfid(): String {
+    fun getRfid(): Int {
         return if (rfid.value != null) {
             rfid.value!!
         } else {
-            "null"
+            0
+        }
+    }
+
+    fun getPto(): Double {
+        return if (pto.value != null) {
+            pto.value!!
+        } else {
+            0.0
         }
     }
 }

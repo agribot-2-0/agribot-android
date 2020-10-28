@@ -1,22 +1,36 @@
 package eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolNameNavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.ToolParamsNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
+import eu.agribot.agribotapp.domain.model.TaskDetails
+import eu.agribot.agribotapp.domain.model.ToolDetails
 import eu.agribot.agribotapp.domain.model.ToolItem
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
+import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
+import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.ToolListItemViewModel
 
 class ToolManagementViewModel(
     private val resourcesProvider: ResourcesProvider,
-    private val cloudDatabaseService: CloudDatabaseService
+    private val cloudDatabaseService: CloudDatabaseService,
+    private val toolDataManager: ToolDataManager
 ) : BaseViewModel() {
     val toolList: MutableLiveData<List<ToolListItemViewModel>> = MutableLiveData(listOf())
     val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
+    val ptoValue: MutableLiveData<Int> = MutableLiveData()
+    val ptoString: MutableLiveData<String> = MutableLiveData()
+    val tplUpDownValue: MutableLiveData<Int> = MutableLiveData()
+    val tplUpDownString: MutableLiveData<String> = MutableLiveData()
+    val tplPushPullValue: MutableLiveData<Int> = MutableLiveData()
+    val tplPushPullString: MutableLiveData<String> = MutableLiveData()
+
 
     fun onNewToolButtonClicked() {
         navigationEvent.postValue(
@@ -25,11 +39,21 @@ class ToolManagementViewModel(
     }
 
     fun onToolSelected(toolListItemViewModel: ToolListItemViewModel) {
-//        cloudDatabaseService.getTaskDetails(
-//            taskId = taskListItemViewModel.taskName,
-//            onGetTaskDetails = this::onGotTaskDetails,
-//            onGetTaskDetailsError = this::postToastErrorMessageEvent
-//        )
+        cloudDatabaseService.getToolDetails(
+            toolName = toolListItemViewModel.toolName,
+            onGetToolDetails = this::onGetToolDetails,
+            onGetToolDetailsError = this::postToastErrorMessageEvent
+        )
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun onGetToolDetails(toolDetails: ToolDetails) {
+        toolDataManager.updateAllToolParameters(toolDetails)
+        ptoValue.value = toolDetails.pto.toInt()
+        ptoString.value = toolDetails.pto.toString() + " rpm"
+
+        tplUpDownValue.value = toolDetails.tpl_up_down.toInt()
+        tplPushPullValue.value = toolDetails.tpl_push_pull.toInt()
     }
 
     fun onDeleteButtonClicked(positionOnList: Int) {
@@ -62,22 +86,25 @@ class ToolManagementViewModel(
                     toolItem.toolName,
                 ), *toolList.value!!.toTypedArray()
             )
-//            toolList.postValue(listOf(ToolListItemViewModel("test")))
         }
     }
 
     fun onEditButtonClicked(positionOnList: Int) {
-//        toolList.value?.get(positionOnList)?.taskName?.let { selectedTaskName ->
-//            taskCreatorDataManager.onUpdateTaskName(
-//                selectedTaskName
-//            )
-//            cloudDatabaseService.getTaskDetails(
-//                selectedTaskName,
-//                this::updateTaskDetails,
-//                onGetTaskDetailsError = this::postToastErrorMessageEvent
-//            )
-//        }
-//        navigationEvent.postValue(CreatorTaskPathNavigationEvent())
+        toolList.value?.get(positionOnList)?.toolName?.let { toolName ->
+            toolDataManager.onUpdateToolName(
+                toolName
+            )
+            cloudDatabaseService.getToolDetails(
+                toolName,
+                onGetToolDetails = this::updateToolDetails,
+                onGetToolDetailsError = this::postToastErrorMessageEvent
+            )
+        }
+        navigationEvent.postValue(ToolParamsNavigationEvent())
+    }
+
+    private fun updateToolDetails(toolDetails: ToolDetails) {
+        toolDataManager.updateAllToolParameters(toolDetails)
     }
 
     private fun postToastErrorMessageEvent(errorMessage: String) {

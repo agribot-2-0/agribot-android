@@ -11,6 +11,7 @@ import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.dialog.DialogManager
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolNameNavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.ToolParamsNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentToolManagementBinding
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.TaskListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.TaskListItemViewModel
@@ -40,6 +41,7 @@ class ToolManagementFragment :
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
         is ToolNameNavigationEvent -> navigateToToolName()
+        is ToolParamsNavigationEvent -> navigateToToolParams()
         else -> Unit
     }
 
@@ -104,6 +106,10 @@ class ToolManagementFragment :
 
     private fun navigateToToolName() {
         navigationController?.navigate(R.id.action_toolManagementFragment_to_toolManagementNameFragment)
+    }
+
+    private fun navigateToToolParams() {
+        navigationController?.navigate(R.id.action_toolManagementFragment_to_toolManagementParamsFragment)
     }
 
 }

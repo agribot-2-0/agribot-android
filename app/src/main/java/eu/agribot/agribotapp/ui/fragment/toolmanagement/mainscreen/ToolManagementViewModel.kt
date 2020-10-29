@@ -9,11 +9,9 @@ import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolNameNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolParamsNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
-import eu.agribot.agribotapp.domain.model.TaskDetails
-import eu.agribot.agribotapp.domain.model.ToolDetails
+import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
 import eu.agribot.agribotapp.domain.model.ToolItem
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
-import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
 import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.ToolListItemViewModel
 
@@ -64,7 +62,8 @@ class ToolManagementViewModel(
         )
         toolList.value = toolList.value!!.minus(
             ToolListItemViewModel(
-                toolList.value?.get(positionOnList)!!.toolName)
+                toolList.value?.get(positionOnList)!!.toolName
+            )
         )
     }
 
@@ -91,9 +90,7 @@ class ToolManagementViewModel(
 
     fun onEditButtonClicked(positionOnList: Int) {
         toolList.value?.get(positionOnList)?.toolName?.let { toolName ->
-            toolDataManager.onUpdateToolName(
-                toolName
-            )
+            toolDataManager.onUpdateToolName(toolName)
             cloudDatabaseService.getToolDetails(
                 toolName,
                 onGetToolDetails = this::updateToolDetails,

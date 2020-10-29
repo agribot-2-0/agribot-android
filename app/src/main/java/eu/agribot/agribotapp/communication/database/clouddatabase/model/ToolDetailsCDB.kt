@@ -1,6 +1,6 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase.model
 
-import eu.agribot.agribotapp.domain.model.ToolDetails
+import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
 
 class ToolDetailsCDB(
     val rfid: Int = 0,

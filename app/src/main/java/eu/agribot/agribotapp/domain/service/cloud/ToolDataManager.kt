@@ -1,7 +1,7 @@
 package eu.agribot.agribotapp.domain.service.cloud
 
 import androidx.lifecycle.MutableLiveData
-import eu.agribot.agribotapp.domain.model.ToolDetails
+import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
 
 class ToolDataManager {
     private val toolName: MutableLiveData<String> = MutableLiveData()

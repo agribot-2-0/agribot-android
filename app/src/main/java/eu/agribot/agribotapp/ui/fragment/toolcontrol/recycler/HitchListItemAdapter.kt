@@ -7,8 +7,6 @@ import android.widget.SeekBar
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import eu.agribot.agribotapp.databinding.ListItemHitchBinding
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.RecyclerConstant.DEFAULT_SLIDER_VALUE
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.RecyclerConstant.SLIDER_UNIT
 import kotlinx.android.synthetic.main.list_item_hitch.view.recycler_seekbar
 import kotlinx.android.synthetic.main.list_item_hitch.view.recycler_switch
 import kotlinx.android.synthetic.main.list_item_hitch.view.recycler_tool_value
@@ -50,14 +48,16 @@ class HitchListItemAdapter(
         var isItemActive = false
         var itemSliderValue = 0
 
-        holder.itemView.recycler_tool_value.text = DEFAULT_SLIDER_VALUE
+        holder.itemView.recycler_tool_value.text = "${item.toolStartValue} ${item.toolUnit}"
+        holder.itemView.recycler_seekbar.progress = item.toolStartValue
+        holder.itemView.recycler_seekbar.max = item.maxValue
 
         holder.itemView.recycler_seekbar.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
 
             @SuppressLint("SetTextI18n")
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, b: Boolean) {
-                holder.itemView.recycler_tool_value.text = "$progress$SLIDER_UNIT"
+                holder.itemView.recycler_tool_value.text = "$progress ${item.toolUnit}"
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {

@@ -3,11 +3,7 @@ package eu.agribot.agribotapp.domain.service.cloud
 import android.util.Log
 import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabase
 import eu.agribot.agribotapp.domain.model.*
-import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationTemperature
-import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationWind
-import eu.agribot.agribotapp.domain.model.cdb.RobotLocalizationPose
-import eu.agribot.agribotapp.domain.model.cdb.UserInfo
-import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationPressure
+import eu.agribot.agribotapp.domain.model.cdb.*
 import eu.agribot.agribotapp.domain.model.cdb.taskprogram.taskmodel.AddToolDetails
 import eu.agribot.agribotapp.domain.model.cdb.taskprogram.taskmodel.NewRobotTaskDetails
 

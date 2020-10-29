@@ -13,114 +13,104 @@ import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewM
 
 
 class ToolParamsViewModel(
-        private val toolDataManager: ToolDataManager,
-        private val cloudDatabaseService: CloudDatabaseService
+    private val toolDataManager: ToolDataManager,
+    private val cloudDatabaseService: CloudDatabaseService
 ) : BaseViewModel() {
     private val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val paramsList: MutableLiveData<List<HitchListItemViewModel>> =
-            MutableLiveData(listOf())
+        MutableLiveData(listOf())
 
     private fun addToolToToolParamList(toolParamListDetails: ToolParamListDetails) {
         val isToolAlreadyAdded = paramsList.value!!.any() { it ->
             it.toolName == toolParamListDetails.toolName
         }
+
         if (!isToolAlreadyAdded) {
             paramsList.value = listOf(
-                    HitchListItemViewModel(
-                            toolName = toolParamListDetails.toolName,
-                            switchNumber = toolParamListDetails.toolParametrDetails.sliderNumber), *paramsList.value!!.toTypedArray()
+                HitchListItemViewModel(
+                    toolName = toolParamListDetails.toolName,
+                    switchNumber = toolParamListDetails.toolParametrDetails.sliderNumber,
+                    toolStartValue = toolParamListDetails.toolParametrDetails.value
+                ), *paramsList.value!!.toTypedArray()
             )
         } else {
             paramsList.value = paramsList.value!!.map { oldAttribute ->
                 if (oldAttribute.toolName == toolParamListDetails.toolName) {
                     HitchListItemViewModel(
-                            toolName = toolParamListDetails.toolName,
-                            switchNumber = toolParamListDetails.toolParametrDetails.sliderNumber)
+                        toolName = toolParamListDetails.toolName,
+                        switchNumber = toolParamListDetails.toolParametrDetails.sliderNumber,
+                        toolStartValue = toolParamListDetails.toolParametrDetails.value
+                    )
                 } else {
                     oldAttribute
                 }
             }
-
         }
 
     }
 
     fun createExampleTool() {
-        addToolToToolParamList(ToolParamListDetails(toolName = "PTO",
-                toolParametrDetails = ToolParamDetails(sliderNumber = 1,
-                        value = if (toolDataManager.getPto().toInt() != 0) {
-                            toolDataManager.getPto().toInt()
-                        } else {
-                            0
-                        })))
+        addToolToToolParamList(
+            ToolParamListDetails(
+                toolName = "PTO",
+                toolParametrDetails = ToolParamDetails(
+                    sliderNumber = 0,
+                    value = toolDataManager.getPto().toInt()
+                )
+            )
+        )
+        addToolToToolParamList(
+            ToolParamListDetails(
+                toolName = "TPL UP/DOWN",
+                toolParametrDetails = ToolParamDetails(
+                    sliderNumber = 1,
+                    value = toolDataManager.getTplUpDown().toInt()
+                )
+            )
+        )
     }
-
-
-    //Jak sie teraz cos zaktualizuje to addToolToToolParamList(toolParamListDetails: ToolParamListDetails);
-
-
-
-
 
     fun sendToolData() {
         postToolManagementNavigationEvent()
         cloudDatabaseService.addTool(
-                toolName = toolDataManager.getToolName(),
-                addToolDetails = AddToolDetails(
-                        rfid = toolDataManager.getRfid(),
-                        pto = toolDataManager.getPto()
-                )
+            toolName = toolDataManager.getToolName(),
+            addToolDetails = AddToolDetails(
+                rfid = toolDataManager.getRfid(),
+                pto = toolDataManager.getPto(),
+                tpl_push_pull = toolDataManager.getTplUpDown()
+            )
         )
     }
 
     fun onHitchParametersChanged(
-            sliderNumber: Int,
-            sliderValue: Int,
-            isActivated: Boolean
+        sliderNumber: Int,
+        sliderValue: Int,
+        isActivated: Boolean
     ) {
-
+        if (sliderNumber == 0) {
             toolDataManager.onUpdatePto(sliderValue.toDouble())
-
+        }
+        if (sliderNumber == 1) {
+            toolDataManager.onUpdateTplUpDown(sliderValue.toDouble())
+        }
     }
 
     fun onStart() {
         cloudDatabaseService.getToolDetails(
-                toolName = toolDataManager.getToolName(),
-                onGetToolDetails = this::onToolUpdate,
-                onGetToolDetailsError = this::postToastErrorMessageEvent
-        )
-    }
-/*
-    fun createParamsList() {
-        for ((toolName, toolParamDetails) in toolParamsList) {
-            addToParamsList(
-                    toolName,
-                    toolParamDetails.sliderNumber,
-                    toolParamDetails.value
-            )
-        }
-    }
-
-
- */
-    private fun addToParamsList(toolName: String, switchNumber: Int, toolValue: Int) {
-        paramsList.value = listOf(
-                HitchListItemViewModel(
-                        toolName,
-                        switchNumber,
-                        toolValue
-                ),
-                *paramsList.value!!.toTypedArray()
+            toolName = toolDataManager.getToolName(),
+            onGetToolDetails = this::onToolUpdate,
+            onGetToolDetailsError = this::postToastErrorMessageEvent
         )
     }
 
     private fun onToolUpdate(toolDetails: ToolDetails) {
-        toolDataManager.onUpdatePto(toolDetails.pto)
+        toolDataManager.updateAllToolParameters(toolDetails)
+        createExampleTool()
     }
 
     private fun postToolManagementNavigationEvent() {
         navigationEvent.postValue(
-                ToolNavigationEvent()
+            ToolNavigationEvent()
         )
     }
 

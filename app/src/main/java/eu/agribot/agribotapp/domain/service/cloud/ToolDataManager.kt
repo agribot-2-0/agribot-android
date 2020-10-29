@@ -15,19 +15,10 @@ class ToolDataManager {
     fun updateAllToolParameters(toolDetails: ToolDetails) {
         onUpdateRfid(toolDetails.rfid)
         onUpdatePto(toolDetails.pto)
-        Log.e("xd", "ToolDetails: " + toolDetails)
     }
 
     fun onUpdateToolName(toolName: String) {
         this.toolName.value = toolName
-    }
-
-    fun onUpdateRfid(rfid: Int) {
-        this.rfid.value = rfid
-    }
-
-    fun onUpdatePto(pto: Double) {
-        this.pto.value = pto
     }
 
     fun getToolName(): String {
@@ -38,6 +29,10 @@ class ToolDataManager {
         }
     }
 
+    fun onUpdateRfid(rfid: Int) {
+        this.rfid.value = rfid
+    }
+
     fun getRfid(): Int {
         return if (rfid.value != null) {
             rfid.value!!
@@ -46,9 +41,25 @@ class ToolDataManager {
         }
     }
 
+    fun onUpdatePto(pto: Double) {
+        this.pto.value = pto
+    }
+
     fun getPto(): Double {
         return if (pto.value != null) {
             pto.value!!
+        } else {
+            0.0
+        }
+    }
+
+    fun onUpdateTplUpDown(tplUpDown: Double) {
+        this.tplUpDown.value = tplUpDown
+    }
+
+    fun getTplUpDown(): Double {
+        return if (tplUpDown.value != null) {
+            tplUpDown.value!!
         } else {
             0.0
         }

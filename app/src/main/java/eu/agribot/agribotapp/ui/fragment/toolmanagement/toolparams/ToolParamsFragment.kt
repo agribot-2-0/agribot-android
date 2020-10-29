@@ -15,19 +15,19 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class ToolParamsFragment :
-    BaseFragment<ToolParamsViewModel, FragmentToolManagementParamsBinding>() {
+        BaseFragment<ToolParamsViewModel, FragmentToolManagementParamsBinding>() {
 
     override val layoutResourceId: Int = R.layout.fragment_tool_management_params
     override val viewModel: ToolParamsViewModel by viewModel()
 
     private val hitchAdapter =
-        HitchListItemAdapter(this::onHitchRecyclerParametersChanged)
+            HitchListItemAdapter(this::onHitchRecyclerParametersChanged)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 //        viewModel.onStart()
-       // viewModel.createParamsList()
         // viewModel.createParamsList()
+        viewModel.createExampleTool()
 
         viewModel.paramsList.observe(this::addParams)
         setupRecyclers()
@@ -39,9 +39,9 @@ class ToolParamsFragment :
     }
 
     private fun onHitchRecyclerParametersChanged(
-        sliderNumber: Int,
-        sliderValue: Int,
-        isActivated: Boolean
+            sliderNumber: Int,
+            sliderValue: Int,
+            isActivated: Boolean
     ) {
         viewModel.onHitchParametersChanged(sliderNumber, sliderValue, isActivated)
     }

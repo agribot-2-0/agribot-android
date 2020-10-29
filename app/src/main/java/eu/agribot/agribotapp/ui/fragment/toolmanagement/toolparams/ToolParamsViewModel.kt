@@ -20,26 +20,22 @@ class ToolParamsViewModel(
     val paramsList: MutableLiveData<List<HitchListItemViewModel>> =
             MutableLiveData(listOf())
 
-    private val toolList: MutableLiveData<List<ToolParamListDetails>> = MutableLiveData(listOf())
-
     private fun addToolToToolParamList(toolParamListDetails: ToolParamListDetails) {
-        val isToolAlreadyAdded = toolList.value!!.any() { it ->
+        val isToolAlreadyAdded = paramsList.value!!.any() { it ->
             it.toolName == toolParamListDetails.toolName
         }
         if (!isToolAlreadyAdded) {
-            toolList.value = listOf(
-                    ToolParamListDetails(
+            paramsList.value = listOf(
+                    HitchListItemViewModel(
                             toolName = toolParamListDetails.toolName,
-                            toolParametrDetails = toolParamListDetails.toolParametrDetails
-                    ), *toolList.value!!.toTypedArray()
+                            switchNumber = toolParamListDetails.toolParametrDetails.sliderNumber), *paramsList.value!!.toTypedArray()
             )
         } else {
-            toolList.value = toolList.value!!.map { oldAttribute ->
+            paramsList.value = paramsList.value!!.map { oldAttribute ->
                 if (oldAttribute.toolName == toolParamListDetails.toolName) {
-                    ToolParamListDetails(
+                    HitchListItemViewModel(
                             toolName = toolParamListDetails.toolName,
-                            toolParametrDetails = toolParamListDetails.toolParametrDetails
-                    )
+                            switchNumber = toolParamListDetails.toolParametrDetails.sliderNumber)
                 } else {
                     oldAttribute
                 }
@@ -63,12 +59,7 @@ class ToolParamsViewModel(
     //Jak sie teraz cos zaktualizuje to addToolToToolParamList(toolParamListDetails: ToolParamListDetails);
 
 
-    private val toolParamsList: Map<String, ToolParamDetails> = mapOf(
-            "PTO" to ToolParamDetails(
-                    sliderNumber = 1,
-                    value = toolDataManager.getPto().toInt()
-            )
-    )
+
 
 
     fun sendToolData() {
@@ -87,9 +78,9 @@ class ToolParamsViewModel(
             sliderValue: Int,
             isActivated: Boolean
     ) {
-        if (toolParamsList["PTO"]!!.sliderNumber == sliderNumber) {
+
             toolDataManager.onUpdatePto(sliderValue.toDouble())
-        }
+
     }
 
     fun onStart() {
@@ -99,7 +90,7 @@ class ToolParamsViewModel(
                 onGetToolDetailsError = this::postToastErrorMessageEvent
         )
     }
-
+/*
     fun createParamsList() {
         for ((toolName, toolParamDetails) in toolParamsList) {
             addToParamsList(
@@ -110,6 +101,8 @@ class ToolParamsViewModel(
         }
     }
 
+
+ */
     private fun addToParamsList(toolName: String, switchNumber: Int, toolValue: Int) {
         paramsList.value = listOf(
                 HitchListItemViewModel(

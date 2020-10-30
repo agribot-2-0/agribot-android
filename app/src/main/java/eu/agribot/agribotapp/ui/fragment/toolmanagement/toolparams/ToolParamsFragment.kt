@@ -13,7 +13,6 @@ import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewM
 import kotlinx.android.synthetic.main.fragment_tool_management_params.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 class ToolParamsFragment :
         BaseFragment<ToolParamsViewModel, FragmentToolManagementParamsBinding>() {
 
@@ -36,9 +35,9 @@ class ToolParamsFragment :
     }
 
     private fun onHitchRecyclerParametersChanged(
-            sliderNumber: Int,
-            sliderValue: Int,
-            isActivated: Boolean
+        sliderNumber: Int,
+        sliderValue: Int,
+        isActivated: Boolean
     ) {
         viewModel.onHitchParametersChanged(sliderNumber, sliderValue, isActivated)
     }
@@ -59,5 +58,4 @@ class ToolParamsFragment :
     private fun navigateToToolManagement() {
         navigationController?.navigate(R.id.action_toolManagementParamsFragment_to_toolManagementFragment)
     }
-
 }

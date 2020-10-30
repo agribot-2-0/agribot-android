@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.ui.fragment.toolmanagement.toolname
 
-
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
@@ -27,6 +26,4 @@ class ToolNameFragment :
     private fun navigateToToolName() {
         navigationController?.navigate(R.id.action_toolManagementNameFragment_to_toolManagementParamsFragment)
     }
-
-
 }

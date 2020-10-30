@@ -1,6 +1,6 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase.model.programtasks
 
-//import com.google.firebase.Timestamp
+// import com.google.firebase.Timestamp
 
 data class NewToolDetailsCDB(
     val rfid: Double

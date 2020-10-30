@@ -6,7 +6,6 @@ import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolParamsNavigationEvent
 import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
 
-
 class ToolNameViewModel(
     private val toolDataManager: ToolDataManager
 
@@ -28,6 +27,4 @@ class ToolNameViewModel(
             toastEvent.postValue("No tool name")
         }
     }
-
-
 }

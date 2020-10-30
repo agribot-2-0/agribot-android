@@ -11,7 +11,6 @@ import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.HitchListItemDetail
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
 
-
 class ToolParamsViewModel(
     private val toolDataManager: ToolDataManager,
     private val cloudDatabaseService: CloudDatabaseService
@@ -50,7 +49,6 @@ class ToolParamsViewModel(
                 }
             }
         }
-
     }
 
     fun createTools() {

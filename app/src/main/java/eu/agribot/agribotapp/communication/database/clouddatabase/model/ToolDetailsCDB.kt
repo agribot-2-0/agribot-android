@@ -11,7 +11,7 @@ class ToolDetailsCDB(
     val tpl_up_down: Double = 0.0,
     val tpl_push_pull: Double = 0.0,
     val v_max: Double = 0.0
-    ) : BaseCloudDatabaseModel<ToolDetails> {
+) : BaseCloudDatabaseModel<ToolDetails> {
     override fun toDomainModel() = ToolDetails(
         rfid = this.rfid,
         pto = this.pto,

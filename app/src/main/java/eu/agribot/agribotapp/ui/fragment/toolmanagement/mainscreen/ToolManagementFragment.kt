@@ -50,7 +50,6 @@ class ToolManagementFragment :
         setupRecycler()
         viewModel.getAvailableTool()
         viewModel.toolList.observe(this::addToToolList)
-
     }
 
     private fun setupRecycler() {
@@ -106,5 +105,4 @@ class ToolManagementFragment :
     private fun navigateToToolParams() {
         navigationController?.navigate(R.id.action_toolManagementFragment_to_toolManagementParamsFragment)
     }
-
 }

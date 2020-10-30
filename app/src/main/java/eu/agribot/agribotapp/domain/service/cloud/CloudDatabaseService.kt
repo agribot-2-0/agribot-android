@@ -3,7 +3,7 @@ package eu.agribot.agribotapp.domain.service.cloud
 import android.util.Log
 import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabase
 import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
-import eu.agribot.agribotapp.domain.model.ToolItem
+import eu.agribot.agribotapp.domain.model.cdb.ToolItem
 import eu.agribot.agribotapp.domain.model.cdb.ActualTask
 import eu.agribot.agribotapp.domain.model.cdb.EngineHealth
 import eu.agribot.agribotapp.domain.model.cdb.FirstRobotHealthEngine

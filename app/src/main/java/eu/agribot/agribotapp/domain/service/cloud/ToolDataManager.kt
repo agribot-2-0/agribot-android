@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.domain.service.cloud
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
 
@@ -10,7 +9,6 @@ class ToolDataManager {
     private val pto: MutableLiveData<Double> = MutableLiveData()
     private val tplUpDown: MutableLiveData<Double> = MutableLiveData()
     private val tplPushPull: MutableLiveData<Double> = MutableLiveData()
-
 
     fun updateAllToolParameters(toolDetails: ToolDetails) {
         onUpdateRfid(toolDetails.rfid)

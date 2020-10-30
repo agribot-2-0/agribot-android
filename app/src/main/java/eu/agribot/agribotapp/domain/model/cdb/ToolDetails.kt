@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.domain.model.cdb
 
-
 data class ToolDetails(
     val rfid: Int,
     val pto: Double,

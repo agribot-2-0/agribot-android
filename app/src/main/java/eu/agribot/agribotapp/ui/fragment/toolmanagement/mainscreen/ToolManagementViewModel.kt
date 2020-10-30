@@ -9,7 +9,7 @@ import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolNameNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolParamsNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
-import eu.agribot.agribotapp.domain.model.ToolItem
+import eu.agribot.agribotapp.domain.model.cdb.ToolItem
 import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
@@ -28,7 +28,6 @@ class ToolManagementViewModel(
     val tplUpDownString: MutableLiveData<String> = MutableLiveData()
     val tplPushPullValue: MutableLiveData<Int> = MutableLiveData()
     val tplPushPullString: MutableLiveData<String> = MutableLiveData()
-
 
     fun onNewToolButtonClicked() {
         navigationEvent.postValue(
@@ -82,7 +81,7 @@ class ToolManagementViewModel(
             Log.w("ToolManagementViewModel", "onAvailableToolFound")
             toolList.value = listOf(
                 ToolListItemViewModel(
-                    toolItem.toolName,
+                    toolItem.toolName
                 ), *toolList.value!!.toTypedArray()
             )
         }

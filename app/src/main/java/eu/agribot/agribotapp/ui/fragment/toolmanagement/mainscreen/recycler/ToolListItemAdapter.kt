@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.databinding.ListItemToolBinding
-import eu.agribot.agribotapp.databinding.TaskListItemBinding
 import kotlinx.android.synthetic.main.task_list_item.view.*
 
 class ToolListItemAdapter(val onClickSelectedItem: (ToolListItemViewModel) -> Unit) :

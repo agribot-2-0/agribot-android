@@ -133,6 +133,4 @@ interface CloudDatabase {
         onGetToolDetailsSucess: (toolDetailsCDB: ToolDetailsCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
-
-
 }

@@ -26,9 +26,6 @@ class ToolParamsFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.onStart()
-//         viewModel.createParamsList()
-        viewModel.createExampleTool()
-
         viewModel.paramsList.observe(this::addParams)
         setupRecyclers()
     }

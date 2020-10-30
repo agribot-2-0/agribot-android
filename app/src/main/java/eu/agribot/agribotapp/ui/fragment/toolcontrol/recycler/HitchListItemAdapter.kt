@@ -48,16 +48,18 @@ class HitchListItemAdapter(
         var isItemActive = false
         var itemSliderValue = 0
 
-        holder.itemView.recycler_tool_value.text = "${item.toolStartValue} ${item.toolUnit}"
-        holder.itemView.recycler_seekbar.progress = item.toolStartValue
-        holder.itemView.recycler_seekbar.max = item.maxValue
+        holder.itemView.recycler_tool_value.text =
+            "${item.hitchListItemDetail.toolStartValue} ${item.hitchListItemDetail.toolUnit}"
+        holder.itemView.recycler_seekbar.progress = item.hitchListItemDetail.toolStartValue
+        holder.itemView.recycler_seekbar.max = item.hitchListItemDetail.maxValue
 
         holder.itemView.recycler_seekbar.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
 
             @SuppressLint("SetTextI18n")
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, b: Boolean) {
-                holder.itemView.recycler_tool_value.text = "$progress ${item.toolUnit}"
+                holder.itemView.recycler_tool_value.text =
+                    "$progress ${item.hitchListItemDetail.toolUnit}"
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {

@@ -134,9 +134,9 @@
                         <SeekBar
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:progressBackgroundTint="@color/base_green"
                             android:layout_margin="@dimen/margin_medium"
-                            android:progress="@{viewModel.ptoValue}"/>
+                            android:progress="@{viewModel.ptoValue}"
+                            android:progressBackgroundTint="@color/base_green" />
                     </LinearLayout>
 
 
@@ -170,8 +170,8 @@
                         <SeekBar
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:progressBackgroundTint="@color/base_green"
-                            android:layout_margin="@dimen/margin_medium"/>
+                            android:layout_margin="@dimen/margin_medium"
+                            android:progressBackgroundTint="@color/base_green" />
                     </LinearLayout>
 
 
@@ -204,8 +204,8 @@
                         <SeekBar
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:progressBackgroundTint="@color/base_green"
-                            android:layout_margin="@dimen/margin_medium" />
+                            android:layout_margin="@dimen/margin_medium"
+                            android:progressBackgroundTint="@color/base_green" />
                     </LinearLayout>
 
 
@@ -239,8 +239,8 @@
                         <SeekBar
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:progressBackgroundTint="@color/base_green"
-                            android:layout_margin="@dimen/margin_medium" />
+                            android:layout_margin="@dimen/margin_medium"
+                            android:progressBackgroundTint="@color/base_green" />
                     </LinearLayout>
 
 
@@ -272,9 +272,9 @@
                         <SeekBar
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:progressBackgroundTint="@color/base_green"
                             android:layout_margin="@dimen/margin_medium"
-                            android:progress="@{viewModel.tplUpDownValue}" />
+                            android:progress="@{viewModel.tplUpDownValue}"
+                            android:progressBackgroundTint="@color/base_green" />
                     </LinearLayout>
 
 
@@ -308,9 +308,9 @@
                         <SeekBar
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:progressBackgroundTint="@color/base_green"
                             android:layout_margin="@dimen/margin_medium"
-                            android:progress="@{viewModel.tplPushPullValue}"  />
+                            android:progress="@{viewModel.tplPushPullValue}"
+                            android:progressBackgroundTint="@color/base_green" />
                     </LinearLayout>
 
 
@@ -344,8 +344,8 @@
                         <SeekBar
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:progressBackgroundTint="@color/base_green"
-                            android:layout_margin="@dimen/margin_medium" />
+                            android:layout_margin="@dimen/margin_medium"
+                            android:progressBackgroundTint="@color/base_green" />
                     </LinearLayout>
 
 
@@ -360,12 +360,10 @@
                 </LinearLayout>
 
 
-
             </LinearLayout>
 
 
         </LinearLayout>
-
 
 
     </LinearLayout>

@@ -5,10 +5,10 @@ import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolNavigationEvent
 import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
-import eu.agribot.agribotapp.domain.model.cdb.ToolParamDetails
 import eu.agribot.agribotapp.domain.model.cdb.taskprogram.taskmodel.AddToolDetails
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.HitchListItemDetail
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
 
 
@@ -20,26 +20,30 @@ class ToolParamsViewModel(
     val paramsList: MutableLiveData<List<HitchListItemViewModel>> =
         MutableLiveData(listOf())
 
-    private fun addToolToToolParamList(toolParamListDetails: ToolParamListDetails) {
+    private fun addToolToToolParamList(
+        toolName: String,
+        switchNumber: Int,
+        hitchListItemDetail: HitchListItemDetail
+    ) {
         val isToolAlreadyAdded = paramsList.value!!.any() { it ->
-            it.toolName == toolParamListDetails.toolName
+            it.toolName == toolName
         }
 
         if (!isToolAlreadyAdded) {
             paramsList.value = listOf(
                 HitchListItemViewModel(
-                    toolName = toolParamListDetails.toolName,
-                    switchNumber = toolParamListDetails.toolParametrDetails.sliderNumber,
-                    toolStartValue = toolParamListDetails.toolParametrDetails.value
+                    toolName = toolName,
+                    switchNumber = switchNumber,
+                    hitchListItemDetail = hitchListItemDetail
                 ), *paramsList.value!!.toTypedArray()
             )
         } else {
             paramsList.value = paramsList.value!!.map { oldAttribute ->
-                if (oldAttribute.toolName == toolParamListDetails.toolName) {
+                if (oldAttribute.toolName == toolName) {
                     HitchListItemViewModel(
-                        toolName = toolParamListDetails.toolName,
-                        switchNumber = toolParamListDetails.toolParametrDetails.sliderNumber,
-                        toolStartValue = toolParamListDetails.toolParametrDetails.value
+                        toolName = toolName,
+                        switchNumber = switchNumber,
+                        hitchListItemDetail = hitchListItemDetail
                     )
                 } else {
                     oldAttribute
@@ -49,23 +53,19 @@ class ToolParamsViewModel(
 
     }
 
-    fun createExampleTool() {
+    fun createTools() {
         addToolToToolParamList(
-            ToolParamListDetails(
-                toolName = "PTO",
-                toolParametrDetails = ToolParamDetails(
-                    sliderNumber = 0,
-                    value = toolDataManager.getPto().toInt()
-                )
+            toolName = "PTO",
+            switchNumber = 0,
+            hitchListItemDetail = HitchListItemDetail(
+                toolStartValue = toolDataManager.getPto().toInt()
             )
         )
         addToolToToolParamList(
-            ToolParamListDetails(
-                toolName = "TPL UP/DOWN",
-                toolParametrDetails = ToolParamDetails(
-                    sliderNumber = 1,
-                    value = toolDataManager.getTplUpDown().toInt()
-                )
+            toolName = "TPL UP/DOWN",
+            switchNumber = 1,
+            hitchListItemDetail = HitchListItemDetail(
+                toolStartValue = toolDataManager.getTplUpDown().toInt()
             )
         )
     }
@@ -105,7 +105,7 @@ class ToolParamsViewModel(
 
     private fun onToolUpdate(toolDetails: ToolDetails) {
         toolDataManager.updateAllToolParameters(toolDetails)
-        createExampleTool()
+        createTools()
     }
 
     private fun postToolManagementNavigationEvent() {

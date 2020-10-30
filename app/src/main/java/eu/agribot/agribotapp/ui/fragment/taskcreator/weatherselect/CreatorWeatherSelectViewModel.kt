@@ -1,13 +1,12 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskToolsNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
-import eu.agribot.agribotapp.domain.model.FirstRobotWeatherStationHumidity
+import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationHumidity
 import eu.agribot.agribotapp.domain.model.WeatherSelectDataModel
 import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationPressure
 import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationTemperature
@@ -23,6 +22,7 @@ class CreatorWeatherSelectViewModel(
     private val resourcesProvider: ResourcesProvider
 ) :
     BaseViewModel() {
+    val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val weatherAttributeList: MutableLiveData<List<WeatherSettingsListItemViewModel>> =
         MutableLiveData(
             listOf()
@@ -31,13 +31,16 @@ class CreatorWeatherSelectViewModel(
     private val actualHumidity: MutableLiveData<String> = MutableLiveData()
     private val actualWind: MutableLiveData<String> = MutableLiveData()
     private val actualPressure: MutableLiveData<String> = MutableLiveData()
-    val backButtonEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
-    val conditionSymbols = arrayOf("<", ">", "=")
+    private val initializationCurrentValue = ""
+    private val conditionSymbols = arrayOf(
+        PickerSymbols.PICKER_CONDITION_LESS.symbol,
+        PickerSymbols.PICKER_CONDITION_BIGGER.symbol,
+        PickerSymbols.PICKER_CONDITION_EQUAL.symbol
+    )
 
     fun onWeatherAttributeChanged(weatherAttribute: WeatherAttribute) {
         when (weatherAttribute.attributeID) {
             WeatherItemNumber.TEMPERATURE_ITEM.itemNumber -> {
-                Log.e("xd", "weather det: " + weatherAttribute)
                 if (weatherAttribute.isWeatherActive) {
                     taskCreatorDataManager.onUpdateTemperatureValue(weatherAttribute.weatherValue.toString())
                     taskCreatorDataManager.onUpdateTemperatureCondition(
@@ -151,7 +154,7 @@ class CreatorWeatherSelectViewModel(
                 id = WeatherItemNumber.TEMPERATURE_ITEM.itemNumber,
                 conditionArray = conditionSymbols,
                 weatherAttributeIcon = R.drawable.ic_thermometer,
-                currentValue = "",
+                currentValue = initializationCurrentValue,
                 minimumPickerValue = PickersMinMaxValues.MIN_TEMP_VALUE.value,
                 maximumPickerValue = PickersMinMaxValues.MAX_TEMP_VALUE.value,
                 isSwitchActive = taskCreatorDataManager.getTemperatureValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
@@ -173,7 +176,7 @@ class CreatorWeatherSelectViewModel(
                 id = WeatherItemNumber.WIND_ITEM.itemNumber,
                 conditionArray = conditionSymbols,
                 weatherAttributeIcon = R.drawable.ic_wind,
-                currentValue = "",
+                currentValue = initializationCurrentValue,
                 minimumPickerValue = PickersMinMaxValues.MIN_WIND_VALUE.value,
                 maximumPickerValue = PickersMinMaxValues.MAX_WIND_VALUE.value,
                 isSwitchActive = taskCreatorDataManager.getWindValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
@@ -197,7 +200,7 @@ class CreatorWeatherSelectViewModel(
                 id = WeatherItemNumber.PRESSURE_ITEM.itemNumber,
                 conditionArray = conditionSymbols,
                 weatherAttributeIcon = R.drawable.ic_pressure,
-                currentValue = "",
+                currentValue = initializationCurrentValue,
                 minimumPickerValue = PickersMinMaxValues.MIN_PRESSURE_VALUE.value,
                 maximumPickerValue = PickersMinMaxValues.MAX_PRESSURE_VALUE.value,
                 isSwitchActive = taskCreatorDataManager.getPressureValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
@@ -220,7 +223,7 @@ class CreatorWeatherSelectViewModel(
                 id = WeatherItemNumber.HUMIDITY_ITEM.itemNumber,
                 conditionArray = conditionSymbols,
                 weatherAttributeIcon = R.drawable.ic_humidity,
-                currentValue = "",
+                currentValue = initializationCurrentValue,
                 minimumPickerValue = PickersMinMaxValues.MIN_HUMIDITY_VALUE.value,
                 maximumPickerValue = PickersMinMaxValues.MAX_HUMIDITY_VALUE.value,
                 isSwitchActive = taskCreatorDataManager.getHumidityValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
@@ -249,10 +252,6 @@ class CreatorWeatherSelectViewModel(
         }
     }
 
-    fun onPreviousButtonClicked() {
-        backButtonEvent.postValue(true)
-    }
-
     fun getRobotDataValue() {
         getFirstRobotTemperature()
         getFirstRobotHumidity()
@@ -264,36 +263,37 @@ class CreatorWeatherSelectViewModel(
     private fun getFirstRobotHumidity() {
         cloudDatabaseService.getFirstRobotWeatherStationHumidity(
             this::onGetFirstRobotHumiditySucess,
-            this::onSampleDataError
+            this::postErrorMessage
         )
     }
 
     private fun getFirstRobotTemperature() {
         cloudDatabaseService.getFirstRobotWeatherStationTemperature(
             this::onGetFirstRobotTemperatureSucess,
-            this::onSampleDataError
+            this::postErrorMessage
         )
     }
 
     private fun getFirstRobotWind() {
         cloudDatabaseService.getFirstRobotWeatherStationWind(
             this::onGetFirstRobotWindSucess,
-            this::onSampleDataError
+            this::postErrorMessage
         )
     }
 
     private fun getFirstRobotPressure() {
         cloudDatabaseService.getFirstRobotWeatherStationPressure(
             this::onGetFirstRobotPressureSucess,
-            this::onSampleDataError
+            this::postErrorMessage
         )
     }
 
-    private fun onSampleDataError(sampleString: String) {
+    private fun postErrorMessage(errorText: String) {
+        toastEvent.postValue(errorText)
     }
 
     private fun onGetFirstRobotTemperatureSucess(firstRobotWeatherStationTemperature: FirstRobotWeatherStationTemperature) {
-        actualTemperature.value = firstRobotWeatherStationTemperature.value.toString() + " °C"
+        actualTemperature.value = firstRobotWeatherStationTemperature.value.toString() + WeatherUnit.TEMPERATURE_UNIT.unit
         addToWeatherAttributeList(
             WeatherSelectDataModel(
                 id = WeatherItemNumber.TEMPERATURE_ITEM.itemNumber,
@@ -319,7 +319,7 @@ class CreatorWeatherSelectViewModel(
     }
 
     private fun onGetFirstRobotWindSucess(firstRobotWeatherStationWind: FirstRobotWeatherStationWind) {
-        actualWind.value = firstRobotWeatherStationWind.speed_value.toString() + " km/h"
+        actualWind.value = firstRobotWeatherStationWind.speed_value.toString() + WeatherUnit.WIND_UNIT.unit
         addToWeatherAttributeList(
             WeatherSelectDataModel(
                 id = WeatherItemNumber.WIND_ITEM.itemNumber,
@@ -346,7 +346,7 @@ class CreatorWeatherSelectViewModel(
     }
 
     private fun onGetFirstRobotPressureSucess(firstRobotWeatherStationPressure: FirstRobotWeatherStationPressure) {
-        actualPressure.value = firstRobotWeatherStationPressure.value.toString() + " hPa"
+        actualPressure.value = firstRobotWeatherStationPressure.value.toString() + WeatherUnit.PRESSURE_UNIT.unit
         addToWeatherAttributeList(
             WeatherSelectDataModel(
                 id = WeatherItemNumber.PRESSURE_ITEM.itemNumber,
@@ -373,7 +373,7 @@ class CreatorWeatherSelectViewModel(
     }
 
     private fun onGetFirstRobotHumiditySucess(firstRobotWeatherStationHumidity: FirstRobotWeatherStationHumidity) {
-        actualHumidity.value = firstRobotWeatherStationHumidity.value.toString() + "%"
+        actualHumidity.value = firstRobotWeatherStationHumidity.value.toString() + WeatherUnit.HUMIDITY_UNIT.unit
         addToWeatherAttributeList(
             WeatherSelectDataModel(
                 id = WeatherItemNumber.HUMIDITY_ITEM.itemNumber,

@@ -9,8 +9,10 @@ import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskWeatherNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentCreatorTimeSelectBinding
+import eu.agribot.agribotapp.ui.fragment.taskcreator.TaskDetailsElements
 import kotlinx.android.synthetic.main.fragment_creator_time_select.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import java.util.Calendar
 import java.util.Date
 import java.util.TimeZone
@@ -19,7 +21,7 @@ class FragmentCreatorTimeSelect :
     BaseFragment<CreatorTimeSelectViewModel, FragmentCreatorTimeSelectBinding>() {
 
     override val layoutResourceId: Int = R.layout.fragment_creator_time_select
-    override val viewModel: CreatorTimeSelectViewModel by viewModel()
+    override val viewModel: CreatorTimeSelectViewModel by viewModel { parametersOf(requireContext()) }
 
     override fun bindViewVariables(viewBinding: FragmentCreatorTimeSelectBinding) {
         viewBinding.viewModel = viewModel
@@ -34,16 +36,10 @@ class FragmentCreatorTimeSelect :
         navigationController?.navigate(R.id.action_taskTimeCreatorFragment_to_taskWeatherCreatorFragment)
     }
 
-    private fun backToPreviousFragment(isBackAction: Boolean) {
-        if (isBackAction)
-            navigationController?.navigate(R.id.action_taskCreatorTaskTimeFragment_to_taskCreatorTaskPathFragment)
-    }
-
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getPreSetDate()
-        viewModel.backButtonEvent.observe(this::backToPreviousFragment)
         viewModel.date.observe(this::setDatePicker)
         time_picker.setIs24HourView(true)
 
@@ -62,7 +58,7 @@ class FragmentCreatorTimeSelect :
 
     private fun setDatePicker(date: Date) {
         val calendar = Calendar.getInstance()
-        calendar.timeZone = TimeZone.getTimeZone("GMT")
+        calendar.timeZone = TimeZone.getTimeZone(TaskDetailsElements.TIMEZONE.detailsElement)
         calendar.time = date
         date_picker.updateDate(
             calendar.get(Calendar.YEAR),

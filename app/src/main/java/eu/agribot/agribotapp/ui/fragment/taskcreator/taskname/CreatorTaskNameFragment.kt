@@ -8,12 +8,13 @@ import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskPathNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentCreatorTaskNameBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class CreatorTaskNameFragment :
     BaseFragment<CreatorTaskNameViewModel, FragmentCreatorTaskNameBinding>() {
 
     override val layoutResourceId: Int = R.layout.fragment_creator_task_name
-    override val viewModel: CreatorTaskNameViewModel by viewModel()
+    override val viewModel: CreatorTaskNameViewModel by viewModel { parametersOf(requireContext()) }
 
     override fun bindViewVariables(viewBinding: FragmentCreatorTaskNameBinding) {
         viewBinding.viewModel = viewModel

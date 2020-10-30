@@ -1,7 +1,7 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase.model
 
 import com.google.firebase.Timestamp
-import eu.agribot.agribotapp.domain.model.TaskDetails
+import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
 
 class TaskDetailsCDB(
     val path_name: String = "",

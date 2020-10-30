@@ -163,7 +163,7 @@ class TaskCreatorFragment :
                     .tileProvider(tileProvider)
             )
         } catch (exception: IOException) {
-            showToast("Problem with add Overlay")
+            showToast(getString(R.string.map_tile_problem))
         }
     }
 
@@ -184,7 +184,7 @@ class TaskCreatorFragment :
             val container: Iterable<KmlContainer> = mapPathLayer!!.containers
             viewModel.accessContainers(container)
         } catch (exception: IOException) {
-            showToast("Map Layer Problem")
+            showToast(getString(R.string.kml_layer_problem))
         }
     }
 

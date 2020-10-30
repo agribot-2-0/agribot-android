@@ -1,7 +1,7 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase.model
 
 import com.google.firebase.Timestamp
-import eu.agribot.agribotapp.domain.model.FirstRobotWeatherStationHumidity
+import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationHumidity
 
 data class FirstRobotWeatherStationHumidityCDB(
     val accuracy: Int = -1,

@@ -9,12 +9,13 @@ import eu.agribot.agribotapp.common.navigation.events.DashboardNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentCreatorToolSelectBinding
 import kotlinx.android.synthetic.main.view_bottom_creator_bar.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class FragmentCreatorToolSelect :
     BaseFragment<CreatorToolSelectViewModel, FragmentCreatorToolSelectBinding>() {
 
     override val layoutResourceId: Int = R.layout.fragment_creator_tool_select
-    override val viewModel: CreatorToolSelectViewModel by viewModel()
+    override val viewModel: CreatorToolSelectViewModel by viewModel { parametersOf(requireContext()) }
 
     override fun bindViewVariables(viewBinding: FragmentCreatorToolSelectBinding) {
         viewBinding.viewModel = viewModel
@@ -22,7 +23,6 @@ class FragmentCreatorToolSelect :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        left_button.setOnClickListener { navigateToWeatherAttributionsFragment() }
         right_button.setOnClickListener { viewModel.sendTaskData() }
     }
 
@@ -33,9 +33,5 @@ class FragmentCreatorToolSelect :
 
     private fun navigateToDashboard() {
         navigationController?.navigate(R.id.action_taskCreatorTaskToolFragment_to_creatorFragment)
-    }
-
-    private fun navigateToWeatherAttributionsFragment() {
-        navigationController?.navigate(R.id.action_taskCreatorTaskToolFragment_to_taskCreatorTaskWeatherFragment)
     }
 }

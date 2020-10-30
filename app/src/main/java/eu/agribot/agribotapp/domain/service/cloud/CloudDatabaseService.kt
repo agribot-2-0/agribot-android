@@ -2,13 +2,26 @@ package eu.agribot.agribotapp.domain.service.cloud
 
 import android.util.Log
 import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabase
-import eu.agribot.agribotapp.domain.model.*
-import eu.agribot.agribotapp.domain.model.cdb.*
+import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
+import eu.agribot.agribotapp.domain.model.ToolItem
+import eu.agribot.agribotapp.domain.model.cdb.ActualTask
+import eu.agribot.agribotapp.domain.model.cdb.EngineHealth
+import eu.agribot.agribotapp.domain.model.cdb.FirstRobotHealthEngine
+import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationHumidity
+import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationPressure
+import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationTemperature
+import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationWind
+import eu.agribot.agribotapp.domain.model.cdb.RobotLocalizationPose
+import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
+import eu.agribot.agribotapp.domain.model.cdb.TaskItem
+import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
+import eu.agribot.agribotapp.domain.model.cdb.UserInfo
 import eu.agribot.agribotapp.domain.model.cdb.taskprogram.taskmodel.AddToolDetails
 import eu.agribot.agribotapp.domain.model.cdb.taskprogram.taskmodel.NewRobotTaskDetails
 
 class CloudDatabaseService(
-    val cloudDatabase: CloudDatabase
+    val cloudDatabase: CloudDatabase,
+    val cloudStorageErrorHandler: CloudStorageErrorHandler
 ) {
     fun getEngineHealth(
         onSuccess: (EngineHealth) -> Unit,
@@ -201,16 +214,15 @@ class CloudDatabaseService(
         cloudDatabase.createNewTask(
             taskName,
             newRobotTaskDetails.toCommunicationModel(),
-            onDatabaseSucess = this::onsucess,
-            onDatabaseError = this::onError
+            onDatabaseError = { cloudStorageErrorHandler.getStorageError(it as Exception) }
         )
     }
 
     fun setCurrentTask(actualTask: ActualTask) {
         cloudDatabase.setCurrenttask(
+            actualTaskCDB = actualTask.toCommunicationModel(),
             robotName = "ADI75R1",
-            actualTask.toCommunicationModel(),
-            this::onsucess, this::onError
+            onDatabaseError = { cloudStorageErrorHandler.getStorageError(it as Exception) }
         )
     }
 

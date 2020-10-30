@@ -2,7 +2,7 @@ package eu.agribot.agribotapp.domain.service.cloud
 
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.Timestamp
-import eu.agribot.agribotapp.domain.model.TaskDetails
+import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
 
 class TaskCreatorDataManager {
     private val taskName: MutableLiveData<String> = MutableLiveData()
@@ -21,8 +21,10 @@ class TaskCreatorDataManager {
     private val pressureValueData: MutableLiveData<String> = MutableLiveData()
     private val pressureConditionData: MutableLiveData<String> = MutableLiveData()
     private val startTimeEstimated: MutableLiveData<Boolean> = MutableLiveData()
-    private val NULL_VALUE_TIMESTAMP = 946728000L
-    private val NULL_VALUE_SYMBOL = "*"
+    private val defaultTimestamp = 946728000L
+    private val nullValueSymbol = "*"
+    private val emptyPath = "empty_path"
+    private val emptyTaskNameText = "null"
 
     fun updateAllTaskParameters(taskDetails: TaskDetails) {
         onUpdatePathName(taskDetails.path_name)
@@ -90,7 +92,7 @@ class TaskCreatorDataManager {
         return if (taskName.value != null) {
             taskName.value!!
         } else {
-            "null"
+            emptyTaskNameText
         }
     }
 
@@ -98,62 +100,62 @@ class TaskCreatorDataManager {
         return if (pathName.value != null) {
             pathName.value!!
         } else {
-            "empty_path"
+            emptyPath
         }
     }
 
     fun getTimeStamp(): Timestamp? {
         return if (timestampData.value != null)
             timestampData.value!!
-        else Timestamp(NULL_VALUE_TIMESTAMP, 0)
+        else Timestamp(defaultTimestamp, 0)
     }
 
     fun getTemperatureValue(): String {
         return if (temperatureValueData.value != null)
             temperatureValueData.value!!
-        else NULL_VALUE_SYMBOL
+        else nullValueSymbol
     }
 
     fun getTemperatureCondition(): String {
         return if (temperatureValueData.value != null && temperatureConditionData.value != null) {
             temperatureConditionData.value!!
-        } else NULL_VALUE_SYMBOL
+        } else nullValueSymbol
     }
 
     fun getWindValue(): String {
         return if (windValueData.value != null) {
             windValueData.value!!
-        } else NULL_VALUE_SYMBOL
+        } else nullValueSymbol
     }
 
     fun getWindCondition(): String {
         return if (windValueData.value != null && windConditionData.value != null) {
             windConditionData.value!!
-        } else NULL_VALUE_SYMBOL
+        } else nullValueSymbol
     }
 
     fun getHumidityValue(): String {
         return if (humidityValueData.value != null) {
             humidityValueData.value!!
-        } else NULL_VALUE_SYMBOL
+        } else nullValueSymbol
     }
 
     fun getHumidityCondition(): String {
         return if (humidityValueData.value != null && humidityConditionData.value != null) {
             humidityConditionData.value!!
-        } else NULL_VALUE_SYMBOL
+        } else nullValueSymbol
     }
 
     fun getPressureValue(): String {
         return if (pressureValueData.value != null) {
             pressureValueData.value!!
-        } else NULL_VALUE_SYMBOL
+        } else nullValueSymbol
     }
 
     fun getPressureCondition(): String {
         return if (pressureValueData.value != null && pressureConditionData.value != null) {
             pressureConditionData.value!!
-        } else NULL_VALUE_SYMBOL
+        } else nullValueSymbol
     }
 
     fun getTimeEstimated(): Boolean {

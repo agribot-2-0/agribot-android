@@ -96,7 +96,7 @@ class ControlPanelFragment :
                     .tileProvider(tileProvider)
             )
         } catch (exception: IOException) {
-            showToast("Map Tile Problem")
+            showToast(getString(R.string.map_tile_problem))
         }
     }
 
@@ -117,7 +117,7 @@ class ControlPanelFragment :
                     )
                 )
             } catch (exception: IOException) {
-                showToast("marker exception$exception")
+                showToast(getString(R.string.map_marker_problem))
             }
         }
     }
@@ -140,7 +140,7 @@ class ControlPanelFragment :
                 val container: Iterable<KmlContainer> = mapPathLayer!!.containers
                 viewModel.accessContainers(container)
             } catch (exception: IOException) {
-                showToast("Map Layer Problem")
+                showToast(getString(R.string.kml_layer_problem))
             }
         } catch (exception: Exception) {
             exception.stackTrace

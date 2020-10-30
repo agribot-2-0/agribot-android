@@ -1,7 +1,7 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase.model
 
 import com.google.firebase.Timestamp
-import eu.agribot.agribotapp.domain.model.FirstRobotHealthEngine
+import eu.agribot.agribotapp.domain.model.cdb.FirstRobotHealthEngine
 import java.util.Date
 
 data class FirstRobotHealthEngineCDB(

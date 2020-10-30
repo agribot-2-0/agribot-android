@@ -104,7 +104,8 @@ val domainModule = module {
 
     single {
         CloudDatabaseService(
-            cloudDatabase = get()
+            cloudDatabase = get(),
+            cloudStorageErrorHandler = get()
         )
     }
 
@@ -112,12 +113,16 @@ val domainModule = module {
         TaskCreatorDataManager()
     }
 
-    single{
+    single {
         ToolDataManager()
     }
 
     single {
-        CloudStorageService(firestorageService = get(), authenticationService = get(), cloudStorageErrorHandler = get())
+        CloudStorageService(
+            firestorageService = get(),
+            authenticationService = get(),
+            cloudStorageErrorHandler = get()
+        )
     }
 
     single {

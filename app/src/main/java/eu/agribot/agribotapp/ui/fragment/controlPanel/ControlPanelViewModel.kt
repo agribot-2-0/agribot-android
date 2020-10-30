@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.controlPanel
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -12,12 +13,11 @@ import eu.agribot.agribotapp.common.livedata.LiveEvent
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.TaskSelectNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
+import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
 import eu.agribot.agribotapp.domain.model.cdb.RobotLocalizationPose
-import eu.agribot.agribotapp.domain.model.TaskDetails
-import eu.agribot.agribotapp.domain.service.AutonomyService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
-import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.TaskDetailsElements
+import eu.agribot.agribotapp.ui.fragment.taskcreator.TaskDetailsElements
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
@@ -25,7 +25,6 @@ import java.io.InputStream
 import java.text.SimpleDateFormat
 
 class ControlPanelViewModel(
-    private val autonomyService: AutonomyService,
     val cloudDatabaseService: CloudDatabaseService,
     val resourcesProvider: ResourcesProvider,
     val cloudStorageService: CloudStorageService
@@ -128,6 +127,7 @@ class ControlPanelViewModel(
         currentTask.value = taskName
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun onGotCurrentTaskDetails(taskDetails: TaskDetails) {
         if (!taskDetails.start_time_estimated) {
             val dateFormat = SimpleDateFormat(TaskDetailsElements.DATE_FORMAT.detailsElement)
@@ -199,9 +199,5 @@ class ControlPanelViewModel(
 
     fun onSelectTaskButtonClicked() {
         navigationEvent.postValue(TaskSelectNavigationEvent())
-    }
-
-    fun sendInitAutoMode() {
-        autonomyService.sendInitAutonomyMode()
     }
 }

@@ -5,12 +5,14 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.kml.KmlContainer
 import com.google.maps.android.kml.KmlLineString
 import com.google.maps.android.kml.KmlPlacemark
+import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskTimeNavigationEvent
-import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
+import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
+import eu.agribot.agribotapp.ui.fragment.taskcreator.PathNameFileSymbol
 import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler.CloudFileListItemViewModel
 import java.io.File
 import java.io.FileInputStream
@@ -19,12 +21,11 @@ import java.io.InputStream
 
 class CreatorPathSelectViewModel(
     private val cloudStorageService: CloudStorageService,
-    private val cloudDatabaseService: CloudDatabaseService,
-    private val taskCreatorDataManager: TaskCreatorDataManager
+    private val taskCreatorDataManager: TaskCreatorDataManager,
+    private val resourcesProvider: ResourcesProvider
 ) : BaseViewModel() {
     private val fileListPathsList: MutableLiveData<List<CloudFileListItemViewModel>> =
         MutableLiveData(listOf())
-    val backButtonEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
     val availableFiles: MutableLiveData<List<CloudFileListItemViewModel>> =
         MutableLiveData(listOf())
     val selectedLayer: MutableLiveData<InputStream> = MutableLiveData()
@@ -32,9 +33,10 @@ class CreatorPathSelectViewModel(
     val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val cameraPosition: MutableLiveData<LatLng> = MutableLiveData()
     val currentPathName: MutableLiveData<String> = MutableLiveData()
+    val invalidPathName = "empty_path"
 
     private fun getSavedPath() {
-        if (taskCreatorDataManager.getPathName() != "empty_path" && taskCreatorDataManager.getPathName() != null) {
+        if (taskCreatorDataManager.getPathName() != invalidPathName && taskCreatorDataManager.getPathName() != null) {
             currentPathName.value = taskCreatorDataManager.getPathName()!!
             downloadSelectedFile(taskCreatorDataManager.getPathName()!!)
         }
@@ -61,7 +63,7 @@ class CreatorPathSelectViewModel(
                     val kmlLineString = placemark.geometry as KmlLineString
                     cameraPosition.value = kmlLineString.geometryObject[0]
                 } catch (exception: Exception) {
-                    toastEvent.postValue("Kml LatLngException")
+                    toastEvent.postValue(resourcesProvider.getString(R.string.kml_layer_problem))
                 }
             }
         }
@@ -96,15 +98,11 @@ class CreatorPathSelectViewModel(
     }
 
     private fun formatFilename(fileName: String): String {
-        return if (fileName.contains("_")) {
-            fileName.substringBefore("_")
+        return if (fileName.contains(PathNameFileSymbol.VARSION_SEPARATOR.symbol)) {
+            fileName.substringBefore(PathNameFileSymbol.VARSION_SEPARATOR.symbol)
         } else {
-            fileName.substringBefore(".")
+            fileName.substringBefore(PathNameFileSymbol.FILE_FORMAT_SEPARATOR.symbol)
         }
-    }
-
-    fun onPreviousButtonClicked() {
-        backButtonEvent.postValue(true)
     }
 
     fun checkPathSelected() {
@@ -152,7 +150,7 @@ class CreatorPathSelectViewModel(
                 CreatorTaskTimeNavigationEvent()
             )
         } else {
-            toastEvent.postValue("No path file selected")
+            toastEvent.postValue(resourcesProvider.getString(R.string.no_path_selected))
         }
     }
 

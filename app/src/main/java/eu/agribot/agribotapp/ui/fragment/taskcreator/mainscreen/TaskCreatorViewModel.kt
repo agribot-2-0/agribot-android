@@ -12,11 +12,12 @@ import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskNameNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskPathNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
-import eu.agribot.agribotapp.domain.model.TaskDetails
-import eu.agribot.agribotapp.domain.model.TaskItem
+import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
+import eu.agribot.agribotapp.domain.model.cdb.TaskItem
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
+import eu.agribot.agribotapp.ui.fragment.taskcreator.TaskDetailsElements
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.TaskListItemViewModel
 import java.io.File
 import java.io.FileInputStream

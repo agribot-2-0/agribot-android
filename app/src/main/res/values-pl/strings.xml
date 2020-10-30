@@ -194,6 +194,10 @@
     <string name="title_group_management">Zarządzanie</string>
     <string name="tool_mode">Tool mode</string>
     <string name="current_weather">Aktualne warunki pogodowe</string>
-    <string name="tool_picture">TOOL PICTURE</string>
+    <string name="tool_picture">Zdjęcie narzędzia</string>
+    <string name="kml_layer_problem">Problem z nałożeniem ścieżki na mape</string>
+    <string name="empty_task_name">Brak nazwy zadania</string>
+    <string name="no_path_selected">Nie wybrano ścieżki</string>
+    <string name="map_marker_problem">Problem z markerem na mapie</string>
 
 </resources>

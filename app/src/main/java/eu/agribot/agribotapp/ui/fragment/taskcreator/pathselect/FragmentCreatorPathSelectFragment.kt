@@ -26,6 +26,7 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler.CloudFi
 import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler.CloudFileListItemViewModel
 import kotlinx.android.synthetic.main.fragment_creator_path_select.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
@@ -35,7 +36,7 @@ class FragmentCreatorPathSelectFragment :
     OnMapReadyCallback {
 
     override val layoutResourceId: Int = R.layout.fragment_creator_path_select
-    override val viewModel: CreatorPathSelectViewModel by viewModel()
+    override val viewModel: CreatorPathSelectViewModel by viewModel { parametersOf(requireContext()) }
     private var adapter = CloudFileListItemAdapter(this::onItemClicked)
     private var googleMapFragment: GoogleMap? = null
     var mapPathLayer: KmlLayer? = null
@@ -56,7 +57,6 @@ class FragmentCreatorPathSelectFragment :
         viewModel.downloadAvailableFileList()
         viewModel.selectedLayer.observe(this::onGotSelectedLayer)
         viewModel.toastEvent.observe(this::showToast)
-        viewModel.backButtonEvent.observe(this::backToPreviousFragment)
 
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.creator_map) as SupportMapFragment
@@ -71,13 +71,6 @@ class FragmentCreatorPathSelectFragment :
                 latLng, MapParameters.MID_ZOOM.mapParametr
             )
         )
-    }
-
-    private fun backToPreviousFragment(isBackAction: Boolean) {
-        if (isBackAction)
-            navigationController?.navigate(
-                R.id.action_taskCreatorTaskPathFragment_to_creatorFragment
-            )
     }
 
     private fun navigateToCreatorTaskTimeFragment() {
@@ -111,7 +104,7 @@ class FragmentCreatorPathSelectFragment :
                     .tileProvider(tileProvider)
             )
         } catch (exception: IOException) {
-            showToast("Add tile to map problem")
+            showToast(getString(R.string.map_tile_problem))
         }
     }
 
@@ -135,7 +128,7 @@ class FragmentCreatorPathSelectFragment :
                 val container: Iterable<KmlContainer> = mapPathLayer!!.containers
                 viewModel.accessContainers(container)
             } catch (exception: IOException) {
-                showToast("Map Layer Problem")
+                showToast(getString(R.string.kml_layer_problem))
             }
         } catch (exception: Exception) {
             exception.stackTrace

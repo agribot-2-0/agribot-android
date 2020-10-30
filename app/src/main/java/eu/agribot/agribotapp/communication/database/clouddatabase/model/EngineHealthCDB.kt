@@ -1,6 +1,6 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase.model
 
-import eu.agribot.agribotapp.domain.model.EngineHealth
+import eu.agribot.agribotapp.domain.model.cdb.EngineHealth
 
 data class EngineHealthCDB(
     val error_code: Int = -1,

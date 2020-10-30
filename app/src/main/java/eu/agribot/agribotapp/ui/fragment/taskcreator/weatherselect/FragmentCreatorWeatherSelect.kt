@@ -1,7 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import eu.agribot.agribotapp.R
@@ -34,16 +33,9 @@ class FragmentCreatorWeatherSelect :
         viewModel.weatherAttributeList.observe(this::addAvaliableWeatherAttribute)
         setupRecyclerView()
         viewModel.getRobotDataValue()
-        viewModel.backButtonEvent.observe(this::backToPreviousFragment)
-    }
-
-    private fun backToPreviousFragment(isBackAction: Boolean) {
-        if (isBackAction)
-            navigationController?.navigate(R.id.action_taskCreatorTaskWeatherFragment_to_taskCreatorTaskTimeFragment)
     }
 
     private fun onWeatherAttributeChanged(weatherAttribute: WeatherAttribute) {
-        Log.e("xd", "weatherAttribute: " + weatherAttribute)
         viewModel.onWeatherAttributeChanged(weatherAttribute)
     }
 

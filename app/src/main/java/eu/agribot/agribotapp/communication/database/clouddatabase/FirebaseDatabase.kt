@@ -18,7 +18,19 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabaseP
 import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabasePaths.DOCUMENT_HEALTH
 import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabasePaths.DOCUMENT_ROBOTS_ADI75R1
 import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabasePaths.DOCUMENT_TOOLS
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.*
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.ActualTaskCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.EngineHealthCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.FirstRobotHealthEngineCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.FirstRobotWeatherStationHumidityCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.FirstRobotWeatherStationPressureCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.FirstRobotWeatherStationTemperatureCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.FirstRobotWeatherStationWindCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotLocalizationPoseCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskDetailsCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskItemCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.ToolDetailsCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.TooltemCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserInfoCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.programtasks.NewRobotTaskDetailsCDB
 
 class FirebaseDatabase() : CloudDatabase {

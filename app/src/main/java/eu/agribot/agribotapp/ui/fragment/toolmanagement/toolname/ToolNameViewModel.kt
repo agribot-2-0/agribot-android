@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolParamsNavigationEvent
+import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
 import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
 
 class ToolNameViewModel(
@@ -19,6 +20,18 @@ class ToolNameViewModel(
 
     fun onNextButtonClicked() {
         if (toolName.value != null) {
+            toolDataManager.updateAllToolParameters(
+                ToolDetails(
+                    tpl_up_down = 0.0,
+                    tpl_push_pull = 0.0,
+                    pto = 0.0,
+                    green = 0.0,
+                    yellow = 0.0,
+                    blue = 0.0,
+                    v_max = 0.0,
+                    rfid = 0
+                )
+            )
             toolDataManager.onUpdateToolName(toolName.value.toString())
             navigationEvent.postValue(
                 ToolParamsNavigationEvent()

@@ -153,6 +153,7 @@ class ToolParamsViewModel(
             onGetToolDetails = this::onToolUpdate,
             onGetToolDetailsError = this::postToastErrorMessageEvent
         )
+        addToolParamItemsToRecycler()
     }
 
     private fun onToolUpdate(toolDetails: ToolDetails) {

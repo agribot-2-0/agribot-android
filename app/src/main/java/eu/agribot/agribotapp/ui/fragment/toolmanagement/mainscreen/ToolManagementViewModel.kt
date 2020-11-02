@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel

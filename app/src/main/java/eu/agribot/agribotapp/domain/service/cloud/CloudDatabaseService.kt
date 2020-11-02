@@ -209,7 +209,6 @@ class CloudDatabaseService(
     }
 
     fun programTaskToRobot(taskName: String, newRobotTaskDetails: NewRobotTaskDetails) {
-        Log.e("xd", "programTask")
         cloudDatabase.createNewTask(
             taskName,
             newRobotTaskDetails.toCommunicationModel(),

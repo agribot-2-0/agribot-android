@@ -3,7 +3,6 @@ package eu.agribot.agribotapp.domain.service.cloud
 import android.util.Log
 import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabase
 import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
-import eu.agribot.agribotapp.domain.model.cdb.ToolItem
 import eu.agribot.agribotapp.domain.model.cdb.ActualTask
 import eu.agribot.agribotapp.domain.model.cdb.EngineHealth
 import eu.agribot.agribotapp.domain.model.cdb.FirstRobotHealthEngine
@@ -15,8 +14,8 @@ import eu.agribot.agribotapp.domain.model.cdb.RobotLocalizationPose
 import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
 import eu.agribot.agribotapp.domain.model.cdb.TaskItem
 import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
+import eu.agribot.agribotapp.domain.model.cdb.ToolItem
 import eu.agribot.agribotapp.domain.model.cdb.UserInfo
-import eu.agribot.agribotapp.domain.model.cdb.taskprogram.taskmodel.AddToolDetails
 import eu.agribot.agribotapp.domain.model.cdb.taskprogram.taskmodel.NewRobotTaskDetails
 
 class CloudDatabaseService(
@@ -226,10 +225,10 @@ class CloudDatabaseService(
         )
     }
 
-    fun addTool(toolName: String, addToolDetails: AddToolDetails) {
+    fun addTool(toolName: String, toolDetails: ToolDetails) {
         cloudDatabase.addTool(
             toolName,
-            addToolDetails.toCommunicationModel(),
+            toolDetails.toCommunicationModel(),
             onDatabaseSucess = this::onsucess,
             onDatabaseError = this::onError
         )
@@ -263,7 +262,8 @@ class CloudDatabaseService(
     ) {
         cloudDatabase.getToolDetails(
             toolName,
-            onGetToolDetailsSucess = { onGetToolDetails(it.toDomainModel()) }, onDatabaseError = {
+            onGetToolDetailsSucess = { onGetToolDetails(it.toDomainModel()) },
+            onDatabaseError = {
                 onGetToolDetailsError(it.message!!)
             })
     }

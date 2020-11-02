@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen
 
-import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.R
@@ -28,6 +27,14 @@ class ToolManagementViewModel(
     val tplUpDownString: MutableLiveData<String> = MutableLiveData()
     val tplPushPullValue: MutableLiveData<Int> = MutableLiveData()
     val tplPushPullString: MutableLiveData<String> = MutableLiveData()
+    val greenValue: MutableLiveData<Int> = MutableLiveData()
+    val greenString: MutableLiveData<String> = MutableLiveData()
+    val yellowValue: MutableLiveData<Int> = MutableLiveData()
+    val yellowString: MutableLiveData<String> = MutableLiveData()
+    val blueValue: MutableLiveData<Int> = MutableLiveData()
+    val blueString: MutableLiveData<String> = MutableLiveData()
+    val vMaxValue: MutableLiveData<Int> = MutableLiveData()
+    val vMaxString: MutableLiveData<String> = MutableLiveData()
 
     fun onNewToolButtonClicked() {
         navigationEvent.postValue(
@@ -43,14 +50,23 @@ class ToolManagementViewModel(
         )
     }
 
-    @SuppressLint("SimpleDateFormat")
     private fun onGetToolDetails(toolDetails: ToolDetails) {
         toolDataManager.updateAllToolParameters(toolDetails)
         ptoValue.value = toolDetails.pto.toInt()
-        ptoString.value = toolDetails.pto.toString() + " rpm"
-
         tplUpDownValue.value = toolDetails.tpl_up_down.toInt()
         tplPushPullValue.value = toolDetails.tpl_push_pull.toInt()
+        greenValue.value = toolDetails.green.toInt()
+        yellowValue.value = toolDetails.yellow.toInt()
+        blueValue.value = toolDetails.blue.toInt()
+        vMaxValue.value = toolDetails.v_max.toInt()
+
+        ptoString.value = toolDetails.pto.toString() + " RPM"
+        tplUpDownString.value = toolDetails.tpl_up_down.toString() + " RPM"
+        tplPushPullString.value = toolDetails.tpl_push_pull.toString() + " RPM"
+        greenString.value = toolDetails.green.toString() + " RPM"
+        yellowString.value = toolDetails.yellow.toString() + " RPM"
+        blueString.value = toolDetails.blue.toString() + " RPM"
+        vMaxString.value = toolDetails.v_max.toString() + " RPM"
     }
 
     fun onDeleteButtonClicked(positionOnList: Int) {
@@ -78,7 +94,6 @@ class ToolManagementViewModel(
             foundTool.toolName == toolItem.toolName
         }
         if (!isTaskAlreadyAdded) {
-            Log.w("ToolManagementViewModel", "onAvailableToolFound")
             toolList.value = listOf(
                 ToolListItemViewModel(
                     toolItem.toolName

@@ -199,5 +199,11 @@
     <string name="empty_task_name">Brak nazwy zadania</string>
     <string name="no_path_selected">Nie wybrano ścieżki</string>
     <string name="map_marker_problem">Problem z markerem na mapie</string>
+    <string name="tpl_up_down">TPL up/down</string>
+    <string name="tpl_push_pull">TPL push/pull</string>
+    <string name="green_flow">Zielony przepływ</string>
+    <string name="yellow_flow">Żółty przepływ</string>
+    <string name="v_max">Maximum robot velocity</string>
+    <string name="blue_flow">Niebieski przepływ</string>
 
 </resources>

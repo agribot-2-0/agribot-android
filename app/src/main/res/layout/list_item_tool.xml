@@ -14,7 +14,7 @@
         android:id="@+id/cardview_task_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="@dimen/margin_medium"
         android:orientation="vertical"
         app:cardCornerRadius="2dp"
         app:cardElevation="6dp">

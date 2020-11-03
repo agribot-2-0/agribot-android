@@ -211,6 +211,12 @@
     <string name="empty_task_name">No task name</string>
     <string name="no_path_selected">No path file selected</string>
     <string name="map_marker_problem">Problem with map marker</string>
+    <string name="tpl_up_down">TPL up/down</string>
+    <string name="tpl_push_pull">TPL push/pull</string>
+    <string name="blue_flow">Blue flow</string>
+    <string name="green_flow">Green flow</string>
+    <string name="yellow_flow">Yellow flow</string>
+    <string name="v_max">Maximum robot velocity</string>
 
 
 </resources>

@@ -4,13 +4,13 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.model.ToolDeta
 
 data class ToolDetails(
     val rfid: Int,
-    val pto: Double = 0.0,
-    val blue: Double = 0.0,
-    val yellow: Double = 0.0,
-    val green: Double = 0.0,
-    val tpl_up_down: Double = 0.0,
-    val tpl_push_pull: Double = 0.0,
-    val v_max: Double = 0.0
+    val pto: Double,
+    val blue: Double,
+    val yellow: Double,
+    val green: Double,
+    val tpl_up_down: Double,
+    val tpl_push_pull: Double,
+    val v_max: Double
 ) : BaseCloudDatabaseModel<ToolDetailsCDB> {
     override fun toCommunicationModel() = ToolDetailsCDB(
         rfid = this.rfid,

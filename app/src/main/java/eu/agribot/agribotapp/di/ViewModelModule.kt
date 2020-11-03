@@ -96,19 +96,6 @@ val viewModelModule = module {
     }
 
     viewModel {
-        ToolNameViewModel(
-            toolDataManager = get()
-        )
-    }
-
-    viewModel {
-        ToolParamsViewModel(
-            toolDataManager = get(),
-            cloudDatabaseService = get()
-        )
-    }
-
-    viewModel {
         PathManagementViewModel(
             pathManagementService = get()
         )
@@ -219,6 +206,20 @@ val viewModelModule = module {
             resourcesProvider = get { parametersOf(context) },
             cloudDatabaseService = get(),
             toolDataManager = get()
+        )
+    }
+
+    viewModel {
+        ToolNameViewModel(
+            toolDataManager = get()
+        )
+    }
+
+    viewModel { (context: Context) ->
+        ToolParamsViewModel(
+            toolDataManager = get(),
+            resourcesProvider = get { parametersOf(context) },
+            cloudDatabaseService = get()
         )
     }
 

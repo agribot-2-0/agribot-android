@@ -13,6 +13,9 @@ class ToolDataManager {
     private val yellow: MutableLiveData<Double> = MutableLiveData()
     private val blue: MutableLiveData<Double> = MutableLiveData()
     private val vMax: MutableLiveData<Double> = MutableLiveData()
+    private val initString = ""
+    val initInit = 0
+    val initDouble = 0.0
 
     fun updateAllToolParameters(toolDetails: ToolDetails) {
         onUpdateRfid(toolDetails.rfid)
@@ -33,7 +36,7 @@ class ToolDataManager {
         return if (toolName.value != null) {
             toolName.value!!
         } else {
-            "null"
+            initString
         }
     }
 
@@ -45,7 +48,7 @@ class ToolDataManager {
         return if (rfid.value != null) {
             rfid.value!!
         } else {
-            0
+            initInit
         }
     }
 
@@ -57,7 +60,7 @@ class ToolDataManager {
         return if (pto.value != null) {
             pto.value!!
         } else {
-            0.0
+            initDouble
         }
     }
 
@@ -69,7 +72,7 @@ class ToolDataManager {
         return if (tplUpDown.value != null) {
             tplUpDown.value!!
         } else {
-            0.0
+            initDouble
         }
     }
 
@@ -81,7 +84,7 @@ class ToolDataManager {
         return if (tplPushPull.value != null) {
             tplPushPull.value!!
         } else {
-            0.0
+            initDouble
         }
     }
 
@@ -93,7 +96,7 @@ class ToolDataManager {
         return if (green.value != null) {
             green.value!!
         } else {
-            0.0
+            initDouble
         }
     }
 
@@ -105,7 +108,7 @@ class ToolDataManager {
         return if (yellow.value != null) {
             yellow.value!!
         } else {
-            0.0
+            initDouble
         }
     }
 
@@ -117,7 +120,7 @@ class ToolDataManager {
         return if (blue.value != null) {
             blue.value!!
         } else {
-            0.0
+            initDouble
         }
     }
 
@@ -129,7 +132,7 @@ class ToolDataManager {
         return if (vMax.value != null) {
             vMax.value!!
         } else {
-            0.0
+            initDouble
         }
     }
 }

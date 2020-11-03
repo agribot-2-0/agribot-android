@@ -128,7 +128,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="TUZ up/down"
+                            android:text="@string/tpl_up_down"
                             android:textSize="@dimen/text_size_medium" />
 
                         <SeekBar
@@ -165,7 +165,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="TUZ push/pull"
+                            android:text="@string/tpl_push_pull"
                             android:textSize="@dimen/text_size_medium" />
 
                         <SeekBar
@@ -202,7 +202,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="PTO"
+                            android:text="@string/pto"
                             android:textSize="@dimen/text_size_medium" />
 
                         <SeekBar
@@ -237,7 +237,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="BLUE"
+                            android:text="@string/blue_flow"
                             android:textSize="@dimen/text_size_medium" />
 
                         <SeekBar
@@ -273,7 +273,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="YELLOW"
+                            android:text="@string/yellow_flow"
                             android:textSize="@dimen/text_size_medium" />
 
                         <SeekBar
@@ -310,7 +310,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="GREEN"
+                            android:text="@string/green_flow"
                             android:textSize="@dimen/text_size_medium" />
 
                         <SeekBar
@@ -345,7 +345,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="v max"
+                            android:text="@string/v_max"
                             android:textSize="@dimen/text_size_medium" />
 
                         <SeekBar

@@ -12,19 +12,20 @@ import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemAdapt
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
 import kotlinx.android.synthetic.main.fragment_tool_management_params.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class ToolParamsFragment :
-        BaseFragment<ToolParamsViewModel, FragmentToolManagementParamsBinding>() {
+    BaseFragment<ToolParamsViewModel, FragmentToolManagementParamsBinding>() {
 
     override val layoutResourceId: Int = R.layout.fragment_tool_management_params
-    override val viewModel: ToolParamsViewModel by viewModel()
+    override val viewModel: ToolParamsViewModel by viewModel { parametersOf(requireContext()) }
 
     private val hitchAdapter =
-            HitchListItemAdapter(this::onHitchRecyclerParametersChanged)
+        HitchListItemAdapter(this::onHitchRecyclerParametersChanged)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.onStart()
+        viewModel.createToolsList()
         viewModel.paramsList.observe(this::addParams)
         setupRecyclers()
     }

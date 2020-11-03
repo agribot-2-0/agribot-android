@@ -224,12 +224,15 @@ class CloudDatabaseService(
         )
     }
 
-    fun addTool(toolName: String, toolDetails: ToolDetails) {
+    fun addTool(
+        toolName: String,
+        toolDetails: ToolDetails
+    ) {
         cloudDatabase.addTool(
             toolName,
             toolDetails.toCommunicationModel(),
             onDatabaseSucess = this::onsucess,
-            onDatabaseError = this::onError
+            onDatabaseError = { cloudStorageErrorHandler.getStorageError(it as Exception) }
         )
     }
 
@@ -249,9 +252,12 @@ class CloudDatabaseService(
         onDeleteSucess: () -> Unit,
         onDeleteError: (error: String) -> Unit
     ) {
-        cloudDatabase.deleteTool(toolName, onDeleteSucess, onDeleteError = {
-            onDeleteError(it.message!!)
-        })
+        cloudDatabase.deleteTool(
+            toolName,
+            onDeleteSucess,
+            onDeleteError = {
+                onDeleteError(it.message!!)
+            })
     }
 
     fun getToolDetails(
@@ -271,7 +277,4 @@ class CloudDatabaseService(
         Log.e("xd", "send sucess")
     }
 
-    fun onError(error: Throwable) {
-        Log.e("xd", "send error" + error)
-    }
 }

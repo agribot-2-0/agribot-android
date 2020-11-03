@@ -1,9 +1,11 @@
 package eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams
 
 import androidx.lifecycle.MutableLiveData
+import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolNavigationEvent
+import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
@@ -12,6 +14,7 @@ import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewM
 
 class ToolParamsViewModel(
     private val toolDataManager: ToolDataManager,
+    private val resourcesProvider: ResourcesProvider,
     private val cloudDatabaseService: CloudDatabaseService
 ) : BaseViewModel() {
     private val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
@@ -20,49 +23,49 @@ class ToolParamsViewModel(
 
     private fun addToolParamItemsToRecycler() {
         addToolToToolParamList(
-            toolName = "Max robot velocity",
+            toolName = resourcesProvider.getString(R.string.v_max),
             switchNumber = ToolRecylerItemIds.ID_V_MAX,
             hitchListItemDetail = HitchListItemDetail(
                 toolStartValue = toolDataManager.getVMax().toInt()
             )
         )
         addToolToToolParamList(
-            toolName = "YELLOW",
+            toolName = resourcesProvider.getString(R.string.yellow_flow),
             switchNumber = ToolRecylerItemIds.ID_YELLOW,
             hitchListItemDetail = HitchListItemDetail(
                 toolStartValue = toolDataManager.getYellow().toInt()
             )
         )
         addToolToToolParamList(
-            toolName = "GREEN",
+            toolName = resourcesProvider.getString(R.string.green_flow),
             switchNumber = ToolRecylerItemIds.ID_GREEN,
             hitchListItemDetail = HitchListItemDetail(
                 toolStartValue = toolDataManager.getGreen().toInt()
             )
         )
         addToolToToolParamList(
-            toolName = "BLUE",
+            toolName = resourcesProvider.getString(R.string.blue_flow),
             switchNumber = ToolRecylerItemIds.ID_BLUE,
             hitchListItemDetail = HitchListItemDetail(
                 toolStartValue = toolDataManager.getBlue().toInt()
             )
         )
         addToolToToolParamList(
-            toolName = "PTO",
+            toolName = resourcesProvider.getString(R.string.pto),
             switchNumber = ToolRecylerItemIds.ID_PTO,
             hitchListItemDetail = HitchListItemDetail(
                 toolStartValue = toolDataManager.getPto().toInt()
             )
         )
         addToolToToolParamList(
-            toolName = "TPL PUSH/PULL",
+            toolName = resourcesProvider.getString(R.string.tpl_push_pull),
             switchNumber = ToolRecylerItemIds.ID_TPL_PUSH_PULL,
             hitchListItemDetail = HitchListItemDetail(
                 toolStartValue = toolDataManager.getTplPushPull().toInt()
             )
         )
         addToolToToolParamList(
-            toolName = "TPL UP/DOWN",
+            toolName = resourcesProvider.getString(R.string.tpl_up_down),
             switchNumber = ToolRecylerItemIds.ID_TPL_UP_DOWN,
             hitchListItemDetail = HitchListItemDetail(
                 toolStartValue = toolDataManager.getTplUpDown().toInt()
@@ -75,26 +78,28 @@ class ToolParamsViewModel(
         sliderValue: Int,
         isActivated: Boolean
     ) {
-        if (sliderNumber == ToolRecylerItemIds.ID_PTO) {
-            toolDataManager.onUpdatePto(sliderValue.toDouble())
-        }
-        if (sliderNumber == ToolRecylerItemIds.ID_TPL_UP_DOWN) {
-            toolDataManager.onUpdateTplUpDown(sliderValue.toDouble())
-        }
-        if (sliderNumber == ToolRecylerItemIds.ID_TPL_PUSH_PULL) {
-            toolDataManager.onUpdateTplPushPull(sliderValue.toDouble())
-        }
-        if (sliderNumber == ToolRecylerItemIds.ID_GREEN) {
-            toolDataManager.onUpdateGreen(sliderValue.toDouble())
-        }
-        if (sliderNumber == ToolRecylerItemIds.ID_YELLOW) {
-            toolDataManager.onUpdateYellow(sliderValue.toDouble())
-        }
-        if (sliderNumber == ToolRecylerItemIds.ID_BLUE) {
-            toolDataManager.onUpdateBlue(sliderValue.toDouble())
-        }
-        if (sliderNumber == ToolRecylerItemIds.ID_V_MAX) {
-            toolDataManager.onUpdateVMax(sliderValue.toDouble())
+        when (sliderNumber) {
+            ToolRecylerItemIds.ID_PTO -> {
+                toolDataManager.onUpdatePto(sliderValue.toDouble())
+            }
+            ToolRecylerItemIds.ID_TPL_UP_DOWN -> {
+                toolDataManager.onUpdateTplUpDown(sliderValue.toDouble())
+            }
+            ToolRecylerItemIds.ID_TPL_PUSH_PULL -> {
+                toolDataManager.onUpdateTplPushPull(sliderValue.toDouble())
+            }
+            ToolRecylerItemIds.ID_GREEN -> {
+                toolDataManager.onUpdateGreen(sliderValue.toDouble())
+            }
+            ToolRecylerItemIds.ID_YELLOW -> {
+                toolDataManager.onUpdateYellow(sliderValue.toDouble())
+            }
+            ToolRecylerItemIds.ID_BLUE -> {
+                toolDataManager.onUpdateBlue(sliderValue.toDouble())
+            }
+            ToolRecylerItemIds.ID_V_MAX -> {
+                toolDataManager.onUpdateVMax(sliderValue.toDouble())
+            }
         }
     }
 
@@ -147,7 +152,7 @@ class ToolParamsViewModel(
         )
     }
 
-    fun onStart() {
+    fun createToolsList() {
         cloudDatabaseService.getToolDetails(
             toolName = toolDataManager.getToolName(),
             onGetToolDetails = this::onToolUpdate,

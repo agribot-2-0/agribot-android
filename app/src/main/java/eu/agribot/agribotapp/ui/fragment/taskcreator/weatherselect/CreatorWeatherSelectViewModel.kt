@@ -1,16 +1,15 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect
 
 import androidx.lifecycle.MutableLiveData
-import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskToolsNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
-import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationHumidity
 import eu.agribot.agribotapp.domain.model.WeatherSelectDataModel
-import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationPressure
-import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationTemperature
-import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationWind
+import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationHumidity
+import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationPressure
+import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationTemperature
+import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationWind
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.WeatherSettingsListItemViewModel
@@ -115,7 +114,6 @@ class CreatorWeatherSelectViewModel(
             weatherAttributeList.value = listOf(
                 WeatherSettingsListItemViewModel(
                     weatherSelectDataModel.id,
-                    weatherSelectDataModel.weatherAttributeIcon,
                     weatherSelectDataModel.conditionArray,
                     weatherSelectDataModel.minimumPickerValue,
                     weatherSelectDataModel.maximumPickerValue,
@@ -131,7 +129,6 @@ class CreatorWeatherSelectViewModel(
                 if (oldAttribute.id == weatherSelectDataModel.id) {
                     WeatherSettingsListItemViewModel(
                         weatherSelectDataModel.id,
-                        weatherSelectDataModel.weatherAttributeIcon,
                         weatherSelectDataModel.conditionArray,
                         weatherSelectDataModel.minimumPickerValue,
                         weatherSelectDataModel.maximumPickerValue,
@@ -153,7 +150,6 @@ class CreatorWeatherSelectViewModel(
             WeatherSelectDataModel(
                 id = WeatherItemNumber.TEMPERATURE_ITEM.itemNumber,
                 conditionArray = conditionSymbols,
-                weatherAttributeIcon = R.drawable.ic_thermometer,
                 currentValue = initializationCurrentValue,
                 minimumPickerValue = PickersMinMaxValues.MIN_TEMP_VALUE.value,
                 maximumPickerValue = PickersMinMaxValues.MAX_TEMP_VALUE.value,
@@ -175,7 +171,6 @@ class CreatorWeatherSelectViewModel(
             WeatherSelectDataModel(
                 id = WeatherItemNumber.WIND_ITEM.itemNumber,
                 conditionArray = conditionSymbols,
-                weatherAttributeIcon = R.drawable.ic_wind,
                 currentValue = initializationCurrentValue,
                 minimumPickerValue = PickersMinMaxValues.MIN_WIND_VALUE.value,
                 maximumPickerValue = PickersMinMaxValues.MAX_WIND_VALUE.value,
@@ -199,7 +194,6 @@ class CreatorWeatherSelectViewModel(
             WeatherSelectDataModel(
                 id = WeatherItemNumber.PRESSURE_ITEM.itemNumber,
                 conditionArray = conditionSymbols,
-                weatherAttributeIcon = R.drawable.ic_pressure,
                 currentValue = initializationCurrentValue,
                 minimumPickerValue = PickersMinMaxValues.MIN_PRESSURE_VALUE.value,
                 maximumPickerValue = PickersMinMaxValues.MAX_PRESSURE_VALUE.value,
@@ -222,7 +216,6 @@ class CreatorWeatherSelectViewModel(
             WeatherSelectDataModel(
                 id = WeatherItemNumber.HUMIDITY_ITEM.itemNumber,
                 conditionArray = conditionSymbols,
-                weatherAttributeIcon = R.drawable.ic_humidity,
                 currentValue = initializationCurrentValue,
                 minimumPickerValue = PickersMinMaxValues.MIN_HUMIDITY_VALUE.value,
                 maximumPickerValue = PickersMinMaxValues.MAX_HUMIDITY_VALUE.value,
@@ -292,13 +285,13 @@ class CreatorWeatherSelectViewModel(
         toastEvent.postValue(errorText)
     }
 
-    private fun onGetFirstRobotTemperatureSucess(firstRobotWeatherStationTemperature: FirstRobotWeatherStationTemperature) {
-        actualTemperature.value = firstRobotWeatherStationTemperature.value.toString() + WeatherUnit.TEMPERATURE_UNIT.unit
+    private fun onGetFirstRobotTemperatureSucess(robotWeatherStationTemperature: RobotWeatherStationTemperature) {
+        actualTemperature.value =
+            robotWeatherStationTemperature.value.toString() + WeatherUnit.TEMPERATURE_UNIT.unit
         addToWeatherAttributeList(
             WeatherSelectDataModel(
                 id = WeatherItemNumber.TEMPERATURE_ITEM.itemNumber,
                 conditionArray = conditionSymbols,
-                weatherAttributeIcon = R.drawable.ic_thermometer,
                 currentValue = actualTemperature.value.toString(),
                 minimumPickerValue = PickersMinMaxValues.MIN_TEMP_VALUE.value,
                 maximumPickerValue = PickersMinMaxValues.MAX_TEMP_VALUE.value,
@@ -318,13 +311,13 @@ class CreatorWeatherSelectViewModel(
         )
     }
 
-    private fun onGetFirstRobotWindSucess(firstRobotWeatherStationWind: FirstRobotWeatherStationWind) {
-        actualWind.value = firstRobotWeatherStationWind.speed_value.toString() + WeatherUnit.WIND_UNIT.unit
+    private fun onGetFirstRobotWindSucess(robotWeatherStationWind: RobotWeatherStationWind) {
+        actualWind.value =
+            robotWeatherStationWind.speed_value.toString() + WeatherUnit.WIND_UNIT.unit
         addToWeatherAttributeList(
             WeatherSelectDataModel(
                 id = WeatherItemNumber.WIND_ITEM.itemNumber,
                 conditionArray = conditionSymbols,
-                weatherAttributeIcon = R.drawable.ic_wind,
                 currentValue = actualWind.value.toString(),
                 minimumPickerValue = PickersMinMaxValues.MIN_WIND_VALUE.value,
                 maximumPickerValue = PickersMinMaxValues.MAX_WIND_VALUE.value,
@@ -345,13 +338,13 @@ class CreatorWeatherSelectViewModel(
         )
     }
 
-    private fun onGetFirstRobotPressureSucess(firstRobotWeatherStationPressure: FirstRobotWeatherStationPressure) {
-        actualPressure.value = firstRobotWeatherStationPressure.value.toString() + WeatherUnit.PRESSURE_UNIT.unit
+    private fun onGetFirstRobotPressureSucess(robotWeatherStationPressure: RobotWeatherStationPressure) {
+        actualPressure.value =
+            robotWeatherStationPressure.value.toString() + WeatherUnit.PRESSURE_UNIT.unit
         addToWeatherAttributeList(
             WeatherSelectDataModel(
                 id = WeatherItemNumber.PRESSURE_ITEM.itemNumber,
                 conditionArray = conditionSymbols,
-                weatherAttributeIcon = R.drawable.ic_pressure,
                 currentValue = actualPressure.value.toString(),
                 minimumPickerValue = PickersMinMaxValues.MIN_PRESSURE_VALUE.value,
                 maximumPickerValue = PickersMinMaxValues.MAX_PRESSURE_VALUE.value,
@@ -372,13 +365,13 @@ class CreatorWeatherSelectViewModel(
         )
     }
 
-    private fun onGetFirstRobotHumiditySucess(firstRobotWeatherStationHumidity: FirstRobotWeatherStationHumidity) {
-        actualHumidity.value = firstRobotWeatherStationHumidity.value.toString() + WeatherUnit.HUMIDITY_UNIT.unit
+    private fun onGetFirstRobotHumiditySucess(robotWeatherStationHumidity: RobotWeatherStationHumidity) {
+        actualHumidity.value =
+            robotWeatherStationHumidity.value.toString() + WeatherUnit.HUMIDITY_UNIT.unit
         addToWeatherAttributeList(
             WeatherSelectDataModel(
                 id = WeatherItemNumber.HUMIDITY_ITEM.itemNumber,
                 conditionArray = conditionSymbols,
-                weatherAttributeIcon = R.drawable.ic_humidity,
                 currentValue = actualHumidity.value.toString(),
                 minimumPickerValue = PickersMinMaxValues.MIN_HUMIDITY_VALUE.value,
                 maximumPickerValue = PickersMinMaxValues.MAX_HUMIDITY_VALUE.value,

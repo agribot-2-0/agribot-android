@@ -21,7 +21,9 @@ def versions = [
 		'serviceAuth'     : '18.1.0',
 		'dexter'          : '6.2.1',
 		'firestore'       : '21.6.0',
-		'firestorage'     : '19.2.0'
+		'firestorage'     : '19.2.0',
+		'mapUtils'        : '0.4.4',
+		'downloader'      : '0.6.0'
 
 
 ]
@@ -39,6 +41,10 @@ dependencies {
 	implementation "androidx.core:core-ktx:$versions.androidCore"
 	implementation "androidx.appcompat:appcompat:$versions.appCompat"
 	implementation "androidx.legacy:legacy-support-v4:$versions.legacy"
+
+
+	implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.1")
+
 
 	// UI
 	implementation "com.google.android.material:material:$versions.material"
@@ -99,12 +105,10 @@ dependencies {
 	implementation "com.karumi:dexter:$versions.dexter"
 
 	//MapUtility
-	implementation 'com.google.maps.android:android-maps-utils:0.4.4'
+	implementation "com.google.maps.android:android-maps-utils:$versions.mapUtils"
 
 	//PRDownloader
-	implementation 'com.mindorks.android:prdownloader:0.6.0'
-
-
+	implementation "com.mindorks.android:prdownloader:$versions.downloader"
 
 
 }

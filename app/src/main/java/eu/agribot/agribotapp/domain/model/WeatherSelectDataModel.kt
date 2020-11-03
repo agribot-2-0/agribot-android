@@ -1,11 +1,7 @@
 package eu.agribot.agribotapp.domain.model
 
-import androidx.annotation.DrawableRes
-
 data class WeatherSelectDataModel(
     val id: Int,
-
-    @DrawableRes val weatherAttributeIcon: Int,
 
     val conditionArray: Array<String>,
 

@@ -4,11 +4,11 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabase
 import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
 import eu.agribot.agribotapp.domain.model.cdb.ActualTask
 import eu.agribot.agribotapp.domain.model.cdb.EngineHealth
-import eu.agribot.agribotapp.domain.model.cdb.FirstRobotHealthEngine
-import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationHumidity
-import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationPressure
-import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationTemperature
-import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationWind
+import eu.agribot.agribotapp.domain.model.cdb.RobotHealthEngine
+import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationHumidity
+import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationPressure
+import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationTemperature
+import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationWind
 import eu.agribot.agribotapp.domain.model.cdb.RobotLocalizationPose
 import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
 import eu.agribot.agribotapp.domain.model.cdb.TaskItem
@@ -34,7 +34,7 @@ class CloudDatabaseService(
     }
 
     fun getFirstRobotHealthEngine(
-        onSuccess: (FirstRobotHealthEngine) -> Unit,
+        onSuccess: (RobotHealthEngine) -> Unit,
         onError: (String) -> Unit
     ) {
         cloudDatabase.getFirstRobotHealthEngineData(onDatabaseSucess = {
@@ -58,7 +58,7 @@ class CloudDatabaseService(
     }
 
     fun getFirstRobotWeatherStationHumidity(
-        onSuccess: (FirstRobotWeatherStationHumidity) -> Unit,
+        onSuccess: (RobotWeatherStationHumidity) -> Unit,
         onError: (String) -> Unit
     ) {
         cloudDatabase.getFirstRobotWeatherStationHumidityData(onDatabaseSucess = {
@@ -70,7 +70,7 @@ class CloudDatabaseService(
     }
 
     fun getFirstRobotWeatherStationWind(
-        onSuccess: (FirstRobotWeatherStationWind) -> Unit,
+        onSuccess: (RobotWeatherStationWind) -> Unit,
         onError: (String) -> Unit
     ) {
         cloudDatabase.getFirstRobotWeatherStationWindData(onDatabaseSucess = {
@@ -82,7 +82,7 @@ class CloudDatabaseService(
     }
 
     fun getFirstRobotWeatherStationPressure(
-        onSuccess: (FirstRobotWeatherStationPressure) -> Unit,
+        onSuccess: (RobotWeatherStationPressure) -> Unit,
         onError: (String) -> Unit
     ) {
         cloudDatabase.getFirstRobotWeatherStationPressureData(onDatabaseSucess = {
@@ -94,7 +94,7 @@ class CloudDatabaseService(
     }
 
     fun getFirstRobotWeatherStationTemperature(
-        onSuccess: (FirstRobotWeatherStationTemperature) -> Unit,
+        onSuccess: (RobotWeatherStationTemperature) -> Unit,
         onError: (String) -> Unit
     ) {
         cloudDatabase.getFirstRobotWeatherStationTemperatureData(onDatabaseSucess = {

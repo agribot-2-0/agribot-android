@@ -1,9 +1,9 @@
 package eu.agribot.agribotapp.domain.model.cdb.taskprogram.taskmodel
 
 import com.google.firebase.Timestamp
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.programtasks.NewRobotTaskDetailsCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.NewRobotTaskDetailsCDB
 
-class NewRobotTaskDetails(
+data class NewRobotTaskDetails(
     val path_name: String,
     val start_time: Timestamp?,
     val start_time_estimated: Boolean,

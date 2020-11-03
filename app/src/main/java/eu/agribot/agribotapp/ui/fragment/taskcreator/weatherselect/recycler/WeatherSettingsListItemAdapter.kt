@@ -1,12 +1,16 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.databinding.ListItemWeatherSettingsBinding
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.PickerSymbols
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.PickersMinMaxValues
+import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.WeatherItemNumber
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.weatherattributes.WeatherAttribute
 import kotlinx.android.synthetic.main.list_item_weather_settings.view.*
 
@@ -43,11 +47,31 @@ class WeatherSettingsListItemAdapter(
 
     override fun getItemCount(): Int = items.size
 
+    @SuppressLint("SupportAnnotationUsage")
     override fun onBindViewHolder(holder: WeatherSettingsListItemViewHolder, position: Int) {
         val item = items[position]
         holder.bind(item)
 
-        holder.itemView.weather_icon.setImageResource(item.weatherAttributeIcon)
+        @DrawableRes
+        val imageSrc: Int = when (item.id) {
+            WeatherItemNumber.WIND_ITEM.itemNumber -> {
+                R.drawable.ic_wind
+            }
+            WeatherItemNumber.PRESSURE_ITEM.itemNumber -> {
+                R.drawable.ic_pressure
+            }
+            WeatherItemNumber.HUMIDITY_ITEM.itemNumber -> {
+                R.drawable.ic_humidity
+            }
+            WeatherItemNumber.TEMPERATURE_ITEM.itemNumber -> {
+                R.drawable.ic_thermometer
+            }
+
+            else -> -1
+        }
+
+        holder.itemView.weather_icon.setImageResource(imageSrc)
+
         var condition = when (item.settedCondition) {
             PickerSymbols.CLOUD_DATA_CONDITION_LESS.symbol -> {
                 PickersMinMaxValues.LESS_POSITION.value

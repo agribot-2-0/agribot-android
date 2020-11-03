@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.communication.database.clouddatabase.model.programtasks
+package eu.agribot.agribotapp.communication.database.clouddatabase.model
 
 import com.google.firebase.Timestamp
 

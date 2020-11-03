@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.domain.service.cloud
 
-import android.util.Log
 import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabase
 import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
 import eu.agribot.agribotapp.domain.model.cdb.ActualTask
@@ -227,7 +226,7 @@ class CloudDatabaseService(
     fun addTool(
         toolName: String,
         toolDetails: ToolDetails,
-        onSucess: () -> Unit,
+        onSucess: () -> Unit
     ) {
         cloudDatabase.addTool(
             toolName,
@@ -273,5 +272,4 @@ class CloudDatabaseService(
                 onGetToolDetailsError(it.message!!)
             })
     }
-
 }

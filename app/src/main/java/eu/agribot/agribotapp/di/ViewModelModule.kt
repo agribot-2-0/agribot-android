@@ -209,7 +209,7 @@ val viewModelModule = module {
         )
     }
 
-    viewModel {(context: Context) ->
+    viewModel { (context: Context) ->
         ToolNameViewModel(
             toolDataManager = get(),
             resourcesProvider = get { parametersOf(context) }

@@ -218,6 +218,7 @@
     <string name="yellow_flow">Yellow flow</string>
     <string name="v_max">Maximum robot velocity</string>
     <string name="add_tool_success">Tool added successfully</string>
+    <string name="no_tool_name">No tool name</string>
 
 
 </resources>

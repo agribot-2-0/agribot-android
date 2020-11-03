@@ -148,7 +148,8 @@ class ToolParamsViewModel(
                 yellow = toolDataManager.getYellow(),
                 green = toolDataManager.getGreen(),
                 v_max = toolDataManager.getVMax()
-            )
+            ),
+            onSucess = this::onSuccess
         )
     }
 
@@ -174,5 +175,9 @@ class ToolParamsViewModel(
 
     private fun postToastErrorMessageEvent(errorMessage: String) {
         toastMessageEvent.postValue(errorMessage)
+    }
+
+    private fun onSuccess() {
+        toastMessageEvent.postValue(resourcesProvider.getString(R.string.add_tool_success))
     }
 }

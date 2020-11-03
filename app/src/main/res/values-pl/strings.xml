@@ -205,5 +205,6 @@
     <string name="yellow_flow">Żółty przepływ</string>
     <string name="v_max">Maksymalna prędkość robota</string>
     <string name="blue_flow">Niebieski przepływ</string>
+    <string name="add_tool_success">Tool added successfully</string>
 
 </resources>

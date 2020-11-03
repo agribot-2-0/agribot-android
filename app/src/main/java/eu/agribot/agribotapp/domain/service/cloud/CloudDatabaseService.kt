@@ -226,12 +226,13 @@ class CloudDatabaseService(
 
     fun addTool(
         toolName: String,
-        toolDetails: ToolDetails
+        toolDetails: ToolDetails,
+        onSucess: () -> Unit,
     ) {
         cloudDatabase.addTool(
             toolName,
             toolDetails.toCommunicationModel(),
-            onDatabaseSucess = this::onsucess,
+            onDatabaseSucess = { onSucess() },
             onDatabaseError = { cloudStorageErrorHandler.getStorageError(it as Exception) }
         )
     }
@@ -271,10 +272,6 @@ class CloudDatabaseService(
             onDatabaseError = {
                 onGetToolDetailsError(it.message!!)
             })
-    }
-
-    fun onsucess() {
-        Log.e("xd", "send sucess")
     }
 
 }

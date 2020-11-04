@@ -24,17 +24,17 @@ class ToolNameViewModel(
         if (toolName.value != null) {
             toolDataManager.updateAllToolParameters(
                 ToolDetails(
-                    tpl_up_down = 0.0,
-                    tpl_push_pull = 0.0,
+                    tplUpDown =  0.0,
+                    tplPushPull = 0.0,
                     pto = 0.0,
                     green = 0.0,
                     yellow = 0.0,
                     blue = 0.0,
-                    v_max = 0.0,
+                    vMax = 0.0,
                     rfid = 0
                 )
             )
-            toolDataManager.onUpdateToolName(toolName.value.toString())
+            toolDataManager.toolName = toolName.value.toString()
             navigationEvent.postValue(
                 ToolParamsNavigationEvent()
             )

@@ -52,20 +52,20 @@ class ToolManagementViewModel(
     private fun onGetToolDetails(toolDetails: ToolDetails) {
         toolDataManager.updateAllToolParameters(toolDetails)
         ptoValue.value = toolDetails.pto.toInt()
-        tplUpDownValue.value = toolDetails.tpl_up_down.toInt()
-        tplPushPullValue.value = toolDetails.tpl_push_pull.toInt()
+        tplUpDownValue.value = toolDetails.tplUpDown.toInt()
+        tplPushPullValue.value = toolDetails.tplPushPull.toInt()
         greenValue.value = toolDetails.green.toInt()
         yellowValue.value = toolDetails.yellow.toInt()
         blueValue.value = toolDetails.blue.toInt()
-        vMaxValue.value = toolDetails.v_max.toInt()
+        vMaxValue.value = toolDetails.vMax.toInt()
 
         ptoString.value = toolDetails.pto.toString() + " RPM"
-        tplUpDownString.value = toolDetails.tpl_up_down.toString() + " RPM"
-        tplPushPullString.value = toolDetails.tpl_push_pull.toString() + " RPM"
+        tplUpDownString.value = toolDetails.tplUpDown.toString() + " RPM"
+        tplPushPullString.value = toolDetails.tplPushPull.toString() + " RPM"
         greenString.value = toolDetails.green.toString() + " RPM"
         yellowString.value = toolDetails.yellow.toString() + " RPM"
         blueString.value = toolDetails.blue.toString() + " RPM"
-        vMaxString.value = toolDetails.v_max.toString() + " RPM"
+        vMaxString.value = toolDetails.vMax.toString() + " RPM"
     }
 
     fun onDeleteButtonClicked(positionOnList: Int) {
@@ -103,7 +103,7 @@ class ToolManagementViewModel(
 
     fun onEditButtonClicked(positionOnList: Int) {
         toolList.value?.get(positionOnList)?.toolName?.let { toolName ->
-            toolDataManager.onUpdateToolName(toolName)
+            toolDataManager.toolName = toolName
             cloudDatabaseService.getToolDetails(
                 toolName,
                 onGetToolDetails = this::updateToolDetails,

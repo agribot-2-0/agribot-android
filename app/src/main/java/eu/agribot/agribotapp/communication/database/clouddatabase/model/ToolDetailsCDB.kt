@@ -18,8 +18,8 @@ data class ToolDetailsCDB(
         blue = this.blue,
         yellow = this.yellow,
         green = this.green,
-        tpl_up_down = this.tpl_up_down,
-        tpl_push_pull = this.tpl_push_pull,
-        v_max = this.v_max
+        tplUpDown = this.tpl_up_down,
+        tplPushPull = this.tpl_push_pull,
+        vMax = this.v_max
     )
 }

@@ -26,49 +26,49 @@ class ToolParamsViewModel(
             toolName = resourcesProvider.getString(R.string.v_max),
             switchNumber = ToolRecylerItemIds.ID_V_MAX,
             hitchListItemDetail = HitchListItemDetail(
-                toolStartValue = toolDataManager.getVMax().toInt()
+                toolStartValue = toolDataManager.vMax.toInt()
             )
         )
         addToolToToolParamList(
             toolName = resourcesProvider.getString(R.string.yellow_flow),
             switchNumber = ToolRecylerItemIds.ID_YELLOW,
             hitchListItemDetail = HitchListItemDetail(
-                toolStartValue = toolDataManager.getYellow().toInt()
+                toolStartValue = toolDataManager.yellow.toInt()
             )
         )
         addToolToToolParamList(
             toolName = resourcesProvider.getString(R.string.green_flow),
             switchNumber = ToolRecylerItemIds.ID_GREEN,
             hitchListItemDetail = HitchListItemDetail(
-                toolStartValue = toolDataManager.getGreen().toInt()
+                toolStartValue = toolDataManager.green.toInt()
             )
         )
         addToolToToolParamList(
             toolName = resourcesProvider.getString(R.string.blue_flow),
             switchNumber = ToolRecylerItemIds.ID_BLUE,
             hitchListItemDetail = HitchListItemDetail(
-                toolStartValue = toolDataManager.getBlue().toInt()
+                toolStartValue = toolDataManager.blue.toInt()
             )
         )
         addToolToToolParamList(
             toolName = resourcesProvider.getString(R.string.pto),
             switchNumber = ToolRecylerItemIds.ID_PTO,
             hitchListItemDetail = HitchListItemDetail(
-                toolStartValue = toolDataManager.getPto().toInt()
+                toolStartValue = toolDataManager.pto.toInt()
             )
         )
         addToolToToolParamList(
             toolName = resourcesProvider.getString(R.string.tpl_push_pull),
             switchNumber = ToolRecylerItemIds.ID_TPL_PUSH_PULL,
             hitchListItemDetail = HitchListItemDetail(
-                toolStartValue = toolDataManager.getTplPushPull().toInt()
+                toolStartValue = toolDataManager.tplPushPull.toInt()
             )
         )
         addToolToToolParamList(
             toolName = resourcesProvider.getString(R.string.tpl_up_down),
             switchNumber = ToolRecylerItemIds.ID_TPL_UP_DOWN,
             hitchListItemDetail = HitchListItemDetail(
-                toolStartValue = toolDataManager.getTplUpDown().toInt()
+                toolStartValue = toolDataManager.tplUpDown.toInt()
             )
         )
     }
@@ -80,25 +80,25 @@ class ToolParamsViewModel(
     ) {
         when (sliderNumber) {
             ToolRecylerItemIds.ID_PTO -> {
-                toolDataManager.onUpdatePto(sliderValue.toDouble())
+                toolDataManager.pto = sliderValue.toDouble()
             }
             ToolRecylerItemIds.ID_TPL_UP_DOWN -> {
-                toolDataManager.onUpdateTplUpDown(sliderValue.toDouble())
+                toolDataManager.tplUpDown = sliderValue.toDouble()
             }
             ToolRecylerItemIds.ID_TPL_PUSH_PULL -> {
-                toolDataManager.onUpdateTplPushPull(sliderValue.toDouble())
+                toolDataManager.tplPushPull = sliderValue.toDouble()
             }
             ToolRecylerItemIds.ID_GREEN -> {
-                toolDataManager.onUpdateGreen(sliderValue.toDouble())
+                toolDataManager.green = sliderValue.toDouble()
             }
             ToolRecylerItemIds.ID_YELLOW -> {
-                toolDataManager.onUpdateYellow(sliderValue.toDouble())
+                toolDataManager.yellow = sliderValue.toDouble()
             }
             ToolRecylerItemIds.ID_BLUE -> {
-                toolDataManager.onUpdateBlue(sliderValue.toDouble())
+                toolDataManager.blue = sliderValue.toDouble()
             }
             ToolRecylerItemIds.ID_V_MAX -> {
-                toolDataManager.onUpdateVMax(sliderValue.toDouble())
+                toolDataManager.vMax = sliderValue.toDouble()
             }
         }
     }
@@ -138,16 +138,16 @@ class ToolParamsViewModel(
     fun sendToolData() {
         postToolManagementNavigationEvent()
         cloudDatabaseService.addTool(
-            toolName = toolDataManager.getToolName(),
+            toolName = toolDataManager.toolName,
             toolDetails = ToolDetails(
-                rfid = toolDataManager.getRfid(),
-                pto = toolDataManager.getPto(),
-                tpl_push_pull = toolDataManager.getTplPushPull(),
-                tpl_up_down = toolDataManager.getTplUpDown(),
-                blue = toolDataManager.getBlue(),
-                yellow = toolDataManager.getYellow(),
-                green = toolDataManager.getGreen(),
-                v_max = toolDataManager.getVMax()
+                rfid = toolDataManager.rfid,
+                pto = toolDataManager.pto,
+                tplPushPull = toolDataManager.tplPushPull,
+                tplUpDown = toolDataManager.tplUpDown,
+                blue = toolDataManager.blue,
+                yellow = toolDataManager.yellow,
+                green = toolDataManager.green,
+                vMax = toolDataManager.vMax
             ),
             onSucess = this::onSuccess
         )
@@ -155,7 +155,7 @@ class ToolParamsViewModel(
 
     fun createToolsList() {
         cloudDatabaseService.getToolDetails(
-            toolName = toolDataManager.getToolName(),
+            toolName = toolDataManager.toolName,
             onGetToolDetails = this::onToolUpdate,
             onGetToolDetailsError = this::postToastErrorMessageEvent
         )

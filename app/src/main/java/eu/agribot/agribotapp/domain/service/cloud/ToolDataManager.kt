@@ -17,7 +17,6 @@ class ToolDataManager {
     var blue: Double = initDouble
     var vMax: Double = initDouble
 
-
     fun updateAllToolParameters(toolDetails: ToolDetails) {
         rfid = toolDetails.rfid
         pto = toolDetails.pto

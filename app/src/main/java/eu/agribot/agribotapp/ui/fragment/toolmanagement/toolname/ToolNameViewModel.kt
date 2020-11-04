@@ -24,7 +24,7 @@ class ToolNameViewModel(
         if (toolName.value != null) {
             toolDataManager.updateAllToolParameters(
                 ToolDetails(
-                    tplUpDown =  0.0,
+                    tplUpDown = 0.0,
                     tplPushPull = 0.0,
                     pto = 0.0,
                     green = 0.0,

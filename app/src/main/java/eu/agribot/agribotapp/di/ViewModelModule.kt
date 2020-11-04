@@ -179,7 +179,6 @@ val viewModelModule = module {
             id = get(),
             conditionArray = get(),
             currentValue = get(),
-            weatherAttributeIcon = get(),
             minimumPickerValue = get(),
             maximumPickerValue = get(),
             isSwitchActive = get(),

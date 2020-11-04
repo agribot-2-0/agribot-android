@@ -3,7 +3,7 @@ package eu.agribot.agribotapp.communication.database.clouddatabase.model
 import com.google.firebase.Timestamp
 import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
 
-class TaskDetailsCDB(
+data class TaskDetailsCDB(
     val path_name: String = "",
     val start_time: Timestamp? = Timestamp(0, 0),
     val start_time_estimated: Boolean = false,

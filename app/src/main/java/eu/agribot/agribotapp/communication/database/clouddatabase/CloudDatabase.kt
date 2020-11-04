@@ -2,18 +2,18 @@ package eu.agribot.agribotapp.communication.database.clouddatabase
 
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.ActualTaskCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.EngineHealthCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.FirstRobotHealthEngineCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.FirstRobotWeatherStationHumidityCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.FirstRobotWeatherStationPressureCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.FirstRobotWeatherStationTemperatureCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.FirstRobotWeatherStationWindCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotHealthEngineCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationHumidityCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationPressureCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationTemperatureCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationWindCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotLocalizationPoseCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskDetailsCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskItemCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.ToolDetailsCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.TooltemCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserInfoCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.programtasks.NewRobotTaskDetailsCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.NewRobotTaskDetailsCDB
 
 interface CloudDatabase {
 
@@ -28,7 +28,7 @@ interface CloudDatabase {
     )
 
     fun getFirstRobotHealthEngineData(
-        onDatabaseSucess: (data: FirstRobotHealthEngineCDB) -> Unit,
+        onDatabaseSucess: (data: RobotHealthEngineCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 
@@ -38,22 +38,22 @@ interface CloudDatabase {
     )
 
     fun getFirstRobotWeatherStationHumidityData(
-        onDatabaseSucess: (data: FirstRobotWeatherStationHumidityCDB) -> Unit,
+        onDatabaseSucess: (data: RobotWeatherStationHumidityCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 
     fun getFirstRobotWeatherStationWindData(
-        onDatabaseSucess: (data: FirstRobotWeatherStationWindCDB) -> Unit,
+        onDatabaseSucess: (data: RobotWeatherStationWindCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 
     fun getFirstRobotWeatherStationPressureData(
-        onDatabaseSucess: (data: FirstRobotWeatherStationPressureCDB) -> Unit,
+        onDatabaseSucess: (data: RobotWeatherStationPressureCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 
     fun getFirstRobotWeatherStationTemperatureData(
-        onDatabaseSucess: (data: FirstRobotWeatherStationTemperatureCDB) -> Unit,
+        onDatabaseSucess: (data: RobotWeatherStationTemperatureCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 

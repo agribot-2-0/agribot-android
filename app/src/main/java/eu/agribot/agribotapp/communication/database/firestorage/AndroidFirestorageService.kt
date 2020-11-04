@@ -41,7 +41,10 @@ class AndroidFirestorageService(
         onGotFile: (file: File) -> Unit,
         onDownloadError: (error: Throwable) -> Unit
     ) {
-        val file = File(downloaderUtils.getRootDirPath(context, "/user_path"), fileName)
+        val file = File(
+            downloaderUtils.getRootDirPath(context, DownloaderPath.LAYER_PATH.filePath),
+            fileName
+        )
         if (file.exists()) {
             onGotFile(file)
         } else {

@@ -1,42 +1,61 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase
 
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore.getInstance
-import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabasePaths.COLLECTION_ENGINE
-import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabasePaths.COLLECTION_ROBOTS
-import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabasePaths.COLLECTION_TASK_ITEM
-import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabasePaths.COLLECTION_USER
-import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabasePaths.DOCUMENT_ADI75R1_HEALTH_ENGINE
-import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabasePaths.DOCUMENT_ADI75R1_LOCALIZATION_POSE
-import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabasePaths.DOCUMENT_ADI75R1_TASKS_LIST
-import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabasePaths.DOCUMENT_ADI75R1_WEATHER_STATION_HUMIDITYE
-import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabasePaths.DOCUMENT_ADI75R1_WEATHER_STATION_PRESSURE
-import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabasePaths.DOCUMENT_ADI75R1_WEATHER_STATION_TEMPERATURE
-import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabasePaths.DOCUMENT_ADI75R1_WEATHER_STATION_WIND
-import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabasePaths.DOCUMENT_ADI75R2_LOCALIZATION_POSE
-import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabasePaths.DOCUMENT_HEALTH
-import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabasePaths.DOCUMENT_ROBOTS_ADI75R1
-import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabasePaths.DOCUMENT_TOOLS
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_ADI75R1_HEALTH_ENGINE
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_ADI75R1_LOCALIZATION_POSE
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_ADI75R1_TASKS_LIST
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_ADI75R1_WEATHER_STATION_HUMIDITYE
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_ADI75R1_WEATHER_STATION_PRESSURE
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_ADI75R1_WEATHER_STATION_TEMPERATURE
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_ADI75R1_WEATHER_STATION_WIND
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_ADI75R2_LOCALIZATION_POSE
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_HEALTH
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_ROBOTS_ADI75R1
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.ActualTaskCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.EngineHealthCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.FirstRobotHealthEngineCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.FirstRobotWeatherStationHumidityCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.FirstRobotWeatherStationPressureCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.FirstRobotWeatherStationTemperatureCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.FirstRobotWeatherStationWindCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotHealthEngineCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationHumidityCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationPressureCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationTemperatureCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationWindCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotLocalizationPoseCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskDetailsCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskItemCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.ToolDetailsCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.TooltemCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserInfoCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.programtasks.NewRobotTaskDetailsCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_ENGINE
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_ROBOTS
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_TASK_ITEM
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_USER
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.NewRobotTaskDetailsCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_TOOLS
 
 class FirebaseDatabase() : CloudDatabase {
     private val currentFirebaseUser = FirebaseAuth.getInstance().currentUser?.uid.toString()
     private val database = getInstance()
 
+/*
+    private fun getDataFromCloudDatabase(databaseCollection : String, databaseDocument : String, onDatabaseSucess : () -> Unit, onDatabaseError: (Throwable) -> Unit){
+        database.collection(param1)
+            .document(param2)
+            .addSnapshotListener { snapshot, databaseException ->
+                if (databaseException != null) {
+                    param3(Throwable("Could not parse firebase data"))
+                    return@addSnapshotListener
+                }
+
+                if (snapshot != null && snapshot.exists()) {
+                    snapshot.toObject(FirstRobotWeatherStationHumidityCDB::class.java)?.let {
+                        param4(it)
+                    }
+                }
+            }
+    }
+
+
+ */
     override fun getUserData(
         onDatabaseSucess: (data: UserInfoCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
@@ -74,7 +93,7 @@ class FirebaseDatabase() : CloudDatabase {
     }
 
     override fun getFirstRobotHealthEngineData(
-        onDatabaseSucess: (data: FirstRobotHealthEngineCDB) -> Unit,
+        onDatabaseSucess: (data: RobotHealthEngineCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS).document(DOCUMENT_ADI75R1_HEALTH_ENGINE)
@@ -84,7 +103,7 @@ class FirebaseDatabase() : CloudDatabase {
                     return@addSnapshotListener
                 }
                 if (snapshot != null && snapshot.exists()) {
-                    snapshot.toObject(FirstRobotHealthEngineCDB::class.java)?.let {
+                    snapshot.toObject(RobotHealthEngineCDB::class.java)?.let {
                         onDatabaseSucess(it)
                     }
                 }
@@ -110,7 +129,7 @@ class FirebaseDatabase() : CloudDatabase {
     }
 
     override fun getFirstRobotWeatherStationHumidityData(
-        onDatabaseSucess: (data: FirstRobotWeatherStationHumidityCDB) -> Unit,
+        onDatabaseSucess: (data: RobotWeatherStationHumidityCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
@@ -121,7 +140,7 @@ class FirebaseDatabase() : CloudDatabase {
                     return@addSnapshotListener
                 }
                 if (snapshot != null && snapshot.exists()) {
-                    snapshot.toObject(FirstRobotWeatherStationHumidityCDB::class.java)?.let {
+                    snapshot.toObject(RobotWeatherStationHumidityCDB::class.java)?.let {
                         onDatabaseSucess(it)
                     }
                 }
@@ -129,7 +148,7 @@ class FirebaseDatabase() : CloudDatabase {
     }
 
     override fun getFirstRobotWeatherStationPressureData(
-        onDatabaseSucess: (FirstRobotWeatherStationPressureCDB) -> Unit,
+        onDatabaseSucess: (RobotWeatherStationPressureCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
@@ -140,7 +159,7 @@ class FirebaseDatabase() : CloudDatabase {
                     return@addSnapshotListener
                 }
                 if (snapshot != null && snapshot.exists()) {
-                    snapshot.toObject(FirstRobotWeatherStationPressureCDB::class.java)?.let {
+                    snapshot.toObject(RobotWeatherStationPressureCDB::class.java)?.let {
                         onDatabaseSucess(it)
                     }
                 }
@@ -148,7 +167,7 @@ class FirebaseDatabase() : CloudDatabase {
     }
 
     override fun getFirstRobotWeatherStationWindData(
-        onDatabaseSucess: (FirstRobotWeatherStationWindCDB) -> Unit,
+        onDatabaseSucess: (RobotWeatherStationWindCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
@@ -159,7 +178,7 @@ class FirebaseDatabase() : CloudDatabase {
                     return@addSnapshotListener
                 }
                 if (snapshot != null && snapshot.exists()) {
-                    snapshot.toObject(FirstRobotWeatherStationWindCDB::class.java)?.let {
+                    snapshot.toObject(RobotWeatherStationWindCDB::class.java)?.let {
                         onDatabaseSucess(it)
                     }
                 }
@@ -167,7 +186,7 @@ class FirebaseDatabase() : CloudDatabase {
     }
 
     override fun getFirstRobotWeatherStationTemperatureData(
-        onDatabaseSucess: (data: FirstRobotWeatherStationTemperatureCDB) -> Unit,
+        onDatabaseSucess: (data: RobotWeatherStationTemperatureCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
@@ -178,7 +197,7 @@ class FirebaseDatabase() : CloudDatabase {
                     return@addSnapshotListener
                 }
                 if (snapshot != null && snapshot.exists()) {
-                    snapshot.toObject(FirstRobotWeatherStationTemperatureCDB::class.java)?.let {
+                    snapshot.toObject(RobotWeatherStationTemperatureCDB::class.java)?.let {
                         onDatabaseSucess(it)
                     }
                 }
@@ -284,10 +303,10 @@ class FirebaseDatabase() : CloudDatabase {
                 }
                 if (snapshot != null && snapshot.exists()) {
                     snapshot.toObject(ActualTaskCDB::class.java)?.let { it ->
-                        if (it.actual_task != "") {
-                            onGetCurrentTaskNameSucess(it.actual_task)
+                        if (it.actualTask != "") {
+                            onGetCurrentTaskNameSucess(it.actualTask)
                             getTaskDetails(
-                                it.actual_task,
+                                it.actualTask,
                                 onGetCurrentTaskDetailsSucess,
                                 onDatabaseError
                             )
@@ -306,7 +325,7 @@ class FirebaseDatabase() : CloudDatabase {
             .document(robotName)
             .update(
                 mapOf(
-                    "actual_task" to actualTaskCDB.actual_task
+                    "actual_task" to actualTaskCDB.actualTask
                 )
             )
             .addOnFailureListener { exception ->
@@ -385,7 +404,6 @@ class FirebaseDatabase() : CloudDatabase {
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
-                    Log.w("FirebaseDatabase", document.id)
                     onGetToolItem(
                         TooltemCDB(
                             toolName = document.id

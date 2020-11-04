@@ -1,15 +1,15 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase.model
 
 import com.google.firebase.Timestamp
-import eu.agribot.agribotapp.domain.model.cdb.FirstRobotWeatherStationTemperature
+import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationTemperature
 
-data class FirstRobotWeatherStationTemperatureCDB(
+data class RobotWeatherStationTemperatureCDB(
     val accuracy: Int = 1,
     val value: Double = 1.0,
     val timestamp: Timestamp = Timestamp(0, 0)
-) : BaseCloudDatabaseModel<FirstRobotWeatherStationTemperature> {
+) : BaseCloudDatabaseModel<RobotWeatherStationTemperature> {
 
-    override fun toDomainModel() = FirstRobotWeatherStationTemperature(
+    override fun toDomainModel() = RobotWeatherStationTemperature(
         accuracy = this.accuracy,
         value = this.value,
         timestamp = this.timestamp

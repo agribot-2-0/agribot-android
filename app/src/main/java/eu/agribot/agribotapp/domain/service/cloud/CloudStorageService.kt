@@ -21,7 +21,7 @@ class CloudStorageService(
         )
     }
 
-    fun downloadFile(
+    fun onFileSelected(
         fileName: String,
         onGotFile: (file: File) -> Unit
     ) {

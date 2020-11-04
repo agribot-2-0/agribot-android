@@ -6,6 +6,7 @@ import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskPathNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
+import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
 
 class CreatorTaskNameViewModel(
@@ -21,7 +22,7 @@ class CreatorTaskNameViewModel(
 
     fun onNextButtonClicked() {
         if (taskName.value != null) {
-            taskCreatorDataManager.onUpdateTaskName(taskName.value.toString())
+            taskCreatorDataManager.updateTaskParameters(TaskDetails(task_name = taskName.value.toString()))
             navigationEvent.postValue(
                 CreatorTaskPathNavigationEvent()
             )

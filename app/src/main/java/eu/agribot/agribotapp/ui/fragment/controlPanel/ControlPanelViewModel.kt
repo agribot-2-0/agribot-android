@@ -78,7 +78,7 @@ class ControlPanelViewModel(
     private fun checkIsFileExist(fileName: String) {
         if (fileName.contains(pathName.value.toString(), ignoreCase = true)) {
             try {
-                cloudStorageService.downloadFile(
+                cloudStorageService.onFileSelected(
                     fileName,
                     onGotFile = this::onFileAlreadyDownloaded
                 )

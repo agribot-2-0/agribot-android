@@ -10,6 +10,7 @@ import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskTimeNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
+import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
 import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
 import eu.agribot.agribotapp.ui.fragment.taskcreator.PathNameFileSymbol
@@ -36,9 +37,13 @@ class CreatorPathSelectViewModel(
     val invalidPathName = "empty_path"
 
     private fun getSavedPath() {
-        if (taskCreatorDataManager.getPathName() != invalidPathName && taskCreatorDataManager.getPathName() != null) {
-            currentPathName.value = taskCreatorDataManager.getPathName()!!
-            downloadSelectedFile(taskCreatorDataManager.getPathName()!!)
+        taskCreatorDataManager.getTaskParemeters(onGetTaskParametr = this::onGotTaskParametr)
+    }
+
+    private fun onGotTaskParametr(taskDetails: TaskDetails) {
+        if (taskDetails.path_name != invalidPathName) {
+            currentPathName.value = taskDetails.path_name
+            downloadSelectedFile(taskDetails.path_name)
         }
     }
 
@@ -106,7 +111,7 @@ class CreatorPathSelectViewModel(
     }
 
     fun checkPathSelected() {
-        isPathSelected = taskCreatorDataManager.getPathName() != null
+        isPathSelected = currentPathName.value != null
     }
 
     fun downloadAvailableFileList() {
@@ -117,18 +122,18 @@ class CreatorPathSelectViewModel(
     }
 
     private fun createListFiles(fileName: String) {
-        val isActive = fileName.contains(taskCreatorDataManager.getPathName().toString())
+        val isActive = fileName.contains(currentPathName.value.toString())
         onAvailableFileFound(fileName, isActive)
         onFileInStorageFound(fileName, isActive)
     }
 
     fun downloadSelectedFile(fileName: String) {
         isPathSelected = true
-        taskCreatorDataManager.onUpdatePathName(fileName)
+        taskCreatorDataManager.updateTaskParameters(TaskDetails(path_name = fileName))
         for (item in fileListPathsList.value!!) {
             if (item.fileName.contains(fileName))
                 try {
-                    cloudStorageService.downloadFile(
+                    cloudStorageService.onFileSelected(
                         item.fileName,
                         onGotFile = this::onGotPathFile
                     )

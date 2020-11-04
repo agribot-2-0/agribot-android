@@ -5,7 +5,6 @@ import com.downloader.Error
 import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import eu.agribot.agribotapp.communication.database.firestorage.downloader.DownloaderUtils
 import java.io.File
@@ -13,8 +12,7 @@ import java.io.File
 class AndroidFirestorageService(
     private val context: Context,
     private val downloaderUtils: DownloaderUtils
-) :
-    FirestorageService {
+) : FirestorageService {
     private val storage = Firebase.storage
 
     override fun listAllItem(
@@ -22,9 +20,8 @@ class AndroidFirestorageService(
         onFilesAvailable: (fileName: String) -> Unit,
         onError: (exception: String) -> Unit
     ) {
-        val storage = Firebase.storage
-        val listRef = storage.reference.child("$currentUserID/paths/")
-        listRef.listAll()
+        Firebase.storage.reference.child("$currentUserID/paths/")
+            .listAll()
             .addOnSuccessListener { listResult ->
                 listResult.items.forEach { item ->
                     onFilesAvailable(item.name)
@@ -48,8 +45,7 @@ class AndroidFirestorageService(
         if (file.exists()) {
             onGotFile(file)
         } else {
-            val storageReference: StorageReference = storage.reference
-            storageReference.child("$currentUserID/paths/$fileName").downloadUrl.addOnSuccessListener { url ->
+            storage.reference.child("$currentUserID/paths/$fileName").downloadUrl.addOnSuccessListener { url ->
                 downloadFileFromUrl(
                     context,
                     url.toString(),

@@ -67,7 +67,7 @@ class WeatherSettingsListItemAdapter(
                 R.drawable.ic_thermometer
             }
 
-            else -> -1
+            else -> errorValue
         }
 
         holder.itemView.weather_icon.setImageResource(imageSrc)

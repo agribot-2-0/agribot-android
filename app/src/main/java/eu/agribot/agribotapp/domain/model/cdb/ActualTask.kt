@@ -7,9 +7,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ActualTask(
-    @SerialName("actual_task") val actualTask: String
+    @SerialName("actual_task") val actual_task: String
 ) : BaseDomainDataModel<ActualTaskCDB> {
     override fun toCommunicationModel() = ActualTaskCDB(
-        actualTask = this.actualTask
+        actual_task = this.actual_task
     )
 }

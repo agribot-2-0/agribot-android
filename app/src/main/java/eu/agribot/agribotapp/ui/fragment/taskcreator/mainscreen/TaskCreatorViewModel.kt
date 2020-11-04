@@ -87,7 +87,7 @@ class TaskCreatorViewModel(
     private fun checkIsFileExist(fileName: String) {
         if (fileName.contains(pathName.value!!.toString(), ignoreCase = false)) {
             try {
-                cloudStorageService.downloadFile(
+                cloudStorageService.onFileSelected(
                     fileName,
                     onGotFile = this::onGotPathFile
                 )
@@ -136,8 +136,8 @@ class TaskCreatorViewModel(
 
     fun onEditButtonClicked(positionOnList: Int) {
         taskList.value?.get(positionOnList)?.taskName?.let { selectedTaskName ->
-            taskCreatorDataManager.onUpdateTaskName(
-                selectedTaskName
+            taskCreatorDataManager.updateTaskParameters(
+                TaskDetails(task_name = selectedTaskName)
             )
             cloudDatabaseService.getTaskDetails(
                 selectedTaskName,
@@ -149,7 +149,7 @@ class TaskCreatorViewModel(
     }
 
     private fun updateTaskDetails(taskDetails: TaskDetails) {
-        taskCreatorDataManager.updateAllTaskParameters(taskDetails)
+        taskCreatorDataManager.updateTaskParameters(taskDetails)
     }
 
     fun onTaskSelected(taskListItemViewModel: TaskListItemViewModel) {
@@ -162,7 +162,7 @@ class TaskCreatorViewModel(
 
     @SuppressLint("SimpleDateFormat")
     private fun onGotTaskDetails(taskDetails: TaskDetails) {
-        taskCreatorDataManager.updateAllTaskParameters(taskDetails)
+        taskCreatorDataManager.updateTaskParameters(taskDetails)
         if (!taskDetails.start_time_estimated) {
             val dateFormat = SimpleDateFormat(TaskDetailsElements.DATE_FORMAT.detailsElement)
             taskDate.value =

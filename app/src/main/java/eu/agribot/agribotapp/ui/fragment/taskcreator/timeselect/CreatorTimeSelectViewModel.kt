@@ -4,11 +4,12 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.Timestamp
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskWeatherNavigationEvent
+import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TaskDetailsElements
+import java.util.GregorianCalendar
 import java.util.Date
 import java.util.Calendar
-import java.util.GregorianCalendar
 import java.util.TimeZone
 
 class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreatorDataManager) :
@@ -31,8 +32,12 @@ class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreator
     private val miliToSecondDivide = 1000
 
     fun getPreSetDate() {
-        if (!taskCreatorDataManager.getTimeEstimated() && taskCreatorDataManager.getTimeStamp() != null) {
-            val date: Date = taskCreatorDataManager.getTimeStamp()!!.toDate()
+        taskCreatorDataManager.getTaskParemeters(this::onGotTaskData)
+    }
+
+    fun onGotTaskData(taskDetails: TaskDetails) {
+        if (!taskDetails.start_time_estimated && taskDetails.start_time != null) {
+            val date: Date = taskDetails.start_time.toDate()
             this.date.value = date
             isTimePreset.value = true
         } else {
@@ -41,14 +46,15 @@ class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreator
     }
 
     fun setTimeActivator(isChecked: Boolean) {
-        taskCreatorDataManager.onUpdateTimestampEstimated(!isChecked)
+        taskCreatorDataManager.updateTaskParameters(TaskDetails(start_time_estimated = !isChecked))
     }
 
     fun onDateChange(day: Int, month: Int, year: Int) {
         if (minuteData.value == null && hourData.value == null) {
             minuteData.value = GregorianCalendar.MINUTE
             hourData.value = GregorianCalendar.HOUR
-            taskCreatorDataManager.onUpdateTimestampEstimated(true)
+
+            taskCreatorDataManager.updateTaskParameters(TaskDetails(start_time_estimated = true))
         }
         yearData.value = year
         monthData.value = month
@@ -66,8 +72,8 @@ class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreator
             TimeZone.getTimeZone(TaskDetailsElements.TIMEZONE.detailsElement)
         val calendar = (gregorianCalendar.timeInMillis) / miliToSecondDivide
         val timestamp = Timestamp(calendar, 0)
-        taskCreatorDataManager.onUpdateTimestamp(timestamp)
-        taskCreatorDataManager.onUpdateTimestampEstimated(false)
+        taskCreatorDataManager.updateTaskParameters(TaskDetails(start_time = timestamp))
+        taskCreatorDataManager.updateTaskParameters(TaskDetails(start_time_estimated = false))
     }
 
     fun onTimeChange(hour: Int, minute: Int) {
@@ -75,7 +81,7 @@ class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreator
             yearData.value = GregorianCalendar.YEAR
             monthData.value = GregorianCalendar.MONTH
             dayOfMonthData.value = GregorianCalendar.DAY_OF_MONTH
-            taskCreatorDataManager.onUpdateTimestampEstimated(true)
+            taskCreatorDataManager.updateTaskParameters(TaskDetails(start_time_estimated = true))
         }
         hourData.value = hour
         minuteData.value = minute
@@ -96,7 +102,7 @@ class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreator
             TimeZone.getTimeZone(TaskDetailsElements.TIMEZONE.detailsElement)
         val calendar = (gregorianCalendar.timeInMillis) / miliToSecondDivide
         val timestamp = Timestamp(calendar, 0)
-        taskCreatorDataManager.onUpdateTimestamp(timestamp)
-        taskCreatorDataManager.onUpdateTimestampEstimated(false)
+        taskCreatorDataManager.updateTaskParameters(TaskDetails(start_time = timestamp))
+        taskCreatorDataManager.updateTaskParameters(TaskDetails(start_time_estimated = false))
     }
 }

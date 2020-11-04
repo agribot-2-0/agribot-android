@@ -10,6 +10,7 @@ import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationHumidity
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationPressure
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationTemperature
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationWind
+import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.WeatherSettingsListItemViewModel
@@ -30,6 +31,7 @@ class CreatorWeatherSelectViewModel(
     private val actualHumidity: MutableLiveData<String> = MutableLiveData()
     private val actualWind: MutableLiveData<String> = MutableLiveData()
     private val actualPressure: MutableLiveData<String> = MutableLiveData()
+    private val taskDetail: MutableLiveData<TaskDetails> = MutableLiveData()
     private val initializationCurrentValue = ""
     private val conditionSymbols = arrayOf(
         PickerSymbols.PICKER_CONDITION_LESS.symbol,
@@ -37,58 +39,92 @@ class CreatorWeatherSelectViewModel(
         PickerSymbols.PICKER_CONDITION_EQUAL.symbol
     )
 
+    fun getTaskDetail() {
+        taskCreatorDataManager.getTaskParemeters(this::onGotTaskDetail)
+    }
+
+    private fun onGotTaskDetail(taskDetails: TaskDetails) {
+        taskDetail.value = taskDetails
+    }
+
+    fun updateWeatherData(taskDetails: TaskDetails) {
+        taskCreatorDataManager.updateTaskParameters(taskDetails)
+    }
+
     fun onWeatherAttributeChanged(weatherAttribute: WeatherAttribute) {
         when (weatherAttribute.attributeID) {
             WeatherItemNumber.TEMPERATURE_ITEM.itemNumber -> {
                 if (weatherAttribute.isWeatherActive) {
-                    taskCreatorDataManager.onUpdateTemperatureValue(weatherAttribute.weatherValue.toString())
-                    taskCreatorDataManager.onUpdateTemperatureCondition(
-                        changeConditionSymbolToText(
-                            weatherAttribute.weatherCondition
+                    updateWeatherData(
+                        TaskDetails(
+                            temperature_value = weatherAttribute.weatherValue.toString(),
+                            temperature_condition = changeConditionSymbolToText(
+                                weatherAttribute.weatherCondition
+                            )
                         )
                     )
                 } else {
-                    taskCreatorDataManager.onUpdateTemperatureValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
-                    taskCreatorDataManager.onUpdateTemperatureCondition(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
+                    updateWeatherData(
+                        TaskDetails(
+                            temperature_value = PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
+                            temperature_condition = PickerSymbols.PICKER_DEFAULT_VALUE.symbol
+                        )
+                    )
                 }
             }
             WeatherItemNumber.WIND_ITEM.itemNumber -> {
                 if (weatherAttribute.isWeatherActive) {
-                    taskCreatorDataManager.onUpdatewindValue(weatherAttribute.weatherValue.toString())
-                    taskCreatorDataManager.onUpdatewindCondition(
-                        changeConditionSymbolToText(
-                            weatherAttribute.weatherCondition
+                    updateWeatherData(
+                        TaskDetails(
+                            wind_value = weatherAttribute.weatherValue.toString(),
+                            wind_condition = changeConditionSymbolToText(
+                                weatherAttribute.weatherCondition
+                            )
                         )
                     )
                 } else {
-                    taskCreatorDataManager.onUpdatewindValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
-                    taskCreatorDataManager.onUpdatewindCondition(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
+                    updateWeatherData(
+                        TaskDetails(
+                            wind_value = PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
+                            wind_condition = PickerSymbols.PICKER_DEFAULT_VALUE.symbol
+                        )
+                    )
                 }
             }
             WeatherItemNumber.HUMIDITY_ITEM.itemNumber -> {
                 if (weatherAttribute.isWeatherActive) {
-                    taskCreatorDataManager.onUpdatehumidityValue(weatherAttribute.weatherValue.toString())
-                    taskCreatorDataManager.onUpdatehumidityCondition(
-                        changeConditionSymbolToText(
-                            weatherAttribute.weatherCondition
+                    updateWeatherData(
+                        TaskDetails(
+                            humidity_value = weatherAttribute.weatherValue.toString(),
+                            humidity_condition = PickerSymbols.PICKER_DEFAULT_VALUE.symbol
                         )
                     )
                 } else {
-                    taskCreatorDataManager.onUpdatehumidityValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
-                    taskCreatorDataManager.onUpdatehumidityCondition(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
+                    updateWeatherData(
+                        TaskDetails(
+                            humidity_value = PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
+                            humidity_condition = PickerSymbols.PICKER_DEFAULT_VALUE.symbol
+                        )
+                    )
                 }
             }
             WeatherItemNumber.PRESSURE_ITEM.itemNumber -> {
                 if (weatherAttribute.isWeatherActive) {
-                    taskCreatorDataManager.onUpdatepressureValue(weatherAttribute.weatherValue.toString())
-                    taskCreatorDataManager.onUpdatepressureCondition(
-                        changeConditionSymbolToText(
-                            weatherAttribute.weatherCondition
+                    updateWeatherData(
+                        TaskDetails(
+                            pressure_value = weatherAttribute.weatherValue.toString(),
+                            pressure_condition = changeConditionSymbolToText(
+                                weatherAttribute.weatherCondition
+                            )
                         )
                     )
                 } else {
-                    taskCreatorDataManager.onUpdatepressureValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
-                    taskCreatorDataManager.onUpdatepressureCondition(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
+                    updateWeatherData(
+                        TaskDetails(
+                            pressure_value = PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
+                            pressure_condition = PickerSymbols.PICKER_DEFAULT_VALUE.symbol
+                        )
+                    )
                 }
             }
         }
@@ -145,7 +181,6 @@ class CreatorWeatherSelectViewModel(
     }
 
     private fun createWeatherParametersList() {
-
         val temperatureModel =
             WeatherSelectDataModel(
                 id = WeatherItemNumber.TEMPERATURE_ITEM.itemNumber,
@@ -153,15 +188,14 @@ class CreatorWeatherSelectViewModel(
                 currentValue = initializationCurrentValue,
                 minimumPickerValue = PickersMinMaxValues.MIN_TEMP_VALUE.value,
                 maximumPickerValue = PickersMinMaxValues.MAX_TEMP_VALUE.value,
-                isSwitchActive = taskCreatorDataManager.getTemperatureValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
-                settedValue = if (taskCreatorDataManager.getTemperatureValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
-                    (taskCreatorDataManager.getTemperatureValue()
-                        .toInt())
+                isSwitchActive = taskDetail.value?.temperature_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
+                settedValue = if (taskDetail.value?.temperature_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
+                    (taskDetail.value?.temperature_value!!.toInt())
                 } else {
                     PickersMinMaxValues.NO_WEATHER_VALUE_SYMBOL.value
                 },
-                settedCondition = if (taskCreatorDataManager.getTemperatureValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
-                    taskCreatorDataManager.getTemperatureCondition()
+                settedCondition = if (taskDetail.value?.temperature_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
+                    taskDetail.value?.temperature_condition.toString()
                 } else {
                     PickerSymbols.PICKER_DEFAULT_VALUE.symbol
                 }
@@ -174,17 +208,16 @@ class CreatorWeatherSelectViewModel(
                 currentValue = initializationCurrentValue,
                 minimumPickerValue = PickersMinMaxValues.MIN_WIND_VALUE.value,
                 maximumPickerValue = PickersMinMaxValues.MAX_WIND_VALUE.value,
-                isSwitchActive = taskCreatorDataManager.getWindValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
-                settedValue = if (taskCreatorDataManager.getWindValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol
+                isSwitchActive = taskDetail.value?.wind_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
+                settedValue = if (taskDetail.value?.wind_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol
                 ) {
-                    (taskCreatorDataManager.getWindValue()
-                        .toInt())
+                    (taskDetail.value?.wind_value!!.toInt())
                 } else {
                     PickersMinMaxValues.NO_WEATHER_VALUE_SYMBOL.value
                 },
-                settedCondition = if (taskCreatorDataManager.getWindCondition() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol
+                settedCondition = if (taskDetail.value?.wind_condition != PickerSymbols.PICKER_DEFAULT_VALUE.symbol
                 ) {
-                    taskCreatorDataManager.getWindCondition()
+                    taskDetail.value?.wind_condition!!
                 } else {
                     PickerSymbols.PICKER_DEFAULT_VALUE.symbol
                 }
@@ -197,15 +230,14 @@ class CreatorWeatherSelectViewModel(
                 currentValue = initializationCurrentValue,
                 minimumPickerValue = PickersMinMaxValues.MIN_PRESSURE_VALUE.value,
                 maximumPickerValue = PickersMinMaxValues.MAX_PRESSURE_VALUE.value,
-                isSwitchActive = taskCreatorDataManager.getPressureValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
-                settedValue = if (taskCreatorDataManager.getPressureValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
-                    (taskCreatorDataManager.getPressureValue()
-                        .toInt())
+                isSwitchActive = taskDetail.value?.pressure_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
+                settedValue = if (taskDetail.value?.pressure_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
+                    (taskDetail.value?.pressure_value!!.toInt())
                 } else {
                     PickersMinMaxValues.NO_WEATHER_VALUE_SYMBOL.value
                 },
-                settedCondition = if (taskCreatorDataManager.getPressureValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
-                    taskCreatorDataManager.getPressureCondition()
+                settedCondition = if (taskDetail.value?.pressure_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
+                    taskDetail.value?.pressure_condition!!
                 } else {
                     PickerSymbols.PICKER_DEFAULT_VALUE.symbol
                 }
@@ -219,15 +251,14 @@ class CreatorWeatherSelectViewModel(
                 currentValue = initializationCurrentValue,
                 minimumPickerValue = PickersMinMaxValues.MIN_HUMIDITY_VALUE.value,
                 maximumPickerValue = PickersMinMaxValues.MAX_HUMIDITY_VALUE.value,
-                isSwitchActive = taskCreatorDataManager.getHumidityValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
-                settedValue = if (taskCreatorDataManager.getHumidityValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
-                    (taskCreatorDataManager.getHumidityValue()
-                        .toInt())
+                isSwitchActive = taskDetail.value?.humidity_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
+                settedValue = if (taskDetail.value?.humidity_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
+                    (taskDetail.value?.humidity_value!!.toInt())
                 } else {
                     PickersMinMaxValues.NO_WEATHER_VALUE_SYMBOL.value
                 },
-                settedCondition = if (taskCreatorDataManager.getHumidityValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
-                    taskCreatorDataManager.getHumidityCondition()
+                settedCondition = if (taskDetail.value?.humidity_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
+                    taskDetail.value?.humidity_condition!!
                 } else {
                     PickerSymbols.PICKER_DEFAULT_VALUE.symbol
                 }
@@ -295,15 +326,15 @@ class CreatorWeatherSelectViewModel(
                 currentValue = actualTemperature.value.toString(),
                 minimumPickerValue = PickersMinMaxValues.MIN_TEMP_VALUE.value,
                 maximumPickerValue = PickersMinMaxValues.MAX_TEMP_VALUE.value,
-                isSwitchActive = taskCreatorDataManager.getTemperatureValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
-                settedValue = if (taskCreatorDataManager.getTemperatureValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
-                    (taskCreatorDataManager.getTemperatureValue()
+                isSwitchActive = taskDetail.value?.temperature_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
+                settedValue = if (taskDetail.value?.temperature_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
+                    (taskDetail.value?.temperature_value!!
                         .toInt())
                 } else {
                     -1
                 },
-                settedCondition = if (taskCreatorDataManager.getTemperatureValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
-                    taskCreatorDataManager.getTemperatureCondition()
+                settedCondition = if (taskDetail.value?.temperature_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
+                    taskDetail.value?.temperature_condition!!
                 } else {
                     PickerSymbols.PICKER_DEFAULT_VALUE.symbol
                 }
@@ -321,15 +352,14 @@ class CreatorWeatherSelectViewModel(
                 currentValue = actualWind.value.toString(),
                 minimumPickerValue = PickersMinMaxValues.MIN_WIND_VALUE.value,
                 maximumPickerValue = PickersMinMaxValues.MAX_WIND_VALUE.value,
-                isSwitchActive = taskCreatorDataManager.getWindValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
-                settedValue = if (taskCreatorDataManager.getWindValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
-                    (taskCreatorDataManager.getWindValue()
-                        .toInt())
+                isSwitchActive = taskDetail.value?.wind_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
+                settedValue = if (taskDetail.value?.wind_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
+                    (taskDetail.value?.wind_value!!.toInt())
                 } else {
                     PickersMinMaxValues.NO_WEATHER_VALUE_SYMBOL.value
                 },
-                settedCondition = if (taskCreatorDataManager.getWindValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
-                    taskCreatorDataManager.getWindCondition()
+                settedCondition = if (taskDetail.value?.wind_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
+                    taskDetail.value?.wind_condition!!
                 } else {
                     PickerSymbols.PICKER_DEFAULT_VALUE.symbol
                 }
@@ -348,15 +378,14 @@ class CreatorWeatherSelectViewModel(
                 currentValue = actualPressure.value.toString(),
                 minimumPickerValue = PickersMinMaxValues.MIN_PRESSURE_VALUE.value,
                 maximumPickerValue = PickersMinMaxValues.MAX_PRESSURE_VALUE.value,
-                isSwitchActive = taskCreatorDataManager.getPressureValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
-                settedValue = if (taskCreatorDataManager.getPressureValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
-                    (taskCreatorDataManager.getPressureValue()
-                        .toInt())
+                isSwitchActive = taskDetail.value?.pressure_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
+                settedValue = if (taskDetail.value?.pressure_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
+                    (taskDetail.value?.pressure_value!!.toInt())
                 } else {
                     PickersMinMaxValues.NO_WEATHER_VALUE_SYMBOL.value
                 },
-                settedCondition = if (taskCreatorDataManager.getPressureValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
-                    taskCreatorDataManager.getPressureCondition()
+                settedCondition = if (taskDetail.value?.pressure_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
+                    taskDetail.value?.pressure_condition!!
                 } else {
                     PickerSymbols.PICKER_DEFAULT_VALUE.symbol
                 }
@@ -375,15 +404,14 @@ class CreatorWeatherSelectViewModel(
                 currentValue = actualHumidity.value.toString(),
                 minimumPickerValue = PickersMinMaxValues.MIN_HUMIDITY_VALUE.value,
                 maximumPickerValue = PickersMinMaxValues.MAX_HUMIDITY_VALUE.value,
-                isSwitchActive = taskCreatorDataManager.getHumidityValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
-                settedValue = if (taskCreatorDataManager.getHumidityValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
-                    (taskCreatorDataManager.getHumidityValue()
-                        .toInt())
+                isSwitchActive = taskDetail.value?.humidity_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
+                settedValue = if (taskDetail.value?.humidity_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
+                    (taskDetail.value?.humidity_value!!.toInt())
                 } else {
                     PickersMinMaxValues.NO_WEATHER_VALUE_SYMBOL.value
                 },
-                settedCondition = if (taskCreatorDataManager.getHumidityValue() != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
-                    taskCreatorDataManager.getHumidityCondition()
+                settedCondition = if (taskDetail.value?.humidity_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
+                    taskDetail.value?.humidity_condition!!
                 } else {
                     PickerSymbols.PICKER_DEFAULT_VALUE.symbol
                 }

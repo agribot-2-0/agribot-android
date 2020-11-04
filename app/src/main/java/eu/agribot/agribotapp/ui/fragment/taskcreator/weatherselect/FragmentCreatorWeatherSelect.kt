@@ -32,6 +32,7 @@ class FragmentCreatorWeatherSelect :
         super.onViewCreated(view, savedInstanceState)
         viewModel.weatherAttributeList.observe(this::addAvaliableWeatherAttribute)
         setupRecyclerView()
+        viewModel.getTaskDetail()
         viewModel.getRobotDataValue()
     }
 

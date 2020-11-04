@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore.getInstance
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_ADI75R1_HEALTH_ENGINE
@@ -300,10 +301,11 @@ class FirebaseDatabase() : CloudDatabase {
                 }
                 if (snapshot != null && snapshot.exists()) {
                     snapshot.toObject(ActualTaskCDB::class.java)?.let { it ->
-                        if (it.actualTask != "") {
-                            onGetCurrentTaskNameSucess(it.actualTask)
+                        Log.e("xd", "IT: " + it.actual_task)
+                        if (it.actual_task != "") {
+                            onGetCurrentTaskNameSucess(it.actual_task)
                             getTaskDetails(
-                                it.actualTask,
+                                it.actual_task,
                                 onGetCurrentTaskDetailsSucess,
                                 onDatabaseError
                             )
@@ -322,7 +324,7 @@ class FirebaseDatabase() : CloudDatabase {
             .document(robotName)
             .update(
                 mapOf(
-                    "actual_task" to actualTaskCDB.actualTask
+                    "actual_task" to actualTaskCDB.actual_task
                 )
             )
             .addOnFailureListener { exception ->

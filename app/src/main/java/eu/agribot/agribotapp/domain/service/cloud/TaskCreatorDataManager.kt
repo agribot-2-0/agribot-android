@@ -26,134 +26,76 @@ class TaskCreatorDataManager {
     private val emptyTaskNameText = "null"
     var taskDetails: TaskDetails = TaskDetails()
 
-    fun taskParameters(taskDetails: TaskDetails): List<TaskDetails> = listOf(taskDetails)
 
-    fun getTaskParemeters(onGetTaskParametr: (taskDetails: TaskDetails) -> Unit) {
-        taskParameters(taskDetails).forEach { taskDetail -> onGetTaskParametr(taskDetail) }
+    fun getTaskParemeters(): TaskDetails {
+        return taskDetails
     }
 
-    fun updateTaskParameters(taskDetails: TaskDetails) {
+    fun updateAllTaskParametrs(taskDetails: TaskDetails) {
         this.taskDetails = taskDetails
-        /*
-        taskParameters(taskDetails)
-        onUpdatePathName(taskDetails.path_name)
-        onUpdateTimestamp(taskDetails.start_time!!)
-        onUpdateTemperatureValue(taskDetails.temperature_value)
-        onUpdateTemperatureCondition(taskDetails.temperature_condition)
-        onUpdatewindValue(taskDetails.wind_value)
-        onUpdatewindCondition(taskDetails.wind_condition)
-        onUpdatehumidityValue(taskDetails.humidity_value)
-        onUpdatehumidityCondition(taskDetails.humidity_condition)
-        onUpdatepressureValue(taskDetails.pressure_value)
-        onUpdatepressureCondition(taskDetails.pressure_condition)
-        onUpdateTimestampEstimated(taskDetails.start_time_estimated)
-         */
-        // getTaskParemeters()
     }
-/*
-    fun onUpdateTaskName(taskName: String) {
-        this.taskName = taskName
+
+    fun onUpdateTaskName(updatedTaskName: String) {
+        taskDetails = taskDetails.copy(task_name = updatedTaskName)
     }
 
     fun onUpdatePathName(pathName: String) {
-        this.pathName = pathName
+        taskDetails = taskDetails.copy(path_name = pathName)
+
     }
 
     fun onUpdateTimestamp(timestamp: Timestamp) {
-        timestampData = timestamp
+        taskDetails = taskDetails.copy(start_time = timestamp)
+
     }
 
     fun onUpdateTemperatureValue(temperatureValue: String?) {
         if (temperatureValue != null) {
-            temperatureValueData = temperatureValue
+            taskDetails = taskDetails.copy(temperature_value = temperatureValue)
+
         }
     }
 
     fun onUpdateTemperatureCondition(temperatureCondition: String) {
-        temperatureConditionData = temperatureCondition
+        taskDetails = taskDetails.copy(temperature_condition = temperatureCondition)
+
     }
 
     fun onUpdatewindValue(windValue: String?) {
         if (windValue != null) {
-            windValueData = windValue
+            taskDetails = taskDetails.copy(wind_value = windValue)
+
         }
     }
 
     fun onUpdatewindCondition(windCondition: String) {
-        windConditionData = windCondition
+        taskDetails = taskDetails.copy(wind_condition = windCondition)
     }
 
     fun onUpdatehumidityValue(humidityValue: String?) {
-        if (humidityValue != null) {
-            humidityValueData = humidityValue
-        }
+        if (humidityValue != null)
+            taskDetails = taskDetails.copy(humidity_value = humidityValue)
     }
 
     fun onUpdatehumidityCondition(humidityCondition: String) {
-        humidityConditionData = humidityCondition
+        taskDetails = taskDetails.copy(humidity_condition = humidityCondition)
     }
 
     fun onUpdatepressureValue(pressureValue: String?) {
         if (pressureValue != null) {
-            pressureValueData = pressureValue
+            taskDetails = taskDetails.copy(pressure_value = pressureValue)
         }
     }
 
     fun onUpdatepressureCondition(pressureCondition: String) {
-        pressureConditionData = pressureCondition
+        taskDetails = taskDetails.copy(pressure_condition = pressureCondition)
+
     }
 
     fun onUpdateTimestampEstimated(timestampEstimated: Boolean) {
-        startTimeEstimated = timestampEstimated
+        taskDetails = taskDetails.copy(start_time_estimated = timestampEstimated)
+
     }
 
-    fun getTaskName(): String {
-        return taskName
-    }
 
-    fun getPathName(): String? {
-        return pathName
-    }
-
-    fun getTimeStamp(): Timestamp? {
-        return timestampData
-    }
-
-    fun getTemperatureValue(): String {
-        return temperatureValueData
-    }
-
-    fun getTemperatureCondition(): String {
-        return temperatureConditionData
-    }
-
-    fun getWindValue(): String {
-        return windValueData
-    }
-
-    fun getWindCondition(): String {
-        return windConditionData
-    }
-
-    fun getHumidityValue(): String {
-        return humidityValueData
-    }
-
-    fun getHumidityCondition(): String {
-        return humidityConditionData
-    }
-
-    fun getPressureValue(): String {
-        return pressureValueData
-    }
-
-    fun getPressureCondition(): String {
-        return pressureConditionData
-    }
-
-    fun getTimeEstimated(): Boolean {
-        return startTimeEstimated
-    }
-
- */
 }

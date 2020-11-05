@@ -1,6 +1,7 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.kml.KmlContainer
@@ -136,7 +137,7 @@ class TaskCreatorViewModel(
 
     fun onEditButtonClicked(positionOnList: Int) {
         taskList.value?.get(positionOnList)?.taskName?.let { selectedTaskName ->
-            taskCreatorDataManager.updateTaskParameters(
+            taskCreatorDataManager.updateAllTaskParametrs(
                 TaskDetails(task_name = selectedTaskName)
             )
             cloudDatabaseService.getTaskDetails(
@@ -149,7 +150,7 @@ class TaskCreatorViewModel(
     }
 
     private fun updateTaskDetails(taskDetails: TaskDetails) {
-        taskCreatorDataManager.updateTaskParameters(taskDetails)
+        taskCreatorDataManager.updateAllTaskParametrs(taskDetails)
     }
 
     fun onTaskSelected(taskListItemViewModel: TaskListItemViewModel) {
@@ -162,7 +163,7 @@ class TaskCreatorViewModel(
 
     @SuppressLint("SimpleDateFormat")
     private fun onGotTaskDetails(taskDetails: TaskDetails) {
-        taskCreatorDataManager.updateTaskParameters(taskDetails)
+        taskCreatorDataManager.updateAllTaskParametrs(taskDetails)
         if (!taskDetails.start_time_estimated) {
             val dateFormat = SimpleDateFormat(TaskDetailsElements.DATE_FORMAT.detailsElement)
             taskDate.value =

@@ -3,7 +3,6 @@ package eu.agribot.agribotapp.ui.fragment.taskcreator.toolselect
 import com.google.firebase.Timestamp
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.navigation.events.DashboardNavigationEvent
-import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
 import eu.agribot.agribotapp.domain.model.cdb.taskprogram.taskmodel.NewRobotTaskDetails
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
@@ -17,31 +16,28 @@ class CreatorToolSelectViewModel(
     private val NULL_VALUE_TIMESTAMP = 946728000L
 
     fun getTaskData() {
-        taskCreatorDataManager.getTaskParemeters(this::onGotTaskParametrs)
-    }
-
-    private fun onGotTaskParametrs(taskDetails: TaskDetails) {
         cloudDatabaseService.programTaskToRobot(
-            taskName = taskDetails.task_name,
+            taskName = taskCreatorDataManager.getTaskParemeters().task_name,
             newRobotTaskDetails = NewRobotTaskDetails(
-                path_name = formatPathName(taskDetails.path_name),
-                start_time = if (taskDetails.start_time_estimated) {
+                path_name = formatPathName(taskCreatorDataManager.getTaskParemeters().path_name),
+                start_time = if (taskCreatorDataManager.getTaskParemeters().start_time_estimated) {
                     Timestamp(NULL_VALUE_TIMESTAMP, 0)
                 } else {
-                    taskDetails.start_time
+                    taskCreatorDataManager.getTaskParemeters().start_time
                 },
-                start_time_estimated = taskDetails.start_time_estimated,
-                temperature_value = taskDetails.temperature_value,
-                temperature_condition = taskDetails.temperature_condition,
-                wind_value = taskDetails.wind_value,
-                wind_condition = taskDetails.wind_condition,
-                humidity_value = taskDetails.humidity_value,
-                humidity_condition = taskDetails.humidity_condition,
-                pressure_value = taskDetails.pressure_value,
-                pressure_condition = taskDetails.pressure_condition
+                start_time_estimated = taskCreatorDataManager.getTaskParemeters().start_time_estimated,
+                temperature_value = taskCreatorDataManager.getTaskParemeters().temperature_value,
+                temperature_condition = taskCreatorDataManager.getTaskParemeters().temperature_condition,
+                wind_value = taskCreatorDataManager.getTaskParemeters().wind_value,
+                wind_condition = taskCreatorDataManager.getTaskParemeters().wind_condition,
+                humidity_value = taskCreatorDataManager.getTaskParemeters().humidity_value,
+                humidity_condition = taskCreatorDataManager.getTaskParemeters().humidity_condition,
+                pressure_value = taskCreatorDataManager.getTaskParemeters().pressure_value,
+                pressure_condition = taskCreatorDataManager.getTaskParemeters().pressure_condition
             )
         )
     }
+
 
     fun sendTaskData() {
         getTaskData()

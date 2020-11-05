@@ -32,8 +32,7 @@ class FragmentCreatorWeatherSelect :
         super.onViewCreated(view, savedInstanceState)
         viewModel.weatherAttributeList.observe(this::addAvaliableWeatherAttribute)
         setupRecyclerView()
-        viewModel.getTaskDetail()
-        viewModel.getRobotDataValue()
+        viewModel.prepareWeatherAttributeListItem()
     }
 
     private fun onWeatherAttributeChanged(weatherAttribute: WeatherAttribute) {

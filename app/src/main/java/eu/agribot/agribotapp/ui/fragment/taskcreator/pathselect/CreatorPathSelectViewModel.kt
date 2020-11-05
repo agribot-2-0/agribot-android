@@ -37,13 +37,9 @@ class CreatorPathSelectViewModel(
     val invalidPathName = "empty_path"
 
     private fun getSavedPath() {
-        taskCreatorDataManager.getTaskParemeters(onGetTaskParametr = this::onGotTaskParametr)
-    }
-
-    private fun onGotTaskParametr(taskDetails: TaskDetails) {
-        if (taskDetails.path_name != invalidPathName) {
-            currentPathName.value = taskDetails.path_name
-            downloadSelectedFile(taskDetails.path_name)
+        if (taskCreatorDataManager.taskDetails.path_name != invalidPathName) {
+            currentPathName.value = taskCreatorDataManager.taskDetails.path_name
+            downloadSelectedFile(taskCreatorDataManager.taskDetails.path_name)
         }
     }
 
@@ -122,14 +118,14 @@ class CreatorPathSelectViewModel(
     }
 
     private fun createListFiles(fileName: String) {
-        val isActive = fileName.contains(currentPathName.value.toString())
+        val isActive = fileName.contains(taskCreatorDataManager.getTaskParemeters().path_name)
         onAvailableFileFound(fileName, isActive)
         onFileInStorageFound(fileName, isActive)
     }
 
     fun downloadSelectedFile(fileName: String) {
         isPathSelected = true
-        taskCreatorDataManager.updateTaskParameters(TaskDetails(path_name = fileName))
+        taskCreatorDataManager.onUpdatePathName(fileName)
         for (item in fileListPathsList.value!!) {
             if (item.fileName.contains(fileName))
                 try {

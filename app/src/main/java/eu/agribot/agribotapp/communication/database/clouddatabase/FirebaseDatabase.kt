@@ -301,7 +301,6 @@ class FirebaseDatabase() : CloudDatabase {
                 }
                 if (snapshot != null && snapshot.exists()) {
                     snapshot.toObject(ActualTaskCDB::class.java)?.let { it ->
-                        Log.e("xd", "IT: " + it.actual_task)
                         if (it.actual_task != "") {
                             onGetCurrentTaskNameSucess(it.actual_task)
                             getTaskDetails(

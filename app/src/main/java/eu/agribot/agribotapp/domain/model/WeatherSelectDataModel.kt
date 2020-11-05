@@ -1,19 +1,25 @@
 package eu.agribot.agribotapp.domain.model
 
+import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.PickerSymbols
+
 data class WeatherSelectDataModel(
-    val id: Int,
+    val id: Int = -1,
 
-    val conditionArray: Array<String>,
+    val conditionArray: Array<String> = arrayOf(
+        PickerSymbols.PICKER_CONDITION_LESS.symbol,
+        PickerSymbols.PICKER_CONDITION_BIGGER.symbol,
+        PickerSymbols.PICKER_CONDITION_EQUAL.symbol
+    ),
 
-    val minimumPickerValue: Int,
+    val minimumPickerValue: Int = 0,
 
-    val maximumPickerValue: Int,
+    val maximumPickerValue: Int = 0,
 
-    val currentValue: String,
+    val currentValue: String = PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
 
-    val isSwitchActive: Boolean,
+    val isSwitchActive: Boolean = false,
 
-    val settedValue: Int,
+    val settedValue: Int = 0,
 
-    val settedCondition: String
+    val settedCondition: String = PickerSymbols.PICKER_DEFAULT_VALUE.symbol
 )

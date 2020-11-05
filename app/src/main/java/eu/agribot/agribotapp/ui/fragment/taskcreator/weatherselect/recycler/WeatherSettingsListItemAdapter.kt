@@ -1,6 +1,7 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
@@ -85,14 +86,13 @@ class WeatherSettingsListItemAdapter(
                 PickersMinMaxValues.EQUAL_POSITION.value
             }
             else -> {
-                errorValue
+                PickersMinMaxValues.MORE_POSITION.value
             }
         }
         holder.itemView.condition.minValue = PickersMinMaxValues.LESS_POSITION.value
         holder.itemView.condition.maxValue = PickersMinMaxValues.EQUAL_POSITION.value
         holder.itemView.condition.displayedValues = item.conditionArray
         holder.itemView.condition.value = condition
-
         var isSwitchActive = item.isSwitchActive
         holder.itemView.activation_switch.isChecked = isSwitchActive
 
@@ -101,6 +101,7 @@ class WeatherSettingsListItemAdapter(
         } else {
             (item.minimumPickerValue + (item.maximumPickerValue - item.minimumPickerValue) / 2)
         }
+
         holder.itemView.value.minValue = item.minimumPickerValue
         holder.itemView.value.maxValue = item.maximumPickerValue
         holder.itemView.value.value = itemValue
@@ -112,7 +113,7 @@ class WeatherSettingsListItemAdapter(
                     attributeID = item.id,
                     weatherValue = itemValue,
                     weatherCondition = item.conditionArray[condition],
-                    isWeatherActive = isChecked
+                    isWeatherActive = isSwitchActive
                 )
             )
         }

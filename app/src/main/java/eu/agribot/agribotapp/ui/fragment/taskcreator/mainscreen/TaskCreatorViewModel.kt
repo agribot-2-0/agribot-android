@@ -1,7 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.kml.KmlContainer
@@ -126,7 +125,6 @@ class TaskCreatorViewModel(
 
     fun onEditButtonClicked(positionOnList: Int) {
         taskList.value?.get(positionOnList)?.taskName?.let { selectedTaskName ->
-            Log.e("xd", "task name: " + selectedTaskName)
             taskCreatorDataManager.onUpdateTaskName(selectedTaskName)
             cloudDatabaseService.getTaskDetails(
                 selectedTaskName,
@@ -138,7 +136,6 @@ class TaskCreatorViewModel(
     }
 
     private fun updateTaskDetails(taskDetails: TaskDetails) {
-        Log.e("xd", "task det: " + taskDetails)
         taskCreatorDataManager.updateAllTaskParametrs(taskDetails)
     }
 

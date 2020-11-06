@@ -330,7 +330,7 @@ class FirebaseDatabase() : CloudDatabase {
         onGetTaskItem: (taskItemCDB: TaskItemCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        database.collection("$COLLECTION_ROBOTS/$userRobotName/")
+        database.collection("$COLLECTION_ROBOTS/$userRobotName/$DOCUMENT_TASKS")
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {

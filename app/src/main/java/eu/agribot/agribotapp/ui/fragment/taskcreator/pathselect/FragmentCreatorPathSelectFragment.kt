@@ -39,7 +39,7 @@ class FragmentCreatorPathSelectFragment :
     override val viewModel: CreatorPathSelectViewModel by viewModel { parametersOf(requireContext()) }
     private var adapter = CloudFileListItemAdapter(this::onItemClicked)
     private var googleMapFragment: GoogleMap? = null
-    var mapPathLayer: KmlLayer? = null
+    private var mapPathLayer: KmlLayer? = null
 
     override fun bindViewVariables(viewBinding: FragmentCreatorPathSelectBinding) {
         viewBinding.viewModel = viewModel

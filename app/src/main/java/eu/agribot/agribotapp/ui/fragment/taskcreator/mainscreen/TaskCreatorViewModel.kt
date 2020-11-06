@@ -220,6 +220,7 @@ class TaskCreatorViewModel(
     }
 
     fun onNewTaskButtonClicked() {
+        taskCreatorDataManager.updateAllTaskParametrs(TaskDetails())
         navigationEvent.postValue(
             CreatorTaskNameNavigationEvent()
         )

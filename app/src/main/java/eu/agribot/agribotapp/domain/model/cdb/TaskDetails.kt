@@ -6,9 +6,9 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.PickerSymbols
 data class TaskDetails(
 
     val task_name: String = "",
-    val path_name: String = "",
+    val path_name: String = PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
     val start_time: Timestamp? = Timestamp(946728000L, 0),
-    val start_time_estimated: Boolean = false,
+    val start_time_estimated: Boolean = true,
 
     val temperature_value: String = PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
     val temperature_condition: String = PickerSymbols.PICKER_DEFAULT_VALUE.symbol,

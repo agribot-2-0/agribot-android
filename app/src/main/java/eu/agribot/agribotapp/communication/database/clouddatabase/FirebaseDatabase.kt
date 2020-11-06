@@ -31,26 +31,6 @@ class FirebaseDatabase() : CloudDatabase {
     private val database = getInstance()
     private var userRobotName = ""
 
-    /*
-        private fun getDataFromCloudDatabase(databaseCollection : String, databaseDocument : String, onDatabaseSucess : () -> Unit, onDatabaseError: (Throwable) -> Unit){
-            database.collection(param1)
-                .document(param2)
-                .addSnapshotListener { snapshot, databaseException ->
-                    if (databaseException != null) {
-                        param3(Throwable("Could not parse firebase data"))
-                        return@addSnapshotListener
-                    }
-
-                    if (snapshot != null && snapshot.exists()) {
-                        snapshot.toObject(FirstRobotWeatherStationHumidityCDB::class.java)?.let {
-                            param4(it)
-                        }
-                    }
-                }
-        }
-
-
-     */
     override fun getUserData(
         onDatabaseSucess: (data: UserInfoCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit

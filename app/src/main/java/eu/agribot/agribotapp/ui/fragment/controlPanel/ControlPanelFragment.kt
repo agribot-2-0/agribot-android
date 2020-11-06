@@ -1,10 +1,7 @@
 package eu.agribot.agribotapp.ui.fragment.controlPanel
 
-import android.content.Context
 import android.os.Bundle
-import android.os.Environment
 import android.view.View
-import androidx.core.content.ContextCompat
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -25,7 +22,6 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.TileProvider
 import eu.agribot.agribotapp.ui.fragment.taskcreator.URLPath
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-import java.io.File
 import java.io.IOException
 import java.io.InputStream
 
@@ -71,24 +67,12 @@ class ControlPanelFragment :
         )
     }
 
-    private fun getRootDirPath(context: Context, pathDirection: String): String {
-        return if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()) {
-            val file: File = ContextCompat.getExternalFilesDirs(
-                context.applicationContext,
-                null
-            )[0]
-            URLPath.FILE.path + file.absolutePath + pathDirection
-        } else {
-            context.applicationContext.filesDir.absolutePath
-        }
-    }
-
     private fun addTileOverlay() {
         val tileProvider =
             TileProvider(
                 MapParameters.MAP_SIZE.mapParametr.toInt(),
                 MapParameters.MAP_SIZE.mapParametr.toInt(),
-                getRootDirPath(requireContext(), URLPath.MAP_PATH.path)
+                viewModel.getRootDirPath(requireContext(), URLPath.MAP_PATH.path)
             )
         try {
             googleMapFragment!!.addTileOverlay(
@@ -134,7 +118,6 @@ class ControlPanelFragment :
     private fun setSelectedLayer(mapStream: InputStream) {
         try {
             mapPathLayer = KmlLayer(googleMapFragment, mapStream, requireContext())
-            mapPathLayer!!.containers
             mapPathLayer!!.addLayerToMap()
             try {
                 val container: Iterable<KmlContainer> = mapPathLayer!!.containers

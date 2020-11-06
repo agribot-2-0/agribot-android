@@ -1,6 +1,9 @@
 package eu.agribot.agribotapp.ui.fragment.controlPanel
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.os.Environment
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -17,6 +20,7 @@ import eu.agribot.agribotapp.domain.service.KmlLayerService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TaskDetailsElements
+import eu.agribot.agribotapp.ui.fragment.taskcreator.URLPath
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
@@ -168,6 +172,18 @@ class ControlPanelViewModel(
             TaskDetailsElements.MORE_TEXT.detailsElement -> TaskDetailsElements.MORE_SYMBOL.detailsElement
             TaskDetailsElements.EQUAL_TEXT.detailsElement -> TaskDetailsElements.EQUAL_SYMBOL.detailsElement
             else -> TaskDetailsElements.SEPARATOR.detailsElement
+        }
+    }
+
+    fun getRootDirPath(context: Context, pathDirection: String): String {
+        return if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()) {
+            val file: File = ContextCompat.getExternalFilesDirs(
+                context.applicationContext,
+                null
+            )[0]
+            URLPath.FILE.path + file.absolutePath + pathDirection
+        } else {
+            context.applicationContext.filesDir.absolutePath
         }
     }
 

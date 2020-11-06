@@ -139,7 +139,8 @@ val viewModelModule = module {
         CreatorPathSelectViewModel(
             cloudStorageService = get(),
             taskCreatorDataManager = get(),
-            resourcesProvider = get { parametersOf(context) }
+            resourcesProvider = get { parametersOf(context) },
+            kmlLayerService = get()
 
         )
     }
@@ -148,7 +149,8 @@ val viewModelModule = module {
         ControlPanelViewModel(
             cloudDatabaseService = get(),
             resourcesProvider = get { parametersOf(context) },
-            cloudStorageService = get()
+            cloudStorageService = get(),
+            kmlLayerService = get()
         )
     }
 
@@ -191,7 +193,8 @@ val viewModelModule = module {
             resourcesProvider = get { parametersOf(context) },
             cloudDatabaseService = get(),
             taskCreatorDataManager = get(),
-            cloudStorageService = get()
+            cloudStorageService = get(),
+            kmlLayerService = get()
         )
     }
 

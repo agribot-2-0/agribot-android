@@ -151,7 +151,7 @@ class CreatorWeatherSelectViewModel(
     }
 
     private fun getFirstRobotHumidity() {
-        cloudDatabaseService.getFirstRobotWeatherStationHumidity(
+        cloudDatabaseService.getRobotWeatherStationHumidity(
             this::onGetFirstRobotHumiditySucess,
             this::postErrorMessage
         )
@@ -167,7 +167,7 @@ class CreatorWeatherSelectViewModel(
     }
 
     private fun getFirstRobotTemperature() {
-        cloudDatabaseService.getFirstRobotWeatherStationTemperature(
+        cloudDatabaseService.getRobotWeatherStationTemperature(
             this::onGetFirstRobotTemperatureSucess,
             this::postErrorMessage
         )
@@ -184,7 +184,7 @@ class CreatorWeatherSelectViewModel(
     }
 
     private fun getFirstRobotWind() {
-        cloudDatabaseService.getFirstRobotWeatherStationWind(
+        cloudDatabaseService.getRobotWeatherStationWind(
             this::onGetFirstRobotWindSucess,
             this::postErrorMessage
         )
@@ -200,7 +200,7 @@ class CreatorWeatherSelectViewModel(
     }
 
     private fun getFirstRobotPressure() {
-        cloudDatabaseService.getFirstRobotWeatherStationPressure(
+        cloudDatabaseService.getRobotWeatherStationPressure(
             this::onGetFirstRobotPressureSucess,
             this::postErrorMessage
         )

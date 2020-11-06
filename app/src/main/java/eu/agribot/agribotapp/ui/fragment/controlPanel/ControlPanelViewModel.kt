@@ -5,16 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.kml.KmlContainer
-import com.google.maps.android.kml.KmlLineString
-import com.google.maps.android.kml.KmlPlacemark
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.LiveEvent
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.TaskSelectNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
-import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
 import eu.agribot.agribotapp.domain.model.cdb.RobotLocalizationPose
+import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
+import eu.agribot.agribotapp.domain.service.KmlLayerService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TaskDetailsElements
@@ -25,9 +24,10 @@ import java.io.InputStream
 import java.text.SimpleDateFormat
 
 class ControlPanelViewModel(
-    val cloudDatabaseService: CloudDatabaseService,
-    val resourcesProvider: ResourcesProvider,
-    val cloudStorageService: CloudStorageService
+    private val cloudDatabaseService: CloudDatabaseService,
+    private val resourcesProvider: ResourcesProvider,
+    private val cloudStorageService: CloudStorageService,
+    private val kmlLayerService: KmlLayerService
 ) : BaseViewModel() {
     val currentTask: MutableLiveData<String> = MutableLiveData()
     val pathName: MutableLiveData<String> = MutableLiveData()
@@ -41,31 +41,20 @@ class ControlPanelViewModel(
     val markers: MutableLiveData<MarkerOptions> = MutableLiveData()
     val cameraPosition: MutableLiveData<LatLng> = MutableLiveData()
 
-    fun accessContainers(containers: Iterable<KmlContainer?>) {
-        for (container in containers) {
-            if (container != null) {
-                if (container.hasContainers()) {
-                    accessContainers(container.containers)
-                } else {
-                    if (container.hasPlacemarks()) {
-                        accessPlacemarks(container.placemarks)
-                    }
-                }
-            }
-        }
+    fun getCoordinatesFromKml(containers: Iterable<KmlContainer?>) {
+        kmlLayerService.getCoordinates(
+            containers,
+            onGetLatLng = this::onGotCoordinates,
+            onError = this::onGetCoordinatesError
+        )
     }
 
-    private fun accessPlacemarks(placemarks: Iterable<KmlPlacemark?>) {
-        for (placemark in placemarks) {
-            if (placemark != null) {
-                try {
-                    val kmlLineString = placemark.geometry as KmlLineString
-                    cameraPosition.value = kmlLineString.geometryObject[0]
-                } catch (exception: Exception) {
-                    postToastErrorMessageEvent("Kml LatLngException")
-                }
-            }
-        }
+    private fun onGotCoordinates(coordinates: LatLng) {
+        cameraPosition.value = coordinates
+    }
+
+    private fun onGetCoordinatesError() {
+        postToastErrorMessageEvent(resourcesProvider.getString(R.string.kml_layer_problem))
     }
 
     private fun checkIsCurrentPathExistInStorage() {
@@ -83,7 +72,7 @@ class ControlPanelViewModel(
                     onGotFile = this::onFileAlreadyDownloaded
                 )
             } catch (exception: IOException) {
-                postToastErrorMessageEvent("Add PathLayer to map problem")
+                postToastErrorMessageEvent(resourcesProvider.getString(R.string.kml_layer_problem))
             }
         }
     }
@@ -94,7 +83,7 @@ class ControlPanelViewModel(
     }
 
     fun getAgribotPosition() {
-        cloudDatabaseService.getSecondRobotLocalizationPose(
+        cloudDatabaseService.getRobotLocalizationPose(
             onSuccess = this::setCurrentRobotPosition,
             onError = this::postToastErrorMessageEvent
         )

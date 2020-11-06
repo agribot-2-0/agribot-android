@@ -16,9 +16,5 @@ object CloudDatabasePaths {
 
     const val DOCUMENT_WEATHER_STATION_PRESSURE = "/weather_station/pressure"
 
-    const val DOCUMENT_TASKS_LIST = "/tasks/"
-
-    const val DOCUMENT_ADI75R2_LOCALIZATION_POSE = "/localization/pose"
-
-    const val DOCUMENT_ROBOTS_ADI75R1 = "/robots/ADI75R1"
+    const val DOCUMENT_TASKS = "tasks"
 }

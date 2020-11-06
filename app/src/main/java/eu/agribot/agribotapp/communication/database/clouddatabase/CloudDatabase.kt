@@ -27,38 +27,33 @@ interface CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     )
 
-    fun getFirstRobotHealthEngineData(
+    fun getRobotHealthEngineData(
         onDatabaseSucess: (data: RobotHealthEngineCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 
-    fun getFirstRobotLocalizationPoseData(
+    fun getRobotLocalizationPoseData(
         onDatabaseSucess: (data: RobotLocalizationPoseCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 
-    fun getFirstRobotWeatherStationHumidityData(
+    fun getRobotWeatherStationHumidityData(
         onDatabaseSucess: (data: RobotWeatherStationHumidityCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 
-    fun getFirstRobotWeatherStationWindData(
+    fun getRobotWeatherStationWindData(
         onDatabaseSucess: (data: RobotWeatherStationWindCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 
-    fun getFirstRobotWeatherStationPressureData(
+    fun getRobotWeatherStationPressureData(
         onDatabaseSucess: (data: RobotWeatherStationPressureCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 
-    fun getFirstRobotWeatherStationTemperatureData(
+    fun getRobotWeatherStationTemperatureData(
         onDatabaseSucess: (data: RobotWeatherStationTemperatureCDB) -> Unit,
-        onDatabaseError: (Throwable) -> Unit
-    )
-
-    fun getSecondRobotLocalizationPoseData(
-        onDatabaseSucess: (data: RobotLocalizationPoseCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 
@@ -87,14 +82,12 @@ interface CloudDatabase {
     )
 
     fun getCurrentTaskDetails(
-        robotName: String,
         onGetCurrentTaskNameSucess: (currentTaskName: String) -> Unit,
         onGetCurrentTaskDetailsSucess: (taskDetailsCDB: TaskDetailsCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 
     fun setCurrenttask(
-        robotName: String,
         actualTaskCDB: ActualTaskCDB,
         onDatabaseError: (Throwable) -> Unit
     )

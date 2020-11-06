@@ -7,6 +7,7 @@ import eu.agribot.agribotapp.domain.permission.PermissionManager
 import eu.agribot.agribotapp.domain.service.AuthenticationService
 import eu.agribot.agribotapp.domain.service.AutonomyService
 import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
+import eu.agribot.agribotapp.domain.service.KmlLayerService
 import eu.agribot.agribotapp.domain.service.ManualModeService
 import eu.agribot.agribotapp.domain.service.PathManagementService
 import eu.agribot.agribotapp.domain.service.RemoteControlService
@@ -113,7 +114,11 @@ val domainModule = module {
     }
 
     single {
-        CloudStorageService(firestorageService = get(), authenticationService = get(), cloudStorageErrorHandler = get())
+        CloudStorageService(
+            firestorageService = get(),
+            authenticationService = get(),
+            cloudStorageErrorHandler = get()
+        )
     }
 
     single {
@@ -124,5 +129,9 @@ val domainModule = module {
                 )
             }
         )
+    }
+
+    single {
+        KmlLayerService()
     }
 }

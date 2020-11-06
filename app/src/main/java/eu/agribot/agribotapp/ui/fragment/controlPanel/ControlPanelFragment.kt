@@ -138,7 +138,7 @@ class ControlPanelFragment :
             mapPathLayer!!.addLayerToMap()
             try {
                 val container: Iterable<KmlContainer> = mapPathLayer!!.containers
-                viewModel.accessContainers(container)
+                viewModel.getCoordinatesFromKml(container)
             } catch (exception: IOException) {
                 showToast(getString(R.string.kml_layer_problem))
             }

@@ -42,10 +42,6 @@ dependencies {
 	implementation "androidx.appcompat:appcompat:$versions.appCompat"
 	implementation "androidx.legacy:legacy-support-v4:$versions.legacy"
 
-
-	implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.1")
-
-
 	// UI
 	implementation "com.google.android.material:material:$versions.material"
 	implementation "androidx.constraintlayout:constraintlayout:$versions.constraintLayout"

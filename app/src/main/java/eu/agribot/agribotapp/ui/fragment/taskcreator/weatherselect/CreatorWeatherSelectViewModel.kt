@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
@@ -58,14 +57,12 @@ class CreatorWeatherSelectViewModel(
                 taskCreatorDataManager.getTaskParemeters().pressure_value.toInt()
             } else {
                 PickersMinMaxValues.DEFAULT_PRESSURE_VALUE.value
-
             },
             settedCondition = if (taskCreatorDataManager.getTaskParemeters().pressure_condition != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
                 taskCreatorDataManager.getTaskParemeters().pressure_condition
             } else {
                 PickerSymbols.PICKER_CONDITION_BIGGER.symbol
             }
-
 
         )
         val windItem = WeatherSelectDataModel(
@@ -78,14 +75,12 @@ class CreatorWeatherSelectViewModel(
                 taskCreatorDataManager.getTaskParemeters().wind_value.toInt()
             } else {
                 PickersMinMaxValues.DEFAULT_WIND_VALUE.value
-
             },
             settedCondition = if (taskCreatorDataManager.getTaskParemeters().wind_condition != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
                 taskCreatorDataManager.getTaskParemeters().wind_condition
             } else {
                 PickerSymbols.PICKER_CONDITION_BIGGER.symbol
             }
-
 
         )
         val humidityitem = WeatherSelectDataModel(
@@ -135,7 +130,6 @@ class CreatorWeatherSelectViewModel(
                         weatherAttribute.weatherCondition
                     )
                 )
-
             }
             WeatherItemNumber.PRESSURE_ITEM.itemNumber -> {
                 taskCreatorDataManager.onUpdatepressureValue(weatherAttribute.weatherValue.toString())
@@ -154,9 +148,7 @@ class CreatorWeatherSelectViewModel(
                 )
             }
         }
-
     }
-
 
     private fun getFirstRobotHumidity() {
         cloudDatabaseService.getFirstRobotWeatherStationHumidity(
@@ -172,7 +164,6 @@ class CreatorWeatherSelectViewModel(
                 currentValue = weatherStationHumidity.value.toString() + WeatherUnit.HUMIDITY_UNIT.unit
             )
         )
-
     }
 
     private fun getFirstRobotTemperature() {
@@ -222,7 +213,6 @@ class CreatorWeatherSelectViewModel(
                 currentValue = weatherStationPressure.value.toString() + WeatherUnit.PRESSURE_UNIT.unit
             )
         )
-
     }
 
     private fun postErrorMessage(errorText: String) {
@@ -269,9 +259,6 @@ class CreatorWeatherSelectViewModel(
             }
         }
     }
-
-
-
 
     private fun changeConditionSymbolToText(symbol: String): String {
         return when (symbol) {

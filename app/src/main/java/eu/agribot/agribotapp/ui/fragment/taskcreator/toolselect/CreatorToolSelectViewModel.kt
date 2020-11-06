@@ -38,7 +38,6 @@ class CreatorToolSelectViewModel(
         )
     }
 
-
     fun sendTaskData() {
         getTaskData()
         postDashboardNavigationEvent()

@@ -1,14 +1,15 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.timeselect
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.Timestamp
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskWeatherNavigationEvent
-import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TaskDetailsElements
-import java.util.*
+import java.util.GregorianCalendar
+import java.util.Calendar
+import java.util.Date
+import java.util.TimeZone
 
 class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreatorDataManager) :
     BaseViewModel() {
@@ -47,7 +48,6 @@ class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreator
         if (minuteData.value == null && hourData.value == null) {
             minuteData.value = GregorianCalendar.MINUTE
             hourData.value = GregorianCalendar.HOUR
-
         }
         yearData.value = year
         monthData.value = month

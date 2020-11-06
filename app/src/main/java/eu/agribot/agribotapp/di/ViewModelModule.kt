@@ -52,7 +52,8 @@ val viewModelModule = module {
     viewModel {
         SplashViewModel(
             authenticationService = get(),
-            bluetoothConnectionService = get()
+            bluetoothConnectionService = get(),
+            cloudDatabaseService = get()
         )
     }
     viewModel {

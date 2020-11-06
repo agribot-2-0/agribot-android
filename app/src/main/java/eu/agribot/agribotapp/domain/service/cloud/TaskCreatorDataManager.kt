@@ -4,34 +4,27 @@ import com.google.firebase.Timestamp
 import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
 
 class TaskCreatorDataManager {
-    private var taskName: String = ""
-    private var pathName: String = "empty_path"
-    private var timestampData: Timestamp = Timestamp(946728000L, 0)
-
-    private var temperatureValueData: String = ""
-    private var temperatureConditionData: String = ""
-
-    private var windValueData: String = ""
-    private var windConditionData: String = ""
-
-    private var humidityValueData: String = ""
-    private var humidityConditionData: String = ""
-
-    private var pressureValueData: String = ""
-    private var pressureConditionData: String = ""
-    private var startTimeEstimated: Boolean = false
-    private val defaultTimestamp = 946728000L
-    private val nullValueSymbol = "*"
-    private val emptyPath = "empty_path"
-    private val emptyTaskNameText = "null"
     var taskDetails: TaskDetails = TaskDetails()
 
     fun getTaskParemeters(): TaskDetails {
         return taskDetails
     }
 
-    fun updateAllTaskParametrs(taskDetails: TaskDetails) {
-        this.taskDetails = taskDetails
+    fun updateAllTaskParametrs(taskDetail: TaskDetails) {
+        taskDetails =
+            taskDetails.copy(
+                path_name = taskDetail.path_name,
+                start_time = taskDetail.start_time,
+                start_time_estimated = taskDetail.start_time_estimated,
+                temperature_value = taskDetail.temperature_value,
+                temperature_condition = taskDetail.temperature_condition,
+                pressure_value = taskDetail.pressure_value,
+                pressure_condition = taskDetail.pressure_condition,
+                humidity_value = taskDetail.humidity_value,
+                humidity_condition = taskDetail.humidity_condition,
+                wind_value = taskDetail.wind_value,
+                wind_condition = taskDetail.wind_condition
+            )
     }
 
     fun onUpdateTaskName(updatedTaskName: String) {

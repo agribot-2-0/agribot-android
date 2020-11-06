@@ -7,16 +7,23 @@ import eu.agribot.agribotapp.common.navigation.events.MainActivityNavigationEven
 import eu.agribot.agribotapp.common.navigation.events.WelcomeActivityNavigationEvent
 import eu.agribot.agribotapp.domain.service.AuthenticationService
 import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
+import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SplashViewModel(
     private val authenticationService: AuthenticationService,
-    private val bluetoothConnectionService: BluetoothConnectionService
+    private val bluetoothConnectionService: BluetoothConnectionService,
+    private val cloudDatabaseService: CloudDatabaseService
 ) : BaseViewModel() {
     val postDialogEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
+
     companion object {
         const val SPLASH_SCREEN_TIMEOUT_MILLIS = 1000L
+    }
+
+    fun getRobotName() {
+        cloudDatabaseService.getUserRobotName()
     }
 
     private fun beginSplashScreenDelay() = viewModelScope.launch {

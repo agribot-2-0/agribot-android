@@ -4,5 +4,5 @@ data class WeatherAttribute(
     val attributeID: Int,
     val weatherValue: String,
     val weatherCondition: String,
-    val isWeatherActive: Boolean
+    val isWeatherItemActive: Boolean
 )

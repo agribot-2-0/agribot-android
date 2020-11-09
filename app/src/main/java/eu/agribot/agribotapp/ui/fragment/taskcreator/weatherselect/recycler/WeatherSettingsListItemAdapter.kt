@@ -118,7 +118,7 @@ class WeatherSettingsListItemAdapter(
                         attributeID = item.id,
                         weatherValue = itemValue.toString(),
                         weatherCondition = item.conditionArray[condition],
-                        isWeatherActive = isSwitchActive
+                        isWeatherItemActive = isSwitchActive
                     )
                 )
             } else {
@@ -127,7 +127,7 @@ class WeatherSettingsListItemAdapter(
                         attributeID = item.id,
                         weatherValue = PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
                         weatherCondition = PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
-                        isWeatherActive = isSwitchActive
+                        isWeatherItemActive = isSwitchActive
                     )
                 )
             }
@@ -140,7 +140,7 @@ class WeatherSettingsListItemAdapter(
                     attributeID = item.id,
                     weatherValue = itemValue.toString(),
                     weatherCondition = item.conditionArray[condition],
-                    isWeatherActive = isSwitchActive
+                    isWeatherItemActive = isSwitchActive
                 )
             )
         }
@@ -152,7 +152,7 @@ class WeatherSettingsListItemAdapter(
                     attributeID = item.id,
                     weatherValue = itemValue.toString(),
                     weatherCondition = item.conditionArray[condition],
-                    isWeatherActive = isSwitchActive
+                    isWeatherItemActive = isSwitchActive
                 )
             )
         }

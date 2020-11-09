@@ -9,9 +9,9 @@ data class HumidityItem(
     val id: Int = WeatherItemNumber.HUMIDITY_ITEM.itemNumber,
     val minimumPickerValue: Int = PickersMinMaxValues.MIN_HUMIDITY_VALUE.value,
     val maximumPickerValue: Int = PickersMinMaxValues.MAX_HUMIDITY_VALUE.value,
-    val currentValue: String,
+    val currentValue: String = PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
     val isSwitchActive: Boolean = false,
-    val settedValue: String = PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
+    val presetValue: String = PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
     val settedCondition: String = PickerSymbols.PICKER_DEFAULT_VALUE.symbol
 ) : WeatherAttribureMapper<WeatherSelectDataModel> {
     override fun toWeatherDataModel() = WeatherSelectDataModel(
@@ -20,6 +20,6 @@ data class HumidityItem(
         maximumPickerValue = this.maximumPickerValue,
         currentValue = this.currentValue,
         isSwitchActive = this.isSwitchActive,
-        settedValue = this.settedValue
+        settedValue = this.presetValue
     )
 }

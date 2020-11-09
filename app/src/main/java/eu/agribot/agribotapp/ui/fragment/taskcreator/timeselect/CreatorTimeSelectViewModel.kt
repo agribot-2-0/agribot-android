@@ -36,6 +36,8 @@ class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreator
             isTimePreset.value = true
         } else {
             isTimePreset.value = false
+            val calendar = Calendar.getInstance()
+            this.date.value = calendar.time
         }
     }
 
@@ -79,9 +81,7 @@ class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreator
         hourData.value = hour
         minuteData.value = minute
         val tempCalendar = Calendar.getInstance()
-        tempCalendar.get(Calendar.YEAR)
-        tempCalendar.get(Calendar.MONTH)
-        tempCalendar.get((Calendar.DAY_OF_MONTH))
+        tempCalendar.time = date.value!!
 
         val gregorianCalendar =
             GregorianCalendar(

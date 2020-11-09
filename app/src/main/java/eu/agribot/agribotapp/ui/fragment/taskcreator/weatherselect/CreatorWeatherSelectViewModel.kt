@@ -35,7 +35,7 @@ class CreatorWeatherSelectViewModel(
         )
 
     fun prepareWeatherAttributeListItem() {
-        getCurrentWeatherAttributes()
+        prepareWeatherStationData()
         val weatherParametrList =
             listOf(TemperatureItem(
                 presetValue = taskCreatorDataManager.taskDetails.temperature_value,
@@ -60,7 +60,7 @@ class CreatorWeatherSelectViewModel(
         }
     }
 
-    private fun getCurrentWeatherAttributes() {
+    private fun prepareWeatherStationData() {
         getFirstRobotHumidity()
         getFirstRobotTemperature()
         getFirstRobotWind()

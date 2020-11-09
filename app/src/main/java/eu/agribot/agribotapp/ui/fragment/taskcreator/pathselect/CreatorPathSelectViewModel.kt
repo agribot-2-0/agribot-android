@@ -11,6 +11,7 @@ import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.service.KmlLayerService
 import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
+import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePathProvider
 import eu.agribot.agribotapp.ui.fragment.taskcreator.PathNameFileSymbol
 import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler.CloudFileListItemViewModel
 import java.io.File
@@ -22,7 +23,8 @@ class CreatorPathSelectViewModel(
     private val cloudStorageService: CloudStorageService,
     private val taskCreatorDataManager: TaskCreatorDataManager,
     private val resourcesProvider: ResourcesProvider,
-    private val kmlLayerService: KmlLayerService
+    private val kmlLayerService: KmlLayerService,
+    private val filePathProvider: FilePathProvider
 ) : BaseViewModel() {
     private val fileListPathsList: MutableLiveData<List<CloudFileListItemViewModel>> =
         MutableLiveData(listOf())
@@ -123,7 +125,8 @@ class CreatorPathSelectViewModel(
                 try {
                     cloudStorageService.onFileSelected(
                         item.fileName,
-                        onGotFile = this::onGotPathFile
+                        onGotFile = this::onGotPathFile,
+                        onSelectedFileError = this::postToastErrorMessageEvent
                     )
                 } catch (exception: IOException) {
                     onCloudDataException(exception.toString())
@@ -149,5 +152,9 @@ class CreatorPathSelectViewModel(
 
     private fun onCloudDataException(exception: String) {
         toastEvent.postValue(exception)
+    }
+
+    fun getFilePath(filePath: String): String {
+        return filePathProvider.getRootDirPath(filePath)
     }
 }

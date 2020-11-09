@@ -16,6 +16,7 @@ import eu.agribot.agribotapp.domain.service.KmlLayerService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
+import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePathProvider
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TaskDetailsElements
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.TaskListItemViewModel
 import java.io.File
@@ -29,7 +30,8 @@ class TaskCreatorViewModel(
     private val cloudDatabaseService: CloudDatabaseService,
     private val cloudStorageService: CloudStorageService,
     private val taskCreatorDataManager: TaskCreatorDataManager,
-    private val kmlLayerService: KmlLayerService
+    private val kmlLayerService: KmlLayerService,
+    private val filePathProvider: FilePathProvider
 
 ) : BaseViewModel() {
     val selectedLayer: MutableLiveData<InputStream> = MutableLiveData()
@@ -78,7 +80,8 @@ class TaskCreatorViewModel(
             try {
                 cloudStorageService.onFileSelected(
                     fileName,
-                    onGotFile = this::onGotPathFile
+                    onGotFile = this::onGotPathFile,
+                    onSelectedFileError = this::postToastErrorMessageEvent
                 )
             } catch (exception: IOException) {
                 postToastErrorMessageEvent("Add PathLayer to map problem")
@@ -216,5 +219,9 @@ class TaskCreatorViewModel(
 
     private fun postToastInformationMessageEvent(informationMessage: String) {
         toastMessageEvent.postValue(informationMessage)
+    }
+
+    fun getFilePath(filePath: String): String {
+        return filePathProvider.getRootDirPath(filePath)
     }
 }

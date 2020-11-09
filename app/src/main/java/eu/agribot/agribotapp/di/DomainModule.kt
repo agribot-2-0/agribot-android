@@ -15,6 +15,7 @@ import eu.agribot.agribotapp.domain.service.TTControlService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
+import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePathProvider
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.ManualSteeringJoystickManager
 import eu.agribot.agribotapp.domain.service.joystick.ttcontroljoystick.TTControlHorizontalJoystickManager
 import eu.agribot.agribotapp.domain.service.joystick.ttcontroljoystick.TTControlVerticalJoystickManager
@@ -117,7 +118,8 @@ val domainModule = module {
         CloudStorageService(
             firestorageService = get(),
             authenticationService = get(),
-            cloudStorageErrorHandler = get()
+            cloudStorageErrorHandler = get(),
+            filePathProvider = get()
         )
     }
 
@@ -133,5 +135,13 @@ val domainModule = module {
 
     single {
         KmlLayerService()
+    }
+
+    single {
+        FilePathProvider(context = get {
+            parametersOf(
+                androidContext()
+            )
+        })
     }
 }

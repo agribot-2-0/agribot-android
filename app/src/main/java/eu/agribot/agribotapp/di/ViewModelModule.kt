@@ -140,7 +140,8 @@ val viewModelModule = module {
             cloudStorageService = get(),
             taskCreatorDataManager = get(),
             resourcesProvider = get { parametersOf(context) },
-            kmlLayerService = get()
+            kmlLayerService = get(),
+            filePathProvider = get()
 
         )
     }
@@ -150,7 +151,9 @@ val viewModelModule = module {
             cloudDatabaseService = get(),
             resourcesProvider = get { parametersOf(context) },
             cloudStorageService = get(),
-            kmlLayerService = get()
+            kmlLayerService = get(),
+            filePathProvider = get()
+
         )
     }
 
@@ -194,7 +197,8 @@ val viewModelModule = module {
             cloudDatabaseService = get(),
             taskCreatorDataManager = get(),
             cloudStorageService = get(),
-            kmlLayerService = get()
+            kmlLayerService = get(),
+            filePathProvider = get()
         )
     }
 

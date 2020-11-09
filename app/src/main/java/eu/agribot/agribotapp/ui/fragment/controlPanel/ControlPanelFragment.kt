@@ -72,7 +72,7 @@ class ControlPanelFragment :
             TileProvider(
                 MapParameters.MAP_SIZE.mapParametr.toInt(),
                 MapParameters.MAP_SIZE.mapParametr.toInt(),
-                viewModel.getRootDirPath(requireContext(), URLPath.MAP_PATH.path)
+                viewModel.getPath(URLPath.MAP_PATH.path)
             )
         try {
             googleMapFragment!!.addTileOverlay(

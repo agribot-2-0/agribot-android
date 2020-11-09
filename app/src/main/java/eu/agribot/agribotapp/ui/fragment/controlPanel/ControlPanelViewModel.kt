@@ -1,9 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.controlPanel
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.os.Environment
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -19,8 +16,8 @@ import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
 import eu.agribot.agribotapp.domain.service.KmlLayerService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
+import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePathProvider
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TaskDetailsElements
-import eu.agribot.agribotapp.ui.fragment.taskcreator.URLPath
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
@@ -31,7 +28,8 @@ class ControlPanelViewModel(
     private val cloudDatabaseService: CloudDatabaseService,
     private val resourcesProvider: ResourcesProvider,
     private val cloudStorageService: CloudStorageService,
-    private val kmlLayerService: KmlLayerService
+    private val kmlLayerService: KmlLayerService,
+    private val filePathProvider: FilePathProvider
 ) : BaseViewModel() {
     val currentTask: MutableLiveData<String> = MutableLiveData()
     val pathName: MutableLiveData<String> = MutableLiveData()
@@ -44,6 +42,10 @@ class ControlPanelViewModel(
     val toastMessageEvent: LiveEvent<String> = MutableLiveEvent()
     val markers: MutableLiveData<MarkerOptions> = MutableLiveData()
     val cameraPosition: MutableLiveData<LatLng> = MutableLiveData()
+
+    fun getPath(path: String): String {
+        return filePathProvider.getRootDirPath(path)
+    }
 
     fun getCoordinatesFromKml(containers: Iterable<KmlContainer?>) {
         kmlLayerService.getCoordinates(
@@ -73,7 +75,8 @@ class ControlPanelViewModel(
             try {
                 cloudStorageService.onFileSelected(
                     fileName,
-                    onGotFile = this::onFileAlreadyDownloaded
+                    onGotFile = this::onFileAlreadyDownloaded,
+                    onSelectedFileError = this::postToastErrorMessageEvent
                 )
             } catch (exception: IOException) {
                 postToastErrorMessageEvent(resourcesProvider.getString(R.string.kml_layer_problem))
@@ -172,18 +175,6 @@ class ControlPanelViewModel(
             TaskDetailsElements.MORE_TEXT.detailsElement -> TaskDetailsElements.MORE_SYMBOL.detailsElement
             TaskDetailsElements.EQUAL_TEXT.detailsElement -> TaskDetailsElements.EQUAL_SYMBOL.detailsElement
             else -> TaskDetailsElements.SEPARATOR.detailsElement
-        }
-    }
-
-    fun getRootDirPath(context: Context, pathDirection: String): String {
-        return if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()) {
-            val file: File = ContextCompat.getExternalFilesDirs(
-                context.applicationContext,
-                null
-            )[0]
-            URLPath.FILE.path + file.absolutePath + pathDirection
-        } else {
-            context.applicationContext.filesDir.absolutePath
         }
     }
 

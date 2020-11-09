@@ -173,7 +173,7 @@ class CloudDatabaseService(
             })
     }
 
-    fun deleteSelectedTask(
+    fun deleteTaskItem(
         taskName: String,
         onDeleteSucess: () -> Unit,
         onDeleteError: (error: String) -> Unit
@@ -196,7 +196,7 @@ class CloudDatabaseService(
             })
     }
 
-    fun programTaskToRobot(taskName: String, newRobotTaskDetails: NewRobotTaskDetails) {
+    fun addTask(taskName: String, newRobotTaskDetails: NewRobotTaskDetails) {
         cloudDatabase.createNewTask(
             taskName,
             newRobotTaskDetails.toCommunicationModel(),

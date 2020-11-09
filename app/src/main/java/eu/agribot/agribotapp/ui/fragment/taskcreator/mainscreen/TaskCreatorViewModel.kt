@@ -109,7 +109,7 @@ class TaskCreatorViewModel(
     }
 
     fun onDeleteButtonClicked(positionOnList: Int) {
-        cloudDatabaseService.deleteSelectedTask(
+        cloudDatabaseService.deleteTaskItem(
             taskList.value?.get(positionOnList)!!.taskName,
             onDeleteError = this::postToastErrorMessageEvent,
             onDeleteSucess = this::onDeleteSucess

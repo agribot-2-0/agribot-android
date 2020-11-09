@@ -28,7 +28,7 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.TaskLis
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.swiperecyclerutils.SwipeHelper
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.swiperecyclerutils.SwipeRecyclerClickListener
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.swiperecyclerutils.SwipeRecyclerHelper
-import kotlinx.android.synthetic.main.fragment_creator_configurator.*
+import kotlinx.android.synthetic.main.fragment_creator_configurator.task_recycler
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -161,19 +161,24 @@ class TaskCreatorFragment :
     }
 
     private fun setSelectedLayer(mapStream: InputStream) {
-        mapPathLayer = KmlLayer(googleMapFragment, mapStream, requireContext())
-        mapPathLayer!!.containers
-        mapPathLayer!!.addLayerToMap()
         try {
-            val container: Iterable<KmlContainer> = mapPathLayer!!.containers
-            viewModel.getCoordinatesFromKml(container)
-        } catch (exception: IOException) {
-            showToast(getString(R.string.kml_layer_problem))
+            mapPathLayer = KmlLayer(googleMapFragment!!, mapStream, requireContext())
+            mapPathLayer!!.containers
+            mapPathLayer!!.addLayerToMap()
+            try {
+                val container: Iterable<KmlContainer> = mapPathLayer!!.containers
+                viewModel.getCoordinatesFromKml(container)
+            } catch (exception: IOException) {
+                showToast(getString(R.string.kml_layer_problem))
+            }
+        } catch (exception: Exception) {
+            exception.stackTrace
         }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         googleMapFragment = googleMap
+        googleMapFragment!!.clear()
         googleMapFragment!!.mapType = GoogleMap.MAP_TYPE_NORMAL
         googleMapFragment!!.setMinZoomPreference(MapParameters.MIN_ZOOM.mapParametr)
         googleMapFragment!!.setMaxZoomPreference(MapParameters.MAX_ZOOM.mapParametr)

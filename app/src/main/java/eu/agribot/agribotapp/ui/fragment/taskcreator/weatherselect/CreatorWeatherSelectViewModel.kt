@@ -121,7 +121,7 @@ class CreatorWeatherSelectViewModel(
     fun onWeatherAttributeChanged(weatherAttribute: WeatherAttribute) {
         when (weatherAttribute.attributeID) {
             WeatherItemNumber.HUMIDITY_ITEM.itemNumber -> {
-                taskCreatorDataManager.onUpdatehumidityValue(weatherAttribute.weatherValue.toString())
+                taskCreatorDataManager.onUpdatehumidityValue(weatherAttribute.weatherValue)
                 taskCreatorDataManager.onUpdatehumidityCondition(
                     changeConditionSymbolToText(
                         weatherAttribute.weatherCondition
@@ -129,7 +129,7 @@ class CreatorWeatherSelectViewModel(
                 )
             }
             WeatherItemNumber.WIND_ITEM.itemNumber -> {
-                taskCreatorDataManager.onUpdatewindValue(weatherAttribute.weatherValue.toString())
+                taskCreatorDataManager.onUpdatewindValue(weatherAttribute.weatherValue)
                 taskCreatorDataManager.onUpdatewindCondition(
                     changeConditionSymbolToText(
                         weatherAttribute.weatherCondition
@@ -137,7 +137,7 @@ class CreatorWeatherSelectViewModel(
                 )
             }
             WeatherItemNumber.PRESSURE_ITEM.itemNumber -> {
-                taskCreatorDataManager.onUpdatepressureValue(weatherAttribute.weatherValue.toString())
+                taskCreatorDataManager.onUpdatepressureValue(weatherAttribute.weatherValue)
                 taskCreatorDataManager.onUpdatepressureCondition(
                     changeConditionSymbolToText(
                         weatherAttribute.weatherCondition
@@ -145,7 +145,7 @@ class CreatorWeatherSelectViewModel(
                 )
             }
             WeatherItemNumber.TEMPERATURE_ITEM.itemNumber -> {
-                taskCreatorDataManager.onUpdateTemperatureValue(weatherAttribute.weatherValue.toString())
+                taskCreatorDataManager.onUpdateTemperatureValue(weatherAttribute.weatherValue)
                 taskCreatorDataManager.onUpdateTemperatureCondition(
                     changeConditionSymbolToText(
                         weatherAttribute.weatherCondition

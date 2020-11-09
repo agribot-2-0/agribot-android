@@ -9,6 +9,6 @@ data class WeatherSettingsListItemViewModel(
     val maximumPickerValue: Int,
     var currentValue: String,
     val isSwitchActive: Boolean,
-    val settedValue: Int,
+    val settedValue: String,
     val settedCondition: String
 ) : BaseViewModel()

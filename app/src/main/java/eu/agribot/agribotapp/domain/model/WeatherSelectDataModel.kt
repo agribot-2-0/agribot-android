@@ -3,7 +3,7 @@ package eu.agribot.agribotapp.domain.model
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.data.PickerSymbols
 
 data class WeatherSelectDataModel(
-    val id: Int = -1,
+    val id: Int,
 
     val conditionArray: Array<String> = arrayOf(
         PickerSymbols.PICKER_CONDITION_LESS.symbol,
@@ -11,15 +11,15 @@ data class WeatherSelectDataModel(
         PickerSymbols.PICKER_CONDITION_EQUAL.symbol
     ),
 
-    val minimumPickerValue: Int = 0,
+    val minimumPickerValue: Int,
 
-    val maximumPickerValue: Int = 0,
+    val maximumPickerValue: Int,
 
     val currentValue: String = PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
 
     val isSwitchActive: Boolean = false,
 
-    val settedValue: Int = 0,
+    val settedValue: String = PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
 
     val settedCondition: String = PickerSymbols.PICKER_DEFAULT_VALUE.symbol
 )

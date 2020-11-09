@@ -14,13 +14,14 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.data.WeatherI
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.weatherattributes.WeatherAttribute
 import kotlinx.android.synthetic.main.list_item_weather_settings.view.activation_switch
 import kotlinx.android.synthetic.main.list_item_weather_settings.view.condition
+import kotlinx.android.synthetic.main.list_item_weather_settings.view.currentValue
 import kotlinx.android.synthetic.main.list_item_weather_settings.view.value
 import kotlinx.android.synthetic.main.list_item_weather_settings.view.weather_icon
 
 class WeatherSettingsListItemAdapter(
     val onWeatherAttributeChanged: (weatherAttribute: WeatherAttribute) -> Unit
 ) : RecyclerView.Adapter<WeatherSettingsListItemViewHolder>() {
-    val errorValue = -1
+
     var items = listOf<WeatherSettingsListItemViewModel>()
         set(value) {
             DiffUtil.calculateDiff(
@@ -70,7 +71,7 @@ class WeatherSettingsListItemAdapter(
                 R.drawable.ic_thermometer
             }
 
-            else -> errorValue
+            else -> -1
         }
 
         holder.itemView.weather_icon.setImageResource(imageSrc)
@@ -91,6 +92,7 @@ class WeatherSettingsListItemAdapter(
                 PickersMinMaxValues.MORE_POSITION.value
             }
         }
+        holder.itemView.currentValue.text = item.currentValue
         holder.itemView.condition.minValue = PickersMinMaxValues.LESS_POSITION.value
         holder.itemView.condition.maxValue = PickersMinMaxValues.EQUAL_POSITION.value
         holder.itemView.condition.displayedValues = item.conditionArray
@@ -98,8 +100,8 @@ class WeatherSettingsListItemAdapter(
         var isSwitchActive = item.isSwitchActive
         holder.itemView.activation_switch.isChecked = isSwitchActive
 
-        var itemValue = if (item.settedValue != errorValue) {
-            item.settedValue
+        var itemValue = if (item.settedValue != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
+            item.settedValue.toInt()
         } else {
             (item.minimumPickerValue + (item.maximumPickerValue - item.minimumPickerValue) / 2)
         }

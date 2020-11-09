@@ -99,6 +99,7 @@ class CreatorWeatherSelectViewModel(
                 PickerSymbols.PICKER_CONDITION_BIGGER.symbol
             }
         )
+
         val listItem =
             listOf(temperatureitem, pressureItem, windItem, humidityitem)
         for (x in 0..3) {

@@ -96,7 +96,7 @@ class WeatherSettingsListItemAdapter(
         holder.itemView.activation_switch.isChecked = isSwitchActive
 
         var itemValue = if (item.settedValue != errorValue) {
-            holder.itemView.value.value
+            item.settedValue
         } else {
             (item.minimumPickerValue + (item.maximumPickerValue - item.minimumPickerValue) / 2)
         }

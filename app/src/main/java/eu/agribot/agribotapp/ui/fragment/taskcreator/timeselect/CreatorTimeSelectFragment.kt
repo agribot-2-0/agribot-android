@@ -17,7 +17,7 @@ import java.util.Calendar
 import java.util.Date
 import java.util.TimeZone
 
-class FragmentCreatorTimeSelect :
+class CreatorTimeSelectFragment :
     BaseFragment<CreatorTimeSelectViewModel, FragmentCreatorTimeSelectBinding>() {
 
     override val layoutResourceId: Int = R.layout.fragment_creator_time_select

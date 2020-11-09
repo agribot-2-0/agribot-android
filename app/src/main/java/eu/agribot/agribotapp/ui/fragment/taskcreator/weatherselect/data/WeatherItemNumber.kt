@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect
+package eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.data
 
 enum class WeatherItemNumber(val itemNumber: Int) {
     WIND_ITEM(0),

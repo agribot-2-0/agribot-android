@@ -1,7 +1,7 @@
 package eu.agribot.agribotapp.domain.model.cdb
 
 import com.google.firebase.Timestamp
-import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.PickerSymbols
+import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.data.PickerSymbols
 
 data class TaskDetails(
 

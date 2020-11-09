@@ -27,7 +27,7 @@ import org.koin.core.parameter.parametersOf
 import java.io.IOException
 import java.io.InputStream
 
-class FragmentCreatorPathSelectFragment :
+class CreatorPathSelectFragment :
     BaseFragment<CreatorPathSelectViewModel, FragmentCreatorPathSelectBinding>(),
     OnMapReadyCallback {
 

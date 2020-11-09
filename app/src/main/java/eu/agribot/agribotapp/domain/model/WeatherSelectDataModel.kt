@@ -1,6 +1,6 @@
 package eu.agribot.agribotapp.domain.model
 
-import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.PickerSymbols
+import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.data.PickerSymbols
 
 data class WeatherSelectDataModel(
     val id: Int = -1,

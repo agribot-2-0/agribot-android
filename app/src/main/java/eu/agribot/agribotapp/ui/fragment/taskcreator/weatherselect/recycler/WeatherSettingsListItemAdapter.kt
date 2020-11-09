@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.databinding.ListItemWeatherSettingsBinding
-import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.PickerSymbols
-import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.PickersMinMaxValues
-import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.WeatherItemNumber
+import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.data.PickerSymbols
+import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.data.PickersMinMaxValues
+import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.data.WeatherItemNumber
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.weatherattributes.WeatherAttribute
 import kotlinx.android.synthetic.main.list_item_weather_settings.view.*
 

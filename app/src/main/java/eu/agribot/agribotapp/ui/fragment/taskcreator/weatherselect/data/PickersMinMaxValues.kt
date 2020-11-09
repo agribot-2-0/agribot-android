@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect
+package eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.data
 
 enum class PickersMinMaxValues(val value: Int) {
     MIN_TEMP_VALUE(0),

@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect
+package eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.data
 
 enum class PickerSymbols(val symbol: String) {
     PICKER_DEFAULT_VALUE("*"),

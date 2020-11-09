@@ -12,6 +12,10 @@ import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationTemperature
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationWind
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
+import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.data.PickerSymbols
+import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.data.PickersMinMaxValues
+import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.data.WeatherItemNumber
+import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.data.WeatherUnit
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.WeatherSettingsListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.weatherattributes.WeatherAttribute
 

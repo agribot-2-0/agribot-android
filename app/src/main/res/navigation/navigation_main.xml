@@ -138,7 +138,7 @@
 
     <fragment
         android:id="@+id/taskCreatorTaskPathFragment"
-        android:name="eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.FragmentCreatorPathSelectFragment"
+        android:name="eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.CreatorPathSelectFragment"
         android:label="@string/choose_path_for_the_agribot"
         tools:layout="@layout/fragment_creator_path_select">
 
@@ -154,7 +154,7 @@
 
     <fragment
         android:id="@+id/taskCreatorTaskTimeFragment"
-        android:name="eu.agribot.agribotapp.ui.fragment.taskcreator.timeselect.FragmentCreatorTimeSelect"
+        android:name="eu.agribot.agribotapp.ui.fragment.taskcreator.timeselect.CreatorTimeSelectFragment"
         android:label="@string/choose_time"
         tools:layout="@layout/fragment_creator_time_select">
 
@@ -170,7 +170,7 @@
 
     <fragment
         android:id="@+id/taskCreatorTaskWeatherFragment"
-        android:name="eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.FragmentCreatorWeatherSelect"
+        android:name="eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.CreatorWeatherSelectFragment"
         android:label="@string/select_weather_parameters"
         tools:layout="@layout/fragment_creator_weather">
 
@@ -186,7 +186,7 @@
 
     <fragment
         android:id="@+id/taskCreatorTaskToolFragment"
-        android:name="eu.agribot.agribotapp.ui.fragment.taskcreator.toolselect.FragmentCreatorToolSelect"
+        android:name="eu.agribot.agribotapp.ui.fragment.taskcreator.toolselect.CreatorToolSelectFragment"
         android:label="@string/select_tool"
         tools:layout="@layout/fragment_creator_tool_select">
 

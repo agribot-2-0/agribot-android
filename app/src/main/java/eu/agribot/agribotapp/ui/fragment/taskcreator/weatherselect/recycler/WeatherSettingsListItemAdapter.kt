@@ -76,7 +76,7 @@ class WeatherSettingsListItemAdapter(
 
         holder.itemView.weather_icon.setImageResource(imageSrc)
 
-        var condition = when (item.settedCondition) {
+        var condition = when (item.presetCondition) {
             PickerSymbols.CLOUD_DATA_CONDITION_LESS.symbol -> {
                 PickersMinMaxValues.LESS_POSITION.value
             }

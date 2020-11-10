@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
@@ -41,19 +42,19 @@ class CreatorWeatherSelectViewModel(
                 TemperatureItem(
                     presetValue = taskCreatorDataManager.taskDetails.temperature_value,
                     isSwitchActive = (taskCreatorDataManager.taskDetails.temperature_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
-                    settedCondition = taskCreatorDataManager.taskDetails.temperature_condition
+                    presetCondition = taskCreatorDataManager.taskDetails.temperature_condition
                 ).toWeatherDataModel(), PressureItem(
                     presetValue = taskCreatorDataManager.taskDetails.pressure_value,
                     isSwitchActive = (taskCreatorDataManager.taskDetails.pressure_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
-                    settedCondition = taskCreatorDataManager.taskDetails.pressure_condition
+                    presetCondition = taskCreatorDataManager.taskDetails.pressure_condition
                 ).toWeatherDataModel(), WindItem(
                     presetValue = taskCreatorDataManager.taskDetails.wind_value,
                     isSwitchActive = (taskCreatorDataManager.taskDetails.wind_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
-                    settedCondition = taskCreatorDataManager.taskDetails.wind_condition
+                    presetCondition = taskCreatorDataManager.taskDetails.wind_condition
                 ).toWeatherDataModel(), HumidityItem(
                     presetValue = taskCreatorDataManager.taskDetails.humidity_value,
                     isSwitchActive = (taskCreatorDataManager.taskDetails.humidity_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
-                    settedCondition = taskCreatorDataManager.taskDetails.humidity_condition
+                    presetCondition = taskCreatorDataManager.taskDetails.humidity_condition
                 ).toWeatherDataModel()
             )
 
@@ -75,51 +76,53 @@ class CreatorWeatherSelectViewModel(
                 if (!weatherAttribute.isWeatherItemActive) {
                     taskCreatorDataManager.onUpdatehumidityValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
                     taskCreatorDataManager.onUpdatehumidityCondition(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
-                }
-                taskCreatorDataManager.onUpdatehumidityValue(weatherAttribute.weatherValue)
-                taskCreatorDataManager.onUpdatehumidityCondition(
-                    changeConditionSymbolToText(
-                        weatherAttribute.weatherCondition
+                } else {
+                    taskCreatorDataManager.onUpdatehumidityValue(weatherAttribute.weatherValue)
+                    taskCreatorDataManager.onUpdatehumidityCondition(
+                        changeConditionSymbolToText(
+                            weatherAttribute.weatherCondition
+                        )
                     )
-                )
+                }
             }
             WeatherItemNumber.WIND_ITEM.itemNumber -> {
                 if (!weatherAttribute.isWeatherItemActive) {
                     taskCreatorDataManager.onUpdatewindCondition(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
                     taskCreatorDataManager.onUpdatehumidityCondition(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
-                }
-                taskCreatorDataManager.onUpdatewindValue(weatherAttribute.weatherValue)
-                taskCreatorDataManager.onUpdatewindCondition(
-                    changeConditionSymbolToText(
-                        weatherAttribute.weatherCondition
+                } else {
+                    taskCreatorDataManager.onUpdatewindValue(weatherAttribute.weatherValue)
+                    taskCreatorDataManager.onUpdatewindCondition(
+                        changeConditionSymbolToText(
+                            weatherAttribute.weatherCondition
+                        )
                     )
-                )
+                }
             }
             WeatherItemNumber.PRESSURE_ITEM.itemNumber -> {
                 if (!weatherAttribute.isWeatherItemActive) {
                     taskCreatorDataManager.onUpdatepressureValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
                     taskCreatorDataManager.onUpdatepressureCondition(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
-
-                }
-                taskCreatorDataManager.onUpdatepressureValue(weatherAttribute.weatherValue)
-                taskCreatorDataManager.onUpdatepressureCondition(
-                    changeConditionSymbolToText(
-                        weatherAttribute.weatherCondition
+                } else {
+                    taskCreatorDataManager.onUpdatepressureValue(weatherAttribute.weatherValue)
+                    taskCreatorDataManager.onUpdatepressureCondition(
+                        changeConditionSymbolToText(
+                            weatherAttribute.weatherCondition
+                        )
                     )
-                )
+                }
             }
             WeatherItemNumber.TEMPERATURE_ITEM.itemNumber -> {
                 if (!weatherAttribute.isWeatherItemActive) {
                     taskCreatorDataManager.onUpdateTemperatureValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
                     taskCreatorDataManager.onUpdateTemperatureCondition(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
-
-                }
-                taskCreatorDataManager.onUpdateTemperatureValue(weatherAttribute.weatherValue)
-                taskCreatorDataManager.onUpdateTemperatureCondition(
-                    changeConditionSymbolToText(
-                        weatherAttribute.weatherCondition
+                } else {
+                    taskCreatorDataManager.onUpdateTemperatureValue(weatherAttribute.weatherValue)
+                    taskCreatorDataManager.onUpdateTemperatureCondition(
+                        changeConditionSymbolToText(
+                            weatherAttribute.weatherCondition
+                        )
                     )
-                )
+                }
             }
         }
     }
@@ -195,6 +198,8 @@ class CreatorWeatherSelectViewModel(
     private fun addToWeatherAttributeList(
         weatherSelectDataModel: WeatherSelectDataModel
     ) {
+
+        Log.e("xd", "add to weather attribute: " + weatherSelectDataModel)
         val isAttributeAlreadyAdded = weatherAttributeList.value!!.any { arrtibute ->
             arrtibute.id == weatherSelectDataModel.id
         }
@@ -208,8 +213,8 @@ class CreatorWeatherSelectViewModel(
                     weatherSelectDataModel.maximumPickerValue,
                     weatherSelectDataModel.currentValue,
                     weatherSelectDataModel.isSwitchActive,
-                    weatherSelectDataModel.settedValue,
-                    weatherSelectDataModel.settedCondition
+                    weatherSelectDataModel.presetValue,
+                    weatherSelectDataModel.presetCondition
                 ),
                 *weatherAttributeList.value!!.toTypedArray()
             )
@@ -224,7 +229,7 @@ class CreatorWeatherSelectViewModel(
                         weatherSelectDataModel.currentValue,
                         weatherSelectDataModel.isSwitchActive,
                         oldAttribute.settedValue,
-                        oldAttribute.settedCondition
+                        oldAttribute.presetCondition
                     )
                 } else {
                     oldAttribute

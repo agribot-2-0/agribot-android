@@ -19,7 +19,7 @@ data class WeatherSelectDataModel(
 
     val isSwitchActive: Boolean = false,
 
-    val settedValue: String = PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
+    val presetValue: String = PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
 
-    val settedCondition: String = PickerSymbols.PICKER_DEFAULT_VALUE.symbol
+    val presetCondition: String = PickerSymbols.PICKER_DEFAULT_VALUE.symbol
 )

@@ -10,5 +10,5 @@ data class WeatherSettingsListItemViewModel(
     var currentValue: String,
     val isSwitchActive: Boolean,
     val settedValue: String,
-    val settedCondition: String
+    val presetCondition: String
 ) : BaseViewModel()

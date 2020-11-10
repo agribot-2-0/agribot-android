@@ -29,15 +29,17 @@ class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreator
     val isTimePreset: MutableLiveData<Boolean> = MutableLiveData()
     private val miliToSecondDivide = 1000
 
-    fun getPreSetDate() {
-        if (!taskCreatorDataManager.getTaskParemeters().start_time_estimated) {
+    fun getPreSetDate(): Date {
+        return if (!taskCreatorDataManager.getTaskParemeters().start_time_estimated) {
             val date: Date = taskCreatorDataManager.getTaskParemeters().start_time!!.toDate()
             this.date.value = date
             isTimePreset.value = true
+            date
         } else {
             isTimePreset.value = false
             val calendar = Calendar.getInstance()
             this.date.value = calendar.time
+            calendar.time
         }
     }
 

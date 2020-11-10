@@ -24,6 +24,7 @@ import java.io.FileInputStream
 import java.io.IOException
 import java.io.InputStream
 import java.text.SimpleDateFormat
+import java.util.TimeZone
 
 class TaskCreatorViewModel(
     private val resourcesProvider: ResourcesProvider,
@@ -35,6 +36,7 @@ class TaskCreatorViewModel(
 
 ) : BaseViewModel() {
     val selectedLayer: MutableLiveData<InputStream> = MutableLiveData()
+    val taskDetails: MutableLiveData<TaskDetails> = MutableLiveData()
     val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val taskDate: MutableLiveData<String> = MutableLiveData()
     val taskList: MutableLiveData<List<TaskListItemViewModel>> = MutableLiveData(listOf())
@@ -155,6 +157,7 @@ class TaskCreatorViewModel(
         taskCreatorDataManager.updateAllTaskParametrs(taskDetails)
         if (!taskDetails.start_time_estimated) {
             val dateFormat = SimpleDateFormat(TaskDetailsElements.DATE_FORMAT.detailsElement)
+            dateFormat.timeZone = TimeZone.getTimeZone(TaskDetailsElements.TIMEZONE.detailsElement)
             taskDate.value =
                 resourcesProvider.getString(R.string.start_time) + dateFormat.format(taskDetails.start_time!!.toDate())
         } else {

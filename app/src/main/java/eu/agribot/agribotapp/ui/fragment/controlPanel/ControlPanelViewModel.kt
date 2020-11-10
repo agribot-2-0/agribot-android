@@ -23,6 +23,7 @@ import java.io.FileInputStream
 import java.io.IOException
 import java.io.InputStream
 import java.text.SimpleDateFormat
+import java.util.TimeZone
 
 class ControlPanelViewModel(
     private val cloudDatabaseService: CloudDatabaseService,
@@ -127,6 +128,7 @@ class ControlPanelViewModel(
     private fun onGotCurrentTaskDetails(taskDetails: TaskDetails) {
         if (!taskDetails.start_time_estimated) {
             val dateFormat = SimpleDateFormat(TaskDetailsElements.DATE_FORMAT.detailsElement)
+            dateFormat.timeZone = TimeZone.getTimeZone(TaskDetailsElements.TIMEZONE.detailsElement)
             taskDate.value =
                 resourcesProvider.getString(R.string.start_time) + dateFormat.format(taskDetails.start_time!!.toDate())
         } else {

@@ -3,221 +3,196 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_gravity="center_vertical">
+    android:layout_gravity="center">
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:layout_margin="@dimen/margin_medium">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <Switch
-            android:id="@+id/ptoSwitch"
-            style="@style/AgribotSwitch"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:id="@+id/ptoText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:text="@string/pto"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
-
-        <androidx.appcompat.widget.AppCompatSeekBar
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="4"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:id="@+id/ptoSlider"
-            android:background="@android:color/white"
-            android:max="100"
-            android:progressDrawable="@drawable/slider_progress"
-            android:splitTrack="false"
-            android:theme="@style/Widget.AppCompat.SeekBar.Discrete"
-            android:thumb="@drawable/slider_thumb"
-            app:tickMark="@null" />
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PTO"
+                android:textSize="@dimen/text_size_medium" />
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:progressBackgroundTint="@color/base_green"
+                android:layout_margin="@dimen/margin_medium" />
+        </LinearLayout>
+
 
         <TextView
-            android:id="@+id/ptoValueText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_medium"
             android:layout_weight="1"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:background="@drawable/shape_gears_background_transparent"
-            android:gravity="center"
-            android:text="@string/no_rpm"
-            android:textSize="@dimen/text_size_large"
             android:textStyle="bold" />
 
-     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:layout_margin="@dimen/margin_medium">
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/margin_medium"
+            android:background="@color/gray" />
 
         <Switch
-            android:id="@+id/greenSwitch"
-            style="@style/AgribotSwitch"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_medium"
             android:layout_weight="1" />
 
-        <TextView
-            android:id="@+id/greenText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:text="@string/green"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
-
-        <androidx.appcompat.widget.AppCompatSeekBar
-            android:id="@+id/greenSlider"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:layout_marginLeft="@dimen/margin_medium"
-            android:layout_marginRight="@dimen/margin_medium"
-            android:background="@android:color/white"
-            android:max="100"
-            android:progressDrawable="@drawable/slider_progress"
-            android:splitTrack="false"
-            android:theme="@style/Widget.AppCompat.SeekBar.Discrete"
-            android:thumb="@drawable/slider_thumb"
-            app:tickMark="@null" />
-
-        <TextView
-            android:id="@+id/greenValueText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:background="@drawable/shape_gears_background_transparent"
-            android:gravity="center"
-            android:text="@string/no_rpm"
-            android:textSize="@dimen/text_size_large"
-            android:textStyle="bold" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:layout_margin="@dimen/margin_medium">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <Switch
-            android:id="@+id/YellowSwitch"
-            style="@style/AgribotSwitch"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/YellowText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:text="@string/yellow"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
-
-        <androidx.appcompat.widget.AppCompatSeekBar
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="4"
-            android:layout_marginLeft="@dimen/margin_medium"
-            android:layout_marginRight="@dimen/margin_medium"
-            android:id="@+id/YellowSlider"
-            android:background="@android:color/white"
-            android:max="100"
-            android:progressDrawable="@drawable/slider_progress"
-            android:splitTrack="false"
-            android:theme="@style/Widget.AppCompat.SeekBar.Discrete"
-            android:thumb="@drawable/slider_thumb"
-            app:tickMark="@null" />
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BLUE"
+                android:textSize="@dimen/text_size_medium" />
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:progressBackgroundTint="@color/base_green"
+                android:layout_margin="@dimen/margin_medium" />
+        </LinearLayout>
+
 
         <TextView
-            android:id="@+id/YellowValueText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_medium"
             android:layout_weight="1"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:background="@drawable/shape_gears_background_transparent"
-            android:gravity="center"
-            android:text="@string/no_rpm"
-            android:textSize="@dimen/text_size_large"
             android:textStyle="bold" />
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/margin_medium"
+            android:background="@color/gray" />
+
+        <Switch
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_medium"
+            android:layout_weight="1" />
+
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:layout_margin="@dimen/margin_medium">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <Switch
-            android:id="@+id/BlueSwitch"
-            style="@style/AgribotSwitch"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/BlueText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:text="@string/blue"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
-
-        <androidx.appcompat.widget.AppCompatSeekBar
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="4"
-            android:layout_marginLeft="@dimen/margin_medium"
-            android:layout_marginRight="@dimen/margin_medium"
-            android:id="@+id/BlueSlider"
-            android:background="@android:color/white"
-            android:max="100"
-            android:progressDrawable="@drawable/slider_progress"
-            android:splitTrack="false"
-            android:theme="@style/Widget.AppCompat.SeekBar.Discrete"
-            android:thumb="@drawable/slider_thumb"
-            app:tickMark="@null" />
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="YELLOW"
+                android:textSize="@dimen/text_size_medium" />
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:progressBackgroundTint="@color/base_green"
+                android:layout_margin="@dimen/margin_medium" />
+        </LinearLayout>
+
 
         <TextView
-            android:id="@+id/BlueValueText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_medium"
             android:layout_weight="1"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:background="@drawable/shape_gears_background_transparent"
-            android:gravity="center"
-            android:text="@string/no_rpm"
-            android:textSize="@dimen/text_size_large"
             android:textStyle="bold" />
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/margin_medium"
+            android:background="@color/gray" />
+
+        <Switch
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_medium"
+            android:layout_weight="1" />
+
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GREEN"
+                android:textSize="@dimen/text_size_medium" />
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:progressBackgroundTint="@color/base_green"
+                android:layout_margin="@dimen/margin_medium" />
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_medium"
+            android:layout_weight="1"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/margin_medium"
+            android:background="@color/gray" />
+
+        <Switch
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_medium"
+            android:layout_weight="1" />
+
+
+    </LinearLayout>
 </LinearLayout>
 
 

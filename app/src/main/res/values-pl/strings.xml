@@ -11,12 +11,12 @@
     <string name="navigation_drawer_close">Zamknij</string>
 
     <!-- Fragment titles -->
-    <string name="title_group_control">Control</string>
+    <string name="title_group_control">Sterowanie</string>
     <string name="title_manual_control">Tryb Manualny</string>
     <string name="title_tool_control">Kontrola Narzędzi</string>
-    <string name="title_autonomous_mode">Tryb Autonomiczny</string>
-    <string name="title_tool_management">Zarządzanie Narzędziami</string>
-    <string name="title_path_management">Zarządzanie ścieżkami</string>
+    <string name="title_dashboard">Panel Sterowania</string>
+    <string name="title_tool_management">Narzędzia</string>
+    <string name="title_path_management">Ścieżki</string>
     <string name="title_group_other">Inne</string>
     <string name="title_weather">Pogoda</string>
     <string name="title_settings">Ustawienia</string>
@@ -28,6 +28,14 @@
     <string name="dialog_bluetooth_title">Application want to turn on Bluetooth</string>
     <string name="dialog_bluetooth_message">Do you agree to enable Bluetooth</string>
     <string name="dialog_bluetooth_positive_message">Enable!</string>
+
+    <string name="dialog_task_select_tittle">Wybór zadania</string>
+    <string name="dialog_task_select_message">Czy chcesz rozpocząć to zadanie?</string>
+    <string name="dialog_task_select_confirm">Rozpocznij!</string>
+
+    <string name="dialog_task_delete_tittle">Usunięcie zadania</string>
+    <string name="dialog_task_delete_message">Czy chcesz usunąć to zadanie?</string>
+    <string name="dialog_task_delete_confirm">Usuń!</string>
 
     <!-- Tool Control -->
     <string name="pto">PTO</string>
@@ -64,7 +72,7 @@
     <string name="tractor">Tractor</string>
 
     <!-- Path Select View -->
-    <string name="paths">Ścieżki :</string>
+    <string name="paths">Ścieżki</string>
     <string name="delete_path_button">Usuń ścieżkę</string>
 
     <!-- Welcome Activity -->
@@ -141,6 +149,55 @@
     <string name="tuz_down_up">Wózki góra/dół</string>
     <string name="front_hitch">Przednie zaczepy</string>
     <string name="back_hitch">Tylne zaczepy</string>
-
+    <string name="title_task_creator">Zadania</string>
+    <string name="delete_task_button">Usuń</string>
+    <string name="edit_task_button">Edytuj</string>
+    <string name="path_name">Nazwa ścieżki</string>
+    <string name="delete_sucess_text">Task deleted sucessfully</string>
+    <string name="start_time">Czas Startu: "</string>
+    <string name="no_path_text">Brak wybranej ścieżki</string>
+    <string name="no_temperature_text">Brak wybranej temperatury</string>
+    <string name="no_humidity_text">Brak wybranej wilgotności</string>
+    <string name="no_pressure_text">Brak wybranego ciśnienia</string>
+    <string name="no_wind_text">Brak wybranego wiatru</string>
+    <string name="no_start_date">Brak daty startu</string>
+    <string name="map_tile_problem">Problem z dodaniem nakładki na mape</string>
+    <string name="marker_problem">Problem z dodaniem markera na mape</string>
+    <string name="no_data_available">Brak Danych</string>
+    <string name="start_date">Data startu</string>
+    <string name="wind">Wiatr</string>
+    <string name="temperature">Temperatura</string>
+    <string name="pressure">Ciśnienie</string>
+    <string name="humidity">Wilgotność</string>
+    <string name="back_button">Powrót</string>
+    <string name="configuration_progress">Postęp konfiguracji</string>
+    <string name="set_time_question">Czy chcesz ustawic czas?</string>
+    <string name="start_task_button">Rozpocznij zadanie</string>
+    <string name="select_task_label">Wybór zadania</string>
+    <string name="layer_problem">Problem ze ścieżką</string>
+    <string name="next_button">Dalej</string>
+    <string name="not_kml_polygon_layer">This Layer haven\'t a KML points</string>
+    <string name="task_name">Nazwa zadania : </string>
+    <string name="path_name_text">Nazwa ścieżki : </string>
+    <string name="select_tool">Wybór narzędzi</string>
+    <string name="step_4">KROK 4</string>
+    <string name="send_to_database">Zaprogramuj zadanie</string>
+    <string name="step_2">KROK 2</string>
+    <string name="choose_time">Wybierz czas</string>
+    <string name="type_task_name">Podaj nazwe zadania</string>
+    <string name="task_name_text">Nazwa Zadania</string>
+    <string name="choose_path_for_the_agribot">Wybierz ścieżkę Agribota</string>
+    <string name="step_1">KROK 1</string>
+    <string name="available_task_list">Zadania</string>
+    <string name="step_3">KROK 3</string>
+    <string name="select_weather_parameters">Wybierz parametry pogodowe</string>
+    <string name="title_group_management">Zarządzanie</string>
+    <string name="tool_mode">Tool mode</string>
+    <string name="current_weather">Aktualne warunki pogodowe</string>
+    <string name="tool_picture">Zdjęcie narzędzia</string>
+    <string name="kml_layer_problem">Problem z nałożeniem ścieżki na mape</string>
+    <string name="empty_task_name">Brak nazwy zadania</string>
+    <string name="no_path_selected">Nie wybrano ścieżki</string>
+    <string name="map_marker_problem">Problem z markerem na mapie</string>
 
 </resources>

@@ -12,23 +12,23 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#f1f1f1">
+        android:background="@color/background_gray">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/margin_xlarge"
+            android:layout_margin="@dimen/margin_small"
             android:layout_weight="3"
             android:background="@drawable/rounded_corner_layout">
 
 
             <ImageView
                 android:id="@+id/imageView3"
-                android:layout_width="0dp"
-                android:layout_height="397dp"
+                android:layout_width="675dp"
+                android:layout_height="427dp"
                 android:layout_marginStart="61dp"
                 android:layout_marginEnd="61dp"
-                android:src="@drawable/agri_jarek"
+                android:src="@drawable/agribot"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -117,7 +117,7 @@
             android:layout_weight="2"
             android:orientation="vertical"
             android:background="@drawable/rounded_corner_layout"
-            android:layout_margin="@dimen/margin_xlarge">
+            android:layout_margin="@dimen/margin_small">
 
             <TextView
                 android:layout_width="wrap_content"

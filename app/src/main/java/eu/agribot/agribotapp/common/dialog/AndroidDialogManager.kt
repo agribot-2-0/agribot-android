@@ -47,4 +47,28 @@ class AndroidDialogManager(
             negativeButton(R.string.cancel)
         }
     }
+
+    override fun showTaskSelectedDialog(
+        taskName: String,
+        onTaskSelectedConfirmed: (taskName: String) -> Unit
+    ) {
+        MaterialDialog(context).show {
+            title(R.string.dialog_task_select_tittle)
+            message(R.string.dialog_task_select_message)
+            positiveButton(R.string.dialog_task_select_confirm) { onTaskSelectedConfirmed(taskName) }
+            negativeButton(R.string.cancel)
+        }
+    }
+
+    override fun showDeleteTaskDialog(
+        itemPosition: Int,
+        onTaskToDeleteConfirmed: (itemPosition: Int) -> Unit
+    ) {
+        MaterialDialog(context).show {
+            title(R.string.dialog_task_delete_tittle)
+            message(R.string.dialog_task_delete_message)
+            positiveButton(R.string.dialog_task_delete_confirm) { onTaskToDeleteConfirmed(itemPosition) }
+            negativeButton(R.string.cancel)
+        }
+    }
 }

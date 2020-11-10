@@ -1,6 +1,6 @@
 package eu.agribot.agribotapp.domain.service
 
-import eu.agribot.agribotapp.communication.firebase.FirebaseService
+import eu.agribot.agribotapp.communication.database.firebase.FirebaseService
 import eu.agribot.agribotapp.domain.error.AuthenticationErrorHandler
 
 class AuthenticationService(
@@ -14,12 +14,9 @@ class AuthenticationService(
         loginSucess: () -> Unit,
         loginFailed: (error: String) -> Unit
     ) {
-        firebaseService.login(
-            userLogin, userPassword, loginSucess,
-            onError = {
-                loginFailed(authenticationErrorHandler.getMessageForLoginException(it))
-            }
-        )
+        firebaseService.login(userLogin, userPassword, loginSucess, onError = {
+            loginFailed(authenticationErrorHandler.getMessageForLoginException(it))
+        })
     }
 
     fun resetEmail(
@@ -27,12 +24,9 @@ class AuthenticationService(
         confirmSending: () -> Unit,
         errorSending: (error: String) -> Unit
     ) {
-        firebaseService.sendResetPasswordEmail(
-            userLogin, confirmSending,
-            onError = {
-                errorSending(authenticationErrorHandler.getMessageForPasswordReminderException(it))
-            }
-        )
+        firebaseService.sendResetPasswordEmail(userLogin, confirmSending, onError = {
+            errorSending(authenticationErrorHandler.getMessageForPasswordReminderException(it))
+        })
     }
 
     fun logOut(signOutInformation: () -> Unit) {
@@ -45,17 +39,15 @@ class AuthenticationService(
         registerSucess: () -> Unit,
         registerFailed: (error: String) -> Unit
     ) {
-        firebaseService.register(
-            userLogin, userPassword, registerSucess,
-            onError = {
-                registerFailed(authenticationErrorHandler.getMessageForSignupException(it))
-            }
-        )
+        firebaseService.register(userLogin, userPassword, registerSucess, onError = {
+            registerFailed(authenticationErrorHandler.getMessageForSignupException(it))
+        })
     }
 
     data class AppUser(
         val userName: String,
-        val userEmail: String
+        val userEmail: String,
+        val userUID: String
     )
 
     fun checkUserInApp() = firebaseService.isUserAlreadyLoggedIn()
@@ -63,7 +55,9 @@ class AuthenticationService(
     fun getCurrentUser() = firebaseService.getCurrentUser().let { firebaseUser ->
         AppUser(
             userName = firebaseUser?.displayName.toString(),
-            userEmail = firebaseUser?.email.toString()
+            userEmail = firebaseUser?.email.toString(),
+            userUID = firebaseUser?.uid.toString()
+
         )
     }
 
@@ -72,7 +66,6 @@ class AuthenticationService(
             onSucessRemove,
             onError = {
                 onErrorRemove(authenticationErrorHandler.getMessageForSignupException(it))
-            }
-        )
+            })
     }
 }

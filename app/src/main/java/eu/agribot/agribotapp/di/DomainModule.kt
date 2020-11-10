@@ -1,15 +1,21 @@
 package eu.agribot.agribotapp.di
 
 import eu.agribot.agribotapp.domain.error.AuthenticationErrorHandler
+import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
 import eu.agribot.agribotapp.domain.permission.AndroidPermissionManager
 import eu.agribot.agribotapp.domain.permission.PermissionManager
 import eu.agribot.agribotapp.domain.service.AuthenticationService
 import eu.agribot.agribotapp.domain.service.AutonomyService
 import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
+import eu.agribot.agribotapp.domain.service.KmlLayerService
 import eu.agribot.agribotapp.domain.service.ManualModeService
 import eu.agribot.agribotapp.domain.service.PathManagementService
 import eu.agribot.agribotapp.domain.service.RemoteControlService
 import eu.agribot.agribotapp.domain.service.TTControlService
+import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
+import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
+import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
+import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePathProvider
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.ManualSteeringJoystickManager
 import eu.agribot.agribotapp.domain.service.joystick.ttcontroljoystick.TTControlHorizontalJoystickManager
 import eu.agribot.agribotapp.domain.service.joystick.ttcontroljoystick.TTControlVerticalJoystickManager
@@ -95,5 +101,47 @@ val domainModule = module {
                 )
             }
         )
+    }
+
+    single {
+        CloudDatabaseService(
+            cloudDatabase = get(),
+            cloudStorageErrorHandler = get()
+        )
+    }
+
+    single {
+        TaskCreatorDataManager()
+    }
+
+    single {
+        CloudStorageService(
+            firestorageService = get(),
+            authenticationService = get(),
+            cloudStorageErrorHandler = get(),
+            filePathProvider = get()
+        )
+    }
+
+    single {
+        CloudStorageErrorHandler(
+            resourcesProvider = get {
+                parametersOf(
+                    androidContext()
+                )
+            }
+        )
+    }
+
+    single {
+        KmlLayerService()
+    }
+
+    single {
+        FilePathProvider(context = get {
+            parametersOf(
+                androidContext()
+            )
+        })
     }
 }

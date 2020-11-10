@@ -1,6 +1,8 @@
 package eu.agribot.agribotapp.base
 
 import android.content.Context
+import com.downloader.PRDownloader
+import com.downloader.PRDownloaderConfig
 import eu.agribot.agribotapp.di.appModule
 import eu.agribot.agribotapp.di.communicationModule
 import eu.agribot.agribotapp.di.domainModule
@@ -35,6 +37,7 @@ abstract class BaseAppInitializer(private val context: Context) : KoinComponent 
     private fun prepareUniversalLibraries() {
         prepareKoin()
         prepareTimber()
+        prepareDownloader()
     }
 
     private fun prepareKoin() {
@@ -49,6 +52,13 @@ abstract class BaseAppInitializer(private val context: Context) : KoinComponent 
                 qaModule
             )
         }
+    }
+
+    private fun prepareDownloader() {
+        val downloaderConfiguration = PRDownloaderConfig.newBuilder()
+            .setDatabaseEnabled(true)
+            .build()
+        PRDownloader.initialize(context, downloaderConfiguration)
     }
 
     private fun prepareTimber() {

@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
-import eu.agribot.agribotapp.common.navigation.events.BluetoothConnectionNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.TTControlNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolControlNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
@@ -57,12 +56,6 @@ class ManualControlViewModel(
                 fuelTemperature.value = resourcesProvider.getString(R.string.empty_data)
             }
         }
-    }
-
-    fun manualControlNavEvent() {
-        navigationEvent.postValue(
-            BluetoothConnectionNavigationEvent()
-        )
     }
 
     fun onJoystickParametrChange(angel: Int, strength: Int) = viewModelScope.launch {

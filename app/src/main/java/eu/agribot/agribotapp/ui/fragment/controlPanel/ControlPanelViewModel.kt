@@ -44,8 +44,8 @@ class ControlPanelViewModel(
     val markers: MutableLiveData<MarkerOptions> = MutableLiveData()
     val cameraPosition: MutableLiveData<LatLng> = MutableLiveData()
 
-    fun getPath(path: String): String {
-        return filePathProvider.getRootDirPath(path)
+    fun getMapTilePath(path: String): String {
+        return filePathProvider.getMapTilePath(path)
     }
 
     fun getCoordinatesFromKml(containers: Iterable<KmlContainer?>) {

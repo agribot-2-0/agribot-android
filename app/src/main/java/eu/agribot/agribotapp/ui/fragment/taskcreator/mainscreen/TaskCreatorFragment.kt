@@ -138,7 +138,7 @@ class TaskCreatorFragment :
             TileProvider(
                 MapParameters.MAP_SIZE.mapParametr.toInt(),
                 MapParameters.MAP_SIZE.mapParametr.toInt(),
-                viewModel.getFilePath(URLPath.MAP_PATH.path)
+                viewModel.getMapTilePath(URLPath.MAP_PATH.path)
 
             )
         try {

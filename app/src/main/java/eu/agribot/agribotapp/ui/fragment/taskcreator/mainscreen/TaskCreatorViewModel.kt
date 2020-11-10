@@ -224,7 +224,7 @@ class TaskCreatorViewModel(
         toastMessageEvent.postValue(informationMessage)
     }
 
-    fun getFilePath(filePath: String): String {
-        return filePathProvider.getRootDirPath(filePath)
+    fun getMapTilePath(filePath: String): String {
+        return filePathProvider.getMapTilePath(filePath)
     }
 }

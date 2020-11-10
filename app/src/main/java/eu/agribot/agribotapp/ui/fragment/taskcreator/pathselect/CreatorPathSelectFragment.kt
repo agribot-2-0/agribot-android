@@ -53,12 +53,13 @@ class CreatorPathSelectFragment :
         viewModel.downloadAvailableFileList()
         viewModel.selectedLayer.observe(this::onGotSelectedLayer)
         viewModel.toastEvent.observe(this::showToast)
+        viewModel.cameraPosition.observe((this::updateMapCameraPosition))
+
+        setupRecycler()
 
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.creator_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-        setupRecycler()
-        viewModel.cameraPosition.observe((this::updateMapCameraPosition))
     }
 
     private fun updateMapCameraPosition(latLng: LatLng) {
@@ -91,12 +92,11 @@ class CreatorPathSelectFragment :
             TileProvider(
                 MapParameters.MAP_SIZE.mapParametr.toInt(),
                 MapParameters.MAP_SIZE.mapParametr.toInt(),
-                viewModel.getFilePath(URLPath.MAP_PATH.path)
+                viewModel.getMapTilePath(URLPath.MAP_PATH.path)
             )
         try {
             googleMapFragment!!.addTileOverlay(
-                TileOverlayOptions()
-                    .transparency(MapParameters.TRANSPARENCY_VALUE.mapParametr)
+                TileOverlayOptions().transparency(MapParameters.TRANSPARENCY_VALUE.mapParametr)
                     .tileProvider(tileProvider)
             )
         } catch (exception: IOException) {
@@ -118,7 +118,6 @@ class CreatorPathSelectFragment :
     private fun setSelectedLayer(mapStream: InputStream) {
         try {
             mapPathLayer = KmlLayer(googleMapFragment!!, mapStream, requireContext())
-            mapPathLayer!!.containers
             mapPathLayer!!.addLayerToMap()
             try {
                 val container: Iterable<KmlContainer> = mapPathLayer!!.containers

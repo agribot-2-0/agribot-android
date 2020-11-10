@@ -30,7 +30,7 @@ class CloudStorageService(
         onSelectedFileError: (fileError: String) -> Unit
     ) {
         val file = File(
-            filePathProvider.getRootDirPath(DownloaderPath.LAYER_PATH.filePath),
+            filePathProvider.getLayerPath(DownloaderPath.LAYER_PATH.filePath),
             fileName
         )
         if (file.exists()) {
@@ -51,7 +51,7 @@ class CloudStorageService(
     ) {
         firestorageService.downloadFileFromUrl(
             fileName,
-            filePathProvider.getRootDirPath(DownloaderPath.LAYER_PATH.filePath),
+            filePathProvider.getLayerPath(DownloaderPath.LAYER_PATH.filePath),
             onDownloadFileSucess,
             onDownloadError = { onDownloadFileError(cloudStorageErrorHandler.getStorageError(it)) }
         )

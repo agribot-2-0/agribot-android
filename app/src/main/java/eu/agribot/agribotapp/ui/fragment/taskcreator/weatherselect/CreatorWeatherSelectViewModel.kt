@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
@@ -73,11 +74,13 @@ class CreatorWeatherSelectViewModel(
         when (weatherAttribute.attributeID) {
             WeatherItemNumber.HUMIDITY_ITEM.itemNumber -> {
                 if (!weatherAttribute.isWeatherItemActive) {
-                    taskCreatorDataManager.onUpdatehumidityValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
-                    taskCreatorDataManager.onUpdatehumidityCondition(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
+                    updateHumidityAttribute(
+                        PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
+                        PickerSymbols.PICKER_DEFAULT_VALUE.symbol
+                    )
                 } else {
-                    taskCreatorDataManager.onUpdatehumidityValue(weatherAttribute.weatherValue)
-                    taskCreatorDataManager.onUpdatehumidityCondition(
+                    updateHumidityAttribute(
+                        weatherAttribute.weatherValue,
                         changeConditionSymbolToText(
                             weatherAttribute.weatherCondition
                         )
@@ -86,11 +89,13 @@ class CreatorWeatherSelectViewModel(
             }
             WeatherItemNumber.WIND_ITEM.itemNumber -> {
                 if (!weatherAttribute.isWeatherItemActive) {
-                    taskCreatorDataManager.onUpdatewindCondition(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
-                    taskCreatorDataManager.onUpdatehumidityCondition(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
+                    updateWindAttribute(
+                        PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
+                        PickerSymbols.PICKER_DEFAULT_VALUE.symbol
+                    )
                 } else {
-                    taskCreatorDataManager.onUpdatewindValue(weatherAttribute.weatherValue)
-                    taskCreatorDataManager.onUpdatewindCondition(
+                    updateWindAttribute(
+                        weatherAttribute.weatherValue,
                         changeConditionSymbolToText(
                             weatherAttribute.weatherCondition
                         )
@@ -99,11 +104,13 @@ class CreatorWeatherSelectViewModel(
             }
             WeatherItemNumber.PRESSURE_ITEM.itemNumber -> {
                 if (!weatherAttribute.isWeatherItemActive) {
-                    taskCreatorDataManager.onUpdatepressureValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
-                    taskCreatorDataManager.onUpdatepressureCondition(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
+                    updatePressureAttribute(
+                        PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
+                        PickerSymbols.PICKER_DEFAULT_VALUE.symbol
+                    )
                 } else {
-                    taskCreatorDataManager.onUpdatepressureValue(weatherAttribute.weatherValue)
-                    taskCreatorDataManager.onUpdatepressureCondition(
+                    updatePressureAttribute(
+                        weatherAttribute.weatherValue,
                         changeConditionSymbolToText(
                             weatherAttribute.weatherCondition
                         )
@@ -112,11 +119,13 @@ class CreatorWeatherSelectViewModel(
             }
             WeatherItemNumber.TEMPERATURE_ITEM.itemNumber -> {
                 if (!weatherAttribute.isWeatherItemActive) {
-                    taskCreatorDataManager.onUpdateTemperatureValue(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
-                    taskCreatorDataManager.onUpdateTemperatureCondition(PickerSymbols.PICKER_DEFAULT_VALUE.symbol)
+                    updateTemperatureAttribute(
+                        PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
+                        PickerSymbols.PICKER_DEFAULT_VALUE.symbol
+                    )
                 } else {
-                    taskCreatorDataManager.onUpdateTemperatureValue(weatherAttribute.weatherValue)
-                    taskCreatorDataManager.onUpdateTemperatureCondition(
+                    updateTemperatureAttribute(
+                        weatherAttribute.weatherValue,
                         changeConditionSymbolToText(
                             weatherAttribute.weatherCondition
                         )
@@ -124,6 +133,26 @@ class CreatorWeatherSelectViewModel(
                 }
             }
         }
+    }
+
+    private fun updateHumidityAttribute(value: String, condition: String) {
+        taskCreatorDataManager.onUpdatehumidityValue(value)
+        taskCreatorDataManager.onUpdatehumidityCondition(condition)
+    }
+
+    private fun updateWindAttribute(value: String, condition: String) {
+        taskCreatorDataManager.onUpdatewindCondition(value)
+        taskCreatorDataManager.onUpdatehumidityCondition(condition)
+    }
+
+    private fun updatePressureAttribute(value: String, condition: String) {
+        taskCreatorDataManager.onUpdatepressureValue(value)
+        taskCreatorDataManager.onUpdatepressureCondition(condition)
+    }
+
+    private fun updateTemperatureAttribute(value: String, condition: String) {
+        taskCreatorDataManager.onUpdateTemperatureValue(value)
+        taskCreatorDataManager.onUpdateTemperatureCondition(condition)
     }
 
     private fun getFirstRobotHumidity() {
@@ -166,6 +195,7 @@ class CreatorWeatherSelectViewModel(
     }
 
     private fun onGetFirstRobotWindSucess(weatherStationWind: RobotWeatherStationWind) {
+        Log.e("xd", "wind value + " + taskCreatorDataManager.getTaskParemeters().wind_value)
         addToWeatherAttributeList(
             WindItem(
                 isSwitchActive = (taskCreatorDataManager.getTaskParemeters().wind_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
@@ -197,11 +227,9 @@ class CreatorWeatherSelectViewModel(
     private fun addToWeatherAttributeList(
         weatherSelectDataModel: WeatherSelectDataModel
     ) {
-
         val isAttributeAlreadyAdded = weatherAttributeList.value!!.any { arrtibute ->
             arrtibute.id == weatherSelectDataModel.id
         }
-
         if (!isAttributeAlreadyAdded)
             weatherAttributeList.value = listOf(
                 WeatherSettingsListItemViewModel(

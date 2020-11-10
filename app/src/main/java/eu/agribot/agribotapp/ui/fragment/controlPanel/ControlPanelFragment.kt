@@ -8,6 +8,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.TileOverlayOptions
 import com.google.maps.android.kml.KmlContainer
@@ -32,7 +33,7 @@ class ControlPanelFragment :
     override val viewModel: ControlPanelViewModel by viewModel { parametersOf(requireContext()) }
     private var googleMapFragment: GoogleMap? = null
     var mapPathLayer: KmlLayer? = null
-
+    var botMarker: Marker? = null
     override fun bindViewVariables(viewBinding: FragmentControlPanelBinding) {
         viewBinding.viewModel = viewModel
     }
@@ -85,9 +86,11 @@ class ControlPanelFragment :
     }
 
     private fun updateMapMarker(agribotMarker: MarkerOptions) {
+        botMarker?.remove()
         if (agribotMarker.position != null) {
+            googleMapFragment!!.clear()
             try {
-                googleMapFragment?.addMarker(
+                botMarker = googleMapFragment?.addMarker(
                     MarkerOptions()
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_agibot_marker))
                         .position(agribotMarker.position)
@@ -132,7 +135,6 @@ class ControlPanelFragment :
 
     override fun onMapReady(googleMap: GoogleMap) {
         googleMapFragment = googleMap
-        googleMapFragment!!.clear()
         googleMapFragment!!.mapType = GoogleMap.MAP_TYPE_NORMAL
         googleMapFragment!!.setMinZoomPreference(MapParameters.MIN_ZOOM.mapParametr)
         googleMapFragment!!.setMaxZoomPreference(MapParameters.MAX_ZOOM.mapParametr)

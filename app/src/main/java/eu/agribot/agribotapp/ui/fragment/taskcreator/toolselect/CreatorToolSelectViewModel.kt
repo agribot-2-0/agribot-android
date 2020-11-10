@@ -15,7 +15,7 @@ class CreatorToolSelectViewModel(
     BaseViewModel() {
     private val NULL_VALUE_TIMESTAMP = 946728000L
 
-    fun getTaskData() {
+    private fun getTaskData() {
         cloudDatabaseService.addTask(
             taskName = taskCreatorDataManager.getTaskParemeters().task_name,
             newRobotTaskDetails = NewRobotTaskDetails(

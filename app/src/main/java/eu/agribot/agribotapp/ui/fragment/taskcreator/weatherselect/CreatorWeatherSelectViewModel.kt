@@ -69,10 +69,10 @@ class CreatorWeatherSelectViewModel(
     }
 
     private fun prepareWeatherStationData() {
-        getFirstRobotHumidity()
-        getFirstRobotTemperature()
-        getFirstRobotWind()
-        getFirstRobotPressure()
+        getRobotHumidity()
+        getRobotTemperature()
+        getRobotWind()
+        getRobotPressure()
     }
 
     fun onWeatherAttributeChanged(weatherAttribute: WeatherAttribute) {
@@ -160,14 +160,14 @@ class CreatorWeatherSelectViewModel(
         taskCreatorDataManager.onUpdateTemperatureCondition(condition)
     }
 
-    private fun getFirstRobotHumidity() {
+    private fun getRobotHumidity() {
         cloudDatabaseService.getRobotWeatherStationHumidity(
-            this::onGetFirstRobotHumiditySucess,
+            this::onGetRobotHumiditySucess,
             this::postErrorMessage
         )
     }
 
-    private fun onGetFirstRobotHumiditySucess(weatherStationHumidity: RobotWeatherStationHumidity) {
+    private fun onGetRobotHumiditySucess(weatherStationHumidity: RobotWeatherStationHumidity) {
         addToWeatherAttributeList(
             HumidityItem(
                 isSwitchActive = (taskCreatorDataManager.getTaskParemeters().humidity_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
@@ -176,14 +176,14 @@ class CreatorWeatherSelectViewModel(
         )
     }
 
-    private fun getFirstRobotTemperature() {
+    private fun getRobotTemperature() {
         cloudDatabaseService.getRobotWeatherStationTemperature(
-            this::onGetFirstRobotTemperatureSucess,
+            this::onGetRobotTemperatureSucess,
             this::postErrorMessage
         )
     }
 
-    private fun onGetFirstRobotTemperatureSucess(weatherStationTemperature: RobotWeatherStationTemperature) {
+    private fun onGetRobotTemperatureSucess(weatherStationTemperature: RobotWeatherStationTemperature) {
         addToWeatherAttributeList(
             TemperatureItem(
                 isSwitchActive = (taskCreatorDataManager.getTaskParemeters().temperature_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
@@ -192,14 +192,14 @@ class CreatorWeatherSelectViewModel(
         )
     }
 
-    private fun getFirstRobotWind() {
+    private fun getRobotWind() {
         cloudDatabaseService.getRobotWeatherStationWind(
-            this::onGetFirstRobotWindSucess,
+            this::onGetRobotWindSucess,
             this::postErrorMessage
         )
     }
 
-    private fun onGetFirstRobotWindSucess(weatherStationWind: RobotWeatherStationWind) {
+    private fun onGetRobotWindSucess(weatherStationWind: RobotWeatherStationWind) {
         addToWeatherAttributeList(
             WindItem(
                 isSwitchActive = (taskCreatorDataManager.getTaskParemeters().wind_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
@@ -208,14 +208,14 @@ class CreatorWeatherSelectViewModel(
         )
     }
 
-    private fun getFirstRobotPressure() {
+    private fun getRobotPressure() {
         cloudDatabaseService.getRobotWeatherStationPressure(
-            this::onGetFirstRobotPressureSucess,
+            this::onGetRobotPressureSucess,
             this::postErrorMessage
         )
     }
 
-    private fun onGetFirstRobotPressureSucess(weatherStationPressure: RobotWeatherStationPressure) {
+    private fun onGetRobotPressureSucess(weatherStationPressure: RobotWeatherStationPressure) {
         addToWeatherAttributeList(
             PressureItem(
                 isSwitchActive = (taskCreatorDataManager.getTaskParemeters().pressure_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),

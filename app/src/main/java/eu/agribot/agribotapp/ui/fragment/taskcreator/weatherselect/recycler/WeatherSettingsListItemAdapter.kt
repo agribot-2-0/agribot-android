@@ -97,7 +97,9 @@ class WeatherSettingsListItemAdapter(
         holder.itemView.condition.maxValue = PickersMinMaxValues.EQUAL_POSITION.value
         holder.itemView.condition.displayedValues = item.conditionArray
         holder.itemView.condition.value = condition
+
         var isSwitchActive = item.isSwitchActive
+
         holder.itemView.activation_switch.isChecked = isSwitchActive
 
         var itemValue = if (item.settedValue != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {

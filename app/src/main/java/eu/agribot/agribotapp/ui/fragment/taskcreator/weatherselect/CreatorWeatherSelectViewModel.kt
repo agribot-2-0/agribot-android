@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
@@ -43,15 +42,21 @@ class CreatorWeatherSelectViewModel(
                     presetValue = taskCreatorDataManager.taskDetails.temperature_value,
                     isSwitchActive = (taskCreatorDataManager.taskDetails.temperature_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
                     presetCondition = taskCreatorDataManager.taskDetails.temperature_condition
-                ).toWeatherDataModel(), PressureItem(
+                ).toWeatherDataModel(),
+
+                PressureItem(
                     presetValue = taskCreatorDataManager.taskDetails.pressure_value,
                     isSwitchActive = (taskCreatorDataManager.taskDetails.pressure_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
                     presetCondition = taskCreatorDataManager.taskDetails.pressure_condition
-                ).toWeatherDataModel(), WindItem(
+                ).toWeatherDataModel(),
+
+                WindItem(
                     presetValue = taskCreatorDataManager.taskDetails.wind_value,
                     isSwitchActive = (taskCreatorDataManager.taskDetails.wind_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
                     presetCondition = taskCreatorDataManager.taskDetails.wind_condition
-                ).toWeatherDataModel(), HumidityItem(
+                ).toWeatherDataModel(),
+
+                HumidityItem(
                     presetValue = taskCreatorDataManager.taskDetails.humidity_value,
                     isSwitchActive = (taskCreatorDataManager.taskDetails.humidity_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
                     presetCondition = taskCreatorDataManager.taskDetails.humidity_condition
@@ -141,8 +146,8 @@ class CreatorWeatherSelectViewModel(
     }
 
     private fun updateWindAttribute(value: String, condition: String) {
-        taskCreatorDataManager.onUpdatewindCondition(value)
-        taskCreatorDataManager.onUpdatehumidityCondition(condition)
+        taskCreatorDataManager.onUpdatewindValue(value)
+        taskCreatorDataManager.onUpdatewindCondition(condition)
     }
 
     private fun updatePressureAttribute(value: String, condition: String) {
@@ -195,7 +200,6 @@ class CreatorWeatherSelectViewModel(
     }
 
     private fun onGetFirstRobotWindSucess(weatherStationWind: RobotWeatherStationWind) {
-        Log.e("xd", "wind value + " + taskCreatorDataManager.getTaskParemeters().wind_value)
         addToWeatherAttributeList(
             WindItem(
                 isSwitchActive = (taskCreatorDataManager.getTaskParemeters().wind_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
@@ -226,8 +230,7 @@ class CreatorWeatherSelectViewModel(
 
     private fun addToWeatherAttributeList(
         weatherSelectDataModel: WeatherSelectDataModel
-    ) {
-        val isAttributeAlreadyAdded = weatherAttributeList.value!!.any { arrtibute ->
+    ) { val isAttributeAlreadyAdded = weatherAttributeList.value!!.any { arrtibute ->
             arrtibute.id == weatherSelectDataModel.id
         }
         if (!isAttributeAlreadyAdded)

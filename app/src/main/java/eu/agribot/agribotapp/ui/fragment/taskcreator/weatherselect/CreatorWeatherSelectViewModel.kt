@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
@@ -199,7 +198,6 @@ class CreatorWeatherSelectViewModel(
         weatherSelectDataModel: WeatherSelectDataModel
     ) {
 
-        Log.e("xd", "add to weather attribute: " + weatherSelectDataModel)
         val isAttributeAlreadyAdded = weatherAttributeList.value!!.any { arrtibute ->
             arrtibute.id == weatherSelectDataModel.id
         }

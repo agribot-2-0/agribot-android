@@ -88,7 +88,6 @@ class ControlPanelFragment :
     private fun updateMapMarker(agribotMarker: MarkerOptions) {
         botMarker?.remove()
         if (agribotMarker.position != null) {
-            googleMapFragment!!.clear()
             try {
                 botMarker = googleMapFragment?.addMarker(
                     MarkerOptions()
@@ -135,6 +134,7 @@ class ControlPanelFragment :
 
     override fun onMapReady(googleMap: GoogleMap) {
         googleMapFragment = googleMap
+        googleMapFragment!!.clear()
         googleMapFragment!!.mapType = GoogleMap.MAP_TYPE_NORMAL
         googleMapFragment!!.setMinZoomPreference(MapParameters.MIN_ZOOM.mapParametr)
         googleMapFragment!!.setMaxZoomPreference(MapParameters.MAX_ZOOM.mapParametr)

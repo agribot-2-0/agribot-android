@@ -62,7 +62,7 @@ class ToolManagementFragment :
         viewModel.getAvailableTool()
         viewModel.toolList.observe(this::addToToolList)
 
-        //TODO Remove it when seekbars moved to tiles
+        // TODO Remove it when seekbars moved to tiles
         seekBarTplUpDown = view.findViewById(R.id.seekbar_tpl_up_down)
         seekBarTplUpDown.setOnTouchListener { _, _ -> true }
 

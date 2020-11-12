@@ -24,7 +24,7 @@ class ToolParamsFragment :
         HitchListItemAdapter(this::onHitchRecyclerParametersChanged)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        //TODO add tags scaning via bluetooth
+        // TODO add tags scaning via bluetooth
         super.onViewCreated(view, savedInstanceState)
         viewModel.createToolsList()
         viewModel.paramsList.observe(this::addParams)

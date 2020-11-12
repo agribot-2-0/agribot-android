@@ -20,6 +20,7 @@ class ToolParamsViewModel(
     private val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val paramsList: MutableLiveData<List<HitchListItemViewModel>> =
         MutableLiveData(listOf())
+    val toolRfidTag: MutableLiveData<String> = MutableLiveData()
 
     private fun addToolParamItemsToRecycler() {
         addToolToToolParamList(
@@ -78,7 +79,7 @@ class ToolParamsViewModel(
         sliderValue: Int,
         isActivated: Boolean
     ) {
-        //TODO when switch is activated send data via bluetooth in order to control tools
+        // TODO when switch is activated send data via bluetooth in order to control tools
         when (sliderNumber) {
             ToolRecylerItemIds.ID_PTO -> {
                 toolDataManager.pto = sliderValue.toDouble()
@@ -101,6 +102,12 @@ class ToolParamsViewModel(
             ToolRecylerItemIds.ID_V_MAX -> {
                 toolDataManager.vMax = sliderValue.toDouble()
             }
+        }
+    }
+
+    private fun readRfidTag() {
+        if (toolRfidTag.value == "0") {
+            // TODO add scaning rfid via bluetooth
         }
     }
 
@@ -161,10 +168,12 @@ class ToolParamsViewModel(
             onGetToolDetailsError = this::postToastErrorMessageEvent
         )
         addToolParamItemsToRecycler()
+        readRfidTag()
     }
 
     private fun onToolUpdate(toolDetails: ToolDetails) {
         toolDataManager.updateAllToolParameters(toolDetails)
+        toolRfidTag.value = toolDetails.rfid.toString()
         addToolParamItemsToRecycler()
     }
 

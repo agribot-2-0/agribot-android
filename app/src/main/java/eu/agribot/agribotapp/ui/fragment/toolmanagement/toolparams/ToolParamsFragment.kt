@@ -20,7 +20,7 @@ class ToolParamsFragment :
     override val layoutResourceId: Int = R.layout.fragment_tool_management_params
     override val viewModel: ToolParamsViewModel by viewModel { parametersOf(requireContext()) }
 
-    private val hitchAdapter =
+    private val hitchRecyclerAdapter =
         HitchListItemAdapter(this::onHitchRecyclerParametersChanged)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -32,7 +32,7 @@ class ToolParamsFragment :
     }
 
     private fun setupRecyclers() {
-        params_recycler.adapter = hitchAdapter
+        params_recycler.adapter = hitchRecyclerAdapter
         params_recycler.layoutManager = LinearLayoutManager(requireActivity())
     }
 
@@ -45,7 +45,7 @@ class ToolParamsFragment :
     }
 
     private fun addParams(tools: List<HitchListItemViewModel>) {
-        hitchAdapter.items = tools
+        hitchRecyclerAdapter.items = tools
     }
 
     override fun bindViewVariables(viewBinding: FragmentToolManagementParamsBinding) {

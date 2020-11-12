@@ -106,7 +106,7 @@ class ToolParamsViewModel(
     }
 
     private fun readRfidTag() {
-        if (toolDataManager.rfid == 0) {
+        if (toolDataManager.rfid == toolDataManager.noRfidTag) {
             // TODO add scaning rfid via bluetooth
         }
     }

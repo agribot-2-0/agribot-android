@@ -3,7 +3,6 @@ package eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
-import android.widget.SeekBar
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +18,12 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.swipere
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.swiperecyclerutils.SwipeRecyclerHelper
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.ToolListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.ToolListItemViewModel
+import kotlinx.android.synthetic.main.fragment_tool_management.seekbar_blue
+import kotlinx.android.synthetic.main.fragment_tool_management.seekbar_green
+import kotlinx.android.synthetic.main.fragment_tool_management.seekbar_pto
+import kotlinx.android.synthetic.main.fragment_tool_management.seekbar_tpl_push_pull
+import kotlinx.android.synthetic.main.fragment_tool_management.seekbar_tpl_up_down
+import kotlinx.android.synthetic.main.fragment_tool_management.seekbar_v_max
 import kotlinx.android.synthetic.main.fragment_tool_management.tool_recycler
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -26,14 +31,6 @@ import org.koin.core.parameter.parametersOf
 
 class ToolManagementFragment :
     BaseFragment<ToolManagementViewModel, FragmentToolManagementBinding>() {
-
-    private lateinit var seekBarTplUpDown: SeekBar
-    private lateinit var seekBarTplPushPull: SeekBar
-    private lateinit var seekBarPto: SeekBar
-    private lateinit var seekBarGreen: SeekBar
-    private lateinit var seekBarYellow: SeekBar
-    private lateinit var seekBarBlue: SeekBar
-    private lateinit var seekBarVMax: SeekBar
 
     private val dialogManager: DialogManager by inject { parametersOf(requireContext()) }
     override val layoutResourceId: Int = R.layout.fragment_tool_management
@@ -63,26 +60,13 @@ class ToolManagementFragment :
         viewModel.toolList.observe(this::addToToolList)
 
         // TODO Remove it when seekbars moved to tiles
-        seekBarTplUpDown = view.findViewById(R.id.seekbar_tpl_up_down)
-        seekBarTplUpDown.setOnTouchListener { _, _ -> true }
-
-        seekBarTplPushPull = view.findViewById(R.id.seekbar_tpl_push_pull)
-        seekBarTplPushPull.setOnTouchListener { _, _ -> true }
-
-        seekBarPto = view.findViewById(R.id.seekbar_pto)
-        seekBarPto.setOnTouchListener { _, _ -> true }
-
-        seekBarGreen = view.findViewById(R.id.seekbar_green)
-        seekBarGreen.setOnTouchListener { _, _ -> true }
-
-        seekBarYellow = view.findViewById(R.id.seekbar_yellow)
-        seekBarYellow.setOnTouchListener { _, _ -> true }
-
-        seekBarBlue = view.findViewById(R.id.seekbar_blue)
-        seekBarBlue.setOnTouchListener { _, _ -> true }
-
-        seekBarVMax = view.findViewById(R.id.seekbar_v_max)
-        seekBarVMax.setOnTouchListener { _, _ -> true }
+        seekbar_tpl_up_down.setOnTouchListener { _, _ -> true }
+        seekbar_tpl_push_pull.setOnTouchListener { _, _ -> true }
+        seekbar_pto.setOnTouchListener { _, _ -> true }
+        seekbar_green.setOnTouchListener { _, _ -> true }
+        seekbar_blue.setOnTouchListener { _, _ -> true }
+        seekbar_blue.setOnTouchListener { _, _ -> true }
+        seekbar_v_max.setOnTouchListener { _, _ -> true }
     }
 
     private fun setupRecycler() {

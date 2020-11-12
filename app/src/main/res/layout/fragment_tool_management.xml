@@ -132,6 +132,7 @@
                             android:textSize="@dimen/text_size_medium" />
 
                         <SeekBar
+                            android:id="@+id/seekbar_tpl_up_down"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/margin_medium"
@@ -169,6 +170,7 @@
                             android:textSize="@dimen/text_size_medium" />
 
                         <SeekBar
+                            android:id="@+id/seekbar_tpl_push_pull"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/margin_medium"
@@ -206,6 +208,7 @@
                             android:textSize="@dimen/text_size_medium" />
 
                         <SeekBar
+                            android:id="@+id/seekbar_pto"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/margin_medium"
@@ -241,6 +244,7 @@
                             android:textSize="@dimen/text_size_medium" />
 
                         <SeekBar
+                            android:id="@+id/seekbar_blue"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/margin_medium"
@@ -277,6 +281,7 @@
                             android:textSize="@dimen/text_size_medium" />
 
                         <SeekBar
+                            android:id="@+id/seekbar_yellow"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/margin_medium"
@@ -314,6 +319,7 @@
                             android:textSize="@dimen/text_size_medium" />
 
                         <SeekBar
+                            android:id="@+id/seekbar_green"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/margin_medium"
@@ -349,6 +355,7 @@
                             android:textSize="@dimen/text_size_medium" />
 
                         <SeekBar
+                            android:id="@+id/seekbar_v_max"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/margin_medium"

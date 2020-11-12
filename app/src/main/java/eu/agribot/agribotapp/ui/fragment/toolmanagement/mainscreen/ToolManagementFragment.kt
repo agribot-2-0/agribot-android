@@ -1,7 +1,9 @@
 package eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import android.widget.SeekBar
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +27,14 @@ import org.koin.core.parameter.parametersOf
 class ToolManagementFragment :
     BaseFragment<ToolManagementViewModel, FragmentToolManagementBinding>() {
 
+    private lateinit var seekBarTplUpDown: SeekBar
+    private lateinit var seekBarTplPushPull: SeekBar
+    private lateinit var seekBarPto: SeekBar
+    private lateinit var seekBarGreen: SeekBar
+    private lateinit var seekBarYellow: SeekBar
+    private lateinit var seekBarBlue: SeekBar
+    private lateinit var seekBarVMax: SeekBar
+
     private val dialogManager: DialogManager by inject { parametersOf(requireContext()) }
     override val layoutResourceId: Int = R.layout.fragment_tool_management
     override val viewModel: ToolManagementViewModel by viewModel { parametersOf(requireContext()) }
@@ -44,12 +54,35 @@ class ToolManagementFragment :
         viewModel.onToolSelected(toolListItemViewModel)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.toastMessageEvent.observe(this::showToast)
         setupRecycler()
         viewModel.getAvailableTool()
         viewModel.toolList.observe(this::addToToolList)
+
+        //TODO Remove it when seekbars moved to tiles
+        seekBarTplUpDown = view.findViewById(R.id.seekbar_tpl_up_down)
+        seekBarTplUpDown.setOnTouchListener { _, _ -> true }
+
+        seekBarTplPushPull = view.findViewById(R.id.seekbar_tpl_push_pull)
+        seekBarTplPushPull.setOnTouchListener { _, _ -> true }
+
+        seekBarPto = view.findViewById(R.id.seekbar_pto)
+        seekBarPto.setOnTouchListener { _, _ -> true }
+
+        seekBarGreen = view.findViewById(R.id.seekbar_green)
+        seekBarGreen.setOnTouchListener { _, _ -> true }
+
+        seekBarYellow = view.findViewById(R.id.seekbar_yellow)
+        seekBarYellow.setOnTouchListener { _, _ -> true }
+
+        seekBarBlue = view.findViewById(R.id.seekbar_blue)
+        seekBarBlue.setOnTouchListener { _, _ -> true }
+
+        seekBarVMax = view.findViewById(R.id.seekbar_v_max)
+        seekBarVMax.setOnTouchListener { _, _ -> true }
     }
 
     private fun setupRecycler() {

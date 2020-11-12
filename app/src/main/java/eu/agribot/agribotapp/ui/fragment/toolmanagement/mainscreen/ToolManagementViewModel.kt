@@ -59,6 +59,7 @@ class ToolManagementViewModel(
         blueValue.value = toolDetails.blue.toInt()
         vMaxValue.value = toolDetails.vMax.toInt()
 
+        //TODO refactor displaing data to tiles, right now it is harcoded
         ptoString.value = toolDetails.pto.toString() + " RPM"
         tplUpDownString.value = toolDetails.tplUpDown.toString() + " RPM"
         tplPushPullString.value = toolDetails.tplPushPull.toString() + " RPM"

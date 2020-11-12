@@ -30,17 +30,17 @@ class ToolParamsViewModel(
             )
         )
         addToolToToolParamList(
-            toolName = resourcesProvider.getString(R.string.yellow_flow),
-            switchNumber = ToolRecylerItemIds.ID_YELLOW,
-            hitchListItemDetail = HitchListItemDetail(
-                toolStartValue = toolDataManager.yellow.toInt()
-            )
-        )
-        addToolToToolParamList(
             toolName = resourcesProvider.getString(R.string.green_flow),
             switchNumber = ToolRecylerItemIds.ID_GREEN,
             hitchListItemDetail = HitchListItemDetail(
                 toolStartValue = toolDataManager.green.toInt()
+            )
+        )
+        addToolToToolParamList(
+            toolName = resourcesProvider.getString(R.string.yellow_flow),
+            switchNumber = ToolRecylerItemIds.ID_YELLOW,
+            hitchListItemDetail = HitchListItemDetail(
+                toolStartValue = toolDataManager.yellow.toInt()
             )
         )
         addToolToToolParamList(
@@ -78,6 +78,7 @@ class ToolParamsViewModel(
         sliderValue: Int,
         isActivated: Boolean
     ) {
+        //TODO when switch is activated send data via bluetooth in order to control tools
         when (sliderNumber) {
             ToolRecylerItemIds.ID_PTO -> {
                 toolDataManager.pto = sliderValue.toDouble()

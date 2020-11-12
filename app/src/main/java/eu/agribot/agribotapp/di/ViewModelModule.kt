@@ -24,7 +24,10 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.CreatorWeathe
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.WeatherSettingsListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolControlViewModel
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.ToolManagementViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.ToolManagementViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.ToolListItemViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolname.ToolNameViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams.ToolParamsViewModel
 import eu.agribot.agribotapp.ui.fragment.ttcontrol.TTControlViewModel
 import eu.agribot.agribotapp.ui.fragment.weather.WeatherViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -93,7 +96,6 @@ val viewModelModule = module {
         )
     }
 
-    viewModel { ToolManagementViewModel() }
     viewModel {
         PathManagementViewModel(
             pathManagementService = get()
@@ -203,6 +205,31 @@ val viewModelModule = module {
     }
 
     viewModel { TaskSelectViewModel(cloudDatabaseService = get()) }
+
+    viewModel { ToolListItemViewModel(toolName = get()) }
+
+    viewModel { (context: Context) ->
+        ToolManagementViewModel(
+            resourcesProvider = get { parametersOf(context) },
+            cloudDatabaseService = get(),
+            toolDataManager = get()
+        )
+    }
+
+    viewModel { (context: Context) ->
+        ToolNameViewModel(
+            toolDataManager = get(),
+            resourcesProvider = get { parametersOf(context) }
+        )
+    }
+
+    viewModel { (context: Context) ->
+        ToolParamsViewModel(
+            toolDataManager = get(),
+            resourcesProvider = get { parametersOf(context) },
+            cloudDatabaseService = get()
+        )
+    }
 
     viewModel { (context: Context) ->
         CreatorTaskNameViewModel(

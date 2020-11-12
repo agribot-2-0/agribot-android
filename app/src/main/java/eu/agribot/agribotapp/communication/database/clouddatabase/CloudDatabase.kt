@@ -11,6 +11,8 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWea
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationWindCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskDetailsCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskItemCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.ToolDetailsCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.TooltemCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserInfoCDB
 
 interface CloudDatabase {
@@ -100,6 +102,30 @@ interface CloudDatabase {
 
     fun getTaskItem(
         onGetTaskItem: (taskItemCDB: TaskItemCDB) -> Unit,
+        onDatabaseError: (Throwable) -> Unit
+    )
+
+    fun addTool(
+        toolName: String,
+        toolDetailsCDB: ToolDetailsCDB,
+        onDatabaseSucess: () -> Unit,
+        onDatabaseError: (Throwable) -> Unit
+    )
+
+    fun deleteTool(
+        toolName: String,
+        onDeleteSucess: () -> Unit,
+        onDeleteError: (Throwable) -> Unit
+    )
+
+    fun getToolItem(
+        onGetToolItem: (toolItemCDB: TooltemCDB) -> Unit,
+        onDatabaseError: (Throwable) -> Unit
+    )
+
+    fun getToolDetails(
+        toolName: String,
+        onGetToolDetailsSucess: (toolDetailsCDB: ToolDetailsCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 }

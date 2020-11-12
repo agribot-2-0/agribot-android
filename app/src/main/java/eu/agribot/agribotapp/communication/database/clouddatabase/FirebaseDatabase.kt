@@ -13,6 +13,8 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWea
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationWindCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskDetailsCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskItemCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.ToolDetailsCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.TooltemCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserInfoCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_ENGINE
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_ROBOTS
@@ -25,6 +27,7 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.Cl
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_WEATHER_STATION_PRESSURE
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_WEATHER_STATION_TEMPERATURE
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_WEATHER_STATION_WIND
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_TOOLS
 
 class FirebaseDatabase() : CloudDatabase {
     private val currentFirebaseUser = FirebaseAuth.getInstance().currentUser?.uid.toString()
@@ -332,6 +335,76 @@ class FirebaseDatabase() : CloudDatabase {
                                 }
                             }
                         }
+                }
+            }
+    }
+
+    override fun addTool(
+        toolName: String,
+        toolDetailsCDB: ToolDetailsCDB,
+        onDatabaseSucess: () -> Unit,
+        onDatabaseError: (Throwable) -> Unit
+    ) {
+        database.collection(COLLECTION_USER)
+            .document("$currentFirebaseUser/$DOCUMENT_TOOLS/$toolName")
+            .set(toolDetailsCDB)
+            .addOnSuccessListener {
+                onDatabaseSucess()
+            }
+            .addOnFailureListener { exception ->
+                onDatabaseError(exception)
+            }
+    }
+
+    override fun getToolItem(
+        onGetToolItem: (toolItemCDB: TooltemCDB) -> Unit,
+        onDatabaseError: (Throwable) -> Unit
+    ) {
+        database.collection("$COLLECTION_USER/$currentFirebaseUser/$DOCUMENT_TOOLS")
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    onGetToolItem(
+                        TooltemCDB(
+                            toolName = document.id
+                        )
+                    )
+                }
+            }
+    }
+
+    override fun deleteTool(
+        toolName: String,
+        onDeleteSucess: () -> Unit,
+        onDeleteError: (Throwable) -> Unit
+    ) {
+        database.collection("$COLLECTION_USER/$currentFirebaseUser/$DOCUMENT_TOOLS")
+            .document(toolName)
+            .delete()
+            .addOnSuccessListener {
+                onDeleteSucess()
+            }
+            .addOnFailureListener { exception ->
+                onDeleteError(exception)
+            }
+    }
+
+    override fun getToolDetails(
+        toolName: String,
+        onGetToolDetailsSucess: (toolDetailsCDB: ToolDetailsCDB) -> Unit,
+        onDatabaseError: (Throwable) -> Unit
+    ) {
+        database.collection("$COLLECTION_USER/$currentFirebaseUser/$DOCUMENT_TOOLS")
+            .document(toolName)
+            .addSnapshotListener { snapshot, databaseException ->
+                if (databaseException != null) {
+                    onDatabaseError(Throwable("Could not parse firebase data"))
+                    return@addSnapshotListener
+                }
+                if (snapshot != null && snapshot.exists()) {
+                    snapshot.toObject(ToolDetailsCDB::class.java)?.let {
+                        onGetToolDetailsSucess(it)
+                    }
                 }
             }
     }

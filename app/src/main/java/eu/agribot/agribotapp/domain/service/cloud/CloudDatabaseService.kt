@@ -12,6 +12,8 @@ import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationWind
 import eu.agribot.agribotapp.domain.model.cdb.RobotLocalizationPose
 import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
 import eu.agribot.agribotapp.domain.model.cdb.TaskItem
+import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
+import eu.agribot.agribotapp.domain.model.cdb.ToolItem
 import eu.agribot.agribotapp.domain.model.cdb.UserInfo
 import eu.agribot.agribotapp.domain.model.cdb.taskprogram.taskmodel.NewRobotTaskDetails
 
@@ -209,5 +211,55 @@ class CloudDatabaseService(
             actualTaskCDB = actualTask.toCommunicationModel(),
             onDatabaseError = { cloudStorageErrorHandler.getStorageError(it as Exception) }
         )
+    }
+
+    fun addTool(
+        toolName: String,
+        toolDetails: ToolDetails,
+        onSucess: () -> Unit
+    ) {
+        cloudDatabase.addTool(
+            toolName,
+            toolDetails.toCommunicationModel(),
+            onDatabaseSucess = { onSucess() },
+            onDatabaseError = { cloudStorageErrorHandler.getStorageError(it as Exception) }
+        )
+    }
+
+    fun getToolItem(
+        onGetToolItem: (ToolItem) -> Unit,
+        onGetToolItemError: (error: String) -> Unit
+    ) {
+        cloudDatabase.getToolItem(
+            onGetToolItem = { onGetToolItem(it.toDomainModel()) },
+            onDatabaseError = {
+                onGetToolItemError(it.message!!)
+            })
+    }
+
+    fun deleteTool(
+        toolName: String,
+        onDeleteSucess: () -> Unit,
+        onDeleteError: (error: String) -> Unit
+    ) {
+        cloudDatabase.deleteTool(
+            toolName,
+            onDeleteSucess,
+            onDeleteError = {
+                onDeleteError(it.message!!)
+            })
+    }
+
+    fun getToolDetails(
+        toolName: String,
+        onGetToolDetails: (ToolDetails) -> Unit,
+        onGetToolDetailsError: (error: String) -> Unit
+    ) {
+        cloudDatabase.getToolDetails(
+            toolName,
+            onGetToolDetailsSucess = { onGetToolDetails(it.toDomainModel()) },
+            onDatabaseError = {
+                onGetToolDetailsError(it.message!!)
+            })
     }
 }

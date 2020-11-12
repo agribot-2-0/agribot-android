@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="viewModel"
-            type="eu.agribot.agribotapp.ui.fragment.toolmanagement.ToolManagementViewModel" />
+            type="eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.ToolManagementViewModel" />
     </data>
 
     <LinearLayout
@@ -57,15 +58,18 @@
                         android:layout_margin="@dimen/margin_large"
                         android:background="@android:color/transparent"
                         android:backgroundTint="@color/white"
+                        android:onClick="@{()-> viewModel.onNewToolButtonClicked()}"
                         android:src="@drawable/ic_add"
                         app:rippleColor="@color/white" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/task_recycler"
+                        android:id="@+id/tool_recycler"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        android:background="@color/white" />
+                        android:background="@color/white"
+                        tools:itemCount="10"
+                        tools:listitem="@layout/list_item_tool" />
 
                 </RelativeLayout>
 
@@ -106,7 +110,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_margin="@dimen/margin_small"
-                android:layout_weight="3"
+                android:layout_weight="1.5"
                 android:background="@drawable/rounded_corner_layout"
                 android:orientation="vertical">
 
@@ -124,14 +128,16 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="PTO"
+                            android:text="@string/tpl_up_down"
                             android:textSize="@dimen/text_size_medium" />
 
                         <SeekBar
+                            android:id="@+id/seekbar_tpl_up_down"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:progressBackgroundTint="@color/base_green"
-                            android:layout_margin="@dimen/margin_medium" />
+                            android:layout_margin="@dimen/margin_medium"
+                            android:progress="@{viewModel.tplUpDownValue}"
+                            android:progressBackgroundTint="@color/base_green" />
                     </LinearLayout>
 
 
@@ -140,74 +146,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin_medium"
                         android:layout_weight="1"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="BLUE"
-                            android:textSize="@dimen/text_size_medium" />
-
-                        <SeekBar
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:progressBackgroundTint="@color/base_green"
-                            android:layout_margin="@dimen/margin_medium" />
-                    </LinearLayout>
-
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_medium"
-                        android:layout_weight="1"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="YELLOW"
-                            android:textSize="@dimen/text_size_medium" />
-
-                        <SeekBar
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:progressBackgroundTint="@color/base_green"
-                            android:layout_margin="@dimen/margin_medium" />
-                    </LinearLayout>
-
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_medium"
-                        android:layout_weight="1"
+                        android:text="@{viewModel.tplUpDownString}"
                         android:textStyle="bold" />
 
 
@@ -227,14 +166,16 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="GREEN"
+                            android:text="@string/tpl_push_pull"
                             android:textSize="@dimen/text_size_medium" />
 
                         <SeekBar
+                            android:id="@+id/seekbar_tpl_push_pull"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:progressBackgroundTint="@color/base_green"
-                            android:layout_margin="@dimen/margin_medium" />
+                            android:layout_margin="@dimen/margin_medium"
+                            android:progress="@{viewModel.tplPushPullValue}"
+                            android:progressBackgroundTint="@color/base_green" />
                     </LinearLayout>
 
 
@@ -243,39 +184,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin_medium"
                         android:layout_weight="1"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="TUZ up/down"
-                            android:textSize="@dimen/text_size_medium" />
-
-                        <SeekBar
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:progressBackgroundTint="@color/base_green"
-                            android:layout_margin="@dimen/margin_medium" />
-                    </LinearLayout>
-
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_medium"
-                        android:layout_weight="1"
+                        android:text="@{viewModel.tplPushPullString}"
                         android:textStyle="bold" />
 
 
@@ -295,14 +204,52 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="TUZ push/pull"
+                            android:text="@string/pto"
                             android:textSize="@dimen/text_size_medium" />
 
                         <SeekBar
+                            android:id="@+id/seekbar_pto"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:progressBackgroundTint="@color/base_green"
-                            android:layout_margin="@dimen/margin_medium" />
+                            android:layout_margin="@dimen/margin_medium"
+                            android:progress="@{viewModel.ptoValue}"
+                            android:progressBackgroundTint="@color/base_green" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_medium"
+                        android:layout_weight="1"
+                        android:text="@{viewModel.ptoString}"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/blue_flow"
+                            android:textSize="@dimen/text_size_medium" />
+
+                        <SeekBar
+                            android:id="@+id/seekbar_blue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_medium"
+                            android:progress="@{viewModel.blueValue}"
+                            android:progressBackgroundTint="@color/base_green" />
                     </LinearLayout>
 
 
@@ -311,6 +258,44 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin_medium"
                         android:layout_weight="1"
+                        android:text="@{viewModel.blueString}"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/yellow_flow"
+                            android:textSize="@dimen/text_size_medium" />
+
+                        <SeekBar
+                            android:id="@+id/seekbar_yellow"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_medium"
+                            android:progress="@{viewModel.yellowValue}"
+                            android:progressBackgroundTint="@color/base_green" />
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_medium"
+                        android:layout_weight="1"
+                        android:text="@{viewModel.yellowString}"
                         android:textStyle="bold" />
 
 
@@ -330,14 +315,16 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="v max"
+                            android:text="@string/green_flow"
                             android:textSize="@dimen/text_size_medium" />
 
                         <SeekBar
+                            android:id="@+id/seekbar_green"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:progressBackgroundTint="@color/base_green"
-                            android:layout_margin="@dimen/margin_medium" />
+                            android:layout_margin="@dimen/margin_medium"
+                            android:progress="@{viewModel.greenValue}"
+                            android:progressBackgroundTint="@color/base_green" />
                     </LinearLayout>
 
 
@@ -346,108 +333,44 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin_medium"
                         android:layout_weight="1"
+                        android:text="@{viewModel.greenString}"
                         android:textStyle="bold" />
-
-
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="2">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_margin="@dimen/margin_medium"
-                        android:layout_weight="1"
-                        android:background="@drawable/rounded_corner_layout"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
                         android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/margin_xlarge"
-                            android:src="@drawable/ic_wind" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/margin_small"
-                            android:textStyle="bold" />
-                    </LinearLayout>
+                            android:text="@string/v_max"
+                            android:textSize="@dimen/text_size_medium" />
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_margin="@dimen/margin_medium"
-                        android:layout_weight="1"
-                        android:background="@drawable/rounded_corner_layout"
-                        android:orientation="vertical">
-
-                        <ImageView
+                        <SeekBar
+                            android:id="@+id/seekbar_v_max"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/margin_xlarge"
-                            android:src="@drawable/ic_thermometer" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/margin_small"
-                            android:gravity="center"
-                            android:textStyle="bold" />
+                            android:layout_margin="@dimen/margin_medium"
+                            android:progress="@{viewModel.vMaxValue}"
+                            android:progressBackgroundTint="@color/base_green" />
                     </LinearLayout>
 
-                    <LinearLayout
+
+                    <TextView
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin_medium"
                         android:layout_weight="1"
-                        android:background="@drawable/rounded_corner_layout"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/margin_xlarge"
-                            android:src="@drawable/ic_pressure" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/margin_small"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_margin="@dimen/margin_medium"
-                        android:layout_weight="1"
-                        android:background="@drawable/rounded_corner_layout"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/margin_xlarge"
-                            android:src="@drawable/ic_humidity" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/margin_small"
-                            android:textStyle="bold" />
-                    </LinearLayout>
+                        android:text="@{viewModel.vMaxString}"
+                        android:textStyle="bold" />
 
 
                 </LinearLayout>
@@ -457,7 +380,6 @@
 
 
         </LinearLayout>
-
 
 
     </LinearLayout>

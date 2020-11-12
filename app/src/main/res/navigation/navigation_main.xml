@@ -66,9 +66,52 @@
 
     <fragment
         android:id="@+id/toolManagementFragment"
-        android:name="eu.agribot.agribotapp.ui.fragment.toolmanagement.ToolManagementFragment"
+        android:name="eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.ToolManagementFragment"
         android:label="@string/title_tool_management"
-        tools:layout="@layout/fragment_tool_management" />
+        tools:layout="@layout/fragment_tool_management" >
+        <action
+            android:id="@+id/action_toolManagementFragment_to_toolManagementNameFragment"
+            app:destination="@id/toolManagementNameFragment"
+            app:enterAnim="@anim/nav_slide_in_from_right"
+            app:exitAnim="@anim/nav_slide_out_to_right"
+            app:popEnterAnim="@anim/nav_slide_out_to_left"
+            app:popExitAnim="@anim/nav_slide_in_from_left"/>
+        <action
+            android:id="@+id/action_toolManagementFragment_to_toolManagementParamsFragment"
+            app:destination="@id/toolManagementParamsFragment"
+            app:enterAnim="@anim/nav_slide_in_from_right"
+            app:exitAnim="@anim/nav_slide_out_to_right"
+            app:popEnterAnim="@anim/nav_slide_out_to_left"
+            app:popExitAnim="@anim/nav_slide_in_from_left"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/toolManagementNameFragment"
+        android:name="eu.agribot.agribotapp.ui.fragment.toolmanagement.toolname.ToolNameFragment"
+        android:label="@string/title_tool_management"
+        tools:layout="@layout/fragment_tool_management_name" >
+        <action
+            android:id="@+id/action_toolManagementNameFragment_to_toolManagementParamsFragment"
+            app:destination="@id/toolManagementParamsFragment"
+            app:enterAnim="@anim/nav_slide_in_from_right"
+            app:exitAnim="@anim/nav_slide_out_to_right"
+            app:popEnterAnim="@anim/nav_slide_out_to_left"
+            app:popExitAnim="@anim/nav_slide_in_from_left"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/toolManagementParamsFragment"
+        android:name="eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams.ToolParamsFragment"
+        android:label="@string/title_tool_management"
+        tools:layout="@layout/fragment_tool_management_params" >
+        <action
+            android:id="@+id/action_toolManagementParamsFragment_to_toolManagementFragment"
+            app:destination="@id/toolManagementFragment"
+            app:enterAnim="@anim/nav_slide_in_from_right"
+            app:exitAnim="@anim/nav_slide_out_to_right"
+            app:popEnterAnim="@anim/nav_slide_out_to_left"
+            app:popExitAnim="@anim/nav_slide_in_from_left"/>
+    </fragment>
 
     <fragment
         android:id="@+id/dashboardFragment"
@@ -120,7 +163,7 @@
 
     <fragment
         android:id="@+id/taskCreatorTaskNameFragment"
-        android:name="eu.agribot.agribotapp.ui.fragment.taskcreator.taskname.CreatorTaskNameFragment"
+        android:name="eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.ToolManagementFragment"
         android:label="@string/type_task_name"
         tools:layout="@layout/fragment_creator_task_name">
 
@@ -149,6 +192,13 @@
             app:exitAnim="@anim/nav_slide_out_to_right"
             app:popEnterAnim="@anim/nav_slide_out_to_left"
             app:popExitAnim="@anim/nav_slide_in_from_left" />
+        <action
+            android:id="@+id/action_taskCreatorTaskPathFragment_to_creatorFragment"
+            app:destination="@id/creatorFragment"
+            app:enterAnim="@anim/nav_slide_in_from_right"
+            app:exitAnim="@anim/nav_slide_out_to_right"
+            app:popEnterAnim="@anim/nav_slide_out_to_left"
+            app:popExitAnim="@anim/nav_slide_in_from_left"/>
 
     </fragment>
 
@@ -161,6 +211,13 @@
         <action
             android:id="@+id/action_taskTimeCreatorFragment_to_taskWeatherCreatorFragment"
             app:destination="@id/taskCreatorTaskWeatherFragment"
+            app:enterAnim="@anim/nav_slide_in_from_right"
+            app:exitAnim="@anim/nav_slide_out_to_right"
+            app:popEnterAnim="@anim/nav_slide_out_to_left"
+            app:popExitAnim="@anim/nav_slide_in_from_left" />
+        <action
+            android:id="@+id/action_taskCreatorTaskTimeFragment_to_taskCreatorTaskPathFragment"
+            app:destination="@id/taskCreatorTaskPathFragment"
             app:enterAnim="@anim/nav_slide_in_from_right"
             app:exitAnim="@anim/nav_slide_out_to_right"
             app:popEnterAnim="@anim/nav_slide_out_to_left"
@@ -181,6 +238,13 @@
             app:exitAnim="@anim/nav_slide_out_to_right"
             app:popEnterAnim="@anim/nav_slide_out_to_left"
             app:popExitAnim="@anim/nav_slide_in_from_left" />
+        <action
+            android:id="@+id/action_taskCreatorTaskWeatherFragment_to_taskCreatorTaskTimeFragment"
+            app:destination="@id/taskCreatorTaskTimeFragment"
+            app:enterAnim="@anim/nav_slide_in_from_right"
+            app:exitAnim="@anim/nav_slide_out_to_right"
+            app:popEnterAnim="@anim/nav_slide_out_to_left"
+            app:popExitAnim="@anim/nav_slide_in_from_left" />
 
     </fragment>
 
@@ -191,8 +255,19 @@
         tools:layout="@layout/fragment_creator_tool_select">
 
         <action
+            android:id="@+id/action_taskCreatorTaskToolFragment_to_taskCreatorTaskWeatherFragment"
+            app:destination="@id/taskCreatorTaskWeatherFragment"
+            app:enterAnim="@anim/nav_slide_in_from_right"
+            app:exitAnim="@anim/nav_slide_out_to_right"
+            app:popEnterAnim="@anim/nav_slide_out_to_left"
+            app:popExitAnim="@anim/nav_slide_in_from_left" />
+        <action
             android:id="@+id/action_taskCreatorTaskToolFragment_to_creatorFragment"
-            app:destination="@id/creatorFragment" />
+            app:destination="@id/creatorFragment"
+            app:enterAnim="@anim/nav_slide_in_from_right"
+            app:exitAnim="@anim/nav_slide_out_to_right"
+            app:popEnterAnim="@anim/nav_slide_out_to_left"
+            app:popExitAnim="@anim/nav_slide_in_from_left" />
     </fragment>
 
     <fragment

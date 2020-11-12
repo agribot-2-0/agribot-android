@@ -17,4 +17,6 @@ object CloudDatabasePaths {
     const val DOCUMENT_WEATHER_STATION_PRESSURE = "/weather_station/pressure"
 
     const val DOCUMENT_TASKS = "tasks"
+
+    const val DOCUMENT_TOOLS = "tools"
 }

@@ -106,7 +106,7 @@ class ToolParamsViewModel(
     }
 
     private fun readRfidTag() {
-        if (toolRfidTag.value == "0") {
+        if (toolDataManager.rfid == 0) {
             // TODO add scaning rfid via bluetooth
         }
     }
@@ -173,7 +173,7 @@ class ToolParamsViewModel(
 
     private fun onToolUpdate(toolDetails: ToolDetails) {
         toolDataManager.updateAllToolParameters(toolDetails)
-        toolRfidTag.value = toolDetails.rfid.toString()
+        toolRfidTag.value = toolDataManager.rfid.toString()
         addToolParamItemsToRecycler()
     }
 

@@ -1,13 +1,16 @@
 package eu.agribot.agribotapp.domain.service.cloud
 
+import eu.agribot.agribotapp.communication.database.firestorage.DownloaderPath
 import eu.agribot.agribotapp.communication.database.firestorage.FirestorageService
 import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
 import eu.agribot.agribotapp.domain.service.AuthenticationService
+import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePathProvider
 import java.io.File
 
 class CloudStorageService(
     private val firestorageService: FirestorageService,
     private val authenticationService: AuthenticationService,
+    private val filePathProvider: FilePathProvider,
     private val cloudStorageErrorHandler: CloudStorageErrorHandler
 ) {
 
@@ -21,15 +24,36 @@ class CloudStorageService(
         )
     }
 
-    fun downloadFile(
+    fun onFileSelected(
         fileName: String,
-        onGotFile: (file: File) -> Unit
+        onGotFile: (file: File) -> Unit,
+        onSelectedFileError: (fileError: String) -> Unit
     ) {
-        firestorageService.onFileToDownloadSelect(
-            authenticationService.getCurrentUser().userUID,
+        val file = File(
+            filePathProvider.getLayerPath(DownloaderPath.LAYER_PATH.filePath),
+            fileName
+        )
+        if (file.exists()) {
+            onGotFile(file)
+        } else {
+            downloadFile(
+                fileName,
+                onGotFile,
+                onSelectedFileError
+            )
+        }
+    }
+
+    private fun downloadFile(
+        fileName: String,
+        onDownloadFileSucess: (file: File) -> Unit,
+        onDownloadFileError: (error: String) -> Unit
+    ) {
+        firestorageService.downloadFileFromUrl(
             fileName,
-            onGotFile,
-            onDownloadError = { cloudStorageErrorHandler.getStorageError(it as Exception) }
+            filePathProvider.getLayerPath(DownloaderPath.LAYER_PATH.filePath),
+            onDownloadFileSucess,
+            onDownloadError = { onDownloadFileError(cloudStorageErrorHandler.getStorageError(it)) }
         )
     }
 }

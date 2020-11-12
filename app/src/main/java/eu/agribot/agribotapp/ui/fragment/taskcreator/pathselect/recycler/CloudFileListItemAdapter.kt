@@ -9,10 +9,10 @@ import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.databinding.ListItemCloudfilesBinding
 import kotlinx.android.synthetic.main.list_item_cloudfiles.view.*
 
-class CloudFileListItemAdapter(val onClickSelectedItem: (CloudFileListItemViewModel) -> Unit) :
+class CloudFileListItemAdapter(onClickSelectedItem: (CloudFileListItemViewModel) -> Unit) :
     RecyclerView.Adapter<CloudFileListItemViewHolder>() {
-    val initializationItemPosition = -1
-    var selectedItemPosition = initializationItemPosition
+    private val initializationItemPosition = -1
+    private var selectedItemPosition = initializationItemPosition
 
     var items = listOf<CloudFileListItemViewModel>()
         set(value) {
@@ -26,7 +26,7 @@ class CloudFileListItemAdapter(val onClickSelectedItem: (CloudFileListItemViewMo
             }.dispatchUpdatesTo(this)
         }
 
-    var selectedItem: ((CloudFileListItemViewModel) -> Unit)? = onClickSelectedItem
+    private var selectedItem: ((CloudFileListItemViewModel) -> Unit)? = onClickSelectedItem
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CloudFileListItemViewHolder =
         CloudFileListItemViewHolder(
@@ -41,7 +41,6 @@ class CloudFileListItemAdapter(val onClickSelectedItem: (CloudFileListItemViewMo
     override fun onBindViewHolder(holder: CloudFileListItemViewHolder, position: Int) {
         val item = items[position]
         holder.bind(item)
-
         holder.itemView.card_list_file.setBackgroundResource(R.color.white)
         if (selectedItemPosition == initializationItemPosition && item.isFileSelected) {
             holder.itemView.card_list_file.setBackgroundResource(R.color.base_green_lighter)

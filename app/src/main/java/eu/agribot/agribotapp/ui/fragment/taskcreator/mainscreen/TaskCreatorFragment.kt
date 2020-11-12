@@ -1,10 +1,7 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen
 
-import android.content.Context
 import android.os.Bundle
-import android.os.Environment
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,11 +28,10 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.TaskLis
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.swiperecyclerutils.SwipeHelper
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.swiperecyclerutils.SwipeRecyclerClickListener
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.swiperecyclerutils.SwipeRecyclerHelper
-import kotlinx.android.synthetic.main.fragment_creator_configurator.*
+import kotlinx.android.synthetic.main.fragment_creator_configurator.task_recycler
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-import java.io.File
 import java.io.IOException
 import java.io.InputStream
 
@@ -137,24 +133,12 @@ class TaskCreatorFragment :
         adapter.items = task
     }
 
-    private fun getRootDirPath(context: Context, pathDirection: String): String {
-        return if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()) {
-            val file: File = ContextCompat.getExternalFilesDirs(
-                context.applicationContext,
-                null
-            )[0]
-            URLPath.FILE.path + file.absolutePath + pathDirection
-        } else {
-            context.applicationContext.filesDir.absolutePath
-        }
-    }
-
     private fun addTileOverlay() {
         val tileProvider =
             TileProvider(
                 MapParameters.MAP_SIZE.mapParametr.toInt(),
                 MapParameters.MAP_SIZE.mapParametr.toInt(),
-                getRootDirPath(requireContext(), URLPath.MAP_PATH.path)
+                viewModel.getMapTilePath(URLPath.MAP_PATH.path)
 
             )
         try {
@@ -177,19 +161,24 @@ class TaskCreatorFragment :
     }
 
     private fun setSelectedLayer(mapStream: InputStream) {
-        mapPathLayer = KmlLayer(googleMapFragment, mapStream, requireContext())
-        mapPathLayer!!.containers
-        mapPathLayer!!.addLayerToMap()
         try {
-            val container: Iterable<KmlContainer> = mapPathLayer!!.containers
-            viewModel.accessContainers(container)
-        } catch (exception: IOException) {
-            showToast(getString(R.string.kml_layer_problem))
+            mapPathLayer = KmlLayer(googleMapFragment!!, mapStream, requireContext())
+            mapPathLayer!!.containers
+            mapPathLayer!!.addLayerToMap()
+            try {
+                val container: Iterable<KmlContainer> = mapPathLayer!!.containers
+                viewModel.getCoordinatesFromKml(container)
+            } catch (exception: IOException) {
+                showToast(getString(R.string.kml_layer_problem))
+            }
+        } catch (exception: Exception) {
+            exception.stackTrace
         }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         googleMapFragment = googleMap
+        googleMapFragment!!.clear()
         googleMapFragment!!.mapType = GoogleMap.MAP_TYPE_NORMAL
         googleMapFragment!!.setMinZoomPreference(MapParameters.MIN_ZOOM.mapParametr)
         googleMapFragment!!.setMaxZoomPreference(MapParameters.MAX_ZOOM.mapParametr)

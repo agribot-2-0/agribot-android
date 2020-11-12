@@ -14,35 +14,41 @@ class CreatorToolSelectViewModel(
 ) :
     BaseViewModel() {
     private val NULL_VALUE_TIMESTAMP = 946728000L
-    fun sendTaskData() {
-        postDashboardNavigationEvent()
-        cloudDatabaseService.programTaskToRobot(
-            taskName = taskCreatorDataManager.getTaskName(),
+
+    private fun getTaskData() {
+        cloudDatabaseService.addTask(
+            taskName = taskCreatorDataManager.getTaskParemeters().task_name,
             newRobotTaskDetails = NewRobotTaskDetails(
-                path_name = formatPathName(),
-                start_time = if (taskCreatorDataManager.getTimeEstimated()) {
+                path_name = formatPathName(taskCreatorDataManager.getTaskParemeters().path_name),
+                start_time = if (taskCreatorDataManager.getTaskParemeters().start_time_estimated) {
                     Timestamp(NULL_VALUE_TIMESTAMP, 0)
                 } else {
-                    taskCreatorDataManager.getTimeStamp()
+                    taskCreatorDataManager.getTaskParemeters().start_time
                 },
-                start_time_estimated = taskCreatorDataManager.getTimeEstimated(),
-                temperature_value = taskCreatorDataManager.getTemperatureValue(),
-                temperature_condition = taskCreatorDataManager.getTemperatureCondition(),
-                wind_value = taskCreatorDataManager.getWindValue(),
-                wind_condition = taskCreatorDataManager.getWindCondition(),
-                humidity_value = taskCreatorDataManager.getHumidityValue(),
-                humidity_condition = taskCreatorDataManager.getHumidityCondition(),
-                pressure_value = taskCreatorDataManager.getPressureValue(),
-                pressure_condition = taskCreatorDataManager.getPressureCondition()
+                start_time_estimated = taskCreatorDataManager.getTaskParemeters().start_time_estimated,
+                temperature_value = taskCreatorDataManager.getTaskParemeters().temperature_value,
+                temperature_condition = taskCreatorDataManager.getTaskParemeters().temperature_condition,
+                wind_value = taskCreatorDataManager.getTaskParemeters().wind_value,
+                wind_condition = taskCreatorDataManager.getTaskParemeters().wind_condition,
+                humidity_value = taskCreatorDataManager.getTaskParemeters().humidity_value,
+                humidity_condition = taskCreatorDataManager.getTaskParemeters().humidity_condition,
+                pressure_value = taskCreatorDataManager.getTaskParemeters().pressure_value,
+                pressure_condition = taskCreatorDataManager.getTaskParemeters().pressure_condition
             )
         )
     }
 
-    private fun formatPathName(): String {
-        return if (taskCreatorDataManager.getPathName().toString().contains(PathNameFileSymbol.VARSION_SEPARATOR.symbol)) {
-            taskCreatorDataManager.getPathName().toString().substringBefore(PathNameFileSymbol.VARSION_SEPARATOR.symbol)
+    fun sendTaskData() {
+        getTaskData()
+        postDashboardNavigationEvent()
+    }
+
+    private fun formatPathName(taskName: String): String {
+        return if (taskName.contains(PathNameFileSymbol.VARSION_SEPARATOR.symbol)
+        ) {
+            taskName.substringBefore(PathNameFileSymbol.VARSION_SEPARATOR.symbol)
         } else {
-            taskCreatorDataManager.getPathName().toString().substringBefore(PathNameFileSymbol.FILE_FORMAT_SEPARATOR.symbol)
+            taskName.substringBefore(PathNameFileSymbol.FILE_FORMAT_SEPARATOR.symbol)
         }
     }
 

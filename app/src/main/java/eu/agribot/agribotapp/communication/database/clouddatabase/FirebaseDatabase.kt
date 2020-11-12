@@ -2,24 +2,15 @@ package eu.agribot.agribotapp.communication.database.clouddatabase
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore.getInstance
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_ADI75R1_HEALTH_ENGINE
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_ADI75R1_LOCALIZATION_POSE
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_ADI75R1_TASKS_LIST
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_ADI75R1_WEATHER_STATION_HUMIDITYE
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_ADI75R1_WEATHER_STATION_PRESSURE
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_ADI75R1_WEATHER_STATION_TEMPERATURE
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_ADI75R1_WEATHER_STATION_WIND
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_ADI75R2_LOCALIZATION_POSE
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_HEALTH
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_ROBOTS_ADI75R1
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.ActualTaskCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.EngineHealthCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.NewRobotTaskDetailsCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotHealthEngineCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotLocalizationPoseCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationHumidityCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationPressureCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationTemperatureCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationWindCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotLocalizationPoseCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskDetailsCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskItemCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.ToolDetailsCDB
@@ -27,40 +18,29 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.model.TooltemC
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserInfoCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_ENGINE
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_ROBOTS
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_TASK_ITEM
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_USER
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_HEALTH
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_HEALTH_ENGINE
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_LOCALIZATION_POSE
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_TASKS
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_WEATHER_STATION_HUMIDITYE
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_WEATHER_STATION_PRESSURE
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_WEATHER_STATION_TEMPERATURE
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_WEATHER_STATION_WIND
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.NewRobotTaskDetailsCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_TOOLS
 
 class FirebaseDatabase() : CloudDatabase {
     private val currentFirebaseUser = FirebaseAuth.getInstance().currentUser?.uid.toString()
     private val database = getInstance()
+    private var userRobotName = ""
 
-/*
-    private fun getDataFromCloudDatabase(databaseCollection : String, databaseDocument : String, onDatabaseSucess : () -> Unit, onDatabaseError: (Throwable) -> Unit){
-        database.collection(param1)
-            .document(param2)
-            .addSnapshotListener { snapshot, databaseException ->
-                if (databaseException != null) {
-                    param3(Throwable("Could not parse firebase data"))
-                    return@addSnapshotListener
-                }
-
-                if (snapshot != null && snapshot.exists()) {
-                    snapshot.toObject(FirstRobotWeatherStationHumidityCDB::class.java)?.let {
-                        param4(it)
-                    }
-                }
-            }
-    }
-
-
- */
     override fun getUserData(
         onDatabaseSucess: (data: UserInfoCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        database.collection(COLLECTION_USER).document(currentFirebaseUser + DOCUMENT_ROBOTS_ADI75R1)
+        database.collection(COLLECTION_USER)
+            .document("$currentFirebaseUser/$COLLECTION_ROBOTS/$userRobotName")
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(Throwable("Could not parse firebase data"))
@@ -78,7 +58,7 @@ class FirebaseDatabase() : CloudDatabase {
         onDatabaseSucess: (data: EngineHealthCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        database.collection(COLLECTION_ENGINE).document(DOCUMENT_HEALTH)
+        database.collection(COLLECTION_ENGINE).document(userRobotName + DOCUMENT_HEALTH)
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(Throwable("Could not parse firebase data"))
@@ -92,11 +72,12 @@ class FirebaseDatabase() : CloudDatabase {
             }
     }
 
-    override fun getFirstRobotHealthEngineData(
+    override fun getRobotHealthEngineData(
         onDatabaseSucess: (data: RobotHealthEngineCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        database.collection(COLLECTION_ROBOTS).document(DOCUMENT_ADI75R1_HEALTH_ENGINE)
+        database.collection(COLLECTION_ROBOTS)
+            .document(userRobotName + DOCUMENT_HEALTH_ENGINE)
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(Throwable("Could not parse firebase data"))
@@ -110,11 +91,12 @@ class FirebaseDatabase() : CloudDatabase {
             }
     }
 
-    override fun getFirstRobotLocalizationPoseData(
+    override fun getRobotLocalizationPoseData(
         onDatabaseSucess: (data: RobotLocalizationPoseCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        database.collection(COLLECTION_ROBOTS).document(DOCUMENT_ADI75R1_LOCALIZATION_POSE)
+        database.collection(COLLECTION_ROBOTS)
+            .document(userRobotName + DOCUMENT_LOCALIZATION_POSE)
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(Throwable("Could not parse firebase data"))
@@ -128,12 +110,12 @@ class FirebaseDatabase() : CloudDatabase {
             }
     }
 
-    override fun getFirstRobotWeatherStationHumidityData(
+    override fun getRobotWeatherStationHumidityData(
         onDatabaseSucess: (data: RobotWeatherStationHumidityCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document(DOCUMENT_ADI75R1_WEATHER_STATION_HUMIDITYE)
+            .document(userRobotName + DOCUMENT_WEATHER_STATION_HUMIDITYE)
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(Throwable("Could not parse firebase data"))
@@ -147,12 +129,12 @@ class FirebaseDatabase() : CloudDatabase {
             }
     }
 
-    override fun getFirstRobotWeatherStationPressureData(
+    override fun getRobotWeatherStationPressureData(
         onDatabaseSucess: (RobotWeatherStationPressureCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document(DOCUMENT_ADI75R1_WEATHER_STATION_PRESSURE)
+            .document(userRobotName + DOCUMENT_WEATHER_STATION_PRESSURE)
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(Throwable("Could not parse firebase data"))
@@ -166,12 +148,12 @@ class FirebaseDatabase() : CloudDatabase {
             }
     }
 
-    override fun getFirstRobotWeatherStationWindData(
+    override fun getRobotWeatherStationWindData(
         onDatabaseSucess: (RobotWeatherStationWindCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document(DOCUMENT_ADI75R1_WEATHER_STATION_WIND)
+            .document(userRobotName + DOCUMENT_WEATHER_STATION_WIND)
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(Throwable("Could not parse firebase data"))
@@ -185,12 +167,12 @@ class FirebaseDatabase() : CloudDatabase {
             }
     }
 
-    override fun getFirstRobotWeatherStationTemperatureData(
+    override fun getRobotWeatherStationTemperatureData(
         onDatabaseSucess: (data: RobotWeatherStationTemperatureCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document(DOCUMENT_ADI75R1_WEATHER_STATION_TEMPERATURE)
+            .document(userRobotName + DOCUMENT_WEATHER_STATION_TEMPERATURE)
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(Throwable("Could not parse firebase data"))
@@ -204,25 +186,6 @@ class FirebaseDatabase() : CloudDatabase {
             }
     }
 
-    override fun getSecondRobotLocalizationPoseData(
-        onDatabaseSucess: (data: RobotLocalizationPoseCDB) -> Unit,
-        onDatabaseError: (Throwable) -> Unit
-    ) {
-        database.collection(COLLECTION_ROBOTS)
-            .document(DOCUMENT_ADI75R2_LOCALIZATION_POSE)
-            .addSnapshotListener { snapshot, databaseException ->
-                if (databaseException != null) {
-                    onDatabaseError(Throwable("Could not parse firebase data"))
-                    return@addSnapshotListener
-                }
-                if (snapshot != null && snapshot.exists()) {
-                    snapshot.toObject(RobotLocalizationPoseCDB::class.java)?.let {
-                        onDatabaseSucess(it)
-                    }
-                }
-            }
-    }
-
     override fun saveUserData(
         data: UserInfoCDB,
         user: String,
@@ -230,7 +193,7 @@ class FirebaseDatabase() : CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_USER)
-            .document(user + DOCUMENT_ROBOTS_ADI75R1)
+            .document("$user/$COLLECTION_ROBOTS/$userRobotName")
             .set(data)
             .addOnSuccessListener {
                 onDatabaseSucess.invoke()
@@ -245,7 +208,7 @@ class FirebaseDatabase() : CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_USER)
-            .document(currentFirebaseUser + DOCUMENT_ROBOTS_ADI75R1)
+            .document("$currentFirebaseUser/$COLLECTION_ROBOTS/$userRobotName")
             .delete()
             .addOnSuccessListener {
                 onDatabaseSucess.invoke()
@@ -261,7 +224,7 @@ class FirebaseDatabase() : CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document(DOCUMENT_ADI75R1_TASKS_LIST + taskName)
+            .document("$userRobotName/$DOCUMENT_TASKS/$taskName")
             .set(newRobotTaskDetailsCDB)
             .addOnFailureListener { exception ->
                 onDatabaseError(exception)
@@ -274,7 +237,7 @@ class FirebaseDatabase() : CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document(DOCUMENT_ADI75R1_TASKS_LIST + taskID)
+            .document("$userRobotName/$DOCUMENT_TASKS/$taskID")
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(Throwable("Could not parse firebase data"))
@@ -289,13 +252,12 @@ class FirebaseDatabase() : CloudDatabase {
     }
 
     override fun getCurrentTaskDetails(
-        robotName: String,
         onGetCurrentTaskNameSucess: (currentTaskName: String) -> Unit,
         onGetCurrentTaskDetailsSucess: (taskDetailsCDB: TaskDetailsCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document(robotName)
+            .document(userRobotName)
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(databaseException)
@@ -303,10 +265,10 @@ class FirebaseDatabase() : CloudDatabase {
                 }
                 if (snapshot != null && snapshot.exists()) {
                     snapshot.toObject(ActualTaskCDB::class.java)?.let { it ->
-                        if (it.actualTask != "") {
-                            onGetCurrentTaskNameSucess(it.actualTask)
+                        if (it.actual_task != "") {
+                            onGetCurrentTaskNameSucess(it.actual_task)
                             getTaskDetails(
-                                it.actualTask,
+                                it.actual_task,
                                 onGetCurrentTaskDetailsSucess,
                                 onDatabaseError
                             )
@@ -317,15 +279,14 @@ class FirebaseDatabase() : CloudDatabase {
     }
 
     override fun setCurrenttask(
-        robotName: String,
         actualTaskCDB: ActualTaskCDB,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document(robotName)
+            .document(userRobotName)
             .update(
                 mapOf(
-                    "actual_task" to actualTaskCDB.actualTask
+                    "actual_task" to actualTaskCDB.actual_task
                 )
             )
             .addOnFailureListener { exception ->
@@ -339,7 +300,7 @@ class FirebaseDatabase() : CloudDatabase {
         onDeleteError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document(DOCUMENT_ADI75R1_TASKS_LIST + taskID)
+            .document("$userRobotName/$DOCUMENT_TASKS/$taskID")
             .delete()
             .addOnSuccessListener {
                 onDeleteSucess()
@@ -353,12 +314,12 @@ class FirebaseDatabase() : CloudDatabase {
         onGetTaskItem: (taskItemCDB: TaskItemCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        database.collection(COLLECTION_TASK_ITEM)
+        database.collection("$COLLECTION_ROBOTS/$userRobotName/$DOCUMENT_TASKS")
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
                     database.collection(COLLECTION_ROBOTS)
-                        .document(DOCUMENT_ADI75R1_TASKS_LIST + document.id)
+                        .document(userRobotName + "/" + DOCUMENT_TASKS + "/" + document.id)
                         .addSnapshotListener { snapshot, databaseException ->
                             if (databaseException != null) {
                                 onDatabaseError(Throwable("Could not parse firebase data"))
@@ -446,6 +407,14 @@ class FirebaseDatabase() : CloudDatabase {
                         onGetToolDetailsSucess(it)
                     }
                 }
+            }
+    }
+
+    override fun getUsersRobotName() {
+        database.collection("$COLLECTION_USER/$currentFirebaseUser/$COLLECTION_ROBOTS")
+            .get()
+            .addOnSuccessListener { result ->
+                userRobotName = result.documents[0].id
             }
     }
 }

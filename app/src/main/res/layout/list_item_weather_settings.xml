@@ -28,7 +28,7 @@
             android:padding="@dimen/margin_large">
 
             <TextView
-                android:id="@+id/unit"
+                android:id="@+id/currentValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

@@ -23,8 +23,6 @@ import eu.agribot.agribotapp.communication.database.firebase.AndroidFirebaseServ
 import eu.agribot.agribotapp.communication.database.firebase.FirebaseService
 import eu.agribot.agribotapp.communication.database.firestorage.AndroidFirestorageService
 import eu.agribot.agribotapp.communication.database.firestorage.FirestorageService
-import eu.agribot.agribotapp.communication.database.firestorage.downloader.AndroidDownloaderUtils
-import eu.agribot.agribotapp.communication.database.firestorage.downloader.DownloaderUtils
 import eu.agribot.agribotapp.communication.persistence.PersistentStorage
 import eu.agribot.agribotapp.communication.persistence.SharedPreferencesPersistentStorage
 import org.koin.android.ext.koin.androidContext
@@ -80,10 +78,8 @@ val communicationModule = module {
         FirebaseDatabase()
     }
 
-    single<DownloaderUtils> { AndroidDownloaderUtils() }
-
     single<FirestorageService> {
-        AndroidFirestorageService(context = androidContext(), downloaderUtils = get())
+        AndroidFirestorageService(firebaseService = get())
     }
 
     single<BluetoothMessageWriteErrorHandler> {

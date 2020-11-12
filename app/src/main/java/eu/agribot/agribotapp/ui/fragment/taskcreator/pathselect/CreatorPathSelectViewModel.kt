@@ -3,15 +3,15 @@ package eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.kml.KmlContainer
-import com.google.maps.android.kml.KmlLineString
-import com.google.maps.android.kml.KmlPlacemark
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskTimeNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
+import eu.agribot.agribotapp.domain.service.KmlLayerService
 import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
+import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePathProvider
 import eu.agribot.agribotapp.ui.fragment.taskcreator.PathNameFileSymbol
 import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler.CloudFileListItemViewModel
 import java.io.File
@@ -22,7 +22,9 @@ import java.io.InputStream
 class CreatorPathSelectViewModel(
     private val cloudStorageService: CloudStorageService,
     private val taskCreatorDataManager: TaskCreatorDataManager,
-    private val resourcesProvider: ResourcesProvider
+    private val resourcesProvider: ResourcesProvider,
+    private val kmlLayerService: KmlLayerService,
+    private val filePathProvider: FilePathProvider
 ) : BaseViewModel() {
     private val fileListPathsList: MutableLiveData<List<CloudFileListItemViewModel>> =
         MutableLiveData(listOf())
@@ -36,37 +38,30 @@ class CreatorPathSelectViewModel(
     val invalidPathName = "empty_path"
 
     private fun getSavedPath() {
-        if (taskCreatorDataManager.getPathName() != invalidPathName && taskCreatorDataManager.getPathName() != null) {
-            currentPathName.value = taskCreatorDataManager.getPathName()!!
-            downloadSelectedFile(taskCreatorDataManager.getPathName()!!)
+        if (taskCreatorDataManager.taskDetails.path_name != invalidPathName) {
+            currentPathName.value = taskCreatorDataManager.taskDetails.path_name
+            downloadSelectedFile(taskCreatorDataManager.taskDetails.path_name)
         }
     }
 
-    fun accessContainers(containers: Iterable<KmlContainer?>) {
-        for (container in containers) {
-            if (container != null) {
-                if (container.hasContainers()) {
-                    accessContainers(container.containers)
-                } else {
-                    if (container.hasPlacemarks()) {
-                        accessPlacemarks(container.placemarks)
-                    }
-                }
-            }
-        }
+    fun getCoordinatesFromKml(containers: Iterable<KmlContainer?>) {
+        kmlLayerService.getCoordinates(
+            containers,
+            onGetLatLng = this::onGotCoordinates,
+            onError = this::onGetCoordinatesError
+        )
     }
 
-    private fun accessPlacemarks(placemarks: Iterable<KmlPlacemark?>) {
-        for (placemark in placemarks) {
-            if (placemark != null) {
-                try {
-                    val kmlLineString = placemark.geometry as KmlLineString
-                    cameraPosition.value = kmlLineString.geometryObject[0]
-                } catch (exception: Exception) {
-                    toastEvent.postValue(resourcesProvider.getString(R.string.kml_layer_problem))
-                }
-            }
-        }
+    private fun onGotCoordinates(coordinates: LatLng) {
+        cameraPosition.value = coordinates
+    }
+
+    private fun onGetCoordinatesError() {
+        postToastErrorMessageEvent(resourcesProvider.getString(R.string.kml_layer_problem))
+    }
+
+    private fun postToastErrorMessageEvent(errorMessage: String) {
+        toastEvent.postValue(errorMessage)
     }
 
     private fun onAvailableFileFound(fileName: String, isFileActive: Boolean) {
@@ -106,7 +101,7 @@ class CreatorPathSelectViewModel(
     }
 
     fun checkPathSelected() {
-        isPathSelected = taskCreatorDataManager.getPathName() != null
+        isPathSelected = currentPathName.value != null
     }
 
     fun downloadAvailableFileList() {
@@ -117,7 +112,7 @@ class CreatorPathSelectViewModel(
     }
 
     private fun createListFiles(fileName: String) {
-        val isActive = fileName.contains(taskCreatorDataManager.getPathName().toString())
+        val isActive = fileName.contains(taskCreatorDataManager.getTaskParemeters().path_name)
         onAvailableFileFound(fileName, isActive)
         onFileInStorageFound(fileName, isActive)
     }
@@ -128,9 +123,10 @@ class CreatorPathSelectViewModel(
         for (item in fileListPathsList.value!!) {
             if (item.fileName.contains(fileName))
                 try {
-                    cloudStorageService.downloadFile(
+                    cloudStorageService.onFileSelected(
                         item.fileName,
-                        onGotFile = this::onGotPathFile
+                        onGotFile = this::onGotPathFile,
+                        onSelectedFileError = this::postToastErrorMessageEvent
                     )
                 } catch (exception: IOException) {
                     onCloudDataException(exception.toString())
@@ -156,5 +152,9 @@ class CreatorPathSelectViewModel(
 
     private fun onCloudDataException(exception: String) {
         toastEvent.postValue(exception)
+    }
+
+    fun getMapTilePath(filePath: String): String {
+        return filePathProvider.getMapTilePath(filePath)
     }
 }

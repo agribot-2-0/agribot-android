@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect
+package eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.data
 
 enum class WeatherUnit(val unit: String) {
     TEMPERATURE_UNIT(" °C"),

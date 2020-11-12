@@ -5,29 +5,32 @@ import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.kml.KmlContainer
-import com.google.maps.android.kml.KmlLineString
-import com.google.maps.android.kml.KmlPlacemark
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.LiveEvent
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.TaskSelectNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
-import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
 import eu.agribot.agribotapp.domain.model.cdb.RobotLocalizationPose
+import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
+import eu.agribot.agribotapp.domain.service.KmlLayerService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
+import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePathProvider
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TaskDetailsElements
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
 import java.io.InputStream
 import java.text.SimpleDateFormat
+import java.util.TimeZone
 
 class ControlPanelViewModel(
-    val cloudDatabaseService: CloudDatabaseService,
-    val resourcesProvider: ResourcesProvider,
-    val cloudStorageService: CloudStorageService
+    private val cloudDatabaseService: CloudDatabaseService,
+    private val resourcesProvider: ResourcesProvider,
+    private val cloudStorageService: CloudStorageService,
+    private val kmlLayerService: KmlLayerService,
+    private val filePathProvider: FilePathProvider
 ) : BaseViewModel() {
     val currentTask: MutableLiveData<String> = MutableLiveData()
     val pathName: MutableLiveData<String> = MutableLiveData()
@@ -41,31 +44,24 @@ class ControlPanelViewModel(
     val markers: MutableLiveData<MarkerOptions> = MutableLiveData()
     val cameraPosition: MutableLiveData<LatLng> = MutableLiveData()
 
-    fun accessContainers(containers: Iterable<KmlContainer?>) {
-        for (container in containers) {
-            if (container != null) {
-                if (container.hasContainers()) {
-                    accessContainers(container.containers)
-                } else {
-                    if (container.hasPlacemarks()) {
-                        accessPlacemarks(container.placemarks)
-                    }
-                }
-            }
-        }
+    fun getMapTilePath(path: String): String {
+        return filePathProvider.getMapTilePath(path)
     }
 
-    private fun accessPlacemarks(placemarks: Iterable<KmlPlacemark?>) {
-        for (placemark in placemarks) {
-            if (placemark != null) {
-                try {
-                    val kmlLineString = placemark.geometry as KmlLineString
-                    cameraPosition.value = kmlLineString.geometryObject[0]
-                } catch (exception: Exception) {
-                    postToastErrorMessageEvent("Kml LatLngException")
-                }
-            }
-        }
+    fun getCoordinatesFromKml(containers: Iterable<KmlContainer?>) {
+        kmlLayerService.getCoordinates(
+            containers,
+            onGetLatLng = this::onGotCoordinates,
+            onError = this::onGetCoordinatesError
+        )
+    }
+
+    private fun onGotCoordinates(coordinates: LatLng) {
+        cameraPosition.value = coordinates
+    }
+
+    private fun onGetCoordinatesError() {
+        postToastErrorMessageEvent(resourcesProvider.getString(R.string.kml_layer_problem))
     }
 
     private fun checkIsCurrentPathExistInStorage() {
@@ -78,12 +74,13 @@ class ControlPanelViewModel(
     private fun checkIsFileExist(fileName: String) {
         if (fileName.contains(pathName.value.toString(), ignoreCase = true)) {
             try {
-                cloudStorageService.downloadFile(
+                cloudStorageService.onFileSelected(
                     fileName,
-                    onGotFile = this::onFileAlreadyDownloaded
+                    onGotFile = this::onFileAlreadyDownloaded,
+                    onSelectedFileError = this::postToastErrorMessageEvent
                 )
             } catch (exception: IOException) {
-                postToastErrorMessageEvent("Add PathLayer to map problem")
+                postToastErrorMessageEvent(resourcesProvider.getString(R.string.kml_layer_problem))
             }
         }
     }
@@ -94,7 +91,7 @@ class ControlPanelViewModel(
     }
 
     fun getAgribotPosition() {
-        cloudDatabaseService.getSecondRobotLocalizationPose(
+        cloudDatabaseService.getRobotLocalizationPose(
             onSuccess = this::setCurrentRobotPosition,
             onError = this::postToastErrorMessageEvent
         )
@@ -131,6 +128,7 @@ class ControlPanelViewModel(
     private fun onGotCurrentTaskDetails(taskDetails: TaskDetails) {
         if (!taskDetails.start_time_estimated) {
             val dateFormat = SimpleDateFormat(TaskDetailsElements.DATE_FORMAT.detailsElement)
+            dateFormat.timeZone = TimeZone.getTimeZone(TaskDetailsElements.TIMEZONE.detailsElement)
             taskDate.value =
                 resourcesProvider.getString(R.string.start_time) + dateFormat.format(taskDetails.start_time!!.toDate())
         } else {
@@ -143,58 +141,43 @@ class ControlPanelViewModel(
         }
 
         if (taskDetails.temperature_value != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
-            val temperatureCondition: String = when (taskDetails.temperature_condition) {
-                TaskDetailsElements.LESS_TEXT.detailsElement -> TaskDetailsElements.LESS_SYMBOL.detailsElement
-                TaskDetailsElements.MORE_TEXT.detailsElement -> TaskDetailsElements.MORE_SYMBOL.detailsElement
-                TaskDetailsElements.EQUAL_TEXT.detailsElement -> TaskDetailsElements.EQUAL_SYMBOL.detailsElement
-                else -> TaskDetailsElements.SEPARATOR.detailsElement
-            }
             temperature.value =
-                temperatureCondition + TaskDetailsElements.SEPARATOR.detailsElement + taskDetails.temperature_value + TaskDetailsElements.TEMPERATURE_UNIT.detailsElement
+                changeTextToSymbol(taskDetails.temperature_condition) + TaskDetailsElements.SEPARATOR.detailsElement + taskDetails.temperature_value + TaskDetailsElements.TEMPERATURE_UNIT.detailsElement
         } else {
             temperature.value = resourcesProvider.getString(R.string.no_temperature_text)
         }
 
         if (taskDetails.humidity_value != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
-            val humidityCondition: String = when (taskDetails.humidity_condition) {
-                TaskDetailsElements.LESS_TEXT.detailsElement -> TaskDetailsElements.LESS_SYMBOL.detailsElement
-                TaskDetailsElements.MORE_TEXT.detailsElement -> TaskDetailsElements.MORE_SYMBOL.detailsElement
-                TaskDetailsElements.EQUAL_TEXT.detailsElement -> TaskDetailsElements.EQUAL_SYMBOL.detailsElement
-                else -> TaskDetailsElements.SEPARATOR.detailsElement
-            }
+
             humidity.value =
-                humidityCondition + TaskDetailsElements.SEPARATOR.detailsElement + taskDetails.humidity_value + TaskDetailsElements.PERCENT.detailsElement
+                changeTextToSymbol(taskDetails.humidity_condition) + TaskDetailsElements.SEPARATOR.detailsElement + taskDetails.humidity_value + TaskDetailsElements.PERCENT.detailsElement
         } else {
             humidity.value = resourcesProvider.getString(R.string.no_humidity_text)
         }
 
         if (taskDetails.pressure_value != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
-            val pressureCondition: String = when (taskDetails.pressure_condition) {
-                TaskDetailsElements.LESS_TEXT.detailsElement -> TaskDetailsElements.LESS_SYMBOL.detailsElement
-                TaskDetailsElements.MORE_TEXT.detailsElement -> TaskDetailsElements.MORE_SYMBOL.detailsElement
-                TaskDetailsElements.EQUAL_TEXT.detailsElement -> TaskDetailsElements.EQUAL_SYMBOL.detailsElement
-                else -> TaskDetailsElements.SEPARATOR.detailsElement
-            }
             pressure.value =
-                pressureCondition + TaskDetailsElements.SEPARATOR.detailsElement + taskDetails.pressure_value + TaskDetailsElements.PRESSURE_UNIT.detailsElement
+                changeTextToSymbol(taskDetails.pressure_condition) + TaskDetailsElements.SEPARATOR.detailsElement + taskDetails.pressure_value + TaskDetailsElements.PRESSURE_UNIT.detailsElement
         } else {
             pressure.value = resourcesProvider.getString(R.string.no_pressure_text)
         }
 
         if (taskDetails.wind_value != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
-            val windCondition: String = when (taskDetails.wind_condition) {
-                TaskDetailsElements.LESS_TEXT.detailsElement -> TaskDetailsElements.LESS_SYMBOL.detailsElement
-                TaskDetailsElements.MORE_TEXT.detailsElement -> TaskDetailsElements.MORE_SYMBOL.detailsElement
-                TaskDetailsElements.EQUAL_TEXT.detailsElement -> TaskDetailsElements.EQUAL_SYMBOL.detailsElement
-                else -> TaskDetailsElements.SEPARATOR.detailsElement
-            }
-
             wind.value =
-                windCondition + TaskDetailsElements.SEPARATOR.detailsElement + taskDetails.wind_value + TaskDetailsElements.SPEED_UNIT.detailsElement
+                changeTextToSymbol(taskDetails.wind_condition) + TaskDetailsElements.SEPARATOR.detailsElement + taskDetails.wind_value + TaskDetailsElements.SPEED_UNIT.detailsElement
         } else {
             wind.value = resourcesProvider.getString(R.string.no_wind_text)
         }
         checkIsCurrentPathExistInStorage()
+    }
+
+    private fun changeTextToSymbol(conditionText: String): String {
+        return when (conditionText) {
+            TaskDetailsElements.LESS_TEXT.detailsElement -> TaskDetailsElements.LESS_SYMBOL.detailsElement
+            TaskDetailsElements.MORE_TEXT.detailsElement -> TaskDetailsElements.MORE_SYMBOL.detailsElement
+            TaskDetailsElements.EQUAL_TEXT.detailsElement -> TaskDetailsElements.EQUAL_SYMBOL.detailsElement
+            else -> TaskDetailsElements.SEPARATOR.detailsElement
+        }
     }
 
     fun onSelectTaskButtonClicked() {

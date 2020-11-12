@@ -6,8 +6,8 @@ import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskWeatherNavigationEvent
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TaskDetailsElements
-import java.util.Date
 import java.util.Calendar
+import java.util.Date
 import java.util.GregorianCalendar
 import java.util.TimeZone
 
@@ -23,20 +23,23 @@ class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreator
     private val yearData: MutableLiveData<Int> = MutableLiveData()
     private val monthData: MutableLiveData<Int> = MutableLiveData()
     private val dayOfMonthData: MutableLiveData<Int> = MutableLiveData()
-
     private val minuteData: MutableLiveData<Int> = MutableLiveData()
     private val hourData: MutableLiveData<Int> = MutableLiveData()
     val date: MutableLiveData<Date> = MutableLiveData()
     val isTimePreset: MutableLiveData<Boolean> = MutableLiveData()
     private val miliToSecondDivide = 1000
 
-    fun getPreSetDate() {
-        if (!taskCreatorDataManager.getTimeEstimated() && taskCreatorDataManager.getTimeStamp() != null) {
-            val date: Date = taskCreatorDataManager.getTimeStamp()!!.toDate()
+    fun getPreSetDate(): Date {
+        return if (!taskCreatorDataManager.getTaskParemeters().start_time_estimated) {
+            val date: Date = taskCreatorDataManager.getTaskParemeters().start_time!!.toDate()
             this.date.value = date
             isTimePreset.value = true
+            date
         } else {
             isTimePreset.value = false
+            val calendar = Calendar.getInstance()
+            this.date.value = calendar.time
+            calendar.time
         }
     }
 
@@ -56,17 +59,22 @@ class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreator
 
         val gregorianCalendar =
             GregorianCalendar(
-                yearData.value!!,
-                monthData.value!!,
-                dayOfMonthData.value!!,
+                year,
+                month,
+                day,
                 hourData.value!!,
                 minuteData.value!!
             )
         gregorianCalendar.timeZone =
             TimeZone.getTimeZone(TaskDetailsElements.TIMEZONE.detailsElement)
-        val calendar = (gregorianCalendar.timeInMillis) / miliToSecondDivide
-        val timestamp = Timestamp(calendar, 0)
-        taskCreatorDataManager.onUpdateTimestamp(timestamp)
+
+        date.value = Date(gregorianCalendar.timeInMillis)
+        taskCreatorDataManager.onUpdateTimestamp(
+            Timestamp(
+                ((gregorianCalendar.timeInMillis) / miliToSecondDivide),
+                0
+            )
+        )
         taskCreatorDataManager.onUpdateTimestampEstimated(false)
     }
 
@@ -80,9 +88,7 @@ class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreator
         hourData.value = hour
         minuteData.value = minute
         val tempCalendar = Calendar.getInstance()
-        tempCalendar.get(Calendar.YEAR)
-        tempCalendar.get(Calendar.MONTH)
-        tempCalendar.get((Calendar.DAY_OF_MONTH))
+        tempCalendar.time = date.value!!
 
         val gregorianCalendar =
             GregorianCalendar(

@@ -2,7 +2,7 @@ package eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.wea
 
 data class WeatherAttribute(
     val attributeID: Int,
-    val weatherValue: Int,
+    val weatherValue: String,
     val weatherCondition: String,
-    val isWeatherActive: Boolean
+    val isWeatherItemActive: Boolean
 )

@@ -1,10 +1,7 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect
 
-import android.content.Context
 import android.os.Bundle
-import android.os.Environment
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -27,11 +24,10 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler.CloudFi
 import kotlinx.android.synthetic.main.fragment_creator_path_select.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-import java.io.File
 import java.io.IOException
 import java.io.InputStream
 
-class FragmentCreatorPathSelectFragment :
+class CreatorPathSelectFragment :
     BaseFragment<CreatorPathSelectViewModel, FragmentCreatorPathSelectBinding>(),
     OnMapReadyCallback {
 
@@ -39,7 +35,7 @@ class FragmentCreatorPathSelectFragment :
     override val viewModel: CreatorPathSelectViewModel by viewModel { parametersOf(requireContext()) }
     private var adapter = CloudFileListItemAdapter(this::onItemClicked)
     private var googleMapFragment: GoogleMap? = null
-    var mapPathLayer: KmlLayer? = null
+    private var mapPathLayer: KmlLayer? = null
 
     override fun bindViewVariables(viewBinding: FragmentCreatorPathSelectBinding) {
         viewBinding.viewModel = viewModel
@@ -57,12 +53,13 @@ class FragmentCreatorPathSelectFragment :
         viewModel.downloadAvailableFileList()
         viewModel.selectedLayer.observe(this::onGotSelectedLayer)
         viewModel.toastEvent.observe(this::showToast)
+        viewModel.cameraPosition.observe((this::updateMapCameraPosition))
+
+        setupRecycler()
 
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.creator_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-        setupRecycler()
-        viewModel.cameraPosition.observe((this::updateMapCameraPosition))
     }
 
     private fun updateMapCameraPosition(latLng: LatLng) {
@@ -95,12 +92,11 @@ class FragmentCreatorPathSelectFragment :
             TileProvider(
                 MapParameters.MAP_SIZE.mapParametr.toInt(),
                 MapParameters.MAP_SIZE.mapParametr.toInt(),
-                getRootDirPath(requireContext(), URLPath.MAP_PATH.path)
+                viewModel.getMapTilePath(URLPath.MAP_PATH.path)
             )
         try {
             googleMapFragment!!.addTileOverlay(
-                TileOverlayOptions()
-                    .transparency(MapParameters.TRANSPARENCY_VALUE.mapParametr)
+                TileOverlayOptions().transparency(MapParameters.TRANSPARENCY_VALUE.mapParametr)
                     .tileProvider(tileProvider)
             )
         } catch (exception: IOException) {
@@ -122,28 +118,15 @@ class FragmentCreatorPathSelectFragment :
     private fun setSelectedLayer(mapStream: InputStream) {
         try {
             mapPathLayer = KmlLayer(googleMapFragment!!, mapStream, requireContext())
-            mapPathLayer!!.containers
             mapPathLayer!!.addLayerToMap()
             try {
                 val container: Iterable<KmlContainer> = mapPathLayer!!.containers
-                viewModel.accessContainers(container)
+                viewModel.getCoordinatesFromKml(container)
             } catch (exception: IOException) {
                 showToast(getString(R.string.kml_layer_problem))
             }
         } catch (exception: Exception) {
             exception.stackTrace
-        }
-    }
-
-    private fun getRootDirPath(context: Context, pathDirection: String): String {
-        return if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()) {
-            val file: File = ContextCompat.getExternalFilesDirs(
-                context.applicationContext,
-                null
-            )[0]
-            URLPath.FILE.path + file.absolutePath + pathDirection
-        } else {
-            context.applicationContext.filesDir.absolutePath
         }
     }
 

@@ -2,6 +2,7 @@ package eu.agribot.agribotapp.domain.model.cdb.taskprogram.taskmodel
 
 import com.google.firebase.Timestamp
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.NewRobotTaskDetailsCDB
+import eu.agribot.agribotapp.domain.model.cdb.BaseCloudDatabaseModel
 
 data class NewRobotTaskDetails(
     val path_name: String,
@@ -19,7 +20,7 @@ data class NewRobotTaskDetails(
 
     val pressure_value: String,
     val pressure_condition: String
-) : BaseProgramDataToCommunicationModel<NewRobotTaskDetailsCDB> {
+) : BaseCloudDatabaseModel<NewRobotTaskDetailsCDB> {
     override fun toCommunicationModel() = NewRobotTaskDetailsCDB(
         path_name = this.path_name,
         start_time = this.start_time,

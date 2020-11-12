@@ -1,20 +1,16 @@
 package eu.agribot.agribotapp.communication.database.firestorage
 
-import android.content.Context
 import com.downloader.Error
 import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
-import eu.agribot.agribotapp.communication.database.firestorage.downloader.DownloaderUtils
+import eu.agribot.agribotapp.communication.database.firebase.FirebaseService
 import java.io.File
 
 class AndroidFirestorageService(
-    private val context: Context,
-    private val downloaderUtils: DownloaderUtils
-) :
-    FirestorageService {
+    private val firebaseService: FirebaseService
+) : FirestorageService {
     private val storage = Firebase.storage
 
     override fun listAllItem(
@@ -22,9 +18,8 @@ class AndroidFirestorageService(
         onFilesAvailable: (fileName: String) -> Unit,
         onError: (exception: String) -> Unit
     ) {
-        val storage = Firebase.storage
-        val listRef = storage.reference.child("$currentUserID/paths/")
-        listRef.listAll()
+        Firebase.storage.reference.child("$currentUserID/paths/")
+            .listAll()
             .addOnSuccessListener { listResult ->
                 listResult.items.forEach { item ->
                     onFilesAvailable(item.name)
@@ -35,63 +30,33 @@ class AndroidFirestorageService(
             }
     }
 
-    override fun onFileToDownloadSelect(
-        currentUserID: String,
+    override fun downloadFileFromUrl(
         fileName: String,
-        onGotFile: (file: File) -> Unit,
-        onDownloadError: (error: Throwable) -> Unit
-    ) {
-        val file = File(
-            downloaderUtils.getRootDirPath(context, DownloaderPath.LAYER_PATH.filePath),
-            fileName
-        )
-        if (file.exists()) {
-            onGotFile(file)
-        } else {
-            val storageReference: StorageReference = storage.reference
-            storageReference.child("$currentUserID/paths/$fileName").downloadUrl.addOnSuccessListener { url ->
-                downloadFileFromUrl(
-                    context,
-                    url.toString(),
-                    fileName,
-                    onGotFile,
-                    onDownloadError
-                )
-            }.addOnFailureListener { exception ->
-                onDownloadError(exception)
-            }
-        }
-    }
-
-    private fun downloadFileFromUrl(
-        context: Context,
-        url: String,
-        fileName: String,
+        filePath: String,
         onDownloadSucess: (file: File) -> Unit,
         onDownloadError: (error: Throwable) -> Unit
     ) {
-        PRDownloader.download(
-            url,
-            downloaderUtils.getRootDirPath(context, DownloaderPath.LAYER_PATH.filePath),
-            fileName
-        )
-            .build()
-            .start(object : OnDownloadListener {
-                override fun onDownloadComplete() {
-                    onDownloadSucess(
-                        File(
-                            downloaderUtils.getRootDirPath(
-                                context,
-                                DownloaderPath.LAYER_PATH.filePath
-                            ),
-                            fileName
+        storage.reference.child("${firebaseService.getCurrentUser()?.uid}/paths/$fileName").downloadUrl.addOnSuccessListener {
+            PRDownloader.download(
+                it.toString(),
+                filePath,
+                fileName
+            )
+                .build()
+                .start(object : OnDownloadListener {
+                    override fun onDownloadComplete() {
+                        onDownloadSucess(
+                            File(
+                                filePath,
+                                fileName
+                            )
                         )
-                    )
-                }
+                    }
 
-                override fun onError(error: Error) {
-                    onDownloadError(error.connectionException)
-                }
-            })
+                    override fun onError(error: Error) {
+                        onDownloadError(error.connectionException)
+                    }
+                })
+        }
     }
 }

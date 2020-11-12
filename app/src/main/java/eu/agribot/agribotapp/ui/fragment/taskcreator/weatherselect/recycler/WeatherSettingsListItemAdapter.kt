@@ -8,16 +8,20 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.databinding.ListItemWeatherSettingsBinding
-import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.PickerSymbols
-import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.PickersMinMaxValues
-import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.WeatherItemNumber
+import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.data.PickerSymbols
+import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.data.PickersMinMaxValues
+import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.data.WeatherItemNumber
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.weatherattributes.WeatherAttribute
-import kotlinx.android.synthetic.main.list_item_weather_settings.view.*
+import kotlinx.android.synthetic.main.list_item_weather_settings.view.activation_switch
+import kotlinx.android.synthetic.main.list_item_weather_settings.view.condition
+import kotlinx.android.synthetic.main.list_item_weather_settings.view.currentValue
+import kotlinx.android.synthetic.main.list_item_weather_settings.view.value
+import kotlinx.android.synthetic.main.list_item_weather_settings.view.weather_icon
 
 class WeatherSettingsListItemAdapter(
     val onWeatherAttributeChanged: (weatherAttribute: WeatherAttribute) -> Unit
 ) : RecyclerView.Adapter<WeatherSettingsListItemViewHolder>() {
-    val errorValue = -1
+
     var items = listOf<WeatherSettingsListItemViewModel>()
         set(value) {
             DiffUtil.calculateDiff(
@@ -72,7 +76,7 @@ class WeatherSettingsListItemAdapter(
 
         holder.itemView.weather_icon.setImageResource(imageSrc)
 
-        var condition = when (item.settedCondition) {
+        var condition = when (item.presetCondition) {
             PickerSymbols.CLOUD_DATA_CONDITION_LESS.symbol -> {
                 PickersMinMaxValues.LESS_POSITION.value
             }
@@ -85,36 +89,50 @@ class WeatherSettingsListItemAdapter(
                 PickersMinMaxValues.EQUAL_POSITION.value
             }
             else -> {
-                errorValue
+                PickersMinMaxValues.MORE_POSITION.value
             }
         }
+        holder.itemView.currentValue.text = item.currentValue
         holder.itemView.condition.minValue = PickersMinMaxValues.LESS_POSITION.value
         holder.itemView.condition.maxValue = PickersMinMaxValues.EQUAL_POSITION.value
         holder.itemView.condition.displayedValues = item.conditionArray
         holder.itemView.condition.value = condition
 
         var isSwitchActive = item.isSwitchActive
+
         holder.itemView.activation_switch.isChecked = isSwitchActive
 
-        var itemValue = if (item.settedValue != errorValue) {
-            holder.itemView.value.value
+        var itemValue = if (item.settedValue != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
+            item.settedValue.toInt()
         } else {
             (item.minimumPickerValue + (item.maximumPickerValue - item.minimumPickerValue) / 2)
         }
+
         holder.itemView.value.minValue = item.minimumPickerValue
         holder.itemView.value.maxValue = item.maximumPickerValue
         holder.itemView.value.value = itemValue
 
         holder.itemView.activation_switch.setOnCheckedChangeListener { _, isChecked ->
             isSwitchActive = isChecked
-            onWeatherAttributeChanged(
-                WeatherAttribute(
-                    attributeID = item.id,
-                    weatherValue = itemValue,
-                    weatherCondition = item.conditionArray[condition],
-                    isWeatherActive = isChecked
+            if (isChecked) {
+                onWeatherAttributeChanged(
+                    WeatherAttribute(
+                        attributeID = item.id,
+                        weatherValue = itemValue.toString(),
+                        weatherCondition = item.conditionArray[condition],
+                        isWeatherItemActive = isSwitchActive
+                    )
                 )
-            )
+            } else {
+                onWeatherAttributeChanged(
+                    WeatherAttribute(
+                        attributeID = item.id,
+                        weatherValue = PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
+                        weatherCondition = PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
+                        isWeatherItemActive = isSwitchActive
+                    )
+                )
+            }
         }
 
         holder.itemView.condition.setOnValueChangedListener { _, _, conditionValue ->
@@ -122,9 +140,9 @@ class WeatherSettingsListItemAdapter(
             onWeatherAttributeChanged(
                 WeatherAttribute(
                     attributeID = item.id,
-                    weatherValue = itemValue,
+                    weatherValue = itemValue.toString(),
                     weatherCondition = item.conditionArray[condition],
-                    isWeatherActive = isSwitchActive
+                    isWeatherItemActive = isSwitchActive
                 )
             )
         }
@@ -134,9 +152,9 @@ class WeatherSettingsListItemAdapter(
             onWeatherAttributeChanged(
                 WeatherAttribute(
                     attributeID = item.id,
-                    weatherValue = itemValue,
+                    weatherValue = itemValue.toString(),
                     weatherCondition = item.conditionArray[condition],
-                    isWeatherActive = isSwitchActive
+                    isWeatherItemActive = isSwitchActive
                 )
             )
         }

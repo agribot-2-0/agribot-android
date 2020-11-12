@@ -55,7 +55,8 @@ val viewModelModule = module {
     viewModel {
         SplashViewModel(
             authenticationService = get(),
-            bluetoothConnectionService = get()
+            bluetoothConnectionService = get(),
+            cloudDatabaseService = get()
         )
     }
     viewModel {
@@ -140,7 +141,9 @@ val viewModelModule = module {
         CreatorPathSelectViewModel(
             cloudStorageService = get(),
             taskCreatorDataManager = get(),
-            resourcesProvider = get { parametersOf(context) }
+            resourcesProvider = get { parametersOf(context) },
+            kmlLayerService = get(),
+            filePathProvider = get()
 
         )
     }
@@ -149,7 +152,10 @@ val viewModelModule = module {
         ControlPanelViewModel(
             cloudDatabaseService = get(),
             resourcesProvider = get { parametersOf(context) },
-            cloudStorageService = get()
+            cloudStorageService = get(),
+            kmlLayerService = get(),
+            filePathProvider = get()
+
         )
     }
 
@@ -183,7 +189,7 @@ val viewModelModule = module {
             maximumPickerValue = get(),
             isSwitchActive = get(),
             settedValue = get(),
-            settedCondition = get()
+            presetCondition = get()
         )
     }
 
@@ -192,7 +198,9 @@ val viewModelModule = module {
             resourcesProvider = get { parametersOf(context) },
             cloudDatabaseService = get(),
             taskCreatorDataManager = get(),
-            cloudStorageService = get()
+            cloudStorageService = get(),
+            kmlLayerService = get(),
+            filePathProvider = get()
         )
     }
 

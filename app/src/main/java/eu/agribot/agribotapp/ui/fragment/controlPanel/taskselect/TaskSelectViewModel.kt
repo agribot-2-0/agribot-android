@@ -25,7 +25,7 @@ class TaskSelectViewModel(
     fun setCurrentTask(taskName: String) {
         cloudDatabaseService.setCurrentTask(
             ActualTask(
-                actualTask = taskName
+                actual_task = taskName
             )
         )
         postDashboardNavigationEvent()

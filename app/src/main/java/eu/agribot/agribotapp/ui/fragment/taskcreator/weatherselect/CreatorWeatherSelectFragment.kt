@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.fragment_creator_weather.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
-class FragmentCreatorWeatherSelect :
+class CreatorWeatherSelectFragment :
     BaseFragment<CreatorWeatherSelectViewModel, FragmentCreatorWeatherBinding>() {
 
     override val layoutResourceId: Int = R.layout.fragment_creator_weather
@@ -32,7 +32,7 @@ class FragmentCreatorWeatherSelect :
         super.onViewCreated(view, savedInstanceState)
         viewModel.weatherAttributeList.observe(this::addAvaliableWeatherAttribute)
         setupRecyclerView()
-        viewModel.getRobotDataValue()
+        viewModel.prepareWeatherAttributeListItem()
     }
 
     private fun onWeatherAttributeChanged(weatherAttribute: WeatherAttribute) {

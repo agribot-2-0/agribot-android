@@ -10,10 +10,10 @@ interface FirestorageService {
         onError: (exception: String) -> Unit
     )
 
-    fun onFileToDownloadSelect(
-        currentUserID: String,
+    fun downloadFileFromUrl(
         fileName: String,
-        onGotFile: (file: File) -> Unit,
+        filePath: String,
+        onDownloadSucess: (file: File) -> Unit,
         onDownloadError: (error: Throwable) -> Unit
     )
 }

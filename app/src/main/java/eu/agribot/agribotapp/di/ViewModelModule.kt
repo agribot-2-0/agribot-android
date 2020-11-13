@@ -99,7 +99,8 @@ val viewModelModule = module {
 
     viewModel {
         PathManagementViewModel(
-            pathManagementService = get()
+            pathManagementService = get(),
+            cloudStorageService = get()
         )
     }
     viewModel { WeatherViewModel() }

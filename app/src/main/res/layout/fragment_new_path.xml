@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -20,12 +21,43 @@
             android:layout_margin="@dimen/margin_medium"
             android:layout_weight="5">
 
-            <fragment
-                android:id="@+id/new_path_map"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
+
+            <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/margin_small" />
+                android:layout_height="match_parent">
+
+                <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:map="http://schemas.android.com/apk/res-auto"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:id="@+id/new_path_map"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    map:mapType="normal"
+                    tools:context=".MapStartedActivity" />
+
+                <ImageView
+                    android:id="@+id/imgLocationPinUp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_pin" />
+            </RelativeLayout>
+
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btn_asset_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="end|bottom"
+                android:layout_margin="@dimen/margin_large"
+                android:background="@android:color/transparent"
+                android:backgroundTint="@color/base_green"
+                android:onClick="@{()-> viewModel.onGetPointerButtonClicked()}"
+                android:src="@drawable/ic_add"
+                app:rippleColor="@color/white" />
 
         </androidx.cardview.widget.CardView>
 

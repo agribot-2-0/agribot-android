@@ -20,7 +20,7 @@ import org.koin.core.parameter.parametersOf
 
 class NewPathFragment :
     BaseFragment<NewPathViewModel, FragmentNewPathBinding>(), OnMapReadyCallback,
-    GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener {
+    GoogleMap.OnCameraIdleListener {
     private var googleMapFragment: GoogleMap? = null
     var tempCordinate: LatLng? = null
 
@@ -45,8 +45,7 @@ class NewPathFragment :
     override fun onMapReady(googleMap: GoogleMap?) {
         googleMapFragment = googleMap
         googleMapFragment!!.mapType = GoogleMap.MAP_TYPE_NORMAL
-        googleMapFragment!!.setOnMapClickListener(this)
-        googleMapFragment!!.setOnMapLongClickListener(this)
+        googleMapFragment!!.setOnCameraIdleListener(this)
     }
 
     private fun selectLatLng(coordinate: LatLng) {
@@ -59,14 +58,6 @@ class NewPathFragment :
             )
         }
         tempCordinate = coordinate
-    }
-
-    override fun onMapClick(coordinate: LatLng?) {
-        showToast("Click! : " + coordinate)
-    }
-
-    override fun onMapLongClick(coordinate: LatLng?) {
-        viewModel.onPointSelected(coordinate!!)
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) =
@@ -95,5 +86,9 @@ class NewPathFragment :
             val b = dialogBuilder.create()
             b.show()
         }
+    }
+
+    override fun onCameraIdle() {
+        viewModel.onCoordinatesChanged(googleMapFragment!!.cameraPosition.target)
     }
 }

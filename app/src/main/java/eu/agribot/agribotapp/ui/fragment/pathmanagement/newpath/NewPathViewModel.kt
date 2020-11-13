@@ -15,10 +15,13 @@ class NewPathViewModel(
     private val filePathProvider: FilePathProvider,
     private val pathManagementService: PathManagementService
 ) : BaseViewModel() {
+    private val currentPoint: MutableLiveData<LatLng> = MutableLiveData()
     val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val selectedPoints: MutableLiveData<LatLng> = MutableLiveData()
-    val selectedPointsList: MutableLiveData<List<CoordinatesModel>> = MutableLiveData(listOf())
+    private val selectedPointsList: MutableLiveData<List<CoordinatesModel>> =
+        MutableLiveData(listOf())
     val postInputDialogEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
+
     private fun onGetCoordinate(coordinates: CoordinatesModel) {
         val isCoordinatesAlreadyAdded = selectedPointsList.value!!.any { foundCoordinates ->
             foundCoordinates.coordinates == coordinates.coordinates
@@ -32,7 +35,15 @@ class NewPathViewModel(
         }
     }
 
-    fun onPointSelected(coordinates: LatLng) {
+    fun onCoordinatesChanged(coordinates: LatLng) {
+        currentPoint.value = coordinates
+    }
+
+    fun onGetPointerButtonClicked() {
+        onPointSelected(currentPoint.value!!)
+    }
+
+    private fun onPointSelected(coordinates: LatLng) {
         selectedPoints.value = coordinates
         onGetCoordinate(coordinates = CoordinatesModel(coordinates))
     }
@@ -44,7 +55,7 @@ class NewPathViewModel(
     fun createNewLayer(layerName: String) {
         pathManagementService.createPathFile(
             selectedPointsList.value!!,
-            layerName +"_v",
+            layerName + "_v",
             onSucess = this::postSucessToastEvent,
             onError = this::postErrorToastEvent
         )

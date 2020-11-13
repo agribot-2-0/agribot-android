@@ -12,11 +12,10 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler.CloudFi
 
 class PathManagementViewModel(
     private val pathManagementService: PathManagementService,
-    private val cloudStorageService : CloudStorageService
+    private val cloudStorageService: CloudStorageService
 ) : BaseViewModel() {
     val availableFiles: MutableLiveData<List<CloudFileListItemViewModel>> =
         MutableLiveData(listOf())
-
 
     val agriBotLatLng = LatLng(51.11322, 17.01958)
 
@@ -63,7 +62,6 @@ class PathManagementViewModel(
         onAvailableFileFound(fileName, false)
     }
 
-    private fun onCloudDataException(exception : String){
-
+    private fun onCloudDataException(exception: String) {
     }
 }

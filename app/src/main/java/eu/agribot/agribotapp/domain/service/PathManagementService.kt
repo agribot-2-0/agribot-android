@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.domain.service
 
-import android.util.Log
 import eu.agribot.agribotapp.communication.database.firebase.FirebaseService
 import eu.agribot.agribotapp.communication.database.firestorage.DownloaderPath
 import eu.agribot.agribotapp.communication.database.firestorage.FirestorageService
@@ -23,6 +22,7 @@ class PathManagementService(
     private val sourceSeparator = "/"
     private val fileFormat = ".kml"
     private var versionNumber = 1
+    private val nextVersion = 1
 
     // TODO: Remove sample method
     fun samplePathManagementAction() {
@@ -39,7 +39,7 @@ class PathManagementService(
 
         val fileVersionName =
             if (File(filepathProvider.getLayerPath(DownloaderPath.LAYER_PATH.filePath + sourceSeparator + fileName + versionNumber.toString() + fileFormat)).exists()) {
-                versionNumber += 1
+                versionNumber += nextVersion
                 fileName + versionNumber.toString()
             } else {
                 fileName + versionNumber.toString()

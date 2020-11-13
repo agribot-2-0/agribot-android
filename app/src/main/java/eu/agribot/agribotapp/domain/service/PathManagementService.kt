@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.domain.service
 
+import android.util.Log
 import eu.agribot.agribotapp.communication.database.firebase.FirebaseService
 import eu.agribot.agribotapp.communication.database.firestorage.DownloaderPath
 import eu.agribot.agribotapp.communication.database.firestorage.FirestorageService
@@ -21,6 +22,7 @@ class PathManagementService(
 ) {
     private val sourceSeparator = "/"
     private val fileFormat = ".kml"
+    private var versionNumber = 1
 
     // TODO: Remove sample method
     fun samplePathManagementAction() {
@@ -34,9 +36,18 @@ class PathManagementService(
         onSucess: () -> Unit,
         onError: (error: String) -> Unit
     ) {
-        val file = File(
-            filepathProvider.getLayerPath(DownloaderPath.LAYER_PATH.filePath + sourceSeparator + fileName + fileFormat)
-        )
+
+        val fileVersionName =
+            if (File(filepathProvider.getLayerPath(DownloaderPath.LAYER_PATH.filePath + sourceSeparator + fileName + versionNumber.toString() + fileFormat)).exists()) {
+                versionNumber += 1
+                fileName + versionNumber.toString()
+            } else {
+                fileName + versionNumber.toString()
+            }
+
+        val file =
+            File(filepathProvider.getLayerPath(DownloaderPath.LAYER_PATH.filePath + sourceSeparator + fileVersionName + fileFormat))
+
         val fileOutputStream: FileOutputStream?
         try {
             fileOutputStream = FileOutputStream(file)
@@ -118,8 +129,8 @@ class PathManagementService(
         }
 
         fileStorageService.uploadFile(
-            filepathProvider.getLayerPath(DownloaderPath.LAYER_PATH.filePath + sourceSeparator + fileName + fileFormat),
-            fileName + fileFormat, onSucess, onError
+            filepathProvider.getLayerPath(DownloaderPath.LAYER_PATH.filePath + sourceSeparator + fileVersionName + fileFormat),
+            fileVersionName + fileFormat, onSucess, onError
         )
     }
 }

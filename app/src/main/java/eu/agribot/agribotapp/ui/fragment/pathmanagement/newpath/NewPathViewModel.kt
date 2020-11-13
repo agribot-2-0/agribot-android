@@ -44,7 +44,7 @@ class NewPathViewModel(
     fun createNewLayer(layerName: String) {
         pathManagementService.createPathFile(
             selectedPointsList.value!!,
-            layerName,
+            layerName +"_v",
             onSucess = this::postSucessToastEvent,
             onError = this::postErrorToastEvent
         )

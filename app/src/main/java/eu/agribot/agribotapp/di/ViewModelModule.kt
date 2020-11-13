@@ -239,7 +239,10 @@ val viewModelModule = module {
     }
 
     viewModel { (context: Context) ->
-        NewPathViewModel(filePathProvider = get(), resourcesProvider = get { parametersOf(context)}
+        NewPathViewModel(
+            pathManagementService = get(),
+            filePathProvider = get(),
+            resourcesProvider = get { parametersOf(context) }
         )
     }
 }

@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath
+package eu.agribot.agribotapp.domain.model
 
 import com.google.android.gms.maps.model.LatLng
 

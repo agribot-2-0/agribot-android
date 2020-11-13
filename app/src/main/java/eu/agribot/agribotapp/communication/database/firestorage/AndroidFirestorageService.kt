@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.communication.database.firestorage
 
+import android.net.Uri
 import com.downloader.Error
 import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
@@ -58,5 +59,20 @@ class AndroidFirestorageService(
                     }
                 })
         }
+    }
+
+    override fun uploadFile(
+        filePath: String,
+        fileName: String,
+        onSucess: () -> Unit,
+        onError: (exception: String) -> Unit
+    ) {
+        storage.reference.child("${firebaseService.getCurrentUser()?.uid}/paths/$fileName")
+            .putFile(Uri.fromFile(File(filePath)))
+            .addOnFailureListener {
+                onError("UPLOAD FILE ERROR")
+            }.addOnSuccessListener {
+                onSucess.invoke()
+            }
     }
 }

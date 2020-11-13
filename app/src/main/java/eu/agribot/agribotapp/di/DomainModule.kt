@@ -34,7 +34,8 @@ val domainModule = module {
         PathManagementService(
             firebaseService = get(),
             persistentStorage = get(),
-            filepathProvider = get()
+            filepathProvider = get(),
+            fileStorageService = get()
         )
     }
 

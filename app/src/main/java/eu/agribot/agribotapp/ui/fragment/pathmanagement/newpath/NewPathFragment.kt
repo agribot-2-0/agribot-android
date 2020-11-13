@@ -1,12 +1,10 @@
 package eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath
 
-import android.content.Context
+import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Environment
-import android.util.Log
 import android.view.View
-import androidx.core.content.ContextCompat
+import android.widget.EditText
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -14,17 +12,11 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.PolylineOptions
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
+import eu.agribot.agribotapp.common.navigation.NavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.DashboardNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentNewPathBinding
-import eu.agribot.agribotapp.domain.model.CoordinatesModel
-import eu.agribot.agribotapp.ui.fragment.taskcreator.URLPath
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-import org.xmlpull.v1.XmlPullParserException
-import org.xmlpull.v1.XmlPullParserFactory
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-
 
 class NewPathFragment :
     BaseFragment<NewPathViewModel, FragmentNewPathBinding>(), OnMapReadyCallback,
@@ -42,6 +34,8 @@ class NewPathFragment :
             childFragmentManager.findFragmentById(R.id.new_path_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         viewModel.selectedPoints.observe(this::selectLatLng)
+        viewModel.toastMessageEvent.observe(this::showToast)
+        viewModel.postInputDialogEvent.observe(this::showCreateCategoryDialog)
     }
 
     override fun bindViewVariables(viewBinding: FragmentNewPathBinding) {
@@ -67,12 +61,39 @@ class NewPathFragment :
         tempCordinate = coordinate
     }
 
-
     override fun onMapClick(coordinate: LatLng?) {
         showToast("Click! : " + coordinate)
     }
 
     override fun onMapLongClick(coordinate: LatLng?) {
         viewModel.onPointSelected(coordinate!!)
+    }
+
+    override fun handleNavigationEvent(navigationEvent: NavigationEvent) =
+        when (navigationEvent) {
+            is DashboardNavigationEvent -> navigateToDashboardFragment()
+            else -> Unit
+        }
+
+    private fun navigateToDashboardFragment() {
+        navigationController?.navigate(R.id.action_newPathFragment_to_dashboardFragment)
+    }
+
+    private fun showCreateCategoryDialog(show: Boolean) {
+        if (show) {
+            val dialogBuilder = AlertDialog.Builder(requireContext())
+            val dialogView = this.layoutInflater.inflate(R.layout.dialog_path_name, null)
+            dialogBuilder.setView(dialogView)
+            val editText = dialogView.findViewById<View>(R.id.new_file_edit_text) as EditText
+            dialogBuilder.setTitle(R.string.dialog_create_file_title)
+            dialogBuilder.setPositiveButton(
+                R.string.dialog_create_file_confirm
+            ) { dialog, _ ->
+                viewModel.createNewLayer(editText.text.toString())
+                dialog.dismiss()
+            }
+            val b = dialogBuilder.create()
+            b.show()
+        }
     }
 }

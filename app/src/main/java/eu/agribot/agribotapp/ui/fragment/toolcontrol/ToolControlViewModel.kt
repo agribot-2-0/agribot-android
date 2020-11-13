@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.domain.model.fromdomain.SwitchSettings
 import eu.agribot.agribotapp.domain.service.ManualModeService
-import eu.agribot.agribotapp.ui.fragment.taskcreator.TaskDetailsElements
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.BACK_BLUE
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.BACK_DOWN_TUZ
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.BACK_GREEN
@@ -50,7 +49,6 @@ class ToolControlViewModel(
             )
         )
     }
-
 
     fun onActivateTuzParametrChanged(tuzNumber: Int, isTuzActive: Boolean) {
         activeTuz.value = TuzSwitchesActive(tuzNumber, isTuzActive)

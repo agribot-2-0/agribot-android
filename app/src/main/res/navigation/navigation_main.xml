@@ -316,5 +316,9 @@
     <fragment
         android:id="@+id/newPathFragment"
         android:name="eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.NewPathFragment"
-        android:label="NewPathFragment" />
+        android:label="NewPathFragment" >
+        <action
+            android:id="@+id/action_newPathFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
 </navigation>

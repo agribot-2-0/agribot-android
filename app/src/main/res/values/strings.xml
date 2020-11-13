@@ -37,6 +37,12 @@
     <string name="dialog_task_delete_message">Do you want to delete this task?</string>
     <string name="dialog_task_delete_confirm">Delete!</string>
 
+    <string name="dialog_create_file_title">Type name of your path</string>
+    <string name="dialog_create_file_hint">Filename</string>
+    <string name="dialog_create_file_confirm">Create !</string>
+
+
+
     <!-- Tool Control -->
     <string name="pto">PTO</string>
     <string name="no_rpm">0 rpm</string>
@@ -219,6 +225,7 @@
     <string name="v_max">Maximum robot velocity</string>
     <string name="add_tool_success">Tool added successfully</string>
     <string name="no_tool_name">No tool name</string>
+    <string name="save_path">Save path</string>
 
 
 </resources>

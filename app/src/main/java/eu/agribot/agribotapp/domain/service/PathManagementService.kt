@@ -2,6 +2,7 @@ package eu.agribot.agribotapp.domain.service
 
 import eu.agribot.agribotapp.communication.database.firebase.FirebaseService
 import eu.agribot.agribotapp.communication.database.firestorage.DownloaderPath
+import eu.agribot.agribotapp.communication.database.firestorage.FirestorageService
 import eu.agribot.agribotapp.communication.persistence.PersistentStorage
 import eu.agribot.agribotapp.domain.model.CoordinatesModel
 import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePathProvider
@@ -15,17 +16,24 @@ import java.io.IOException
 class PathManagementService(
     private val firebaseService: FirebaseService,
     private val persistentStorage: PersistentStorage,
-    private val filepathProvider: FilePathProvider
+    private val filepathProvider: FilePathProvider,
+    private val fileStorageService: FirestorageService
 ) {
     private val sourceSeparator = "/"
     private val fileFormat = ".kml"
+
     // TODO: Remove sample method
     fun samplePathManagementAction() {
         persistentStorage.getExampleEntry()
         Timber.d("Sample method called")
     }
 
-    fun createPathFile(coordinateList: List<CoordinatesModel>, fileName: String) {
+    fun createPathFile(
+        coordinateList: List<CoordinatesModel>,
+        fileName: String,
+        onSucess: () -> Unit,
+        onError: (error: String) -> Unit
+    ) {
         val file = File(
             filepathProvider.getLayerPath(DownloaderPath.LAYER_PATH.filePath + sourceSeparator + fileName + fileFormat)
         )
@@ -82,7 +90,7 @@ class PathManagementService(
             xmlSerializer.startTag(null, "altitudeMode")
             xmlSerializer.text("relativeToGround")
             xmlSerializer.endTag(null, "altitudeMode")
-            //xmlSerializer.startTag(null, "outerBoundaryIs");
+            // xmlSerializer.startTag(null, "outerBoundaryIs");
             // xmlSerializer.startTag(null, "LinearRing");
             xmlSerializer.startTag(null, "coordinates")
             for (i in coordinateList.indices) {
@@ -92,7 +100,7 @@ class PathManagementService(
             }
             xmlSerializer.endTag(null, "coordinates")
             // xmlSerializer.endTag(null, "LinearRing");
-            //xmlSerializer.endTag(null, "outerBoundaryIs");
+            // xmlSerializer.endTag(null, "outerBoundaryIs");
             xmlSerializer.endTag(null, "LineString")
             xmlSerializer.endTag(null, "Placemark")
             xmlSerializer.endTag(null, "Folder")
@@ -101,7 +109,6 @@ class PathManagementService(
             xmlSerializer.endDocument()
             xmlSerializer.flush()
             fileOutputStream.close()
-
         } catch (e: IOException) {
             e.printStackTrace()
         } catch (e: XmlPullParserException) {
@@ -109,5 +116,10 @@ class PathManagementService(
         } catch (e: IOException) {
             e.printStackTrace()
         }
+
+        fileStorageService.uploadFile(
+            filepathProvider.getLayerPath(DownloaderPath.LAYER_PATH.filePath + sourceSeparator + fileName + fileFormat),
+            fileName, onSucess, onError
+        )
     }
 }

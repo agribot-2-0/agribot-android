@@ -47,7 +47,7 @@
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/margin_medium"
                     android:onClick="@{()-> viewModel.onSavePathClicked()}"
-                    android:text="SAVE PATH" />
+                    android:text="@string/save_path" />
 
 
             </androidx.cardview.widget.CardView>

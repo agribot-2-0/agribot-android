@@ -47,7 +47,7 @@ class PathManagementService(
             xmlSerializer.startTag(null, "kml")
             xmlSerializer.startTag(null, "Document")
             xmlSerializer.startTag(null, "name")
-            xmlSerializer.text("kmlFile")
+            xmlSerializer.text(fileName)
             xmlSerializer.endTag(null, "name")
             xmlSerializer.startTag(null, "Style")
             xmlSerializer.attribute(null, "id", "transGreenPoly")
@@ -119,7 +119,7 @@ class PathManagementService(
 
         fileStorageService.uploadFile(
             filepathProvider.getLayerPath(DownloaderPath.LAYER_PATH.filePath + sourceSeparator + fileName + fileFormat),
-            fileName, onSucess, onError
+            fileName + fileFormat, onSucess, onError
         )
     }
 }

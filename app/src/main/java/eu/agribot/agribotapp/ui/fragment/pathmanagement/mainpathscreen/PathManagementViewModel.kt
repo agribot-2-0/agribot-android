@@ -1,9 +1,10 @@
-package eu.agribot.agribotapp.ui.fragment.pathmanagement
+package eu.agribot.agribotapp.ui.fragment.pathmanagement.mainpathscreen
 
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import eu.agribot.agribotapp.base.BaseViewModel
+import eu.agribot.agribotapp.common.navigation.events.NewPathNavigationEvent
 import eu.agribot.agribotapp.domain.service.PathManagementService
 
 class PathManagementViewModel(
@@ -16,5 +17,9 @@ class PathManagementViewModel(
 
     fun addDefaultMarker() {
         markers.value = MarkerOptions().position(agriBotLatLng)
+    }
+
+    fun postNewPathNavigationEvent() {
+        navigationEvent.postValue(NewPathNavigationEvent())
     }
 }

@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="eu.agribot.agribotapp.ui.fragment.pathmanagement.PathManagementViewModel" />
+            type="eu.agribot.agribotapp.ui.fragment.pathmanagement.mainpathscreen.PathManagementViewModel" />
     </data>
 
     <LinearLayout
@@ -57,6 +57,7 @@
                         android:layout_margin="@dimen/margin_large"
                         android:background="@android:color/transparent"
                         android:backgroundTint="@color/white"
+                        android:onClick="@{()-> viewModel.postNewPathNavigationEvent()}"
                         android:src="@drawable/ic_add"
                         app:rippleColor="@color/white" />
 

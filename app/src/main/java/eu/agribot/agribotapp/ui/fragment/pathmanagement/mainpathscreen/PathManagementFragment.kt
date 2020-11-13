@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.pathmanagement
+package eu.agribot.agribotapp.ui.fragment.pathmanagement.mainpathscreen
 
 import android.os.Bundle
 import android.view.View
@@ -7,6 +7,8 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.MarkerOptions
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
+import eu.agribot.agribotapp.common.navigation.NavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.NewPathNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentPathManagementBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -33,6 +35,16 @@ class PathManagementFragment :
 
     private fun initMap() {
         mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+    }
+
+    override fun handleNavigationEvent(navigationEvent: NavigationEvent) =
+        when (navigationEvent) {
+            is NewPathNavigationEvent -> handleTaskSelectNavigationEvent()
+            else -> Unit
+        }
+
+    private fun handleTaskSelectNavigationEvent() {
+        navigationController?.navigate(R.id.action_pathManagementFragment_to_newPathFragment)
     }
 
     private fun onMarkerChanged(marker: MarkerOptions?) {

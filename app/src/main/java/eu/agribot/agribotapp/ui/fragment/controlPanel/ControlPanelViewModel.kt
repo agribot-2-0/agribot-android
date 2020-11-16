@@ -33,7 +33,7 @@ class ControlPanelViewModel(
     private val kmlLayerService: KmlLayerService,
     private val filePathProvider: FilePathProvider
 ) : BaseViewModel() {
-    private var emptyTaskName = ""
+    private val emptyTaskName = ""
     val currentTask: MutableLiveData<String> = MutableLiveData()
     val pathName: MutableLiveData<String> = MutableLiveData()
     val temperature: MutableLiveData<String> = MutableLiveData()

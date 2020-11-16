@@ -62,7 +62,6 @@ class ControlPanelFragment :
         viewModel.markers.observe(this::updateMapMarker)
         viewModel.toastMessageEvent.observe(this::showToast)
         viewModel.cameraPosition.observe(this::updateMapCameraPosition)
-        viewModel.cancelTaskButtonClicked.value = false
         viewModel.cancelTaskButtonClicked.observe(this::onCancelTask)
     }
 

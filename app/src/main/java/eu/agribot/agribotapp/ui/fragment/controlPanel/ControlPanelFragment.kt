@@ -75,7 +75,7 @@ class ControlPanelFragment :
     }
 
     private fun onCancelTask(cancelTask: Boolean) {
-        if(cancelTask) {
+        if (cancelTask) {
             dialogManager.cancelTaskDialog(viewModel::sendCancelTask)
         }
     }

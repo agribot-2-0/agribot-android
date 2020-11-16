@@ -115,7 +115,13 @@ class ControlPanelViewModel(
         toastMessageEvent.postValue(errorMessage)
     }
 
+    private fun setEmptyActualTask() {
+        onGotCurrentTaskName("")
+        onGotCurrentTaskDetails(TaskDetails())
+    }
+
     fun getActualTask() {
+        setEmptyActualTask()
         cloudDatabaseService.getActualTaskDetails(
             onGetCurrentTaskDetailsSucess = this::onGotCurrentTaskDetails,
             onGetCurrentTaskNameSucess = this::onGotCurrentTaskName,
@@ -193,5 +199,6 @@ class ControlPanelViewModel(
 
     fun sendCancelTask() {
         cloudDatabaseService.setCurrentTask(ActualTask())
+        setEmptyActualTask()
     }
 }

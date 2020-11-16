@@ -45,7 +45,7 @@ class ControlPanelViewModel(
     val toastMessageEvent: LiveEvent<String> = MutableLiveEvent()
     val markers: MutableLiveData<MarkerOptions> = MutableLiveData()
     val cameraPosition: MutableLiveData<LatLng> = MutableLiveData()
-    val cancelTaskButtonClicked: MutableLiveData<Boolean> = MutableLiveData(false)
+    val cancelTaskButtonClicked: MutableLiveData<Boolean> = MutableLiveData()
 
     fun getMapTilePath(path: String): String {
         return filePathProvider.getMapTilePath(path)

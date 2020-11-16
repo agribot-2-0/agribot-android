@@ -23,7 +23,7 @@ class NewPathViewModel(
     private val currentPoint: MutableLiveData<LatLng> = MutableLiveData()
     val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val selectedPoints: MutableLiveData<LatLng> = MutableLiveData()
-    private val selectedPointsList: MutableLiveData<List<CoordinatesModel>> =
+    val selectedPointsList: MutableLiveData<List<CoordinatesModel>> =
         MutableLiveData(listOf())
     val postInputDialogEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
     private val fileNameSuffix = "_v"

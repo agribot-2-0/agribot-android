@@ -12,6 +12,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.gms.maps.model.TileOverlayOptions
 import eu.agribot.agribotapp.R
@@ -19,6 +20,7 @@ import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.DashboardNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentNewPathBinding
+import eu.agribot.agribotapp.domain.model.CoordinatesModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.MapParameters
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TileProvider
 import eu.agribot.agribotapp.ui.fragment.taskcreator.URLPath
@@ -31,7 +33,7 @@ class NewPathFragment :
     GoogleMap.OnCameraIdleListener {
     private var googleMapFragment: GoogleMap? = null
     var tempCordinate: LatLng? = null
-
+    var polyline: Polyline? = null
     override val layoutResourceId: Int = R.layout.fragment_new_path
 
     override val viewModel: NewPathViewModel by viewModel { parametersOf(requireContext()) }
@@ -46,6 +48,7 @@ class NewPathFragment :
         viewModel.selectedPoints.observe(this::selectLatLng)
         viewModel.toastMessageEvent.observe(this::showToast)
         viewModel.postInputDialogEvent.observe(this::showCreateCategoryDialog)
+        viewModel.selectedPointsList.observe(this::drawPolyLinesFromList)
     }
 
     override fun bindViewVariables(viewBinding: FragmentNewPathBinding) {
@@ -92,17 +95,9 @@ class NewPathFragment :
         addTileOverlay()
     }
 
-    private fun selectLatLng(coordinate: LatLng) {
-        if (tempCordinate != null) {
-            addPathPoint(coordinate)
-            googleMapFragment?.addPolyline(
-                PolylineOptions()
-                    .add(tempCordinate, coordinate)
-                    .width(5f)
-                    .color(Color.RED)
-            )
-        }
-        tempCordinate = coordinate
+    private fun selectLatLng(coordinates: LatLng) {
+        addPathPoint(coordinates)
+        tempCordinate = coordinates
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) =
@@ -135,5 +130,39 @@ class NewPathFragment :
 
     override fun onCameraIdle() {
         viewModel.onCoordinatesChanged(googleMapFragment!!.cameraPosition.target)
+        drawTempPolyline(googleMapFragment!!.cameraPosition.target)
+    }
+
+    private fun drawTempPolyline(coordinates: LatLng) {
+        if (tempCordinate != null) {
+            val polylineOptions = PolylineOptions()
+                .add(tempCordinate, coordinates)
+                .width(7f)
+                .color(Color.BLUE)
+            if (polyline != null) {
+                polyline!!.remove()
+            }
+            polyline = googleMapFragment!!.addPolyline(polylineOptions)
+        }
+
+    }
+
+    private fun drawPolyLinesFromList(pointsList: List<CoordinatesModel>) {
+        val list = arrayListOf<LatLng>()
+        for (element in pointsList) {
+            list += element.coordinates
+        }
+        if (list.size >= 2)
+            googleMapFragment!!.addPolyline(
+                PolylineOptions()
+                    .addAll(list)
+                    .width(9f)
+                    .color(Color.RED)
+            )
     }
 }
+
+
+
+
+

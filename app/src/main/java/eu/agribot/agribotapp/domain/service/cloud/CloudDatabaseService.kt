@@ -196,7 +196,7 @@ class CloudDatabaseService(
     ) {
         cloudDatabase.getCurrentTaskDetails(
             onGetCurrentTaskNameSucess = onGetCurrentTaskNameSucess,
-            onGetCurrentTaskDetailsSucess = { onGetCurrentTaskDetailsSucess(it.toDomainModel()) },
+            onGetCurrentTaskDetailsSucess = {onGetCurrentTaskDetailsSucess(it.toDomainModel())},
             onDatabaseError = {
                 onError(it.message!!)
             })

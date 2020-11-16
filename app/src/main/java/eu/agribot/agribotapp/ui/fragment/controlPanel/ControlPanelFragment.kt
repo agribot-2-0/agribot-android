@@ -2,6 +2,7 @@ package eu.agribot.agribotapp.ui.fragment.controlPanel
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.observe
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -15,12 +16,14 @@ import com.google.maps.android.kml.KmlContainer
 import com.google.maps.android.kml.KmlLayer
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
+import eu.agribot.agribotapp.common.dialog.DialogManager
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.TaskSelectNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentControlPanelBinding
 import eu.agribot.agribotapp.ui.fragment.taskcreator.MapParameters
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TileProvider
 import eu.agribot.agribotapp.ui.fragment.taskcreator.URLPath
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.io.IOException
@@ -29,6 +32,7 @@ import java.io.InputStream
 class ControlPanelFragment :
     BaseFragment<ControlPanelViewModel, FragmentControlPanelBinding>(), OnMapReadyCallback {
 
+    private val dialogManager: DialogManager by inject { parametersOf(requireContext()) }
     override val layoutResourceId: Int = R.layout.fragment_control_panel
     override val viewModel: ControlPanelViewModel by viewModel { parametersOf(requireContext()) }
     private var googleMapFragment: GoogleMap? = null
@@ -57,7 +61,8 @@ class ControlPanelFragment :
         viewModel.pathStream.observe(this::onGotSelectedLayer)
         viewModel.markers.observe(this::updateMapMarker)
         viewModel.toastMessageEvent.observe(this::showToast)
-        viewModel.cameraPosition.observe((this::updateMapCameraPosition))
+        viewModel.cameraPosition.observe(this::updateMapCameraPosition)
+        viewModel.cancelTaskButtonClicked.observe(this::onCancelTask)
     }
 
     private fun updateMapCameraPosition(latLng: LatLng) {
@@ -66,6 +71,12 @@ class ControlPanelFragment :
                 latLng, MapParameters.MID_ZOOM.mapParametr
             )
         )
+    }
+
+    private fun onCancelTask(cancelTask: Boolean) {
+        if (cancelTask) {
+            dialogManager.cancelTaskDialog(viewModel::sendCancelTask)
+        }
     }
 
     private fun addTileOverlay() {

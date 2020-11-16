@@ -207,5 +207,8 @@
     <string name="blue_flow">Niebieski przepływ</string>
     <string name="add_tool_success">Narzędzie dodano</string>
     <string name="no_tool_name">Nie podano nazwy narzędzia</string>
+    <string name="cancel_task_button">ANULUJ ZADANIE</string>
+    <string name="dialog_task_cancel_tittle">Anuluj zadanie</string>
+    <string name="dialog_task_cancel_message">Czy chesz anulować zadanie?</string>
 
 </resources>

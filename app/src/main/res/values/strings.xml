@@ -226,6 +226,8 @@
     <string name="add_tool_success">Tool added successfully</string>
     <string name="no_tool_name">No tool name</string>
     <string name="save_path">Save path</string>
+    <string name="create_layer_sucess">Map layer file created!</string>
+    <string name="create_layer_error">Problem with create map layer</string>
 
 
 </resources>

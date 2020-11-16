@@ -5,18 +5,26 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.gms.maps.model.TileOverlayOptions
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.DashboardNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentNewPathBinding
+import eu.agribot.agribotapp.ui.fragment.taskcreator.MapParameters
+import eu.agribot.agribotapp.ui.fragment.taskcreator.TileProvider
+import eu.agribot.agribotapp.ui.fragment.taskcreator.URLPath
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import java.io.IOException
 
 class NewPathFragment :
     BaseFragment<NewPathViewModel, FragmentNewPathBinding>(), OnMapReadyCallback,
@@ -33,6 +41,8 @@ class NewPathFragment :
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.new_path_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+        viewModel.getAgribotPosition()
+        viewModel.cameraPosition.observe(this::updateCameraPosition)
         viewModel.selectedPoints.observe(this::selectLatLng)
         viewModel.toastMessageEvent.observe(this::showToast)
         viewModel.postInputDialogEvent.observe(this::showCreateCategoryDialog)
@@ -42,14 +52,49 @@ class NewPathFragment :
         viewBinding.viewModel = viewModel
     }
 
+    private fun addPathPoint(coordinate: LatLng) {
+        googleMapFragment?.addMarker(
+            MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_layer_pointer))
+                .position(coordinate)
+        )
+    }
+
+    private fun updateCameraPosition(cameraPosition: LatLng) {
+        googleMapFragment?.moveCamera(
+            CameraUpdateFactory.newLatLngZoom(
+                cameraPosition, MapParameters.MID_ZOOM.mapParametr
+            )
+        )
+    }
+
+    private fun addTileOverlay() {
+        val tileProvider =
+            TileProvider(
+                MapParameters.MAP_SIZE.mapParametr.toInt(),
+                MapParameters.MAP_SIZE.mapParametr.toInt(),
+                viewModel.getMapTilePath(URLPath.MAP_PATH.path)
+            )
+        try {
+            googleMapFragment!!.addTileOverlay(
+                TileOverlayOptions().transparency(MapParameters.TRANSPARENCY_VALUE.mapParametr)
+                    .tileProvider(tileProvider)
+            )
+        } catch (exception: IOException) {
+            showToast(getString(R.string.map_tile_problem))
+        }
+    }
+
     override fun onMapReady(googleMap: GoogleMap?) {
         googleMapFragment = googleMap
         googleMapFragment!!.mapType = GoogleMap.MAP_TYPE_NORMAL
         googleMapFragment!!.setOnCameraIdleListener(this)
+        addTileOverlay()
     }
 
     private fun selectLatLng(coordinate: LatLng) {
         if (tempCordinate != null) {
+            addPathPoint(coordinate)
             googleMapFragment?.addPolyline(
                 PolylineOptions()
                     .add(tempCordinate, coordinate)

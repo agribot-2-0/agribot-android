@@ -241,6 +241,7 @@ val viewModelModule = module {
 
     viewModel { (context: Context) ->
         NewPathViewModel(
+            cloudDatabaseService = get(),
             pathManagementService = get(),
             filePathProvider = get(),
             resourcesProvider = get { parametersOf(context) }

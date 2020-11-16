@@ -32,6 +32,12 @@ class NewPathViewModel(
         return filePathProvider.getMapTilePath(path)
     }
 
+    fun deleteLastPoint() {
+        selectedPointsList.value =
+            selectedPointsList.value?.minus(CoordinatesModel(selectedPointsList.value!![0].coordinates))
+        cameraPosition.value = selectedPointsList.value!![0].coordinates
+    }
+
     fun getAgribotPosition() {
         cloudDatabaseService.getRobotLocalizationPose(
             onSuccess = this::setCurrentRobotPosition,

@@ -33,7 +33,9 @@ class NewPathFragment :
     GoogleMap.OnCameraIdleListener {
     private var googleMapFragment: GoogleMap? = null
     var tempCordinate: LatLng? = null
-    var polyline: Polyline? = null
+    private var polyline: Polyline? = null
+    private var polylines: Polyline? = null
+
     override val layoutResourceId: Int = R.layout.fragment_new_path
 
     override val viewModel: NewPathViewModel by viewModel { parametersOf(requireContext()) }
@@ -64,6 +66,7 @@ class NewPathFragment :
     }
 
     private fun updateCameraPosition(cameraPosition: LatLng) {
+        tempCordinate = cameraPosition
         googleMapFragment?.moveCamera(
             CameraUpdateFactory.newLatLngZoom(
                 cameraPosition, MapParameters.MID_ZOOM.mapParametr
@@ -135,14 +138,15 @@ class NewPathFragment :
 
     private fun drawTempPolyline(coordinates: LatLng) {
         if (tempCordinate != null) {
-            val polylineOptions = PolylineOptions()
-                .add(tempCordinate, coordinates)
-                .width(7f)
-                .color(Color.BLUE)
             if (polyline != null) {
                 polyline!!.remove()
             }
-            polyline = googleMapFragment!!.addPolyline(polylineOptions)
+            polyline = googleMapFragment!!.addPolyline(
+                PolylineOptions()
+                    .add(tempCordinate, coordinates)
+                    .width(7f)
+                    .color(Color.BLUE)
+            )
         }
 
     }
@@ -152,14 +156,20 @@ class NewPathFragment :
         for (element in pointsList) {
             list += element.coordinates
         }
-        if (list.size >= 2)
-            googleMapFragment!!.addPolyline(
+        if (list.size >= 2) {
+            if (polylines != null) {
+                polylines!!.remove()
+            }
+            polylines = googleMapFragment!!.addPolyline(
                 PolylineOptions()
                     .addAll(list)
                     .width(9f)
                     .color(Color.RED)
             )
+        }
     }
+
+
 }
 
 

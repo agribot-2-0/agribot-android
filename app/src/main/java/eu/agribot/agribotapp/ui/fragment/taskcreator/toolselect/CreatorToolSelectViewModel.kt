@@ -1,8 +1,11 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.toolselect
 
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.Timestamp
 import eu.agribot.agribotapp.base.BaseViewModel
+import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.DashboardNavigationEvent
+import eu.agribot.agribotapp.domain.model.cdb.ToolItem
 import eu.agribot.agribotapp.domain.model.cdb.taskprogram.taskmodel.NewRobotTaskDetails
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
@@ -14,6 +17,9 @@ class CreatorToolSelectViewModel(
 ) :
     BaseViewModel() {
     private val NULL_VALUE_TIMESTAMP = 946728000L
+    private val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
+    val mToolNames: MutableList<String> = mutableListOf()
+    val mToolModes = MutableLiveData<MutableList<String>>()
 
     private fun getTaskData() {
         cloudDatabaseService.addTask(
@@ -43,6 +49,17 @@ class CreatorToolSelectViewModel(
         postDashboardNavigationEvent()
     }
 
+    fun getAvailableTool() {
+        cloudDatabaseService.getToolItem(
+            onGetToolItem = this::onAvailableToolFound,
+            onGetToolItemError = this::postToastErrorMessageEvent
+        )
+    }
+
+    private fun onAvailableToolFound(toolItem: ToolItem) {
+        mToolNames.add(toolItem.toolName)
+    }
+
     private fun formatPathName(taskName: String): String {
         return if (taskName.contains(PathNameFileSymbol.VARSION_SEPARATOR.symbol)
         ) {
@@ -54,5 +71,9 @@ class CreatorToolSelectViewModel(
 
     private fun postDashboardNavigationEvent() {
         navigationEvent.postValue(DashboardNavigationEvent())
+    }
+
+    fun postToastErrorMessageEvent(errorMessage: String) {
+        toastMessageEvent.postValue(errorMessage)
     }
 }

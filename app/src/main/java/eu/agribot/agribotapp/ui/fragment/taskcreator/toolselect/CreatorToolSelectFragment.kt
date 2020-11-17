@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.Spinner
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
@@ -14,7 +13,6 @@ import kotlinx.android.synthetic.main.fragment_creator_tool_select.*
 import kotlinx.android.synthetic.main.view_bottom_creator_bar.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-
 
 class CreatorToolSelectFragment :
     BaseFragment<CreatorToolSelectViewModel, FragmentCreatorToolSelectBinding>() {
@@ -32,7 +30,6 @@ class CreatorToolSelectFragment :
         viewModel.getAvailableTool()
         viewModel.mToolNames.observe(this::createSpinnerAdapter)
     }
-
 
     /*
 
@@ -66,12 +63,14 @@ class CreatorToolSelectFragment :
         )
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         front_tool_name.adapter = spinnerArrayAdapter
-
         front_tool_name.onItemSelectedListener = SpinnerSelectedItemAdapter(this::onItemSelected)
+
+        back_tool_name.adapter = spinnerArrayAdapter
+        back_tool_name.onItemSelectedListener = SpinnerSelectedItemAdapter(this::onItemSelected)
     }
 
     private fun onItemSelected(position: Int) {
-        Log.e("xd", "item: " + position)
+        Log.e("ToolSelect", "item: " + position)
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {

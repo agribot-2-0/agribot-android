@@ -12,6 +12,5 @@ class SpinnerSelectedItemAdapter(val onSelected: (position: Int) -> Unit) :
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
         Log.e("xd", "no selected")
-
     }
 }

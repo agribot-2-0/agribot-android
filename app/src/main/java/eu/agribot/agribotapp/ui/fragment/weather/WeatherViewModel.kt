@@ -8,14 +8,9 @@ import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationPressure
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationTemperature
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationWind
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
-import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.data.PickerSymbols
-import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.data.WeatherUnit
-import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.weatherattributes.PressureItem
-import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.weatherattributes.TemperatureItem
-import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.weatherattributes.WindItem
 
 class WeatherViewModel(
-    private val cloudDatabaseService: CloudDatabaseService,
+    private val cloudDatabaseService: CloudDatabaseService
 ) : BaseViewModel() {
     val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val weatherStationWindSpeed: MutableLiveData<String> = MutableLiveData()
@@ -77,5 +72,4 @@ class WeatherViewModel(
     private fun postErrorMessage(errorText: String) {
         toastEvent.postValue(errorText)
     }
-
 }

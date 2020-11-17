@@ -5,8 +5,6 @@ import android.view.View
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.databinding.FragmentWeatherBinding
-import kotlinx.android.synthetic.main.fragment_ttcontrol.horizontal_joystick
-import kotlinx.android.synthetic.main.fragment_ttcontrol.vertical_joystick
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WeatherFragment : BaseFragment<WeatherViewModel, FragmentWeatherBinding>() {
@@ -22,5 +20,4 @@ class WeatherFragment : BaseFragment<WeatherViewModel, FragmentWeatherBinding>()
         super.onViewCreated(view, savedInstanceState)
         viewModel.prepareWeatherStationData()
     }
-
 }

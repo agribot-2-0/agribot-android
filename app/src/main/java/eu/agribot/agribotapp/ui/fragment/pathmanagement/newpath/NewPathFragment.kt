@@ -175,7 +175,7 @@ class NewPathFragment :
         for (element in pointsList) {
             list += element.coordinates
         }
-        if (list.size >= 2) {
+        if (list.isNotEmpty()) {
             if (polylines != null) {
                 polylines!!.remove()
             }

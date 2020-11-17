@@ -101,7 +101,11 @@ val viewModelModule = module {
             pathManagementService = get()
         )
     }
-    viewModel { WeatherViewModel() }
+    viewModel {
+        WeatherViewModel(
+            cloudDatabaseService = get()
+        )
+    }
 
     viewModel { (context: Context) ->
         SettingsViewModel(

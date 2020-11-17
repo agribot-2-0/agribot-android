@@ -60,7 +60,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
-                        android:text="24" />
+                        android:text="@{viewModel.weatherStationWindSpeed}" />
 
                     <TextView
                         style="@style/MiddleInfoText"
@@ -68,38 +68,6 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
                         android:text="km/h" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
-                        android:src="@drawable/ic_wind_compass" />
-
-                    <TextView
-                        android:id="@+id/windDirVal"
-                        style="@style/BottomInfoText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
-                        android:text="SW" />
-
-                    <TextView
-                        style="@style/MiddleInfoText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
-                        android:text=" " />
-
 
                 </LinearLayout>
 
@@ -123,14 +91,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
-                        android:text="23" />
+                        android:text="@{viewModel.weatherStationTemperature}" />
 
                     <TextView
                         style="@style/MiddleInfoText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
-                        android:text=" " />
+                        android:text="°C" />
 
                 </LinearLayout>
 
@@ -154,7 +122,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
-                        android:text="30" />
+                        android:text="@{viewModel.weatherStationHumidity}" />
 
                     <TextView
                         style="@style/MiddleInfoText"
@@ -185,7 +153,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
-                        android:text="1013" />
+                        android:text="@{viewModel.weatherStationPressure}" />
 
                     <TextView
                         style="@style/MiddleInfoText"

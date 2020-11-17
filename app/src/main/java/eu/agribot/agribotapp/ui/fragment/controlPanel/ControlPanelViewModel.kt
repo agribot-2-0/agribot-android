@@ -1,7 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.controlPanel
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions

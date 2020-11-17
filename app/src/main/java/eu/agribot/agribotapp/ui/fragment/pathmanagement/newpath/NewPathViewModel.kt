@@ -33,7 +33,7 @@ class NewPathViewModel(
     }
 
     fun deleteLastPoint() {
-        if (selectedPointsList.value!!.isNotEmpty()) {
+        if (selectedPointsList.value!!.size > 1) {
             selectedPointsList.value =
                 selectedPointsList.value?.minus(CoordinatesModel(selectedPointsList.value!![0].coordinates))
             cameraPosition.value = CameraPosition(selectedPointsList.value!![0].coordinates, true)

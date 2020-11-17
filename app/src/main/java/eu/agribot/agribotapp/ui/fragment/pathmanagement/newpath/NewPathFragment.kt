@@ -188,11 +188,4 @@ class NewPathFragment :
         }
         addPathPoint(list)
     }
-
-
 }
-
-
-
-
-

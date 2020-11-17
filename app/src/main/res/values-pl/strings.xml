@@ -213,5 +213,6 @@
     <string name="no_tool_name">Nie podano nazwy narzędzia</string>
     <string name="save_path">Zapisz ścieżkę</string>
     <string name="create_layer_sucess">Map layer file created!</string>
+    <string name="create_layer_error">Problem z utworzeniem ścieżki</string>
 
 </resources>

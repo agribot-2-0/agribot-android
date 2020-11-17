@@ -223,5 +223,11 @@
     <string name="dialog_task_cancel_tittle">Cancel task</string>
     <string name="dialog_task_cancel_message">Do you want cancel a task?</string>
 
+    <string-array name="tool_array">
+        <item>pierwsze narzedzie</item>
+        <item>drugie narzedzie</item>
+        <item>trzecie narzedzie</item>
+
+    </string-array>
 
 </resources>

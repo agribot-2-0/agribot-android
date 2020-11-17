@@ -18,7 +18,7 @@ class CreatorToolSelectViewModel(
     BaseViewModel() {
     private val NULL_VALUE_TIMESTAMP = 946728000L
     private val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
-    val mToolNames: MutableList<String> = mutableListOf()
+    val mToolNames: MutableLiveData<List<String>> = MutableLiveData(listOf())
     val mToolModes = MutableLiveData<MutableList<String>>()
 
     private fun getTaskData() {
@@ -57,7 +57,10 @@ class CreatorToolSelectViewModel(
     }
 
     private fun onAvailableToolFound(toolItem: ToolItem) {
-        mToolNames.add(toolItem.toolName)
+        mToolNames.value =
+            listOf(
+                toolItem.toolName, *mToolNames.value!!.toTypedArray()
+            )
     }
 
     private fun formatPathName(taskName: String): String {

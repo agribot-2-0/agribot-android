@@ -36,6 +36,7 @@ class NewPathFragment :
     private var polyline: Polyline? = null
     private var polylines: Polyline? = null
 
+
     override val layoutResourceId: Int = R.layout.fragment_new_path
 
     override val viewModel: NewPathViewModel by viewModel { parametersOf(requireContext()) }
@@ -57,13 +58,17 @@ class NewPathFragment :
         viewBinding.viewModel = viewModel
     }
 
-    private fun addPathPoint(coordinate: LatLng) {
-        googleMapFragment?.addMarker(
-            MarkerOptions()
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_layer_pointer))
-                .position(coordinate)
-        )
+    private fun addPathPoint(coordinateList: List<LatLng>) {
+        coordinateList.forEach { markerData ->
+            googleMapFragment!!.addMarker(
+                MarkerOptions()
+                    .position(LatLng(markerData.latitude, markerData.longitude))
+                    .anchor(0.5f, 0.5f)
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_white_circle))
+            )
+        }
     }
+
 
     private fun updateCameraPosition(cameraPosition: LatLng) {
         tempCordinate = cameraPosition
@@ -99,7 +104,6 @@ class NewPathFragment :
     }
 
     private fun selectLatLng(coordinates: LatLng) {
-        addPathPoint(coordinates)
         tempCordinate = coordinates
     }
 
@@ -167,6 +171,8 @@ class NewPathFragment :
                     .color(Color.RED)
             )
         }
+
+        addPathPoint(list)
     }
 
 

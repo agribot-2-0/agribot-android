@@ -54,19 +54,19 @@ class WeatherViewModel(
     }
 
     private fun onGetRobotHumiditySucess(robotWeatherStationHumidity: RobotWeatherStationHumidity) {
-        weatherStationHumidity.postValue(robotWeatherStationHumidity.value.toString())
+        weatherStationHumidity.value = robotWeatherStationHumidity.value.toString()
     }
 
     private fun onGetRobotTemperatureSucess(robotWeatherStationTemperature: RobotWeatherStationTemperature) {
-        weatherStationTemperature.postValue(robotWeatherStationTemperature.value.toString())
+        weatherStationTemperature.value = robotWeatherStationTemperature.value.toString()
     }
 
     private fun onGetRobotWindSucess(robotWeatherStationWind: RobotWeatherStationWind) {
-        weatherStationWindSpeed.postValue(robotWeatherStationWind.speed_value.toString())
+        weatherStationWindSpeed.value = robotWeatherStationWind.speed_value.toString()
     }
 
     private fun onGetRobotPressureSucess(robotWeatherStationPressure: RobotWeatherStationPressure) {
-        weatherStationPressure.postValue(robotWeatherStationPressure.value.toString())
+        weatherStationPressure.value = robotWeatherStationPressure.value.toString()
     }
 
     private fun postErrorMessage(errorText: String) {

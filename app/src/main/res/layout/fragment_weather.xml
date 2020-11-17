@@ -43,7 +43,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/margin_small"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="horizontal">
@@ -51,7 +51,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
+                        android:layout_margin="@dimen/margin_small"
                         android:src="@drawable/ic_wind" />
 
                     <TextView
@@ -59,14 +59,14 @@
                         style="@style/BottomInfoText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
+                        android:layout_margin="@dimen/margin_small"
                         android:text="@{viewModel.weatherStationWindSpeed}" />
 
                     <TextView
                         style="@style/MiddleInfoText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
+                        android:layout_margin="@dimen/margin_small"
                         android:text="km/h" />
 
                 </LinearLayout>
@@ -74,7 +74,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/margin_small"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="horizontal">
@@ -82,7 +82,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
+                        android:layout_margin="@dimen/margin_small"
                         android:src="@drawable/ic_thermometer" />
 
                     <TextView
@@ -90,14 +90,14 @@
                         style="@style/BottomInfoText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
+                        android:layout_margin="@dimen/margin_small"
                         android:text="@{viewModel.weatherStationTemperature}" />
 
                     <TextView
                         style="@style/MiddleInfoText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
+                        android:layout_margin="@dimen/margin_small"
                         android:text="°C" />
 
                 </LinearLayout>
@@ -105,7 +105,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/margin_small"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="horizontal">
@@ -113,7 +113,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
+                        android:layout_margin="@dimen/margin_small"
                         android:src="@drawable/ic_humidity" />
 
                     <TextView
@@ -121,14 +121,14 @@
                         style="@style/BottomInfoText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
+                        android:layout_margin="@dimen/margin_small"
                         android:text="@{viewModel.weatherStationHumidity}" />
 
                     <TextView
                         style="@style/MiddleInfoText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
+                        android:layout_margin="@dimen/margin_small"
                         android:text="%" />
 
                 </LinearLayout>
@@ -136,7 +136,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/margin_small"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="horizontal">
@@ -144,7 +144,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
+                        android:layout_margin="@dimen/margin_small"
                         android:src="@drawable/ic_pressure" />
 
                     <TextView
@@ -152,14 +152,14 @@
                         style="@style/BottomInfoText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
+                        android:layout_margin="@dimen/margin_small"
                         android:text="@{viewModel.weatherStationPressure}" />
 
                     <TextView
                         style="@style/MiddleInfoText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
+                        android:layout_margin="@dimen/margin_small"
                         android:text="hPa" />
 
                 </LinearLayout>

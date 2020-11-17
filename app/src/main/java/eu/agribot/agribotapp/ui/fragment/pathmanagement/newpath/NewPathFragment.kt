@@ -11,6 +11,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
@@ -35,7 +36,8 @@ class NewPathFragment :
     var tempCordinate: LatLng? = null
     private var polyline: Polyline? = null
     private var polylines: Polyline? = null
-
+    private var pointMarker: Marker? = null
+    var allMarkers = ArrayList<Marker>()
 
     override val layoutResourceId: Int = R.layout.fragment_new_path
 
@@ -59,22 +61,37 @@ class NewPathFragment :
     }
 
     private fun addPathPoint(coordinateList: List<LatLng>) {
-        coordinateList.forEach { markerData ->
-            googleMapFragment!!.addMarker(
+        if (pointMarker != null) {
+            pointMarker!!.remove()
+            pointMarker = null
+        }
+        coordinateList.forEach { coordinate ->
+            pointMarker = googleMapFragment!!.addMarker(
                 MarkerOptions()
-                    .position(LatLng(markerData.latitude, markerData.longitude))
+                    .position(LatLng(coordinate.latitude, coordinate.longitude))
                     .anchor(0.5f, 0.5f)
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_white_circle))
             )
+            allMarkers.add(pointMarker!!)
         }
     }
 
+    private fun updateCameraPosition(cameraPosition: CameraPosition) {
+        if (cameraPosition.isPointDeleted) {
+            for (marker in allMarkers) {
+                marker.remove()
+            }
+            tempCordinate = cameraPosition.coordinates
 
-    private fun updateCameraPosition(cameraPosition: LatLng) {
-        tempCordinate = cameraPosition
+            val list = arrayListOf<LatLng>()
+            for (element in viewModel.selectedPointsList.value!!) {
+                list += element.coordinates
+            }
+            addPathPoint(list)
+        }
         googleMapFragment?.moveCamera(
             CameraUpdateFactory.newLatLngZoom(
-                cameraPosition, MapParameters.MID_ZOOM.mapParametr
+                cameraPosition.coordinates, MapParameters.MID_ZOOM.mapParametr
             )
         )
     }
@@ -130,8 +147,7 @@ class NewPathFragment :
                 viewModel.createNewLayer(editText.text.toString())
                 dialog.dismiss()
             }
-            val b = dialogBuilder.create()
-            b.show()
+            dialogBuilder.create().show()
         }
     }
 
@@ -152,7 +168,6 @@ class NewPathFragment :
                     .color(Color.BLUE)
             )
         }
-
     }
 
     private fun drawPolyLinesFromList(pointsList: List<CoordinatesModel>) {
@@ -171,7 +186,6 @@ class NewPathFragment :
                     .color(Color.RED)
             )
         }
-
         addPathPoint(list)
     }
 

@@ -19,7 +19,7 @@ class NewPathViewModel(
     private val cloudDatabaseService: CloudDatabaseService,
     private val pathManagementService: PathManagementService
 ) : BaseViewModel() {
-    val cameraPosition: MutableLiveData<LatLng> = MutableLiveData()
+    val cameraPosition: MutableLiveData<CameraPosition> = MutableLiveData()
     private val currentPoint: MutableLiveData<LatLng> = MutableLiveData()
     val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val selectedPoints: MutableLiveData<LatLng> = MutableLiveData()
@@ -35,7 +35,7 @@ class NewPathViewModel(
     fun deleteLastPoint() {
         selectedPointsList.value =
             selectedPointsList.value?.minus(CoordinatesModel(selectedPointsList.value!![0].coordinates))
-        cameraPosition.value = selectedPointsList.value!![0].coordinates
+        cameraPosition.value = CameraPosition(selectedPointsList.value!![0].coordinates, true)
     }
 
     fun getAgribotPosition() {
@@ -46,9 +46,11 @@ class NewPathViewModel(
     }
 
     private fun setCurrentRobotPosition(robotLocalizationPose: RobotLocalizationPose) {
-        cameraPosition.value = LatLng(
-            robotLocalizationPose.latitude,
-            robotLocalizationPose.longitude
+        cameraPosition.value = CameraPosition(
+            LatLng(
+                robotLocalizationPose.latitude,
+                robotLocalizationPose.longitude
+            ), false
         )
     }
 

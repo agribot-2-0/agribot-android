@@ -136,6 +136,9 @@
         <action
             android:id="@+id/action_pathManagementFragment_to_newPathFragment"
             app:destination="@id/newPathFragment" />
+        <action
+            android:id="@+id/action_pathManagementFragment_to_pathNameFragment"
+            app:destination="@id/pathNameFragment" />
     </fragment>
 
     <fragment
@@ -321,4 +324,14 @@
             android:id="@+id/action_newPathFragment_to_dashboardFragment"
             app:destination="@id/dashboardFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/pathNameFragment"
+        android:name="eu.agribot.agribotapp.ui.fragment.pathmanagement.pathname.PathNameFragment"
+        android:label="PathNameFragment" >
+        <action
+            android:id="@+id/action_pathNameFragment_to_newPathFragment"
+            app:destination="@id/newPathFragment" />
+    </fragment>
+
 </navigation>

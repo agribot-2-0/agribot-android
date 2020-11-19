@@ -5,6 +5,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.navigation.events.NewPathNavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.PathNameNavigationEvent
 import eu.agribot.agribotapp.domain.service.PathManagementService
 import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
 import eu.agribot.agribotapp.ui.fragment.taskcreator.PathNameFileSymbol
@@ -26,7 +27,7 @@ class PathManagementViewModel(
     }
 
     fun postNewPathNavigationEvent() {
-        navigationEvent.postValue(NewPathNavigationEvent())
+        navigationEvent.postValue(PathNameNavigationEvent())
     }
 
     private fun onAvailableFileFound(fileName: String, isFileActive: Boolean) {
@@ -63,5 +64,13 @@ class PathManagementViewModel(
     }
 
     private fun onCloudDataException(exception: String) {
+    }
+
+    fun onDeleteButtonClicked(itemPathPosition: Int) {
+
+    }
+
+    fun onEditButtonClicked(itemPathPosition: Int) {
+        navigationEvent.postValue(NewPathNavigationEvent())
     }
 }

@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.swiperecyclerutils
+package eu.agribot.agribotapp.ui.fragment.swiperecyclerutils
 
 import androidx.recyclerview.widget.RecyclerView
 

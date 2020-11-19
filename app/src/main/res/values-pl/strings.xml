@@ -37,6 +37,10 @@
     <string name="dialog_task_delete_message">Czy chcesz usunąć to zadanie?</string>
     <string name="dialog_task_delete_confirm">Usuń!</string>
 
+    <string name="dialog_path_delete_tittle">Usunięcie ścieżki</string>
+    <string name="dialog_path_delete_message">Czy chcesz usunąć tą ścieżkę?</string>
+    <string name="dialog_path_delete_confirm">Delete!</string>
+
     <string name="dialog_create_file_title">Podaj nazwę swojej ścieżki</string>
     <string name="dialog_create_file_hint">Nazwa pliku</string>
     <string name="dialog_create_file_confirm">Utwórz !</string>
@@ -214,5 +218,6 @@
     <string name="save_path">Zapisz ścieżkę</string>
     <string name="create_layer_sucess">Map layer file created!</string>
     <string name="create_layer_error">Problem z utworzeniem ścieżki</string>
-
+    <string name="type_path_name">Podaj nazwę ścieżki</string>
+    <string name="task_path_text">Nazwa ścieżki</string>
 </resources>

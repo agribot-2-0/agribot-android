@@ -12,6 +12,7 @@ import eu.agribot.agribotapp.ui.fragment.bluetoothconnection.recycler.BluetoothN
 import eu.agribot.agribotapp.ui.fragment.controlPanel.ControlPanelViewModel
 import eu.agribot.agribotapp.ui.fragment.controlPanel.taskselect.TaskSelectViewModel
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.ManualControlViewModel
+import eu.agribot.agribotapp.ui.fragment.pathmanagement.pathname.PathNameViewModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.mainpathscreen.PathManagementViewModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.NewPathViewModel
 import eu.agribot.agribotapp.ui.fragment.settings.SettingsViewModel
@@ -245,6 +246,12 @@ val viewModelModule = module {
             pathManagementService = get(),
             filePathProvider = get(),
             resourcesProvider = get { parametersOf(context) }
+        )
+    }
+
+    viewModel {
+        PathNameViewModel(
+
         )
     }
 }

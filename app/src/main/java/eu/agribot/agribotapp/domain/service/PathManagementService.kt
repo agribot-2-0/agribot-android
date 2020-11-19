@@ -94,9 +94,10 @@ class PathManagementService(
             xmlSerializer.text("relativeToGround")
             xmlSerializer.endTag(null, "altitudeMode")
             xmlSerializer.startTag(null, "coordinates")
+            xmlSerializer.text(" ")
             for (i in coordinateList.indices) {
                 xmlSerializer.text(
-                    coordinateList[i].coordinates.longitude.toString() + "," + coordinateList[i].coordinates.latitude + ",0 "
+                    " " + coordinateList[i].coordinates.longitude.toString() + "," + coordinateList[i].coordinates.latitude.toString() + ",0"
                 )
             }
             xmlSerializer.endTag(null, "coordinates")

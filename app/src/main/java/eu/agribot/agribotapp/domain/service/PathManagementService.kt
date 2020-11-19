@@ -1,36 +1,24 @@
 package eu.agribot.agribotapp.domain.service
 
-import eu.agribot.agribotapp.communication.database.firebase.FirebaseService
 import eu.agribot.agribotapp.communication.database.firestorage.DownloaderPath
 import eu.agribot.agribotapp.communication.database.firestorage.FirestorageService
-import eu.agribot.agribotapp.communication.persistence.PersistentStorage
 import eu.agribot.agribotapp.domain.model.CoordinatesModel
 import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePathProvider
 import org.xmlpull.v1.XmlPullParserException
 import org.xmlpull.v1.XmlPullParserFactory
-import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
 class PathManagementService(
-    private val firebaseService: FirebaseService,
-    private val persistentStorage: PersistentStorage,
     private val filepathProvider: FilePathProvider,
     private val fileStorageService: FirestorageService
 ) {
     private val fileNameSuffix = "_v"
-
     private val sourceSeparator = "/"
     private val fileFormat = ".kml"
     private var versionNumber = 1
     private val nextVersion = 1
-
-    // TODO: Remove sample method
-    fun samplePathManagementAction() {
-        persistentStorage.getExampleEntry()
-        Timber.d("Sample method called")
-    }
 
     fun createPathFile(
         coordinateList: List<CoordinatesModel>,
@@ -39,23 +27,10 @@ class PathManagementService(
         onError: (error: String) -> Unit
     ) {
         val pathFileName = fileName + fileNameSuffix
-
-        val fileVersionName =
-            if (File(filepathProvider.getLayerPath(DownloaderPath.LAYER_PATH.filePath + sourceSeparator + pathFileName + versionNumber.toString() + fileFormat)).exists()) {
-                versionNumber += nextVersion
-                pathFileName + versionNumber.toString()
-            } else {
-                pathFileName + versionNumber.toString()
-            }
-
-        val file =
-            File(filepathProvider.getLayerPath(DownloaderPath.LAYER_PATH.filePath + sourceSeparator + fileVersionName + fileFormat))
-
-        val fileOutputStream: FileOutputStream?
+        val fileOutputStream: FileOutputStream? = getOutputStream(pathFileName)
         try {
-            fileOutputStream = FileOutputStream(file)
             val xmlSerializer = XmlPullParserFactory.newInstance().newSerializer()
-            xmlSerializer.setOutput(fileOutputStream, "UTF-8")
+            xmlSerializer.setOutput(getOutputStream(pathFileName), "UTF-8")
             xmlSerializer.startDocument("UTF-8", null)
             xmlSerializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true)
             xmlSerializer.startTag(null, "kml")
@@ -109,7 +84,7 @@ class PathManagementService(
             xmlSerializer.endTag(null, "kml")
             xmlSerializer.endDocument()
             xmlSerializer.flush()
-            fileOutputStream.close()
+            fileOutputStream?.close()
         } catch (e: IOException) {
             e.printStackTrace()
         } catch (e: XmlPullParserException) {
@@ -118,9 +93,50 @@ class PathManagementService(
             e.printStackTrace()
         }
 
-        fileStorageService.uploadFile(
-            filepathProvider.getLayerPath(DownloaderPath.LAYER_PATH.filePath + sourceSeparator + fileVersionName + fileFormat),
-            fileVersionName + fileFormat, onSucess, onError
+        saveFileOnCloud(pathFileName, onSucess, onError)
+    }
+
+    private fun getFileVersion(pathName: String): String {
+        return if (File(filepathProvider.getLayerPath(DownloaderPath.LAYER_PATH.filePath + sourceSeparator + pathName + versionNumber.toString() + fileFormat)).exists()) {
+            versionNumber += nextVersion
+            pathName + versionNumber.toString()
+        } else {
+            pathName + versionNumber.toString()
+        }
+    }
+
+    private fun getPathFile(pathName: String): File {
+        return File(
+            filepathProvider.getLayerPath(
+                DownloaderPath.LAYER_PATH.filePath + sourceSeparator + getFileVersion(
+                    pathName
+                ) + fileFormat
+            )
+        )
+    }
+
+    private fun getOutputStream(pathFileName: String): FileOutputStream {
+        return FileOutputStream(
+            getPathFile(
+                getFileVersion(
+                    pathFileName
+                )
+            )
+        )
+    }
+
+    private fun saveFileOnCloud(
+        pathFileName: String,
+        onSucess: () -> Unit,
+        onError: (error: String) -> Unit
+    ) {
+        fileStorageService.uploadPathFile(
+            filepathProvider.getLayerPath(
+                DownloaderPath.LAYER_PATH.filePath + sourceSeparator + getFileVersion(
+                    pathFileName
+                ) + fileFormat
+            ),
+            getFileVersion(pathFileName) + fileFormat, onSucess, onError
         )
     }
 }

@@ -17,5 +17,5 @@ interface FirestorageService {
         onDownloadError: (error: Throwable) -> Unit
     )
 
-    fun uploadFile(filePath: String, fileName: String, onSucess: () -> Unit, onError: (exception: String) -> Unit)
+    fun uploadPathFile(filePath: String, fileName: String, onSucess: () -> Unit, onError: (exception: String) -> Unit)
 }

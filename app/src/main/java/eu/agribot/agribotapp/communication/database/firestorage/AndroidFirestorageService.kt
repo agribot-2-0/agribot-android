@@ -61,7 +61,7 @@ class AndroidFirestorageService(
         }
     }
 
-    override fun uploadFile(
+    override fun uploadPathFile(
         filePath: String,
         fileName: String,
         onSucess: () -> Unit,

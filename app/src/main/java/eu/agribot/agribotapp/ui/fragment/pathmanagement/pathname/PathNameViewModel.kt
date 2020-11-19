@@ -5,7 +5,5 @@ import eu.agribot.agribotapp.base.BaseViewModel
 class PathNameViewModel : BaseViewModel() {
 
     fun PathNameChanged(text: CharSequence) {
-
     }
-
 }

@@ -19,6 +19,8 @@ class PathManagementService(
     private val filepathProvider: FilePathProvider,
     private val fileStorageService: FirestorageService
 ) {
+    private val fileNameSuffix = "_v"
+
     private val sourceSeparator = "/"
     private val fileFormat = ".kml"
     private var versionNumber = 1
@@ -36,13 +38,14 @@ class PathManagementService(
         onSucess: () -> Unit,
         onError: (error: String) -> Unit
     ) {
+        val pathFileName = fileName + fileNameSuffix
 
         val fileVersionName =
-            if (File(filepathProvider.getLayerPath(DownloaderPath.LAYER_PATH.filePath + sourceSeparator + fileName + versionNumber.toString() + fileFormat)).exists()) {
+            if (File(filepathProvider.getLayerPath(DownloaderPath.LAYER_PATH.filePath + sourceSeparator + pathFileName + versionNumber.toString() + fileFormat)).exists()) {
                 versionNumber += nextVersion
-                fileName + versionNumber.toString()
+                pathFileName + versionNumber.toString()
             } else {
-                fileName + versionNumber.toString()
+                pathFileName + versionNumber.toString()
             }
 
         val file =

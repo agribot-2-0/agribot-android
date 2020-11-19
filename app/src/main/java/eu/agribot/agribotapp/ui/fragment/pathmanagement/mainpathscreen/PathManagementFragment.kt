@@ -20,7 +20,6 @@ import eu.agribot.agribotapp.ui.fragment.swiperecyclerutils.SwipeRecyclerClickLi
 import eu.agribot.agribotapp.ui.fragment.swiperecyclerutils.SwipeRecyclerHelper
 import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler.CloudFileListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler.CloudFileListItemViewModel
-import kotlinx.android.synthetic.main.fragment_creator_configurator.task_recycler
 import kotlinx.android.synthetic.main.fragment_path_management.path_management_recycler
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel

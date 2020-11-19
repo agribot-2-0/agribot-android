@@ -69,7 +69,7 @@ class NewPathFragment :
             pointMarker = googleMapFragment!!.addMarker(
                 MarkerOptions()
                     .position(LatLng(coordinate.latitude, coordinate.longitude))
-                    .anchor(0.5f, 0.5f)
+                    .anchor(MapParametr.ANCHOR.parametr, MapParametr.ANCHOR.parametr)
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_white_circle))
             )
             allMarkers.add(pointMarker!!)
@@ -134,6 +134,7 @@ class NewPathFragment :
         navigationController?.navigate(R.id.action_newPathFragment_to_dashboardFragment)
     }
 
+    // TODO ADD NAME FRAMGMENT INSTEAD DIALOG VIEW
     private fun showCreateCategoryDialog(show: Boolean) {
         if (show) {
             val dialogBuilder = AlertDialog.Builder(requireContext())
@@ -164,7 +165,7 @@ class NewPathFragment :
             polyline = googleMapFragment!!.addPolyline(
                 PolylineOptions()
                     .add(tempCordinate, coordinates)
-                    .width(7f)
+                    .width(MapParametr.TEMP_POLYLINE_WIDTH.parametr)
                     .color(Color.BLUE)
             )
         }
@@ -182,7 +183,7 @@ class NewPathFragment :
             polylines = googleMapFragment!!.addPolyline(
                 PolylineOptions()
                     .addAll(list)
-                    .width(9f)
+                    .width(MapParametr.POLYLINE_WIDTH.parametr)
                     .color(Color.RED)
             )
         }

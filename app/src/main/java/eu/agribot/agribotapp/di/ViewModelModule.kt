@@ -250,8 +250,6 @@ val viewModelModule = module {
     }
 
     viewModel {
-        PathNameViewModel(
-
-        )
+        PathNameViewModel()
     }
 }

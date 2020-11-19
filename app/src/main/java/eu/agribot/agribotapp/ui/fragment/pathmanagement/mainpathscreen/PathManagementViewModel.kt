@@ -67,7 +67,6 @@ class PathManagementViewModel(
     }
 
     fun onDeleteButtonClicked(itemPathPosition: Int) {
-
     }
 
     fun onEditButtonClicked(itemPathPosition: Int) {

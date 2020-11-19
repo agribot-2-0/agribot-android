@@ -19,5 +19,4 @@ interface DialogManager {
     fun showDeleteTaskDialog(itemPosition: Int, onTaskToDeleteConfirmed: (itemPosition: Int) -> Unit)
 
     fun showDeletePathDialog(itemPosition: Int, onTaskToDeleteConfirmed: (itemPosition: Int) -> Unit)
-
 }

@@ -15,5 +15,4 @@ class PathNameFragment :
     override fun bindViewVariables(viewBinding: FragmentPathManagementNameBinding) {
         viewBinding.viewModel = viewModel
     }
-
 }

@@ -4,7 +4,7 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.model.ActualTa
 import eu.agribot.agribotapp.domain.model.fromdomain.BaseDomainDataModel
 
 data class ActualTask(
-    val actual_task: String
+    val actual_task: String = ""
 ) : BaseDomainDataModel<ActualTaskCDB> {
     override fun toCommunicationModel() = ActualTaskCDB(
         actual_task = this.actual_task

@@ -104,7 +104,11 @@ val viewModelModule = module {
             cloudStorageService = get()
         )
     }
-    viewModel { WeatherViewModel() }
+    viewModel {
+        WeatherViewModel(
+            cloudDatabaseService = get()
+        )
+    }
 
     viewModel { (context: Context) ->
         SettingsViewModel(

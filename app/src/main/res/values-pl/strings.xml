@@ -220,4 +220,8 @@
     <string name="create_layer_error">Problem z utworzeniem ścieżki</string>
     <string name="type_path_name">Podaj nazwę ścieżki</string>
     <string name="task_path_text">Nazwa ścieżki</string>
+    <string name="cancel_task_button">ANULUJ ZADANIE</string>
+    <string name="dialog_task_cancel_tittle">Anuluj zadanie</string>
+    <string name="dialog_task_cancel_message">Czy chesz anulować zadanie?</string>
+
 </resources>

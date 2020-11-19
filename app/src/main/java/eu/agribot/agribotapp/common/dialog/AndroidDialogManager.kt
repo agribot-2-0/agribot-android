@@ -91,4 +91,13 @@ class AndroidDialogManager(
             negativeButton(R.string.cancel)
         }
     }
+
+    override fun cancelTaskDialog(onCancelTaskConfirmed: () -> Unit) {
+        MaterialDialog(context).show {
+            title(R.string.dialog_task_cancel_tittle)
+            message(R.string.dialog_task_cancel_message)
+            positiveButton(R.string.dialog_task_select_confirm) { onCancelTaskConfirmed() }
+            negativeButton(R.string.cancel)
+        }
+    }
 }

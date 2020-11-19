@@ -11,6 +11,7 @@ import eu.agribot.agribotapp.common.livedata.LiveEvent
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.TaskSelectNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
+import eu.agribot.agribotapp.domain.model.cdb.ActualTask
 import eu.agribot.agribotapp.domain.model.cdb.RobotLocalizationPose
 import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
 import eu.agribot.agribotapp.domain.service.KmlLayerService
@@ -32,6 +33,7 @@ class ControlPanelViewModel(
     private val kmlLayerService: KmlLayerService,
     private val filePathProvider: FilePathProvider
 ) : BaseViewModel() {
+    private val emptyTaskName = ""
     val currentTask: MutableLiveData<String> = MutableLiveData()
     val pathName: MutableLiveData<String> = MutableLiveData()
     val temperature: MutableLiveData<String> = MutableLiveData()
@@ -43,6 +45,7 @@ class ControlPanelViewModel(
     val toastMessageEvent: LiveEvent<String> = MutableLiveEvent()
     val markers: MutableLiveData<MarkerOptions> = MutableLiveData()
     val cameraPosition: MutableLiveData<LatLng> = MutableLiveData()
+    val cancelTaskButtonClicked: MutableLiveEvent<Boolean> = MutableLiveEvent()
 
     fun getMapTilePath(path: String): String {
         return filePathProvider.getMapTilePath(path)
@@ -112,7 +115,13 @@ class ControlPanelViewModel(
         toastMessageEvent.postValue(errorMessage)
     }
 
+    private fun setEmptyActualTask() {
+        onGotCurrentTaskName(emptyTaskName)
+        onGotCurrentTaskDetails(TaskDetails())
+    }
+
     fun getActualTask() {
+        setEmptyActualTask()
         cloudDatabaseService.getActualTaskDetails(
             onGetCurrentTaskDetailsSucess = this::onGotCurrentTaskDetails,
             onGetCurrentTaskNameSucess = this::onGotCurrentTaskName,
@@ -181,5 +190,14 @@ class ControlPanelViewModel(
 
     fun onSelectTaskButtonClicked() {
         navigationEvent.postValue(TaskSelectNavigationEvent())
+    }
+
+    fun onCancelTaskButtonClicked() {
+        cancelTaskButtonClicked.postValue(true)
+    }
+
+    fun sendCancelTask() {
+        cloudDatabaseService.setCurrentTask(ActualTask())
+        setEmptyActualTask()
     }
 }

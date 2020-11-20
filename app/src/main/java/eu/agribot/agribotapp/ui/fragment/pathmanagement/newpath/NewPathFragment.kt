@@ -31,7 +31,7 @@ import java.io.IOException
 
 class NewPathFragment :
     BaseFragment<NewPathViewModel, FragmentNewPathBinding>(), OnMapReadyCallback,
-    GoogleMap.OnCameraIdleListener {
+        GoogleMap.OnCameraIdleListener, GoogleMap.OnCameraMoveListener {
     private var googleMapFragment: GoogleMap? = null
     var tempCordinate: LatLng? = null
     private var polyline: Polyline? = null
@@ -117,6 +117,7 @@ class NewPathFragment :
         googleMapFragment = googleMap
         googleMapFragment!!.mapType = GoogleMap.MAP_TYPE_NORMAL
         googleMapFragment!!.setOnCameraIdleListener(this)
+        googleMapFragment!!.setOnCameraMoveListener(this)
         addTileOverlay()
     }
 
@@ -154,7 +155,6 @@ class NewPathFragment :
 
     override fun onCameraIdle() {
         viewModel.onCoordinatesChanged(googleMapFragment!!.cameraPosition.target)
-        drawTempPolyline(googleMapFragment!!.cameraPosition.target)
     }
 
     private fun drawTempPolyline(coordinates: LatLng) {
@@ -188,5 +188,9 @@ class NewPathFragment :
             )
         }
         addPathPoint(list)
+    }
+
+    override fun onCameraMove() {
+        drawTempPolyline(googleMapFragment!!.cameraPosition.target)
     }
 }

@@ -65,12 +65,12 @@ class AndroidFirestorageService(
         filePath: String,
         fileName: String,
         onSucess: () -> Unit,
-        onError: (exception: String) -> Unit
+        onError: (exception: RuntimeException) -> Unit
     ) {
         storage.reference.child("${firebaseService.getCurrentUser()?.uid}/paths/$fileName")
             .putFile(Uri.fromFile(File(filePath)))
             .addOnFailureListener {
-                onError("UPLOAD FILE ERROR")
+                onError(RuntimeException("Upload file error"))
             }.addOnSuccessListener {
                 onSucess.invoke()
             }

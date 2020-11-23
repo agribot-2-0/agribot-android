@@ -33,7 +33,9 @@ val domainModule = module {
     single {
         PathManagementService(
             filepathProvider = get(),
-            fileStorageService = get()
+            fileStorageService = get(),
+            cloudStorageErrorHandler = get()
+
         )
     }
 

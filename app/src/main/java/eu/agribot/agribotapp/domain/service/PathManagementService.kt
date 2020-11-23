@@ -2,6 +2,7 @@ package eu.agribot.agribotapp.domain.service
 
 import eu.agribot.agribotapp.communication.database.firestorage.DownloaderPath
 import eu.agribot.agribotapp.communication.database.firestorage.FirestorageService
+import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
 import eu.agribot.agribotapp.domain.model.CoordinatesModel
 import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePathProvider
 import org.xmlpull.v1.XmlPullParserException
@@ -12,7 +13,8 @@ import java.io.IOException
 
 class PathManagementService(
     private val filepathProvider: FilePathProvider,
-    private val fileStorageService: FirestorageService
+    private val fileStorageService: FirestorageService,
+    private val cloudStorageErrorHandler: CloudStorageErrorHandler
 ) {
 
     companion object {
@@ -140,7 +142,9 @@ class PathManagementService(
                     pathFileName
                 ) + fileFormat
             ),
-            getFileVersion(pathFileName) + fileFormat, onSucess, onError
+            getFileVersion(pathFileName) + fileFormat,
+            onSucess,
+            onError = { onError(cloudStorageErrorHandler.getStorageError(it)) }
         )
     }
 }

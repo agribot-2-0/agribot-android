@@ -46,7 +46,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/margin_medium"
                 android:hint="@string/task_name_text"
-                android:onTextChanged="@{(text, start, before, count) -> viewModel.PathNameChanged(text)}"
+                android:onTextChanged="@{(text, start, before, count) -> viewModel.pathNameChanged(text)}"
                 android:padding="@dimen/margin_medium" />
 
 

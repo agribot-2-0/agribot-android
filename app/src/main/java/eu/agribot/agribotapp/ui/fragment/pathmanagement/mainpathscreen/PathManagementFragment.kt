@@ -20,7 +20,7 @@ import eu.agribot.agribotapp.ui.fragment.swiperecyclerutils.SwipeRecyclerClickLi
 import eu.agribot.agribotapp.ui.fragment.swiperecyclerutils.SwipeRecyclerHelper
 import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler.CloudFileListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler.CloudFileListItemViewModel
-import kotlinx.android.synthetic.main.fragment_path_management.path_management_recycler
+import kotlinx.android.synthetic.main.fragment_path_management.pathManagementRecycler
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -44,11 +44,15 @@ class PathManagementFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initMap()
-        viewModel.markers.observe(this::onMarkerChanged)
+        observeViewModel()
         viewModel.addDefaultMarker()
-        viewModel.availableFiles.observe(this::addToAvailableFile)
         viewModel.downloadAvailableFileList()
         setupRecycler()
+    }
+
+    private fun observeViewModel() {
+        viewModel.markers.observe(this::onMarkerChanged)
+        viewModel.availableFiles.observe(this::addToAvailableFile)
     }
 
     private fun onItemClicked(availibleFile: CloudFileListItemViewModel) {
@@ -59,10 +63,10 @@ class PathManagementFragment :
     }
 
     private fun setupRecycler() {
-        path_management_recycler.adapter = adapter
-        path_management_recycler.layoutManager = LinearLayoutManager(requireActivity())
+        pathManagementRecycler.adapter = adapter
+        pathManagementRecycler.layoutManager = LinearLayoutManager(requireActivity())
 
-        path_management_recycler.addItemDecoration(
+        pathManagementRecycler.addItemDecoration(
             DividerItemDecoration(
                 requireContext(),
                 DividerItemDecoration.VERTICAL
@@ -70,11 +74,11 @@ class PathManagementFragment :
         )
         ItemTouchHelper(
             SwipeRecyclerHelper(
-                path_management_recycler,
+                pathManagementRecycler,
                 deleteButton = this::deleteButton,
                 editButton = this::editButton
             )
-        ).attachToRecyclerView(path_management_recycler)
+        ).attachToRecyclerView(pathManagementRecycler)
     }
 
     private fun deleteButton(position: Int): SwipeHelper.UnderlayButton {

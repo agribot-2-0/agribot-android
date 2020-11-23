@@ -14,9 +14,13 @@ class PathManagementService(
     private val filepathProvider: FilePathProvider,
     private val fileStorageService: FirestorageService
 ) {
-    private val fileNameSuffix = "_v"
-    private val sourceSeparator = "/"
-    private val fileFormat = ".kml"
+
+    companion object {
+        const val fileNameSuffix = "_v"
+        const val sourceSeparator = "/"
+        const val fileFormat = ".kml"
+    }
+
     private var versionNumber = 1
     private val nextVersion = 1
 
@@ -72,7 +76,7 @@ class PathManagementService(
             xmlSerializer.text(" ")
             for (i in coordinateList.indices) {
                 xmlSerializer.text(
-                    " " + coordinateList[i].coordinates.longitude.toString() + "," + coordinateList[i].coordinates.latitude.toString() + ",0"
+                    " " + coordinateList[i].longtitude + "," + coordinateList[i].latitude + ",0"
                 )
             }
             xmlSerializer.endTag(null, "coordinates")

@@ -4,6 +4,7 @@ import eu.agribot.agribotapp.base.BaseViewModel
 
 class PathNameViewModel : BaseViewModel() {
 
-    fun PathNameChanged(text: CharSequence) {
+    fun pathNameChanged(text: CharSequence) {
+        // TODO MOT YET IMLEMENT
     }
 }

@@ -31,10 +31,9 @@ class PathManagementViewModel(
     }
 
     private fun onAvailableFileFound(fileName: String, isFileActive: Boolean) {
-        val isFileAlreadyAdded = availableFiles.value!!.any {
+        availableFiles.value?.any {
             it.fileName == formatFilename(fileName)
-        }
-        if (!isFileAlreadyAdded) {
+        }.let {
             availableFiles.value = listOf(
                 CloudFileListItemViewModel(
                     formatFilename(fileName),
@@ -64,9 +63,11 @@ class PathManagementViewModel(
     }
 
     private fun onCloudDataException(exception: String) {
+        // TODO NOT YET IMPLEMENT
     }
 
     fun onDeleteButtonClicked(itemPathPosition: Int) {
+        // TODO NOT YET IMPLEMENT
     }
 
     fun onEditButtonClicked(itemPathPosition: Int) {

@@ -31,13 +31,12 @@ import java.io.IOException
 
 class NewPathFragment :
     BaseFragment<NewPathViewModel, FragmentNewPathBinding>(), OnMapReadyCallback,
-        GoogleMap.OnCameraIdleListener, GoogleMap.OnCameraMoveListener {
+    GoogleMap.OnCameraIdleListener, GoogleMap.OnCameraMoveListener {
     private var googleMapFragment: GoogleMap? = null
-    var tempCordinate: LatLng? = null
-    private var polyline: Polyline? = null
-    private var polylines: Polyline? = null
+    private var realtimePolyline: Polyline? = null
+    private var polylineFromList: Polyline? = null
     private var pointMarker: Marker? = null
-    var allMarkers = ArrayList<Marker>()
+    var markersList = ArrayList<Marker>()
 
     override val layoutResourceId: Int = R.layout.fragment_new_path
 
@@ -49,8 +48,11 @@ class NewPathFragment :
             childFragmentManager.findFragmentById(R.id.new_path_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         viewModel.getAgribotPosition()
+        observeViewmodel()
+    }
+
+    private fun observeViewmodel() {
         viewModel.cameraPosition.observe(this::updateCameraPosition)
-        viewModel.selectedPoints.observe(this::selectLatLng)
         viewModel.toastMessageEvent.observe(this::showToast)
         viewModel.postInputDialogEvent.observe(this::showCreateCategoryDialog)
         viewModel.selectedPointsList.observe(this::drawPolyLinesFromList)
@@ -60,34 +62,31 @@ class NewPathFragment :
         viewBinding.viewModel = viewModel
     }
 
-    private fun addPathPoint(coordinateList: List<LatLng>) {
-        if (pointMarker != null) {
-            pointMarker!!.remove()
-            pointMarker = null
-        }
+    private fun addPathPoint(coordinateList: List<CoordinatesModel>) {
+        pointMarker?.remove()
         coordinateList.forEach { coordinate ->
             pointMarker = googleMapFragment!!.addMarker(
                 MarkerOptions()
-                    .position(LatLng(coordinate.latitude, coordinate.longitude))
+                    .position(LatLng(coordinate.latitude, coordinate.longtitude))
                     .anchor(MapParametr.ANCHOR.parametr, MapParametr.ANCHOR.parametr)
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_white_circle))
             )
-            allMarkers.add(pointMarker!!)
+            markersList.add(pointMarker!!)
         }
     }
 
     private fun updateCameraPosition(cameraPosition: CameraPosition) {
         if (cameraPosition.isPointDeleted) {
-            for (marker in allMarkers) {
+            drawRealtimePolyline(cameraPosition.coordinates)
+            markersList.forEach { marker ->
                 marker.remove()
             }
-            tempCordinate = cameraPosition.coordinates
-
-            val list = arrayListOf<LatLng>()
-            for (element in viewModel.selectedPointsList.value!!) {
-                list += element.coordinates
+            viewModel.setCurrentCoordinate(cameraPosition.coordinates)
+            viewModel.selectedPointsList.value?.map { selectedPoint ->
+                selectedPoint
+            }.let { listOfLatLng ->
+                addPathPoint(listOfLatLng!!)
             }
-            addPathPoint(list)
         }
         googleMapFragment?.moveCamera(
             CameraUpdateFactory.newLatLngZoom(
@@ -97,16 +96,16 @@ class NewPathFragment :
     }
 
     private fun addTileOverlay() {
-        val tileProvider =
-            TileProvider(
-                MapParameters.MAP_SIZE.mapParametr.toInt(),
-                MapParameters.MAP_SIZE.mapParametr.toInt(),
-                viewModel.getMapTilePath(URLPath.MAP_PATH.path)
-            )
         try {
             googleMapFragment!!.addTileOverlay(
                 TileOverlayOptions().transparency(MapParameters.TRANSPARENCY_VALUE.mapParametr)
-                    .tileProvider(tileProvider)
+                    .tileProvider(
+                        TileProvider(
+                            MapParameters.MAP_SIZE.mapParametr.toInt(),
+                            MapParameters.MAP_SIZE.mapParametr.toInt(),
+                            viewModel.getMapTilePath(URLPath.MAP_PATH.path)
+                        )
+                    )
             )
         } catch (exception: IOException) {
             showToast(getString(R.string.map_tile_problem))
@@ -119,10 +118,6 @@ class NewPathFragment :
         googleMapFragment!!.setOnCameraIdleListener(this)
         googleMapFragment!!.setOnCameraMoveListener(this)
         addTileOverlay()
-    }
-
-    private fun selectLatLng(coordinates: LatLng) {
-        tempCordinate = coordinates
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) =
@@ -155,16 +150,15 @@ class NewPathFragment :
 
     override fun onCameraIdle() {
         viewModel.onCoordinatesChanged(googleMapFragment!!.cameraPosition.target)
+        viewModel.setCurrentCoordinate(googleMapFragment!!.cameraPosition.target)
     }
 
-    private fun drawTempPolyline(coordinates: LatLng) {
-        if (tempCordinate != null) {
-            if (polyline != null) {
-                polyline!!.remove()
-            }
-            polyline = googleMapFragment!!.addPolyline(
+    private fun drawRealtimePolyline(coordinates: LatLng) {
+        realtimePolyline?.remove()
+        if (viewModel.currentCoordinate.value != null) {
+            realtimePolyline = googleMapFragment!!.addPolyline(
                 PolylineOptions()
-                    .add(tempCordinate, coordinates)
+                    .add(viewModel.currentCoordinate.value, coordinates)
                     .width(MapParametr.TEMP_POLYLINE_WIDTH.parametr)
                     .color(Color.BLUE)
             )
@@ -172,25 +166,20 @@ class NewPathFragment :
     }
 
     private fun drawPolyLinesFromList(pointsList: List<CoordinatesModel>) {
-        val list = arrayListOf<LatLng>()
-        for (element in pointsList) {
-            list += element.coordinates
-        }
-        if (list.isNotEmpty()) {
-            if (polylines != null) {
-                polylines!!.remove()
-            }
-            polylines = googleMapFragment!!.addPolyline(
+        polylineFromList?.remove()
+        if (pointsList.isNotEmpty()) {
+            viewModel.setCurrentCoordinate(LatLng(pointsList[0].latitude, pointsList[0].longtitude))
+            polylineFromList = googleMapFragment!!.addPolyline(
                 PolylineOptions()
-                    .addAll(list)
+                    .addAll(pointsList.map { LatLng(it.latitude, it.longtitude) })
                     .width(MapParametr.POLYLINE_WIDTH.parametr)
                     .color(Color.RED)
             )
         }
-        addPathPoint(list)
+        addPathPoint(pointsList)
     }
 
     override fun onCameraMove() {
-        drawTempPolyline(googleMapFragment!!.cameraPosition.target)
+        drawRealtimePolyline(googleMapFragment!!.cameraPosition.target)
     }
 }

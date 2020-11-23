@@ -19,14 +19,18 @@ class NewPathViewModel(
     private val cloudDatabaseService: CloudDatabaseService,
     private val pathManagementService: PathManagementService
 ) : BaseViewModel() {
+    val currentCoordinate: MutableLiveData<LatLng> = MutableLiveData()
     val cameraPosition: MutableLiveData<CameraPosition> = MutableLiveData()
-    private val currentPoint: MutableLiveData<LatLng> = MutableLiveData()
+    private val currentPoint: MutableLiveData<CoordinatesModel> = MutableLiveData()
     val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
-    val selectedPoints: MutableLiveData<LatLng> = MutableLiveData()
     val selectedPointsList: MutableLiveData<List<CoordinatesModel>> =
         MutableLiveData(listOf())
     val postInputDialogEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
     private val lastPointPosition = 0
+
+    fun setCurrentCoordinate(coordinates: LatLng) {
+        currentCoordinate.value = coordinates
+    }
 
     fun getMapTilePath(path: String): String {
         return filePathProvider.getMapTilePath(path)
@@ -35,8 +39,19 @@ class NewPathViewModel(
     fun deleteLastPoint() {
         if (selectedPointsList.value!!.size > 1) {
             selectedPointsList.value =
-                selectedPointsList.value?.minus(CoordinatesModel(selectedPointsList.value!![lastPointPosition].coordinates))
-            cameraPosition.value = CameraPosition(selectedPointsList.value!![lastPointPosition].coordinates, true)
+                selectedPointsList.value?.minus(
+                    CoordinatesModel(
+                        selectedPointsList.value!![lastPointPosition].latitude,
+                        selectedPointsList.value!![lastPointPosition].longtitude
+                    )
+                )
+            cameraPosition.value =
+                CameraPosition(
+                    LatLng(
+                        selectedPointsList.value!![lastPointPosition].latitude,
+                        selectedPointsList.value!![lastPointPosition].longtitude
+                    ), true
+                )
         }
     }
 
@@ -58,28 +73,33 @@ class NewPathViewModel(
 
     private fun onGetCoordinate(coordinates: CoordinatesModel) {
         val isCoordinatesAlreadyAdded = selectedPointsList.value!!.any { foundCoordinates ->
-            foundCoordinates.coordinates == coordinates.coordinates
+            foundCoordinates == coordinates
         }
         if (!isCoordinatesAlreadyAdded) {
             selectedPointsList.value = listOf(
                 CoordinatesModel(
-                    coordinates.coordinates
+                    coordinates.latitude,
+                    coordinates.longtitude
                 ), *selectedPointsList.value!!.toTypedArray()
             )
         }
     }
 
     fun onCoordinatesChanged(coordinates: LatLng) {
-        currentPoint.value = coordinates
+        currentPoint.value = CoordinatesModel(coordinates.latitude, coordinates.longitude)
     }
 
     fun onGetPointerButtonClicked() {
-        onPointSelected(currentPoint.value!!)
+        onPointSelected(LatLng(currentPoint.value!!.latitude, currentPoint.value!!.longtitude))
     }
 
     private fun onPointSelected(coordinates: LatLng) {
-        selectedPoints.value = coordinates
-        onGetCoordinate(coordinates = CoordinatesModel(coordinates))
+        onGetCoordinate(
+            coordinates = CoordinatesModel(
+                latitude = coordinates.latitude,
+                longtitude = coordinates.longitude
+            )
+        )
     }
 
     fun onSavePathClicked() {

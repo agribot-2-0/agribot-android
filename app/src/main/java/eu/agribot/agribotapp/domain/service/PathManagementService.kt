@@ -31,7 +31,16 @@ class PathManagementService(
         onError: (error: String) -> Unit
     ) {
         val fileVersionName = getFileVersion(fileName)
-        val fileOutputStream: FileOutputStream? = getFileOutputStream(fileVersionName)
+        createKmlFile(fileName, getFileOutputStream(fileVersionName), coordinateList, onError)
+        uploadPathToCloud(fileVersionName, onSucess, onError)
+    }
+
+    private fun createKmlFile(
+        fileName: String,
+        fileOutputStream: FileOutputStream,
+        coordinateList: List<CoordinatesModel>,
+        onError: (error: String) -> Unit
+    ) {
         try {
             val xmlSerializer = XmlPullParserFactory.newInstance().newSerializer()
             xmlSerializer.setOutput(fileOutputStream, "UTF-8")
@@ -96,8 +105,6 @@ class PathManagementService(
         } catch (e: IOException) {
             onError(pathManagementErrorHandler.getCreateKmlError(e))
         }
-
-        uploadPathToCloud(fileVersionName, onSucess, onError)
     }
 
     private fun getFileOutputStream(fileVersionName: String): FileOutputStream {

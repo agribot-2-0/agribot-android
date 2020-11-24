@@ -24,21 +24,28 @@ class PathManagementService(
         const val fileFormat = ".kml"
         const val nextVersion = 1
         var versionNumber = 1
+        var robotPathName: String = ""
+    }
+
+    fun updatePathName(pathName: String) {
+        robotPathName = pathName
+    }
+
+    fun getPathName(): String {
+        return robotPathName
     }
 
     fun handlePathFile(
         coordinateList: List<CoordinatesModel>,
-        fileName: String,
         onSucess: () -> Unit,
         onError: (error: String) -> Unit
     ) {
-        val fileVersionName = getFileVersion(fileName)
-        createKmlFile(fileName, getFileOutputStream(fileVersionName), coordinateList, onError)
+        val fileVersionName = getFileVersion(getPathName())
+        createKmlFile(getFileOutputStream(fileVersionName), coordinateList, onError)
         uploadPathToCloud(fileVersionName, onSucess, onError)
     }
 
     private fun createKmlFile(
-        fileName: String,
         fileOutputStream: FileOutputStream,
         coordinateList: List<CoordinatesModel>,
         onError: (error: String) -> Unit
@@ -74,7 +81,7 @@ class PathManagementService(
 
             xmlSerializer.startTag(null, "Placemark")
             xmlSerializer.startTag(null, "name")
-            xmlSerializer.text(fileName)
+            xmlSerializer.text(getPathName())
             xmlSerializer.endTag(null, "name")
             xmlSerializer.startTag(null, "styleUrl")
             xmlSerializer.text("#style-Tracks")

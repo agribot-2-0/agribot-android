@@ -238,5 +238,6 @@
     <string name="create_layer_error">Problem with create map layer</string>
     <string name="type_path_name">Give path name</string>
     <string name="task_path_text">Path name</string>
+    <string name="blank_path_name_error">Path name cant\'t be blank</string>
 
 </resources>

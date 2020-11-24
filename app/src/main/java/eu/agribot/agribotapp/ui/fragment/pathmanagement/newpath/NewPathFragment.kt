@@ -20,7 +20,7 @@ import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.DashboardNavigationEvent
-import eu.agribot.agribotapp.databinding.FragmentNewPathBinding
+import eu.agribot.agribotapp.databinding.FragmentPathManagementNewPathBinding
 import eu.agribot.agribotapp.domain.model.CoordinatesModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.MapParameters
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TileProvider
@@ -30,7 +30,7 @@ import org.koin.core.parameter.parametersOf
 import java.io.IOException
 
 class NewPathFragment :
-    BaseFragment<NewPathViewModel, FragmentNewPathBinding>(), OnMapReadyCallback,
+    BaseFragment<NewPathViewModel, FragmentPathManagementNewPathBinding>(), OnMapReadyCallback,
     GoogleMap.OnCameraIdleListener, GoogleMap.OnCameraMoveListener {
     private var googleMapFragment: GoogleMap? = null
     private var realtimePolyline: Polyline? = null
@@ -38,7 +38,7 @@ class NewPathFragment :
     private var pointMarker: Marker? = null
     var markersList = ArrayList<Marker>()
 
-    override val layoutResourceId: Int = R.layout.fragment_new_path
+    override val layoutResourceId: Int = R.layout.fragment_path_management_new_path
 
     override val viewModel: NewPathViewModel by viewModel { parametersOf(requireContext()) }
 
@@ -54,11 +54,10 @@ class NewPathFragment :
     private fun observeViewmodel() {
         viewModel.cameraPosition.observe(this::updateCameraPosition)
         viewModel.toastMessageEvent.observe(this::showToast)
-        viewModel.postInputDialogEvent.observe(this::showCreateCategoryDialog)
         viewModel.selectedPointsList.observe(this::drawPolyLinesFromList)
     }
 
-    override fun bindViewVariables(viewBinding: FragmentNewPathBinding) {
+    override fun bindViewVariables(viewBinding: FragmentPathManagementNewPathBinding) {
         viewBinding.viewModel = viewModel
     }
 
@@ -127,24 +126,6 @@ class NewPathFragment :
 
     private fun navigateToDashboardFragment() {
         navigationController?.navigate(R.id.action_newPathFragment_to_dashboardFragment)
-    }
-
-    // TODO ADD NAME FRAMGMENT INSTEAD DIALOG VIEW
-    private fun showCreateCategoryDialog(show: Boolean) {
-        if (show) {
-            val dialogBuilder = AlertDialog.Builder(requireContext())
-            val dialogView = this.layoutInflater.inflate(R.layout.dialog_path_name, null)
-            dialogBuilder.setView(dialogView)
-            val editText = dialogView.findViewById<View>(R.id.new_file_edit_text) as EditText
-            dialogBuilder.setTitle(R.string.dialog_create_file_title)
-            dialogBuilder.setPositiveButton(
-                R.string.dialog_create_file_confirm
-            ) { dialog, _ ->
-                viewModel.createNewLayer(editText.text.toString())
-                dialog.dismiss()
-            }
-            dialogBuilder.create().show()
-        }
     }
 
     override fun onCameraIdle() {

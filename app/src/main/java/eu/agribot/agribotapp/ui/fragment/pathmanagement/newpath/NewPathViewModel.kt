@@ -24,7 +24,6 @@ class NewPathViewModel(
     val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val selectedPointsList: MutableLiveData<List<CoordinatesModel>> =
         MutableLiveData(listOf())
-    val postInputDialogEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
     private val lastPointPosition = 0
 
     fun getMapTilePath(path: String): String {
@@ -64,10 +63,9 @@ class NewPathViewModel(
     }
 
     private fun onGetCoordinate(coordinates: CoordinatesModel) {
-        val isCoordinatesAlreadyAdded = selectedPointsList.value!!.any { foundCoordinates ->
-            foundCoordinates == coordinates
-        }
-        if (!isCoordinatesAlreadyAdded) {
+        selectedPointsList.value!!.any { foundCoordinates ->
+            foundCoordinates != coordinates
+        }.let {
             selectedPointsList.value = listOf(
                 CoordinatesModel(
                     coordinates.latitude,
@@ -95,13 +93,12 @@ class NewPathViewModel(
     }
 
     fun onSavePathClicked() {
-        postInputDialogEvent.postValue(true)
+        createNewLayer()
     }
 
-    fun createNewLayer(layerName: String) {
+    fun createNewLayer() {
         pathManagementService.handlePathFile(
             selectedPointsList.value!!,
-            layerName,
             onSucess = this::postSucessToastEvent,
             onError = this::postErrorToastEvent
         )

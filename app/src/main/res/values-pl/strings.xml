@@ -223,5 +223,6 @@
     <string name="cancel_task_button">ANULUJ ZADANIE</string>
     <string name="dialog_task_cancel_tittle">Anuluj zadanie</string>
     <string name="dialog_task_cancel_message">Czy chesz anulować zadanie?</string>
+    <string name="blank_path_name_error">Nazwa ścieżki nie może być pusta</string>
 
 </resources>

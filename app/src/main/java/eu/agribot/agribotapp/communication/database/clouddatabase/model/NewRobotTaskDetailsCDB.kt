@@ -17,5 +17,10 @@ data class NewRobotTaskDetailsCDB(
     val humidity_condition: String,
 
     val pressure_value: String,
-    val pressure_condition: String
+    val pressure_condition: String,
+
+    val front_tool_name: String,
+    val front_tool_mode: String,
+    val back_tool_name: String,
+    val back_tool_mode: String
 )

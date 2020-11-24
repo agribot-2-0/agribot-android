@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.domain.service.cloud
 
+import android.util.Log
 import com.google.firebase.Timestamp
 import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
 
@@ -23,7 +24,11 @@ class TaskCreatorDataManager {
                 humidity_value = taskDetail.humidity_value,
                 humidity_condition = taskDetail.humidity_condition,
                 wind_value = taskDetail.wind_value,
-                wind_condition = taskDetail.wind_condition
+                wind_condition = taskDetail.wind_condition,
+                front_tool_name = taskDetail.front_tool_name,
+                front_tool_mode = taskDetail.front_tool_mode,
+                back_tool_name = taskDetail.back_tool_name,
+                back_tool_mode = taskDetail.back_tool_mode
             )
     }
 
@@ -80,5 +85,21 @@ class TaskCreatorDataManager {
 
     fun onUpdateTimestampEstimated(timestampEstimated: Boolean) {
         taskDetails = taskDetails.copy(start_time_estimated = timestampEstimated)
+    }
+
+    fun onUpdateFrontToolName(toolName: String) {
+        taskDetails = taskDetails.copy(front_tool_name = toolName)
+    }
+
+    fun onUpdateFrontToolMode(toolName: String) {
+        taskDetails = taskDetails.copy(front_tool_mode = toolName)
+    }
+
+    fun onUpdateBackToolName(toolName: String) {
+        taskDetails = taskDetails.copy(back_tool_name = toolName)
+    }
+
+    fun onUpdateBackToolMode(toolName: String) {
+        taskDetails = taskDetails.copy(back_tool_mode = toolName)
     }
 }

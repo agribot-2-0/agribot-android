@@ -20,5 +20,10 @@ data class TaskDetails(
     val humidity_condition: String = PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
 
     val pressure_value: String = PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
-    val pressure_condition: String = PickerSymbols.PICKER_DEFAULT_VALUE.symbol
+    val pressure_condition: String = PickerSymbols.PICKER_DEFAULT_VALUE.symbol,
+
+    val front_tool_name: String = "*",
+    val front_tool_mode: String = "*",
+    val back_tool_name: String =  "*",
+    val back_tool_mode: String = "*"
 )

@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.toolselect
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.Timestamp
 import eu.agribot.agribotapp.base.BaseViewModel
@@ -10,6 +11,7 @@ import eu.agribot.agribotapp.domain.model.cdb.taskprogram.taskmodel.NewRobotTask
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
 import eu.agribot.agribotapp.ui.fragment.taskcreator.PathNameFileSymbol
+import kotlinx.android.synthetic.main.fragment_creator_tool_select.front_tool_name
 
 class CreatorToolSelectViewModel(
     private val taskCreatorDataManager: TaskCreatorDataManager,
@@ -18,8 +20,8 @@ class CreatorToolSelectViewModel(
     BaseViewModel() {
     private val NULL_VALUE_TIMESTAMP = 946728000L
     private val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
-    val mToolNames: MutableLiveData<List<String>> = MutableLiveData(listOf())
-    val mToolModes = MutableLiveData<MutableList<String>>()
+    val mToolNames: MutableLiveData<List<String>> = MutableLiveData(listOf(""))
+    val mToolModes: MutableLiveData<List<String>> = MutableLiveData(listOf("Cala trasa", "Miedzyrzedzie" ))
 
     private fun getTaskData() {
         cloudDatabaseService.addTask(
@@ -39,7 +41,11 @@ class CreatorToolSelectViewModel(
                 humidity_value = taskCreatorDataManager.getTaskParemeters().humidity_value,
                 humidity_condition = taskCreatorDataManager.getTaskParemeters().humidity_condition,
                 pressure_value = taskCreatorDataManager.getTaskParemeters().pressure_value,
-                pressure_condition = taskCreatorDataManager.getTaskParemeters().pressure_condition
+                pressure_condition = taskCreatorDataManager.getTaskParemeters().pressure_condition,
+                front_tool_name = taskCreatorDataManager.getTaskParemeters().front_tool_name,
+                front_tool_mode = taskCreatorDataManager.getTaskParemeters().front_tool_mode,
+                back_tool_name = taskCreatorDataManager.getTaskParemeters().back_tool_name,
+                back_tool_mode = taskCreatorDataManager.getTaskParemeters().back_tool_mode
             )
         )
     }
@@ -54,6 +60,22 @@ class CreatorToolSelectViewModel(
             onGetToolItem = this::onAvailableToolFound,
             onGetToolItemError = this::postToastErrorMessageEvent
         )
+    }
+
+    fun setFrontToolName(toolName: String) {
+        taskCreatorDataManager.onUpdateFrontToolName(toolName)
+    }
+
+    fun setFrontToolMode(toolName: String) {
+        taskCreatorDataManager.onUpdateFrontToolMode(toolName)
+    }
+
+    fun setBackToolName(toolName: String) {
+        taskCreatorDataManager.onUpdateBackToolName(toolName)
+    }
+
+    fun setBackToolMode(toolName: String) {
+        taskCreatorDataManager.onUpdateBackToolMode(toolName)
     }
 
     private fun onAvailableToolFound(toolItem: ToolItem) {
@@ -76,7 +98,7 @@ class CreatorToolSelectViewModel(
         navigationEvent.postValue(DashboardNavigationEvent())
     }
 
-    fun postToastErrorMessageEvent(errorMessage: String) {
+    private fun postToastErrorMessageEvent(errorMessage: String) {
         toastMessageEvent.postValue(errorMessage)
     }
 }

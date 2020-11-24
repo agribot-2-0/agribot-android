@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.taskcreator.toolselect
+package eu.agribot.agribotapp.ui.fragment.taskcreator.toolselect.spinner
 
 import android.util.Log
 import android.view.View
@@ -11,6 +11,6 @@ class SpinnerSelectedItemAdapter(val onSelected: (position: Int) -> Unit) :
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
-        Log.e("xd", "no selected")
+        Log.e("SpinnerSelectedItem", "No item selected")
     }
 }

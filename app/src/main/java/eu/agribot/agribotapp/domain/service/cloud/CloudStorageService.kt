@@ -20,7 +20,7 @@ class CloudStorageService(
     ) {
         firestorageService.listAllItem(
             authenticationService.getCurrentUser().userUID,
-            onFileAvailable, onError
+            onFileAvailable,onError = { onError(cloudStorageErrorHandler.getStorageError(it)) }
         )
     }
 
@@ -54,6 +54,20 @@ class CloudStorageService(
             filePathProvider.getLayerPath(DownloaderPath.LAYER_PATH.filePath),
             onDownloadFileSucess,
             onDownloadError = { onDownloadFileError(cloudStorageErrorHandler.getStorageError(it)) }
+        )
+    }
+
+    fun uploadPathFile(
+        filePath: String,
+        fileName: String,
+        onSucess: () -> Unit,
+        onError: (exception: RuntimeException) -> Unit
+    ) {
+        firestorageService.uploadPathFile(
+            filePath,
+            fileName,
+            onSucess,
+            onError
         )
     }
 }

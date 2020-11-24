@@ -1,20 +1,24 @@
 package eu.agribot.agribotapp.domain.service
 
+import android.util.Log
 import eu.agribot.agribotapp.communication.database.firestorage.DownloaderPath
-import eu.agribot.agribotapp.communication.database.firestorage.FirestorageService
 import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
 import eu.agribot.agribotapp.domain.error.PathManagementErrorHandler
 import eu.agribot.agribotapp.domain.model.CoordinatesModel
+import eu.agribot.agribotapp.domain.model.ExistingPathFile
+import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
 import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePathProvider
 import org.xmlpull.v1.XmlPullParserException
 import org.xmlpull.v1.XmlPullParserFactory
 import java.io.File
+import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
+import java.io.InputStream
 
 class PathManagementService(
     private val filepathProvider: FilePathProvider,
-    private val fileStorageService: FirestorageService,
+    private val cloudStorageService: CloudStorageService,
     private val cloudStorageErrorHandler: CloudStorageErrorHandler,
     private val pathManagementErrorHandler: PathManagementErrorHandler
 ) {
@@ -25,6 +29,7 @@ class PathManagementService(
         const val nextVersion = 1
         var versionNumber = 1
         var robotPathName: String = ""
+        var layerStream: InputStream? = null
     }
 
     fun updatePathName(pathName: String) {
@@ -33,6 +38,40 @@ class PathManagementService(
 
     fun getPathName(): String {
         return robotPathName
+    }
+
+    private fun onError(error: String) {
+
+    }
+
+    fun findLayerFile() {
+        cloudStorageService.downloadFilesList(
+            onFileAvailable = this::checkIsFileExist,
+            onError = this::onError
+        )
+    }
+
+    fun checkIsCurrentPathExistInStorage(): InputStream? {
+        return layerStream
+    }
+
+    private fun checkIsFileExist(fileName: String) {
+        if (fileName.contains(robotPathName, ignoreCase = true)) {
+            try {
+                cloudStorageService.onFileSelected(
+                    fileName,
+                    onGotFile = this::onGotLayerFile,
+                    onSelectedFileError = this::onError
+                )
+            } catch (exception: IOException) {
+                //DO NOTHING
+            }
+        }
+    }
+
+    private fun onGotLayerFile(file: File) {
+        val fileInputStream: InputStream = FileInputStream(file)
+        layerStream = fileInputStream
     }
 
     fun handlePathFile(
@@ -54,7 +93,10 @@ class PathManagementService(
             val xmlSerializer = XmlPullParserFactory.newInstance().newSerializer()
             xmlSerializer.setOutput(fileOutputStream, "UTF-8")
             xmlSerializer.startDocument("UTF-8", null)
-            xmlSerializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true)
+            xmlSerializer.setFeature(
+                "http://xmlpull.org/v1/doc/features.html#indent-output",
+                true
+            )
             xmlSerializer.startTag(null, "kml")
             xmlSerializer.attribute(null, "xmlns", "http://www.opengis.net/kml/2.2")
             xmlSerializer.attribute(null, "xmlns:gx", "http://www.google.com/kml/ext/2.2")
@@ -146,7 +188,7 @@ class PathManagementService(
         onSucess: () -> Unit,
         onError: (error: String) -> Unit
     ) {
-        fileStorageService.uploadPathFile(
+        cloudStorageService.uploadPathFile(
             filepathProvider.getLayerPath(DownloaderPath.LAYER_PATH.filePath + sourceSeparator + fileVersionName + fileFormat),
             fileVersionName + fileFormat,
             onSucess,

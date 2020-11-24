@@ -52,6 +52,7 @@ class NewPathFragment :
     }
 
     private fun observeViewmodel() {
+        viewModel.getPath()
         viewModel.cameraPosition.observe(this::updateCameraPosition)
         viewModel.toastMessageEvent.observe(this::showToast)
         viewModel.selectedPointsList.observe(this::drawPolyLinesFromList)

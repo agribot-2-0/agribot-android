@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
 import eu.agribot.agribotapp.R
@@ -12,6 +13,7 @@ import eu.agribot.agribotapp.domain.model.cdb.RobotLocalizationPose
 import eu.agribot.agribotapp.domain.service.PathManagementService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePathProvider
+import java.io.File
 
 class NewPathViewModel(
     private val resourcesProvider: ResourcesProvider,
@@ -44,6 +46,14 @@ class NewPathViewModel(
                     ), true
                 )
         }
+    }
+
+    fun getPath() {
+       Log.e("xd", "path: " + pathManagementService.checkIsCurrentPathExistInStorage())
+    }
+
+    private fun getCoordinatesFromKml(kmlFile: File) {
+        Log.e("xd", "kmlfile :" + kmlFile.name)
     }
 
     fun getAgribotPosition() {

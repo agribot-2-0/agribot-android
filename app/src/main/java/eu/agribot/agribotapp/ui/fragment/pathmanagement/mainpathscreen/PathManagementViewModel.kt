@@ -1,6 +1,8 @@
 package eu.agribot.agribotapp.ui.fragment.pathmanagement.mainpathscreen
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import eu.agribot.agribotapp.base.BaseViewModel
@@ -10,6 +12,9 @@ import eu.agribot.agribotapp.domain.service.PathManagementService
 import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
 import eu.agribot.agribotapp.ui.fragment.taskcreator.PathNameFileSymbol
 import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler.CloudFileListItemViewModel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import java.io.InputStream
 
 class PathManagementViewModel(
     private val pathManagementService: PathManagementService,
@@ -71,7 +76,28 @@ class PathManagementViewModel(
         // TODO NOT YET IMPLEMENT
     }
 
-    fun onEditButtonClicked(itemPathPosition: Int) {
+    fun onEditButtonClicked(itemPathPosition: Int) = viewModelScope.launch {
+        pathManagementService.updatePathName(availableFiles.value!![itemPathPosition].fileName)
+        pathManagementService.findLayerFile()
+        runBlocking {
+       //    Log.e("xd", "" + checkIsLayerReady(pathManagementService.checkIsCurrentPathExistInStorage()))
+        }
+        postNavigationEvent()
+
+    }
+
+
+    private tailrec fun checkIsLayerReady(pathLayer: InputStream?): Boolean {
+        return if (pathLayer != null) {
+            true
+        } else {
+            checkIsLayerReady(pathLayer)
+        }
+    }
+
+    private fun postNavigationEvent() {
         navigationEvent.postValue(NewPathNavigationEvent())
     }
+
 }
+

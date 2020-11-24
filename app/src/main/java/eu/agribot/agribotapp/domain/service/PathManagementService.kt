@@ -18,11 +18,13 @@ class PathManagementService(
     private val cloudStorageErrorHandler: CloudStorageErrorHandler,
     private val pathManagementErrorHandler: PathManagementErrorHandler
 ) {
-    private val fileNameSuffix = "_v"
-    private val sourceSeparator = "/"
-    private val fileFormat = ".kml"
-    private var versionNumber = 1
-    private val nextVersion = 1
+    companion object {
+        const val fileNameSuffix = "_v"
+        const val sourceSeparator = "/"
+        const val fileFormat = ".kml"
+        const val nextVersion = 1
+        var versionNumber = 1
+    }
 
     fun handlePathFile(
         coordinateList: List<CoordinatesModel>,
@@ -97,7 +99,7 @@ class PathManagementService(
             xmlSerializer.endTag(null, "kml")
             xmlSerializer.endDocument()
             xmlSerializer.flush()
-            fileOutputStream?.close()
+            fileOutputStream.close()
         } catch (e: RuntimeException) {
             onError(pathManagementErrorHandler.getCreateKmlError(e))
         } catch (e: XmlPullParserException) {

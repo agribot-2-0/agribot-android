@@ -18,6 +18,7 @@ class PathManagementViewModel(
     val availableFiles: MutableLiveData<List<CloudFileListItemViewModel>> =
         MutableLiveData(listOf())
 
+    // MOCK COORDINATE - REMOVED ON NEXT BRANCH
     val agriBotLatLng = LatLng(51.11322, 17.01958)
 
     val markers: MutableLiveData<MarkerOptions> = MutableLiveData()

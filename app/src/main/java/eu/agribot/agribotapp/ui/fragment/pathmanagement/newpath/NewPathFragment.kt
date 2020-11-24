@@ -81,7 +81,6 @@ class NewPathFragment :
             markersList.forEach { marker ->
                 marker.remove()
             }
-            viewModel.setCurrentCoordinate(cameraPosition.coordinates)
             viewModel.selectedPointsList.value?.map { selectedPoint ->
                 selectedPoint
             }.let { listOfLatLng ->
@@ -150,15 +149,19 @@ class NewPathFragment :
 
     override fun onCameraIdle() {
         viewModel.onCoordinatesChanged(googleMapFragment!!.cameraPosition.target)
-        viewModel.setCurrentCoordinate(googleMapFragment!!.cameraPosition.target)
     }
 
     private fun drawRealtimePolyline(coordinates: LatLng) {
-        realtimePolyline?.remove()
-        if (viewModel.currentCoordinate.value != null) {
+        if (viewModel.selectedPointsList.value!!.isNotEmpty()) {
+            realtimePolyline?.remove()
             realtimePolyline = googleMapFragment!!.addPolyline(
                 PolylineOptions()
-                    .add(viewModel.currentCoordinate.value, coordinates)
+                    .add(
+                        LatLng(
+                            viewModel.selectedPointsList.value!![0].latitude,
+                            viewModel.selectedPointsList.value!![0].longtitude
+                        ), coordinates
+                    )
                     .width(MapParametr.TEMP_POLYLINE_WIDTH.parametr)
                     .color(Color.BLUE)
             )
@@ -168,7 +171,6 @@ class NewPathFragment :
     private fun drawPolyLinesFromList(pointsList: List<CoordinatesModel>) {
         polylineFromList?.remove()
         if (pointsList.isNotEmpty()) {
-            viewModel.setCurrentCoordinate(LatLng(pointsList[0].latitude, pointsList[0].longtitude))
             polylineFromList = googleMapFragment!!.addPolyline(
                 PolylineOptions()
                     .addAll(pointsList.map { LatLng(it.latitude, it.longtitude) })

@@ -19,7 +19,6 @@ class NewPathViewModel(
     private val cloudDatabaseService: CloudDatabaseService,
     private val pathManagementService: PathManagementService
 ) : BaseViewModel() {
-    val currentCoordinate: MutableLiveData<LatLng> = MutableLiveData()
     val cameraPosition: MutableLiveData<CameraPosition> = MutableLiveData()
     private val currentPoint: MutableLiveData<CoordinatesModel> = MutableLiveData()
     val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
@@ -28,10 +27,6 @@ class NewPathViewModel(
     val postInputDialogEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
     private val lastPointPosition = 0
 
-    fun setCurrentCoordinate(coordinates: LatLng) {
-        currentCoordinate.value = coordinates
-    }
-
     fun getMapTilePath(path: String): String {
         return filePathProvider.getMapTilePath(path)
     }
@@ -39,12 +34,9 @@ class NewPathViewModel(
     fun deleteLastPoint() {
         if (selectedPointsList.value!!.size > 1) {
             selectedPointsList.value =
-                selectedPointsList.value?.minus(
-                    CoordinatesModel(
-                        selectedPointsList.value!![lastPointPosition].latitude,
-                        selectedPointsList.value!![lastPointPosition].longtitude
-                    )
-                )
+                selectedPointsList.value!!.filterIndexed { index, _ ->
+                    index != lastPointPosition
+                }
             cameraPosition.value =
                 CameraPosition(
                     LatLng(
@@ -107,7 +99,7 @@ class NewPathViewModel(
     }
 
     fun createNewLayer(layerName: String) {
-        pathManagementService.createPathFile(
+        pathManagementService.handlePathFile(
             selectedPointsList.value!!,
             layerName,
             onSucess = this::postSucessToastEvent,

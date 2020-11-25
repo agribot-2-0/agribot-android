@@ -64,7 +64,7 @@ class NewPathViewModel(
     }
 
     private fun onGetCoordinate(coordinates: CoordinatesModel) {
-     selectedPointsList.value!!.any { foundCoordinates ->
+        selectedPointsList.value!!.any { foundCoordinates ->
             foundCoordinates != coordinates
         }.let {
             selectedPointsList.value = listOf(

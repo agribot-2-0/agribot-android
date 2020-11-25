@@ -48,12 +48,18 @@ class CreatorToolSelectFragment :
             SpinnerSelectedItemAdapter(
                 this::onFrontToolNameSelected
             )
+        if (viewModel.mToolNames.value!!.contains(viewModel.taskCreatorDataManager.getTaskParemeters().front_tool_name)) {
+            front_tool_name.setSelection(viewModel.mToolNames.value!!.indexOf(viewModel.taskCreatorDataManager.getTaskParemeters().front_tool_name))
+        }
 
         back_tool_name.adapter = spinnerArrayAdapter
         back_tool_name.onItemSelectedListener =
             SpinnerSelectedItemAdapter(
                 this::onBackToolNameSelected
             )
+        if (viewModel.mToolNames.value!!.contains(viewModel.taskCreatorDataManager.getTaskParemeters().back_tool_name)) {
+            back_tool_name.setSelection(viewModel.mToolNames.value!!.indexOf(viewModel.taskCreatorDataManager.getTaskParemeters().back_tool_name))
+        }
     }
 
     private fun createToolModeSpinner(tool: List<String>) {
@@ -65,32 +71,34 @@ class CreatorToolSelectFragment :
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
         front_tool_mode.adapter = spinnerArrayAdapter
-        back_tool_mode.onItemSelectedListener =
+        front_tool_mode.onItemSelectedListener =
             SpinnerSelectedItemAdapter(
                 this::onFrontToolModeSelected
             )
+        front_tool_mode.setSelection(viewModel.frontToolMode)
 
         back_tool_mode.adapter = spinnerArrayAdapter
         back_tool_mode.onItemSelectedListener =
             SpinnerSelectedItemAdapter(
                 this::onBackToolModeSelected
             )
+        back_tool_mode.setSelection(viewModel.backToolMode)
     }
 
     private fun onFrontToolNameSelected(position: Int) {
-        viewModel.setFrontToolName(front_tool_name.getItemAtPosition(position).toString())
+        viewModel.frontToolName = front_tool_name.getItemAtPosition(position).toString()
     }
 
     private fun onBackToolNameSelected(position: Int) {
-        viewModel.setBackToolName(back_tool_name.getItemAtPosition(position).toString())
+        viewModel.backToolName = back_tool_name.getItemAtPosition(position).toString()
     }
 
     private fun onFrontToolModeSelected(position: Int) {
-        viewModel.setFrontToolMode(front_tool_name.getItemAtPosition(position).toString())
+        viewModel.frontToolMode = position
     }
 
     private fun onBackToolModeSelected(position: Int) {
-        viewModel.setBackToolMode(back_tool_name.getItemAtPosition(position).toString())
+        viewModel.backToolMode = position
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {

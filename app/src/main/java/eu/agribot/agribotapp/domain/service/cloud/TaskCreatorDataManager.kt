@@ -90,15 +90,15 @@ class TaskCreatorDataManager {
         taskDetails = taskDetails.copy(front_tool_name = toolName)
     }
 
-    fun onUpdateFrontToolMode(toolName: String) {
-        taskDetails = taskDetails.copy(front_tool_mode = toolName)
+    fun onUpdateFrontToolMode(toolMode: Int) {
+        taskDetails = taskDetails.copy(front_tool_mode = toolMode)
     }
 
     fun onUpdateBackToolName(toolName: String) {
         taskDetails = taskDetails.copy(back_tool_name = toolName)
     }
 
-    fun onUpdateBackToolMode(toolName: String) {
-        taskDetails = taskDetails.copy(back_tool_mode = toolName)
+    fun onUpdateBackToolMode(toolMode: Int) {
+        taskDetails = taskDetails.copy(back_tool_mode = toolMode)
     }
 }

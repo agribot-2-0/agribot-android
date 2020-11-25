@@ -3,6 +3,7 @@ package eu.agribot.agribotapp.communication.database.clouddatabase.model
 import com.google.firebase.Timestamp
 
 data class NewRobotTaskDetailsCDB(
+    // TODO: Naming refactor from snake_case to camelCase
     val path_name: String,
     val start_time: Timestamp?,
     val start_time_estimated: Boolean,
@@ -20,7 +21,7 @@ data class NewRobotTaskDetailsCDB(
     val pressure_condition: String,
 
     val front_tool_name: String,
-    val front_tool_mode: String,
+    val front_tool_mode: Int,
     val back_tool_name: String,
-    val back_tool_mode: String
+    val back_tool_mode: Int
 )

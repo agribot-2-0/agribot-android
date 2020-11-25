@@ -5,6 +5,7 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.model.NewRobot
 import eu.agribot.agribotapp.domain.model.cdb.BaseCloudDatabaseModel
 
 data class NewRobotTaskDetails(
+    // TODO: Naming refactor from snake_case to camelCase
     val path_name: String,
     val start_time: Timestamp?,
     val start_time_estimated: Boolean,
@@ -22,9 +23,9 @@ data class NewRobotTaskDetails(
     val pressure_condition: String,
 
     val front_tool_name: String,
-    val front_tool_mode: String,
+    val front_tool_mode: Int,
     val back_tool_name: String,
-    val back_tool_mode: String
+    val back_tool_mode: Int
 
 ) : BaseCloudDatabaseModel<NewRobotTaskDetailsCDB> {
     override fun toCommunicationModel() = NewRobotTaskDetailsCDB(

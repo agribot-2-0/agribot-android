@@ -16,6 +16,8 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.gms.maps.model.TileOverlayOptions
+import com.google.maps.android.kml.KmlContainer
+import com.google.maps.android.kml.KmlLayer
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
@@ -28,6 +30,7 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.URLPath
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.io.IOException
+import java.io.InputStream
 
 class NewPathFragment :
     BaseFragment<NewPathViewModel, FragmentPathManagementNewPathBinding>(), OnMapReadyCallback,
@@ -37,6 +40,8 @@ class NewPathFragment :
     private var polylineFromList: Polyline? = null
     private var pointMarker: Marker? = null
     var markersList = ArrayList<Marker>()
+    private var mapPathLayer: KmlLayer? = null
+
 
     override val layoutResourceId: Int = R.layout.fragment_path_management_new_path
 
@@ -53,6 +58,7 @@ class NewPathFragment :
 
     private fun observeViewmodel() {
         viewModel.getPath()
+        viewModel.selectedLayer.observe(this::onGotSelectedLayer)
         viewModel.cameraPosition.observe(this::updateCameraPosition)
         viewModel.toastMessageEvent.observe(this::showToast)
         viewModel.selectedPointsList.observe(this::drawPolyLinesFromList)
@@ -166,4 +172,31 @@ class NewPathFragment :
     override fun onCameraMove() {
         drawRealtimePolyline(googleMapFragment!!.cameraPosition.target)
     }
+
+    private fun onGotSelectedLayer(mapStream: InputStream) {
+        if (mapPathLayer != null) {
+            mapPathLayer!!.removeLayerFromMap()
+            setSelectedLayer(mapStream)
+            mapStream.close()
+        } else {
+            setSelectedLayer(mapStream)
+            mapStream.close()
+        }
+    }
+
+    private fun setSelectedLayer(mapStream: InputStream) {
+        try {
+            mapPathLayer = KmlLayer(googleMapFragment!!, mapStream, requireContext())
+            mapPathLayer!!.addLayerToMap()
+            try {
+                val container: Iterable<KmlContainer> = mapPathLayer!!.containers
+                viewModel.getCoordinatesFromKml(container)
+            } catch (exception: IOException) {
+                showToast(getString(R.string.kml_layer_problem))
+            }
+        } catch (exception: Exception) {
+            exception.stackTrace
+        }
+    }
+
 }

@@ -252,7 +252,8 @@ val viewModelModule = module {
             cloudDatabaseService = get(),
             pathManagementService = get(),
             filePathProvider = get(),
-            resourcesProvider = get { parametersOf(context) }
+            resourcesProvider = get { parametersOf(context) },
+            kmlLayerService = get()
         )
     }
 

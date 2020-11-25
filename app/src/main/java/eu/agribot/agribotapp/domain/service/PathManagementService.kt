@@ -5,7 +5,6 @@ import eu.agribot.agribotapp.communication.database.firestorage.DownloaderPath
 import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
 import eu.agribot.agribotapp.domain.error.PathManagementErrorHandler
 import eu.agribot.agribotapp.domain.model.CoordinatesModel
-import eu.agribot.agribotapp.domain.model.ExistingPathFile
 import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
 import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePathProvider
 import org.xmlpull.v1.XmlPullParserException

@@ -1,8 +1,9 @@
 package eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.kml.KmlContainer
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
@@ -10,22 +11,27 @@ import eu.agribot.agribotapp.common.navigation.events.DashboardNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.model.CoordinatesModel
 import eu.agribot.agribotapp.domain.model.cdb.RobotLocalizationPose
+import eu.agribot.agribotapp.domain.service.KmlLayerService
 import eu.agribot.agribotapp.domain.service.PathManagementService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePathProvider
-import java.io.File
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.io.InputStream
 
 class NewPathViewModel(
     private val resourcesProvider: ResourcesProvider,
     private val filePathProvider: FilePathProvider,
     private val cloudDatabaseService: CloudDatabaseService,
-    private val pathManagementService: PathManagementService
+    private val pathManagementService: PathManagementService,
+    private val kmlLayerService: KmlLayerService
 ) : BaseViewModel() {
     val cameraPosition: MutableLiveData<CameraPosition> = MutableLiveData()
     private val currentPoint: MutableLiveData<CoordinatesModel> = MutableLiveData()
     val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val selectedPointsList: MutableLiveData<List<CoordinatesModel>> =
         MutableLiveData(listOf())
+    val selectedLayer: MutableLiveData<InputStream> = MutableLiveData()
     private val lastPointPosition = 0
 
     fun getMapTilePath(path: String): String {
@@ -49,11 +55,40 @@ class NewPathViewModel(
     }
 
     fun getPath() {
-       Log.e("xd", "path: " + pathManagementService.getSelectedPathLayer())
+        if (pathManagementService.getSelectedPathLayer() != null) {
+            openSelectedLayer()
+        }
     }
 
-    private fun getCoordinatesFromKml(kmlFile: File) {
-        Log.e("xd", "kmlfile :" + kmlFile.name)
+    private fun openSelectedLayer() = viewModelScope.launch {
+        delay(200)
+        if (pathManagementService.getSelectedPathLayer() != null) {
+            selectedLayer.value = pathManagementService.getSelectedPathLayer()
+        }
+    }
+
+    fun getCoordinatesFromKml(containers: Iterable<KmlContainer?>) {
+        kmlLayerService.getCoordinates(
+            containers,
+            onGetLatLng = this::onGotCoordinates,
+            onError = this::onErrror
+        )
+    }
+
+    private fun onErrror() {
+
+    }
+
+    private fun onGotCoordinates(coordinates: ArrayList<LatLng>) {
+
+        selectedPointsList.value =
+            coordinates.map { CoordinatesModel(latitude = it.latitude, longtitude = it.longitude) }
+        cameraPosition.value = CameraPosition(
+            LatLng(
+                coordinates[0].latitude,
+                coordinates[0].longitude
+            ), false
+        )
     }
 
     fun getAgribotPosition() {

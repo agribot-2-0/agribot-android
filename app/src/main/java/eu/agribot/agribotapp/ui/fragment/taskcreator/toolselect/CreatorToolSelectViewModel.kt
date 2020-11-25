@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.toolselect
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.Timestamp
 import eu.agribot.agribotapp.base.BaseViewModel
@@ -21,7 +20,7 @@ class CreatorToolSelectViewModel(
     private val NULL_VALUE_TIMESTAMP = 946728000L
     private val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val mToolNames: MutableLiveData<List<String>> = MutableLiveData(listOf(""))
-    val mToolModes: MutableLiveData<List<String>> = MutableLiveData(listOf("Cala trasa", "Miedzyrzedzie" ))
+    val mToolModes: MutableLiveData<List<String>> = MutableLiveData(listOf("Cala trasa", "Miedzyrzedzie"))
 
     private fun getTaskData() {
         cloudDatabaseService.addTask(

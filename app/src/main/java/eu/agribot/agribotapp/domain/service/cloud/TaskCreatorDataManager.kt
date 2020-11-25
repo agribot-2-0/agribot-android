@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.domain.service.cloud
 
-import android.util.Log
 import com.google.firebase.Timestamp
 import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
 

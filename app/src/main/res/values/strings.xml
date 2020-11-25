@@ -219,5 +219,6 @@
     <string name="cancel_task_button">CANCEL TASK</string>
     <string name="dialog_task_cancel_tittle">Cancel task</string>
     <string name="dialog_task_cancel_message">Do you want cancel a task?</string>
-
+    <string name="tool_mode_zero">All path</string>
+    <string name="tool_mode_one">Between rows</string>
 </resources>

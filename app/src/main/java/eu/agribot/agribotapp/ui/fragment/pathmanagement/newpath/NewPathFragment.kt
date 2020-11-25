@@ -96,7 +96,7 @@ class NewPathFragment :
 
     private fun addTileOverlay() {
         try {
-            googleMapFragment!!.addTileOverlay(
+            googleMapFragment?.addTileOverlay(
                 TileOverlayOptions().transparency(MapParameters.TRANSPARENCY_VALUE.mapParametr)
                     .tileProvider(
                         TileProvider(
@@ -148,7 +148,9 @@ class NewPathFragment :
     }
 
     override fun onCameraIdle() {
-        viewModel.onCoordinatesChanged(googleMapFragment!!.cameraPosition.target)
+        if (googleMapFragment != null && googleMapFragment?.cameraPosition != null) {
+            viewModel.onCoordinatesChanged(googleMapFragment?.cameraPosition!!.target)
+        }
     }
 
     private fun drawRealtimePolyline(coordinates: LatLng) {

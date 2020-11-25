@@ -64,10 +64,9 @@ class NewPathViewModel(
     }
 
     private fun onGetCoordinate(coordinates: CoordinatesModel) {
-        val isCoordinatesAlreadyAdded = selectedPointsList.value!!.any { foundCoordinates ->
-            foundCoordinates == coordinates
-        }
-        if (!isCoordinatesAlreadyAdded) {
+     selectedPointsList.value!!.any { foundCoordinates ->
+            foundCoordinates != coordinates
+        }.let {
             selectedPointsList.value = listOf(
                 CoordinatesModel(
                     coordinates.latitude,

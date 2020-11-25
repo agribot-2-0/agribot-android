@@ -10,7 +10,6 @@ import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class SplashViewModel(
     private val authenticationService: AuthenticationService,
@@ -30,15 +29,14 @@ class SplashViewModel(
 
     private fun beginSplashScreenDelay() = viewModelScope.launch {
         cloudDatabaseService.getUserRobotName()
-       runBlocking {
-           !waitForRobotNameIsNonNull()
-        }
         delay(SPLASH_SCREEN_TIMEOUT_MILLIS)
-        checkLoginStatusAndRedirect()
+        waitForRobotNameIsNonNull()
     }
 
-     fun waitForRobotNameIsNonNull(): Boolean {
-        return cloudDatabaseService.getuserRobotNameStatus()
+    private fun waitForRobotNameIsNonNull() {
+        if (cloudDatabaseService.getuserRobotNameStatus()) {
+            checkLoginStatusAndRedirect()
+        }
     }
 
     private fun postMainActivityNavigationEvent() {

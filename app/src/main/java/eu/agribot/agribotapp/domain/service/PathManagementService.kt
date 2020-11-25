@@ -51,13 +51,14 @@ class PathManagementService(
         )
     }
 
-    fun checkIsCurrentPathExistInStorage(): InputStream? {
+    fun getSelectedPathLayer(): InputStream? {
         return layerStream
     }
 
     private fun checkIsFileExist(fileName: String) {
         if (fileName.contains(robotPathName, ignoreCase = true)) {
             try {
+                Log.e("xd", "Got a layer")
                 cloudStorageService.onFileSelected(
                     fileName,
                     onGotFile = this::onGotLayerFile,

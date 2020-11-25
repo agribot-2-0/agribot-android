@@ -34,7 +34,7 @@ import java.io.IOException
 class FirebaseDatabase() : CloudDatabase {
     private val currentFirebaseUser = FirebaseAuth.getInstance().currentUser?.uid.toString()
     private val database = getInstance()
-    var userRobotName = ""
+    var userRobotName : String? = null
 
     override fun getUserData(
         onDatabaseSucess: (data: UserInfoCDB) -> Unit,
@@ -258,7 +258,7 @@ class FirebaseDatabase() : CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document(userRobotName)
+            .document(userRobotName!!)
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(databaseException)
@@ -284,7 +284,7 @@ class FirebaseDatabase() : CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document(userRobotName)
+            .document(userRobotName!!)
             .update(
                 mapOf(
                     "actual_task" to actualTaskCDB.actual_task
@@ -412,7 +412,7 @@ class FirebaseDatabase() : CloudDatabase {
     }
 
     override fun getUserRobotNameStatus(): Boolean {
-        return userRobotName != ""
+        return userRobotName != null
     }
 
     override fun getUsersRobotName() {

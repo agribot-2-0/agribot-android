@@ -4,32 +4,71 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.maps.android.kml.KmlContainer
+import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
+import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.NewPathNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.PathNameNavigationEvent
+import eu.agribot.agribotapp.common.resources.ResourcesProvider
+import eu.agribot.agribotapp.domain.service.KmlLayerService
 import eu.agribot.agribotapp.domain.service.PathManagementService
 import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
+import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePathProvider
 import eu.agribot.agribotapp.ui.fragment.taskcreator.PathNameFileSymbol
 import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler.CloudFileListItemViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import java.io.File
+import java.io.FileInputStream
 import java.io.InputStream
 
 class PathManagementViewModel(
     private val pathManagementService: PathManagementService,
-    private val cloudStorageService: CloudStorageService
+    private val cloudStorageService: CloudStorageService,
+    private val filePathProvider: FilePathProvider,
+    private val kmlLayerService: KmlLayerService,
+    private val resourcesProvider: ResourcesProvider
 ) : BaseViewModel() {
     val availableFiles: MutableLiveData<List<CloudFileListItemViewModel>> =
         MutableLiveData(listOf())
+    val cameraPosition: MutableLiveData<LatLng> = MutableLiveData()
+    val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
+    val selectedLayer: MutableLiveData<InputStream> = MutableLiveData()
 
-    // MOCK COORDINATE - REMOVED ON NEXT BRANCH
-    val agriBotLatLng = LatLng(51.11322, 17.01958)
 
-    val markers: MutableLiveData<MarkerOptions> = MutableLiveData()
 
-    fun addDefaultMarker() {
-        markers.value = MarkerOptions().position(agriBotLatLng)
+    fun getMapTilePath(path: String): String {
+        return filePathProvider.getMapTilePath(path)
+    }
+
+    fun getCoordinatesFromKml(containers: Iterable<KmlContainer?>) {
+        kmlLayerService.getCoordinates(
+            containers,
+            onGetLatLng = this::onGotCoordinates,
+            onError = this::onGetCoordinatesError
+        )
+    }
+
+    private fun onGotCoordinates(coordinates: LatLng) {
+        cameraPosition.value = coordinates
+    }
+
+    private fun onGetCoordinatesError() {
+        postToastErrorMessageEvent(resourcesProvider.getString(R.string.kml_layer_problem))
+    }
+
+    fun openSelectedLayer(fileName: String) = viewModelScope.launch{
+        pathManagementService.updatePathName(fileName)
+        pathManagementService.findLayerFile()
+        delay(200)
+        if (pathManagementService.getSelectedPathLayer() != null) {
+            selectedLayer.value = pathManagementService.getSelectedPathLayer()
+        }
+    }
+
+    private fun postToastErrorMessageEvent(errorMessage: String) {
+        toastEvent.postValue(errorMessage)
     }
 
     fun postNewPathNavigationEvent() {
@@ -76,22 +115,17 @@ class PathManagementViewModel(
         // TODO NOT YET IMPLEMENT
     }
 
+    //TODO BETTER SOLUTION FOR WAIT IS LAYER != NULL
     fun onEditButtonClicked(itemPathPosition: Int) = viewModelScope.launch {
         pathManagementService.updatePathName(availableFiles.value!![itemPathPosition].fileName)
         pathManagementService.findLayerFile()
-        runBlocking {
-       //    Log.e("xd", "" + checkIsLayerReady(pathManagementService.checkIsCurrentPathExistInStorage()))
-        }
-        postNavigationEvent()
-
+        delay(200)
+        checkIsLayerReady()
     }
 
-
-    private tailrec fun checkIsLayerReady(pathLayer: InputStream?): Boolean {
-        return if (pathLayer != null) {
-            true
-        } else {
-            checkIsLayerReady(pathLayer)
+    private fun checkIsLayerReady() {
+        if (pathManagementService.getSelectedPathLayer() != null) {
+            postNavigationEvent()
         }
     }
 

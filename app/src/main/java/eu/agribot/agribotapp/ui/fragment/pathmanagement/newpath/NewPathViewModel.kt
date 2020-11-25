@@ -49,7 +49,7 @@ class NewPathViewModel(
     }
 
     fun getPath() {
-       Log.e("xd", "path: " + pathManagementService.checkIsCurrentPathExistInStorage())
+       Log.e("xd", "path: " + pathManagementService.getSelectedPathLayer())
     }
 
     private fun getCoordinatesFromKml(kmlFile: File) {

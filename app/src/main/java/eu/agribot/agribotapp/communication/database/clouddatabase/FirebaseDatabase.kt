@@ -31,7 +31,7 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.Cl
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_WEATHER_STATION_WIND
 import java.io.IOException
 
-class FirebaseDatabase() : CloudDatabase {
+class FirebaseDatabase : CloudDatabase {
     private val currentFirebaseUser = FirebaseAuth.getInstance().currentUser?.uid.toString()
     private val database = getInstance()
     var userRobotName : String? = null
@@ -411,16 +411,14 @@ class FirebaseDatabase() : CloudDatabase {
             }
     }
 
-    override fun getUserRobotNameStatus(): Boolean {
-        return userRobotName != null
-    }
 
-    override fun getUsersRobotName() {
+    override fun getUsersRobotName(onGetUsserRobotNAmeSucess : () -> Unit) {
         try {
             database.collection("$COLLECTION_USER/$currentFirebaseUser/$COLLECTION_ROBOTS")
                 .get()
                 .addOnSuccessListener { result ->
                     userRobotName = result.documents[0].id
+                    onGetUsserRobotNAmeSucess.invoke()
                 }
         } catch (exception: IOException) {
             Log.e("PROBLEM", "Robot name problem " + exception)

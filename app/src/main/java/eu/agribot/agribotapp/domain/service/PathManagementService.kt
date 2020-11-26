@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.domain.service
 
-import android.util.Log
 import eu.agribot.agribotapp.communication.database.firestorage.DownloaderPath
 import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
 import eu.agribot.agribotapp.domain.error.PathManagementErrorHandler
@@ -57,11 +56,10 @@ class PathManagementService(
     private fun checkIsFileExist(fileName: String) {
         if (fileName.contains(robotPathName, ignoreCase = true)) {
             try {
-                Log.e("xd", "Got a layer")
                 cloudStorageService.onFileSelected(
                     fileName,
                     onGotFile = this::onGotLayerFile,
-                    onSelectedFileError = this::onError
+                    onSelectedFileError = this::onError,
                 )
             } catch (exception: IOException) {
                 //DO NOTHING
@@ -136,7 +134,7 @@ class PathManagementService(
             xmlSerializer.text(" ")
             for (i in coordinateList.indices) {
                 xmlSerializer.text(
-                    " " + coordinateList[i].longtitude + "," + coordinateList[i].latitude + ",0"
+                    " " + coordinateList[i].longitude + "," + coordinateList[i].latitude + ",0"
                 )
             }
             xmlSerializer.endTag(null, "coordinates")

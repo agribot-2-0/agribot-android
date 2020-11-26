@@ -22,21 +22,20 @@ class SplashViewModel(
         const val SPLASH_SCREEN_TIMEOUT_MILLIS = 1000L
     }
 
-    fun getRobotName() {
-        cloudDatabaseService.getUserRobotName()
+
+    private fun getUserRobotName() {
+        cloudDatabaseService.getUserRobotName(onGotRobotName = this::onGotRobotName)
     }
 
+    private fun onGotRobotName(){
+        beginSplashDelay()
 
-    private fun beginSplashScreenDelay() = viewModelScope.launch {
-        cloudDatabaseService.getUserRobotName()
+    }
+
+    private fun beginSplashDelay() = viewModelScope.launch {
         delay(SPLASH_SCREEN_TIMEOUT_MILLIS)
-        waitForRobotNameIsNonNull()
-    }
+        checkLoginStatusAndRedirect()
 
-    private fun waitForRobotNameIsNonNull() {
-        if (cloudDatabaseService.getuserRobotNameStatus()) {
-            checkLoginStatusAndRedirect()
-        }
     }
 
     private fun postMainActivityNavigationEvent() {
@@ -58,13 +57,13 @@ class SplashViewModel(
 
     fun handleCurrentBluetoothStatus() {
         when (bluetoothConnectionService.checkBluetoothEnable()) {
-            true -> beginSplashScreenDelay()
+            true -> getUserRobotName()
             false -> postDialogEvent.postValue(true)
         }
     }
 
     fun enableBluetooth() {
         bluetoothConnectionService.enableBluetooth()
-        beginSplashScreenDelay()
+        getUserRobotName()
     }
 }

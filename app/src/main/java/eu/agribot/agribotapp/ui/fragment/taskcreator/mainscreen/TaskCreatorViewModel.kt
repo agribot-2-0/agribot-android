@@ -55,8 +55,8 @@ class TaskCreatorViewModel(
         )
     }
 
-    private fun onGotCoordinates(coordinates: LatLng) {
-        cameraPosition.value = coordinates
+    private fun onGotCoordinates(coordinates: ArrayList<LatLng>) {
+        cameraPosition.value = coordinates[0]
     }
 
     private fun onGetCoordinatesError() {

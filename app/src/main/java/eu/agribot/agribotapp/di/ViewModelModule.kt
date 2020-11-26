@@ -98,7 +98,7 @@ val viewModelModule = module {
         )
     }
 
-    viewModel {(context: Context) ->
+    viewModel { (context: Context) ->
         PathManagementViewModel(
             pathManagementService = get(),
             cloudStorageService = get(),
@@ -260,6 +260,5 @@ val viewModelModule = module {
     viewModel { (context: Context) ->
         PathNameViewModel(pathManagementService = get(),
             resourcesProvider = get { parametersOf(context) })
-
     }
 }

@@ -2,7 +2,6 @@ package eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -42,7 +41,6 @@ class NewPathFragment :
     private var pointMarker: Marker? = null
     var markersList = ArrayList<Marker>()
     private var mapPathLayer: KmlLayer? = null
-
 
     override val layoutResourceId: Int = R.layout.fragment_path_management_new_path
 
@@ -144,7 +142,6 @@ class NewPathFragment :
         addTileOverlay()
     }
 
-
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) =
         when (navigationEvent) {
             is DashboardNavigationEvent -> navigateToDashboardFragment()
@@ -158,9 +155,7 @@ class NewPathFragment :
     override fun onCameraIdle() {
         viewModel.onCoordinatesChanged(googleMapFragment!!.cameraPosition.target)
         viewModel.onMarkerPositionChanged(googleMapFragment!!.cameraPosition.target)
-
     }
-
 
     private fun drawRealtimePolyline(coordinates: LatLng) {
         if (viewModel.marker.value != null) {
@@ -229,10 +224,7 @@ class NewPathFragment :
             viewModel.setMarker(marker)
         } else {
             viewModel.setMarker(null)
-
         }
         return true
     }
-
-
 }

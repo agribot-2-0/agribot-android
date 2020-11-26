@@ -22,20 +22,17 @@ class SplashViewModel(
         const val SPLASH_SCREEN_TIMEOUT_MILLIS = 1000L
     }
 
-
     private fun getUserRobotName() {
         cloudDatabaseService.getUserRobotName(onGotRobotName = this::onGotRobotName)
     }
 
-    private fun onGotRobotName(){
+    private fun onGotRobotName() {
         beginSplashDelay()
-
     }
 
     private fun beginSplashDelay() = viewModelScope.launch {
         delay(SPLASH_SCREEN_TIMEOUT_MILLIS)
         checkLoginStatusAndRedirect()
-
     }
 
     private fun postMainActivityNavigationEvent() {

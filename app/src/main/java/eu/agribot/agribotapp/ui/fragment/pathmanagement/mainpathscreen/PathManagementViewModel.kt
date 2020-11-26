@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.ui.fragment.pathmanagement.mainpathscreen
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
@@ -19,8 +18,6 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.PathNameFileSymbol
 import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler.CloudFileListItemViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.io.File
-import java.io.FileInputStream
 import java.io.InputStream
 
 class PathManagementViewModel(
@@ -35,8 +32,6 @@ class PathManagementViewModel(
     val cameraPosition: MutableLiveData<LatLng> = MutableLiveData()
     val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val selectedLayer: MutableLiveData<InputStream> = MutableLiveData()
-
-
 
     fun getMapTilePath(path: String): String {
         return filePathProvider.getMapTilePath(path)
@@ -58,7 +53,7 @@ class PathManagementViewModel(
         postToastErrorMessageEvent(resourcesProvider.getString(R.string.kml_layer_problem))
     }
 
-    fun openSelectedLayer(fileName: String) = viewModelScope.launch{
+    fun openSelectedLayer(fileName: String) = viewModelScope.launch {
         pathManagementService.updatePathName(fileName)
         pathManagementService.findLayerFile()
         delay(200)
@@ -115,7 +110,7 @@ class PathManagementViewModel(
         // TODO NOT YET IMPLEMENT
     }
 
-    //TODO BETTER SOLUTION FOR WAIT IS LAYER != NULL
+    // TODO BETTER SOLUTION FOR WAIT IS LAYER != NULL
     fun onEditButtonClicked(itemPathPosition: Int) = viewModelScope.launch {
         pathManagementService.updatePathName(availableFiles.value!![itemPathPosition].fileName)
         pathManagementService.findLayerFile()
@@ -132,6 +127,4 @@ class PathManagementViewModel(
     private fun postNavigationEvent() {
         navigationEvent.postValue(NewPathNavigationEvent())
     }
-
 }
-

@@ -17,7 +17,7 @@ class AndroidFirestorageService(
     override fun listAllItem(
         currentUserID: String,
         onFilesAvailable: (fileName: String) -> Unit,
-        onError: (exception: RuntimeException) -> Unit,
+        onError: (exception: RuntimeException) -> Unit
     ) {
         Firebase.storage.reference.child("$currentUserID/paths/")
             .listAll()

@@ -34,7 +34,7 @@ import java.io.IOException
 class FirebaseDatabase : CloudDatabase {
     private val currentFirebaseUser = FirebaseAuth.getInstance().currentUser?.uid.toString()
     private val database = getInstance()
-    var userRobotName : String? = null
+    var userRobotName: String? = null
 
     override fun getUserData(
         onDatabaseSucess: (data: UserInfoCDB) -> Unit,
@@ -411,8 +411,7 @@ class FirebaseDatabase : CloudDatabase {
             }
     }
 
-
-    override fun getUsersRobotName(onGetUsserRobotNAmeSucess : () -> Unit) {
+    override fun getUsersRobotName(onGetUsserRobotNAmeSucess: () -> Unit) {
         try {
             database.collection("$COLLECTION_USER/$currentFirebaseUser/$COLLECTION_ROBOTS")
                 .get()

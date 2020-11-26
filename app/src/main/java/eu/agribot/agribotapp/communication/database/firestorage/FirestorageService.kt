@@ -7,7 +7,7 @@ interface FirestorageService {
     fun listAllItem(
         currentUserID: String,
         onFilesAvailable: (fileName: String) -> Unit,
-        onError: (exception: RuntimeException) -> Unit,
+        onError: (exception: RuntimeException) -> Unit
     )
 
     fun downloadFileFromUrl(

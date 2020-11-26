@@ -39,7 +39,6 @@ class PathManagementService(
     }
 
     private fun onError(error: String) {
-
     }
 
     fun findLayerFile() {
@@ -59,10 +58,10 @@ class PathManagementService(
                 cloudStorageService.onFileSelected(
                     fileName,
                     onGotFile = this::onGotLayerFile,
-                    onSelectedFileError = this::onError,
+                    onSelectedFileError = this::onError
                 )
             } catch (exception: IOException) {
-                //DO NOTHING
+                // DO NOTHING
             }
         }
     }

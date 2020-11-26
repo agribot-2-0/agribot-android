@@ -85,7 +85,6 @@ class PathManagementFragment :
 
     private fun onItemClicked(availibleFile: CloudFileListItemViewModel) {
         viewModel.openSelectedLayer(availibleFile.fileName)
-
     }
 
     private fun addToAvailableFile(fileInfo: List<CloudFileListItemViewModel>) {
@@ -194,5 +193,4 @@ class PathManagementFragment :
             )
         )
     }
-
 }

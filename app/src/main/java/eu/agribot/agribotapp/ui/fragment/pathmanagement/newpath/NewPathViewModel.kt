@@ -36,9 +36,8 @@ class NewPathViewModel(
     val selectedLayer: MutableLiveData<InputStream> = MutableLiveData()
     private val lastPointPosition = 0
     val markerPosition: MutableLiveData<LatLng> = MutableLiveData()
-     val marker: MutableLiveData<Marker> = MutableLiveData()
+    val marker: MutableLiveData<Marker> = MutableLiveData()
     private val markerIndex: MutableLiveData<Int> = MutableLiveData()
-
 
     fun setSwitchStatus(isSwitched: Boolean) {
         switchStatus.value = isSwitched
@@ -58,7 +57,6 @@ class NewPathViewModel(
                         it.longitude
                     )
                 )
-
             }
         }
     }
@@ -74,13 +72,10 @@ class NewPathViewModel(
                     }
                 }
         }
-
     }
-
 
     fun getMapTilePath(path: String): String {
         return filePathProvider.getMapTilePath(path)
-
     }
 
     fun deleteLastPoint() {
@@ -121,7 +116,6 @@ class NewPathViewModel(
     }
 
     private fun onErrror() {
-
     }
 
     private fun onGotCoordinates(coordinates: ArrayList<LatLng>) {

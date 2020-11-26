@@ -16,7 +16,7 @@ class CloudStorageService(
 
     fun downloadFilesList(
         onFileAvailable: (fileName: String) -> Unit,
-        onError: (exception: String) -> Unit,
+        onError: (exception: String) -> Unit
     ) {
         firestorageService.listAllItem(
             authenticationService.getCurrentUser().userUID,

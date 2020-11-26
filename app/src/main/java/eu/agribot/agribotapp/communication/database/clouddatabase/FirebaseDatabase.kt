@@ -411,7 +411,7 @@ class FirebaseDatabase() : CloudDatabase {
             }
     }
 
-    override fun getUsersRobotName(onGetUsserRobotNAmeSucess: () -> Unit) {
+    override fun setUsersRobotName(onGetUsserRobotNAmeSucess: () -> Unit) {
         try {
             database.collection("$COLLECTION_USER/$currentFirebaseUser/$COLLECTION_ROBOTS")
                 .get()

@@ -23,7 +23,7 @@ class SplashViewModel(
     }
 
     private fun getUserRobotName() {
-        cloudDatabaseService.getUserRobotName(onGotRobotName = this::onGotRobotName)
+        cloudDatabaseService.setUserRobotName(onGotRobotName = this::onGotRobotName)
     }
 
     private fun onGotRobotName() {

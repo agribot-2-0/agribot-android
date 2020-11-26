@@ -4,6 +4,12 @@ import com.google.firebase.Timestamp
 import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
 
 class TaskCreatorDataManager {
+    companion object {
+        const val defaultTimestap = 946728000L
+        const val defaultToolName: String = "*"
+        const val defaultToolMode: Int = 0
+    }
+
     var taskDetails: TaskDetails = TaskDetails()
 
     fun getTaskParemeters(): TaskDetails {

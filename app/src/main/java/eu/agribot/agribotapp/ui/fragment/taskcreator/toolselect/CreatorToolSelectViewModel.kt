@@ -11,6 +11,9 @@ import eu.agribot.agribotapp.domain.model.cdb.ToolItem
 import eu.agribot.agribotapp.domain.model.cdb.taskprogram.taskmodel.NewRobotTaskDetails
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
+import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager.Companion.defaultTimestap
+import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager.Companion.defaultToolMode
+import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager.Companion.defaultToolName
 import eu.agribot.agribotapp.ui.fragment.taskcreator.PathNameFileSymbol
 
 class CreatorToolSelectViewModel(
@@ -19,9 +22,6 @@ class CreatorToolSelectViewModel(
     private val resourcesProvider: ResourcesProvider
 ) :
     BaseViewModel() {
-    private val defaultTimestap = 946728000L
-    private val defaultToolName: String = "*"
-    private val defaultToolMode: Int = 0
     private val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val mToolNames: MutableLiveData<List<String>> = MutableLiveData(listOf(defaultToolName))
     val mToolModes: MutableLiveData<List<String>> = MutableLiveData(

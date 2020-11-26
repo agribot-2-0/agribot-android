@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="end"
-    android:padding="15dp"
+    android:padding="@dimen/margin_small"
     android:textAlignment="gravity"
     android:textColor="@color/colorPrimary"
-    android:textSize="16sp"
+    android:textSize="@dimen/text_size_medium"
     />

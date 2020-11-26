@@ -27,6 +27,7 @@ class SplashViewModel(
     }
 
     private fun beginSplashScreenDelay() = viewModelScope.launch {
+        cloudDatabaseService.getUserRobotName()
         delay(SPLASH_SCREEN_TIMEOUT_MILLIS)
         checkLoginStatusAndRedirect()
     }

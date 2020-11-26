@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="eu.agribot.agribotapp.ui.fragment.pathmanagement.PathManagementViewModel" />
+            type="eu.agribot.agribotapp.ui.fragment.pathmanagement.mainpathscreen.PathManagementViewModel" />
     </data>
 
     <LinearLayout
@@ -48,7 +48,6 @@
                     android:stateListAnimator="@null">
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/btn_asset_photo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -57,11 +56,12 @@
                         android:layout_margin="@dimen/margin_large"
                         android:background="@android:color/transparent"
                         android:backgroundTint="@color/white"
+                        android:onClick="@{()-> viewModel.postNewPathNavigationEvent()}"
                         android:src="@drawable/ic_add"
                         app:rippleColor="@color/white" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/task_recycler"
+                        android:id="@+id/pathManagementRecycler"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"

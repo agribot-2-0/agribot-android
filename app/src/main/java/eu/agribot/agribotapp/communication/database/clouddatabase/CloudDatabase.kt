@@ -17,6 +17,8 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserInfo
 
 interface CloudDatabase {
 
+    fun getUserRobotNameStatus(): Boolean
+
     fun getUsersRobotName()
 
     fun getUserData(

@@ -12,7 +12,9 @@ import eu.agribot.agribotapp.ui.fragment.bluetoothconnection.recycler.BluetoothN
 import eu.agribot.agribotapp.ui.fragment.controlPanel.ControlPanelViewModel
 import eu.agribot.agribotapp.ui.fragment.controlPanel.taskselect.TaskSelectViewModel
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.ManualControlViewModel
-import eu.agribot.agribotapp.ui.fragment.pathmanagement.PathManagementViewModel
+import eu.agribot.agribotapp.ui.fragment.pathmanagement.pathname.PathNameViewModel
+import eu.agribot.agribotapp.ui.fragment.pathmanagement.mainpathscreen.PathManagementViewModel
+import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.NewPathViewModel
 import eu.agribot.agribotapp.ui.fragment.settings.SettingsViewModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.TaskCreatorViewModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.TaskListItemViewModel
@@ -98,7 +100,8 @@ val viewModelModule = module {
 
     viewModel {
         PathManagementViewModel(
-            pathManagementService = get()
+            pathManagementService = get(),
+            cloudStorageService = get()
         )
     }
     viewModel {
@@ -239,5 +242,18 @@ val viewModelModule = module {
         CreatorTaskNameViewModel(
             taskCreatorDataManager = get(),
             resourcesProvider = get { parametersOf(context) })
+    }
+
+    viewModel { (context: Context) ->
+        NewPathViewModel(
+            cloudDatabaseService = get(),
+            pathManagementService = get(),
+            filePathProvider = get(),
+            resourcesProvider = get { parametersOf(context) }
+        )
+    }
+
+    viewModel {
+        PathNameViewModel()
     }
 }

@@ -37,6 +37,14 @@
     <string name="dialog_task_delete_message">Czy chcesz usunąć to zadanie?</string>
     <string name="dialog_task_delete_confirm">Usuń!</string>
 
+    <string name="dialog_path_delete_tittle">Usunięcie ścieżki</string>
+    <string name="dialog_path_delete_message">Czy chcesz usunąć tą ścieżkę?</string>
+    <string name="dialog_path_delete_confirm">Usuń</string>
+
+    <string name="dialog_create_file_title">Podaj nazwę swojej ścieżki</string>
+    <string name="dialog_create_file_hint">Nazwa pliku</string>
+    <string name="dialog_create_file_confirm">Utwórz !</string>
+
     <!-- Tool Control -->
     <string name="pto">WOM</string>
     <string name="no_rpm">0 rpm</string>
@@ -176,7 +184,7 @@
     <string name="select_task_label">Wybór zadania</string>
     <string name="layer_problem">Problem ze ścieżką</string>
     <string name="next_button">Dalej</string>
-    <string name="not_kml_polygon_layer">This Layer haven\'t a KML points</string>
+    <string name="not_kml_polygon_layer">Brak punktów</string>
     <string name="task_name">Nazwa zadania : </string>
     <string name="path_name_text">Nazwa ścieżki : </string>
     <string name="select_tool">Wybór narzędzi</string>
@@ -207,6 +215,11 @@
     <string name="blue_flow">Niebieski przepływ</string>
     <string name="add_tool_success">Narzędzie dodano</string>
     <string name="no_tool_name">Nie podano nazwy narzędzia</string>
+    <string name="save_path">Zapisz ścieżkę</string>
+    <string name="create_layer_sucess">Utworzono plik ścieżki !</string>
+    <string name="create_layer_error">Problem z utworzeniem ścieżki</string>
+    <string name="type_path_name">Podaj nazwę ścieżki</string>
+    <string name="task_path_text">Nazwa ścieżki</string>
     <string name="cancel_task_button">ANULUJ ZADANIE</string>
     <string name="dialog_task_cancel_tittle">Anuluj zadanie</string>
     <string name="dialog_task_cancel_message">Czy chesz anulować zadanie?</string>

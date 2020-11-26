@@ -1,10 +1,9 @@
 package eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath
 
-import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.widget.EditText
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -27,6 +26,7 @@ import eu.agribot.agribotapp.domain.model.CoordinatesModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.MapParameters
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TileProvider
 import eu.agribot.agribotapp.ui.fragment.taskcreator.URLPath
+import kotlinx.android.synthetic.main.fragment_path_management_new_path.drawPolylineSwitch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.io.IOException
@@ -34,7 +34,8 @@ import java.io.InputStream
 
 class NewPathFragment :
     BaseFragment<NewPathViewModel, FragmentPathManagementNewPathBinding>(), OnMapReadyCallback,
-    GoogleMap.OnCameraIdleListener, GoogleMap.OnCameraMoveListener {
+    GoogleMap.OnCameraIdleListener, GoogleMap.OnCameraMoveListener,
+    GoogleMap.OnMarkerClickListener {
     private var googleMapFragment: GoogleMap? = null
     private var realtimePolyline: Polyline? = null
     private var polylineFromList: Polyline? = null
@@ -54,6 +55,10 @@ class NewPathFragment :
         mapFragment.getMapAsync(this)
         viewModel.getAgribotPosition()
         observeViewmodel()
+
+        drawPolylineSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+            viewModel.setSwitchStatus(isChecked)
+        }
     }
 
     private fun observeViewmodel() {
@@ -62,6 +67,16 @@ class NewPathFragment :
         viewModel.cameraPosition.observe(this::updateCameraPosition)
         viewModel.toastMessageEvent.observe(this::showToast)
         viewModel.selectedPointsList.observe(this::drawPolyLinesFromList)
+        viewModel.markerPosition.observe(this::updateEditAction)
+    }
+
+    private fun updateEditAction(coordinates: LatLng) {
+        viewModel.onChangeMarkerPosition(
+            CoordinatesModel(
+                coordinates.latitude,
+                coordinates.longitude
+            )
+        )
     }
 
     override fun bindViewVariables(viewBinding: FragmentPathManagementNewPathBinding) {
@@ -69,13 +84,16 @@ class NewPathFragment :
     }
 
     private fun addPathPoint(coordinateList: List<CoordinatesModel>) {
+        markersList.forEach {
+            it.remove()
+        }
         pointMarker?.remove()
         coordinateList.forEach { coordinate ->
             pointMarker = googleMapFragment!!.addMarker(
                 MarkerOptions()
-                    .position(LatLng(coordinate.latitude, coordinate.longtitude))
-                    .anchor(MapParametr.ANCHOR.parametr, MapParametr.ANCHOR.parametr)
+                    .position(LatLng(coordinate.latitude, coordinate.longitude))
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_white_circle))
+                    .draggable(true)
             )
             markersList.add(pointMarker!!)
         }
@@ -122,8 +140,10 @@ class NewPathFragment :
         googleMapFragment!!.mapType = GoogleMap.MAP_TYPE_NORMAL
         googleMapFragment!!.setOnCameraIdleListener(this)
         googleMapFragment!!.setOnCameraMoveListener(this)
+        googleMapFragment!!.setOnMarkerClickListener(this)
         addTileOverlay()
     }
+
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) =
         when (navigationEvent) {
@@ -137,17 +157,23 @@ class NewPathFragment :
 
     override fun onCameraIdle() {
         viewModel.onCoordinatesChanged(googleMapFragment!!.cameraPosition.target)
+        viewModel.onMarkerPositionChanged(googleMapFragment!!.cameraPosition.target)
+
     }
 
+
     private fun drawRealtimePolyline(coordinates: LatLng) {
-        if (viewModel.selectedPointsList.value!!.isNotEmpty()) {
+        if (viewModel.marker.value != null) {
+            realtimePolyline?.remove()
+        }
+        if (viewModel.selectedPointsList.value!!.isNotEmpty() && viewModel.marker.value == null) {
             realtimePolyline?.remove()
             realtimePolyline = googleMapFragment!!.addPolyline(
                 PolylineOptions()
                     .add(
                         LatLng(
                             viewModel.selectedPointsList.value!![0].latitude,
-                            viewModel.selectedPointsList.value!![0].longtitude
+                            viewModel.selectedPointsList.value!![0].longitude
                         ), coordinates
                     )
                     .width(MapParametr.TEMP_POLYLINE_WIDTH.parametr)
@@ -161,7 +187,7 @@ class NewPathFragment :
         if (pointsList.isNotEmpty()) {
             polylineFromList = googleMapFragment!!.addPolyline(
                 PolylineOptions()
-                    .addAll(pointsList.map { LatLng(it.latitude, it.longtitude) })
+                    .addAll(pointsList.map { LatLng(it.latitude, it.longitude) })
                     .width(MapParametr.POLYLINE_WIDTH.parametr)
                     .color(Color.RED)
             )
@@ -187,7 +213,6 @@ class NewPathFragment :
     private fun setSelectedLayer(mapStream: InputStream) {
         try {
             mapPathLayer = KmlLayer(googleMapFragment!!, mapStream, requireContext())
-            mapPathLayer!!.addLayerToMap()
             try {
                 val container: Iterable<KmlContainer> = mapPathLayer!!.containers
                 viewModel.getCoordinatesFromKml(container)
@@ -198,5 +223,16 @@ class NewPathFragment :
             exception.stackTrace
         }
     }
+
+    override fun onMarkerClick(marker: Marker): Boolean {
+        if (viewModel.marker.value == null) {
+            viewModel.setMarker(marker)
+        } else {
+            viewModel.setMarker(null)
+
+        }
+        return true
+    }
+
 
 }

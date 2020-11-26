@@ -3,6 +3,7 @@ package eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.maps.android.kml.KmlContainer
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
@@ -31,24 +32,68 @@ class NewPathViewModel(
     val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val selectedPointsList: MutableLiveData<List<CoordinatesModel>> =
         MutableLiveData(listOf())
+    val switchStatus: MutableLiveData<Boolean> = MutableLiveData()
     val selectedLayer: MutableLiveData<InputStream> = MutableLiveData()
     private val lastPointPosition = 0
+    val markerPosition: MutableLiveData<LatLng> = MutableLiveData()
+     val marker: MutableLiveData<Marker> = MutableLiveData()
+    private val markerIndex: MutableLiveData<Int> = MutableLiveData()
+
+
+    fun setSwitchStatus(isSwitched: Boolean) {
+        switchStatus.value = isSwitched
+    }
+
+    fun onMarkerPositionChanged(markerPosition: LatLng) {
+        this.markerPosition.value = markerPosition
+    }
+
+    fun setMarker(marker: Marker?) {
+        this.marker.value = marker
+        selectedPointsList.value?.forEach {
+            if (LatLng(it.latitude, it.longitude) == marker?.position) {
+                markerIndex.value = selectedPointsList.value!!.indexOf(
+                    CoordinatesModel(
+                        it.latitude,
+                        it.longitude
+                    )
+                )
+
+            }
+        }
+    }
+
+    fun onChangeMarkerPosition(newPosition: CoordinatesModel) {
+        if (marker.value != null) {
+            selectedPointsList.value =
+                selectedPointsList.value!!.mapIndexed { index, coordinatesModel ->
+                    if (index == markerIndex.value) {
+                        newPosition
+                    } else {
+                        coordinatesModel
+                    }
+                }
+        }
+
+    }
+
 
     fun getMapTilePath(path: String): String {
         return filePathProvider.getMapTilePath(path)
+
     }
 
     fun deleteLastPoint() {
         if (selectedPointsList.value!!.size > 1) {
             selectedPointsList.value =
-                selectedPointsList.value!!.filterIndexed { index, _ ->
+                selectedPointsList.value!!.filterIndexed() { index, _ ->
                     index != lastPointPosition
                 }
             cameraPosition.value =
                 CameraPosition(
                     LatLng(
                         selectedPointsList.value!![lastPointPosition].latitude,
-                        selectedPointsList.value!![lastPointPosition].longtitude
+                        selectedPointsList.value!![lastPointPosition].longitude
                     ), true
                 )
         }
@@ -82,7 +127,12 @@ class NewPathViewModel(
     private fun onGotCoordinates(coordinates: ArrayList<LatLng>) {
 
         selectedPointsList.value =
-            coordinates.map { CoordinatesModel(latitude = it.latitude, longtitude = it.longitude) }
+            coordinates.map {
+                CoordinatesModel(
+                    latitude = it.latitude,
+                    longitude = it.longitude
+                )
+            }
         cameraPosition.value = CameraPosition(
             LatLng(
                 coordinates[0].latitude,
@@ -114,7 +164,7 @@ class NewPathViewModel(
             selectedPointsList.value = listOf(
                 CoordinatesModel(
                     coordinates.latitude,
-                    coordinates.longtitude
+                    coordinates.longitude
                 ), *selectedPointsList.value!!.toTypedArray()
             )
         }
@@ -125,14 +175,14 @@ class NewPathViewModel(
     }
 
     fun onGetPointerButtonClicked() {
-        onPointSelected(LatLng(currentPoint.value!!.latitude, currentPoint.value!!.longtitude))
+        onPointSelected(LatLng(currentPoint.value!!.latitude, currentPoint.value!!.longitude))
     }
 
     private fun onPointSelected(coordinates: LatLng) {
         onGetCoordinate(
             coordinates = CoordinatesModel(
                 latitude = coordinates.latitude,
-                longtitude = coordinates.longitude
+                longitude = coordinates.longitude
             )
         )
     }

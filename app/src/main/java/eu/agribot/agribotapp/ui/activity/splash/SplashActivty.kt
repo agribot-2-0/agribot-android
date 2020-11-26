@@ -27,7 +27,6 @@ class SplashActivty : BaseActivity<SplashViewModel, ActivitySplashBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.handleCurrentBluetoothStatus()
-        viewModel.getRobotName()
         viewModel.postDialogEvent.observe(this::showBluetoothDialog)
     }
 

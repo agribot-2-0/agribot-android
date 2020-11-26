@@ -17,7 +17,7 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserInfo
 
 interface CloudDatabase {
 
-    fun setUsersRobotName(onGetUsserRobotNAmeSucess: () -> Unit)
+    fun setUsersRobotName(onGotUserRobotNameSucess: () -> Unit)
 
     fun getUserData(
         onDatabaseSucess: (data: UserInfoCDB) -> Unit,

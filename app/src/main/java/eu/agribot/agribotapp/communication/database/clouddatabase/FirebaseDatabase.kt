@@ -411,13 +411,13 @@ class FirebaseDatabase() : CloudDatabase {
             }
     }
 
-    override fun setUsersRobotName(onGetUsserRobotNAmeSucess: () -> Unit) {
+    override fun setUsersRobotName(onGotUserRobotNameSucess: () -> Unit) {
         try {
             database.collection("$COLLECTION_USER/$currentFirebaseUser/$COLLECTION_ROBOTS")
                 .get()
                 .addOnSuccessListener { result ->
                     userRobotName = result.documents[0].id
-                    onGetUsserRobotNAmeSucess.invoke()
+                    onGotUserRobotNameSucess.invoke()
                 }
         } catch (exception: IOException) {
             Log.e("PROBLEM", "Robot name problem " + exception)

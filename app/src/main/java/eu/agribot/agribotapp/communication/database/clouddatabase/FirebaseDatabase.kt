@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore.getInstance
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.ActualTaskCDB
@@ -23,16 +24,17 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.Cl
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_HEALTH_ENGINE
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_LOCALIZATION_POSE
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_TASKS
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_TOOLS
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_WEATHER_STATION_HUMIDITYE
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_WEATHER_STATION_PRESSURE
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_WEATHER_STATION_TEMPERATURE
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_WEATHER_STATION_WIND
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_TOOLS
+import java.io.IOException
 
 class FirebaseDatabase() : CloudDatabase {
     private val currentFirebaseUser = FirebaseAuth.getInstance().currentUser?.uid.toString()
     private val database = getInstance()
-    private var userRobotName = ""
+    var userRobotName = ""
 
     override fun getUserData(
         onDatabaseSucess: (data: UserInfoCDB) -> Unit,
@@ -409,11 +411,19 @@ class FirebaseDatabase() : CloudDatabase {
             }
     }
 
+    override fun getUserRobotNameStatus(): Boolean {
+        return userRobotName != ""
+    }
+
     override fun getUsersRobotName() {
-        database.collection("$COLLECTION_USER/$currentFirebaseUser/$COLLECTION_ROBOTS")
-            .get()
-            .addOnSuccessListener { result ->
-                userRobotName = result.documents[0].id
-            }
+        try {
+            database.collection("$COLLECTION_USER/$currentFirebaseUser/$COLLECTION_ROBOTS")
+                .get()
+                .addOnSuccessListener { result ->
+                    userRobotName = result.documents[0].id
+                }
+        } catch (exception: IOException) {
+            Log.e("PROBLEM", "Robot name problem " + exception)
+        }
     }
 }

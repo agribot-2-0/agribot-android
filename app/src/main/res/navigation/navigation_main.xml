@@ -130,9 +130,16 @@
 
     <fragment
         android:id="@+id/pathManagementFragment"
-        android:name="eu.agribot.agribotapp.ui.fragment.pathmanagement.PathManagementFragment"
+        android:name="eu.agribot.agribotapp.ui.fragment.pathmanagement.mainpathscreen.PathManagementFragment"
         android:label="@string/title_path_management"
-        tools:layout="@layout/fragment_path_management" />
+        tools:layout="@layout/fragment_path_management" >
+        <action
+            android:id="@+id/action_pathManagementFragment_to_newPathFragment"
+            app:destination="@id/newPathFragment" />
+        <action
+            android:id="@+id/action_pathManagementFragment_to_pathNameFragment"
+            app:destination="@id/pathNameFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/weatherFragment"
@@ -309,4 +316,22 @@
             app:popExitAnim="@anim/nav_slide_in_from_left" />
 
     </fragment>
+    <fragment
+        android:id="@+id/newPathFragment"
+        android:name="eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.NewPathFragment"
+        android:label="NewPathFragment" >
+        <action
+            android:id="@+id/action_newPathFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/pathNameFragment"
+        android:name="eu.agribot.agribotapp.ui.fragment.pathmanagement.pathname.PathNameFragment"
+        android:label="PathNameFragment" >
+        <action
+            android:id="@+id/action_pathNameFragment_to_newPathFragment"
+            app:destination="@id/newPathFragment" />
+    </fragment>
+
 </navigation>

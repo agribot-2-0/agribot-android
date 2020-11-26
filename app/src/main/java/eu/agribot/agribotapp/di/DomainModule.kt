@@ -2,6 +2,7 @@ package eu.agribot.agribotapp.di
 
 import eu.agribot.agribotapp.domain.error.AuthenticationErrorHandler
 import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
+import eu.agribot.agribotapp.domain.error.PathManagementErrorHandler
 import eu.agribot.agribotapp.domain.permission.AndroidPermissionManager
 import eu.agribot.agribotapp.domain.permission.PermissionManager
 import eu.agribot.agribotapp.domain.service.AuthenticationService
@@ -15,8 +16,8 @@ import eu.agribot.agribotapp.domain.service.TTControlService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
-import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePathProvider
 import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
+import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePathProvider
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.ManualSteeringJoystickManager
 import eu.agribot.agribotapp.domain.service.joystick.ttcontroljoystick.TTControlHorizontalJoystickManager
 import eu.agribot.agribotapp.domain.service.joystick.ttcontroljoystick.TTControlVerticalJoystickManager
@@ -32,8 +33,10 @@ val domainModule = module {
 
     single {
         PathManagementService(
-            firebaseService = get(),
-            persistentStorage = get()
+            filepathProvider = get(),
+            fileStorageService = get(),
+            cloudStorageErrorHandler = get(),
+            pathManagementErrorHandler = get()
         )
     }
 
@@ -148,5 +151,14 @@ val domainModule = module {
                 androidContext()
             )
         })
+    }
+
+    single {
+        PathManagementErrorHandler(
+            resourcesProvider = get {
+                parametersOf(
+                    androidContext()
+                )
+            })
     }
 }

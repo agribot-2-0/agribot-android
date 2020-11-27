@@ -200,7 +200,7 @@
     <string name="step_3">KROK 3</string>
     <string name="select_weather_parameters">Wybierz parametry pogodowe</string>
     <string name="title_group_management">Zarządzanie</string>
-    <string name="tool_mode">Tool mode</string>
+    <string name="tool_mode">Tryb działania</string>
     <string name="current_weather">Aktualne warunki pogodowe</string>
     <string name="tool_picture">Zdjęcie narzędzia</string>
     <string name="kml_layer_problem">Problem z nałożeniem ścieżki na mape</string>
@@ -223,5 +223,7 @@
     <string name="cancel_task_button">ANULUJ ZADANIE</string>
     <string name="dialog_task_cancel_tittle">Anuluj zadanie</string>
     <string name="dialog_task_cancel_message">Czy chesz anulować zadanie?</string>
+    <string name="tool_mode_zero">Cała ścieżka</string>
+    <string name="tool_mode_one">W międzyrzędziach</string>
 
 </resources>

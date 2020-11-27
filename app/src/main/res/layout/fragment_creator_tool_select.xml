@@ -30,16 +30,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tool_name"
-                app:layout_constraintBottom_toTopOf="@+id/spinner"
-                app:layout_constraintEnd_toEndOf="@+id/spinner" />
+                app:layout_constraintBottom_toTopOf="@+id/front_tool_name"
+                app:layout_constraintEnd_toEndOf="@+id/front_tool_name" />
 
             <Spinner
-                android:id="@+id/spinner"
-                android:layout_width="200dp"
-                android:layout_height="30dp"
+                android:id="@+id/front_tool_name"
+                android:layout_width="@dimen/spinner_width"
+                android:layout_height="@dimen/spinner_height"
                 android:layout_marginEnd="@dimen/margin_large"
                 android:layout_marginBottom="@dimen/margin_xxlarge"
-                app:layout_constraintBottom_toTopOf="@+id/spinner2"
+                app:layout_constraintBottom_toTopOf="@+id/front_tool_mode"
                 app:layout_constraintEnd_toStartOf="@+id/imageView3" />
 
             <TextView
@@ -47,13 +47,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tool_mode"
-                app:layout_constraintBottom_toTopOf="@+id/spinner4"
-                app:layout_constraintEnd_toEndOf="@+id/spinner4" />
+                app:layout_constraintBottom_toTopOf="@+id/back_tool_mode"
+                app:layout_constraintEnd_toEndOf="@+id/back_tool_mode" />
 
             <Spinner
-                android:id="@+id/spinner2"
-                android:layout_width="200dp"
-                android:layout_height="30dp"
+                android:id="@+id/front_tool_mode"
+                android:layout_width="@dimen/spinner_width"
+                android:layout_height="@dimen/spinner_height"
                 android:layout_marginEnd="@dimen/margin_large"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView3"
                 app:layout_constraintEnd_toStartOf="@+id/imageView3" />
@@ -73,16 +73,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tool_name"
-                app:layout_constraintBottom_toTopOf="@+id/spinner3"
-                app:layout_constraintEnd_toEndOf="@+id/spinner3" />
+                app:layout_constraintBottom_toTopOf="@+id/back_tool_name"
+                app:layout_constraintEnd_toEndOf="@+id/back_tool_name" />
 
             <Spinner
-                android:id="@+id/spinner3"
-                android:layout_width="200dp"
-                android:layout_height="30dp"
+                android:id="@+id/back_tool_name"
+                android:layout_width="@dimen/spinner_width"
+                android:layout_height="@dimen/spinner_height"
                 android:layout_marginStart="@dimen/margin_large"
                 android:layout_marginBottom="@dimen/margin_xxlarge"
-                app:layout_constraintBottom_toTopOf="@+id/spinner4"
+                app:layout_constraintBottom_toTopOf="@+id/back_tool_mode"
                 app:layout_constraintStart_toEndOf="@+id/imageView3" />
 
             <TextView
@@ -90,13 +90,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tool_mode"
-                app:layout_constraintBottom_toTopOf="@+id/spinner2"
-                app:layout_constraintEnd_toEndOf="@+id/spinner2" />
+                app:layout_constraintBottom_toTopOf="@+id/front_tool_mode"
+                app:layout_constraintEnd_toEndOf="@+id/front_tool_mode" />
 
             <Spinner
-                android:id="@+id/spinner4"
-                android:layout_width="200dp"
-                android:layout_height="30dp"
+                android:id="@+id/back_tool_mode"
+                android:layout_width="@dimen/spinner_width"
+                android:layout_height="@dimen/spinner_height"
                 android:layout_marginStart="@dimen/margin_large"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView3"
                 app:layout_constraintStart_toEndOf="@+id/imageView3" />

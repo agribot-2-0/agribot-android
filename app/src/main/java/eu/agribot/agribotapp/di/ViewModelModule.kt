@@ -172,10 +172,11 @@ val viewModelModule = module {
         )
     }
 
-    viewModel {
+    viewModel { (context: Context) ->
         CreatorToolSelectViewModel(
             taskCreatorDataManager = get(),
-            cloudDatabaseService = get()
+            cloudDatabaseService = get(),
+            resourcesProvider = get { parametersOf(context) }
         )
     }
 

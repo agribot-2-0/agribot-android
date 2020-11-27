@@ -138,9 +138,6 @@
     <string name="no_internet_connection">No internet connection</string>
 
 
-
-
-
     <string name="connect_to_agribot">Connect to Agribot</string>
     <string name="nearby_devices_swipe_to_refresh_list">Nearby_Devices_List</string>
     <string name="start_stop_engine" translatable="false">START/STOP ENGINE</string>
@@ -232,7 +229,8 @@
     <string name="cancel_task_button">CANCEL TASK</string>
     <string name="dialog_task_cancel_tittle">Cancel task</string>
     <string name="dialog_task_cancel_message">Do you want cancel a task?</string>
-
+    <string name="tool_mode_zero">All path</string>
+    <string name="tool_mode_one">Between rows</string>
     <string name="save_path">Save path</string>
     <string name="create_layer_sucess">Map layer file created!</string>
     <string name="create_layer_error">Problem with create map layer</string>

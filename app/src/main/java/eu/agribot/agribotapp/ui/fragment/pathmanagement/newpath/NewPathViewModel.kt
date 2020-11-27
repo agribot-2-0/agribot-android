@@ -3,12 +3,10 @@ package eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
 import com.google.maps.android.kml.KmlContainer
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
-import eu.agribot.agribotapp.common.navigation.events.DashboardNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.model.CoordinatesModel
 import eu.agribot.agribotapp.domain.model.cdb.RobotLocalizationPose
@@ -16,6 +14,8 @@ import eu.agribot.agribotapp.domain.service.KmlLayerService
 import eu.agribot.agribotapp.domain.service.PathManagementService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePathProvider
+import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.model.CameraPosition
+import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.model.PointModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.InputStream
@@ -27,71 +27,122 @@ class NewPathViewModel(
     private val pathManagementService: PathManagementService,
     private val kmlLayerService: KmlLayerService
 ) : BaseViewModel() {
+    val pointIndex: MutableLiveData<Int> = MutableLiveData()
     val cameraPosition: MutableLiveData<CameraPosition> = MutableLiveData()
-    private val currentPoint: MutableLiveData<CoordinatesModel> = MutableLiveData()
     val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
-    val selectedPointsList: MutableLiveData<List<CoordinatesModel>> =
-        MutableLiveData(listOf())
-    val switchStatus: MutableLiveData<Boolean> = MutableLiveData()
+    private val pointID: MutableLiveData<Int> = MutableLiveData()
     val selectedLayer: MutableLiveData<InputStream> = MutableLiveData()
-    private val lastPointPosition = 0
-    val markerPosition: MutableLiveData<LatLng> = MutableLiveData()
-    val marker: MutableLiveData<Marker> = MutableLiveData()
-    private val markerIndex: MutableLiveData<Int> = MutableLiveData()
 
-    fun setSwitchStatus(isSwitched: Boolean) {
-        switchStatus.value = isSwitched
+    val addedPointList: MutableLiveData<List<PointModel>> = MutableLiveData(listOf())
+    val movingCameraPosition: MutableLiveData<LatLng> = MutableLiveData()
+    val centerMapPosition: MutableLiveData<CoordinatesModel> = MutableLiveData()
+    fun setCameraPositionToAgribot() {
+        cloudDatabaseService.getRobotLocalizationPose(
+            onSuccess = this::onGotAgribotPosition,
+            onError = this::postErrorToastEvent
+        )
     }
 
-    fun onMarkerPositionChanged(markerPosition: LatLng) {
-        this.markerPosition.value = markerPosition
+
+    private fun onGotAgribotPosition(robotLocalizationPose: RobotLocalizationPose) {
+        cameraPosition.value = CameraPosition(
+            LatLng(
+                robotLocalizationPose.latitude,
+                robotLocalizationPose.longitude
+            ), false
+        )
     }
 
-    fun setMarker(marker: Marker?) {
-        this.marker.value = marker
-        selectedPointsList.value?.forEach {
-            if (LatLng(it.latitude, it.longitude) == marker?.position) {
-                markerIndex.value = selectedPointsList.value!!.indexOf(
-                    CoordinatesModel(
-                        it.latitude,
-                        it.longitude
+    private fun postErrorToastEvent(error: String) {
+        toastMessageEvent.postValue(resourcesProvider.getString(R.string.create_layer_error))
+    }
+
+    fun onNextPointButtonCLicked() {
+        pointIndex.value = pointIndex.value?.plus(1)
+        if (pointIndex.value!! > pointID.value!! || pointIndex.value!! < 0) {
+            pointIndex.value = 0
+        }
+
+        addedPointList.value!!.forEach {
+            if (it.pointId == pointIndex.value)
+                cameraPosition.value =
+                    CameraPosition(LatLng(it.coordinates.latitude, it.coordinates.longitude), false)
+        }
+    }
+
+    fun onPreviousPointButtonCLicked() {
+        if (pointIndex.value!! > pointID.value!! || pointIndex.value!! < 0) {
+            pointIndex.value = pointID.value!!
+        }
+        pointIndex.value = pointIndex.value?.minus(1)
+
+        addedPointList.value!!.forEach {
+            if (it.pointId == pointIndex.value)
+                cameraPosition.value =
+                    CameraPosition(LatLng(it.coordinates.latitude, it.coordinates.longitude), false)
+        }
+    }
+
+
+    fun onChangePointerPosition(cameraPosition: CoordinatesModel) {
+        pointIndex.value?.let { index ->
+            addedPointList.value = addedPointList.value!!.map { pointer ->
+                if (pointer.pointId == pointIndex.value) {
+                    PointModel(
+                        pointIndex.value!!,
+                        cameraPosition
                     )
-                )
+                } else {
+                    pointer
+                }
             }
         }
     }
 
-    fun onChangeMarkerPosition(newPosition: CoordinatesModel) {
-        if (marker.value != null) {
-            selectedPointsList.value =
-                selectedPointsList.value!!.mapIndexed { index, coordinatesModel ->
-                    if (index == markerIndex.value) {
-                        newPosition
-                    } else {
-                        coordinatesModel
-                    }
-                }
-        }
+    fun onDeleteLastPointButtonClicked() {
+
+    }
+
+    fun onAddNewPointButtonClicked() {
+        addPointToPointList(PointModel(getPointID(), centerMapPosition.value!!))
+    }
+
+    fun onSavePathButtonClicked() {
+
     }
 
     fun getMapTilePath(path: String): String {
         return filePathProvider.getMapTilePath(path)
     }
 
-    fun deleteLastPoint() {
-        if (selectedPointsList.value!!.size > 1) {
-            selectedPointsList.value =
-                selectedPointsList.value!!.filterIndexed() { index, _ ->
-                    index != lastPointPosition
-                }
-            cameraPosition.value =
-                CameraPosition(
-                    LatLng(
-                        selectedPointsList.value!![lastPointPosition].latitude,
-                        selectedPointsList.value!![lastPointPosition].longitude
-                    ), true
-                )
+    fun setCenterCameraPosition(cameraPosition: LatLng) {
+        centerMapPosition.value =
+            CoordinatesModel(cameraPosition.latitude, cameraPosition.longitude)
+    }
+
+    private fun getPointID(): Int {
+        if (pointID.value == null) {
+            pointID.value = 0
+        } else {
+            pointID.value = pointID.value!! + 1
         }
+        pointIndex.value = pointID.value
+        return pointID.value!!
+    }
+
+    private fun addPointToPointList(newPoint: PointModel) {
+        addedPointList.value!!.any { alreadyAddedPoint -> alreadyAddedPoint.pointId != newPoint.pointId }
+            .let {
+                addedPointList.value = listOf(
+                    PointModel(
+                        newPoint.pointId,
+                        CoordinatesModel(
+                            newPoint.coordinates.latitude,
+                            newPoint.coordinates.longitude
+                        )
+                    ), *addedPointList.value!!.toTypedArray()
+                )
+            }
     }
 
     fun getPath() {
@@ -107,26 +158,25 @@ class NewPathViewModel(
         }
     }
 
-    fun getCoordinatesFromKml(containers: Iterable<KmlContainer?>) {
+    fun getCoordinatesFromAlreadyCreatedPath(containers: Iterable<KmlContainer?>) {
         kmlLayerService.getCoordinates(
             containers,
             onGetLatLng = this::onGotCoordinates,
-            onError = this::onErrror
+            onError = this::onGetKmlUnsuccess
         )
     }
 
-    private fun onErrror() {
+    private fun onGetKmlUnsuccess() {
+        toastMessageEvent.postValue("problem")
     }
 
     private fun onGotCoordinates(coordinates: ArrayList<LatLng>) {
 
-        selectedPointsList.value =
-            coordinates.map {
-                CoordinatesModel(
-                    latitude = it.latitude,
-                    longitude = it.longitude
-                )
-            }
+        coordinates.forEach {
+            addPointToPointList(
+                PointModel(getPointID(), CoordinatesModel(it.latitude, it.longitude))
+            )
+        }
         cameraPosition.value = CameraPosition(
             LatLng(
                 coordinates[0].latitude,
@@ -135,70 +185,5 @@ class NewPathViewModel(
         )
     }
 
-    fun getAgribotPosition() {
-        cloudDatabaseService.getRobotLocalizationPose(
-            onSuccess = this::setCurrentRobotPosition,
-            onError = this::postErrorToastEvent
-        )
-    }
 
-    private fun setCurrentRobotPosition(robotLocalizationPose: RobotLocalizationPose) {
-        cameraPosition.value = CameraPosition(
-            LatLng(
-                robotLocalizationPose.latitude,
-                robotLocalizationPose.longitude
-            ), false
-        )
-    }
-
-    private fun onGetCoordinate(coordinates: CoordinatesModel) {
-        selectedPointsList.value!!.any { foundCoordinates ->
-            foundCoordinates != coordinates
-        }.let {
-            selectedPointsList.value = listOf(
-                CoordinatesModel(
-                    coordinates.latitude,
-                    coordinates.longitude
-                ), *selectedPointsList.value!!.toTypedArray()
-            )
-        }
-    }
-
-    fun onCoordinatesChanged(coordinates: LatLng) {
-        currentPoint.value = CoordinatesModel(coordinates.latitude, coordinates.longitude)
-    }
-
-    fun onGetPointerButtonClicked() {
-        onPointSelected(LatLng(currentPoint.value!!.latitude, currentPoint.value!!.longitude))
-    }
-
-    private fun onPointSelected(coordinates: LatLng) {
-        onGetCoordinate(
-            coordinates = CoordinatesModel(
-                latitude = coordinates.latitude,
-                longitude = coordinates.longitude
-            )
-        )
-    }
-
-    fun onSavePathClicked() {
-        createNewLayer()
-    }
-
-    fun createNewLayer() {
-        pathManagementService.handlePathFile(
-            selectedPointsList.value!!,
-            onSucess = this::postSucessToastEvent,
-            onError = this::postErrorToastEvent
-        )
-    }
-
-    private fun postSucessToastEvent() {
-        toastMessageEvent.postValue(resourcesProvider.getString(R.string.create_layer_sucess))
-        navigationEvent.postValue(DashboardNavigationEvent())
-    }
-
-    private fun postErrorToastEvent(error: String) {
-        toastMessageEvent.postValue(resourcesProvider.getString(R.string.create_layer_error))
-    }
 }

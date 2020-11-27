@@ -154,7 +154,6 @@ class NewPathFragment :
 
     override fun onCameraIdle() {
         viewModel.onCoordinatesChanged(googleMapFragment!!.cameraPosition.target)
-        viewModel.onMarkerPositionChanged(googleMapFragment!!.cameraPosition.target)
     }
 
     private fun drawRealtimePolyline(coordinates: LatLng) {
@@ -192,6 +191,8 @@ class NewPathFragment :
 
     override fun onCameraMove() {
         drawRealtimePolyline(googleMapFragment!!.cameraPosition.target)
+        viewModel.onMarkerPositionChanged(googleMapFragment!!.cameraPosition.target)
+
     }
 
     private fun onGotSelectedLayer(mapStream: InputStream) {

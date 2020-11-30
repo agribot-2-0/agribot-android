@@ -7,6 +7,7 @@ import com.google.maps.android.kml.KmlContainer
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
+import eu.agribot.agribotapp.common.navigation.events.PathManagementNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.model.CoordinatesModel
 import eu.agribot.agribotapp.domain.model.cdb.RobotLocalizationPose
@@ -34,7 +35,6 @@ class NewPathViewModel(
     val selectedLayer: MutableLiveData<InputStream> = MutableLiveData()
 
     val addedPointList: MutableLiveData<List<PointModel>> = MutableLiveData(listOf())
-    val movingCameraPosition: MutableLiveData<LatLng> = MutableLiveData()
     val centerMapPosition: MutableLiveData<CoordinatesModel> = MutableLiveData()
     fun setCameraPositionToAgribot() {
         cloudDatabaseService.getRobotLocalizationPose(
@@ -108,7 +108,17 @@ class NewPathViewModel(
     }
 
     fun onSavePathButtonClicked() {
+        pathManagementService.handlePathFile(addedPointList.value!!.map {
+            CoordinatesModel(
+                latitude = it.coordinates.latitude,
+                longitude = it.coordinates.longitude
+            )
+        }, onSucess = this::onSavePathSucess, onError = this::postErrorToastEvent)
 
+    }
+
+    private fun onSavePathSucess() {
+        navigationEvent.postValue(PathManagementNavigationEvent())
     }
 
     fun getMapTilePath(path: String): String {

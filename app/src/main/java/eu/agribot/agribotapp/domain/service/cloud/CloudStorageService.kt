@@ -49,7 +49,7 @@ class CloudStorageService(
         onDownloadFileSucess: (file: File) -> Unit,
         onDownloadFileError: (error: String) -> Unit
     ) {
-        firestorageService.downloadFileFromUrl(
+        firestorageService.downloadPathFileFromUrl(
             fileName,
             filePathProvider.getLayerPath(DownloaderPath.LAYER_PATH.filePath),
             onDownloadFileSucess,
@@ -69,5 +69,16 @@ class CloudStorageService(
             onSucess,
             onError
         )
+    }
+
+    fun removeFileInCLoud(
+        fileName: String,
+        onSucess: () -> Unit,
+        onError: (exception: String) -> Unit
+    ) {
+        firestorageService.removePathFileInCloudStorage(
+            fileName,
+            onSucess,
+            onError = { onError(cloudStorageErrorHandler.getStorageError(it)) })
     }
 }

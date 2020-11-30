@@ -17,6 +17,10 @@ import com.google.maps.android.kml.KmlContainer
 import com.google.maps.android.kml.KmlLayer
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
+import eu.agribot.agribotapp.common.navigation.NavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.NewPathNavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.PathManagementNavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.PathNameNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentPathManagementNewPathBinding
 import eu.agribot.agribotapp.domain.model.CoordinatesModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.model.CameraPosition
@@ -72,6 +76,18 @@ class NewPathFragment :
         googleMapFragment!!.setOnCameraMoveListener(this)
         addTileOverlay()
     }
+
+
+    override fun handleNavigationEvent(navigationEvent: NavigationEvent) =
+        when (navigationEvent) {
+            is PathManagementNavigationEvent -> navigateToPathManagement()
+            else -> Unit
+        }
+
+    private fun navigateToPathManagement() {
+        navigationController?.navigate(R.id.action_newPathFragment_to_pathManagementFragment)
+    }
+
 
     private fun addTileOverlay() {
         try {

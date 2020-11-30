@@ -323,6 +323,9 @@
         <action
             android:id="@+id/action_newPathFragment_to_dashboardFragment"
             app:destination="@id/dashboardFragment" />
+        <action
+            android:id="@+id/action_newPathFragment_to_pathManagementFragment"
+            app:destination="@id/pathManagementFragment" />
     </fragment>
 
     <fragment

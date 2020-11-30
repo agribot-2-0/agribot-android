@@ -1,6 +1,7 @@
 package eu.agribot.agribotapp.communication.database.firestorage
 
 import android.net.Uri
+import android.util.Log
 import com.downloader.Error
 import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
@@ -31,7 +32,7 @@ class AndroidFirestorageService(
             }
     }
 
-    override fun downloadFileFromUrl(
+    override fun downloadPathFileFromUrl(
         fileName: String,
         filePath: String,
         onDownloadSucess: (file: File) -> Unit,
@@ -74,5 +75,49 @@ class AndroidFirestorageService(
             }.addOnSuccessListener {
                 onSucess.invoke()
             }
+    }
+
+    override fun removePathFileInCloudStorage(
+        fileName: String,
+        onSucess: () -> Unit,
+        onError: (exception: Exception) -> Unit
+    ) {
+        storage.reference.child("${firebaseService.getCurrentUser()?.uid}/paths/$fileName")
+            .delete()
+            .addOnSuccessListener {
+                onSucess.invoke()
+            }
+            .addOnFailureListener {
+                onError(it)
+                Log.e("xd", "on delete error: " + fileName + it)
+            }
+    }
+
+    override fun downloadMapTilesFromUrl(
+        onDownloadSucess: (file: File) -> Unit,
+        onDownloadError: (error: Throwable) -> Unit
+    ) {
+        /*
+        storage.reference.child("${firebaseService.getCurrentUser()?.uid}/paths/").downloadUrl.addOnSuccessListener {
+            PRDownloader.download(
+                it.toString()
+            )
+                .build()
+                .start(object : OnDownloadListener {
+                    override fun onDownloadComplete() {
+                        onDownloadSucess(
+                            File(
+
+                            )
+                        )
+                    }
+
+                    override fun onError(error: Error) {
+                        onDownloadError(error.connectionException)
+                    }
+                })
+        }
+
+         */
     }
 }

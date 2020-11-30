@@ -1,6 +1,7 @@
 package eu.agribot.agribotapp.communication.database.firestorage
 
 import java.io.File
+import java.lang.Exception
 
 interface FirestorageService {
 
@@ -10,12 +11,13 @@ interface FirestorageService {
         onError: (exception: RuntimeException) -> Unit
     )
 
-    fun downloadFileFromUrl(
+    fun downloadPathFileFromUrl(
         fileName: String,
         filePath: String,
         onDownloadSucess: (file: File) -> Unit,
         onDownloadError: (error: Throwable) -> Unit
     )
+
 
     fun uploadPathFile(
         filePath: String,
@@ -23,4 +25,17 @@ interface FirestorageService {
         onSucess: () -> Unit,
         onError: (exception: RuntimeException) -> Unit
     )
+
+    fun removePathFileInCloudStorage(
+        fileName: String,
+        onSucess: () -> Unit,
+        onError: (exception: Exception) -> Unit
+    )
+
+    fun downloadMapTilesFromUrl(
+        onDownloadSucess: (file: File) -> Unit,
+        onDownloadError: (error: Throwable) -> Unit
+    )
+
+
 }

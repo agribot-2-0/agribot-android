@@ -107,15 +107,37 @@ class PathManagementViewModel(
     }
 
     fun onDeleteButtonClicked(itemPathPosition: Int) {
-        // TODO NOT YET IMPLEMENT
+        pathManagementService.handleRemovePathOperation(
+            availableFiles.value!![itemPathPosition].fileName,
+            this::onDeletePathComplete,
+            this::onCloudDataException
+        )
+        refreshRecyclerList(itemPathPosition)
+    }
+
+    private fun refreshRecyclerList(pathToDelete: Int) {
+        availableFiles.value =
+            availableFiles.value!!.filterIndexed { index, _ -> index != pathToDelete }
+
+    }
+
+
+    private fun onDeletePathComplete() {
+
+
     }
 
     // TODO BETTER SOLUTION FOR WAIT IS LAYER != NULL
-    fun onEditButtonClicked(itemPathPosition: Int) = viewModelScope.launch {
+    fun onEditButtonClicked(itemPathPosition: Int) {
+        editPathFile(itemPathPosition)
+    }
+
+    private fun editPathFile(itemPathPosition: Int) = viewModelScope.launch {
         pathManagementService.updatePathName(availableFiles.value!![itemPathPosition].fileName)
         pathManagementService.findLayerFile()
         delay(200)
         checkIsLayerReady()
+
     }
 
     private fun checkIsLayerReady() {

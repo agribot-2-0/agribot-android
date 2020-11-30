@@ -193,4 +193,31 @@ class PathManagementService(
 
         )
     }
+
+    fun handleRemovePathOperation(
+        pathName: String,
+        onSucess: () -> Unit,
+        onError: (error: String) -> Unit
+    ) {
+        removePathInCloud(pathName, onSucess, onError)
+        removePathInStorage(pathName, onSucess, onError)
+
+    }
+
+    private fun removePathInCloud(
+        pathName: String,
+        onSucess: () -> Unit,
+        onError: (error: String) -> Unit
+    ) {
+        updatePathName(pathName)
+        cloudStorageService.removeFileInCLoud(getFileVersion(getPathName()) + fileFormat, onSucess, onError)
+    }
+
+    private fun removePathInStorage(
+        pathName: String,
+        onSucess: () -> Unit,
+        onError: (error: String) -> Unit
+    ) {
+
+    }
 }

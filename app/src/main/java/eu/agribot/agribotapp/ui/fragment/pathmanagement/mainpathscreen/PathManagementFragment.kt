@@ -79,7 +79,7 @@ class PathManagementFragment :
     private fun observeViewModel() {
         viewModel.availableFiles.observe(this::addToAvailableFile)
         viewModel.selectedLayer.observe(this::onGotSelectedLayer)
-        viewModel.toastEvent.observe(this::showToast)
+        viewModel.toastMessageEvent.observe(this::showToast)
         viewModel.cameraPosition.observe((this::updateMapCameraPosition))
     }
 

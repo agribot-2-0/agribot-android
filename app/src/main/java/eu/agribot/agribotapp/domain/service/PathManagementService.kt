@@ -201,7 +201,6 @@ class PathManagementService(
     ) {
         removePathInCloud(pathName, onSucess, onError)
         removePathInStorage(pathName, onSucess, onError)
-
     }
 
     private fun removePathInCloud(
@@ -218,6 +217,5 @@ class PathManagementService(
         onSucess: () -> Unit,
         onError: (error: String) -> Unit
     ) {
-
     }
 }

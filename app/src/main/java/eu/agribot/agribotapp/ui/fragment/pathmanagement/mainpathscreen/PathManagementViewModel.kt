@@ -30,8 +30,8 @@ class PathManagementViewModel(
     val availableFiles: MutableLiveData<List<CloudFileListItemViewModel>> =
         MutableLiveData(listOf())
     val cameraPosition: MutableLiveData<LatLng> = MutableLiveData()
-    val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val selectedLayer: MutableLiveData<InputStream> = MutableLiveData()
+    val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
 
     fun getMapTilePath(path: String): String {
         return filePathProvider.getMapTilePath(path)
@@ -63,7 +63,7 @@ class PathManagementViewModel(
     }
 
     private fun postToastErrorMessageEvent(errorMessage: String) {
-        toastEvent.postValue(errorMessage)
+        toastMessageEvent.postValue(errorMessage)
     }
 
     fun postNewPathNavigationEvent() {
@@ -71,9 +71,10 @@ class PathManagementViewModel(
     }
 
     private fun onAvailableFileFound(fileName: String, isFileActive: Boolean) {
-        availableFiles.value?.any {
+        val isFileAlreadyAdded = availableFiles.value!!.any {
             it.fileName == formatFilename(fileName)
-        }.let {
+        }
+        if (!isFileAlreadyAdded) {
             availableFiles.value = listOf(
                 CloudFileListItemViewModel(
                     formatFilename(fileName),
@@ -103,7 +104,7 @@ class PathManagementViewModel(
     }
 
     private fun onCloudDataException(exception: String) {
-        // TODO NOT YET IMPLEMENT
+        toastMessageEvent.postValue(exception)
     }
 
     fun onDeleteButtonClicked(itemPathPosition: Int) {
@@ -118,16 +119,12 @@ class PathManagementViewModel(
     private fun refreshRecyclerList(pathToDelete: Int) {
         availableFiles.value =
             availableFiles.value!!.filterIndexed { index, _ -> index != pathToDelete }
-
     }
-
 
     private fun onDeletePathComplete() {
-
-
+        toastMessageEvent.postValue(resourcesProvider.getString(R.string.path_deleted_message))
     }
 
-    // TODO BETTER SOLUTION FOR WAIT IS LAYER != NULL
     fun onEditButtonClicked(itemPathPosition: Int) {
         editPathFile(itemPathPosition)
     }
@@ -137,7 +134,6 @@ class PathManagementViewModel(
         pathManagementService.findLayerFile()
         delay(200)
         checkIsLayerReady()
-
     }
 
     private fun checkIsLayerReady() {

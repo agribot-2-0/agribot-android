@@ -18,9 +18,7 @@ import com.google.maps.android.kml.KmlLayer
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
-import eu.agribot.agribotapp.common.navigation.events.NewPathNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.PathManagementNavigationEvent
-import eu.agribot.agribotapp.common.navigation.events.PathNameNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentPathManagementNewPathBinding
 import eu.agribot.agribotapp.domain.model.CoordinatesModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.model.CameraPosition
@@ -45,7 +43,6 @@ class NewPathFragment :
     private var polylineFromList: Polyline? = null
     private var alreadyCreatedPath: KmlLayer? = null
 
-
     override val viewModel: NewPathViewModel by viewModel { parametersOf(requireContext()) }
     override fun bindViewVariables(viewBinding: FragmentPathManagementNewPathBinding) {
         viewBinding.viewModel = viewModel
@@ -68,7 +65,6 @@ class NewPathFragment :
         viewModel.selectedLayer.observe(this::onGotAlreadyCreatedPath)
     }
 
-
     override fun onMapReady(googleMap: GoogleMap?) {
         googleMapFragment = googleMap
         googleMapFragment!!.mapType = GoogleMap.MAP_TYPE_NORMAL
@@ -76,7 +72,6 @@ class NewPathFragment :
         googleMapFragment!!.setOnCameraMoveListener(this)
         addTileOverlay()
     }
-
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) =
         when (navigationEvent) {
@@ -87,7 +82,6 @@ class NewPathFragment :
     private fun navigateToPathManagement() {
         navigationController?.navigate(R.id.action_newPathFragment_to_pathManagementFragment)
     }
-
 
     private fun addTileOverlay() {
         try {
@@ -193,6 +187,4 @@ class NewPathFragment :
             exception.stackTrace
         }
     }
-
-
 }

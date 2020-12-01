@@ -43,7 +43,6 @@ class NewPathViewModel(
         )
     }
 
-
     private fun onGotAgribotPosition(robotLocalizationPose: RobotLocalizationPose) {
         cameraPosition.value = CameraPosition(
             LatLng(
@@ -83,9 +82,8 @@ class NewPathViewModel(
         }
     }
 
-
     fun onChangePointerPosition(cameraPosition: CoordinatesModel) {
-        pointIndex.value?.let { index ->
+        pointIndex.value?.let {
             addedPointList.value = addedPointList.value!!.map { pointer ->
                 if (pointer.pointId == pointIndex.value) {
                     PointModel(
@@ -100,7 +98,6 @@ class NewPathViewModel(
     }
 
     fun onDeleteLastPointButtonClicked() {
-
     }
 
     fun onAddNewPointButtonClicked() {
@@ -114,7 +111,6 @@ class NewPathViewModel(
                 longitude = it.coordinates.longitude
             )
         }, onSucess = this::onSavePathSucess, onError = this::postErrorToastEvent)
-
     }
 
     private fun onSavePathSucess() {
@@ -181,7 +177,6 @@ class NewPathViewModel(
     }
 
     private fun onGotCoordinates(coordinates: ArrayList<LatLng>) {
-
         coordinates.forEach {
             addPointToPointList(
                 PointModel(getPointID(), CoordinatesModel(it.latitude, it.longitude))
@@ -194,6 +189,4 @@ class NewPathViewModel(
             ), false
         )
     }
-
-
 }

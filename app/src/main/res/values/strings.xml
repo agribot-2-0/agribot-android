@@ -239,7 +239,8 @@
     <string name="type_path_name">Give path name</string>
     <string name="task_path_text">Path name</string>
     <string name="blank_path_name_error">Path name cant\'t be blank</string>
-    <string name="prev_button_arrow"><![CDATA[<-]]></string>
-    <string name="next_button_arrow"><![CDATA[->]]></string>
+    <string name="prev_button_arrow" translatable="false"><![CDATA[<-]]></string>
+    <string name="next_button_arrow" translatable="false"><![CDATA[->]]></string>
+    <string name="path_deleted_message">Path deleted successfully</string>
 
 </resources>

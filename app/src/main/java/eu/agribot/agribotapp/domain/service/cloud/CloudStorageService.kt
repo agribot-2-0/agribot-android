@@ -5,13 +5,15 @@ import eu.agribot.agribotapp.communication.database.firestorage.FirestorageServi
 import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
 import eu.agribot.agribotapp.domain.service.AuthenticationService
 import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePathProvider
+import net.lingala.zip4j.ZipFile
+import net.lingala.zip4j.progress.ProgressMonitor
 import java.io.File
 
 class CloudStorageService(
     private val firestorageService: FirestorageService,
     private val authenticationService: AuthenticationService,
     private val filePathProvider: FilePathProvider,
-    private val cloudStorageErrorHandler: CloudStorageErrorHandler
+    private val cloudStorageErrorHandler: CloudStorageErrorHandler,
 ) {
 
     fun downloadFilesList(
@@ -81,4 +83,43 @@ class CloudStorageService(
             onSucess,
             onError = { onError(cloudStorageErrorHandler.getStorageError(it)) })
     }
+
+
+    fun onMapTilesRequest(
+        onGotMapTilesAlready: () -> Unit,
+        downloadProgress: (downloadProgress: Long) -> Unit,
+        onDownloadedMapTiles: () -> Unit
+    ) {
+        if (!isTileFileExistInStorage()) {
+            downloadZipTiles(onDownloadedMapTiles, downloadProgress)
+        } else {
+            onGotMapTilesAlready.invoke()
+        }
+    }
+
+    private fun isTileFileExistInStorage(): Boolean {
+        return (File(filePathProvider.getLayerPath(DownloaderPath.MAP_PATH.filePath + "/maps.zip")).exists())
+    }
+
+    private fun downloadZipTiles(
+        onDownloadFileSucess: () -> Unit,
+        downloadProgress: (downloadProgress: Long) -> Unit
+    ) {
+        firestorageService.downloadZipMapTiles(
+            filePathProvider.getLayerPath(DownloaderPath.MAP_PATH.filePath),
+            onDownloadSucess = onDownloadFileSucess,
+            onDownloadProgress = downloadProgress
+        )
+    }
+
+
+    fun extractDownloadedFile(onDecompressProgress: (decompressProgress: Int) -> Unit) {
+        val zipFile: ZipFile =
+            ZipFile(filePathProvider.getLayerPath(DownloaderPath.MAP_PATH.filePath + "maps.zip"))
+        zipFile.extractAll(filePathProvider.getLayerPath(DownloaderPath.MAP_PATH.filePath))
+        val progressMonitor: ProgressMonitor = zipFile.progressMonitor
+        onDecompressProgress(progressMonitor.percentDone)
+
+    }
+
 }

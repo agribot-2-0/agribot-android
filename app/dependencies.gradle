@@ -75,6 +75,8 @@ dependencies {
 	// Dialogs
 	implementation "com.afollestad.material-dialogs:core:$versions.materialDialogs"
 	implementation "com.afollestad.material-dialogs:lifecycle:$versions.materialDialogs"
+	implementation "com.afollestad.material-dialogs:bottomsheets:$versions.materialDialogs"
+
 
 	//GoogleMap
 	implementation "com.google.android.gms:play-services-maps:$versions.googleMap"
@@ -106,5 +108,6 @@ dependencies {
 	//PRDownloader
 	implementation "com.mindorks.android:prdownloader:$versions.downloader"
 
+	implementation 'net.lingala.zip4j:zip4j:2.6.4'
 
 }

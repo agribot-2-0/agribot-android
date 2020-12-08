@@ -8,15 +8,19 @@ import eu.agribot.agribotapp.common.navigation.events.WelcomeActivityNavigationE
 import eu.agribot.agribotapp.domain.service.AuthenticationService
 import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
+import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SplashViewModel(
     private val authenticationService: AuthenticationService,
     private val bluetoothConnectionService: BluetoothConnectionService,
-    private val cloudDatabaseService: CloudDatabaseService
+    private val cloudDatabaseService: CloudDatabaseService,
+    private val cloudStorageService: CloudStorageService
 ) : BaseViewModel() {
     val postDialogEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
+    val downloadTilesDialogEvent: MutableLiveEvent<String> = MutableLiveEvent()
+    val extractTilesDialogEvent: MutableLiveEvent<String> = MutableLiveEvent()
 
     companion object {
         const val SPLASH_SCREEN_TIMEOUT_MILLIS = 1000L
@@ -27,7 +31,7 @@ class SplashViewModel(
     }
 
     private fun onGotRobotName() {
-        beginSplashDelay()
+        selectMapTiles()
     }
 
     private fun beginSplashDelay() = viewModelScope.launch {
@@ -63,4 +67,31 @@ class SplashViewModel(
         bluetoothConnectionService.enableBluetooth()
         getUserRobotName()
     }
+
+    private fun selectMapTiles() {
+        cloudStorageService.onMapTilesRequest(
+            downloadProgress = this::onDownloadProgress,
+            onGotMapTilesAlready = this::beginSplashDelay,
+            onDownloadedMapTiles = this::onDownloadedTiles
+        )
+
+
+    }
+
+    private fun onDownloadProgress(downloadProgress: Long) {
+        downloadTilesDialogEvent.postValue(downloadProgress.toString())
+    }
+
+    private fun onDownloadedTiles() {
+        cloudStorageService.extractDownloadedFile(this::onDecompressMapTileProgress)
+    }
+
+    private fun onDecompressMapTileProgress(progress: Int) {
+        if (progress == 100) {
+            beginSplashDelay()
+        } else {
+            extractTilesDialogEvent.postValue(progress.toString())
+        }
+    }
+
 }

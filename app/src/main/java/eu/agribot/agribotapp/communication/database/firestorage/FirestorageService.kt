@@ -1,7 +1,6 @@
 package eu.agribot.agribotapp.communication.database.firestorage
 
 import java.io.File
-import java.lang.Exception
 
 interface FirestorageService {
 
@@ -31,8 +30,11 @@ interface FirestorageService {
         onError: (exception: Exception) -> Unit
     )
 
-    fun downloadMapTilesFromUrl(
-        onDownloadSucess: (file: File) -> Unit,
-        onDownloadError: (error: Throwable) -> Unit
+    fun downloadZipMapTiles(
+        pathFile: String,
+        onDownloadProgress: (currentPercent: Long) -> Unit,
+        onDownloadSucess: () -> Unit
     )
+
+
 }

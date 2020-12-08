@@ -89,35 +89,42 @@ class AndroidFirestorageService(
             }
             .addOnFailureListener {
                 onError(it)
-                Log.e("xd", "on delete error: " + fileName + it)
             }
     }
 
-    override fun downloadMapTilesFromUrl(
-        onDownloadSucess: (file: File) -> Unit,
-        onDownloadError: (error: Throwable) -> Unit
+    override fun downloadZipMapTiles(
+        pathFile: String,
+        onDownloadProgress: (currentPercent: Long) -> Unit,
+        onDownloadSucess: () -> Unit
     ) {
-        /*
-        storage.reference.child("${firebaseService.getCurrentUser()?.uid}/paths/").downloadUrl.addOnSuccessListener {
+        storage.reference.child("${firebaseService.getCurrentUser()?.uid}/maps.zip").downloadUrl.addOnSuccessListener {
             PRDownloader.download(
-                it.toString()
-            )
-                .build()
+                it.toString(),
+                pathFile,
+                "maps.zip"
+            ).build()
+                .setOnProgressListener {
+                    val progress = (it.currentBytes * 100) / it.totalBytes
+                    onDownloadProgress(progress)
+                }
                 .start(object : OnDownloadListener {
                     override fun onDownloadComplete() {
-                        onDownloadSucess(
-                            File(
+                        onDownloadSucess()
 
-                            )
+                    }
+
+                    override fun onError(error: Error?) {
+                        Log.e(
+                            "xd",
+                            "Download error: "
                         )
                     }
 
-                    override fun onError(error: Error) {
-                        onDownloadError(error.connectionException)
-                    }
                 })
+
         }
 
-         */
     }
+
 }
+

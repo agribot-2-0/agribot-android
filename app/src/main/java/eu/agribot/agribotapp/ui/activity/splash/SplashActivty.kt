@@ -28,6 +28,19 @@ class SplashActivty : BaseActivity<SplashViewModel, ActivitySplashBinding>() {
         super.onCreate(savedInstanceState)
         viewModel.handleCurrentBluetoothStatus()
         viewModel.postDialogEvent.observe(this::showBluetoothDialog)
+        viewModel.downloadTilesDialogEvent.observe(this::showDownloadDialog)
+        viewModel.extractTilesDialogEvent.observe(this::showExtractDialog)
+
+    }
+
+    private fun showDownloadDialog(downloadProgress: String) {
+        showSnackBar("Downloading progress : " + downloadProgress + "%")
+
+    }
+
+    private fun showExtractDialog(extractProgress: String) {
+        showSnackBar("Extracting progress : " + extractProgress + "%")
+
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {

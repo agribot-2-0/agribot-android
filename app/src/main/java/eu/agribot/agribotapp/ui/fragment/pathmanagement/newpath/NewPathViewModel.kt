@@ -116,7 +116,8 @@ class NewPathViewModel(
     }
 
     fun onDeleteLastPointButtonClicked() {
-        selectedPointsCoordinates.value = selectedPointsCoordinates.value?.filter { it.pointId != pointIndex.value }
+        selectedPointsCoordinates.value =
+            selectedPointsCoordinates.value?.filter { it.pointId != pointIndex.value }
         pointIndex.value = pointIndex.value!! - 1
 
         cameraPosition.value =
@@ -134,8 +135,8 @@ class NewPathViewModel(
             currentIndex.value = currentIndex.value!! - 1
         }
 
-        if (currentIndex.value!! > pointIndex.value!! || pointIndex.value!! < 0) {
-            currentIndex.value = 0
+        if (currentIndex.value!! > pointIndex.value!! || currentIndex.value!! < 0) {
+            currentIndex.value = pointIndex.value
         }
 
         val last =
@@ -143,6 +144,7 @@ class NewPathViewModel(
         if (last != null) {
             cameraPosition.value = CameraPositionModel(LatLng(last.latitude, last.longitude), false)
         }
+
     }
 
     fun onNextPointButtonCLicked() {
@@ -151,13 +153,14 @@ class NewPathViewModel(
         }
         currentIndex.value = currentIndex.value!! + 1
         if (currentIndex.value!! > pointIndex.value!! || currentIndex.value!! < 0) {
-            currentIndex.value = pointIndex.value!!
+            currentIndex.value = 0
         }
         val last =
             selectedPointsCoordinates.value!!.find { it.pointId == currentIndex.value }?.coordinates
         if (last != null) {
             cameraPosition.value = CameraPositionModel(LatLng(last.latitude, last.longitude), false)
         }
+
     }
 
     fun onSavePathButtonClicked() {

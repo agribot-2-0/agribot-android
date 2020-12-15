@@ -34,7 +34,7 @@ class NewPathViewModel(
     val tempPolyline: MutableLiveData<TempPolylineModel> = MutableLiveData()
     private val currentIndex: MutableLiveData<Int> = MutableLiveData()
     val toastMessage: MutableLiveEvent<String> = MutableLiveEvent()
-
+    private val initializationDelay = 200L
     fun setCenterMapCoordinate(coordinate: LatLng) {
         centerMapCoordinate.value = coordinate
     }
@@ -183,7 +183,7 @@ class NewPathViewModel(
     }
 
     private fun openSelectedLayer() = viewModelScope.launch {
-        delay(200)
+        delay(initializationDelay)
         if (pathManagementService.getSelectedPathLayer() != null) {
             alreadyCreatedLayer.value = pathManagementService.getSelectedPathLayer()
         }

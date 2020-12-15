@@ -17,6 +17,7 @@ import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.databinding.FragmentPathManagementNewPathBinding
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.model.CameraPositionModel
+import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.model.MapParametr
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.model.PointModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.model.TempPolylineModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.MapParameters
@@ -90,7 +91,7 @@ class NewPathFragment :
             PolylineOptions().add(
                 tempPolyline.oldPositin,
                 tempPolyline.newPosition
-            ).color(Color.RED).width(4F)
+            ).color(Color.RED).width(MapParametr.POLYLINE_WIDTH.parametr)
         )
     }
 
@@ -114,7 +115,7 @@ class NewPathFragment :
                         it.coordinates.longitude
                     )
                 }
-            ).width(4F)
+            ).width(MapParametr.POLYLINE_WIDTH.parametr)
         )
     }
 

@@ -18,7 +18,12 @@ data class TaskDetailsCDB(
     val humidity_condition: String = "",
 
     val pressure_value: String = "",
-    val pressure_condition: String = ""
+    val pressure_condition: String = "",
+
+    val front_tool_name: String = "",
+    val front_tool_mode: Int = 0,
+    val back_tool_name: String = "",
+    val back_tool_mode: Int = 0
 ) : BaseCloudDatabaseModel<TaskDetails> {
     override fun toDomainModel() = TaskDetails(
         path_name = this.path_name,
@@ -31,6 +36,10 @@ data class TaskDetailsCDB(
         humidity_value = this.humidity_value,
         humidity_condition = this.humidity_condition,
         pressure_value = this.pressure_value,
-        pressure_condition = this.pressure_condition
+        pressure_condition = this.pressure_condition,
+        front_tool_name = this.front_tool_name,
+        front_tool_mode = this.front_tool_mode,
+        back_tool_name = this.back_tool_name,
+        back_tool_mode = this.back_tool_mode
     )
 }

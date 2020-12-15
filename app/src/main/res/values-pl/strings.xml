@@ -223,18 +223,22 @@
     <string name="cancel_task_button">ANULUJ ZADANIE</string>
     <string name="dialog_task_cancel_tittle">Anuluj zadanie</string>
     <string name="dialog_task_cancel_message">Czy chesz anulować zadanie?</string>
-    <string name="blank_path_name_error">Nazwa ścieżki nie może być pusta</string>
-    <string name="path_deleted_message">Ścieżka usunięta</string>
-    <string name="checking_files">Sprawdzanie plików - prosze czekać</string>
-    <string name="download_progress">\"Download progress: \"</string>
-    <string name="extracting_progress">\"Extracting progress: \"</string>
-    <string name="get_coordinates_problem">Coordinates from path problem</string>
-    <string name="loading_path_problem">Loading Path Problem</string>
+
+    <string name="tool_mode_zero">Cała ścieżka</string>
+    <string name="tool_mode_one">Pomiędzy rzędami</string>
 
     <string name="dialog_tiles_downloading_tittle">Twoje pliki są pobierane…</string>
     <string name="dialog_tiles_downloading_message">Pobieranie w toku</string>
 
     <string name="dialog_tiles_extracting_tittle">Twoje pliki są rozpakowywane</string>
     <string name="dialog_tiles_extracting_message">Trwa rozpakowywanie plików</string>
+    <string name="checking_files">Sprawdzanie plików - proszę czekać</string>
+
+    <string name="download_progress">Postęp pobierania</string>
+
+    <string name="extracting_progress">Postęp rozpakowywania</string>
+    <string name="path_deleted_message">Ścieżka usunięta pomyślnie</string>
+    <string name="loading_path_problem">Problem z załadowaniem ścieżki</string>
+    <string name="blank_path_name_error">Nazwa ścieżki nie może być pusta</string>
 
 </resources>

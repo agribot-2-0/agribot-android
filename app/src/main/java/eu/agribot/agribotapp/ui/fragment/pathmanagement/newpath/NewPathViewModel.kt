@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
@@ -10,8 +11,10 @@ import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.PathManagementNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.model.CoordinatesModel
+import eu.agribot.agribotapp.domain.model.cdb.RobotLocalizationPose
 import eu.agribot.agribotapp.domain.service.KmlLayerService
 import eu.agribot.agribotapp.domain.service.PathManagementService
+import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePathProvider
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.model.CameraPositionModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.model.PointModel
@@ -24,7 +27,8 @@ class NewPathViewModel(
     private val resourcesProvider: ResourcesProvider,
     private val filePathProvider: FilePathProvider,
     private val pathManagementService: PathManagementService,
-    private val kmlLayerService: KmlLayerService
+    private val kmlLayerService: KmlLayerService,
+    private val cloudDatabaseService: CloudDatabaseService
 ) : BaseViewModel() {
     val alreadyCreatedLayer: MutableLiveData<InputStream> = MutableLiveData()
     val selectedPointsCoordinates: MutableLiveData<List<PointModel>> = MutableLiveData(listOf())
@@ -182,7 +186,29 @@ class NewPathViewModel(
     fun getPath() {
         if (pathManagementService.getSelectedPathLayer() != null) {
             openSelectedLayer()
+        } else {
+            setCameraPositionToAgribot()
         }
+    }
+
+    private fun setCameraPositionToAgribot() {
+        cloudDatabaseService.getRobotLocalizationPose(
+            onSuccess = this::onGotAgribotPosition,
+            onError = this::getRobotLocalizationError
+        )
+    }
+
+    private fun getRobotLocalizationError(getLocalizationError: String) {
+        toastMessage.postValue(getLocalizationError)
+    }
+
+    private fun onGotAgribotPosition(robotLocalizationPose: RobotLocalizationPose) {
+        cameraPosition.value = CameraPositionModel(
+            LatLng(
+                robotLocalizationPose.latitude,
+                robotLocalizationPose.longitude
+            ), false
+        )
     }
 
     private fun openSelectedLayer() = viewModelScope.launch {

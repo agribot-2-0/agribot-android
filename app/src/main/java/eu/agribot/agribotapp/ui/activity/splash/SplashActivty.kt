@@ -36,7 +36,7 @@ class SplashActivty : BaseActivity<SplashViewModel, ActivitySplashBinding>() {
     private fun observeViewModel() {
         viewModel.postDialogEvent.observe(this::showBluetoothDialog)
         viewModel.postProgressPlace.observe(this::showProgressText)
-        viewModel.toastMessage.observe(this::showToast)
+        viewModel.toastMessage.observe(this::showSnackBar)
     }
 
     private fun showProgressText(show: Boolean) {

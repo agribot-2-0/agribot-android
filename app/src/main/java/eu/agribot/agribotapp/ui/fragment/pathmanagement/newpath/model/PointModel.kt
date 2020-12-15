@@ -4,5 +4,5 @@ import eu.agribot.agribotapp.domain.model.CoordinatesModel
 
 data class PointModel(
     val pointId: Int,
-    val coordinates: CoordinatesModel
+    var coordinates: CoordinatesModel
 )

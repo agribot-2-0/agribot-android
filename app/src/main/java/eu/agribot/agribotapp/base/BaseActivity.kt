@@ -1,7 +1,6 @@
 package eu.agribot.agribotapp.base
 
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -109,7 +108,6 @@ abstract class BaseActivity<viewModelType : BaseViewModel, viewDataBindingType :
     }
 
     fun showSnackBar(snackbarText: String) {
-        Snackbar.make(findViewById(android.R.id.content), snackbarText, Snackbar.LENGTH_SHORT).show()
-
+        Snackbar.make(findViewById(android.R.id.content), snackbarText, Snackbar.LENGTH_LONG).show()
     }
 }

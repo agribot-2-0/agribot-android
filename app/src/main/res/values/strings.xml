@@ -233,6 +233,13 @@
     <string name="dialog_task_cancel_tittle">Cancel task</string>
     <string name="dialog_task_cancel_message">Do you want cancel a task?</string>
 
+    <string name="dialog_tiles_downloading_tittle">Your Files is downloading…</string>
+    <string name="dialog_tiles_downloading_message">Download progress</string>
+
+    <string name="dialog_tiles_extracting_tittle">Your Files is extracting</string>
+    <string name="dialog_tiles_extracting_message">Extract progress</string>
+
+
     <string name="save_path">Save path</string>
     <string name="create_layer_sucess">Map layer file created!</string>
     <string name="create_layer_error">Problem with create map layer</string>
@@ -242,5 +249,10 @@
     <string name="prev_button_arrow" translatable="false"><![CDATA[<-]]></string>
     <string name="next_button_arrow" translatable="false"><![CDATA[->]]></string>
     <string name="path_deleted_message">Path deleted successfully</string>
+    <string name="checking_files">Checking files - please wait</string>
+    <string name="download_progress">\"Download progress: \"</string>
+    <string name="extracting_progress">\"Extracting progress: \"</string>
+    <string name="get_coordinates_problem">Coordinates from path problem</string>
+    <string name="loading_path_problem">Loading Path Problem</string>
 
 </resources>

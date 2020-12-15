@@ -1,10 +1,12 @@
 package eu.agribot.agribotapp.ui.activity.splash
 
 import androidx.lifecycle.viewModelScope
+import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.MainActivityNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.WelcomeActivityNavigationEvent
+import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.service.AuthenticationService
 import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
@@ -16,14 +18,17 @@ class SplashViewModel(
     private val authenticationService: AuthenticationService,
     private val bluetoothConnectionService: BluetoothConnectionService,
     private val cloudDatabaseService: CloudDatabaseService,
-    private val cloudStorageService: CloudStorageService
+    private val cloudStorageService: CloudStorageService,
+    private val resourcesProvider: ResourcesProvider
 ) : BaseViewModel() {
     val postDialogEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
-    val downloadTilesDialogEvent: MutableLiveEvent<String> = MutableLiveEvent()
-    val extractTilesDialogEvent: MutableLiveEvent<String> = MutableLiveEvent()
+    val postProgressPlace: MutableLiveEvent<Boolean> = MutableLiveEvent()
+    val toastMessage: MutableLiveEvent<String> = MutableLiveEvent()
 
     companion object {
         const val SPLASH_SCREEN_TIMEOUT_MILLIS = 1000L
+        const val PROGRESS_COMPLETE = 100
+        const val DECIMAL_NUMBER = 10
     }
 
     private fun getUserRobotName() {
@@ -72,14 +77,20 @@ class SplashViewModel(
         cloudStorageService.onMapTilesRequest(
             downloadProgress = this::onDownloadProgress,
             onGotMapTilesAlready = this::beginSplashDelay,
-            onDownloadedMapTiles = this::onDownloadedTiles
+            onDownloadedMapTiles = this::onDownloadedTiles,
+            onDownloadedMapTilesError = this::onGetMapTilesError
         )
+    }
 
-
+    private fun onGetMapTilesError(error: String) {
+        toastMessage.postValue(error)
     }
 
     private fun onDownloadProgress(downloadProgress: Long) {
-        downloadTilesDialogEvent.postValue(downloadProgress.toString())
+        postProgressPlace.postValue(true)
+        if (downloadProgress.toInt() % DECIMAL_NUMBER == 0) {
+            toastMessage.postValue(resourcesProvider.getString(R.string.download_progress) + downloadProgress + "%")
+        }
     }
 
     private fun onDownloadedTiles() {
@@ -87,11 +98,12 @@ class SplashViewModel(
     }
 
     private fun onDecompressMapTileProgress(progress: Int) {
-        if (progress == 100) {
+        if (progress == PROGRESS_COMPLETE) {
             beginSplashDelay()
         } else {
-            extractTilesDialogEvent.postValue(progress.toString())
+            if (progress % DECIMAL_NUMBER == 0) {
+                toastMessage.postValue(resourcesProvider.getString(R.string.extracting_progress) + progress + "%")
+            }
         }
     }
-
 }

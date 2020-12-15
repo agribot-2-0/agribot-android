@@ -54,11 +54,13 @@ val viewModelModule = module {
             permissionManager = get()
         )
     }
-    viewModel {
+    viewModel { (context: Context) ->
         SplashViewModel(
             authenticationService = get(),
             bluetoothConnectionService = get(),
-            cloudDatabaseService = get()
+            cloudDatabaseService = get(),
+            cloudStorageService = get(),
+            resourcesProvider = get { parametersOf(context) }
         )
     }
     viewModel {
@@ -249,7 +251,6 @@ val viewModelModule = module {
 
     viewModel { (context: Context) ->
         NewPathViewModel(
-            cloudDatabaseService = get(),
             pathManagementService = get(),
             filePathProvider = get(),
             resourcesProvider = get { parametersOf(context) },

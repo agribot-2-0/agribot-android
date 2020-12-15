@@ -10,6 +10,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.TileOverlayOptions
 import com.google.maps.android.kml.KmlContainer
 import com.google.maps.android.kml.KmlLayer
@@ -28,7 +29,7 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.TileProvider
 import eu.agribot.agribotapp.ui.fragment.taskcreator.URLPath
 import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler.CloudFileListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler.CloudFileListItemViewModel
-import kotlinx.android.synthetic.main.fragment_path_management.pathManagementRecycler
+import kotlinx.android.synthetic.main.fragment_path_management.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -186,11 +187,13 @@ class PathManagementFragment :
         }
     }
 
-    private fun updateMapCameraPosition(latLng: LatLng) {
-        googleMapFragment?.moveCamera(
-            CameraUpdateFactory.newLatLngZoom(
-                latLng, MapParameters.MID_ZOOM.mapParametr
-            )
-        )
+    private fun updateMapCameraPosition(latLng: List<LatLng>) {
+        val builder = LatLngBounds.Builder()
+        latLng.forEach {
+            builder.include(it)
+            val bounds = builder.build()
+            val cameraUpdateFactory = CameraUpdateFactory.newLatLngBounds(bounds, 50)
+            googleMapFragment?.animateCamera(cameraUpdateFactory)
+        }
     }
 }

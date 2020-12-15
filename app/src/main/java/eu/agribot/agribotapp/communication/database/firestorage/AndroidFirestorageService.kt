@@ -1,13 +1,14 @@
 package eu.agribot.agribotapp.communication.database.firestorage
 
 import android.net.Uri
-import android.util.Log
 import com.downloader.Error
 import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import eu.agribot.agribotapp.communication.database.firebase.FirebaseService
+import eu.agribot.agribotapp.communication.database.firestorage.DownloadObjects.MAPS_FILE
+import eu.agribot.agribotapp.communication.database.firestorage.DownloadObjects.PATH_SOURCE
 import java.io.File
 
 class AndroidFirestorageService(
@@ -18,9 +19,9 @@ class AndroidFirestorageService(
     override fun listAllItem(
         currentUserID: String,
         onFilesAvailable: (fileName: String) -> Unit,
-        onError: (exception: RuntimeException) -> Unit
+        onError: (exception: java.lang.Exception) -> Unit
     ) {
-        Firebase.storage.reference.child("$currentUserID/paths/")
+        Firebase.storage.reference.child("$currentUserID/$PATH_SOURCE/")
             .listAll()
             .addOnSuccessListener { listResult ->
                 listResult.items.forEach { item ->
@@ -28,7 +29,7 @@ class AndroidFirestorageService(
                 }
             }
             .addOnFailureListener { exception ->
-                onError(exception as RuntimeException)
+                onError(exception)
             }
     }
 
@@ -38,7 +39,7 @@ class AndroidFirestorageService(
         onDownloadSucess: (file: File) -> Unit,
         onDownloadError: (error: Throwable) -> Unit
     ) {
-        storage.reference.child("${firebaseService.getCurrentUser()?.uid}/paths/$fileName").downloadUrl.addOnSuccessListener {
+        storage.reference.child("${firebaseService.getCurrentUser()?.uid}/$PATH_SOURCE/$fileName").downloadUrl.addOnSuccessListener {
             PRDownloader.download(
                 it.toString(),
                 filePath,
@@ -66,12 +67,12 @@ class AndroidFirestorageService(
         filePath: String,
         fileName: String,
         onSucess: () -> Unit,
-        onError: (exception: RuntimeException) -> Unit
+        onError: (exception: Exception) -> Unit
     ) {
-        storage.reference.child("${firebaseService.getCurrentUser()?.uid}/paths/$fileName")
+        storage.reference.child("${firebaseService.getCurrentUser()?.uid}/$PATH_SOURCE/$fileName")
             .putFile(Uri.fromFile(File(filePath)))
-            .addOnFailureListener {
-                onError(RuntimeException("Upload file error"))
+            .addOnFailureListener { exception ->
+                onError(exception)
             }.addOnSuccessListener {
                 onSucess.invoke()
             }
@@ -82,7 +83,7 @@ class AndroidFirestorageService(
         onSucess: () -> Unit,
         onError: (exception: Exception) -> Unit
     ) {
-        storage.reference.child("${firebaseService.getCurrentUser()?.uid}/paths/$fileName")
+        storage.reference.child("${firebaseService.getCurrentUser()?.uid}/$PATH_SOURCE/$fileName")
             .delete()
             .addOnSuccessListener {
                 onSucess.invoke()
@@ -95,13 +96,14 @@ class AndroidFirestorageService(
     override fun downloadZipMapTiles(
         pathFile: String,
         onDownloadProgress: (currentPercent: Long) -> Unit,
-        onDownloadSucess: () -> Unit
+        onDownloadSucess: () -> Unit,
+        onDownloadError: (error: Error?) -> Unit
     ) {
-        storage.reference.child("${firebaseService.getCurrentUser()?.uid}/maps.zip").downloadUrl.addOnSuccessListener {
+        storage.reference.child("${firebaseService.getCurrentUser()?.uid}" + "/" + MAPS_FILE).downloadUrl.addOnSuccessListener {
             PRDownloader.download(
                 it.toString(),
                 pathFile,
-                "maps.zip"
+                MAPS_FILE
             ).build()
                 .setOnProgressListener {
                     val progress = (it.currentBytes * 100) / it.totalBytes
@@ -110,21 +112,12 @@ class AndroidFirestorageService(
                 .start(object : OnDownloadListener {
                     override fun onDownloadComplete() {
                         onDownloadSucess()
-
                     }
 
                     override fun onError(error: Error?) {
-                        Log.e(
-                            "xd",
-                            "Download error: "
-                        )
+                        onDownloadError(error)
                     }
-
                 })
-
         }
-
     }
-
 }
-

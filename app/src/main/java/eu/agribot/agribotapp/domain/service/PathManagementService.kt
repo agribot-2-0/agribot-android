@@ -39,6 +39,7 @@ class PathManagementService(
     }
 
     private fun onError(error: String) {
+        // TODO NOT YET IMPLEMENTED
     }
 
     fun findLayerFile() {
@@ -189,8 +190,7 @@ class PathManagementService(
             filepathProvider.getLayerPath(DownloaderPath.LAYER_PATH.filePath + sourceSeparator + fileVersionName + fileFormat),
             fileVersionName + fileFormat,
             onSucess,
-            onError = { onError(cloudStorageErrorHandler.getStorageError(it)) }
-
+            onError
         )
     }
 
@@ -200,7 +200,7 @@ class PathManagementService(
         onError: (error: String) -> Unit
     ) {
         removePathInCloud(pathName, onSucess, onError)
-        removePathInStorage(pathName, onSucess, onError)
+        removePathInStorage()
     }
 
     private fun removePathInCloud(
@@ -209,13 +209,20 @@ class PathManagementService(
         onError: (error: String) -> Unit
     ) {
         updatePathName(pathName)
-        cloudStorageService.removeFileInCLoud(getFileVersion(getPathName()) + fileFormat, onSucess, onError)
+        cloudStorageService.removeFileInCLoud(
+            getFileVersion(getPathName()) + fileFormat,
+            onSucess,
+            onError
+        )
     }
 
-    private fun removePathInStorage(
-        pathName: String,
-        onSucess: () -> Unit,
-        onError: (error: String) -> Unit
-    ) {
+    private fun removePathInStorage() {
+        File(
+            filepathProvider.getLayerPath(
+                DownloaderPath.LAYER_PATH.filePath + sourceSeparator + getFileVersion(
+                    getPathName()
+                ) + fileFormat
+            )
+        ).delete()
     }
 }

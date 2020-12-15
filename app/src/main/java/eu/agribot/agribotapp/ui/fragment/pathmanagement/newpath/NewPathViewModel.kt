@@ -116,8 +116,15 @@ class NewPathViewModel(
     }
 
     fun onDeleteLastPointButtonClicked() {
-        selectedPointsCoordinates.value?.filter { it.pointId != pointIndex.value }
+        selectedPointsCoordinates.value = selectedPointsCoordinates.value?.filter { it.pointId != pointIndex.value }
         pointIndex.value = pointIndex.value!! - 1
+
+        cameraPosition.value =
+            selectedPointsCoordinates.value?.find { it.pointId == pointIndex.value }?.let {
+                CameraPositionModel(
+                    LatLng(it.coordinates.latitude, it.coordinates.longitude), true
+                )
+            }
     }
 
     fun onPreviousPointButtonCLicked() {

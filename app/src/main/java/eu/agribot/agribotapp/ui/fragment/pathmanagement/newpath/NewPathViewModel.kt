@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
@@ -30,6 +29,7 @@ class NewPathViewModel(
     private val kmlLayerService: KmlLayerService,
     private val cloudDatabaseService: CloudDatabaseService
 ) : BaseViewModel() {
+    val removeTempPolylineEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
     val alreadyCreatedLayer: MutableLiveData<InputStream> = MutableLiveData()
     val selectedPointsCoordinates: MutableLiveData<List<PointModel>> = MutableLiveData(listOf())
     private val centerMapCoordinate: MutableLiveData<LatLng> = MutableLiveData()
@@ -57,16 +57,18 @@ class NewPathViewModel(
     }
 
     fun onAddNewPointButtonClicked() {
-        addPointToPointList(
-            PointModel(
-                getPointIndex(),
-                CoordinatesModel(
-                    latitude = centerMapCoordinate.value!!.latitude,
-                    longitude = centerMapCoordinate.value!!.longitude
+        if (currentIndex.value == pointIndex.value) {
+            addPointToPointList(
+                PointModel(
+                    getPointIndex(),
+                    CoordinatesModel(
+                        latitude = centerMapCoordinate.value!!.latitude,
+                        longitude = centerMapCoordinate.value!!.longitude
+                    )
                 )
             )
-        )
-        currentIndex.value = pointIndex.value
+            currentIndex.value = pointIndex.value
+        }
     }
 
     private fun addPointToPointList(newPoint: PointModel) {
@@ -119,20 +121,30 @@ class NewPathViewModel(
         }
     }
 
-    fun onDeleteLastPointButtonClicked() {
-        selectedPointsCoordinates.value =
-            selectedPointsCoordinates.value?.filter { it.pointId != pointIndex.value }
-        pointIndex.value = pointIndex.value!! - 1
+    private fun removeTempPolyline() {
+        removeTempPolylineEvent.postValue(true)
+    }
 
-        cameraPosition.value =
-            selectedPointsCoordinates.value?.find { it.pointId == pointIndex.value }?.let {
-                CameraPositionModel(
-                    LatLng(it.coordinates.latitude, it.coordinates.longitude), true
-                )
-            }
+    fun onDeleteLastPointButtonClicked() {
+        removeTempPolyline()
+        if (pointIndex.value != 0) {
+            selectedPointsCoordinates.value =
+                selectedPointsCoordinates.value?.filter { it.pointId != pointIndex.value }
+            pointIndex.value = pointIndex.value!! - 1
+
+            cameraPosition.value =
+                selectedPointsCoordinates.value?.find { it.pointId == pointIndex.value }?.let {
+                    CameraPositionModel(
+                        LatLng(it.coordinates.latitude, it.coordinates.longitude), true
+                    )
+                }
+        } else {
+            selectedPointsCoordinates.value = listOf()
+        }
     }
 
     fun onPreviousPointButtonCLicked() {
+        removeTempPolyline()
         if (currentIndex.value == null) {
             currentIndex.value = pointIndex.value
         } else {
@@ -152,6 +164,7 @@ class NewPathViewModel(
     }
 
     fun onNextPointButtonCLicked() {
+        removeTempPolyline()
         if (currentIndex.value == null) {
             currentIndex.value = pointIndex.value
         }
@@ -207,7 +220,7 @@ class NewPathViewModel(
             LatLng(
                 robotLocalizationPose.latitude,
                 robotLocalizationPose.longitude
-            ), false
+            ), true
         )
     }
 
@@ -227,7 +240,7 @@ class NewPathViewModel(
         cameraPosition.value =
             selectedPointsCoordinates.value?.find { it.pointId == pointIndex.value }?.let {
                 CameraPositionModel(
-                    LatLng(it.coordinates.latitude, it.coordinates.longitude), false
+                    LatLng(it.coordinates.latitude, it.coordinates.longitude), true
                 )
             }
     }

@@ -1,12 +1,18 @@
 package eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath
 
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.CustomCap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
@@ -16,11 +22,8 @@ import com.google.maps.android.kml.KmlLayer
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
-import eu.agribot.agribotapp.common.navigation.events.MainActivityNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.PathManagementNavigationEvent
-import eu.agribot.agribotapp.common.navigation.events.WelcomeActivityNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentPathManagementNewPathBinding
-import eu.agribot.agribotapp.ui.activity.authentication.welcome.WelcomeActivity
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.model.CameraPositionModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.model.MapParametr
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.model.PointModel
@@ -32,6 +35,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.io.IOException
 import java.io.InputStream
+
 
 class NewPathFragment :
     BaseFragment<NewPathViewModel, FragmentPathManagementNewPathBinding>(), OnMapReadyCallback,
@@ -61,6 +65,7 @@ class NewPathFragment :
         viewModel.cameraPosition.observe(this::moveCameraToSelectedPosition)
         viewModel.tempPolyline.observe(this::drawRealtimePolyline)
         viewModel.toastMessage.observe(this::showToast)
+        viewModel.removeTempPolylineEvent.observe(this::deleteRealtimePolyline)
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
@@ -105,22 +110,31 @@ class NewPathFragment :
             PolylineOptions().add(
                 tempPolyline.oldPositin,
                 tempPolyline.newPosition
-            ).color(Color.RED).width(MapParametr.POLYLINE_WIDTH.parametr)
+            ).color(Color.CYAN).width(MapParametr.POLYLINE_WIDTH.parametr)
         )
     }
 
     private fun moveCameraToSelectedPosition(cameraPositionModel: CameraPositionModel) {
         googleMapFragment?.moveCamera(
             CameraUpdateFactory.newLatLngZoom(
-                cameraPositionModel.coordinates, MapParameters.MID_ZOOM.mapParametr
+                cameraPositionModel.coordinates, if (cameraPositionModel.isFirstMoveAction) {
+                    MapParameters.MID_ZOOM.mapParametr
+                } else {
+                    googleMapFragment?.cameraPosition!!.zoom
+                }
             )
         )
     }
 
-    private fun onSelectedPointListChanged(selectedPointList: List<PointModel>) {
+    private fun deleteRealtimePolyline(isDeleteAction: Boolean) {
+        if (isDeleteAction) tempPolyline?.remove()
+    }
+
+    private fun drawPolyline(selectedPointList: List<PointModel>) {
         if (polyline != null) {
             polyline!!.remove()
         }
+        val endCapIcon: BitmapDescriptor? = getEndCapIcon()
         polyline = googleMapFragment?.addPolyline(
             PolylineOptions().addAll(
                 selectedPointList.map {
@@ -130,7 +144,29 @@ class NewPathFragment :
                     )
                 }
             ).width(MapParametr.POLYLINE_WIDTH.parametr)
+                .color(Color.MAGENTA)
+                .startCap(CustomCap(endCapIcon!!))
+                .endCap(CustomCap(endCapIcon!!))
         )
+    }
+
+    private fun getEndCapIcon(): BitmapDescriptor? {
+        val drawable = ContextCompat.getDrawable(requireContext(), R.mipmap.sample)
+        drawable!!.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
+        val bitmap = Bitmap.createBitmap(
+            drawable.intrinsicWidth,
+            drawable.intrinsicHeight, Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(bitmap)
+        drawable.draw(canvas)
+        return BitmapDescriptorFactory.fromBitmap(bitmap)
+    }
+
+    private fun onSelectedPointListChanged(selectedPointList: List<PointModel>) {
+        if (selectedPointList.isEmpty()) {
+            deleteRealtimePolyline(true)
+        }
+        drawPolyline(selectedPointList)
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {

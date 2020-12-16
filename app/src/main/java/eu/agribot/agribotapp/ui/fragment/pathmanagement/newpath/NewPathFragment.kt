@@ -151,7 +151,7 @@ class NewPathFragment :
     }
 
     private fun getEndCapIcon(): BitmapDescriptor? {
-        val drawable = ContextCompat.getDrawable(requireContext(), R.mipmap.sample)
+        val drawable = ContextCompat.getDrawable(requireContext(), R.mipmap.pointer_polyline)
         drawable!!.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
         val bitmap = Bitmap.createBitmap(
             drawable.intrinsicWidth,

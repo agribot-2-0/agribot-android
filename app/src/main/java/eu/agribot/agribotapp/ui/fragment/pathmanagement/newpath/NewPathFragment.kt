@@ -15,7 +15,12 @@ import com.google.maps.android.kml.KmlContainer
 import com.google.maps.android.kml.KmlLayer
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
+import eu.agribot.agribotapp.common.navigation.NavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.MainActivityNavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.PathManagementNavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.WelcomeActivityNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentPathManagementNewPathBinding
+import eu.agribot.agribotapp.ui.activity.authentication.welcome.WelcomeActivity
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.model.CameraPositionModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.model.MapParametr
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.model.PointModel
@@ -56,6 +61,15 @@ class NewPathFragment :
         viewModel.cameraPosition.observe(this::moveCameraToSelectedPosition)
         viewModel.tempPolyline.observe(this::drawRealtimePolyline)
         viewModel.toastMessage.observe(this::showToast)
+    }
+
+    override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
+        is PathManagementNavigationEvent -> handlePathManagementNavigationEvent()
+        else -> Unit
+    }
+
+    private fun handlePathManagementNavigationEvent() {
+        navigationController?.navigate(R.id.action_newPathFragment_to_pathManagementFragment)
     }
 
     private fun onGotAlreadyCreatedPath(pathStream: InputStream) {

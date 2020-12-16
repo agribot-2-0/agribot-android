@@ -75,8 +75,8 @@ class NewPathViewModel(
         }
         if (!isAttributeAlreadyAdded)
             selectedPointsCoordinates.value = listOf(
-                PointModel(newPoint.pointId, newPoint.coordinates),
-                *selectedPointsCoordinates.value!!.toTypedArray()
+                *selectedPointsCoordinates.value!!.toTypedArray(),
+                PointModel(newPoint.pointId, newPoint.coordinates)
             )
         else {
             selectedPointsCoordinates.value =

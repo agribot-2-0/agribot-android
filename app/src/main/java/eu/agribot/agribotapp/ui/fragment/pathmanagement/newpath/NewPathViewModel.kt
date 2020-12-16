@@ -135,7 +135,7 @@ class NewPathViewModel(
             cameraPosition.value =
                 selectedPointsCoordinates.value?.find { it.pointId == pointIndex.value }?.let {
                     CameraPositionModel(
-                        LatLng(it.coordinates.latitude, it.coordinates.longitude), true
+                        LatLng(it.coordinates.latitude, it.coordinates.longitude), false
                     )
                 }
         } else {

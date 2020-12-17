@@ -1,19 +1,6 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase
 
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.ActualTaskCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.EngineHealthCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.NewRobotTaskDetailsCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotHealthEngineCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotLocalizationPoseCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationHumidityCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationPressureCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationTemperatureCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationWindCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskDetailsCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskItemCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.ToolDetailsCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.TooltemCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserInfoCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.*
 
 interface CloudDatabase {
 
@@ -128,4 +115,6 @@ interface CloudDatabase {
         onGetToolDetailsSucess: (toolDetailsCDB: ToolDetailsCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
+
+    fun getRobotCoordinate(): RobotLocalizationPoseCDB
 }

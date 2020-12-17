@@ -3,20 +3,7 @@ package eu.agribot.agribotapp.communication.database.clouddatabase
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore.getInstance
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.ActualTaskCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.EngineHealthCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.NewRobotTaskDetailsCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotHealthEngineCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotLocalizationPoseCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationHumidityCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationPressureCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationTemperatureCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationWindCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskDetailsCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskItemCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.ToolDetailsCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.TooltemCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserInfoCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.*
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_ENGINE
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_ROBOTS
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_USER
@@ -409,6 +396,21 @@ class FirebaseDatabase : CloudDatabase {
                     }
                 }
             }
+    }
+
+    override fun getRobotCoordinate(): RobotLocalizationPoseCDB {
+        var robotLocalization = RobotLocalizationPoseCDB()
+        database.collection(COLLECTION_ROBOTS)
+            .document(userRobotName + DOCUMENT_LOCALIZATION_POSE)
+            .get()
+            .addOnSuccessListener { it ->
+                it.toObject(RobotLocalizationPoseCDB::class.java).let {
+                    if (it != null) {
+                        robotLocalization = it
+                    }
+                }
+            }
+        return robotLocalization
     }
 
     override fun getUsersRobotName(onGetUsserRobotNAmeSucess: () -> Unit) {

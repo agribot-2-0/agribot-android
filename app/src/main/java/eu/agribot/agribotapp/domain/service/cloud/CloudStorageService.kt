@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.domain.service.cloud
 
+import android.util.Log
 import eu.agribot.agribotapp.communication.database.firestorage.DownloaderPath
 import eu.agribot.agribotapp.communication.database.firestorage.FirestorageService
 import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
@@ -20,6 +21,7 @@ class CloudStorageService(
     companion object {
         const val PROGRESS_COMPLETE = 100
     }
+
     fun downloadFilesList(
         onFileAvailable: (fileName: String) -> Unit,
         onError: (exception: String) -> Unit
@@ -96,6 +98,7 @@ class CloudStorageService(
 
     ) {
         if (!isTileFileExistInStorage()) {
+            Log.e("xd", "download map")
             downloadZipTiles(onDownloadedMapTiles, downloadProgress, onDownloadedMapTilesError)
         } else {
             onGotMapTilesAlready.invoke()

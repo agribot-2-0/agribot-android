@@ -34,7 +34,7 @@ class PathManagementService(
         robotPathName = pathName
     }
 
-    fun getPathName(): String {
+    private fun getPathName(): String {
         return robotPathName
     }
 
@@ -54,7 +54,8 @@ class PathManagementService(
     }
 
     private fun checkIsFileExist(fileName: String) {
-        if (fileName.contains(robotPathName, ignoreCase = true)) {
+        val file = fileName.substringBefore("_")
+        if (file.equals(robotPathName, ignoreCase = true)) {
             try {
                 cloudStorageService.onFileSelected(
                     fileName,
@@ -62,7 +63,7 @@ class PathManagementService(
                     onSelectedFileError = this::onError
                 )
             } catch (exception: IOException) {
-                // DO NOTHING
+                onError(cloudStorageErrorHandler.getStorageError(exception))
             }
         }
     }

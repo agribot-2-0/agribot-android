@@ -4,5 +4,5 @@ import com.google.android.gms.maps.model.LatLng
 
 data class CameraPositionModel(
     val coordinates: LatLng,
-    val isPointDeleted: Boolean
+    val isFirstMoveAction: Boolean
 )

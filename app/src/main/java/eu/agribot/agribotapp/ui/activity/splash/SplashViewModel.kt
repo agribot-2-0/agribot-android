@@ -24,7 +24,6 @@ class SplashViewModel(
     val postProgressPlace: MutableLiveEvent<Boolean> = MutableLiveEvent()
     val toastMessage: MutableLiveEvent<String> = MutableLiveEvent()
 
-
     companion object {
         const val SPLASH_SCREEN_TIMEOUT_MILLIS = 1000L
         const val PROGRESS_COMPLETE = 100

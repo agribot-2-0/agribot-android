@@ -130,7 +130,7 @@ class NewPathViewModel(
         if (pointIndex.value != 0) {
             selectedPointsCoordinates.value =
                 selectedPointsCoordinates.value?.filter { it.pointId != pointIndex.value }
-             pointIndex.value = pointIndex.value!! - 1
+            pointIndex.value = pointIndex.value!! - 1
             currentIndex.value = pointIndex.value
             cameraPosition.value =
                 selectedPointsCoordinates.value?.find { it.pointId == pointIndex.value }?.let {
@@ -205,9 +205,9 @@ class NewPathViewModel(
     }
 
     private fun setCameraPositionToAgribot() {
-        cloudDatabaseService.getRobotLocalizationPose(
-            onSuccess = this::onGotAgribotPosition,
-            onError = this::getRobotLocalizationError
+        cloudDatabaseService.getOnceRobotLocalization(
+            onGotRobotLocalization = this::onGotAgribotPosition,
+            onGetToolDetailsError = this::getRobotLocalizationError
         )
     }
 

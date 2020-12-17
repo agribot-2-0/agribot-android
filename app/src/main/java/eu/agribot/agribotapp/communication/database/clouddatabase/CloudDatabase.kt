@@ -116,5 +116,8 @@ interface CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     )
 
-    fun getRobotCoordinate(): RobotLocalizationPoseCDB
+    fun getRobotOnceRobotCoordinate(
+        onGotRobotCoordinate: (RobotLocalizationPoseCDB) -> Unit,
+        onDatabaseError: (Throwable) -> Unit
+    )
 }

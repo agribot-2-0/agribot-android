@@ -252,7 +252,16 @@ class CloudDatabaseService(
             })
     }
 
-    fun getRobotLocalization(): RobotLocalizationPose {
-        return cloudDatabase.getRobotCoordinate().toDomainModel()
+    fun getOnceRobotLocalization(
+        onGotRobotLocalization: (RobotLocalizationPose) -> Unit,
+        onGetToolDetailsError: (error: String) -> Unit
+    ) {
+        return cloudDatabase.getRobotOnceRobotCoordinate(
+            onGotRobotCoordinate = {
+                onGotRobotLocalization(
+                    it.toDomainModel()
+                )
+            },
+            onDatabaseError = { onGetToolDetailsError(cloudStorageErrorHandler.getStorageError(it)) })
     }
 }

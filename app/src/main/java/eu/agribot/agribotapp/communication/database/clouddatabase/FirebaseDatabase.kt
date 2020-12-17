@@ -398,20 +398,23 @@ class FirebaseDatabase : CloudDatabase {
             }
     }
 
-    override fun getRobotCoordinate(): RobotLocalizationPoseCDB {
-        var robotLocalization = RobotLocalizationPoseCDB()
+    override fun getRobotOnceRobotCoordinate(
+        onGotRobotCoordinate: (RobotLocalizationPoseCDB) -> Unit,
+        onDatabaseError: (Throwable) -> Unit
+    ) {
         database.collection(COLLECTION_ROBOTS)
             .document(userRobotName + DOCUMENT_LOCALIZATION_POSE)
             .get()
             .addOnSuccessListener { it ->
-                it.toObject(RobotLocalizationPoseCDB::class.java).let {
-                    if (it != null) {
-                        robotLocalization = it
+                it.toObject(RobotLocalizationPoseCDB::class.java).let { robotLocalization ->
+                    if (robotLocalization != null) {
+                        onGotRobotCoordinate(robotLocalization)
                     }
                 }
             }
-        return robotLocalization
+            .addOnFailureListener(onDatabaseError)
     }
+
 
     override fun getUsersRobotName(onGetUsserRobotNAmeSucess: () -> Unit) {
         try {

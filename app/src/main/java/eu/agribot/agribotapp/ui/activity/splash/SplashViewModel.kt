@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.ui.activity.splash
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
@@ -24,6 +25,8 @@ class SplashViewModel(
     val postDialogEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
     val postProgressPlace: MutableLiveEvent<Boolean> = MutableLiveEvent()
     val toastMessage: MutableLiveEvent<String> = MutableLiveEvent()
+    val progressBarData: MutableLiveData<Int> = MutableLiveData()
+    val statusText: MutableLiveData<String> = MutableLiveData()
 
     companion object {
         const val SPLASH_SCREEN_TIMEOUT_MILLIS = 1000L
@@ -56,14 +59,14 @@ class SplashViewModel(
 
     private fun checkLoginStatusAndRedirect() {
         when (authenticationService.checkUserInApp()) {
-            true -> postMainActivityNavigationEvent()
+            true -> getUserRobotName()
             false -> postWelcomeActivityNavigationEvent()
         }
     }
 
     fun handleCurrentBluetoothStatus() {
         when (bluetoothConnectionService.checkBluetoothEnable()) {
-            true -> getUserRobotName()
+            true -> checkLoginStatusAndRedirect()
             false -> postDialogEvent.postValue(true)
         }
     }
@@ -76,7 +79,7 @@ class SplashViewModel(
     private fun selectMapTiles() {
         cloudStorageService.onMapTilesRequest(
             downloadProgress = this::onDownloadProgress,
-            onGotMapTilesAlready = this::beginSplashDelay,
+            onGotMapTilesAlready = this::postMainActivityNavigationEvent,
             onDownloadedMapTiles = this::onDownloadedTiles,
             onDownloadedMapTilesError = this::onGetMapTilesError
         )
@@ -87,9 +90,13 @@ class SplashViewModel(
     }
 
     private fun onDownloadProgress(downloadProgress: Long) {
+        statusText.value = "Downloading.."
         postProgressPlace.postValue(true)
         if (downloadProgress.toInt() % DECIMAL_NUMBER == 0) {
-            toastMessage.postValue(resourcesProvider.getString(R.string.download_progress) + downloadProgress + "%")
+            progressBarData.value = downloadProgress.toInt()
+        }
+        if (downloadProgress == 100.toLong()) {
+            statusText.value = "Extracting..."
         }
     }
 

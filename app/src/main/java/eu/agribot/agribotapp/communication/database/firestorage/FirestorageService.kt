@@ -33,7 +33,7 @@ interface FirestorageService {
 
     fun downloadZipMapTiles(
         pathFile: String,
-        onDownloadProgress: (currentPercent: Long) -> Unit,
+        onDownloadStart: () -> Unit,
         onDownloadSucess: () -> Unit,
         onDownloadError: (error: Error?) -> Unit
 

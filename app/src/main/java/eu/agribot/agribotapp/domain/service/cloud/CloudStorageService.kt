@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.domain.service.cloud
 
-import android.util.Log
 import eu.agribot.agribotapp.communication.database.firestorage.DownloaderPath
 import eu.agribot.agribotapp.communication.database.firestorage.FirestorageService
 import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
@@ -92,14 +91,13 @@ class CloudStorageService(
 
     fun onMapTilesRequest(
         onGotMapTilesAlready: () -> Unit,
-        downloadProgress: (downloadProgress: Long) -> Unit,
+        onDownloadStart: () -> Unit,
         onDownloadedMapTiles: () -> Unit,
         onDownloadedMapTilesError: (error: String) -> Unit
 
     ) {
         if (!isTileFileExistInStorage()) {
-            Log.e("xd", "download map")
-            downloadZipTiles(onDownloadedMapTiles, downloadProgress, onDownloadedMapTilesError)
+            downloadZipTiles(onDownloadedMapTiles, onDownloadStart, onDownloadedMapTilesError)
         } else {
             onGotMapTilesAlready.invoke()
         }
@@ -111,13 +109,13 @@ class CloudStorageService(
 
     private fun downloadZipTiles(
         onDownloadFileSucess: () -> Unit,
-        downloadProgress: (downloadProgress: Long) -> Unit,
+        onDownloadStart: () -> Unit,
         onDownloadFileError: (error: String) -> Unit
     ) {
         firestorageService.downloadZipMapTiles(
             filePathProvider.getLayerPath(DownloaderPath.MAP_PATH.filePath),
             onDownloadSucess = onDownloadFileSucess,
-            onDownloadProgress = downloadProgress,
+            onDownloadStart = onDownloadStart,
             onDownloadError = {
                 if (it != null) {
                     onDownloadFileError(cloudStorageErrorHandler.getStorageError(it.connectionException))

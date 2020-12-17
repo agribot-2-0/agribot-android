@@ -1,8 +1,6 @@
 package eu.agribot.agribotapp.ui.activity.splash
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.MainActivityNavigationEvent
@@ -25,13 +23,11 @@ class SplashViewModel(
     val postDialogEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
     val postProgressPlace: MutableLiveEvent<Boolean> = MutableLiveEvent()
     val toastMessage: MutableLiveEvent<String> = MutableLiveEvent()
-    val progressBarData: MutableLiveData<Int> = MutableLiveData()
-    val statusText: MutableLiveData<String> = MutableLiveData()
+
 
     companion object {
         const val SPLASH_SCREEN_TIMEOUT_MILLIS = 1000L
         const val PROGRESS_COMPLETE = 100
-        const val DECIMAL_NUMBER = 10
     }
 
     private fun getUserRobotName() {
@@ -78,7 +74,7 @@ class SplashViewModel(
 
     private fun selectMapTiles() {
         cloudStorageService.onMapTilesRequest(
-            downloadProgress = this::onDownloadProgress,
+            onDownloadStart = this::onDownloadProgress,
             onGotMapTilesAlready = this::postMainActivityNavigationEvent,
             onDownloadedMapTiles = this::onDownloadedTiles,
             onDownloadedMapTilesError = this::onGetMapTilesError
@@ -89,15 +85,8 @@ class SplashViewModel(
         toastMessage.postValue(error)
     }
 
-    private fun onDownloadProgress(downloadProgress: Long) {
-        statusText.value = "Downloading.."
+    private fun onDownloadProgress() {
         postProgressPlace.postValue(true)
-        if (downloadProgress.toInt() % DECIMAL_NUMBER == 0) {
-            progressBarData.value = downloadProgress.toInt()
-        }
-        if (downloadProgress == 100.toLong()) {
-            statusText.value = "Extracting..."
-        }
     }
 
     private fun onDownloadedTiles() {
@@ -107,10 +96,6 @@ class SplashViewModel(
     private fun onDecompressMapTileProgress(progress: Int) {
         if (progress == PROGRESS_COMPLETE) {
             beginSplashDelay()
-        } else {
-            if (progress % DECIMAL_NUMBER == 0) {
-                toastMessage.postValue(resourcesProvider.getString(R.string.extracting_progress) + progress + "%")
-            }
         }
     }
 }

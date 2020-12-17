@@ -20,7 +20,7 @@ def versions = [
 		'playVersion'     : '15.0.0',
 		'serviceAuth'     : '18.1.0',
 		'dexter'          : '6.2.1',
-		'firestore'       : '21.6.0',
+		'firestore'       : '22.0.0',
 		'firestorage'     : '19.2.0',
 		'mapUtils'        : '0.4.4',
 		'downloader'      : '0.6.0',

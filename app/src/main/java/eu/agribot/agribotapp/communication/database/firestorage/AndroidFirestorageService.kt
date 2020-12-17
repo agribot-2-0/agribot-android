@@ -95,7 +95,7 @@ class AndroidFirestorageService(
 
     override fun downloadZipMapTiles(
         pathFile: String,
-        onDownloadProgress: (currentPercent: Long) -> Unit,
+        onDownloadStart: () -> Unit,
         onDownloadSucess: () -> Unit,
         onDownloadError: (error: Error?) -> Unit
     ) {
@@ -105,10 +105,7 @@ class AndroidFirestorageService(
                 pathFile,
                 MAPS_FILE
             ).build()
-                .setOnProgressListener {
-                    val progress = (it.currentBytes * 100) / it.totalBytes
-                    onDownloadProgress(progress)
-                }
+                .setOnStartOrResumeListener(onDownloadStart)
                 .start(object : OnDownloadListener {
                     override fun onDownloadComplete() {
                         onDownloadSucess()

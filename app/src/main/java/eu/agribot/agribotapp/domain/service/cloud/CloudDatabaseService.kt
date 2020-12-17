@@ -2,7 +2,19 @@ package eu.agribot.agribotapp.domain.service.cloud
 
 import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabase
 import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
-import eu.agribot.agribotapp.domain.model.cdb.*
+import eu.agribot.agribotapp.domain.model.cdb.ActualTask
+import eu.agribot.agribotapp.domain.model.cdb.EngineHealth
+import eu.agribot.agribotapp.domain.model.cdb.RobotHealthEngine
+import eu.agribot.agribotapp.domain.model.cdb.RobotLocalizationPose
+import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationHumidity
+import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationPressure
+import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationTemperature
+import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationWind
+import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
+import eu.agribot.agribotapp.domain.model.cdb.TaskItem
+import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
+import eu.agribot.agribotapp.domain.model.cdb.ToolItem
+import eu.agribot.agribotapp.domain.model.cdb.UserInfo
 import eu.agribot.agribotapp.domain.model.cdb.taskprogram.taskmodel.NewRobotTaskDetails
 
 class CloudDatabaseService(

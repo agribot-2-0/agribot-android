@@ -4,14 +4,19 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.CustomCap
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Polyline
+import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.gms.maps.model.TileOverlayOptions
 import com.google.maps.android.kml.KmlContainer
 import com.google.maps.android.kml.KmlLayer
 import eu.agribot.agribotapp.R
@@ -30,7 +35,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.io.IOException
 import java.io.InputStream
-
 
 class NewPathFragment :
     BaseFragment<NewPathViewModel, FragmentPathManagementNewPathBinding>(), OnMapReadyCallback,
@@ -141,7 +145,7 @@ class NewPathFragment :
             ).width(MapParametr.POLYLINE_WIDTH.parametr)
                 .color(Color.MAGENTA)
                 .startCap(CustomCap(endCapIcon!!))
-                .endCap(CustomCap(endCapIcon!!))
+                .endCap(CustomCap(endCapIcon))
         )
     }
 

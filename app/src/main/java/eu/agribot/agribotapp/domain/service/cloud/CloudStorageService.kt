@@ -118,7 +118,11 @@ class CloudStorageService(
             filePathProvider.getLayerPath(DownloaderPath.MAP_PATH.filePath),
             onDownloadSucess = onDownloadFileSucess,
             onDownloadProgress = downloadProgress,
-            onDownloadError = { onDownloadFileError(cloudStorageErrorHandler.getStorageError(it as Exception)) }
+            onDownloadError = {
+                if (it != null) {
+                    onDownloadFileError(cloudStorageErrorHandler.getStorageError(it.connectionException))
+                }
+            }
         )
     }
 

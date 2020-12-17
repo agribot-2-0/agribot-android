@@ -1,9 +1,21 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase
 
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore.getInstance
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.*
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.ActualTaskCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.EngineHealthCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.NewRobotTaskDetailsCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotHealthEngineCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotLocalizationPoseCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationHumidityCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationPressureCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationTemperatureCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationWindCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskDetailsCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskItemCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.ToolDetailsCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.TooltemCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserInfoCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_ENGINE
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_ROBOTS
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_USER
@@ -16,6 +28,7 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.Cl
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_WEATHER_STATION_PRESSURE
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_WEATHER_STATION_TEMPERATURE
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_WEATHER_STATION_WIND
+import timber.log.Timber
 import java.io.IOException
 
 class FirebaseDatabase : CloudDatabase {
@@ -415,7 +428,6 @@ class FirebaseDatabase : CloudDatabase {
             .addOnFailureListener(onDatabaseError)
     }
 
-
     override fun getUsersRobotName(onGetUsserRobotNAmeSucess: () -> Unit) {
         try {
             database.collection("$COLLECTION_USER/$currentFirebaseUser/$COLLECTION_ROBOTS")
@@ -425,7 +437,7 @@ class FirebaseDatabase : CloudDatabase {
                     onGetUsserRobotNAmeSucess.invoke()
                 }
         } catch (exception: IOException) {
-            Log.e("PROBLEM", "Robot name problem " + exception)
+            Timber.e("Robot name problem %s", exception)
         }
     }
 }

@@ -160,7 +160,6 @@ class NewPathViewModel(
         if (last != null) {
             cameraPosition.value = CameraPositionModel(LatLng(last.latitude, last.longitude), false)
         }
-
     }
 
     fun onNextPointButtonCLicked() {
@@ -177,7 +176,6 @@ class NewPathViewModel(
         if (last != null) {
             cameraPosition.value = CameraPositionModel(LatLng(last.latitude, last.longitude), false)
         }
-
     }
 
     fun onSavePathButtonClicked() {

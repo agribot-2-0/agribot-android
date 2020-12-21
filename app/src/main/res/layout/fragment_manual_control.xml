@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -27,10 +27,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_margin="@dimen/margin_small"
                 android:layout_weight="1"
                 android:background="@drawable/rounded_corner_layout"
                 android:orientation="horizontal"
-                android:layout_margin="@dimen/margin_small"
                 tools:ignore="NestedWeights">
 
                 <LinearLayout
@@ -52,10 +52,10 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_car_battery"
-                            app:tint="@color/base_green"
+                            android:width="40dp"
                             android:height="40dp"
-                            android:width="40dp" />
+                            android:src="@drawable/ic_car_battery"
+                            app:tint="@color/base_green" />
 
                     </FrameLayout>
 
@@ -343,23 +343,20 @@
                 android:layout_height="0dp"
                 android:layout_weight="4">
 
-                <TextView
+                <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+                    android:id="@+id/myPlayerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/margin_small"
-                    android:background="@android:color/black"
-                    android:gravity="center"
-                    android:text="@string/camera_view"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold" />
+                    android:gravity="center" />
             </FrameLayout>
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
                 android:layout_margin="@dimen/margin_small"
+                android:layout_weight="1"
                 android:background="@drawable/rounded_corner_layout"
                 android:orientation="horizontal">
 
@@ -377,7 +374,7 @@
                     android:textSize="@dimen/text_size_medium" />
 
 
-               <com.google.android.material.button.MaterialButton
+                <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -398,9 +395,9 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="@dimen/margin_small"
             android:layout_weight="1"
             android:background="@drawable/rounded_corner_layout"
-            android:layout_margin="@dimen/margin_small"
             android:orientation="vertical">
 
 
@@ -410,9 +407,9 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/margin_large"
                 android:layout_weight="1"
+                android:background="@drawable/rounded_button"
                 android:onClick="@{() -> viewModel.onToolControlClicked()}"
                 android:text="@string/title_tool_control"
-                android:background="@drawable/rounded_button"
                 tools:ignore="NestedWeights" />
 
             <LinearLayout
@@ -422,19 +419,19 @@
                 android:orientation="horizontal">
 
 
-<!--                <ImageButton-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:src="@drawable/ic_angle"-->
-<!--                    android:tint="@color/base_green" />-->
+                <!--                <ImageButton-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_weight="1"-->
+                <!--                    android:src="@drawable/ic_angle"-->
+                <!--                    android:tint="@color/base_green" />-->
 
-<!--                <ImageButton-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:src="@drawable/ic_dog_walk"-->
-<!--                    android:tint="@color/base_green" />-->
+                <!--                <ImageButton-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_weight="1"-->
+                <!--                    android:src="@drawable/ic_dog_walk"-->
+                <!--                    android:tint="@color/base_green" />-->
 
 
             </LinearLayout>

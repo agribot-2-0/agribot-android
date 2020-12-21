@@ -106,5 +106,6 @@ dependencies {
 	//PRDownloader
 	implementation "com.mindorks.android:prdownloader:$versions.downloader"
 
-
-}
+	implementation 'com.google.android.exoplayer:exoplayer-core:2.6.0'
+	implementation 'com.google.android.exoplayer:exoplayer-ui:2.6.0'
+	compile 'com.google.android.exoplayer:extension-rtmp:2.6.0'}

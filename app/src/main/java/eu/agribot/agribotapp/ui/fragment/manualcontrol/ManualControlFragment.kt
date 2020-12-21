@@ -1,7 +1,17 @@
 package eu.agribot.agribotapp.ui.fragment.manualcontrol
 
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import com.google.android.exoplayer2.DefaultLoadControl
+import com.google.android.exoplayer2.DefaultRenderersFactory
+import com.google.android.exoplayer2.ExoPlayerFactory
+import com.google.android.exoplayer2.ext.rtmp.RtmpDataSourceFactory
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
+import com.google.android.exoplayer2.source.ExtractorMediaSource
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
+import com.google.android.exoplayer2.ui.SimpleExoPlayerView
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
@@ -29,6 +39,7 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
             viewModel.onJoystickParametrChange(angle, strength)
         }
         viewModel.sendStartManualModeInfo()
+        play()
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
@@ -37,6 +48,27 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
         is TTControlNavigationEvent -> navigateToOverrideMode()
         else -> Unit
     }
+
+    private fun play() {
+       val player = ExoPlayerFactory.newSimpleInstance(
+            DefaultRenderersFactory(requireContext()), DefaultTrackSelector(), DefaultLoadControl()
+       )
+        val playerView = myPlayerView
+        val uri = Uri.parse("rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov"
+        )
+
+        playerView.player = player
+
+        val mediaSource = ExtractorMediaSource(uri, RtmpDataSourceFactory(), DefaultExtractorsFactory(), null, null)
+        try {
+            player?.prepare(mediaSource)
+            player?.playWhenReady = true
+        }catch (exception : Exception){
+            Log.e("xd", "exception : " + exception)
+        }
+
+    }
+
 
     private fun navigateToBluetoothScreen() {
         navigationController?.navigate(R.id.action_manualControlFragment_to_bluetoothConnectionFragment)

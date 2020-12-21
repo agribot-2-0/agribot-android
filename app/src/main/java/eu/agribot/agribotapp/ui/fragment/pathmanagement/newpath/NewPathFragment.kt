@@ -95,12 +95,12 @@ class NewPathFragment :
     }
 
     private fun drawRealtimePolyline(tempPolyline: TempPolylineModel) {
-        this.tempPolyline!!.remove()
+        this.tempPolyline?.remove()
         this.tempPolyline = googleMapFragment?.addPolyline(
             PolylineOptions().add(
                 tempPolyline.oldPositin,
                 tempPolyline.newPosition
-            ).color(R.color.polyline_cyan)
+            ).color(R.color.polyline_path)
         )
     }
 
@@ -132,7 +132,7 @@ class NewPathFragment :
                     )
                 }
             )
-                .color(R.color.polyline_magenta)
+                .color(R.color.polyline_path_new)
                 .startCap(CustomCap(endCapIcon!!))
                 .endCap(CustomCap(endCapIcon))
         )

@@ -1,5 +1,12 @@
 package eu.agribot.agribotapp.domain.service
 
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
+import eu.agribot.agribotapp.R
+import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.communication.database.firestorage.DownloaderPath
 import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
 import eu.agribot.agribotapp.domain.error.PathManagementErrorHandler
@@ -8,17 +15,13 @@ import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
 import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePathProvider
 import org.xmlpull.v1.XmlPullParserException
 import org.xmlpull.v1.XmlPullParserFactory
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.InputStream
 
 class PathManagementService(
     private val filepathProvider: FilePathProvider,
     private val cloudStorageService: CloudStorageService,
     private val cloudStorageErrorHandler: CloudStorageErrorHandler,
-    private val pathManagementErrorHandler: PathManagementErrorHandler
+    private val pathManagementErrorHandler: PathManagementErrorHandler,
+    private val resourcesProvider: ResourcesProvider
 ) {
     companion object {
         const val fileNameSuffix = "_v"
@@ -107,7 +110,7 @@ class PathManagementService(
             xmlSerializer.attribute(null, "id", "style-Tracks")
             xmlSerializer.startTag(null, "LineStyle")
             xmlSerializer.startTag(null, "color")
-            xmlSerializer.text("fe72cd00")
+            xmlSerializer.text(getPolylineColor())
             xmlSerializer.endTag(null, "color")
             xmlSerializer.startTag(null, "width")
             xmlSerializer.text("3")
@@ -155,6 +158,10 @@ class PathManagementService(
         } catch (e: IOException) {
             onError(pathManagementErrorHandler.getCreateKmlError(e))
         }
+    }
+
+    private fun getPolylineColor(): String {
+        return Integer.toHexString(resourcesProvider.getColor(R.color.polyline_path_new)).substring(2)
     }
 
     private fun getFileOutputStream(fileVersionName: String): FileOutputStream {

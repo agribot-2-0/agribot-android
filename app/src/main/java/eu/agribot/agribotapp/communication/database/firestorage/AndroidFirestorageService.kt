@@ -99,7 +99,9 @@ class AndroidFirestorageService(
         onDownloadSucess: () -> Unit,
         onDownloadError: (error: Error?) -> Unit
     ) {
-        storage.reference.child("${firebaseService.getCurrentUser()?.uid}" + "/" + MAPS_FILE).downloadUrl.addOnSuccessListener {
+        storage.reference.child("${firebaseService.getCurrentUser()?.uid}/$MAPS_FILE")
+            .downloadUrl
+            .addOnSuccessListener {
             PRDownloader.download(
                 it.toString(),
                 pathFile,

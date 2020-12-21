@@ -232,13 +232,10 @@
     <string name="cancel_task_button">CANCEL TASK</string>
     <string name="dialog_task_cancel_tittle">Cancel task</string>
     <string name="dialog_task_cancel_message">Do you want cancel a task?</string>
-
     <string name="dialog_tiles_downloading_tittle">Your Files is downloading…</string>
     <string name="dialog_tiles_downloading_message">Download progress</string>
-
     <string name="dialog_tiles_extracting_tittle">Your Files is extracting</string>
     <string name="dialog_tiles_extracting_message">Extract progress</string>
-
     <string name="prev_button_arrow" translatable="false"><![CDATA[<-]]></string>
     <string name="next_button_arrow" translatable="false"><![CDATA[->]]></string>
     <string name="tool_mode_zero">All path</string>
@@ -249,7 +246,6 @@
     <string name="type_path_name">Give path name</string>
     <string name="task_path_text">Path name</string>
     <string name="checking_files">Checking files - please wait</string>
-
     <string name="download_progress">\"Download progress: \"</string>
     <string name="extracting_progress">\"Extracting progress: \"</string>
     <string name="path_deleted_message">Path deleted successfully</string>

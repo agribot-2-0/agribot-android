@@ -32,7 +32,7 @@ class PathManagementViewModel(
     val cameraPosition: MutableLiveData<List<LatLng>> = MutableLiveData()
     val selectedLayer: MutableLiveData<InputStream> = MutableLiveData()
     val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
-    private val delay = 200L
+    private val layerInitializeTime = 200L
     fun getMapTilePath(path: String): String {
         return filePathProvider.getMapTilePath(path)
     }
@@ -56,7 +56,7 @@ class PathManagementViewModel(
     fun openSelectedLayer(fileName: String) = viewModelScope.launch {
         pathManagementService.updatePathName(fileName)
         pathManagementService.findLayerFile()
-        delay(delay)
+        delay(layerInitializeTime)
         if (pathManagementService.getSelectedPathLayer() != null) {
             selectedLayer.value = pathManagementService.getSelectedPathLayer()
         }
@@ -132,7 +132,7 @@ class PathManagementViewModel(
     private fun editPathFile(itemPathPosition: Int) = viewModelScope.launch {
         pathManagementService.updatePathName(availableFiles.value!![itemPathPosition].fileName)
         pathManagementService.findLayerFile()
-        delay(delay)
+        delay(layerInitializeTime)
         checkIsLayerReady()
     }
 

@@ -1,8 +1,9 @@
 package eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath
 
+import java.io.IOException
+import java.io.InputStream
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -25,7 +26,6 @@ import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.PathManagementNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentPathManagementNewPathBinding
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.model.CameraPositionModel
-import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.model.MapParametr
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.model.PointModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.model.TempPolylineModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.MapParameters
@@ -33,8 +33,6 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.TileProvider
 import eu.agribot.agribotapp.ui.fragment.taskcreator.URLPath
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-import java.io.IOException
-import java.io.InputStream
 
 class NewPathFragment :
     BaseFragment<NewPathViewModel, FragmentPathManagementNewPathBinding>(), OnMapReadyCallback,
@@ -77,14 +75,9 @@ class NewPathFragment :
     }
 
     private fun onGotAlreadyCreatedPath(pathStream: InputStream) {
-        if (alreadyCreatedPath != null) {
-            alreadyCreatedPath!!.removeLayerFromMap()
-            setSelectedLayer(pathStream)
-            pathStream.close()
-        } else {
-            setSelectedLayer(pathStream)
-            pathStream.close()
-        }
+        alreadyCreatedPath?.removeLayerFromMap()
+        setSelectedLayer(pathStream)
+        pathStream.close()
     }
 
     private fun setSelectedLayer(mapStream: InputStream) {
@@ -102,14 +95,12 @@ class NewPathFragment :
     }
 
     private fun drawRealtimePolyline(tempPolyline: TempPolylineModel) {
-        if (this.tempPolyline != null) {
-            this.tempPolyline!!.remove()
-        }
+        this.tempPolyline!!.remove()
         this.tempPolyline = googleMapFragment?.addPolyline(
             PolylineOptions().add(
                 tempPolyline.oldPositin,
                 tempPolyline.newPosition
-            ).color(Color.CYAN).width(MapParametr.POLYLINE_WIDTH.parametr)
+            ).color(R.color.polyline_cyan)
         )
     }
 
@@ -130,9 +121,7 @@ class NewPathFragment :
     }
 
     private fun drawPolyline(selectedPointList: List<PointModel>) {
-        if (polyline != null) {
-            polyline!!.remove()
-        }
+        polyline?.remove()
         val endCapIcon: BitmapDescriptor? = getEndCapIcon()
         polyline = googleMapFragment?.addPolyline(
             PolylineOptions().addAll(
@@ -142,8 +131,8 @@ class NewPathFragment :
                         it.coordinates.longitude
                     )
                 }
-            ).width(MapParametr.POLYLINE_WIDTH.parametr)
-                .color(Color.MAGENTA)
+            )
+                .color(R.color.polyline_magenta)
                 .startCap(CustomCap(endCapIcon!!))
                 .endCap(CustomCap(endCapIcon))
         )

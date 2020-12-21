@@ -1,5 +1,7 @@
 package eu.agribot.agribotapp.ui.fragment.pathmanagement.mainpathscreen
 
+import java.io.IOException
+import java.io.InputStream
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -29,12 +31,10 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.TileProvider
 import eu.agribot.agribotapp.ui.fragment.taskcreator.URLPath
 import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler.CloudFileListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler.CloudFileListItemViewModel
-import kotlinx.android.synthetic.main.fragment_path_management.*
+import kotlinx.android.synthetic.main.fragment_path_management.pathManagementRecycler
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-import java.io.IOException
-import java.io.InputStream
 
 class PathManagementFragment :
     BaseFragment<PathManagementViewModel, FragmentPathManagementBinding>(), OnMapReadyCallback {
@@ -137,9 +137,9 @@ class PathManagementFragment :
 
     override fun onMapReady(googleMap: GoogleMap?) {
         googleMapFragment = googleMap
-        googleMapFragment!!.clear()
-        googleMapFragment!!.mapType = GoogleMap.MAP_TYPE_NORMAL
-        googleMapFragment!!.setMaxZoomPreference(MapParameters.MAX_ZOOM.mapParametr)
+        googleMapFragment?.clear()
+        googleMapFragment?.mapType = GoogleMap.MAP_TYPE_NORMAL
+        googleMapFragment?.setMaxZoomPreference(MapParameters.MAX_ZOOM.mapParametr)
         addTileOverlay()
     }
 
@@ -160,15 +160,10 @@ class PathManagementFragment :
         }
     }
 
-    private fun onGotSelectedLayer(mapStream: InputStream) {
-        if (mapPathLayer != null) {
-            mapPathLayer!!.removeLayerFromMap()
-            setSelectedLayer(mapStream)
-            mapStream.close()
-        } else {
-            setSelectedLayer(mapStream)
-            mapStream.close()
-        }
+    private fun onGotSelectedLayer(mapStream: InputStream?) {
+        mapPathLayer?.removeLayerFromMap()
+        setSelectedLayer(mapStream!!)
+        mapStream.close()
     }
 
     private fun setSelectedLayer(mapStream: InputStream) {

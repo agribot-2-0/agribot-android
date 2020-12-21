@@ -14,4 +14,8 @@
      <color name="statusPrimaryDark">#464646</color>
 
     <color name="background_gray">#f1f1f1</color>
+
+    <color name="polyline_cyan">#FF00FFFF</color>
+    <color name="polyline_magenta">#FFFF00FF</color>
+
 </resources>

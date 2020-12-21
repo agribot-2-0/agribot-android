@@ -11,7 +11,7 @@ import eu.agribot.agribotapp.common.navigation.events.WelcomeActivityNavigationE
 import eu.agribot.agribotapp.databinding.ActivitySplashBinding
 import eu.agribot.agribotapp.ui.activity.authentication.welcome.WelcomeActivity
 import eu.agribot.agribotapp.ui.activity.main.MainActivity
-import kotlinx.android.synthetic.main.activity_splash.*
+import kotlinx.android.synthetic.main.activity_splash.progressPlace
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf

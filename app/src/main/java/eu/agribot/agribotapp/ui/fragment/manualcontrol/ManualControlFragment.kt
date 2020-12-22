@@ -2,16 +2,9 @@ package eu.agribot.agribotapp.ui.fragment.manualcontrol
 
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import com.google.android.exoplayer2.DefaultLoadControl
-import com.google.android.exoplayer2.DefaultRenderersFactory
-import com.google.android.exoplayer2.ExoPlayerFactory
-import com.google.android.exoplayer2.ext.rtmp.RtmpDataSourceFactory
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
-import com.google.android.exoplayer2.source.ExtractorMediaSource
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
-import com.google.android.exoplayer2.ui.SimpleExoPlayerView
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.SimpleExoPlayer
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
@@ -23,7 +16,12 @@ import kotlinx.android.synthetic.main.fragment_manual_control.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
+
 class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManualControlBinding>() {
+
+        val streamURI = Uri.parse(
+            "rtmp://flashcloud.mediacdn.com:1935/live/kontratv"
+        )
 
     override val layoutResourceId: Int = R.layout.fragment_manual_control
     override val viewModel: ManualControlViewModel by viewModel { parametersOf(requireContext()) }
@@ -39,7 +37,16 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
             viewModel.onJoystickParametrChange(angle, strength)
         }
         viewModel.sendStartManualModeInfo()
-        play()
+        prepareStreamPlayer()
+    }
+
+    private fun prepareStreamPlayer() {
+        val player = SimpleExoPlayer.Builder(requireContext()).build()
+        player.setMediaItem(MediaItem.fromUri(streamURI))
+        myPlayerView.player = player
+        player.playWhenReady = true;
+        player.prepare()
+
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
@@ -47,26 +54,6 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
         is BluetoothConnectionNavigationEvent -> navigateToBluetoothScreen()
         is TTControlNavigationEvent -> navigateToOverrideMode()
         else -> Unit
-    }
-
-    private fun play() {
-       val player = ExoPlayerFactory.newSimpleInstance(
-            DefaultRenderersFactory(requireContext()), DefaultTrackSelector(), DefaultLoadControl()
-       )
-        val playerView = myPlayerView
-        val uri = Uri.parse("rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov"
-        )
-
-        playerView.player = player
-
-        val mediaSource = ExtractorMediaSource(uri, RtmpDataSourceFactory(), DefaultExtractorsFactory(), null, null)
-        try {
-            player?.prepare(mediaSource)
-            player?.playWhenReady = true
-        }catch (exception : Exception){
-            Log.e("xd", "exception : " + exception)
-        }
-
     }
 
 

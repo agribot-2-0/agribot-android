@@ -1,7 +1,5 @@
 package eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath
 
-import java.io.IOException
-import java.io.InputStream
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
@@ -26,6 +24,7 @@ import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.PathManagementNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentPathManagementNewPathBinding
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.model.CameraPositionModel
+import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.model.MapParametr
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.model.PointModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.model.TempPolylineModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.MapParameters
@@ -33,6 +32,8 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.TileProvider
 import eu.agribot.agribotapp.ui.fragment.taskcreator.URLPath
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import java.io.IOException
+import java.io.InputStream
 
 class NewPathFragment :
     BaseFragment<NewPathViewModel, FragmentPathManagementNewPathBinding>(), OnMapReadyCallback,
@@ -53,13 +54,11 @@ class NewPathFragment :
             childFragmentManager.findFragmentById(R.id.new_path_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         observeViewModel()
-        viewModel.getPath()
     }
 
     private fun observeViewModel() {
         viewModel.alreadyCreatedLayer.observe(this::onGotAlreadyCreatedPath)
         viewModel.selectedPointsCoordinates.observe(this::onSelectedPointListChanged)
-        viewModel.cameraPosition.observe(this::moveCameraToSelectedPosition)
         viewModel.tempPolyline.observe(this::drawRealtimePolyline)
         viewModel.toastMessage.observe(this::showToast)
         viewModel.removeTempPolylineEvent.observe(this::deleteRealtimePolyline)
@@ -100,7 +99,8 @@ class NewPathFragment :
             PolylineOptions().add(
                 tempPolyline.oldPositin,
                 tempPolyline.newPosition
-            ).color(R.color.polyline_path)
+            ).color(requireContext().getColor(R.color.polyline_path_new))
+                .width(MapParametr.POLYLINE_WIDTH.parametr)
         )
     }
 
@@ -131,8 +131,9 @@ class NewPathFragment :
                         it.coordinates.longitude
                     )
                 }
-            )
-                .color(R.color.polyline_path_new)
+            ).color(requireContext().getColor(R.color.polyline_path))
+                .width(MapParametr.POLYLINE_WIDTH.parametr)
+
                 .startCap(CustomCap(endCapIcon!!))
                 .endCap(CustomCap(endCapIcon))
         )
@@ -159,10 +160,12 @@ class NewPathFragment :
 
     override fun onMapReady(googleMap: GoogleMap?) {
         googleMapFragment = googleMap
-        googleMapFragment!!.mapType = GoogleMap.MAP_TYPE_NORMAL
+        googleMapFragment!!.mapType = GoogleMap.MAP_TYPE_SATELLITE
         googleMapFragment!!.setOnCameraIdleListener(this)
         googleMapFragment!!.setOnCameraMoveListener(this)
         addTileOverlay()
+        viewModel.getPath()
+        viewModel.cameraPosition.observe(this::moveCameraToSelectedPosition)
     }
 
     override fun onCameraIdle() {

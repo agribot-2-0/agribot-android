@@ -15,7 +15,7 @@
 
     <color name="background_gray">#f1f1f1</color>
 
-    <color name="polyline_path">#FF00FFFF</color>
-    <color name="polyline_path_new">#FFFF00FF</color>
+    <color name="polyline_path">#66ffff</color>
+    <color name="polyline_path_new">#ff33cc</color>
 
 </resources>

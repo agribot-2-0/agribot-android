@@ -6,13 +6,16 @@
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
-    <color name="base_green">#719430</color>
-    <color name="base_green_darker">#426600</color>
-    <color name="gray">#4E555B</color>
+    <color name="base_green">#a4c01b</color>
+    <color name="base_green_lighter">#DDEE87</color>
+    <color name="base_green_darker">#839915</color>
+    <color name="gray">#6A6A6A</color>
 
-    <color name="backgroundBrown">#c2b280</color>
-    <color name="backgroundLightBrown">#d2c7a4</color>
-    <color name="backgroundWhite">#fefefe</color>
-    <color name="statusPrimaryDark">#464646</color>
-    <color name="red">#FF0000</color>
+     <color name="statusPrimaryDark">#464646</color>
+
+    <color name="background_gray">#f1f1f1</color>
+
+    <color name="polyline_path">#ff33cc</color>
+    <color name="polyline_path_new">#66ffff</color>
+
 </resources>

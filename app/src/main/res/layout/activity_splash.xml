@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -9,8 +10,40 @@
             type="eu.agribot.agribotapp.ui.activity.splash.SplashViewModel" />
     </data>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:ignore="UselessLeaf" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="UselessLeaf">
+
+            <LinearLayout
+                android:id="@+id/progressPlace"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:background="@drawable/rounded_edittext_register_login">
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_small"/>
+
+                <TextView
+                    android:id="@+id/progressTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/checking_files"
+                    android:layout_gravity="center"
+                    android:textColor="@color/black"
+                    android:layout_margin="@dimen/margin_large"
+                    android:textSize="@dimen/text_size_xlarge"
+                    android:gravity="center_horizontal"
+                    android:padding="@dimen/margin_medium" />
+            </LinearLayout>
+
+
+
+        </FrameLayout>
+
+
 </layout>

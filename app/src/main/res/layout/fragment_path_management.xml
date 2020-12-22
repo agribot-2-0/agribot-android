@@ -6,20 +6,92 @@
 
         <variable
             name="viewModel"
-            type="eu.agribot.agribotapp.ui.fragment.pathmanagement.PathManagementViewModel" />
+            type="eu.agribot.agribotapp.ui.fragment.pathmanagement.mainpathscreen.PathManagementViewModel" />
     </data>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/background_gray"
+        android:orientation="horizontal">
 
-        <fragment
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="match_parent"
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/margin_small"/>
+            android:layout_margin="@dimen/margin_small"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_corner_layout"
+            android:orientation="vertical">
 
-    </FrameLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/base_green"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="@string/paths"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_xlarge"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.6"
+                    android:background="@drawable/rounded_corner_layout"
+                    android:orientation="vertical"
+                    android:stateListAnimator="@null">
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_gravity="end|bottom"
+                        android:layout_margin="@dimen/margin_large"
+                        android:background="@android:color/transparent"
+                        android:backgroundTint="@color/white"
+                        android:onClick="@{()-> viewModel.postNewPathNavigationEvent()}"
+                        android:src="@drawable/ic_add"
+                        app:rippleColor="@color/white" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/pathManagementRecycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:background="@color/white" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/margin_small"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_corner_layout">
+
+            <fragment
+                android:id="@+id/path_management_map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/margin_small"/>
+
+        </FrameLayout>
+
+
+    </LinearLayout>
+
 
 </layout>

@@ -161,7 +161,7 @@ class PathManagementService(
     }
 
     private fun getPolylineColor(): String {
-        return Integer.toHexString(resourcesProvider.getColor(R.color.polyline_path_new)).substring(2)
+        return Integer.toHexString(resourcesProvider.getColor(R.color.polyline_path)).substring(2)
     }
 
     private fun getFileOutputStream(fileVersionName: String): FileOutputStream {

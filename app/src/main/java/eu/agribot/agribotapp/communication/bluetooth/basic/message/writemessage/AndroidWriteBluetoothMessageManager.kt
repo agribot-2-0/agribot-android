@@ -1,10 +1,10 @@
-package eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.writemessage
+package eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage
 
+import android.util.Log
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.socket.BluetoothSocketManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.BluetoothMessageFrame
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.FrameConstant.DUMMY_BYTE
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.FrameConstant.EMPTY_CAN_ARRAY_SIZE
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.WriteBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.const.BluetoothAdressCodeModel
 import eu.agribot.agribotapp.communication.bluetooth.error.message.write.BluetoothMessageWriteErrorHandler
 import eu.agribot.agribotapp.communication.bluetooth.model.CANmessageData
@@ -25,10 +25,10 @@ class AndroidWriteBluetoothMessageManager(
         const val HEARTBEAT_DELAY_TIME = 150L
     }
 
+    private var heartbeatArray = ByteArray(EMPTY_CAN_ARRAY_SIZE)
     private val emptyCanData = ByteArray(EMPTY_CAN_ARRAY_SIZE) { 1 }
     private val singleArray = ByteArray(1) { DUMMY_BYTE }
     private var heartbeatScope = MainScope()
-    private var heartbeatArray = ByteArray(EMPTY_CAN_ARRAY_SIZE)
     private var heartbeatFrame = BluetoothMessageFrame(
         CANmessageData(BluetoothAdressCodeModel.MOBILE_HEARTBEAT, heartbeatArray)
     )
@@ -49,7 +49,10 @@ class AndroidWriteBluetoothMessageManager(
         }
     }
 
+
     override fun sendHandshakeMessage() {
+        Log.e("MAN", "SEND HANDSHAKE ")
+
         val handshakeFrame = BluetoothMessageFrame(
             CANmessageData(
                 BluetoothAdressCodeModel.MOBILE_HANDSHAKE, emptyCanData
@@ -61,6 +64,7 @@ class AndroidWriteBluetoothMessageManager(
     }
 
     override fun sendManualControlInitMessage() {
+        Log.e("MAN", "SEND MANUAL MODE")
         val manualControlInitFrame = BluetoothMessageFrame(
             CANmessageData(
                 BluetoothAdressCodeModel.MANUAL_STARTING_INIT,
@@ -210,9 +214,6 @@ class AndroidWriteBluetoothMessageManager(
         heartbeatArray[0] = 0.toByte()
         heartbeatScope.launch {
             while (true) {
-                heartbeatFrame = BluetoothMessageFrame(
-                    CANmessageData(BluetoothAdressCodeModel.MOBILE_HEARTBEAT, heartbeatArray)
-                )
                 delay(HEARTBEAT_DELAY_TIME)
                 writeBluetoothMessage(heartbeatFrame.bluetoothMessageArray)
                 if (heartbeatArray[0].toInt() % 4 == 0) {
@@ -222,6 +223,27 @@ class AndroidWriteBluetoothMessageManager(
             }
         }
     }
+
+    override fun sendFirstHeartBeat() {
+        heartbeatArray[0] = 0.toByte()
+        heartbeatFrame = BluetoothMessageFrame(
+            CANmessageData(BluetoothAdressCodeModel.MOBILE_HEARTBEAT, heartbeatArray)
+        )
+        writeBluetoothMessage(heartbeatFrame.bluetoothMessageArray)
+        sendManualControlInitMessage()
+    }
+
+    override fun sendNewHeartBeat() {
+        heartbeatScope.launch {
+            delay(90)
+            heartbeatArray[0]++
+            heartbeatFrame = BluetoothMessageFrame(
+                CANmessageData(BluetoothAdressCodeModel.MOBILE_HEARTBEAT, heartbeatArray)
+            )
+            writeBluetoothMessage(heartbeatFrame.bluetoothMessageArray)
+        }
+    }
+
 
     override fun stopSendingHeartbeat() {
         heartbeatScope.cancel()

@@ -9,6 +9,13 @@ class TTControlViewModel(private val ttControlService: TTControlService) : BaseV
 
     val frontKart: MutableLiveData<Boolean> = MutableLiveEvent()
     val rearKart: MutableLiveData<Boolean> = MutableLiveEvent()
+    private val verticalJoystickMessageCounter: MutableLiveData<Int> = MutableLiveData()
+    private val horizontalJoystickMessageCounter: MutableLiveData<Int> = MutableLiveData()
+
+    fun setDefaultKartState() {
+        frontKart.value = false
+        rearKart.value = false
+    }
 
     fun onFrontKartClicked() {
         frontKart.value = frontKart.value != true
@@ -19,16 +26,42 @@ class TTControlViewModel(private val ttControlService: TTControlService) : BaseV
     }
 
     fun onVerticalJoystickParametersChanged(verticalAngle: Int) {
-        ttControlService.onVerticalJoystickParametrsChanged(
-            verticalAngle,
-            frontKart.value!!, rearKart.value!!
-        )
+        if (getJoysticVerticalMessageCounter() % 5 == 0) {
+            ttControlService.onVerticalJoystickParametrsChanged(
+                verticalAngle,
+                frontKart.value!!, rearKart.value!!
+            )
+        }
+
     }
 
     fun onHorizontalJoystickParametersChanged(horizontalAngle: Int) {
-        ttControlService.onHorizontalJoystickParametrsChanged(
-            horizontalAngle,
-            frontKart.value!!, rearKart.value!!
-        )
+        if (getJoystickHorizontalMessageCounter() % 5 == 0) {
+            ttControlService.onHorizontalJoystickParametrsChanged(
+                horizontalAngle,
+                frontKart.value!!, rearKart.value!!
+            )
+        }
+    }
+
+    private fun getJoysticVerticalMessageCounter(): Int {
+        if (verticalJoystickMessageCounter.value == null || verticalJoystickMessageCounter.value == 4) {
+            verticalJoystickMessageCounter.value = 0
+        } else {
+            verticalJoystickMessageCounter.value = verticalJoystickMessageCounter.value!! + 1
+        }
+        return verticalJoystickMessageCounter.value!!
+    }
+
+    private fun getJoystickHorizontalMessageCounter(): Int {
+        if (horizontalJoystickMessageCounter.value == null || horizontalJoystickMessageCounter.value == 4) {
+            horizontalJoystickMessageCounter.value = 0
+        } else {
+            horizontalJoystickMessageCounter.value =
+                horizontalJoystickMessageCounter.value!! + 1
+        }
+        return horizontalJoystickMessageCounter.value!!
     }
 }
+
+

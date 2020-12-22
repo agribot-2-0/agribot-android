@@ -3,11 +3,11 @@ package eu.agribot.agribotapp.di
 import com.google.firebase.auth.FirebaseAuth
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.AndroidBluetoothConnectionManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.BluetoothConnectionManager
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.writemessage.AndroidWriteBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.socket.AndroidBluetoothSocketManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.socket.BluetoothSocketManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.AndroidReceivedBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ReceivedBluetoothMessageManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.AndroidWriteBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.WriteBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator.AndroidBluetoothMessageCreator
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator.BluetoothMessageCreator

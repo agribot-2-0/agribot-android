@@ -12,13 +12,16 @@ import eu.agribot.agribotapp.domain.model.todomain.FoundBluetoothDevice
 import eu.agribot.agribotapp.domain.permission.PermissionError
 import eu.agribot.agribotapp.domain.permission.PermissionManager
 import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
+import eu.agribot.agribotapp.domain.service.ManualModeService
 import eu.agribot.agribotapp.ui.fragment.bluetoothconnection.recycler.BluetoothNearbyListItemViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class BluetoothConnectionViewModel(
     private val bluetoothConnectionService: BluetoothConnectionService,
     private val resourcesProvider: ResourcesProvider,
-    private val permissionManager: PermissionManager
+    private val permissionManager: PermissionManager,
+    private val manualModeService: ManualModeService
 ) :
     BaseViewModel() {
 
@@ -60,8 +63,11 @@ class BluetoothConnectionViewModel(
         }
     }
 
-    fun onBluetoothDeviceConnected() {
+    fun onBluetoothDeviceConnected() = viewModelScope.launch {
         toastEvent.postValue(resourcesProvider.getString(R.string.connected))
+        delay(400)
+        manualModeService.runManualMode()
+        delay(300)
         postManualSteeringNavigationEvent()
     }
 

@@ -12,7 +12,6 @@ import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessa
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.FUEL_LEVEL_RATIO
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.HEARTBEAT_COUNTER_DELAY
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.HEARTBEAT_COUNTER_MAX_VALUE
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.HEARTBEAT_DIAGNOSTIC_DATA
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.HEARTBEAT_INIT_VALUE
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.LENGHT_BYTE_POSITION
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.START_FRAME_MESSAGE
@@ -59,6 +58,15 @@ class AndroidReceivedBluetoothMessageManager(
         }
     }
 
+    //DEVELOP FUNCTION
+    fun bytesToHex(data: ByteArray): String? {
+        val builder = StringBuilder()
+        for (b in data) {
+            builder.append(String.format("%02x", b))
+        }
+        return builder.toString()
+    }
+
     override fun getDiagnosticData(): DiagnosticBluetoothDataBD? {
         return agribotDiagnosticData
     }
@@ -93,7 +101,7 @@ class AndroidReceivedBluetoothMessageManager(
             }
 
             BluetoothAdressCodeModel.MOBILE_HEARTBEAT -> {
-                handleHeartbeatMessage(bluetoothMessageFrame)
+                handleHeartbeatMessage()
             }
 
             BluetoothAdressCodeModel.AGRIBOT_ERROR -> {
@@ -171,14 +179,12 @@ class AndroidReceivedBluetoothMessageManager(
     }
 
     private fun handleHandshakeMessage() {
-        writeBluetoothMessageManager.startSendingHeartbeat()
+        writeBluetoothMessageManager.sendFirstHeartBeat()
     }
 
-    private fun handleHeartbeatMessage(bluetoothMessageFrame: BluetoothMessageFrame) {
+    private fun handleHeartbeatMessage() {
+        writeBluetoothMessageManager.sendNewHeartBeat()
         restartHeartbearCounter()
-        if (bluetoothMessageFrame.getMessage()[0].toInt() % HEARTBEAT_DIAGNOSTIC_DATA == 0) {
-            writeBluetoothMessageManager.sendDiagnosticDataRequestMessage()
-        }
     }
 
     private fun restartHeartbearCounter() {

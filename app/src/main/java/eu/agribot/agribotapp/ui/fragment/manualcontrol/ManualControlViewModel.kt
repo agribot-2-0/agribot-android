@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.manualcontrol
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import eu.agribot.agribotapp.R
@@ -19,7 +20,6 @@ class ManualControlViewModel(
 
     companion object {
         const val REFRESH_DIAGNOSTIC_DATA_DELAY = 100L
-        const val SEND_JOYSTICK_MESSAGE_DELAY = 150L
     }
 
     val accumulatorVoltage: MutableLiveData<String> = MutableLiveData()
@@ -28,6 +28,7 @@ class ManualControlViewModel(
     val engineFuelRate: MutableLiveData<String> = MutableLiveData()
     val fuelLevel: MutableLiveData<String> = MutableLiveData()
     val fuelTemperature: MutableLiveData<String> = MutableLiveData()
+    private val joystickMessageCounter: MutableLiveData<Int> = MutableLiveData()
 
     fun onToolControlClicked() {
         navigationEvent.postValue(
@@ -59,8 +60,18 @@ class ManualControlViewModel(
     }
 
     fun onJoystickParametrChange(angel: Int, strength: Int) = viewModelScope.launch {
-        delay(SEND_JOYSTICK_MESSAGE_DELAY)
-        manualModeService.onManualSteeringJoystickParametrChanged(angel, strength)
+        if (getJoystickMessageCounter() % 5 == 0) {
+            manualModeService.onManualSteeringJoystickParametrChanged(angel, strength)
+        }
+    }
+
+    private fun getJoystickMessageCounter(): Int {
+        if (joystickMessageCounter.value == null || joystickMessageCounter.value == 4) {
+            joystickMessageCounter.value = 0
+        } else {
+            joystickMessageCounter.value = joystickMessageCounter.value!! + 1
+        }
+        return joystickMessageCounter.value!!
     }
 
     fun sendStartManualModeInfo() = viewModelScope.launch {

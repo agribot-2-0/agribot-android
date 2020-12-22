@@ -51,7 +51,8 @@ val viewModelModule = module {
         BluetoothConnectionViewModel(
             bluetoothConnectionService = get(),
             resourcesProvider = get { parametersOf(context) },
-            permissionManager = get()
+            permissionManager = get(),
+            manualModeService = get()
         )
     }
     viewModel {

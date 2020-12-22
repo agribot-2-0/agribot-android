@@ -136,8 +136,6 @@
     <string name="too_short_password">Too shoort password [Password should be at least 6 characters ]</string>
     <string name="badly_email_formated">The email address is badly formatted.</string>
     <string name="no_internet_connection">No internet connection</string>
-
-
     <string name="connect_to_agribot">Connect to Agribot</string>
     <string name="nearby_devices_swipe_to_refresh_list">Nearby_Devices_List</string>
     <string name="start_stop_engine" translatable="false">START/STOP ENGINE</string>
@@ -229,6 +227,12 @@
     <string name="cancel_task_button">CANCEL TASK</string>
     <string name="dialog_task_cancel_tittle">Cancel task</string>
     <string name="dialog_task_cancel_message">Do you want cancel a task?</string>
+    <string name="dialog_tiles_downloading_tittle">Your Files is downloading…</string>
+    <string name="dialog_tiles_downloading_message">Download progress</string>
+    <string name="dialog_tiles_extracting_tittle">Your Files is extracting</string>
+    <string name="dialog_tiles_extracting_message">Extract progress</string>
+    <string name="prev_button_arrow" translatable="false"><![CDATA[<-]]></string>
+    <string name="next_button_arrow" translatable="false"><![CDATA[->]]></string>
     <string name="tool_mode_zero">All path</string>
     <string name="tool_mode_one">Between rows</string>
     <string name="save_path">Save path</string>
@@ -236,5 +240,11 @@
     <string name="create_layer_error">Problem with create map layer</string>
     <string name="type_path_name">Give path name</string>
     <string name="task_path_text">Path name</string>
+    <string name="checking_files">Checking files - please wait</string>
+    <string name="download_progress">\"Download progress: \"</string>
+    <string name="extracting_progress">\"Extracting progress: \"</string>
+    <string name="path_deleted_message">Path deleted successfully</string>
+    <string name="loading_path_problem">Loading Path Problem</string>
+    <string name="blank_path_name_error">Path name cant\'t be blank</string>
 
 </resources>

@@ -9,7 +9,7 @@ class KmlLayerService {
 
     fun getCoordinates(
         containers: Iterable<KmlContainer?>,
-        onGetLatLng: (coordinates: LatLng) -> Unit,
+        onGetLatLng: (coordinates: ArrayList<LatLng>) -> Unit,
         onError: () -> Unit
     ) {
         containers.filterNotNull().forEach { container ->
@@ -25,13 +25,13 @@ class KmlLayerService {
 
     private fun accessPlacemarks(
         placemarks: Iterable<KmlPlacemark?>,
-        onGetLatLng: (coordinates: LatLng) -> Unit,
+        onGetLatLng: (coordinates: ArrayList<LatLng>) -> Unit,
         onError: () -> Unit
     ) {
         placemarks.filterNotNull().forEach { placemark ->
             try {
                 val kmlLineString = placemark.geometry as KmlLineString
-                onGetLatLng(kmlLineString.geometryObject[0])
+                onGetLatLng(kmlLineString.geometryObject)
             } catch (exception: Exception) {
                 onError.invoke()
             }

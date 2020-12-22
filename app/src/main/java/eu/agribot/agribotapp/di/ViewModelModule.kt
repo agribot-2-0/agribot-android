@@ -12,9 +12,9 @@ import eu.agribot.agribotapp.ui.fragment.bluetoothconnection.recycler.BluetoothN
 import eu.agribot.agribotapp.ui.fragment.controlPanel.ControlPanelViewModel
 import eu.agribot.agribotapp.ui.fragment.controlPanel.taskselect.TaskSelectViewModel
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.ManualControlViewModel
-import eu.agribot.agribotapp.ui.fragment.pathmanagement.pathname.PathNameViewModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.mainpathscreen.PathManagementViewModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.NewPathViewModel
+import eu.agribot.agribotapp.ui.fragment.pathmanagement.pathname.PathNameViewModel
 import eu.agribot.agribotapp.ui.fragment.settings.SettingsViewModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.TaskCreatorViewModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.TaskListItemViewModel
@@ -54,11 +54,13 @@ val viewModelModule = module {
             permissionManager = get()
         )
     }
-    viewModel {
+    viewModel { (context: Context) ->
         SplashViewModel(
             authenticationService = get(),
             bluetoothConnectionService = get(),
-            cloudDatabaseService = get()
+            cloudDatabaseService = get(),
+            cloudStorageService = get(),
+            resourcesProvider = get { parametersOf(context) }
         )
     }
     viewModel {
@@ -98,10 +100,13 @@ val viewModelModule = module {
         )
     }
 
-    viewModel {
+    viewModel { (context: Context) ->
         PathManagementViewModel(
             pathManagementService = get(),
-            cloudStorageService = get()
+            cloudStorageService = get(),
+            filePathProvider = get(),
+            resourcesProvider = get { parametersOf(context) },
+            kmlLayerService = get()
         )
     }
     viewModel {
@@ -247,14 +252,16 @@ val viewModelModule = module {
 
     viewModel { (context: Context) ->
         NewPathViewModel(
-            cloudDatabaseService = get(),
             pathManagementService = get(),
             filePathProvider = get(),
-            resourcesProvider = get { parametersOf(context) }
+            resourcesProvider = get { parametersOf(context) },
+            kmlLayerService = get(),
+            cloudDatabaseService = get()
         )
     }
 
-    viewModel {
-        PathNameViewModel()
+    viewModel { (context: Context) ->
+        PathNameViewModel(pathManagementService = get(),
+            resourcesProvider = get { parametersOf(context) })
     }
 }

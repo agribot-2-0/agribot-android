@@ -5,11 +5,11 @@ import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
 import eu.agribot.agribotapp.domain.model.cdb.ActualTask
 import eu.agribot.agribotapp.domain.model.cdb.EngineHealth
 import eu.agribot.agribotapp.domain.model.cdb.RobotHealthEngine
+import eu.agribot.agribotapp.domain.model.cdb.RobotLocalizationPose
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationHumidity
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationPressure
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationTemperature
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationWind
-import eu.agribot.agribotapp.domain.model.cdb.RobotLocalizationPose
 import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
 import eu.agribot.agribotapp.domain.model.cdb.TaskItem
 import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
@@ -22,8 +22,8 @@ class CloudDatabaseService(
     val cloudStorageErrorHandler: CloudStorageErrorHandler
 ) {
 
-    fun setUserRobotName(onGotRobotName: () -> Unit) {
-        cloudDatabase.setUsersRobotName(onGotRobotName)
+    fun getUserRobotName(onGotRobotName: () -> Unit) {
+        cloudDatabase.getUsersRobotName(onGotRobotName)
     }
 
     fun getEngineHealth(
@@ -262,5 +262,18 @@ class CloudDatabaseService(
             onDatabaseError = {
                 onGetToolDetailsError(it.message!!)
             })
+    }
+
+    fun getOnceRobotLocalization(
+        onGotRobotLocalization: (RobotLocalizationPose) -> Unit,
+        onGetToolDetailsError: (error: String) -> Unit
+    ) {
+        return cloudDatabase.getRobotOnceRobotCoordinate(
+            onGotRobotCoordinate = {
+                onGotRobotLocalization(
+                    it.toDomainModel()
+                )
+            },
+            onDatabaseError = { onGetToolDetailsError(cloudStorageErrorHandler.getStorageError(it)) })
     }
 }

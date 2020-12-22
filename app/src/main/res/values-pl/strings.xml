@@ -137,7 +137,6 @@
     <string name="no_internet_connection">Brak połączenia z internetem</string>
     <string name="connect_to_agribot">Connect to Agribot</string>
     <string name="nearby_devices_swipe_to_refresh_list">Nearby_Devices_List</string>
-
     <string name="connect_with_agribot_button">Połącz z Agribotem</string>
     <string name="disconnect_button">Zakończ połączenie</string>
     <string name="override_button">Tryb Override</string>
@@ -224,6 +223,16 @@
     <string name="dialog_task_cancel_tittle">Anuluj zadanie</string>
     <string name="dialog_task_cancel_message">Czy chesz anulować zadanie?</string>
     <string name="tool_mode_zero">Cała ścieżka</string>
-    <string name="tool_mode_one">W międzyrzędziach</string>
+    <string name="tool_mode_one">Pomiędzy rzędami</string>
+    <string name="dialog_tiles_downloading_tittle">Twoje pliki są pobierane…</string>
+    <string name="dialog_tiles_downloading_message">Pobieranie w toku</string>
+    <string name="dialog_tiles_extracting_tittle">Twoje pliki są rozpakowywane</string>
+    <string name="dialog_tiles_extracting_message">Trwa rozpakowywanie plików</string>
+    <string name="checking_files">Sprawdzanie plików - proszę czekać</string>
+    <string name="download_progress">Postęp pobierania</string>
+    <string name="extracting_progress">Postęp rozpakowywania</string>
+    <string name="path_deleted_message">Ścieżka usunięta pomyślnie</string>
+    <string name="loading_path_problem">Problem z załadowaniem ścieżki</string>
+    <string name="blank_path_name_error">Nazwa ścieżki nie może być pusta</string>
 
 </resources>

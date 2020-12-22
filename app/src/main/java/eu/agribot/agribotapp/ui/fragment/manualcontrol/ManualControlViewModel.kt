@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.ui.fragment.manualcontrol
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import eu.agribot.agribotapp.R
@@ -60,13 +59,13 @@ class ManualControlViewModel(
     }
 
     fun onJoystickParametrChange(angel: Int, strength: Int) = viewModelScope.launch {
-        if (getJoystickMessageCounter() % 5 == 0) {
+        if (getJoystickMessageCounter() % 3 == 0) {
             manualModeService.onManualSteeringJoystickParametrChanged(angel, strength)
         }
     }
 
     private fun getJoystickMessageCounter(): Int {
-        if (joystickMessageCounter.value == null || joystickMessageCounter.value == 4) {
+        if (joystickMessageCounter.value == null || joystickMessageCounter.value == 2) {
             joystickMessageCounter.value = 0
         } else {
             joystickMessageCounter.value = joystickMessageCounter.value!! + 1

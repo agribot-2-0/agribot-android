@@ -26,17 +26,16 @@ class TTControlViewModel(private val ttControlService: TTControlService) : BaseV
     }
 
     fun onVerticalJoystickParametersChanged(verticalAngle: Int) {
-        if (getJoysticVerticalMessageCounter() % 5 == 0) {
+        if (getJoysticVerticalMessageCounter() % 3 == 0) {
             ttControlService.onVerticalJoystickParametrsChanged(
                 verticalAngle,
                 frontKart.value!!, rearKart.value!!
             )
         }
-
     }
 
     fun onHorizontalJoystickParametersChanged(horizontalAngle: Int) {
-        if (getJoystickHorizontalMessageCounter() % 5 == 0) {
+        if (getJoystickHorizontalMessageCounter() % 3 == 0) {
             ttControlService.onHorizontalJoystickParametrsChanged(
                 horizontalAngle,
                 frontKart.value!!, rearKart.value!!
@@ -45,7 +44,7 @@ class TTControlViewModel(private val ttControlService: TTControlService) : BaseV
     }
 
     private fun getJoysticVerticalMessageCounter(): Int {
-        if (verticalJoystickMessageCounter.value == null || verticalJoystickMessageCounter.value == 4) {
+        if (verticalJoystickMessageCounter.value == null || verticalJoystickMessageCounter.value == 2) {
             verticalJoystickMessageCounter.value = 0
         } else {
             verticalJoystickMessageCounter.value = verticalJoystickMessageCounter.value!! + 1
@@ -54,7 +53,7 @@ class TTControlViewModel(private val ttControlService: TTControlService) : BaseV
     }
 
     private fun getJoystickHorizontalMessageCounter(): Int {
-        if (horizontalJoystickMessageCounter.value == null || horizontalJoystickMessageCounter.value == 4) {
+        if (horizontalJoystickMessageCounter.value == null || horizontalJoystickMessageCounter.value == 2) {
             horizontalJoystickMessageCounter.value = 0
         } else {
             horizontalJoystickMessageCounter.value =
@@ -63,5 +62,3 @@ class TTControlViewModel(private val ttControlService: TTControlService) : BaseV
         return horizontalJoystickMessageCounter.value!!
     }
 }
-
-

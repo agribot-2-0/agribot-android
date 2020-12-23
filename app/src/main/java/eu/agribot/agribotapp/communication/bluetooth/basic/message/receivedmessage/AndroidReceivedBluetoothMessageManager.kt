@@ -58,7 +58,7 @@ class AndroidReceivedBluetoothMessageManager(
         }
     }
 
-    //DEVELOP FUNCTION
+    // DEVELOP FUNCTION
     fun bytesToHex(data: ByteArray): String? {
         val builder = StringBuilder()
         for (b in data) {
@@ -115,6 +115,7 @@ class AndroidReceivedBluetoothMessageManager(
     }
 
     private fun handleDiagnosticData(bluetoothMessageFrame: BluetoothMessageFrame) {
+        /*
         if (bluetoothMessageFrame.getMessage().size < EIGHT_BYTE_MESSAGE)
             return
         agribotDiagnosticData = DiagnosticBluetoothDataBD(
@@ -161,6 +162,8 @@ class AndroidReceivedBluetoothMessageManager(
                         ).toString()
             }
         )
+
+         */
     }
 
     private fun bytesToUnsingedInt(array: ByteArray): Int {

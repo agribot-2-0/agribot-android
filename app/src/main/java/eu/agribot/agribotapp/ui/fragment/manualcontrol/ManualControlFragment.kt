@@ -2,6 +2,7 @@ package eu.agribot.agribotapp.ui.fragment.manualcontrol
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
@@ -13,13 +14,15 @@ import eu.agribot.agribotapp.databinding.FragmentManualControlBinding
 import kotlinx.android.synthetic.main.fragment_manual_control.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import tcking.github.com.giraffeplayer2.Option
 import tcking.github.com.giraffeplayer2.VideoInfo
+import tv.danmaku.ijk.media.player.IjkMediaPlayer
 
 
 class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManualControlBinding>() {
 
     private val streamURI: Uri = Uri.parse(
-            "rtmp://192.168.0.139/live"
+        "rtmp://192.168.0.139/live"
     )
 
     override val layoutResourceId: Int = R.layout.fragment_manual_control
@@ -41,7 +44,22 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
 
     private fun prepareStreamPlayer() {
         val videoView = video_view
-        videoView.setVideoPath(streamURI.toString()).player.start()
+        val myVideoInfo = VideoInfo(streamURI)
+        myVideoInfo.addOption(
+            Option.create(
+                IjkMediaPlayer.OPT_CATEGORY_PLAYER,
+                "start-on-prepared",
+                1
+            )
+        )
+            .addOption(Option.create(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "fflags", "nobuffer"))
+            .addOption(Option.create(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "flush_packets", 1))
+            .addOption(Option.create(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "max_delay", 0))
+            .addOption(Option.create(IjkMediaPlayer.OPT_CATEGORY_CODEC, "low_delay", 10000))
+            videoView.videoInfo(myVideoInfo)
+            Log.e("xd", "video player: " + videoView.videoInfo)
+         videoView.setVideoPath(streamURI.toString()).player.start()
+       // GiraffePlayer.play(requireContext(), videoInfo)
 
     }
 

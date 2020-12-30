@@ -341,15 +341,15 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:background="@drawable/rounded_corner_layout"
                 android:layout_margin="@dimen/margin_medium"
-                android:layout_weight="4">
+                android:layout_weight="4"
+                android:background="@drawable/rounded_corner_layout">
 
                 <tcking.github.com.giraffeplayer2.VideoView
                     android:id="@+id/video_view"
-                    android:layout_margin="@dimen/margin_medium"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/margin_medium" />
 
             </FrameLayout>
 

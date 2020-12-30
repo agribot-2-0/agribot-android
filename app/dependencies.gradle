@@ -110,4 +110,7 @@ dependencies {
     implementation "com.google.android.exoplayer:exoplayer-core:$versions.exoPlayer"
     implementation "com.google.android.exoplayer:exoplayer-ui:$versions.exoPlayer"
     implementation "com.google.android.exoplayer:extension-rtmp:$versions.exoPlayer"
+
+    api 'com.github.tcking:giraffeplayer2:0.1.25-full'
+
 }

@@ -2,9 +2,6 @@ package eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage
 
 interface WriteBluetoothMessageManager {
 
-    fun sendFirstHeartBeat()
-
-    fun sendNewHeartBeat()
 
     fun sendHandshakeMessage()
 
@@ -32,7 +29,7 @@ interface WriteBluetoothMessageManager {
 
     fun sendTTControlTurnRightMessage(moveRightArray: ByteArray)
 
-    fun startSendingHeartbeat()
+    fun stopHandshakeScope()
 
-    fun stopSendingHeartbeat()
+    fun writeHeartbeatMessage(heartbeatArray: ByteArray)
 }

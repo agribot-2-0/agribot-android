@@ -2,13 +2,13 @@ package eu.agribot.agribotapp.ui.fragment.toolcontrol.data
 
 object ToolsList {
 
-    const val FRONT_UP_TUZ = 6
+    const val FRONT_UP_TPL = 6
 
-    const val FRONT_DOWN_TUZ = 5
+    const val FRONT_DOWN_TPL = 5
 
-    const val BACK_UP_TUZ = 12
+    const val BACK_UP_TPL = 12
 
-    const val BACK_DOWN_TUZ = 11
+    const val BACK_DOWN_TPL = 11
 
     const val PTO_TOOL_LIST_POSITION = 0
 

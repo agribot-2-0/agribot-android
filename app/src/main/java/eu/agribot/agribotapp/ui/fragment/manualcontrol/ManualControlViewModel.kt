@@ -12,8 +12,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ManualControlViewModel(
-    private val manualModeService: ManualModeService,
-    private val resourcesProvider: ResourcesProvider
+        private val manualModeService: ManualModeService,
+        private val resourcesProvider: ResourcesProvider
 
 ) : BaseViewModel() {
 
@@ -31,7 +31,7 @@ class ManualControlViewModel(
 
     fun onToolControlClicked() {
         navigationEvent.postValue(
-            ToolControlNavigationEvent()
+                ToolControlNavigationEvent()
         )
     }
 
@@ -74,7 +74,8 @@ class ManualControlViewModel(
     }
 
     fun sendStartManualModeInfo() = viewModelScope.launch {
-        manualModeService.runManualMode()
+        delay(5000)
+        manualModeService.onManualModeInit()
         refreshDiagnosticData()
     }
 
@@ -84,7 +85,7 @@ class ManualControlViewModel(
 
     fun onTTControlButtonClicked() {
         navigationEvent.postValue(
-            TTControlNavigationEvent()
+                TTControlNavigationEvent()
         )
     }
 }

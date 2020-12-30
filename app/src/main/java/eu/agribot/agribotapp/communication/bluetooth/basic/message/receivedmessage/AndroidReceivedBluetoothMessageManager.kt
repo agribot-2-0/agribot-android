@@ -1,30 +1,17 @@
 package eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage
 
+import android.util.Log
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.socket.BluetoothSocketManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.BluetoothMessageFrame
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.FrameConstant.DUMMY_BYTE
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.heartbeat.HeartbeatManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.ARRAY_BIT_SHIFT
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.BATTERY_VOLTAGE_RATIO
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.EIGHT_BYTE_MESSAGE
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.FIRST_DIGIT
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.FOURTH_DIGIT
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.FOUR_DIGIT_NUMBER
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.FUEL_LEVEL_RATIO
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.HEARTBEAT_COUNTER_DELAY
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.HEARTBEAT_COUNTER_MAX_VALUE
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.HEARTBEAT_INIT_VALUE
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.LENGHT_BYTE_POSITION
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.START_FRAME_MESSAGE
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.START_OF_FRAME_POSITION
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.VOLTAGE_DROP
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.DiagnosticDataArrayPosition.ACCUMULATOR_VOLTAGE_SECOND_BYTE_POSITION
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.DiagnosticDataArrayPosition.ACCUMULATOR_VOLTGE_FIRST_BYTE_POSITION
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.DiagnosticDataArrayPosition.ENGINE_FUEL_RATE_BYTE_POSITION
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.DiagnosticDataArrayPosition.ENGINE_ROTATIONS_FIRST_BYTE_POSITION
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.DiagnosticDataArrayPosition.ENGINE_ROTATIONS_SECOND_BYTE_POSITION
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.DiagnosticDataArrayPosition.FUEL_LEVEL_BYTE_POSITION
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.DiagnosticDataArrayPosition.FUEL_TEMPERATURE_BYTE_POSITION
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.DiagnosticDataArrayPosition.TORQUE_OF_ENGINE_BYTE_POSITION
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.WriteBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.const.BluetoothAdressCodeModel
 import eu.agribot.agribotapp.communication.bluetooth.const.PersistentConnectionParameters
@@ -37,11 +24,11 @@ import kotlinx.coroutines.launch
 import java.io.IOException
 
 class AndroidReceivedBluetoothMessageManager(
-    private val receiveErrorHandler: BluetoothMessageReceiveErrorHandler,
-    private val writeBluetoothMessageManager: WriteBluetoothMessageManager,
-    private val bluetoothSocketManager: BluetoothSocketManager
+        private val receiveErrorHandler: BluetoothMessageReceiveErrorHandler,
+        private val writeBluetoothMessageManager: WriteBluetoothMessageManager,
+        private val bluetoothSocketManager: BluetoothSocketManager,
+        private val heartbeatManager: HeartbeatManager
 ) : ReceivedBluetoothMessageManager {
-    private var counterScope = MainScope()
     private var agribotDiagnosticData: DiagnosticBluetoothDataBD? = null
 
     override fun registerMessageReceiver() {
@@ -50,16 +37,16 @@ class AndroidReceivedBluetoothMessageManager(
         while (true) {
             try {
                 bluetoothSocketManager.getBluetoothSocket()?.inputStream?.read(receiveMessageBuffer)
+                handleMessage(receiveMessageBuffer)
             } catch (receiveMessageException: IOException) {
                 receiveErrorHandler.onReceiveBluetoothMessageError()
                 break
             }
-            handleMessage(receiveMessageBuffer)
         }
     }
 
     // DEVELOP FUNCTION
-    fun bytesToHex(data: ByteArray): String? {
+    private fun bytesToHex(data: ByteArray): String {
         val builder = StringBuilder()
         for (b in data) {
             builder.append(String.format("%02x", b))
@@ -72,19 +59,19 @@ class AndroidReceivedBluetoothMessageManager(
     }
 
     private fun handleMessage(
-        bluetoothMessage: ByteArray
+            bluetoothMessage: ByteArray
     ) {
         try {
-            if (bluetoothMessage[START_OF_FRAME_POSITION] == START_FRAME_MESSAGE.toByte()) {
+            if (bluetoothMessage[START_OF_FRAME_POSITION] == START_FRAME_MESSAGE) {
                 val length = bluetoothMessage[LENGHT_BYTE_POSITION].toInt()
                 if (length <= 0)
                     return
                 if (bluetoothMessage.isEmpty())
                     return
                 val btFrame =
-                    BluetoothMessageFrame(
-                        bluetoothMessage
-                    )
+                        BluetoothMessageFrame(
+                                bluetoothMessage
+                        )
                 handleMessageFrame(btFrame)
             } else {
                 return
@@ -94,6 +81,7 @@ class AndroidReceivedBluetoothMessageManager(
         }
     }
 
+
     private fun handleMessageFrame(bluetoothMessageFrame: BluetoothMessageFrame) {
         when (bluetoothMessageFrame.getAddress()) {
             BluetoothAdressCodeModel.AGRIBOT_HANDSHAKE -> {
@@ -102,10 +90,15 @@ class AndroidReceivedBluetoothMessageManager(
 
             BluetoothAdressCodeModel.MOBILE_HEARTBEAT -> {
                 handleHeartbeatMessage()
+
             }
 
             BluetoothAdressCodeModel.AGRIBOT_ERROR -> {
                 receiveErrorHandler.handleAgribotError()
+            }
+
+            BluetoothAdressCodeModel.MANUAL_START -> {
+                writeBluetoothMessageManager.sendManualControlStartMessage()
             }
 
             BluetoothAdressCodeModel.AGRIBOT_DIAGNOSTIC_DATA_1 -> {
@@ -182,29 +175,12 @@ class AndroidReceivedBluetoothMessageManager(
     }
 
     private fun handleHandshakeMessage() {
-        writeBluetoothMessageManager.sendFirstHeartBeat()
+        writeBluetoothMessageManager.stopHandshakeScope()
+        heartbeatManager.sendFirstHeartbeat()
     }
 
     private fun handleHeartbeatMessage() {
-        writeBluetoothMessageManager.sendNewHeartBeat()
-        restartHeartbearCounter()
+        heartbeatManager.restartHeartbeatCounter()
     }
 
-    private fun restartHeartbearCounter() {
-        counterScope.cancel()
-        counterScope = MainScope()
-        startHeartbeatCounter()
-    }
-
-    private fun startHeartbeatCounter() {
-        counterScope.launch {
-            var heartbeatCounter = HEARTBEAT_INIT_VALUE
-            while (heartbeatCounter < HEARTBEAT_COUNTER_MAX_VALUE) {
-                delay(HEARTBEAT_COUNTER_DELAY)
-                heartbeatCounter++
-            }
-            agribotDiagnosticData = null
-            writeBluetoothMessageManager.sendHandshakeMessage()
-        }
-    }
 }

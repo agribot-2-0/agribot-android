@@ -6,33 +6,34 @@ import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.
 import eu.agribot.agribotapp.domain.model.fromdomain.SwitchSettings
 import eu.agribot.agribotapp.domain.model.todomain.DiagnosticData
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.ManualSteeringJoystickManager
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.launch
 
 class ManualModeService(
-    private val manualSteeringJoystickManager: ManualSteeringJoystickManager,
-    private val writeBluetoothMessageManager: WriteBluetoothMessageManager,
-    private val receivedBluetoothMessageManager: ReceivedBluetoothMessageManager,
-    private val messageCreator: BluetoothMessageCreator
+        private val manualSteeringJoystickManager: ManualSteeringJoystickManager,
+        private val writeBluetoothMessageManager: WriteBluetoothMessageManager,
+        private val receivedBluetoothMessageManager: ReceivedBluetoothMessageManager,
+        private val messageCreator: BluetoothMessageCreator
 ) {
-    private val START_MANUAL_MODE_DELAY = 100L
+    var staartStopEngineScope = MainScope()
     fun onManualSteeringJoystickParametrChanged(joystickAngle: Int, joystickStrength: Int) {
         manualSteeringJoystickManager.onJoystickConfigurationChanged(
-            joystickAngle,
-            joystickStrength
+                joystickAngle,
+                joystickStrength
         )
     }
 
     fun startStopEngine() {
-        writeBluetoothMessageManager.sendStopThreadMessage()
-        writeBluetoothMessageManager.sendStartEngineMessage()
+        staartStopEngineScope.launch {
+            writeBluetoothMessageManager.sendStopThreadMessage()
+            delay(100)
+            writeBluetoothMessageManager.sendStartEngineMessage()
+        }
     }
 
-    suspend fun runManualMode() = withContext(Dispatchers.IO) {
+    fun onManualModeInit() {
         writeBluetoothMessageManager.sendManualControlInitMessage()
-        delay(START_MANUAL_MODE_DELAY)
-        writeBluetoothMessageManager.sendManualControlStartMessage()
     }
 
     fun onSwitchParametrChanged(switchSettings: SwitchSettings) {

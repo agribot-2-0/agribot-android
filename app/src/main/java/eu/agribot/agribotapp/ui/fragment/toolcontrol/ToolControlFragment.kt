@@ -6,19 +6,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.databinding.FragmentToolControlBinding
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.BACK_DOWN_TUZ
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.BACK_UP_TUZ
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.FRONT_DOWN_TUZ
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.FRONT_UP_TUZ
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.TuzSwitchesState
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.BACK_DOWN_TPL
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.BACK_UP_TPL
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.FRONT_DOWN_TPL
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.FRONT_UP_TPL
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.TplSwitchesState
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
-import kotlinx.android.synthetic.main.fragment_tool_control.back_hitch_recycler
-import kotlinx.android.synthetic.main.fragment_tool_control.checkBox_back_tuz_down
-import kotlinx.android.synthetic.main.fragment_tool_control.checkBox_back_tuz_up
-import kotlinx.android.synthetic.main.fragment_tool_control.checkBox_front_tuz_down
-import kotlinx.android.synthetic.main.fragment_tool_control.checkBox_front_tuz_up
-import kotlinx.android.synthetic.main.fragment_tool_control.front_hitch_recycler
+import kotlinx.android.synthetic.main.fragment_tool_control.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolControlBinding>() {
@@ -46,25 +41,25 @@ class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolContr
     }
 
     private fun setCheckboxListeners() {
-        checkBox_front_tuz_up.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.onActivateTuzParametrChanged(FRONT_UP_TUZ, isChecked)
+        checkBox_front_tpl_up.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.onActivateTplParametrChanged(FRONT_UP_TPL, isChecked)
         }
-        checkBox_front_tuz_down.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.onActivateTuzParametrChanged(FRONT_DOWN_TUZ, isChecked)
+        checkBox_front_tpl_down.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.onActivateTplParametrChanged(FRONT_DOWN_TPL, isChecked)
         }
-        checkBox_back_tuz_down.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.onActivateTuzParametrChanged(BACK_DOWN_TUZ, isChecked)
+        checkBox_back_tpl_down.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.onActivateTplParametrChanged(BACK_DOWN_TPL, isChecked)
         }
-        checkBox_back_tuz_up.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.onActivateTuzParametrChanged(BACK_UP_TUZ, isChecked)
+        checkBox_back_tpl_up.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.onActivateTplParametrChanged(BACK_UP_TPL, isChecked)
         }
     }
 
-    private fun showSwitchesState(tuzSwitchesState: TuzSwitchesState) {
-        checkBox_back_tuz_down.isChecked = tuzSwitchesState.rearBottomTuzChecked
-        checkBox_front_tuz_up.isChecked = tuzSwitchesState.frontUpTuzChecked
-        checkBox_front_tuz_down.isChecked = tuzSwitchesState.frontBottomTuzChecked
-        checkBox_back_tuz_up.isChecked = tuzSwitchesState.rearUpTuzChecked
+    private fun showSwitchesState(tplSwitchesState: TplSwitchesState) {
+        checkBox_back_tpl_down.isChecked = tplSwitchesState.rearBottomTplChecked
+        checkBox_front_tpl_up.isChecked = tplSwitchesState.frontUpTplChecked
+        checkBox_front_tpl_down.isChecked = tplSwitchesState.frontBottomTplChecked
+        checkBox_back_tpl_up.isChecked = tplSwitchesState.rearUpTplChecked
     }
 
     private fun onHitchRecyclerParametersChanged(

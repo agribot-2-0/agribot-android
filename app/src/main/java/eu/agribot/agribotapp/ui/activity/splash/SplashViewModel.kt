@@ -32,7 +32,7 @@ class SplashViewModel(
 
     private fun beginSplashDelay() = viewModelScope.launch {
         delay(SPLASH_SCREEN_TIMEOUT_MILLIS)
-        checkLoginStatusAndRedirect()
+        postMainActivityNavigationEvent()
     }
 
     private fun postMainActivityNavigationEvent() {
@@ -47,14 +47,14 @@ class SplashViewModel(
 
     private fun checkLoginStatusAndRedirect() {
         when (authenticationService.checkUserInApp()) {
-            true -> postMainActivityNavigationEvent()
+            true -> getUserRobotName()
             false -> postWelcomeActivityNavigationEvent()
         }
     }
 
     fun handleCurrentBluetoothStatus() {
         when (bluetoothConnectionService.checkBluetoothEnable()) {
-            true -> getUserRobotName()
+            true -> checkLoginStatusAndRedirect()
             false -> postDialogEvent.postValue(true)
         }
     }

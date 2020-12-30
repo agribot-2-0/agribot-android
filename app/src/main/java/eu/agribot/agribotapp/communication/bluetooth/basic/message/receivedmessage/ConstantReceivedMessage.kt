@@ -23,9 +23,9 @@ object ConstantReceivedMessage {
 
     const val HEARTBEAT_INIT_VALUE = 0
 
-    const val HEARTBEAT_COUNTER_MAX_VALUE = 20
+    const val HEARTBEAT_COUNTER_MAX_VALUE = 40
 
-    const val HEARTBEAT_COUNTER_DELAY = 30L
+    const val HEARTBEAT_COUNTER_DELAY = 100
 
     const val HEARTBEAT_DIAGNOSTIC_DATA = 4
 

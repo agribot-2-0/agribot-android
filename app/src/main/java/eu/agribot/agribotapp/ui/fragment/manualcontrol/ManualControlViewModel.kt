@@ -12,8 +12,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ManualControlViewModel(
-        private val manualModeService: ManualModeService,
-        private val resourcesProvider: ResourcesProvider
+    private val manualModeService: ManualModeService,
+    private val resourcesProvider: ResourcesProvider
 
 ) : BaseViewModel() {
 
@@ -59,13 +59,13 @@ class ManualControlViewModel(
     }
 
     fun onJoystickParametrChange(angel: Int, strength: Int) = viewModelScope.launch {
-        if (getJoystickMessageCounter() % 3 == 0) {
+        if (getJoystickMessageCounter() % 5 == 0) {
             manualModeService.onManualSteeringJoystickParametrChanged(angel, strength)
         }
     }
 
     private fun getJoystickMessageCounter(): Int {
-        if (joystickMessageCounter.value == null || joystickMessageCounter.value == 2) {
+        if (joystickMessageCounter.value == null || joystickMessageCounter.value == 10) {
             joystickMessageCounter.value = 0
         } else {
             joystickMessageCounter.value = joystickMessageCounter.value!! + 1
@@ -73,9 +73,8 @@ class ManualControlViewModel(
         return joystickMessageCounter.value!!
     }
 
-    fun sendStartManualModeInfo() = viewModelScope.launch {
-        delay(5000)
-        manualModeService.onManualModeInit()
+    fun startRefreshDiagnosticData() = viewModelScope.launch {
+        delay(REFRESH_DIAGNOSTIC_DATA_DELAY)
         refreshDiagnosticData()
     }
 

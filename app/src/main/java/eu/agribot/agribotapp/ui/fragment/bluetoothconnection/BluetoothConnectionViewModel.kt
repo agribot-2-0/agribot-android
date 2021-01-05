@@ -17,10 +17,10 @@ import eu.agribot.agribotapp.ui.fragment.bluetoothconnection.recycler.BluetoothN
 import kotlinx.coroutines.launch
 
 class BluetoothConnectionViewModel(
-        private val bluetoothConnectionService: BluetoothConnectionService,
-        private val resourcesProvider: ResourcesProvider,
-        private val permissionManager: PermissionManager,
-        private val manualModeService: ManualModeService
+    private val bluetoothConnectionService: BluetoothConnectionService,
+    private val resourcesProvider: ResourcesProvider,
+    private val permissionManager: PermissionManager,
+    private val manualModeService: ManualModeService
 ) :
         BaseViewModel() {
 
@@ -53,7 +53,7 @@ class BluetoothConnectionViewModel(
     }
 
     fun connectWithSelectedDevice(
-            bluetoothDeviceAddress: String
+        bluetoothDeviceAddress: String
     ) {
         viewModelScope.launch {
             bluetoothConnectionService.connect(

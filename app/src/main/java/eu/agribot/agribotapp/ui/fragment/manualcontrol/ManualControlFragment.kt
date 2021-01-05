@@ -24,7 +24,7 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.sendStartManualModeInfo()
+        viewModel.startRefreshDiagnosticData()
         manual_mode_joystick.setOnMoveListener { angle, strength ->
             viewModel.onJoystickParametrChange(angle, strength)
         }

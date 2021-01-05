@@ -7,16 +7,19 @@ import eu.agribot.agribotapp.domain.model.fromdomain.SwitchSettings
 import eu.agribot.agribotapp.domain.model.todomain.DiagnosticData
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.ManualSteeringJoystickManager
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ManualModeService(
-        private val manualSteeringJoystickManager: ManualSteeringJoystickManager,
-        private val writeBluetoothMessageManager: WriteBluetoothMessageManager,
-        private val receivedBluetoothMessageManager: ReceivedBluetoothMessageManager,
-        private val messageCreator: BluetoothMessageCreator
+    private val manualSteeringJoystickManager: ManualSteeringJoystickManager,
+    private val writeBluetoothMessageManager: WriteBluetoothMessageManager,
+    private val receivedBluetoothMessageManager: ReceivedBluetoothMessageManager,
+    private val messageCreator: BluetoothMessageCreator
 ) {
-    var staartStopEngineScope = MainScope()
+    var startStopEngineScope = MainScope()
+    private val engineStartDelay = 100L
+
     fun onManualSteeringJoystickParametrChanged(joystickAngle: Int, joystickStrength: Int) {
         manualSteeringJoystickManager.onJoystickConfigurationChanged(
                 joystickAngle,
@@ -25,15 +28,12 @@ class ManualModeService(
     }
 
     fun startStopEngine() {
-        staartStopEngineScope.launch {
+        startStopEngineScope.launch {
             writeBluetoothMessageManager.sendStopThreadMessage()
-            delay(100)
+            delay(engineStartDelay)
             writeBluetoothMessageManager.sendStartEngineMessage()
         }
-    }
-
-    fun onManualModeInit() {
-        writeBluetoothMessageManager.sendManualControlInitMessage()
+        startStopEngineScope.cancel()
     }
 
     fun onSwitchParametrChanged(switchSettings: SwitchSettings) {

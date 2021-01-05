@@ -3,6 +3,9 @@ package eu.agribot.agribotapp.communication.bluetooth.basic.message.heartbeat
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.FrameConstant
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.WriteBluetoothMessageManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
@@ -10,14 +13,14 @@ import kotlinx.coroutines.launch
 
 class AndroidHeartbeatManager(private val bluetoothWriteBluetoothMessageManager: WriteBluetoothMessageManager) : HeartbeatManager {
     private var heartbeatArray = ByteArray(FrameConstant.EMPTY_CAN_ARRAY_SIZE)
-    private var nextHeartbeatScope = MainScope()
+    private var nextHeartbeatScope = CoroutineScope(Job() + Dispatchers.IO)
     private var heartbeatCounterScope = MainScope()
     private var heartbeatFlag: Boolean = false
 
     companion object {
         const val HEARTBEAT_VALUE_POSITION = 0
         const val HEARTBEAT_INIT_VALUE = 0.toByte()
-        const val HEARTBEAT_DELAY = 180L
+        const val HEARTBEAT_DELAY = 100L
     }
 
     override fun restartHeartbeatCounter() {
@@ -40,17 +43,15 @@ class AndroidHeartbeatManager(private val bluetoothWriteBluetoothMessageManager:
                 heartbeatArray[HEARTBEAT_VALUE_POSITION]++
                 bluetoothWriteBluetoothMessageManager.writeHeartbeatMessage(heartbeatArray)
             }
-
         }
     }
-
 
     private fun startHeartbeatCounter() {
         heartbeatCounterScope.launch {
             var heartbeatCounter = ConstantReceivedMessage.HEARTBEAT_INIT_VALUE
             while (heartbeatCounter < ConstantReceivedMessage.HEARTBEAT_COUNTER_MAX_VALUE) {
                 setHeartbeatFlag(true)
-                delay(ConstantReceivedMessage.HEARTBEAT_COUNTER_DELAY.toLong())
+                delay(HEARTBEAT_DELAY)
                 heartbeatCounter++
             }
             setHeartbeatFlag(false)
@@ -70,9 +71,7 @@ class AndroidHeartbeatManager(private val bluetoothWriteBluetoothMessageManager:
     private fun stopHeartbeatScopes() {
         heartbeatCounterScope.cancel()
         nextHeartbeatScope.cancel()
-        heartbeatCounterScope = MainScope()
         nextHeartbeatScope = MainScope()
+        heartbeatCounterScope = MainScope()
     }
-
-
 }

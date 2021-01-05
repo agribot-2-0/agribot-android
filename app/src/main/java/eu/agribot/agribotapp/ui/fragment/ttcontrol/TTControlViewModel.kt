@@ -1,15 +1,14 @@
 package eu.agribot.agribotapp.ui.fragment.ttcontrol
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.domain.service.ManualModeService
 import eu.agribot.agribotapp.domain.service.TTControlService
-import kotlinx.coroutines.launch
 
-class TTControlViewModel(private val ttControlService: TTControlService,
-                         private val manualModeService: ManualModeService
+class TTControlViewModel(
+    private val ttControlService: TTControlService,
+    private val manualModeService: ManualModeService
 ) : BaseViewModel() {
 
     val frontKart: MutableLiveData<Boolean> = MutableLiveEvent()
@@ -31,7 +30,7 @@ class TTControlViewModel(private val ttControlService: TTControlService,
     }
 
     fun onVerticalJoystickParametersChanged(verticalAngle: Int) {
-        if (getJoysticVerticalMessageCounter() % 4 == 0) {
+        if (getJoysticVerticalMessageCounter() % 5 == 0) {
             ttControlService.onVerticalJoystickParametrsChanged(
                     verticalAngle,
                     frontKart.value!!, rearKart.value!!
@@ -40,7 +39,7 @@ class TTControlViewModel(private val ttControlService: TTControlService,
     }
 
     fun onHorizontalJoystickParametersChanged(horizontalAngle: Int) {
-        if (getJoystickHorizontalMessageCounter() % 4 == 0) {
+        if (getJoystickHorizontalMessageCounter() % 5 == 0) {
             ttControlService.onHorizontalJoystickParametrsChanged(
                     horizontalAngle,
                     frontKart.value!!, rearKart.value!!
@@ -49,7 +48,7 @@ class TTControlViewModel(private val ttControlService: TTControlService,
     }
 
     private fun getJoysticVerticalMessageCounter(): Int {
-        if (verticalJoystickMessageCounter.value == null || verticalJoystickMessageCounter.value == 5) {
+        if (verticalJoystickMessageCounter.value == null || verticalJoystickMessageCounter.value == 10) {
             verticalJoystickMessageCounter.value = 0
         } else {
             verticalJoystickMessageCounter.value = verticalJoystickMessageCounter.value!! + 1
@@ -58,16 +57,12 @@ class TTControlViewModel(private val ttControlService: TTControlService,
     }
 
     private fun getJoystickHorizontalMessageCounter(): Int {
-        if (horizontalJoystickMessageCounter.value == null || horizontalJoystickMessageCounter.value == 5) {
+        if (horizontalJoystickMessageCounter.value == null || horizontalJoystickMessageCounter.value == 10) {
             horizontalJoystickMessageCounter.value = 0
         } else {
             horizontalJoystickMessageCounter.value =
                     horizontalJoystickMessageCounter.value!! + 1
         }
         return horizontalJoystickMessageCounter.value!!
-    }
-
-     fun sendManualInitMessage() = viewModelScope.launch{
-        manualModeService.onManualModeInit()
     }
 }

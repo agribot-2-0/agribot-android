@@ -2,6 +2,8 @@ package eu.agribot.agribotapp.ui.fragment.toolcontrol.data
 
 object ToolsList {
 
+    const val ALL_SWITCHES = 0
+
     const val FRONT_UP_TPL = 6
 
     const val FRONT_DOWN_TPL = 5

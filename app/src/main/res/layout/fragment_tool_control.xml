@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -12,142 +13,146 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background_gray">
+        android:background="@color/background_gray"
+        android:orientation="vertical">
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_margin="@dimen/margin_small"
-            android:layout_weight="3"
-            android:background="@drawable/rounded_corner_layout">
+            android:layout_weight="4">
 
 
             <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="675dp"
-                android:layout_height="427dp"
-                android:layout_marginStart="61dp"
-                android:layout_marginEnd="61dp"
+                android:id="@+id/imageView"
+                android:layout_width="650dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="58dp"
+                android:layout_marginBottom="58dp"
                 android:src="@drawable/agribot"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/textView10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="38dp"
-                android:layout_marginBottom="46dp"
-                android:text="@string/tuz_down_up"
-                app:layout_constraintBottom_toTopOf="@+id/appCompatSeekBar"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView3" />
-
-            <View
-                android:id="@+id/view"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="31dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="33dp"
-                android:background="@color/gray"
-                app:layout_constraintBottom_toTopOf="@+id/appCompatSeekBar"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textView10" />
-
             <androidx.appcompat.widget.AppCompatSeekBar
                 android:id="@+id/appCompatSeekBar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="56dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="4dp"
                 android:onProgressChanged="@{(seekBar, progress, fromUser) -> viewModel.onTuzParametersChanged(progress)}"
+                android:padding="@dimen/margin_small"
                 android:progress="50"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <CheckBox
-                android:id="@+id/checkBox_front_tpl_down"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/checkBox_back_tpl_down"
-                app:layout_constraintStart_toStartOf="@+id/imageView3"
-                app:layout_constraintTop_toTopOf="@+id/checkBox_back_tpl_down" />
-
-            <CheckBox
-                android:id="@+id/checkBox_back_tpl_down"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="258dp"
-                android:layout_marginBottom="268dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/imageView3"
-                app:layout_constraintTop_toTopOf="@+id/imageView3" />
-
-            <CheckBox
                 android:id="@+id/checkBox_front_tpl_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="52dp"
+                android:layout_marginStart="308dp"
+                android:layout_marginBottom="8dp"
+                android:padding="@dimen/margin_small"
                 app:layout_constraintBottom_toTopOf="@+id/checkBox_front_tpl_down"
-                app:layout_constraintStart_toStartOf="@+id/imageView3" />
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <CheckBox
+                android:id="@+id/checkBox_front_tpl_down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="308dp"
+                android:layout_marginBottom="24dp"
+                android:padding="@dimen/margin_small"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <CheckBox
                 android:id="@+id/checkBox_back_tpl_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="52dp"
+                android:layout_marginEnd="308dp"
+                android:layout_marginBottom="8dp"
+                android:padding="@dimen/margin_small"
                 app:layout_constraintBottom_toTopOf="@+id/checkBox_back_tpl_down"
-                app:layout_constraintEnd_toEndOf="@+id/imageView3" />
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <CheckBox
+                android:id="@+id/checkBox_back_tpl_down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="308dp"
+                android:layout_marginBottom="24dp"
+                android:padding="@dimen/margin_small"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                app:layout_constraintEnd_toEndOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/margin_small"
-            android:layout_weight="2"
-            android:background="@drawable/rounded_corner_layout"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_medium">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_medium"
+                android:layout_weight="1"
+                android:padding="@dimen/margin_small"
+                android:background="@drawable/rounded_corner_layout"
+                android:gravity="center"
                 android:text="@string/front_hitch"
                 android:textStyle="bold" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/front_hitch_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_margin="@dimen/margin_medium"
-                android:layout_weight="1" />
-
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_medium"
+                android:layout_weight="1"
+                android:padding="@dimen/margin_small"
+                android:background="@drawable/rounded_corner_layout"
+                android:gravity="center"
                 android:text="@string/back_hitch"
                 android:textStyle="bold" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/margin_small"
+            android:layout_weight="4">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/front_hitch_recycler"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/margin_medium"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_corner_layout"
+                android:nestedScrollingEnabled="false"
+                android:padding="@dimen/margin_small" />
+
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/back_hitch_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_margin="@dimen/margin_medium"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@drawable/rounded_corner_layout"
+                android:nestedScrollingEnabled="false"
+                android:padding="@dimen/margin_small" />
 
         </LinearLayout>
 
+
     </LinearLayout>
+
+
 </layout>

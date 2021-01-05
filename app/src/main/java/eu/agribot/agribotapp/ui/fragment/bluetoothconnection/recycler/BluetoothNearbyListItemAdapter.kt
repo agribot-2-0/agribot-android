@@ -9,7 +9,6 @@ import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.databinding.ListItemNearbyBluetoothDevicesBinding
 import kotlinx.android.synthetic.main.list_item_nearby_bluetooth_devices.view.cardDeviceList
 import kotlinx.android.synthetic.main.list_item_nearby_bluetooth_devices.view.connectionStatus
-import kotlinx.android.synthetic.main.task_list_item.view.cardview_task_item
 
 class BluetoothNearbyListItemAdapter(val onClickSelectedItem: (BluetoothNearbyListItemViewModel) -> Unit) :
     RecyclerView.Adapter<BluetoothNearbyListItemViewHolder>() {

@@ -3,9 +3,9 @@ package eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmess
 object ConstantReceivedMessage {
     const val BATTERY_VOLTAGE_RATIO = 0.001
 
-    const val FUEL_LEVEL_RATIO = 10
+    const val FUEL_RATE_RATIO = 10.0
 
-    const val VOLTAGE_DROP = 0.8
+    const val VOLTAGE_DROP = 1
 
     const val EIGHT_BYTE_MESSAGE = 8
 
@@ -23,11 +23,7 @@ object ConstantReceivedMessage {
 
     const val HEARTBEAT_INIT_VALUE = 0
 
-    const val HEARTBEAT_COUNTER_MAX_VALUE = 40
-
-    const val HEARTBEAT_COUNTER_DELAY = 100
-
-    const val HEARTBEAT_DIAGNOSTIC_DATA = 4
+    const val HEARTBEAT_COUNTER_MAX_VALUE = 20
 
     const val ARRAY_BIT_SHIFT = 8
 }

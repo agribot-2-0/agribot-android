@@ -2,7 +2,6 @@ package eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage
 
 interface WriteBluetoothMessageManager {
 
-
     fun sendHandshakeMessage()
 
     fun sendManualControlInitMessage()

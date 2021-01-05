@@ -225,5 +225,6 @@
     <string name="dialog_task_cancel_message">Czy chesz anulować zadanie?</string>
     <string name="tool_mode_zero">Cała ścieżka</string>
     <string name="tool_mode_one">W międzyrzędziach</string>
+    <string name="no_antenna_selected">Nie wybrano Anteny</string>
 
 </resources>

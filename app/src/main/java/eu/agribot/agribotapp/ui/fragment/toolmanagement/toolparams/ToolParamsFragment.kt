@@ -29,6 +29,23 @@ class ToolParamsFragment :
         viewModel.createToolsList()
         viewModel.paramsList.observe(this::addParams)
         setupRecyclers()
+        viewModel.isScanOperation.observe(this::getButtonIdNumber)
+    }
+
+    private fun getButtonIdNumber(isScanOperation: Boolean) {
+        if (isScanOperation)
+            when (antennaGroup.checkedRadioButtonId) {
+                frontAntenna.id -> {
+                    viewModel.scanRfid(AntennaNumber.FRONT_ANTENNA.number)
+                }
+                backAntenna.id -> {
+                    viewModel.scanRfid(AntennaNumber.BACK_ANTENNA.number)
+                }
+                bothAntenna.id -> {
+                    viewModel.scanRfid(AntennaNumber.BOTH_ANTENNAS.number)
+                }
+                else -> showToast(getString(R.string.no_antenna_selected))
+            }
     }
 
     private fun setupRecyclers() {

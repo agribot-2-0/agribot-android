@@ -236,5 +236,6 @@
     <string name="create_layer_error">Problem with create map layer</string>
     <string name="type_path_name">Give path name</string>
     <string name="task_path_text">Path name</string>
+    <string name="no_antenna_selected">No Antenna selected</string>
 
 </resources>

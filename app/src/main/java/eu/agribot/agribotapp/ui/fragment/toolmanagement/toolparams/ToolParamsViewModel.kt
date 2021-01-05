@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
@@ -7,6 +8,8 @@ import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
+import eu.agribot.agribotapp.domain.model.fromdomain.RfidParameters
+import eu.agribot.agribotapp.domain.service.ToolManagementService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.HitchListItemDetail
@@ -15,8 +18,10 @@ import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewM
 class ToolParamsViewModel(
     private val toolDataManager: ToolDataManager,
     private val resourcesProvider: ResourcesProvider,
-    private val cloudDatabaseService: CloudDatabaseService
+    private val cloudDatabaseService: CloudDatabaseService,
+    private val toolManagementService: ToolManagementService
 ) : BaseViewModel() {
+    val isScanOperation: MutableLiveEvent<Boolean> = MutableLiveEvent()
     private val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val paramsList: MutableLiveData<List<HitchListItemViewModel>> =
         MutableLiveData(listOf())
@@ -190,4 +195,14 @@ class ToolParamsViewModel(
     private fun onSuccess() {
         toastMessageEvent.postValue(resourcesProvider.getString(R.string.add_tool_success))
     }
+
+    fun startRfidScan() {
+        isScanOperation.postValue(true)
+    }
+
+    fun scanRfid(antennaNumber : Int){
+        toolManagementService.scanRfidTags(RfidParameters(comNumber = 1, antennaNumber = antennaNumber))
+    }
+
+
 }

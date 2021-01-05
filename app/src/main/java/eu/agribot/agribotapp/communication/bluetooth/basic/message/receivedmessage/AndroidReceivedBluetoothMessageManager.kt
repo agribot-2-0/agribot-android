@@ -81,23 +81,23 @@ class AndroidReceivedBluetoothMessageManager(
 
     private fun handleMessageFrame(bluetoothMessageFrame: BluetoothMessageFrame) {
         when (bluetoothMessageFrame.getAddress()) {
-            BluetoothAdressCodeModel.AGRIBOT_HANDSHAKE -> {
+            BluetoothAdressCodeModel.AGRIBOT_HANDSHAKE.number -> {
                 handleHandshakeMessage()
             }
 
-            BluetoothAdressCodeModel.MOBILE_HEARTBEAT -> {
+            BluetoothAdressCodeModel.MOBILE_HEARTBEAT.number -> {
                 handleHeartbeatMessage()
             }
 
-            BluetoothAdressCodeModel.AGRIBOT_ERROR -> {
+            BluetoothAdressCodeModel.AGRIBOT_ERROR.number -> {
                 receiveErrorHandler.handleAgribotError()
             }
 
-            BluetoothAdressCodeModel.MANUAL_START -> {
+            BluetoothAdressCodeModel.MANUAL_START.number -> {
                 writeBluetoothMessageManager.sendManualControlStartMessage()
             }
 
-            BluetoothAdressCodeModel.AGRIBOT_DIAGNOSTIC_DATA_1 -> {
+            BluetoothAdressCodeModel.AGRIBOT_DIAGNOSTIC_DATA_1.number -> {
                 handleDiagnosticData(bluetoothMessageFrame)
             }
         }

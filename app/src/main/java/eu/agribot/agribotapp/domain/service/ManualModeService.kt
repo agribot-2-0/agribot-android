@@ -6,6 +6,9 @@ import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.
 import eu.agribot.agribotapp.domain.model.fromdomain.SwitchSettings
 import eu.agribot.agribotapp.domain.model.todomain.DiagnosticData
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.ManualSteeringJoystickManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
@@ -17,7 +20,7 @@ class ManualModeService(
     private val receivedBluetoothMessageManager: ReceivedBluetoothMessageManager,
     private val messageCreator: BluetoothMessageCreator
 ) {
-    var startStopEngineScope = MainScope()
+    var startStopEngineScope = CoroutineScope(Job() + Dispatchers.IO)
     private val engineStartDelay = 100L
 
     fun onManualSteeringJoystickParametrChanged(joystickAngle: Int, joystickStrength: Int) {

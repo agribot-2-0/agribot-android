@@ -14,7 +14,6 @@ import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessa
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.LENGHT_BYTE_POSITION
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.START_FRAME_MESSAGE
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.START_OF_FRAME_POSITION
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage.VOLTAGE_DROP
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.DiagnosticDataArrayPosition.ACCUMULATOR_VOLTAGE_SECOND_BYTE_POSITION
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.DiagnosticDataArrayPosition.ACCUMULATOR_VOLTGE_FIRST_BYTE_POSITION
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.DiagnosticDataArrayPosition.ENGINE_FUEL_RATE_BYTE_POSITION
@@ -28,6 +27,8 @@ import eu.agribot.agribotapp.communication.bluetooth.const.BluetoothAdressCodeMo
 import eu.agribot.agribotapp.communication.bluetooth.const.PersistentConnectionParameters
 import eu.agribot.agribotapp.communication.bluetooth.error.message.receive.BluetoothMessageReceiveErrorHandler
 import eu.agribot.agribotapp.communication.bluetooth.model.fromcommunication.DiagnosticBluetoothDataBD
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import java.io.IOException
 
 class AndroidReceivedBluetoothMessageManager(
@@ -36,8 +37,10 @@ class AndroidReceivedBluetoothMessageManager(
     private val bluetoothSocketManager: BluetoothSocketManager,
     private val heartbeatManager: HeartbeatManager
 ) : ReceivedBluetoothMessageManager {
-    private var agribotDiagnosticData: DiagnosticBluetoothDataBD? = null
+    @ExperimentalCoroutinesApi
+    private val agribotDiagnosticDataFlow = MutableStateFlow<DiagnosticBluetoothDataBD?>(null)
 
+    @ExperimentalCoroutinesApi
     override fun registerMessageReceiver() {
         writeBluetoothMessageManager.sendHandshakeMessage()
         val receiveMessageBuffer = ByteArray(PersistentConnectionParameters.MESSAGE_BUFFER_SIZE)
@@ -52,10 +55,12 @@ class AndroidReceivedBluetoothMessageManager(
         }
     }
 
-    override fun getDiagnosticData(): DiagnosticBluetoothDataBD? {
-        return agribotDiagnosticData
+    @ExperimentalCoroutinesApi
+    override fun observeDiagnosticData(): MutableStateFlow<DiagnosticBluetoothDataBD?> {
+        return agribotDiagnosticDataFlow
     }
 
+    @ExperimentalCoroutinesApi
     private fun handleMessage(
         bluetoothMessage: ByteArray
     ) {
@@ -79,6 +84,7 @@ class AndroidReceivedBluetoothMessageManager(
         }
     }
 
+    @ExperimentalCoroutinesApi
     private fun handleMessageFrame(bluetoothMessageFrame: BluetoothMessageFrame) {
         when (bluetoothMessageFrame.getAddress()) {
             BluetoothAdressCodeModel.AGRIBOT_HANDSHAKE -> {
@@ -103,12 +109,12 @@ class AndroidReceivedBluetoothMessageManager(
         }
     }
 
+    @ExperimentalCoroutinesApi
     private fun handleDiagnosticData(bluetoothMessageFrame: BluetoothMessageFrame) {
-
         if (bluetoothMessageFrame.getMessage().size < EIGHT_BYTE_MESSAGE)
             return
         bluetoothMessageFrame.let { diagnosticData ->
-            agribotDiagnosticData = DiagnosticBluetoothDataBD(
+            agribotDiagnosticDataFlow.value = DiagnosticBluetoothDataBD(
                     engineFuelRate = getEngineFuelRate(diagnosticData),
                     batteryVoltage = getBatteryVoltage(diagnosticData),
                     engineRotationsPerMinute = getEngineRotations(diagnosticData),
@@ -144,9 +150,9 @@ class AndroidReceivedBluetoothMessageManager(
     private fun getBatteryVoltage(bluetoothMessageFrame: BluetoothMessageFrame): String {
         val batteryVoltage = bytesToUnsingedInt(bluetoothMessageFrame.getMessage().sliceArray(ACCUMULATOR_VOLTGE_FIRST_BYTE_POSITION..ACCUMULATOR_VOLTAGE_SECOND_BYTE_POSITION)) * BATTERY_VOLTAGE_RATIO
         return if (batteryVoltage.toString().length > FOUR_DIGIT_NUMBER)
-            (batteryVoltage.toString().slice(FIRST_DIGIT..FOURTH_DIGIT).toDouble() + VOLTAGE_DROP).toString()
+            (batteryVoltage.toString().slice(FIRST_DIGIT..FOURTH_DIGIT).toDouble()).toString()
         else
-            (batteryVoltage + VOLTAGE_DROP).toString()
+            (batteryVoltage).toString()
     }
 
     private fun bytesToUnsingedInt(array: ByteArray): Int {

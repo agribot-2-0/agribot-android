@@ -11,6 +11,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class ManualModeService(
@@ -21,6 +23,8 @@ class ManualModeService(
 ) {
     var startStopEngineScope = CoroutineScope(Job() + Dispatchers.IO)
     private val engineStartDelay = 100L
+    private val diagnosticDataFlow = MutableStateFlow<DiagnosticData?>(null)
+    var diagnosticDataFlowScope = CoroutineScope(Job() + Dispatchers.IO)
 
     fun onManualSteeringJoystickParametrChanged(joystickAngle: Int, joystickStrength: Int) {
         manualSteeringJoystickManager.onJoystickConfigurationChanged(
@@ -42,7 +46,18 @@ class ManualModeService(
         messageCreator.createSwitchesMessage(switchSettings.toCommunicationModel())
     }
 
-    fun getDiagnosticData(): DiagnosticData? {
-        return receivedBluetoothMessageManager.getDiagnosticData()?.toDomainModel()
+    private fun getDiagnosticData() {
+        diagnosticDataFlowScope.launch {
+            receivedBluetoothMessageManager.observeDiagnosticData()?.collect {
+                if (it != null) {
+                    diagnosticDataFlow.value = it.toDomainModel()
+                }
+            }
+        }
+    }
+
+    fun observeDiagnosticData(): MutableStateFlow<DiagnosticData?> {
+        getDiagnosticData()
+        return diagnosticDataFlow
     }
 }

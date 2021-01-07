@@ -8,7 +8,7 @@ import eu.agribot.agribotapp.common.navigation.events.TTControlNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolControlNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.service.ManualModeService
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class ManualControlViewModel(
@@ -16,10 +16,6 @@ class ManualControlViewModel(
     private val resourcesProvider: ResourcesProvider
 
 ) : BaseViewModel() {
-
-    companion object {
-        const val REFRESH_DIAGNOSTIC_DATA_DELAY = 100L
-    }
 
     val accumulatorVoltage: MutableLiveData<String> = MutableLiveData()
     val engineRotations: MutableLiveData<String> = MutableLiveData()
@@ -35,25 +31,24 @@ class ManualControlViewModel(
         )
     }
 
-    private fun refreshDiagnosticData() = viewModelScope.launch {
-        while (true) {
-            delay(REFRESH_DIAGNOSTIC_DATA_DELAY)
-            if (manualModeService.getDiagnosticData() != null) {
-                manualModeService.getDiagnosticData()?.let { diagnosticData ->
-                    accumulatorVoltage.value = diagnosticData.batteryVoltage
-                    engineRotations.value = diagnosticData.engineRotationsPerMinute.toString()
-                    torqueOfEngine.value = diagnosticData.torqueOfEngine.toString()
-                    engineFuelRate.value = diagnosticData.fuelLevel.toString()
-                    fuelLevel.value = diagnosticData.fuelLevel.toString()
-                    fuelTemperature.value = diagnosticData.fuelTemperature.toString()
-                }
+    fun setDiagnosticData() = viewModelScope.launch {
+        manualModeService.observeDiagnosticData().collect { diagnosticData ->
+            if (diagnosticData != null) {
+                accumulatorVoltage.value = diagnosticData.batteryVoltage
+                engineRotations.value = diagnosticData.engineRotationsPerMinute.toString()
+                torqueOfEngine.value = diagnosticData.torqueOfEngine.toString()
+                engineFuelRate.value = diagnosticData.fuelLevel.toString()
+                fuelLevel.value = diagnosticData.fuelLevel.toString()
+                fuelTemperature.value = diagnosticData.fuelTemperature.toString()
             } else {
-                accumulatorVoltage.value = resourcesProvider.getString(R.string.empty_data)
-                engineRotations.value = resourcesProvider.getString(R.string.empty_data)
-                torqueOfEngine.value = resourcesProvider.getString(R.string.empty_data)
-                engineFuelRate.value = resourcesProvider.getString(R.string.empty_data)
-                fuelLevel.value = resourcesProvider.getString(R.string.empty_data)
-                fuelTemperature.value = resourcesProvider.getString(R.string.empty_data)
+                resourcesProvider.getString(R.string.no_data_status).let { noData ->
+                    accumulatorVoltage.value = noData
+                    engineRotations.value = noData
+                    torqueOfEngine.value = noData
+                    engineFuelRate.value = noData
+                    fuelLevel.value = noData
+                    fuelTemperature.value = noData
+                }
             }
         }
     }
@@ -71,11 +66,6 @@ class ManualControlViewModel(
             joystickMessageCounter.value = joystickMessageCounter.value!! + 1
         }
         return joystickMessageCounter.value!!
-    }
-
-    fun startRefreshDiagnosticData() = viewModelScope.launch {
-        delay(REFRESH_DIAGNOSTIC_DATA_DELAY)
-        refreshDiagnosticData()
     }
 
     fun startStopEngine() {

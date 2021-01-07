@@ -1,7 +1,7 @@
 package eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
@@ -9,11 +9,16 @@ import eu.agribot.agribotapp.common.navigation.events.ToolNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
 import eu.agribot.agribotapp.domain.model.fromdomain.RfidParameters
+import eu.agribot.agribotapp.domain.model.todomain.RfidData
 import eu.agribot.agribotapp.domain.service.ToolManagementService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.HitchListItemDetail
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams.recycler.ReceivedRfidDataViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class ToolParamsViewModel(
     private val toolDataManager: ToolDataManager,
@@ -25,7 +30,10 @@ class ToolParamsViewModel(
     private val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val paramsList: MutableLiveData<List<HitchListItemViewModel>> =
         MutableLiveData(listOf())
-    val toolRfidTag: MutableLiveData<String> = MutableLiveData()
+    private val toolRfidTag: MutableLiveData<String> = MutableLiveData()
+    val rfidReceivedData: MutableLiveData<List<ReceivedRfidDataViewModel>> =
+        MutableLiveData(listOf())
+    val noRfidTagDataEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
 
     private fun addToolParamItemsToRecycler() {
         addToolToToolParamList(
@@ -200,9 +208,56 @@ class ToolParamsViewModel(
         isScanOperation.postValue(true)
     }
 
-    fun scanRfid(antennaNumber : Int){
-        toolManagementService.scanRfidTags(RfidParameters(comNumber = 1, antennaNumber = antennaNumber))
+    @ExperimentalCoroutinesApi
+    fun scanRfid(antennaNumber: Int) = viewModelScope.launch {
+        toolManagementService.scanRfidTags(
+            RfidParameters(
+                comNumber = 1,
+                antennaNumber = antennaNumber
+            )
+        )
+        getRfidData()
     }
 
+    @ExperimentalCoroutinesApi
+    private fun getRfidData() {
+        rfidReceivedData.value = listOf()
+        viewModelScope.launch {
+            toolManagementService.observeRfidDataFlow().collect {
+                if (it != null) {
+                    onGotRfidData(it)
+                }
+            }
+        }
+    }
 
+    private fun onGotRfidData(rfidData: RfidData) {
+        if (rfidData.antennaNumber != 0) {
+            rfidReceivedData.value!!.any {
+                it.rfidTagData == rfidData.tagIDNumber.toString()
+            }.let {
+                rfidReceivedData.value = listOf(
+                    ReceivedRfidDataViewModel(
+                        antennaNumber = getAntennaName(rfidData.antennaNumber),
+                        rfidTagData = rfidData.tagIDNumber.toString()
+                    ), *rfidReceivedData.value!!.toTypedArray()
+                )
+            }
+        } else {
+            noRfidTagDataEvent.postValue(true)
+        }
+    }
+
+    private fun getAntennaName(antenaNumber: Int): String {
+        return when (antenaNumber) {
+            AntennaNumber.FRONT_ANTENNA.number -> {
+                resourcesProvider.getString(R.string.front_antenna)
+            }
+
+            AntennaNumber.BACK_ANTENNA.number -> {
+                resourcesProvider.getString(R.string.back_antenna)
+            }
+            else -> resourcesProvider.getString(R.string.both_antenna)
+        }
+    }
 }

@@ -19,7 +19,6 @@ class AndroidBluetoothMessageCreator(private val bluetoothMessageManager: WriteB
         ByteArray(FrameConstant.TTCONTROL_MOVE_LEFT_RIGHT_ARRAY_SIZE)
     private val rfidArray = ByteArray(2)
 
-
     override fun createARCMessage(arcParametrsBD: ArcParametrsBD) {
         val moveArcArray = ByteArray(FrameConstant.ARC_MESSAGE_ARRAY_SIZE)
         moveArcArray[0] = arcParametrsBD.forward.toByte()
@@ -93,6 +92,5 @@ class AndroidBluetoothMessageCreator(private val bluetoothMessageManager: WriteB
         rfidArray[0] = rfidParametersBD.comNumber.toByte()
         rfidArray[1] = rfidParametersBD.antennaNumber.toByte()
         bluetoothMessageManager.sendRfidScanRequest(rfidArray)
-
     }
 }

@@ -5,7 +5,15 @@ import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
 import eu.agribot.agribotapp.domain.error.PathManagementErrorHandler
 import eu.agribot.agribotapp.domain.permission.AndroidPermissionManager
 import eu.agribot.agribotapp.domain.permission.PermissionManager
-import eu.agribot.agribotapp.domain.service.*
+import eu.agribot.agribotapp.domain.service.AuthenticationService
+import eu.agribot.agribotapp.domain.service.AutonomyService
+import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
+import eu.agribot.agribotapp.domain.service.KmlLayerService
+import eu.agribot.agribotapp.domain.service.ManualModeService
+import eu.agribot.agribotapp.domain.service.PathManagementService
+import eu.agribot.agribotapp.domain.service.RemoteControlService
+import eu.agribot.agribotapp.domain.service.TTControlService
+import eu.agribot.agribotapp.domain.service.ToolManagementService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
@@ -157,7 +165,8 @@ val domainModule = module {
 
     single {
         ToolManagementService(
-            bluetoothMessageCreator = get()
+            bluetoothMessageCreator = get(),
+            receivedBluetoothMessageManager = get()
         )
     }
 }

@@ -53,21 +53,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin_medium"
-                        android:text="Front Antenna Scan" />
+                        android:text="@string/front_antenna_scan" />
 
                     <RadioButton
                         android:id="@+id/bothAntenna"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin_medium"
-                        android:text="Both Antenna Scan" />
+                        android:text="@string/both_antenna_scan" />
 
                     <RadioButton
                         android:id="@+id/backAntenna"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin_medium"
-                        android:text="Back Antenna Scan" />
+                        android:text="@string/back_antenna_scan" />
 
                 </RadioGroup>
 
@@ -76,27 +76,25 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:onClick="@{()-> viewModel.startRfidScan()}"
-                    android:text="Start Scan"/>
+                    android:text="@string/start_scan" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_margin="@dimen/margin_medium"
-                    android:background="@color/gray"/>
+                    android:background="@color/gray" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_small"
+                    android:textSize="@dimen/text_size_xlarge"
                     android:gravity="center"
-                    android:text="RFID Tag" />
+                    android:text="@string/found_rfid_tags"/>
 
-                <TextView
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/tagRfidRecycler"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_small"
-                    android:gravity="center"
-                    android:text="@{viewModel.toolRfidTag}" />
+                    android:layout_height="match_parent" />
 
             </LinearLayout>
 

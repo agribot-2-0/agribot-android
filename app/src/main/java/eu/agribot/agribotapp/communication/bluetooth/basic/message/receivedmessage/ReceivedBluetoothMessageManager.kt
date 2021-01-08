@@ -8,4 +8,5 @@ interface ReceivedBluetoothMessageManager {
     fun registerMessageReceiver()
     fun getDiagnosticData(): DiagnosticBluetoothDataBD?
     fun observe(): MutableStateFlow<RfidDataBD?>
+    fun clearRfidDataFlow()
 }

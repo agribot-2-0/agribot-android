@@ -41,4 +41,9 @@ class ToolManagementService(
             }
         }
     }
+
+    fun clearRfidData() {
+        rfidDataFlow.value = null
+        receivedBluetoothMessageManager.clearRfidDataFlow()
+    }
 }

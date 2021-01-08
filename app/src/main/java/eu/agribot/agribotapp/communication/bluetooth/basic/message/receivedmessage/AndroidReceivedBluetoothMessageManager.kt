@@ -138,6 +138,11 @@ class AndroidReceivedBluetoothMessageManager(
         return rfidDataBDFlow
     }
 
+    @ExperimentalCoroutinesApi
+    override fun clearRfidDataFlow() {
+        rfidDataBDFlow.value = null
+    }
+
     private fun handleDiagnosticData(bluetoothMessageFrame: BluetoothMessageFrame) {
 
         if (bluetoothMessageFrame.getMessage().size < EIGHT_BYTE_MESSAGE)

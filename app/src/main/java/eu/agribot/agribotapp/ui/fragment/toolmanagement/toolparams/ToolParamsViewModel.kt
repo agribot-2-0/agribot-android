@@ -206,6 +206,7 @@ class ToolParamsViewModel(
 
     fun startRfidScan() {
         isScanOperation.postValue(true)
+        clearRfidData()
     }
 
     @ExperimentalCoroutinesApi
@@ -221,7 +222,6 @@ class ToolParamsViewModel(
 
     @ExperimentalCoroutinesApi
     private fun getRfidData() {
-        rfidReceivedData.value = listOf()
         viewModelScope.launch {
             toolManagementService.observeRfidDataFlow().collect {
                 if (it != null) {
@@ -259,5 +259,10 @@ class ToolParamsViewModel(
             }
             else -> resourcesProvider.getString(R.string.both_antenna)
         }
+    }
+
+    private fun clearRfidData() {
+        rfidReceivedData.value = listOf()
+        toolManagementService.clearRfidData()
     }
 }

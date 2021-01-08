@@ -17,7 +17,7 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserInfo
 
 interface CloudDatabase {
 
-    fun setUsersRobotName(onGotUserRobotNameSucess: () -> Unit)
+    fun getUsersRobotName(onGetUsserRobotNAmeSucess: () -> Unit)
 
     fun getUserData(
         onDatabaseSucess: (data: UserInfoCDB) -> Unit,
@@ -126,6 +126,11 @@ interface CloudDatabase {
     fun getToolDetails(
         toolName: String,
         onGetToolDetailsSucess: (toolDetailsCDB: ToolDetailsCDB) -> Unit,
+        onDatabaseError: (Throwable) -> Unit
+    )
+
+    fun getRobotOnceRobotCoordinate(
+        onGotRobotCoordinate: (RobotLocalizationPoseCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 }

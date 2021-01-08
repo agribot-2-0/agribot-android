@@ -253,4 +253,14 @@
     <string name="rfid_data">Data:</string>
     <string name="antena_name">Antenna :</string>
 
+    <string name="prev_button_arrow" translatable="false"><![CDATA[<-]]></string>
+    <string name="next_button_arrow" translatable="false"><![CDATA[->]]></string>
+
+    <string name="path_deleted_message">Path deleted successfully</string>
+    <string name="loading_path_problem">Loading Path Problem</string>
+    <string name="blank_path_name_error">Path name cant\'t be blank</string>
+
+
+    <string name="checking_files">Sprawdzanie plików - proszę czekać</string>
+    <string name="download_progress">\"Postęp pobierania \"</string>
 </resources>

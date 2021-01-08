@@ -1,22 +1,27 @@
 package eu.agribot.agribotapp.domain.service
 
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
+import eu.agribot.agribotapp.R
+import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.communication.database.firestorage.DownloaderPath
-import eu.agribot.agribotapp.communication.database.firestorage.FirestorageService
 import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
 import eu.agribot.agribotapp.domain.error.PathManagementErrorHandler
 import eu.agribot.agribotapp.domain.model.CoordinatesModel
+import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
 import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePathProvider
 import org.xmlpull.v1.XmlPullParserException
 import org.xmlpull.v1.XmlPullParserFactory
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
 
 class PathManagementService(
     private val filepathProvider: FilePathProvider,
-    private val fileStorageService: FirestorageService,
+    private val cloudStorageService: CloudStorageService,
     private val cloudStorageErrorHandler: CloudStorageErrorHandler,
-    private val pathManagementErrorHandler: PathManagementErrorHandler
+    private val pathManagementErrorHandler: PathManagementErrorHandler,
+    private val resourcesProvider: ResourcesProvider
 ) {
     companion object {
         const val fileNameSuffix = "_v"
@@ -24,21 +29,64 @@ class PathManagementService(
         const val fileFormat = ".kml"
         const val nextVersion = 1
         var versionNumber = 1
+        var robotPathName: String = ""
+        var layerStream: InputStream? = null
+    }
+
+    fun updatePathName(pathName: String) {
+        robotPathName = pathName
+    }
+
+    private fun getPathName(): String {
+        return robotPathName
+    }
+
+    private fun onError(error: String) {
+        // TODO NOT YET IMPLEMENTED
+    }
+
+    fun findLayerFile() {
+        cloudStorageService.downloadFilesList(
+            onFileAvailable = this::checkIsFileExist,
+            onError = this::onError
+        )
+    }
+
+    fun getSelectedPathLayer(): InputStream? {
+        return layerStream
+    }
+
+    private fun checkIsFileExist(fileName: String) {
+        val file = fileName.substringBefore("_")
+        if (file.equals(robotPathName, ignoreCase = true)) {
+            try {
+                cloudStorageService.onFileSelected(
+                    fileName,
+                    onGotFile = this::onGotLayerFile,
+                    onSelectedFileError = this::onError
+                )
+            } catch (exception: IOException) {
+                onError(cloudStorageErrorHandler.getStorageError(exception))
+            }
+        }
+    }
+
+    private fun onGotLayerFile(file: File) {
+        val fileInputStream: InputStream = FileInputStream(file)
+        layerStream = fileInputStream
     }
 
     fun handlePathFile(
         coordinateList: List<CoordinatesModel>,
-        fileName: String,
         onSucess: () -> Unit,
         onError: (error: String) -> Unit
     ) {
-        val fileVersionName = getFileVersion(fileName)
-        createKmlFile(fileName, getFileOutputStream(fileVersionName), coordinateList, onError)
+        val fileVersionName = getFileVersion(getPathName())
+        createKmlFile(getFileOutputStream(fileVersionName), coordinateList, onError)
         uploadPathToCloud(fileVersionName, onSucess, onError)
     }
 
     private fun createKmlFile(
-        fileName: String,
         fileOutputStream: FileOutputStream,
         coordinateList: List<CoordinatesModel>,
         onError: (error: String) -> Unit
@@ -47,7 +95,10 @@ class PathManagementService(
             val xmlSerializer = XmlPullParserFactory.newInstance().newSerializer()
             xmlSerializer.setOutput(fileOutputStream, "UTF-8")
             xmlSerializer.startDocument("UTF-8", null)
-            xmlSerializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true)
+            xmlSerializer.setFeature(
+                "http://xmlpull.org/v1/doc/features.html#indent-output",
+                true
+            )
             xmlSerializer.startTag(null, "kml")
             xmlSerializer.attribute(null, "xmlns", "http://www.opengis.net/kml/2.2")
             xmlSerializer.attribute(null, "xmlns:gx", "http://www.google.com/kml/ext/2.2")
@@ -59,7 +110,7 @@ class PathManagementService(
             xmlSerializer.attribute(null, "id", "style-Tracks")
             xmlSerializer.startTag(null, "LineStyle")
             xmlSerializer.startTag(null, "color")
-            xmlSerializer.text("fe72cd00")
+            xmlSerializer.text(getPolylineColor())
             xmlSerializer.endTag(null, "color")
             xmlSerializer.startTag(null, "width")
             xmlSerializer.text("3")
@@ -74,7 +125,7 @@ class PathManagementService(
 
             xmlSerializer.startTag(null, "Placemark")
             xmlSerializer.startTag(null, "name")
-            xmlSerializer.text(fileName)
+            xmlSerializer.text(getPathName())
             xmlSerializer.endTag(null, "name")
             xmlSerializer.startTag(null, "styleUrl")
             xmlSerializer.text("#style-Tracks")
@@ -87,7 +138,7 @@ class PathManagementService(
             xmlSerializer.text(" ")
             for (i in coordinateList.indices) {
                 xmlSerializer.text(
-                    " " + coordinateList[i].longtitude + "," + coordinateList[i].latitude + ",0"
+                    " " + coordinateList[i].longitude + "," + coordinateList[i].latitude + ",0"
                 )
             }
             xmlSerializer.endTag(null, "coordinates")
@@ -107,6 +158,10 @@ class PathManagementService(
         } catch (e: IOException) {
             onError(pathManagementErrorHandler.getCreateKmlError(e))
         }
+    }
+
+    private fun getPolylineColor(): String {
+        return Integer.toHexString(resourcesProvider.getColor(R.color.polyline_path)).substring(2)
     }
 
     private fun getFileOutputStream(fileVersionName: String): FileOutputStream {
@@ -139,12 +194,43 @@ class PathManagementService(
         onSucess: () -> Unit,
         onError: (error: String) -> Unit
     ) {
-        fileStorageService.uploadPathFile(
+        cloudStorageService.uploadPathFile(
             filepathProvider.getLayerPath(DownloaderPath.LAYER_PATH.filePath + sourceSeparator + fileVersionName + fileFormat),
             fileVersionName + fileFormat,
             onSucess,
-            onError = { onError(cloudStorageErrorHandler.getStorageError(it)) }
-
+            onError
         )
+    }
+
+    fun handleRemovePathOperation(
+        pathName: String,
+        onSucess: () -> Unit,
+        onError: (error: String) -> Unit
+    ) {
+        removePathInCloud(pathName, onSucess, onError)
+        removePathInStorage()
+    }
+
+    private fun removePathInCloud(
+        pathName: String,
+        onSucess: () -> Unit,
+        onError: (error: String) -> Unit
+    ) {
+        updatePathName(pathName)
+        cloudStorageService.removeFileInCLoud(
+            getFileVersion(getPathName()) + fileFormat,
+            onSucess,
+            onError
+        )
+    }
+
+    private fun removePathInStorage() {
+        File(
+            filepathProvider.getLayerPath(
+                DownloaderPath.LAYER_PATH.filePath + sourceSeparator + getFileVersion(
+                    getPathName()
+                ) + fileFormat
+            )
+        ).delete()
     }
 }

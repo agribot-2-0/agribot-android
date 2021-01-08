@@ -1,30 +1,69 @@
 package eu.agribot.agribotapp.ui.fragment.pathmanagement.mainpathscreen
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.maps.android.kml.KmlContainer
+import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
+import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.NewPathNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.PathNameNavigationEvent
+import eu.agribot.agribotapp.common.resources.ResourcesProvider
+import eu.agribot.agribotapp.domain.service.KmlLayerService
 import eu.agribot.agribotapp.domain.service.PathManagementService
 import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
+import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePathProvider
 import eu.agribot.agribotapp.ui.fragment.taskcreator.PathNameFileSymbol
 import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler.CloudFileListItemViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.io.InputStream
 
 class PathManagementViewModel(
     private val pathManagementService: PathManagementService,
-    private val cloudStorageService: CloudStorageService
+    private val cloudStorageService: CloudStorageService,
+    private val filePathProvider: FilePathProvider,
+    private val kmlLayerService: KmlLayerService,
+    private val resourcesProvider: ResourcesProvider
 ) : BaseViewModel() {
     val availableFiles: MutableLiveData<List<CloudFileListItemViewModel>> =
         MutableLiveData(listOf())
+    val cameraPosition: MutableLiveData<List<LatLng>> = MutableLiveData()
+    val selectedLayer: MutableLiveData<InputStream> = MutableLiveData()
+    val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
+    private val layerInitializeTime = 200L
+    fun getMapTilePath(path: String): String {
+        return filePathProvider.getMapTilePath(path)
+    }
 
-    // MOCK COORDINATE - REMOVED ON NEXT BRANCH
-    val agriBotLatLng = LatLng(51.11322, 17.01958)
+    fun getCoordinatesFromKml(containers: Iterable<KmlContainer?>) {
+        kmlLayerService.getCoordinates(
+            containers,
+            onGetLatLng = this::onGotCoordinates,
+            onError = this::onGetCoordinatesError
+        )
+    }
 
-    val markers: MutableLiveData<MarkerOptions> = MutableLiveData()
+    private fun onGotCoordinates(coordinates: ArrayList<LatLng>) {
+        cameraPosition.value = coordinates
+    }
 
-    fun addDefaultMarker() {
-        markers.value = MarkerOptions().position(agriBotLatLng)
+    private fun onGetCoordinatesError() {
+        postToastErrorMessageEvent(resourcesProvider.getString(R.string.kml_layer_problem))
+    }
+
+    fun openSelectedLayer(fileName: String) = viewModelScope.launch {
+        pathManagementService.updatePathName(fileName)
+        pathManagementService.findLayerFile()
+        delay(layerInitializeTime)
+        if (pathManagementService.getSelectedPathLayer() != null) {
+            selectedLayer.value = pathManagementService.getSelectedPathLayer()
+        }
+    }
+
+    private fun postToastErrorMessageEvent(errorMessage: String) {
+        toastMessageEvent.postValue(errorMessage)
     }
 
     fun postNewPathNavigationEvent() {
@@ -32,9 +71,10 @@ class PathManagementViewModel(
     }
 
     private fun onAvailableFileFound(fileName: String, isFileActive: Boolean) {
-        availableFiles.value?.any {
+        val isFileAlreadyAdded = availableFiles.value!!.any {
             it.fileName == formatFilename(fileName)
-        }.let {
+        }
+        if (!isFileAlreadyAdded) {
             availableFiles.value = listOf(
                 CloudFileListItemViewModel(
                     formatFilename(fileName),
@@ -64,14 +104,45 @@ class PathManagementViewModel(
     }
 
     private fun onCloudDataException(exception: String) {
-        // TODO NOT YET IMPLEMENT
+        toastMessageEvent.postValue(exception)
     }
 
     fun onDeleteButtonClicked(itemPathPosition: Int) {
-        // TODO NOT YET IMPLEMENT
+        pathManagementService.handleRemovePathOperation(
+            availableFiles.value!![itemPathPosition].fileName,
+            this::onDeletePathComplete,
+            this::onCloudDataException
+        )
+        refreshRecyclerList(itemPathPosition)
+    }
+
+    private fun refreshRecyclerList(pathToDelete: Int) {
+        availableFiles.value =
+            availableFiles.value!!.filterIndexed { index, _ -> index != pathToDelete }
+    }
+
+    private fun onDeletePathComplete() {
+        toastMessageEvent.postValue(resourcesProvider.getString(R.string.path_deleted_message))
     }
 
     fun onEditButtonClicked(itemPathPosition: Int) {
+        editPathFile(itemPathPosition)
+    }
+
+    private fun editPathFile(itemPathPosition: Int) = viewModelScope.launch {
+        pathManagementService.updatePathName(availableFiles.value!![itemPathPosition].fileName)
+        pathManagementService.findLayerFile()
+        delay(layerInitializeTime)
+        checkIsLayerReady()
+    }
+
+    private fun checkIsLayerReady() {
+        if (pathManagementService.getSelectedPathLayer() != null) {
+            postNavigationEvent()
+        }
+    }
+
+    private fun postNavigationEvent() {
         navigationEvent.postValue(NewPathNavigationEvent())
     }
 }

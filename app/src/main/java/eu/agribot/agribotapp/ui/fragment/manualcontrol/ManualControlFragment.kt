@@ -2,7 +2,6 @@ package eu.agribot.agribotapp.ui.fragment.manualcontrol
 
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
@@ -17,7 +16,6 @@ import org.koin.core.parameter.parametersOf
 import tcking.github.com.giraffeplayer2.Option
 import tcking.github.com.giraffeplayer2.VideoInfo
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
-
 
 class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManualControlBinding>() {
 
@@ -55,12 +53,15 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
             .addOption(Option.create(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "fflags", "nobuffer"))
             .addOption(Option.create(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "flush_packets", 1))
             .addOption(Option.create(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "max_delay", 0))
-            .addOption(Option.create(IjkMediaPlayer.OPT_CATEGORY_CODEC, "low_delay", 10000))
-            videoView.videoInfo(myVideoInfo)
-            Log.e("xd", "video player: " + videoView.videoInfo)
-         videoView.setVideoPath(streamURI.toString()).player.start()
-       // GiraffePlayer.play(requireContext(), videoInfo)
+            .addOption(Option.create(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "infbuf", 1L))
+            .addOption(Option.create(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "packet-buffering", 0))
+            .addOption(Option.create(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "framedrop", 5))
 
+            .addOption(Option.create(IjkMediaPlayer.OPT_CATEGORY_CODEC, "skip_frame", 10))
+            .addOption(Option.create(IjkMediaPlayer.OPT_CATEGORY_CODEC, "skip_loop_filter", 48))
+
+        videoView.videoInfo(myVideoInfo)
+        videoView.setVideoPath(streamURI.toString()).player.start()
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
@@ -69,7 +70,6 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
         is TTControlNavigationEvent -> navigateToOverrideMode()
         else -> Unit
     }
-
 
     private fun navigateToBluetoothScreen() {
         navigationController?.navigate(R.id.action_manualControlFragment_to_bluetoothConnectionFragment)

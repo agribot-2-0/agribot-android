@@ -246,5 +246,8 @@
     <string name="path_deleted_message">Path deleted successfully</string>
     <string name="loading_path_problem">Loading Path Problem</string>
     <string name="blank_path_name_error">Path name cant\'t be blank</string>
+    <string name="connecting_with_device">Wait for connect with Agribot…</string>
+    <string name="left_right">Left / Right</string>
+    <string name="front_back">Front / Back</string>
 
 </resources>

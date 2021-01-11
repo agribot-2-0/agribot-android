@@ -234,5 +234,9 @@
     <string name="path_deleted_message">Ścieżka usunięta pomyślnie</string>
     <string name="loading_path_problem">Problem z załadowaniem ścieżki</string>
     <string name="blank_path_name_error">Nazwa ścieżki nie może być pusta</string>
+    <string name="connecting_with_device">Trwa łączenie z tym urządzeniem…</string>
+    <string name="left_right">LEWO / PRAWO</string>
+    <string name="front_back">Przód / Tył</string>
+
 
 </resources>

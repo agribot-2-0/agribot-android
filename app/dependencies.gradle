@@ -24,7 +24,7 @@ def versions = [
         'firestorage'     : '19.2.0',
         'mapUtils'        : '0.4.4',
         'downloader'      : '0.6.0',
-        'exoPlayer'       : '2.12.2'
+        'videoPlayer'     : '0.1.25-full'
 
 
 ]
@@ -107,10 +107,7 @@ dependencies {
     //PRDownloader
     implementation "com.mindorks.android:prdownloader:$versions.downloader"
 
-    implementation "com.google.android.exoplayer:exoplayer-core:$versions.exoPlayer"
-    implementation "com.google.android.exoplayer:exoplayer-ui:$versions.exoPlayer"
-    implementation "com.google.android.exoplayer:extension-rtmp:$versions.exoPlayer"
-
-    api 'com.github.tcking:giraffeplayer2:0.1.25-full'
+	//VideoPlayer
+    api "com.github.tcking:giraffeplayer2:$versions.videoPlayer"
 
 }

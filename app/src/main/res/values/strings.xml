@@ -236,5 +236,8 @@
     <string name="create_layer_error">Problem with create map layer</string>
     <string name="type_path_name">Give path name</string>
     <string name="task_path_text">Path name</string>
+    <string name="change_stream_url">Change video stream URL</string>
+    <string name="find_agribot">Find Agribot</string>
+    <string name="connect_with_last_used_device">Connect With last used Agribot</string>
 
 </resources>

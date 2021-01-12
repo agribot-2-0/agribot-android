@@ -13,7 +13,12 @@ import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.FRONT_UP_TPL
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.TplSwitchesState
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
-import kotlinx.android.synthetic.main.fragment_tool_control.*
+import kotlinx.android.synthetic.main.fragment_tool_control.front_hitch_recycler
+import kotlinx.android.synthetic.main.fragment_tool_control.back_hitch_recycler
+import kotlinx.android.synthetic.main.fragment_tool_control.checkBox_front_tpl_up
+import kotlinx.android.synthetic.main.fragment_tool_control.checkBox_front_tpl_down
+import kotlinx.android.synthetic.main.fragment_tool_control.checkBox_back_tpl_down
+import kotlinx.android.synthetic.main.fragment_tool_control.checkBox_back_tpl_up
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolControlBinding>() {

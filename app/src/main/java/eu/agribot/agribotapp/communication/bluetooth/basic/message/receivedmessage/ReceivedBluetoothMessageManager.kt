@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 interface ReceivedBluetoothMessageManager {
     fun registerMessageReceiver()
-    fun getDiagnosticData(): DiagnosticBluetoothDataBD?
     fun observe(): MutableStateFlow<RfidDataBD?>
     fun clearRfidDataFlow()
+    fun observeDiagnosticData(): MutableStateFlow<DiagnosticBluetoothDataBD?>?
 }

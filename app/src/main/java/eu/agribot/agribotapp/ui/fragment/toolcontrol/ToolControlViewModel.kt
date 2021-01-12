@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.domain.model.fromdomain.SwitchSettings
 import eu.agribot.agribotapp.domain.service.ManualModeService
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.RecyclerConstant
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.ALL_SWITCHES
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.BACK_BLUE
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.ToolsList.BACK_DOWN_TPL
@@ -30,6 +31,8 @@ import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewM
 class ToolControlViewModel(
     private val manualModeService: ManualModeService
 ) : BaseViewModel() {
+
+    companion object
     val frontToolsList: MutableLiveData<List<HitchListItemViewModel>> =
             MutableLiveData(listOf())
     val backToolsList: MutableLiveData<List<HitchListItemViewModel>> =
@@ -52,7 +55,7 @@ class ToolControlViewModel(
     }
 
     fun onActivateTplParametrChanged(tplNumber: Int, isTplActive: Boolean) {
-        onHitchParametersChanged(ALL_SWITCHES, 0, false)
+        onHitchParametersChanged(ALL_SWITCHES, RecyclerConstant.DEFAULT_SLIDER_VALUE_MIN, false)
         activeTpl.value = TplSwitchesActive(tplNumber, isTplActive)
         when (tplNumber) {
             FRONT_UP_TPL -> {

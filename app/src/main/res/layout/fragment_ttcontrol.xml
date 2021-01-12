@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_medium"
                 android:gravity="center"
-                android:text="LEWO / PRAWO"
+                android:text="@string/left_right"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_large"
                 android:textStyle="bold" />
@@ -103,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_medium"
                 android:gravity="center"
-                android:text="PRZÓD / TYŁ"
+                android:text="@string/front_back"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_large"
                 android:textStyle="bold" />

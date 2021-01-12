@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 class AndroidHeartbeatManager(private val bluetoothWriteBluetoothMessageManager: WriteBluetoothMessageManager) : HeartbeatManager {
     private var heartbeatArray = ByteArray(FrameConstant.EMPTY_CAN_ARRAY_SIZE)
     private var nextHeartbeatScope = CoroutineScope(Job() + Dispatchers.IO)
-    private var heartbeatCounterScope = MainScope()
+    private var heartbeatCounterScope = CoroutineScope(Job() + Dispatchers.IO)
     private var heartbeatFlag: Boolean = false
 
     companion object {

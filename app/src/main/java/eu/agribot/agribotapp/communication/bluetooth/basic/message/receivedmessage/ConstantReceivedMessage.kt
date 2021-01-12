@@ -5,8 +5,6 @@ object ConstantReceivedMessage {
 
     const val FUEL_RATE_RATIO = 10.0
 
-    const val VOLTAGE_DROP = 1
-
     const val EIGHT_BYTE_MESSAGE = 8
 
     const val FOUR_DIGIT_NUMBER = 4

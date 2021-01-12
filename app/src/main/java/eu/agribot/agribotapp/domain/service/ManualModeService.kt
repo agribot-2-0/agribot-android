@@ -6,9 +6,13 @@ import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.
 import eu.agribot.agribotapp.domain.model.fromdomain.SwitchSettings
 import eu.agribot.agribotapp.domain.model.todomain.DiagnosticData
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.ManualSteeringJoystickManager
-import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class ManualModeService(
@@ -17,8 +21,10 @@ class ManualModeService(
     private val receivedBluetoothMessageManager: ReceivedBluetoothMessageManager,
     private val messageCreator: BluetoothMessageCreator
 ) {
-    var startStopEngineScope = MainScope()
+    var startStopEngineScope = CoroutineScope(Job() + Dispatchers.IO)
     private val engineStartDelay = 100L
+    private val diagnosticDataFlow = MutableStateFlow<DiagnosticData?>(null)
+    var diagnosticDataFlowScope = CoroutineScope(Job() + Dispatchers.IO)
 
     fun onManualSteeringJoystickParametrChanged(joystickAngle: Int, joystickStrength: Int) {
         manualSteeringJoystickManager.onJoystickConfigurationChanged(
@@ -40,7 +46,18 @@ class ManualModeService(
         messageCreator.createSwitchesMessage(switchSettings.toCommunicationModel())
     }
 
-    fun getDiagnosticData(): DiagnosticData? {
-        return receivedBluetoothMessageManager.getDiagnosticData()?.toDomainModel()
+    private fun getDiagnosticData() {
+        diagnosticDataFlowScope.launch {
+            receivedBluetoothMessageManager.observeDiagnosticData()?.collect {
+                if (it != null) {
+                    diagnosticDataFlow.value = it.toDomainModel()
+                }
+            }
+        }
+    }
+
+    fun observeDiagnosticData(): MutableStateFlow<DiagnosticData?> {
+        getDiagnosticData()
+        return diagnosticDataFlow
     }
 }

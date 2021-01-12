@@ -60,7 +60,7 @@
                 android:layout_height="match_parent"
                 android:textStyle="italic"
                 android:layout_gravity="center_horizontal"
-                android:text="Trwa łączenie z tym urządzeniem..."/>
+                android:text="@string/connecting_with_device"/>
 
             <ProgressBar
                 android:layout_width="wrap_content"

@@ -12,9 +12,9 @@ import eu.agribot.agribotapp.ui.fragment.bluetoothconnection.recycler.BluetoothN
 import eu.agribot.agribotapp.ui.fragment.controlPanel.ControlPanelViewModel
 import eu.agribot.agribotapp.ui.fragment.controlPanel.taskselect.TaskSelectViewModel
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.ManualControlViewModel
-import eu.agribot.agribotapp.ui.fragment.pathmanagement.pathname.PathNameViewModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.mainpathscreen.PathManagementViewModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.NewPathViewModel
+import eu.agribot.agribotapp.ui.fragment.pathmanagement.pathname.PathNameViewModel
 import eu.agribot.agribotapp.ui.fragment.settings.SettingsViewModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.TaskCreatorViewModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.TaskListItemViewModel
@@ -51,7 +51,8 @@ val viewModelModule = module {
         BluetoothConnectionViewModel(
             bluetoothConnectionService = get(),
             resourcesProvider = get { parametersOf(context) },
-            permissionManager = get()
+            permissionManager = get(),
+            appStorageService = get()
         )
     }
     viewModel {
@@ -69,7 +70,8 @@ val viewModelModule = module {
     viewModel { (context: Context) ->
         ManualControlViewModel(
             manualModeService = get(),
-            resourcesProvider = get { parametersOf(context) }
+            resourcesProvider = get { parametersOf(context) },
+            appStorageService = get()
         )
     }
     viewModel { (context: Context) ->
@@ -114,7 +116,8 @@ val viewModelModule = module {
         SettingsViewModel(
             authenticationService = get(),
             resourcesProvider = get { parametersOf(context) },
-            bluetoothConnectionService = get()
+            bluetoothConnectionService = get(),
+            appStorageService = get()
         )
     }
     viewModel {

@@ -6,8 +6,11 @@ package eu.agribot.agribotapp.communication.persistence
  */
 interface PersistentStorage {
 
-    // TODO: Remove sample methods
-    fun getExampleEntry(): String
+    fun saveVideoStreamUrl(url: String)
 
-    fun saveExampleEntry(entry: String)
+    fun getVideoStreamUrl(): String
+
+    fun saveLastUsedDeviceBluetoothAddress(url: String)
+
+    fun getLastUsedDeviceBluetoothAddress(): String
 }

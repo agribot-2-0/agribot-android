@@ -5,6 +5,8 @@
     <!-- Commons -->
     <string name="exit">Exit</string>
     <string name="cancel">Cancel</string>
+    <string name="done">Done</string>
+
 
     <!-- Navigation drawer -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -239,5 +241,7 @@
     <string name="change_stream_url">Change video stream URL</string>
     <string name="find_agribot">Find Agribot</string>
     <string name="connect_with_last_used_device">Connect With last used Agribot</string>
+    <string name="change_video_url">Zmień adres transmisji Wideo</string>
+    <string name="actual_url">\"Actual URL: \"</string>
 
 </resources>

@@ -7,13 +7,15 @@ import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.navigation.events.TTControlNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolControlNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
+import eu.agribot.agribotapp.domain.service.AppStorageService
 import eu.agribot.agribotapp.domain.service.ManualModeService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ManualControlViewModel(
     private val manualModeService: ManualModeService,
-    private val resourcesProvider: ResourcesProvider
+    private val resourcesProvider: ResourcesProvider,
+    private val appStorageService: AppStorageService
 
 ) : BaseViewModel() {
 
@@ -34,6 +36,8 @@ class ManualControlViewModel(
             ToolControlNavigationEvent()
         )
     }
+
+    fun getStreamUrl(): String = appStorageService.getStreamUrl()
 
     private fun refreshDiagnosticData() = viewModelScope.launch {
         while (true) {

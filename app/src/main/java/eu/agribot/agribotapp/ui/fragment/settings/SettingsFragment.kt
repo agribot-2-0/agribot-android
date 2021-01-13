@@ -1,5 +1,8 @@
 package eu.agribot.agribotapp.ui.fragment.settings
 
+import android.bluetooth.BluetoothAdapter
+import android.content.BroadcastReceiver
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -8,7 +11,9 @@ import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.dialog.DialogManager
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.BluetoothConnectionNavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.ManualControlNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.WelcomeActivityNavigationEvent
+import eu.agribot.agribotapp.communication.bluetooth.locale.BluetoothDiscoveryBroadcastReceiver
 import eu.agribot.agribotapp.databinding.FragmentSettingsBinding
 import eu.agribot.agribotapp.ui.activity.authentication.welcome.WelcomeActivity
 import eu.agribot.agribotapp.ui.fragment.settings.recycler.settingsaction.SettingsActionAdapter
@@ -28,6 +33,8 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
     private val dialogManager: DialogManager by inject { parametersOf(requireContext()) }
     private val settingsListAdapter = SettingsListAdapter(this::onSettingsItemCLicked)
     private val settingsActionAdapter = SettingsActionAdapter(this::onSettingsActionCLicked)
+    private lateinit var bluetoothDiscoveryBroadcastReceiver: BroadcastReceiver
+    private lateinit var bluetoothAdapter: BluetoothAdapter
 
     override fun bindViewVariables(viewBinding: FragmentSettingsBinding) {
         viewBinding.viewModel = viewModel
@@ -39,6 +46,22 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
         viewModel.prepareSettingsItem()
         viewModel.prepareSettingsAction()
         observeViewModel()
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+        bluetoothDiscoveryBroadcastReceiver = BluetoothDiscoveryBroadcastReceiver(
+            viewModel::onBluetoothDeviceFound,
+            viewModel::onBluetoothDeviceConnected,
+            viewModel::onBluetoothDeviceDisconnected
+        )
+        startDiscovery()
+    }
+
+    private fun startDiscovery() {
+        registerMyReceiver(BluetoothDiscoveryBroadcastReceiver.FILTER)
+        bluetoothAdapter.startDiscovery()
+    }
+
+    private fun registerMyReceiver(filter: IntentFilter) {
+        requireContext().registerReceiver(bluetoothDiscoveryBroadcastReceiver, filter)
     }
 
     private fun observeViewModel() {
@@ -47,6 +70,11 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
         viewModel.toastEvent.observe(this::showToast)
         viewModel.showDeleteAccountDialogEvent.observe(this::showDeleteAccountDialog)
         viewModel.showSignoutDialogEvent.observe(this::showSignOutDialog)
+        viewModel.changeStreamUrlEvent.observe(this::showChangeUrlDialog)
+    }
+
+    private fun showChangeUrlDialog(currentUrl: String) {
+        dialogManager.changeStreamUrlDialog(currentUrl, viewModel::onStreamUrlChanged)
     }
 
     private fun onSettingsItemCLicked(itemID: Int) {
@@ -60,6 +88,7 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
         is WelcomeActivityNavigationEvent -> handleWelcomeActivityNavigationEvent()
         is BluetoothConnectionNavigationEvent -> handleBluetoothConnectionNavigationEvent()
+        is ManualControlNavigationEvent -> handleManualControlNavigationEvent()
         else -> Unit
     }
 
@@ -73,6 +102,10 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
 
     private fun addToSettingsList(settingsItem: List<SettingsListViewModel>) {
         settingsListAdapter.items = settingsItem
+    }
+
+    private fun handleManualControlNavigationEvent() {
+        navigationController?.navigate(R.id.action_settingsFragment_to_manualControlFragment)
     }
 
     private fun addToSettingsAction(settingsAction: List<SettingsActionViewModel>) {

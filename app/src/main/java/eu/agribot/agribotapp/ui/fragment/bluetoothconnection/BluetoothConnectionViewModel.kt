@@ -11,6 +11,7 @@ import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.model.todomain.FoundBluetoothDevice
 import eu.agribot.agribotapp.domain.permission.PermissionError
 import eu.agribot.agribotapp.domain.permission.PermissionManager
+import eu.agribot.agribotapp.domain.service.AppStorageService
 import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
 import eu.agribot.agribotapp.ui.fragment.bluetoothconnection.recycler.BluetoothNearbyListItemViewModel
 import kotlinx.coroutines.launch
@@ -18,7 +19,8 @@ import kotlinx.coroutines.launch
 class BluetoothConnectionViewModel(
     private val bluetoothConnectionService: BluetoothConnectionService,
     private val resourcesProvider: ResourcesProvider,
-    private val permissionManager: PermissionManager
+    private val permissionManager: PermissionManager,
+    private val appStorageService: AppStorageService
 ) :
     BaseViewModel() {
 
@@ -58,6 +60,7 @@ class BluetoothConnectionViewModel(
                 bluetoothDeviceAddress
             )
         }
+        appStorageService.saveLastUsedBluetoothAddress(bluetoothDeviceAddress)
     }
 
     fun onBluetoothDeviceConnected() {

@@ -10,18 +10,14 @@ import eu.agribot.agribotapp.common.navigation.events.BluetoothConnectionNavigat
 import eu.agribot.agribotapp.common.navigation.events.TTControlNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolControlNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentManualControlBinding
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.videostream.VideoOption
 import kotlinx.android.synthetic.main.fragment_manual_control.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import tcking.github.com.giraffeplayer2.Option
 import tcking.github.com.giraffeplayer2.VideoInfo
+import tv.danmaku.ijk.media.player.IjkMediaPlayer
 
 class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManualControlBinding>() {
-
-    private val streamURI: Uri = Uri.parse(
-        "rtmp://192.168.0.139/live"
-    )
-
     override val layoutResourceId: Int = R.layout.fragment_manual_control
     override val viewModel: ManualControlViewModel by viewModel { parametersOf(requireContext()) }
 
@@ -31,6 +27,7 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         manual_mode_joystick.setOnMoveListener { angle, strength ->
             viewModel.onJoystickParametrChange(angle, strength)
         }
@@ -39,10 +36,26 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
     }
 
     private fun prepareStreamPlayer() {
-        val myVideoInfo = VideoInfo(streamURI)
-        VideoOption(myVideoInfo).addVideoOption()
+        val myVideoInfo = VideoInfo(Uri.parse(viewModel.getStreamUrl()))
+        myVideoInfo.addOption(
+            Option.create(
+                IjkMediaPlayer.OPT_CATEGORY_PLAYER,
+                "start-on-prepared",
+                1
+            )
+        )
+            .addOption(Option.create(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "fflags", "nobuffer"))
+            .addOption(Option.create(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "flush_packets", 1))
+            .addOption(Option.create(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "max_delay", 0))
+            .addOption(Option.create(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "infbuf", 1L))
+            .addOption(Option.create(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "packet-buffering", 0))
+            .addOption(Option.create(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "framedrop", 5))
+
+            .addOption(Option.create(IjkMediaPlayer.OPT_CATEGORY_CODEC, "skip_frame", 10))
+            .addOption(Option.create(IjkMediaPlayer.OPT_CATEGORY_CODEC, "skip_loop_filter", 48))
+
         video_view.videoInfo(myVideoInfo)
-        video_view.setVideoPath(streamURI.toString()).player.start()
+        video_view.setVideoPath(Uri.parse(viewModel.getStreamUrl()).toString()).player.start()
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {

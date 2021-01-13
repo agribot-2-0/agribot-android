@@ -8,8 +8,8 @@ import eu.agribot.agribotapp.domain.model.todomain.DiagnosticData
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.ManualSteeringJoystickManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
@@ -21,31 +21,29 @@ class ManualModeService(
     private val receivedBluetoothMessageManager: ReceivedBluetoothMessageManager,
     private val messageCreator: BluetoothMessageCreator
 ) {
-    var startStopEngineScope = CoroutineScope(Job() + Dispatchers.IO)
     private val engineStartDelay = 100L
+    @ExperimentalCoroutinesApi
     private val diagnosticDataFlow = MutableStateFlow<DiagnosticData?>(null)
     var diagnosticDataFlowScope = CoroutineScope(Job() + Dispatchers.IO)
 
     fun onManualSteeringJoystickParametrChanged(joystickAngle: Int, joystickStrength: Int) {
         manualSteeringJoystickManager.onJoystickConfigurationChanged(
-                joystickAngle,
-                joystickStrength
+            joystickAngle,
+            joystickStrength
         )
     }
 
-    fun startStopEngine() {
-        startStopEngineScope.launch {
-            writeBluetoothMessageManager.sendStopThreadMessage()
-            delay(engineStartDelay)
-            writeBluetoothMessageManager.sendStartEngineMessage()
-        }
-        startStopEngineScope.cancel()
+    suspend fun startStopEngine() {
+        writeBluetoothMessageManager.sendStopThreadMessage()
+        delay(engineStartDelay)
+        writeBluetoothMessageManager.sendStartEngineMessage()
     }
 
     fun onSwitchParametrChanged(switchSettings: SwitchSettings) {
         messageCreator.createSwitchesMessage(switchSettings.toCommunicationModel())
     }
 
+    @ExperimentalCoroutinesApi
     private fun getDiagnosticData() {
         diagnosticDataFlowScope.launch {
             receivedBluetoothMessageManager.observeDiagnosticData()?.collect {
@@ -56,6 +54,7 @@ class ManualModeService(
         }
     }
 
+    @ExperimentalCoroutinesApi
     fun observeDiagnosticData(): MutableStateFlow<DiagnosticData?> {
         getDiagnosticData()
         return diagnosticDataFlow

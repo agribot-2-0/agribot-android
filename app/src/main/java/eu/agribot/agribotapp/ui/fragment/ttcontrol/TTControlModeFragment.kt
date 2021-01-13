@@ -23,9 +23,9 @@ class TTControlModeFragment : BaseFragment<TTControlViewModel, FragmentTtcontrol
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.setDefaultKartState()
-        viewModel.frontKart.observe(this::onFrontKartChanged)
-        viewModel.rearKart.observe(this::onRearKartChanged)
+        viewModel.setDefaultCartState()
+        viewModel.frontCart.observe(this::onFrontKartChanged)
+        viewModel.rearCart.observe(this::onRearKartChanged)
         horizontal_joystick.setOnMoveListener { angle, _ ->
             viewModel.onHorizontalJoystickParametersChanged(angle)
         }

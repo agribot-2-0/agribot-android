@@ -156,17 +156,9 @@ class AndroidReceivedBluetoothMessageManager(
     }
 
     private fun bytesToUnsingedInt(array: ByteArray): Int {
-        return bytesToUnsingedInt(array, true)
-    }
-
-    private fun bytesToUnsingedInt(array: ByteArray, bigEndian: Boolean): Int {
         var result = 0
-        if (bigEndian)
             for (i in array.indices)
                 result += (array[array.size - 1 - i].toInt() and DUMMY_BYTE.toInt()) shl ARRAY_BIT_SHIFT * i
-        else
-            for (i in array.indices)
-                result += (array[i].toInt() and DUMMY_BYTE.toInt()) shl ARRAY_BIT_SHIFT * i
         return result
     }
 

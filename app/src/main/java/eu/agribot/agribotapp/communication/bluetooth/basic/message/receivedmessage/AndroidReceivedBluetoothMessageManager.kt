@@ -66,16 +66,15 @@ class AndroidReceivedBluetoothMessageManager(
     ) {
         try {
             if (bluetoothMessage[START_OF_FRAME_POSITION] == START_FRAME_MESSAGE) {
-                val length = bluetoothMessage[LENGHT_BYTE_POSITION].toInt()
-                if (length <= 0)
+                if (bluetoothMessage[LENGHT_BYTE_POSITION].toInt() <= 0)
                     return
                 if (bluetoothMessage.isEmpty())
                     return
-                val btFrame =
-                        BluetoothMessageFrame(
-                                bluetoothMessage
-                        )
-                handleMessageFrame(btFrame)
+                handleMessageFrame(
+                    BluetoothMessageFrame(
+                        bluetoothMessage
+                    )
+                )
             } else {
                 return
             }
@@ -115,20 +114,21 @@ class AndroidReceivedBluetoothMessageManager(
             return
         bluetoothMessageFrame.let { diagnosticData ->
             agribotDiagnosticDataFlow.value = DiagnosticBluetoothDataBD(
-                    engineFuelRate = getEngineFuelRate(diagnosticData),
-                    batteryVoltage = getBatteryVoltage(diagnosticData),
-                    engineRotationsPerMinute = getEngineRotations(diagnosticData),
-                    torqueOfEngine = getTorqueOfEngine(diagnosticData),
-                    fuelLevel = getFuelLevel(diagnosticData),
-                    fuelTemperature = getFuelTemperature(diagnosticData)
+                engineFuelRate = getEngineFuelRate(diagnosticData),
+                batteryVoltage = getBatteryVoltage(diagnosticData),
+                engineRotationsPerMinute = getEngineRotations(diagnosticData),
+                torqueOfEngine = getTorqueOfEngine(diagnosticData),
+                fuelLevel = getFuelLevel(diagnosticData),
+                fuelTemperature = getFuelTemperature(diagnosticData)
             )
         }
     }
 
     private fun getEngineRotations(bluetoothMessageFrame: BluetoothMessageFrame): Int {
         return bytesToUnsingedInt(
-                bluetoothMessageFrame.getMessage()
-                        .sliceArray(ENGINE_ROTATIONS_FIRST_BYTE_POSITION..ENGINE_ROTATIONS_SECOND_BYTE_POSITION))
+            bluetoothMessageFrame.getMessage()
+                .sliceArray(ENGINE_ROTATIONS_FIRST_BYTE_POSITION..ENGINE_ROTATIONS_SECOND_BYTE_POSITION)
+        )
     }
 
     private fun getTorqueOfEngine(bluetoothMessageFrame: BluetoothMessageFrame): Int {
@@ -148,7 +148,10 @@ class AndroidReceivedBluetoothMessageManager(
     }
 
     private fun getBatteryVoltage(bluetoothMessageFrame: BluetoothMessageFrame): String {
-        val batteryVoltage = bytesToUnsingedInt(bluetoothMessageFrame.getMessage().sliceArray(ACCUMULATOR_VOLTGE_FIRST_BYTE_POSITION..ACCUMULATOR_VOLTAGE_SECOND_BYTE_POSITION)) * BATTERY_VOLTAGE_RATIO
+        val batteryVoltage = bytesToUnsingedInt(
+            bluetoothMessageFrame.getMessage()
+                .sliceArray(ACCUMULATOR_VOLTGE_FIRST_BYTE_POSITION..ACCUMULATOR_VOLTAGE_SECOND_BYTE_POSITION)
+        ) * BATTERY_VOLTAGE_RATIO
         return if (batteryVoltage.toString().length > FOUR_DIGIT_NUMBER)
             (batteryVoltage.toString().slice(FIRST_DIGIT..FOURTH_DIGIT).toDouble()).toString()
         else
@@ -157,8 +160,8 @@ class AndroidReceivedBluetoothMessageManager(
 
     private fun bytesToUnsingedInt(array: ByteArray): Int {
         var result = 0
-            for (i in array.indices)
-                result += (array[array.size - 1 - i].toInt() and DUMMY_BYTE.toInt()) shl ARRAY_BIT_SHIFT * i
+        for (i in array.indices)
+            result += (array[array.size - 1 - i].toInt() and DUMMY_BYTE.toInt()) shl ARRAY_BIT_SHIFT * i
         return result
     }
 

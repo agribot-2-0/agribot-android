@@ -8,7 +8,9 @@ import eu.agribot.agribotapp.common.navigation.events.TTControlNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolControlNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.service.ManualModeService
-import kotlinx.coroutines.delay
+import eu.agribot.agribotapp.domain.service.joystick.JoysticFilter
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class ManualControlViewModel(
@@ -17,17 +19,13 @@ class ManualControlViewModel(
 
 ) : BaseViewModel() {
 
-    companion object {
-        const val REFRESH_DIAGNOSTIC_DATA_DELAY = 100L
-        const val SEND_JOYSTICK_MESSAGE_DELAY = 150L
-    }
-
     val accumulatorVoltage: MutableLiveData<String> = MutableLiveData()
     val engineRotations: MutableLiveData<String> = MutableLiveData()
     val torqueOfEngine: MutableLiveData<String> = MutableLiveData()
     val engineFuelRate: MutableLiveData<String> = MutableLiveData()
     val fuelLevel: MutableLiveData<String> = MutableLiveData()
     val fuelTemperature: MutableLiveData<String> = MutableLiveData()
+    private val joystickMessageCounter: MutableLiveData<Int> = MutableLiveData()
 
     fun onToolControlClicked() {
         navigationEvent.postValue(
@@ -35,40 +33,45 @@ class ManualControlViewModel(
         )
     }
 
-    private fun refreshDiagnosticData() = viewModelScope.launch {
-        while (true) {
-            delay(REFRESH_DIAGNOSTIC_DATA_DELAY)
-            if (manualModeService.getDiagnosticData() != null) {
-                manualModeService.getDiagnosticData()?.let { diagnosticData ->
-                    accumulatorVoltage.value = diagnosticData.batteryVoltage
-                    engineRotations.value = diagnosticData.engineRotationsPerMinute.toString()
-                    torqueOfEngine.value = diagnosticData.torqueOfEngine.toString()
-                    engineFuelRate.value = diagnosticData.fuelLevel.toString()
-                    fuelLevel.value = diagnosticData.fuelLevel.toString()
-                    fuelTemperature.value = diagnosticData.fuelTemperature.toString()
-                }
+    @ExperimentalCoroutinesApi
+    fun setDiagnosticData() = viewModelScope.launch {
+        manualModeService.observeDiagnosticData().collect { diagnosticData ->
+            if (diagnosticData != null) {
+                accumulatorVoltage.value = diagnosticData.batteryVoltage
+                engineRotations.value = diagnosticData.engineRotationsPerMinute.toString()
+                torqueOfEngine.value = diagnosticData.torqueOfEngine.toString()
+                engineFuelRate.value = diagnosticData.engineFuelRate
+                fuelLevel.value = diagnosticData.fuelLevel.toString()
+                fuelTemperature.value = diagnosticData.fuelTemperature.toString()
             } else {
-                accumulatorVoltage.value = resourcesProvider.getString(R.string.empty_data)
-                engineRotations.value = resourcesProvider.getString(R.string.empty_data)
-                torqueOfEngine.value = resourcesProvider.getString(R.string.empty_data)
-                engineFuelRate.value = resourcesProvider.getString(R.string.empty_data)
-                fuelLevel.value = resourcesProvider.getString(R.string.empty_data)
-                fuelTemperature.value = resourcesProvider.getString(R.string.empty_data)
+                resourcesProvider.getString(R.string.no_data_status).let { noData ->
+                    accumulatorVoltage.value = noData
+                    engineRotations.value = noData
+                    torqueOfEngine.value = noData
+                    engineFuelRate.value = noData
+                    fuelLevel.value = noData
+                    fuelTemperature.value = noData
+                }
             }
         }
     }
 
     fun onJoystickParametrChange(angel: Int, strength: Int) = viewModelScope.launch {
-        delay(SEND_JOYSTICK_MESSAGE_DELAY)
-        manualModeService.onManualSteeringJoystickParametrChanged(angel, strength)
+        if (getJoystickMessageCounter() % JoysticFilter.JOYSTICK_FILTER_VALUE.value == 0) {
+            manualModeService.onManualSteeringJoystickParametrChanged(angel, strength)
+        }
     }
 
-    fun sendStartManualModeInfo() = viewModelScope.launch {
-        manualModeService.runManualMode()
-        refreshDiagnosticData()
+    private fun getJoystickMessageCounter(): Int {
+        if (joystickMessageCounter.value == null || joystickMessageCounter.value == JoysticFilter.JOYSTICK_COUNTER_MAX_VALUE.value) {
+            joystickMessageCounter.value = 0
+        } else {
+            joystickMessageCounter.value = joystickMessageCounter.value!! + 1
+        }
+        return joystickMessageCounter.value!!
     }
 
-    fun startStopEngine() {
+    fun startStopEngine() = viewModelScope.launch {
         manualModeService.startStopEngine()
     }
 

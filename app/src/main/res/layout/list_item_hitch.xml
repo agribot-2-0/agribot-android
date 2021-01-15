@@ -29,6 +29,7 @@
                 android:id="@+id/recycler_seekbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/margin_medium"
                 android:progressBackgroundTint="@color/base_green"
                 android:layout_margin="@dimen/margin_medium" />
         </LinearLayout>

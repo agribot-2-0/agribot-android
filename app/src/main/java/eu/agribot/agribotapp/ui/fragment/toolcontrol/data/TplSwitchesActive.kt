@@ -1,6 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.toolcontrol.data
 
-data class TuzSwitchesActive(
+data class TplSwitchesActive(
     val tuzNumber: Int,
-    val isTuzActive: Boolean
+    val isTplActive: Boolean
 )

@@ -51,7 +51,8 @@ val viewModelModule = module {
         BluetoothConnectionViewModel(
             bluetoothConnectionService = get(),
             resourcesProvider = get { parametersOf(context) },
-            permissionManager = get()
+            permissionManager = get(),
+            manualModeService = get()
         )
     }
     viewModel { (context: Context) ->
@@ -105,8 +106,8 @@ val viewModelModule = module {
             pathManagementService = get(),
             cloudStorageService = get(),
             filePathProvider = get(),
-            resourcesProvider = get { parametersOf(context) },
-            kmlLayerService = get()
+            kmlLayerService = get(),
+            resourcesProvider = get { parametersOf(context) }
         )
     }
     viewModel {
@@ -252,16 +253,17 @@ val viewModelModule = module {
 
     viewModel { (context: Context) ->
         NewPathViewModel(
+            cloudDatabaseService = get(),
             pathManagementService = get(),
             filePathProvider = get(),
             resourcesProvider = get { parametersOf(context) },
-            kmlLayerService = get(),
-            cloudDatabaseService = get()
+            kmlLayerService = get()
         )
     }
 
     viewModel { (context: Context) ->
         PathNameViewModel(pathManagementService = get(),
-            resourcesProvider = get { parametersOf(context) })
+            resourcesProvider = get { parametersOf(context) }
+        )
     }
 }

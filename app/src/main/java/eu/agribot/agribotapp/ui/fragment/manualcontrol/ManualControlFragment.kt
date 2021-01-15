@@ -9,7 +9,7 @@ import eu.agribot.agribotapp.common.navigation.events.BluetoothConnectionNavigat
 import eu.agribot.agribotapp.common.navigation.events.TTControlNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolControlNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentManualControlBinding
-import kotlinx.android.synthetic.main.fragment_manual_control.*
+import kotlinx.android.synthetic.main.fragment_manual_control.manual_mode_joystick
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -24,11 +24,10 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        viewModel.setDiagnosticData()
         manual_mode_joystick.setOnMoveListener { angle, strength ->
             viewModel.onJoystickParametrChange(angle, strength)
         }
-        viewModel.sendStartManualModeInfo()
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {

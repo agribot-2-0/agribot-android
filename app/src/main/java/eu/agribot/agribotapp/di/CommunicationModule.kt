@@ -3,11 +3,13 @@ package eu.agribot.agribotapp.di
 import com.google.firebase.auth.FirebaseAuth
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.AndroidBluetoothConnectionManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.BluetoothConnectionManager
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.writemessage.AndroidWriteBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.socket.AndroidBluetoothSocketManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.socket.BluetoothSocketManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.heartbeat.AndroidHeartbeatManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.heartbeat.HeartbeatManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.AndroidReceivedBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ReceivedBluetoothMessageManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.AndroidWriteBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.WriteBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator.AndroidBluetoothMessageCreator
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator.BluetoothMessageCreator
@@ -35,9 +37,9 @@ val communicationModule = module {
 
     single<BluetoothConnectionManager> {
         AndroidBluetoothConnectionManager(
-            bluetoothConnectionErrorHandler = get(),
-            bluetoothReceivedBluetoothMessageManager = get(),
-            bluetoothSocketManager = get()
+                bluetoothConnectionErrorHandler = get(),
+                bluetoothReceivedBluetoothMessageManager = get(),
+                bluetoothSocketManager = get()
         )
     }
 
@@ -47,30 +49,38 @@ val communicationModule = module {
 
     single<BluetoothSocketManager> { AndroidBluetoothSocketManager() }
 
+    single<HeartbeatManager> {
+        AndroidHeartbeatManager(
+                bluetoothWriteBluetoothMessageManager = get()
+
+        )
+    }
+
     single<ReceivedBluetoothMessageManager> {
         AndroidReceivedBluetoothMessageManager(
-            receiveErrorHandler = get(),
-            writeBluetoothMessageManager = get(),
-            bluetoothSocketManager = get()
+                receiveErrorHandler = get(),
+                writeBluetoothMessageManager = get(),
+                bluetoothSocketManager = get(),
+                heartbeatManager = get()
         )
     }
 
     single<WriteBluetoothMessageManager> {
         AndroidWriteBluetoothMessageManager(
-            bluetoothMessageWriteErrorHandler = get(),
-            bluetoothSocketManager = get()
+                bluetoothMessageWriteErrorHandler = get(),
+                bluetoothSocketManager = get()
         )
     }
 
     single<FirebaseService> {
         AndroidFirebaseService(
-            firebaseAuth = FirebaseAuth.getInstance()
+                firebaseAuth = FirebaseAuth.getInstance()
         )
     }
 
     single<PersistentStorage> {
         SharedPreferencesPersistentStorage(
-            context = androidContext()
+                context = androidContext()
         )
     }
 

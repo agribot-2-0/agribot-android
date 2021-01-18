@@ -20,7 +20,7 @@ class AndroidHeartbeatManager(private val bluetoothWriteBluetoothMessageManager:
     companion object {
         const val HEARTBEAT_VALUE_POSITION = 0
         const val HEARTBEAT_INIT_VALUE = 0.toByte()
-        const val HEARTBEAT_DELAY = 100L
+        const val HEARTBEAT_DELAY = 120L
     }
 
     override fun restartHeartbeatCounter() {
@@ -39,9 +39,9 @@ class AndroidHeartbeatManager(private val bluetoothWriteBluetoothMessageManager:
     override fun sendNextHeartbeat() {
         nextHeartbeatScope.launch {
             while (getHeartbeatFlagStatus()) {
-                delay(HEARTBEAT_DELAY)
                 heartbeatArray[HEARTBEAT_VALUE_POSITION]++
                 bluetoothWriteBluetoothMessageManager.writeHeartbeatMessage(heartbeatArray)
+                delay(HEARTBEAT_DELAY)
             }
         }
     }

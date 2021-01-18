@@ -8,6 +8,8 @@ import eu.agribot.agribotapp.common.navigation.events.TTControlNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolControlNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.service.ManualModeService
+import eu.agribot.agribotapp.domain.service.joystick.JoysticFilter
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -27,17 +29,18 @@ class ManualControlViewModel(
 
     fun onToolControlClicked() {
         navigationEvent.postValue(
-                ToolControlNavigationEvent()
+            ToolControlNavigationEvent()
         )
     }
 
+    @ExperimentalCoroutinesApi
     fun setDiagnosticData() = viewModelScope.launch {
         manualModeService.observeDiagnosticData().collect { diagnosticData ->
             if (diagnosticData != null) {
                 accumulatorVoltage.value = diagnosticData.batteryVoltage
                 engineRotations.value = diagnosticData.engineRotationsPerMinute.toString()
                 torqueOfEngine.value = diagnosticData.torqueOfEngine.toString()
-                engineFuelRate.value = diagnosticData.fuelLevel.toString()
+                engineFuelRate.value = diagnosticData.engineFuelRate
                 fuelLevel.value = diagnosticData.fuelLevel.toString()
                 fuelTemperature.value = diagnosticData.fuelTemperature.toString()
             } else {
@@ -54,13 +57,13 @@ class ManualControlViewModel(
     }
 
     fun onJoystickParametrChange(angel: Int, strength: Int) = viewModelScope.launch {
-        if (getJoystickMessageCounter() % 5 == 0) {
+        if (getJoystickMessageCounter() % JoysticFilter.JOYSTICK_FILTER_VALUE.value == 0) {
             manualModeService.onManualSteeringJoystickParametrChanged(angel, strength)
         }
     }
 
     private fun getJoystickMessageCounter(): Int {
-        if (joystickMessageCounter.value == null || joystickMessageCounter.value == 10) {
+        if (joystickMessageCounter.value == null || joystickMessageCounter.value == JoysticFilter.JOYSTICK_COUNTER_MAX_VALUE.value) {
             joystickMessageCounter.value = 0
         } else {
             joystickMessageCounter.value = joystickMessageCounter.value!! + 1
@@ -68,13 +71,13 @@ class ManualControlViewModel(
         return joystickMessageCounter.value!!
     }
 
-    fun startStopEngine() {
+    fun startStopEngine() = viewModelScope.launch {
         manualModeService.startStopEngine()
     }
 
     fun onTTControlButtonClicked() {
         navigationEvent.postValue(
-                TTControlNavigationEvent()
+            TTControlNavigationEvent()
         )
     }
 }

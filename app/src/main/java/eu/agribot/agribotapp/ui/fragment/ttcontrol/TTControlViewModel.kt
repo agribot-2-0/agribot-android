@@ -3,53 +3,50 @@ package eu.agribot.agribotapp.ui.fragment.ttcontrol
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
-import eu.agribot.agribotapp.domain.service.ManualModeService
 import eu.agribot.agribotapp.domain.service.TTControlService
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.RecyclerConstant.FIFTH_ELEMENT
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.RecyclerConstant.NINTH_ELEMENT
+import eu.agribot.agribotapp.domain.service.joystick.JoysticFilter
 
 class TTControlViewModel(
-    private val ttControlService: TTControlService,
-    private val manualModeService: ManualModeService
+    private val ttControlService: TTControlService
 ) : BaseViewModel() {
-    val frontKart: MutableLiveData<Boolean> = MutableLiveEvent()
-    val rearKart: MutableLiveData<Boolean> = MutableLiveEvent()
+    val frontCart: MutableLiveData<Boolean> = MutableLiveEvent()
+    val rearCart: MutableLiveData<Boolean> = MutableLiveEvent()
     private val verticalJoystickMessageCounter: MutableLiveData<Int> = MutableLiveData()
     private val horizontalJoystickMessageCounter: MutableLiveData<Int> = MutableLiveData()
 
-    fun setDefaultKartState() {
-        frontKart.value = false
-        rearKart.value = false
+    fun setDefaultCartState() {
+        frontCart.value = false
+        rearCart.value = false
     }
 
-    fun onFrontKartClicked() {
-        frontKart.value = frontKart.value != true
+    fun onFrontCartClicked() {
+        frontCart.value = frontCart.value != true
     }
 
-    fun onRearKartClicked() {
-        rearKart.value = rearKart.value != true
+    fun onRearCartClicked() {
+        rearCart.value = rearCart.value != true
     }
 
     fun onVerticalJoystickParametersChanged(verticalAngle: Int) {
-        if (getJoysticVerticalMessageCounter() % FIFTH_ELEMENT == 0) {
+        if (getJoysticVerticalMessageCounter() % JoysticFilter.JOYSTICK_FILTER_VALUE.value == 0) {
             ttControlService.onVerticalJoystickParametrsChanged(
-                    verticalAngle,
-                    frontKart.value!!, rearKart.value!!
+                verticalAngle,
+                frontCart.value!!, rearCart.value!!
             )
         }
     }
 
     fun onHorizontalJoystickParametersChanged(horizontalAngle: Int) {
-        if (getJoystickHorizontalMessageCounter() % FIFTH_ELEMENT == 0) {
+        if (getJoystickHorizontalMessageCounter() % JoysticFilter.JOYSTICK_FILTER_VALUE.value == 0) {
             ttControlService.onHorizontalJoystickParametrsChanged(
-                    horizontalAngle,
-                    frontKart.value!!, rearKart.value!!
+                horizontalAngle,
+                frontCart.value!!, rearCart.value!!
             )
         }
     }
 
     private fun getJoysticVerticalMessageCounter(): Int {
-        if (verticalJoystickMessageCounter.value == null || verticalJoystickMessageCounter.value == NINTH_ELEMENT) {
+        if (verticalJoystickMessageCounter.value == null || verticalJoystickMessageCounter.value == JoysticFilter.JOYSTICK_COUNTER_MAX_VALUE.value) {
             verticalJoystickMessageCounter.value = 0
         } else {
             verticalJoystickMessageCounter.value = verticalJoystickMessageCounter.value!! + 1
@@ -58,11 +55,11 @@ class TTControlViewModel(
     }
 
     private fun getJoystickHorizontalMessageCounter(): Int {
-        if (horizontalJoystickMessageCounter.value == null || horizontalJoystickMessageCounter.value == NINTH_ELEMENT) {
+        if (horizontalJoystickMessageCounter.value == null || horizontalJoystickMessageCounter.value == JoysticFilter.JOYSTICK_COUNTER_MAX_VALUE.value) {
             horizontalJoystickMessageCounter.value = 0
         } else {
             horizontalJoystickMessageCounter.value =
-                    horizontalJoystickMessageCounter.value!! + 1
+                horizontalJoystickMessageCounter.value!! + 1
         }
         return horizontalJoystickMessageCounter.value!!
     }

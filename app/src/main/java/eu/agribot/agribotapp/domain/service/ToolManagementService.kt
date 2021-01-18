@@ -1,6 +1,6 @@
 package eu.agribot.agribotapp.domain.service
 
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ReceivedBluetoothMessageManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.RfidMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator.BluetoothMessageCreator
 import eu.agribot.agribotapp.domain.model.fromdomain.RfidParameters
 import eu.agribot.agribotapp.domain.model.todomain.RfidData
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 class ToolManagementService(
     private val bluetoothMessageCreator: BluetoothMessageCreator,
-    private val receivedBluetoothMessageManager: ReceivedBluetoothMessageManager
+    private val rfidMessageManager: RfidMessageManager
 ) {
     @ExperimentalCoroutinesApi
     private val rfidDataFlow = MutableStateFlow<RfidData?>(null)
@@ -34,7 +34,7 @@ class ToolManagementService(
     @ExperimentalCoroutinesApi
     private fun getRfidData() {
         scope.launch {
-            receivedBluetoothMessageManager.observe().collect {
+            rfidMessageManager.observeRfidMessage().collect {
                 if (it != null) {
                     rfidDataFlow.value = it.toDomainModel()
                 }
@@ -44,6 +44,6 @@ class ToolManagementService(
 
     fun clearRfidData() {
         rfidDataFlow.value = null
-        receivedBluetoothMessageManager.clearRfidDataFlow()
+        // rfidMessageManager.clearRfidDataFlow()
     }
 }

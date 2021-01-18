@@ -9,6 +9,8 @@ import eu.agribot.agribotapp.communication.bluetooth.basic.message.heartbeat.And
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.heartbeat.HeartbeatManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.AndroidReceivedBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ReceivedBluetoothMessageManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.AndroidRfidMessageManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.RfidMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.AndroidWriteBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.WriteBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator.AndroidBluetoothMessageCreator
@@ -37,9 +39,9 @@ val communicationModule = module {
 
     single<BluetoothConnectionManager> {
         AndroidBluetoothConnectionManager(
-                bluetoothConnectionErrorHandler = get(),
-                bluetoothReceivedBluetoothMessageManager = get(),
-                bluetoothSocketManager = get()
+            bluetoothConnectionErrorHandler = get(),
+            bluetoothReceivedBluetoothMessageManager = get(),
+            bluetoothSocketManager = get()
         )
     }
 
@@ -51,36 +53,42 @@ val communicationModule = module {
 
     single<HeartbeatManager> {
         AndroidHeartbeatManager(
-                bluetoothWriteBluetoothMessageManager = get()
+            bluetoothWriteBluetoothMessageManager = get()
 
         )
     }
 
     single<ReceivedBluetoothMessageManager> {
         AndroidReceivedBluetoothMessageManager(
-                receiveErrorHandler = get(),
-                writeBluetoothMessageManager = get(),
-                bluetoothSocketManager = get(),
-                heartbeatManager = get()
+            receiveErrorHandler = get(),
+            writeBluetoothMessageManager = get(),
+            bluetoothSocketManager = get(),
+            heartbeatManager = get(),
+            rfidMessageManager = get()
+
         )
+    }
+
+    single<RfidMessageManager> {
+        AndroidRfidMessageManager()
     }
 
     single<WriteBluetoothMessageManager> {
         AndroidWriteBluetoothMessageManager(
-                bluetoothMessageWriteErrorHandler = get(),
-                bluetoothSocketManager = get()
+            bluetoothMessageWriteErrorHandler = get(),
+            bluetoothSocketManager = get()
         )
     }
 
     single<FirebaseService> {
         AndroidFirebaseService(
-                firebaseAuth = FirebaseAuth.getInstance()
+            firebaseAuth = FirebaseAuth.getInstance()
         )
     }
 
     single<PersistentStorage> {
         SharedPreferencesPersistentStorage(
-                context = androidContext()
+            context = androidContext()
         )
     }
 

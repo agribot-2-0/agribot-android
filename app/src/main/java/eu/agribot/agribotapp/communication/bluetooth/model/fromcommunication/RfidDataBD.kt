@@ -4,7 +4,7 @@ import eu.agribot.agribotapp.domain.model.todomain.RfidData
 
 data class RfidDataBD(
     val antennaNumber: Int,
-    val tagIDNumber: Int
+    val tagIDNumber: String
 ) : BaseBluetoothDataModel<RfidData> {
     override fun toDomainModel() = RfidData(
         antennaNumber = this.antennaNumber,

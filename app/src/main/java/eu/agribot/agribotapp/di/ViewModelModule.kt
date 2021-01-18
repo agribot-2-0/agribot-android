@@ -139,9 +139,7 @@ val viewModelModule = module {
 
     viewModel {
         TTControlViewModel(
-                ttControlService = get(),
-                manualModeService = get()
-        )
+                ttControlService = get())
     }
 
     viewModel {

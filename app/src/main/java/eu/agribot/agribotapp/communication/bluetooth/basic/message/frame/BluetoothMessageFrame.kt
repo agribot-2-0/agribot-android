@@ -104,6 +104,6 @@ class BluetoothMessageFrame() {
 
     fun getMessage(): ByteArray {
         val len = bluetoothMessageArray[LENGTH_POSITION].toInt() - 3
-        return bluetoothMessageArray.sliceArray(5..(5 + len))
+        return bluetoothMessageArray.sliceArray(5 until 5 + len)
     }
 }

@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import eu.agribot.agribotapp.R
@@ -129,7 +130,7 @@ class ToolParamsViewModel(
         switchNumber: Int,
         hitchListItemDetail: HitchListItemDetail
     ) {
-        val isToolAlreadyAdded = paramsList.value!!.any() { it ->
+        val isToolAlreadyAdded = paramsList.value!!.any {
             it.toolName == toolName
         }
 
@@ -232,19 +233,17 @@ class ToolParamsViewModel(
     }
 
     private fun onGotRfidData(rfidData: RfidData) {
-        if (rfidData.antennaNumber != 0) {
-            rfidReceivedData.value!!.any {
-                it.rfidTagData == rfidData.tagIDNumber.toString()
-            }.let {
-                rfidReceivedData.value = listOf(
-                    ReceivedRfidDataViewModel(
-                        antennaNumber = getAntennaName(rfidData.antennaNumber),
-                        rfidTagData = rfidData.tagIDNumber.toString()
-                    ), *rfidReceivedData.value!!.toTypedArray()
-                )
-            }
-        } else {
-            noRfidTagDataEvent.postValue(true)
+        Log.e("xd", " RFID DATA: " + rfidData)
+        val isAlreadyAdded = rfidReceivedData.value!!.any { foundTool ->
+            foundTool.rfidTagData == rfidData.tagIDNumber
+        }
+        if (!isAlreadyAdded) {
+            rfidReceivedData.value = listOf(
+                ReceivedRfidDataViewModel(
+                    antennaNumber = getAntennaName(rfidData.antennaNumber),
+                    rfidTagData = rfidData.tagIDNumber
+                ), *rfidReceivedData.value!!.toTypedArray()
+            )
         }
     }
 

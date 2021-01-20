@@ -26,7 +26,7 @@ class SharedPreferencesPersistentStorage(context: Context) : PersistentStorage {
     }
 
     override fun getVideoStreamUrl(): String =
-        videoStreamSP.getString(PersistentDataDetails.VIDEOSTREAM.data, "rtmp://192.168.0.139/live") ?: ""
+        videoStreamSP.getString(PersistentDataDetails.VIDEOSTREAM.data, PersistentDataDetails.VIDEOSTREAM.defaultValue) ?: ""
 
     override fun saveLastUsedDeviceBluetoothAddress(url: String) {
         bluetoothAddressSP.edit()
@@ -35,5 +35,5 @@ class SharedPreferencesPersistentStorage(context: Context) : PersistentStorage {
     }
 
     override fun getLastUsedDeviceBluetoothAddress(): String =
-        bluetoothAddressSP.getString(PersistentDataDetails.BLUETOOTH_ADDRESS.data, "") ?: ""
+        bluetoothAddressSP.getString(PersistentDataDetails.BLUETOOTH_ADDRESS.data, PersistentDataDetails.BLUETOOTH_ADDRESS.defaultValue) ?: ""
 }

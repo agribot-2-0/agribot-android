@@ -23,11 +23,11 @@ import eu.agribot.agribotapp.databinding.FragmentCreatorConfiguratorBinding
 import eu.agribot.agribotapp.ui.fragment.taskcreator.MapParameters
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TileProvider
 import eu.agribot.agribotapp.ui.fragment.taskcreator.URLPath
-import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.TaskListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.TaskListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.swiperecyclerutils.SwipeHelper
 import eu.agribot.agribotapp.ui.fragment.swiperecyclerutils.SwipeRecyclerClickListener
 import eu.agribot.agribotapp.ui.fragment.swiperecyclerutils.SwipeRecyclerHelper
+import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.TaskListItemAdapter
 import kotlinx.android.synthetic.main.fragment_creator_configurator.task_recycler
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel

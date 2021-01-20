@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.ui.fragment.settings.recycler.settingslist
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -8,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.databinding.ListItemSettingsBinding
 import kotlinx.android.synthetic.main.list_item_settings.view.*
-import kotlinx.android.synthetic.main.task_list_item.view.*
 
 class SettingsListAdapter(val onItemSelected: (itemID: Int) -> Unit) :
     RecyclerView.Adapter<SettingsListViewHolder>() {
@@ -26,8 +24,6 @@ class SettingsListAdapter(val onItemSelected: (itemID: Int) -> Unit) :
             }.dispatchUpdatesTo(this)
         }
 
-    // var selectedItem: ((SettingsListViewModel) -> Unit)? = onClickSelectedItem
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SettingsListViewHolder =
         SettingsListViewHolder(
             ListItemSettingsBinding.inflate(
@@ -38,7 +34,6 @@ class SettingsListAdapter(val onItemSelected: (itemID: Int) -> Unit) :
 
     override fun getItemCount(): Int = items.size
 
-    @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: SettingsListViewHolder, position: Int) {
         val item = items[position]
         holder.bind(item)

@@ -7,6 +7,7 @@ class SettingsListViewHolder(viewBinding: ListItemSettingsBinding) :
     BaseViewHolder<SettingsListViewModel, ListItemSettingsBinding>(
         viewBinding
     ) {
+
     override fun bind(viewModel: SettingsListViewModel) {
         viewBinding.viewModel = viewModel
         viewBinding.executePendingBindings()

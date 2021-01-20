@@ -6,6 +6,7 @@ class SettingsListDiffUtill(
     private val oldList: List<SettingsListViewModel>,
     private val newList: List<SettingsListViewModel>
 ) : DiffUtil.Callback() {
+
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         return oldList[oldItemPosition].settingID == newList[newItemPosition].settingID
     }

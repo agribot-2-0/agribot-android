@@ -27,7 +27,6 @@ class SettingsActionAdapter(val onItemSelected: (itemID: Int) -> Unit) :
             ListItemSettingsActionBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
-
         )
 
     override fun getItemCount(): Int = items.size

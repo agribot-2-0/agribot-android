@@ -239,8 +239,8 @@
     <string name="dialog_no_found_tags_message">Czy chcesz powtórzyć skanowanie?</string>
     <string name="dialog_no_found_tags_confirm">Powtórz Skan</string>
 
-    <string name="checking_files">Checking files - please wait</string>
-    <string name="download_progress">\"Download progress: \"</string>
+    <string name="checking_files">Sprawdzanie plików - proszę czekać</string>
+    <string name="download_progress">\"Postęp pobierania: \"</string>
 
     <string name="path_deleted_message">Ścieżka usunięta pomyślnie</string>
     <string name="loading_path_problem">Problem z załadowaniem ścieżki</string>

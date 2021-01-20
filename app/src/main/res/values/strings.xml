@@ -46,7 +46,6 @@
     <string name="dialog_path_delete_confirm">Delete!</string>
 
 
-
     <!-- Tool Control -->
     <string name="pto">PTO</string>
     <string name="no_rpm">0 rpm</string>
@@ -264,6 +263,6 @@
     <string name="front_back">Front / Back</string>
 
 
-    <string name="checking_files">Sprawdzanie plików - proszę czekać</string>
-    <string name="download_progress">\"Postęp pobierania \"</string>
+    <string name="checking_files">Checking files - please waiting</string>
+    <string name="download_progress">\" Downloading progress \"</string>
 </resources>

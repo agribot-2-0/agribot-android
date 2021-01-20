@@ -1,6 +1,6 @@
 package eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator
 
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.FrameConstant
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.FrameConstant
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.carts.AgribotCartsRotate
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.carts.AgribotToolActivationStatus
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.WriteBluetoothMessageManager

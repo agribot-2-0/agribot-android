@@ -1,21 +1,24 @@
 package eu.agribot.agribotapp.communication.bluetooth.basic.message.frame
 
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.FrameConstant.ADDRESS_FLAG
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.FrameConstant.BIT_SHIFT
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.FrameConstant.COMMAND_BYTE
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.FrameConstant.CONSTANT_ELEMENTS_OF_FRAME_SIZE
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.FrameConstant.CONSTANT_FRAME_ELEMENTS_SIZE
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.FrameConstant.CONST_ELEMENT_OF_FRAME_SIZE
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.FrameConstant.DUMMY_BYTE
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.FrameConstant.EMPTY_ARRAY
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.FrameConstant.END_OF_FRAME_BYTE
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.FrameConstant.START_FRAME_BYTE
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.FrameConstant.TWO_ELEMENT_ADDRES
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.FramePositions.COMMAND_BYTE_POSITION
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.FramePositions.FIRST_BYTE_OF_ADRESS_POSITION
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.FramePositions.LENGTH_POSITION
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.FramePositions.SECOND_BYTE_OF_ADRESS_POSITION
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.FramePositions.START_OF_FRAME_POSITION
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.FrameConstant.ADDRESS_FLAG
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.FrameConstant.BIT_SHIFT
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.FrameConstant.COMMAND_BYTE
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.FrameConstant.CONSTANT_ELEMENTS_OF_FRAME_SIZE
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.FrameConstant.CONSTANT_FRAME_ELEMENTS_LENGTH
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.FrameConstant.CONSTANT_FRAME_ELEMENTS_SIZE
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.FrameConstant.CONST_ELEMENT_OF_FRAME_SIZE
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.FrameConstant.DUMMY_BYTE
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.FrameConstant.EMPTY_ARRAY
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.FrameConstant.END_OF_FRAME_BYTE
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.FrameConstant.START_FRAME_BYTE
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.FrameConstant.TWO_ELEMENT_ADDRES
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.FramePositions.COMMAND_BYTE_POSITION
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.FramePositions.FIRST_BYTE_OF_ADRESS_POSITION
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.FramePositions.LENGTH_POSITION
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.FramePositions.SECOND_BYTE_OF_ADRESS_POSITION
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.FramePositions.START_MESSAGE_DATA_POSITION
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.FramePositions.START_OF_FRAME_POSITION
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.StatusCode
 import eu.agribot.agribotapp.communication.bluetooth.model.CANmessageData
 import kotlin.experimental.xor
 
@@ -91,7 +94,7 @@ class BluetoothMessageFrame() {
     fun getAddress(): Int {
         return if (getLength() > TWO_ELEMENT_ADDRES) {
             val firstElementAdressCode =
-                (bluetoothMessageArray[FIRST_BYTE_OF_ADRESS_POSITION].toInt() shr BIT_SHIFT)
+                (bluetoothMessageArray[FIRST_BYTE_OF_ADRESS_POSITION].toInt() shl BIT_SHIFT)
             val secondElementAdressCode: Int =
                 if (bluetoothMessageArray[SECOND_BYTE_OF_ADRESS_POSITION].toInt() < EMPTY_ARRAY) {
                     ADDRESS_FLAG + bluetoothMessageArray[SECOND_BYTE_OF_ADRESS_POSITION]
@@ -103,7 +106,7 @@ class BluetoothMessageFrame() {
     }
 
     fun getMessage(): ByteArray {
-        val len = bluetoothMessageArray[LENGTH_POSITION].toInt() - 3
-        return bluetoothMessageArray.sliceArray(5 until 5 + len)
+        val messageDataLength = bluetoothMessageArray[LENGTH_POSITION].toInt() - CONSTANT_FRAME_ELEMENTS_LENGTH
+        return bluetoothMessageArray.sliceArray(START_MESSAGE_DATA_POSITION until START_MESSAGE_DATA_POSITION + messageDataLength)
     }
 }

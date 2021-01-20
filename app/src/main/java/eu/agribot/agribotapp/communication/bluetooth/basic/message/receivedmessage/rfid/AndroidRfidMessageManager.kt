@@ -1,10 +1,9 @@
 package eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid
 
-import android.util.Log
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.RfidMessageObject.RFID_DATA_SIZE
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.RfidMessageObject.RFID_INFORMATION_MESSAGE
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.RfidMessageObject.RFID_MESSAGE_FORMAT
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.RfidMessageObject.RFID_ONE_MESSAGE_DATA
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.data.RfidMessageParameters.RFID_DATA_SIZE
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.data.RfidManagerParametersInitializationValue
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.data.RfidMessageBytePosition
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.data.RfidMessageParameters
 import eu.agribot.agribotapp.communication.bluetooth.model.fromcommunication.RfidDataBD
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,49 +11,65 @@ import java.nio.ByteBuffer
 
 class AndroidRfidMessageManager : RfidMessageManager {
 
-    var rfidMessageCounter = -1
-    var rfidMessageArray = ByteArray(0)
-    var antennaNumber: Int = -1
-    var endOfRfIdPosition: Int = -1
+    private var rfidMessageCounter =
+        RfidManagerParametersInitializationValue.RFID_MESSAGE_COUNTER_INITIALIZATION_VALUE.value
+    private var rfidMessageArray =
+        ByteArray(RfidManagerParametersInitializationValue.RFID_DATA_ARRAY_INITIALIZATION_VALUE.value)
+    private var antennaNumber: Int =
+        RfidManagerParametersInitializationValue.RFID_ANTENNA_NUMBER_INITIALIZATION_VALUE.value
+    private var endOfRfIdPosition: Int =
+        RfidManagerParametersInitializationValue.RFID_END_OF_FRAME_BYTE_INITIALIZATION_VALUE.value
 
     @ExperimentalCoroutinesApi
     private val rfidDataBDFlow = MutableStateFlow<RfidDataBD?>(null)
 
     @ExperimentalCoroutinesApi
     override fun handleRfidMessage(rfidMessage: ByteArray) {
-        logRfidMessage(rfidMessage, "received message: ")
         if (isRfidInformationMessage(rfidMessage)) {
             setRfidTagInformation(rfidMessage)
+            if (endOfRfIdPosition <= RfidMessageParameters.RFID_NO_RFID_TAG.parameter) {
+                appendRfidData(
+                    RfidDataBD(
+                        RfidMessageParameters.RFID_NO_RFID_TAG.parameter,
+                        ByteArray(RfidMessageParameters.RFID_NO_RFID_TAG.parameter)
+                    )
+                )
+            }
         } else {
             decrementRfidMessageCounter()
-            Log.e("xd", "message counter: " + rfidMessageCounter)
-
-            if (rfidMessageCounter != 0 && !isRfidInformationMessage(rfidMessage)) {
+            if (rfidMessageCounter != RfidMessageParameters.COMPLETE_MESSAGE_COUNTER_VALUE.parameter && !isRfidInformationMessage(
+                    rfidMessage
+                )
+            ) {
                 mergeRfidArray(rfidMessage.sliceArray(RfidMessageBytePosition.START_OF_RFID_TAG_DATA_MESSAGE.position..RfidMessageBytePosition.END_OF_RFID_TAG_DATA_MESSAGE.position))
             } else {
-                Log.e("xd", "bytearray size : " + rfidMessageArray.size)
                 mergeRfidArray(rfidMessage.sliceArray(RfidMessageBytePosition.START_OF_RFID_TAG_DATA_MESSAGE.position..RfidMessageBytePosition.END_OF_RFID_TAG_DATA_MESSAGE.position))
                 appendRfidData(
                     RfidDataBD(
                         antennaNumber,
-                        formatTagIDToHexString(rfidMessageArray.sliceArray(0..endOfRfIdPosition)).toString()
+                        rfidMessageArray.sliceArray(RfidMessageBytePosition.START_RFID_ARRAY_POSITION.position..endOfRfIdPosition)
                     )
                 )
             }
         }
     }
 
+    // ONLY FOR DEVELOP
+    /*
     private fun logRfidMessage(message: ByteArray, messageName: String) {
         var mymessage = ""
         message.forEach {
             mymessage = mymessage + String.format("%02X", it) + " "
         }
-        Log.e("xd", messageName + mymessage)
+        Timber.e("%s%s", messageName, mymessage)
     }
+
+     */
 
     private fun setRfidTagInformation(rfidTagMessage: ByteArray) {
         if (isRfidInformationMessage(rfidTagMessage)) {
-            rfidMessageArray = ByteArray(0)
+            rfidMessageArray =
+                ByteArray(RfidMessageParameters.RFID_INITIALIZATION_ARRAY_SIZE.parameter)
             rfidMessageCounter = getMessageLength(rfidTagMessage)
             antennaNumber = getRfidAntennaNumber(rfidTagMessage)
             endOfRfIdPosition = getEndOfRfidTagBytePosition(rfidTagMessage)
@@ -62,18 +77,18 @@ class AndroidRfidMessageManager : RfidMessageManager {
     }
 
     private fun getEndOfRfidTagBytePosition(rfidMessage: ByteArray): Int {
-        return rfidMessage[2].toInt() - 1
+        return rfidMessage[RfidMessageBytePosition.RFID_MESSAGE_LENGTH.position].toInt() - RfidMessageParameters.DIFFERENCE_BETWEEN_SIZE_AND_LAST_ARRAY_POSITION.parameter
     }
 
     private fun isRfidInformationMessage(rfidMessage: ByteArray): Boolean {
-        return rfidMessage[RfidMessageBytePosition.RFID_COM_NUMBER.position].toInt() == RFID_INFORMATION_MESSAGE
+        return rfidMessage[RfidMessageBytePosition.RFID_COM_NUMBER.position].toInt() == RfidMessageParameters.RFID_INFORMATION_MESSAGE.parameter
     }
 
     private fun getMessageLength(rfidTagMessage: ByteArray): Int {
-        return if (rfidTagMessage[RfidMessageBytePosition.RFID_MESSAGE_LENGTH.position].toInt() % RFID_DATA_SIZE != RFID_ONE_MESSAGE_DATA) {
-            (rfidTagMessage[RfidMessageBytePosition.RFID_MESSAGE_LENGTH.position].toInt() / RFID_DATA_SIZE) + 1
+        return if (rfidTagMessage[RfidMessageBytePosition.RFID_MESSAGE_LENGTH.position].toInt() % RFID_DATA_SIZE.parameter != RfidMessageParameters.RFID_ONE_MESSAGE_DATA.parameter) {
+            (rfidTagMessage[RfidMessageBytePosition.RFID_MESSAGE_LENGTH.position].toInt() / RFID_DATA_SIZE.parameter) + RfidMessageParameters.DIFFERENCE_BETWEEN_SIZE_AND_LAST_ARRAY_POSITION.parameter
         } else {
-            (rfidTagMessage[RfidMessageBytePosition.RFID_MESSAGE_LENGTH.position].toInt() / RFID_DATA_SIZE)
+            (rfidTagMessage[RfidMessageBytePosition.RFID_MESSAGE_LENGTH.position].toInt() / RFID_DATA_SIZE.parameter)
         }
     }
 
@@ -82,24 +97,13 @@ class AndroidRfidMessageManager : RfidMessageManager {
     }
 
     private fun decrementRfidMessageCounter() {
-        rfidMessageCounter -= 1
+        rfidMessageCounter -= RfidMessageParameters.DECREMENT_COUNTER_VALUE.parameter
     }
 
     private fun mergeRfidArray(nextRfidArrayElement: ByteArray): ByteArray {
-        logRfidMessage(nextRfidArrayElement, "array to merge : ")
-        logRfidMessage(nextRfidArrayElement, "before merge: ")
         rfidMessageArray = ByteBuffer.allocate(rfidMessageArray.size + nextRfidArrayElement.size)
             .put(rfidMessageArray).put(nextRfidArrayElement).array()
-        logRfidMessage(rfidMessageArray, "after merge: ")
         return rfidMessageArray
-    }
-
-    private fun formatTagIDToHexString(tagIDArray: ByteArray): String {
-        var rfidTagHexString = ""
-        tagIDArray.forEach {
-            rfidTagHexString += String.format(RFID_MESSAGE_FORMAT, it) + " | "
-        }
-        return rfidTagHexString
     }
 
     @ExperimentalCoroutinesApi
@@ -110,5 +114,10 @@ class AndroidRfidMessageManager : RfidMessageManager {
     @ExperimentalCoroutinesApi
     override fun observeRfidMessage(): MutableStateFlow<RfidDataBD?> {
         return rfidDataBDFlow
+    }
+
+    @ExperimentalCoroutinesApi
+    override fun clearRfidDataFlow() {
+        rfidDataBDFlow.value = null
     }
 }

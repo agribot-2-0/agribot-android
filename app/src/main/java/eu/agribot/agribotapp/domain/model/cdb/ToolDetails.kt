@@ -3,7 +3,7 @@ package eu.agribot.agribotapp.domain.model.cdb
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.ToolDetailsCDB
 
 data class ToolDetails(
-    val rfid: Int = 0,
+    val rfid: List<String> = listOf(),
     val pto: Double = 0.0,
     val blue: Double = 0.0,
     val yellow: Double = 0.0,

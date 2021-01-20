@@ -5,10 +5,9 @@ import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
 class ToolDataManager {
     private val initString = ""
     private val initDouble = 0.0
-    val noRfidTag = 0
-
+    val noRfidTag = listOf<String>()
     var toolName: String = initString
-    var rfid: Int = noRfidTag
+    var rfid: List<String> = noRfidTag
     var pto: Double = initDouble
     var tplUpDown: Double = initDouble
     var tplPushPull: Double = initDouble

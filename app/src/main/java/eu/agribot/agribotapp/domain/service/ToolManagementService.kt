@@ -44,6 +44,6 @@ class ToolManagementService(
 
     fun clearRfidData() {
         rfidDataFlow.value = null
-        // rfidMessageManager.clearRfidDataFlow()
+        rfidMessageManager.clearRfidDataFlow()
     }
 }

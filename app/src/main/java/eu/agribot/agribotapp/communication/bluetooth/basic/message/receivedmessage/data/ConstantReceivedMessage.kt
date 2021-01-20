@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage
+package eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data
 
 object ConstantReceivedMessage {
     const val BATTERY_VOLTAGE_RATIO = 0.001

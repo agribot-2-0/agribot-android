@@ -1,7 +1,7 @@
 package eu.agribot.agribotapp.communication.bluetooth.basic.message.heartbeat
 
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.FrameConstant
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ConstantReceivedMessage
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.FrameConstant
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.ConstantReceivedMessage
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.WriteBluetoothMessageManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

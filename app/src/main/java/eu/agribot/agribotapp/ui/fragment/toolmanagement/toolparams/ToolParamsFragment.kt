@@ -11,9 +11,16 @@ import eu.agribot.agribotapp.common.navigation.events.ToolNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentToolManagementParamsBinding
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams.data.AntennaNumber
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams.recycler.ReceivedRfidDataAdapter
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams.recycler.ReceivedRfidDataViewModel
-import kotlinx.android.synthetic.main.fragment_tool_management_params.*
+import kotlinx.android.synthetic.main.fragment_tool_management_params.antennaGroup
+import kotlinx.android.synthetic.main.fragment_tool_management_params.backAntenna
+import kotlinx.android.synthetic.main.fragment_tool_management_params.bothAntenna
+import kotlinx.android.synthetic.main.fragment_tool_management_params.frontAntenna
+import kotlinx.android.synthetic.main.fragment_tool_management_params.params_recycler
+import kotlinx.android.synthetic.main.fragment_tool_management_params.tagRfidRecycler
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -24,18 +31,20 @@ class ToolParamsFragment :
     override val layoutResourceId: Int = R.layout.fragment_tool_management_params
     override val viewModel: ToolParamsViewModel by viewModel { parametersOf(requireContext()) }
     private val dialogManager: DialogManager by inject { parametersOf(requireContext()) }
-    private var rfidDataAdapter = ReceivedRfidDataAdapter()
+    private var rfidDataAdapter =
+        ReceivedRfidDataAdapter(onItemCLicked = this::onRfidDataElementClicked)
     private val hitchRecyclerAdapter =
         HitchListItemAdapter(this::onHitchRecyclerParametersChanged)
 
+    @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // TODO add tags scaning via bluetooth
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
         viewModel.createToolsList()
         setupRecyclers()
     }
 
+    @ExperimentalCoroutinesApi
     private fun observeViewModel() {
         viewModel.paramsList.observe(this::addParams)
         viewModel.noRfidTagDataEvent.observe(this::showNoRfidDialogBox)
@@ -49,6 +58,11 @@ class ToolParamsFragment :
         }
     }
 
+    private fun onRfidDataElementClicked(rfidElement: ReceivedRfidDataViewModel) {
+        viewModel.onRfidTagSelected(rfidElement)
+    }
+
+    @ExperimentalCoroutinesApi
     private fun getButtonIdNumber(isScanOperation: Boolean) {
         if (isScanOperation)
             when (antennaGroup.checkedRadioButtonId) {
@@ -82,7 +96,7 @@ class ToolParamsFragment :
         sliderValue: Int,
         isActivated: Boolean
     ) {
-        viewModel.onHitchParametersChanged(sliderNumber, sliderValue, isActivated)
+        viewModel.onHitchParametersChanged(sliderNumber, sliderValue)
     }
 
     private fun addParams(tools: List<HitchListItemViewModel>) {

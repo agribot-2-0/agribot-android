@@ -14,4 +14,8 @@
      <color name="statusPrimaryDark">#464646</color>
 
     <color name="background_gray">#f1f1f1</color>
+
+    <color name="polyline_path">#ff33cc</color>
+    <color name="polyline_path_new">#66ffff</color>
+
 </resources>

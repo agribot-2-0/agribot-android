@@ -139,7 +139,6 @@
     <string name="no_internet_connection">Brak połączenia z internetem</string>
     <string name="connect_to_agribot">Connect to Agribot</string>
     <string name="nearby_devices_swipe_to_refresh_list">Nearby_Devices_List</string>
-
     <string name="connect_with_agribot_button">Połącz z Agribotem</string>
     <string name="disconnect_button">Zakończ połączenie</string>
     <string name="override_button">Tryb Override</string>
@@ -232,5 +231,19 @@
     <string name="connect_with_last_used_device">Połącz z ostatnio używanym Agribotem</string>
     <string name="change_video_url">Zmień adres transmisji Wideo</string>
     <string name="actual_url">\"Actual URL: \"</string>
+    <string name="dialog_tiles_downloading_tittle">Twoje pliki są pobierane…</string>
+    <string name="dialog_tiles_downloading_message">Pobieranie w toku</string>
+    <string name="dialog_tiles_extracting_tittle">Twoje pliki są rozpakowywane</string>
+    <string name="dialog_tiles_extracting_message">Trwa rozpakowywanie plików</string>
+    <string name="checking_files">Sprawdzanie plików - proszę czekać</string>
+    <string name="download_progress">Postęp pobierania</string>
+    <string name="extracting_progress">Postęp rozpakowywania</string>
+    <string name="path_deleted_message">Ścieżka usunięta pomyślnie</string>
+    <string name="loading_path_problem">Problem z załadowaniem ścieżki</string>
+    <string name="blank_path_name_error">Nazwa ścieżki nie może być pusta</string>
+    <string name="connecting_with_device">Trwa łączenie z tym urządzeniem…</string>
+    <string name="left_right">LEWO / PRAWO</string>
+    <string name="front_back">Przód / Tył</string>
+
 
 </resources>

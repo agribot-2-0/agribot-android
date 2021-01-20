@@ -28,7 +28,7 @@ interface WriteBluetoothMessageManager {
 
     fun sendTTControlTurnRightMessage(moveRightArray: ByteArray)
 
-    fun startSendingHeartbeat()
+    fun stopHandshakeScope()
 
-    fun stopSendingHeartbeat()
+    fun writeHeartbeatMessage(heartbeatArray: ByteArray)
 }

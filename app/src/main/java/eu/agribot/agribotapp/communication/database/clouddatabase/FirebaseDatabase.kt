@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase
 
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore.getInstance
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.ActualTaskCDB
@@ -29,12 +28,13 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.Cl
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_WEATHER_STATION_PRESSURE
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_WEATHER_STATION_TEMPERATURE
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_WEATHER_STATION_WIND
+import timber.log.Timber
 import java.io.IOException
 
-class FirebaseDatabase() : CloudDatabase {
+class FirebaseDatabase : CloudDatabase {
     private val currentFirebaseUser = FirebaseAuth.getInstance().currentUser?.uid.toString()
     private val database = getInstance()
-    var userRobotName = ""
+    var userRobotName: String? = null
 
     override fun getUserData(
         onDatabaseSucess: (data: UserInfoCDB) -> Unit,
@@ -258,7 +258,7 @@ class FirebaseDatabase() : CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document(userRobotName)
+            .document(userRobotName!!)
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(databaseException)
@@ -284,7 +284,7 @@ class FirebaseDatabase() : CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document(userRobotName)
+            .document(userRobotName!!)
             .update(
                 mapOf(
                     "actual_task" to actualTaskCDB.actual_task
@@ -411,16 +411,33 @@ class FirebaseDatabase() : CloudDatabase {
             }
     }
 
-    override fun setUsersRobotName(onGotUserRobotNameSucess: () -> Unit) {
+    override fun getRobotOnceRobotCoordinate(
+        onGotRobotCoordinate: (RobotLocalizationPoseCDB) -> Unit,
+        onDatabaseError: (Throwable) -> Unit
+    ) {
+        database.collection(COLLECTION_ROBOTS)
+            .document(userRobotName + DOCUMENT_LOCALIZATION_POSE)
+            .get()
+            .addOnSuccessListener { it ->
+                it.toObject(RobotLocalizationPoseCDB::class.java).let { robotLocalization ->
+                    if (robotLocalization != null) {
+                        onGotRobotCoordinate(robotLocalization)
+                    }
+                }
+            }
+            .addOnFailureListener(onDatabaseError)
+    }
+
+    override fun getUsersRobotName(onGetUsserRobotNAmeSucess: () -> Unit) {
         try {
             database.collection("$COLLECTION_USER/$currentFirebaseUser/$COLLECTION_ROBOTS")
                 .get()
                 .addOnSuccessListener { result ->
                     userRobotName = result.documents[0].id
-                    onGotUserRobotNameSucess.invoke()
+                    onGetUsserRobotNAmeSucess.invoke()
                 }
         } catch (exception: IOException) {
-            Log.e("PROBLEM", "Robot name problem " + exception)
+            Timber.e("Robot name problem %s", exception)
         }
     }
 }

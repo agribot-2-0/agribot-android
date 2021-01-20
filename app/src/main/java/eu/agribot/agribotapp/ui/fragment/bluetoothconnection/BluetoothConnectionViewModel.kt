@@ -13,6 +13,7 @@ import eu.agribot.agribotapp.domain.permission.PermissionError
 import eu.agribot.agribotapp.domain.permission.PermissionManager
 import eu.agribot.agribotapp.domain.service.AppStorageService
 import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
+import eu.agribot.agribotapp.domain.service.ManualModeService
 import eu.agribot.agribotapp.ui.fragment.bluetoothconnection.recycler.BluetoothNearbyListItemViewModel
 import kotlinx.coroutines.launch
 
@@ -20,13 +21,15 @@ class BluetoothConnectionViewModel(
     private val bluetoothConnectionService: BluetoothConnectionService,
     private val resourcesProvider: ResourcesProvider,
     private val permissionManager: PermissionManager,
-    private val appStorageService: AppStorageService
+    private val appStorageService: AppStorageService,
+    private val manualModeService: ManualModeService
+
 ) :
-    BaseViewModel() {
+        BaseViewModel() {
 
     val toastEvent: LiveEvent<String> = MutableLiveEvent()
     val discoveredDevices: MutableLiveData<List<BluetoothNearbyListItemViewModel>> =
-        MutableLiveData(listOf())
+            MutableLiveData(listOf())
 
     fun checkPermissions(onSucess: () -> Unit) {
         permissionManager.requestPermission(onSucess, onError = this::onPermissionError)
@@ -42,12 +45,12 @@ class BluetoothConnectionViewModel(
         }
         if (!isDeviceAlreadyAdded) {
             discoveredDevices.value = listOf(
-                BluetoothNearbyListItemViewModel(
-                    bluetoothDevice.deviceName,
-                    bluetoothDevice.deviceAdress
+                    BluetoothNearbyListItemViewModel(
+                            bluetoothDevice.deviceName,
+                            bluetoothDevice.deviceAdress
 
-                ),
-                *discoveredDevices.value!!.toTypedArray()
+                    ),
+                    *discoveredDevices.value!!.toTypedArray()
             )
         }
     }
@@ -57,13 +60,13 @@ class BluetoothConnectionViewModel(
     ) {
         viewModelScope.launch {
             bluetoothConnectionService.connect(
-                bluetoothDeviceAddress
+                    bluetoothDeviceAddress
             )
         }
         appStorageService.saveLastUsedBluetoothAddress(bluetoothDeviceAddress)
     }
 
-    fun onBluetoothDeviceConnected() {
+    fun onBluetoothDeviceConnected() = viewModelScope.launch {
         toastEvent.postValue(resourcesProvider.getString(R.string.connected))
         postManualSteeringNavigationEvent()
     }

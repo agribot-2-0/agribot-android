@@ -18,6 +18,7 @@ import tcking.github.com.giraffeplayer2.VideoInfo
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
 
 class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManualControlBinding>() {
+
     override val layoutResourceId: Int = R.layout.fragment_manual_control
     override val viewModel: ManualControlViewModel by viewModel { parametersOf(requireContext()) }
 
@@ -27,11 +28,10 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        viewModel.setDiagnosticData()
         manual_mode_joystick.setOnMoveListener { angle, strength ->
             viewModel.onJoystickParametrChange(angle, strength)
         }
-        viewModel.sendStartManualModeInfo()
         prepareStreamPlayer()
     }
 

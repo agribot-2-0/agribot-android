@@ -35,9 +35,14 @@ val domainModule = module {
     single {
         PathManagementService(
             filepathProvider = get(),
-            fileStorageService = get(),
             cloudStorageErrorHandler = get(),
-            pathManagementErrorHandler = get()
+            pathManagementErrorHandler = get(),
+            cloudStorageService = get(),
+            resourcesProvider = get {
+                parametersOf(
+                    androidContext()
+                )
+            }
         )
     }
 

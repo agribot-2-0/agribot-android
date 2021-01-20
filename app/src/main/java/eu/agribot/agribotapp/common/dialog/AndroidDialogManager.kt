@@ -81,16 +81,17 @@ class AndroidDialogManager(
         itemPosition: Int,
         onTaskToDeleteConfirmed: (itemPosition: Int) -> Unit
     ) {
-        MaterialDialog(context).show {
-            title(R.string.dialog_path_delete_tittle)
-            message(R.string.dialog_path_delete_message)
-            positiveButton(R.string.dialog_path_delete_confirm) {
-                onTaskToDeleteConfirmed(
-                    itemPosition
-                )
+        MaterialDialog(context)
+            .show {
+                title(R.string.dialog_path_delete_tittle)
+                message(R.string.dialog_path_delete_message)
+                positiveButton(R.string.dialog_path_delete_confirm) {
+                    onTaskToDeleteConfirmed(
+                        itemPosition
+                    )
+                }
+                negativeButton(R.string.cancel)
             }
-            negativeButton(R.string.cancel)
-        }
     }
 
     override fun cancelTaskDialog(onCancelTaskConfirmed: () -> Unit) {

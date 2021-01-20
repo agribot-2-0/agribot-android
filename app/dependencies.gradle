@@ -24,7 +24,9 @@ def versions = [
 		'firestorage'     : '19.2.0',
 		'mapUtils'        : '0.4.4',
 		'downloader'      : '0.6.0',
-		'videoPlayer'     : '0.1.25-full'
+		'videoPlayer'     : '0.1.25-full',
+		'zip4j'           : '2.6.4'
+
 
 
 ]
@@ -76,6 +78,8 @@ dependencies {
 	// Dialogs
 	implementation "com.afollestad.material-dialogs:core:$versions.materialDialogs"
 	implementation "com.afollestad.material-dialogs:lifecycle:$versions.materialDialogs"
+	implementation "com.afollestad.material-dialogs:input:$versions.materialDialogs"
+
 
 	//GoogleMap
 	implementation "com.google.android.gms:play-services-maps:$versions.googleMap"
@@ -109,5 +113,7 @@ dependencies {
 
 	//VideoPlayer
 	api "com.github.tcking:giraffeplayer2:$versions.videoPlayer"
+	//Unzip
+	implementation "net.lingala.zip4j:zip4j:$versions.zip4j"
 
 }

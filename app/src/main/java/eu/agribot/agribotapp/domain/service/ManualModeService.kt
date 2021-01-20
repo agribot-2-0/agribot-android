@@ -6,9 +6,14 @@ import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.
 import eu.agribot.agribotapp.domain.model.fromdomain.SwitchSettings
 import eu.agribot.agribotapp.domain.model.todomain.DiagnosticData
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.ManualSteeringJoystickManager
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class ManualModeService(
     private val manualSteeringJoystickManager: ManualSteeringJoystickManager,
@@ -16,7 +21,11 @@ class ManualModeService(
     private val receivedBluetoothMessageManager: ReceivedBluetoothMessageManager,
     private val messageCreator: BluetoothMessageCreator
 ) {
-    private val START_MANUAL_MODE_DELAY = 100L
+    private val engineStartDelay = 100L
+    @ExperimentalCoroutinesApi
+    private val diagnosticDataFlow = MutableStateFlow<DiagnosticData?>(null)
+    var diagnosticDataFlowScope = CoroutineScope(Job() + Dispatchers.IO)
+
     fun onManualSteeringJoystickParametrChanged(joystickAngle: Int, joystickStrength: Int) {
         manualSteeringJoystickManager.onJoystickConfigurationChanged(
             joystickAngle,
@@ -24,22 +33,30 @@ class ManualModeService(
         )
     }
 
-    fun startStopEngine() {
+    suspend fun startStopEngine() {
         writeBluetoothMessageManager.sendStopThreadMessage()
+        delay(engineStartDelay)
         writeBluetoothMessageManager.sendStartEngineMessage()
-    }
-
-    suspend fun runManualMode() = withContext(Dispatchers.IO) {
-        writeBluetoothMessageManager.sendManualControlInitMessage()
-        delay(START_MANUAL_MODE_DELAY)
-        writeBluetoothMessageManager.sendManualControlStartMessage()
     }
 
     fun onSwitchParametrChanged(switchSettings: SwitchSettings) {
         messageCreator.createSwitchesMessage(switchSettings.toCommunicationModel())
     }
 
-    fun getDiagnosticData(): DiagnosticData? {
-        return receivedBluetoothMessageManager.getDiagnosticData()?.toDomainModel()
+    @ExperimentalCoroutinesApi
+    private fun getDiagnosticData() {
+        diagnosticDataFlowScope.launch {
+            receivedBluetoothMessageManager.observeDiagnosticData()?.collect {
+                if (it != null) {
+                    diagnosticDataFlow.value = it.toDomainModel()
+                }
+            }
+        }
+    }
+
+    @ExperimentalCoroutinesApi
+    fun observeDiagnosticData(): MutableStateFlow<DiagnosticData?> {
+        getDiagnosticData()
+        return diagnosticDataFlow
     }
 }

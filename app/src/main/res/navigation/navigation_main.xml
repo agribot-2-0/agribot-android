@@ -322,16 +322,19 @@
     <fragment
         android:id="@+id/newPathFragment"
         android:name="eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.NewPathFragment"
-        android:label="NewPathFragment" >
+        android:label="@string/title_path_management">
         <action
             android:id="@+id/action_newPathFragment_to_dashboardFragment"
             app:destination="@id/dashboardFragment" />
+        <action
+            android:id="@+id/action_newPathFragment_to_pathManagementFragment"
+            app:destination="@id/pathManagementFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/pathNameFragment"
         android:name="eu.agribot.agribotapp.ui.fragment.pathmanagement.pathname.PathNameFragment"
-        android:label="PathNameFragment" >
+        android:label="@string/title_path_management">
         <action
             android:id="@+id/action_pathNameFragment_to_newPathFragment"
             app:destination="@id/newPathFragment" />

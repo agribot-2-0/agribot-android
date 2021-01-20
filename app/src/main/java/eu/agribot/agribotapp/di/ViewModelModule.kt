@@ -52,14 +52,19 @@ val viewModelModule = module {
             bluetoothConnectionService = get(),
             resourcesProvider = get { parametersOf(context) },
             permissionManager = get(),
-            appStorageService = get()
+            appStorageService = get(),
+            manualModeService = get()
         )
     }
-    viewModel {
+
+
+    viewModel { (context: Context) ->
         SplashViewModel(
             authenticationService = get(),
             bluetoothConnectionService = get(),
-            cloudDatabaseService = get()
+            cloudDatabaseService = get(),
+            cloudStorageService = get(),
+            resourcesProvider = get { parametersOf(context) }
         )
     }
     viewModel {
@@ -100,11 +105,15 @@ val viewModelModule = module {
         )
     }
 
-    viewModel {
+    viewModel { (context: Context) ->
         PathManagementViewModel(
             pathManagementService = get(),
-            cloudStorageService = get()
+            cloudStorageService = get(),
+            filePathProvider = get(),
+            kmlLayerService = get(),
+            resourcesProvider = get { parametersOf(context) }
         )
+
     }
     viewModel {
         WeatherViewModel(
@@ -253,11 +262,15 @@ val viewModelModule = module {
             cloudDatabaseService = get(),
             pathManagementService = get(),
             filePathProvider = get(),
+            resourcesProvider = get { parametersOf(context) },
+            kmlLayerService = get()
+        )
+    }
+
+    viewModel { (context: Context) ->
+        PathNameViewModel(pathManagementService = get(),
             resourcesProvider = get { parametersOf(context) }
         )
     }
 
-    viewModel {
-        PathNameViewModel()
-    }
 }

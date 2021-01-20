@@ -13,8 +13,6 @@ object FrameConstant {
 
     const val COMMAND_BYTE = 0x00.toByte()
 
-    const val CONSTANT_FRAME_ELEMENTS_SIZE = 7
-
     const val EMPTY_ARRAY = 0
 
     const val DUMMY_BYTE = 0xFF.toByte()
@@ -31,5 +29,4 @@ object FrameConstant {
 
     const val CONST_ELEMENT_OF_FRAME_SIZE = 4
 
-    const val CONSTANT_FRAME_ELEMENTS_LENGTH = 3
 }

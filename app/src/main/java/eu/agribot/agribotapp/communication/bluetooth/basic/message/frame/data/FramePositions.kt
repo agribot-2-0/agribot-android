@@ -1,15 +1,20 @@
 package eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data
 
-object FramePositions {
-    const val START_OF_FRAME_POSITION = 0
+enum class FramePositions(val position: Int) {
 
-    const val LENGTH_POSITION = 1
+    START_OF_FRAME(0),
 
-    const val COMMAND_BYTE_POSITION = 2
+    LENGTH(1),
 
-    const val FIRST_BYTE_OF_ADRESS_POSITION = 3
+    COMMAND_BYTE(2),
 
-    const val SECOND_BYTE_OF_ADRESS_POSITION = 4
+    FIRST_BYTE_OF_ADRESS(3),
 
-    const val START_MESSAGE_DATA_POSITION = 5
+    SECOND_BYTE_OF_ADRESS(4),
+
+    START_MESSAGE_DATA(5),
+
+    START_OF_CHECKSUM_ARRAY(1),
+
+    INITIALIZATION_CHECKSUM_BYTE(0)
 }

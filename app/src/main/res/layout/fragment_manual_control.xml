@@ -363,31 +363,11 @@
                 android:background="@drawable/rounded_corner_layout"
                 android:orientation="horizontal">
 
-
-                <com.google.android.material.button.MaterialButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/manualModeRecyclerActions"
                     android:layout_gravity="center"
-                    android:layout_margin="@dimen/margin_medium"
-                    android:background="@drawable/rounded_button"
-                    android:onClick="@{() -> viewModel.startStopEngine()}"
-                    android:padding="@dimen/margin_medium"
-                    android:text="@string/start_stop_engine"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_medium" />
-
-
-               <com.google.android.material.button.MaterialButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/margin_medium"
-                    android:background="@drawable/rounded_button"
-                    android:onClick="@{()->viewModel.onTTControlButtonClicked()}"
-                    android:padding="@dimen/margin_medium"
-                    android:text="@string/override_button"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_medium" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
 
             </LinearLayout>

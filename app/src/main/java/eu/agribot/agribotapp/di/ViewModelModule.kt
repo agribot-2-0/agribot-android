@@ -51,8 +51,7 @@ val viewModelModule = module {
         BluetoothConnectionViewModel(
             bluetoothConnectionService = get(),
             resourcesProvider = get { parametersOf(context) },
-            permissionManager = get(),
-            manualModeService = get()
+            permissionManager = get()
         )
     }
     viewModel { (context: Context) ->
@@ -72,7 +71,8 @@ val viewModelModule = module {
     viewModel { (context: Context) ->
         ManualControlViewModel(
             manualModeService = get(),
-            resourcesProvider = get { parametersOf(context) }
+            resourcesProvider = get { parametersOf(context) },
+            internetConnectionService = get()
         )
     }
     viewModel { (context: Context) ->

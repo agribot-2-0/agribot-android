@@ -27,6 +27,8 @@ import eu.agribot.agribotapp.communication.database.firestorage.AndroidFirestora
 import eu.agribot.agribotapp.communication.database.firestorage.FirestorageService
 import eu.agribot.agribotapp.communication.persistence.PersistentStorage
 import eu.agribot.agribotapp.communication.persistence.SharedPreferencesPersistentStorage
+import eu.agribot.agribotapp.communication.tcpconnection.AndroidTcpConnectionManager
+import eu.agribot.agribotapp.communication.tcpconnection.TcpConnectionManager
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
@@ -34,6 +36,10 @@ import org.koin.dsl.module
  * Koin module used to provide communication layer dependencies
  */
 val communicationModule = module {
+
+    single<TcpConnectionManager> {
+        AndroidTcpConnectionManager()
+    }
 
     single<BluetoothConnectionManager> {
         AndroidBluetoothConnectionManager(

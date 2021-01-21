@@ -13,12 +13,10 @@ import eu.agribot.agribotapp.common.navigation.events.ToolControlNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentManualControlBinding
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.ManualActionsAdapter
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.ManualActionsViewModel
-import kotlinx.android.synthetic.main.fragment_manual_control.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.videostream.VideoParameters
 import kotlinx.android.synthetic.main.fragment_manual_control.manual_mode_joystick
 import kotlinx.android.synthetic.main.fragment_manual_control.video_view
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.android.synthetic.main.fragment_manual_control.manualModeRecyclerActions
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import tcking.github.com.giraffeplayer2.Option
@@ -29,6 +27,8 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
 
     override val layoutResourceId: Int = R.layout.fragment_manual_control
     override val viewModel: ManualControlViewModel by viewModel { parametersOf(requireContext()) }
+    private val actionsRecyclerAdapter =
+        ManualActionsAdapter(onClickSelectedItem = this::onSelectedActionClicked)
 
     override fun bindViewVariables(viewBinding: FragmentManualControlBinding) {
         viewBinding.viewModel = viewModel

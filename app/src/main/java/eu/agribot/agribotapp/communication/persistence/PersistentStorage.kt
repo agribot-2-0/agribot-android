@@ -9,8 +9,4 @@ interface PersistentStorage {
     fun saveVideoStreamUrl(url: String)
 
     fun getVideoStreamUrl(): String
-
-    fun saveLastUsedDeviceBluetoothAddress(url: String)
-
-    fun getLastUsedDeviceBluetoothAddress(): String
 }

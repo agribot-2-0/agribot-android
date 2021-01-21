@@ -1,6 +1,7 @@
-package eu.agribot.agribotapp.ui.fragment.settings.recycler
+package eu.agribot.agribotapp.ui.fragment.settings.recycler.settingslist
 
 enum class ItemID(val ID: Int) {
+
     LOGIN_AS(0),
 
     SIGN_OUT(1),
@@ -11,7 +12,5 @@ enum class ItemID(val ID: Int) {
 
     SEARCH_DEVICE(0),
 
-    CONNECT_WITH_LAST_DEVICE(1),
-
-    DISCONNECT(2)
+    DISCONNECT(11)
 }

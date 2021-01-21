@@ -1,8 +1,5 @@
 package eu.agribot.agribotapp.ui.fragment.settings
 
-import android.bluetooth.BluetoothAdapter
-import android.content.BroadcastReceiver
-import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,14 +10,14 @@ import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.BluetoothConnectionNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ManualControlNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.WelcomeActivityNavigationEvent
-import eu.agribot.agribotapp.communication.bluetooth.locale.BluetoothDiscoveryBroadcastReceiver
 import eu.agribot.agribotapp.databinding.FragmentSettingsBinding
 import eu.agribot.agribotapp.ui.activity.authentication.welcome.WelcomeActivity
 import eu.agribot.agribotapp.ui.fragment.settings.recycler.settingsaction.SettingsActionAdapter
 import eu.agribot.agribotapp.ui.fragment.settings.recycler.settingsaction.SettingsActionViewModel
 import eu.agribot.agribotapp.ui.fragment.settings.recycler.settingslist.SettingsListAdapter
 import eu.agribot.agribotapp.ui.fragment.settings.recycler.settingslist.SettingsListViewModel
-import kotlinx.android.synthetic.main.fragment_settings.*
+import kotlinx.android.synthetic.main.fragment_settings.settingsActionsRecycler
+import kotlinx.android.synthetic.main.fragment_settings.settingsListRecycler
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -33,8 +30,6 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
     private val dialogManager: DialogManager by inject { parametersOf(requireContext()) }
     private val settingsListAdapter = SettingsListAdapter(this::onSettingsItemCLicked)
     private val settingsActionAdapter = SettingsActionAdapter(this::onSettingsActionCLicked)
-    private lateinit var bluetoothDiscoveryBroadcastReceiver: BroadcastReceiver
-    private lateinit var bluetoothAdapter: BluetoothAdapter
 
     override fun bindViewVariables(viewBinding: FragmentSettingsBinding) {
         viewBinding.viewModel = viewModel
@@ -46,22 +41,6 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
         viewModel.prepareSettingsItem()
         viewModel.prepareSettingsAction()
         observeViewModel()
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-        bluetoothDiscoveryBroadcastReceiver = BluetoothDiscoveryBroadcastReceiver(
-            viewModel::onBluetoothDeviceFound,
-            viewModel::onBluetoothDeviceConnected,
-            viewModel::onBluetoothDeviceDisconnected
-        )
-        startDiscovery()
-    }
-
-    private fun startDiscovery() {
-        registerMyReceiver(BluetoothDiscoveryBroadcastReceiver.FILTER)
-        bluetoothAdapter.startDiscovery()
-    }
-
-    private fun registerMyReceiver(filter: IntentFilter) {
-        requireContext().registerReceiver(bluetoothDiscoveryBroadcastReceiver, filter)
     }
 
     private fun observeViewModel() {

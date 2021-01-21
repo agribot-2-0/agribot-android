@@ -1,23 +1,19 @@
 package eu.agribot.agribotapp.ui.fragment.settings
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.LiveEvent
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.BluetoothConnectionNavigationEvent
-import eu.agribot.agribotapp.common.navigation.events.ManualControlNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.WelcomeActivityNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
-import eu.agribot.agribotapp.domain.model.todomain.FoundBluetoothDevice
 import eu.agribot.agribotapp.domain.service.AppStorageService
 import eu.agribot.agribotapp.domain.service.AuthenticationService
 import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
-import eu.agribot.agribotapp.ui.fragment.settings.recycler.ItemID
+import eu.agribot.agribotapp.ui.fragment.settings.recycler.settingslist.ItemID
 import eu.agribot.agribotapp.ui.fragment.settings.recycler.settingsaction.SettingsActionViewModel
 import eu.agribot.agribotapp.ui.fragment.settings.recycler.settingslist.SettingsListViewModel
-import kotlinx.coroutines.launch
 
 class SettingsViewModel(
     private val authenticationService: AuthenticationService,
@@ -32,9 +28,6 @@ class SettingsViewModel(
     private val user = authenticationService.getCurrentUser().userEmail
     val showDeleteAccountDialogEvent: LiveEvent<Boolean> = MutableLiveEvent()
     val showSignoutDialogEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
-    private val discoveredDevice: MutableLiveData<List<FoundBluetoothDevice>> = MutableLiveData(
-        listOf()
-    )
 
     fun logOut() {
         authenticationService.logOut(signOutInformation = this::logOutInfo)
@@ -67,10 +60,6 @@ class SettingsViewModel(
             SettingsActionViewModel(
                 ItemID.SEARCH_DEVICE.ID,
                 resourcesProvider.getString(R.string.find_agribot)
-            ),
-            SettingsActionViewModel(
-                ItemID.CONNECT_WITH_LAST_DEVICE.ID,
-                resourcesProvider.getString(R.string.connect_with_last_used_device)
             ),
             SettingsActionViewModel(
                 ItemID.DISCONNECT.ID,
@@ -109,43 +98,10 @@ class SettingsViewModel(
                 onSearchBluetoothDeviceClicked()
             }
 
-            ItemID.CONNECT_WITH_LAST_DEVICE.ID -> {
-                connectWithAlreadyUsedDevice()
-            }
-
             ItemID.DISCONNECT.ID -> {
                 onDisconnectBluetoothDeviceClicked()
             }
         }
-    }
-
-    private fun connectWithAlreadyUsedDevice() {
-        viewModelScope.launch {
-            discoveredDevice.value?.forEach {
-                if (it.deviceAdress == appStorageService.getLastUsedBluetoothAddress()) {
-                    bluetoothConnectionService.connect(it.deviceAdress)
-                }
-            }
-        }
-    }
-
-    fun onBluetoothDeviceFound(bluetoothDevice: FoundBluetoothDevice) {
-        val isDeviceAlreadyAdded = discoveredDevice.value!!.any {
-            it == bluetoothDevice
-        }
-        if (!isDeviceAlreadyAdded) {
-            discoveredDevice.value = listOf(
-                bluetoothDevice,
-                *discoveredDevice.value!!.toTypedArray()
-            )
-        }
-    }
-
-    fun onBluetoothDeviceConnected() {
-        navigationEvent.postValue(ManualControlNavigationEvent())
-    }
-
-    fun onBluetoothDeviceDisconnected() {
     }
 
     private fun removeUserSucessfull() {

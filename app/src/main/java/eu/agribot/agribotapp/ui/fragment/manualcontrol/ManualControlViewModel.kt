@@ -22,8 +22,8 @@ class ManualControlViewModel(
 ) : BaseViewModel() {
 
     companion object {
-        const val REFRESH_DIAGNOSTIC_DATA_DELAY = 100L
-        const val SEND_JOYSTICK_MESSAGE_DELAY = 150L
+        const val COUNTER_INITIALIZATION_VALUE = 0
+        const val COUNTER_INCREMENT_VALUE = 1
     }
 
     val accumulatorVoltage: MutableLiveData<String> = MutableLiveData()
@@ -42,9 +42,8 @@ class ManualControlViewModel(
 
     fun getStreamUrl(): String = appStorageService.getStreamUrl()
 
-
     fun onJoystickParametrChange(angel: Int, strength: Int) = viewModelScope.launch {
-        if (getJoystickMessageCounter() % JoysticFilter.JOYSTICK_FILTER_VALUE.value == 0) {
+        if (getJoystickMessageCounter() % JoysticFilter.JOYSTICK_FILTER_VALUE.value == COUNTER_INITIALIZATION_VALUE) {
             manualModeService.onManualSteeringJoystickParametrChanged(angel, strength)
         }
     }
@@ -74,9 +73,9 @@ class ManualControlViewModel(
 
     private fun getJoystickMessageCounter(): Int {
         if (joystickMessageCounter.value == null || joystickMessageCounter.value == JoysticFilter.JOYSTICK_COUNTER_MAX_VALUE.value) {
-            joystickMessageCounter.value = 0
+            joystickMessageCounter.value = COUNTER_INITIALIZATION_VALUE
         } else {
-            joystickMessageCounter.value = joystickMessageCounter.value!! + 1
+            joystickMessageCounter.value = joystickMessageCounter.value!! + COUNTER_INCREMENT_VALUE
         }
         return joystickMessageCounter.value!!
     }

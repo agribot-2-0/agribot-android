@@ -2,9 +2,10 @@ package eu.agribot.agribotapp.ui.fragment.manualcontrol.videostream
 
 enum class VideoParameters(
     val parameterName: String,
-    val parametersValueName: String,
-    val parametersValue: Long
+    val parameterValueName: String,
+    val parameterValue: Long
 ) {
+
     START_WHEN_READY("start-on-prepared", "", 1),
 
     NOBUFFER("fflags", "nobuffer", 0),

@@ -51,12 +51,9 @@ val viewModelModule = module {
         BluetoothConnectionViewModel(
             bluetoothConnectionService = get(),
             resourcesProvider = get { parametersOf(context) },
-            permissionManager = get(),
-            appStorageService = get(),
-            manualModeService = get()
+            permissionManager = get()
         )
     }
-
 
     viewModel { (context: Context) ->
         SplashViewModel(
@@ -113,7 +110,6 @@ val viewModelModule = module {
             kmlLayerService = get(),
             resourcesProvider = get { parametersOf(context) }
         )
-
     }
     viewModel {
         WeatherViewModel(
@@ -272,5 +268,4 @@ val viewModelModule = module {
             resourcesProvider = get { parametersOf(context) }
         )
     }
-
 }

@@ -9,11 +9,4 @@ class AppStorageService(private val persistentStorage: PersistentStorage) {
     fun saveStreamUrl(newUrl: String) {
         persistentStorage.saveVideoStreamUrl(newUrl)
     }
-
-    fun getLastUsedBluetoothAddress(): String =
-        persistentStorage.getLastUsedDeviceBluetoothAddress()
-
-    fun saveLastUsedBluetoothAddress(bluetoothAddress: String) {
-        persistentStorage.saveLastUsedDeviceBluetoothAddress(bluetoothAddress)
-    }
 }

@@ -12,13 +12,6 @@ class SharedPreferencesPersistentStorage(context: Context) : PersistentStorage {
         )
     }
 
-    private val bluetoothAddressSP: SharedPreferences by lazy {
-        context.getSharedPreferences(
-            PersistentDataDetails.BLUETOOTH_ADDRESS.name,
-            Context.MODE_PRIVATE
-        )
-    }
-
     override fun saveVideoStreamUrl(url: String) {
         videoStreamSP.edit()
             .putString(PersistentDataDetails.VIDEOSTREAM.data, url)
@@ -26,14 +19,8 @@ class SharedPreferencesPersistentStorage(context: Context) : PersistentStorage {
     }
 
     override fun getVideoStreamUrl(): String =
-        videoStreamSP.getString(PersistentDataDetails.VIDEOSTREAM.data, PersistentDataDetails.VIDEOSTREAM.defaultValue) ?: ""
-
-    override fun saveLastUsedDeviceBluetoothAddress(url: String) {
-        bluetoothAddressSP.edit()
-            .putString(PersistentDataDetails.BLUETOOTH_ADDRESS.data, url)
-            .apply()
-    }
-
-    override fun getLastUsedDeviceBluetoothAddress(): String =
-        bluetoothAddressSP.getString(PersistentDataDetails.BLUETOOTH_ADDRESS.data, PersistentDataDetails.BLUETOOTH_ADDRESS.defaultValue) ?: ""
+        videoStreamSP.getString(
+            PersistentDataDetails.VIDEOSTREAM.data,
+            PersistentDataDetails.VIDEOSTREAM.defaultValue
+        ) ?: ""
 }

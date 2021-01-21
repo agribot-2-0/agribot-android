@@ -72,7 +72,8 @@ val viewModelModule = module {
         ManualControlViewModel(
             manualModeService = get(),
             resourcesProvider = get { parametersOf(context) },
-            internetConnectionService = get()
+            internetConnectionService = get(),
+            appStorageService = get()
         )
     }
     viewModel { (context: Context) ->
@@ -120,7 +121,8 @@ val viewModelModule = module {
         SettingsViewModel(
             authenticationService = get(),
             resourcesProvider = get { parametersOf(context) },
-            bluetoothConnectionService = get()
+            bluetoothConnectionService = get(),
+            appStorageService = get()
         )
     }
     viewModel {
@@ -256,9 +258,8 @@ val viewModelModule = module {
             cloudDatabaseService = get(),
             pathManagementService = get(),
             filePathProvider = get(),
-            kmlLayerService = get(),
-            resourcesProvider = get { parametersOf(context) }
-
+            resourcesProvider = get { parametersOf(context) },
+            kmlLayerService = get()
         )
     }
 

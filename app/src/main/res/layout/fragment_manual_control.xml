@@ -53,9 +53,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@drawable/ic_car_battery"
-                            app:tint="@color/base_green"
-                            android:height="40dp"
-                            android:width="40dp" />
+                            app:tint="@color/base_green" />
 
                     </FrameLayout>
 
@@ -343,15 +341,12 @@
                 android:layout_height="0dp"
                 android:layout_weight="4">
 
-                <TextView
+                <tcking.github.com.giraffeplayer2.VideoView
+                    android:id="@+id/video_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/margin_small"
-                    android:background="@android:color/black"
-                    android:gravity="center"
-                    android:text="@string/camera_view"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold" />
+                    android:gravity="center" />
             </FrameLayout>
 
 
@@ -368,7 +363,6 @@
                     android:layout_gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
-
 
             </LinearLayout>
 

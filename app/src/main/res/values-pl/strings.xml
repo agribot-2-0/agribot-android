@@ -5,6 +5,8 @@
     <!-- Commons -->
     <string name="exit">Wyjście</string>
     <string name="cancel">Anuluj</string>
+    <string name="done">Gotowe</string>
+
 
     <!-- Navigation drawer -->
     <string name="navigation_drawer_open">Otwórz</string>
@@ -223,7 +225,12 @@
     <string name="dialog_task_cancel_tittle">Anuluj zadanie</string>
     <string name="dialog_task_cancel_message">Czy chesz anulować zadanie?</string>
     <string name="tool_mode_zero">Cała ścieżka</string>
-    <string name="tool_mode_one">Pomiędzy rzędami</string>
+    <string name="tool_mode_one">W międzyrzędziach</string>
+    <string name="change_stream_url">Zmień adres URL streamu Video</string>
+    <string name="find_agribot">Wyszukaj Agribota</string>
+    <string name="connect_with_last_used_device">Połącz z ostatnio używanym Agribotem</string>
+    <string name="change_video_url">Zmień adres transmisji Wideo</string>
+    <string name="actual_url">\"Aktualne źródło wideo: \"</string>
     <string name="dialog_tiles_downloading_tittle">Twoje pliki są pobierane…</string>
     <string name="dialog_tiles_downloading_message">Pobieranie w toku</string>
     <string name="dialog_tiles_extracting_tittle">Twoje pliki są rozpakowywane</string>

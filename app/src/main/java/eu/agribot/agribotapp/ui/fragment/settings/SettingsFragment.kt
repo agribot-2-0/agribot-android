@@ -2,14 +2,22 @@ package eu.agribot.agribotapp.ui.fragment.settings
 
 import android.os.Bundle
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.dialog.DialogManager
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.BluetoothConnectionNavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.ManualControlNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.WelcomeActivityNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentSettingsBinding
 import eu.agribot.agribotapp.ui.activity.authentication.welcome.WelcomeActivity
+import eu.agribot.agribotapp.ui.fragment.settings.recycler.settingsaction.SettingsActionAdapter
+import eu.agribot.agribotapp.ui.fragment.settings.recycler.settingsaction.SettingsActionViewModel
+import eu.agribot.agribotapp.ui.fragment.settings.recycler.settingslist.SettingsListAdapter
+import eu.agribot.agribotapp.ui.fragment.settings.recycler.settingslist.SettingsListViewModel
+import kotlinx.android.synthetic.main.fragment_settings.settingsActionsRecycler
+import kotlinx.android.synthetic.main.fragment_settings.settingsListRecycler
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -20,6 +28,8 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
     override val viewModel: SettingsViewModel by viewModel { parametersOf(requireContext()) }
 
     private val dialogManager: DialogManager by inject { parametersOf(requireContext()) }
+    private val settingsListAdapter = SettingsListAdapter(this::onSettingsItemCLicked)
+    private val settingsActionAdapter = SettingsActionAdapter(this::onSettingsActionCLicked)
 
     override fun bindViewVariables(viewBinding: FragmentSettingsBinding) {
         viewBinding.viewModel = viewModel
@@ -27,15 +37,58 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupRecyclers()
+        viewModel.prepareSettingsItem()
+        viewModel.prepareSettingsAction()
+        observeViewModel()
+    }
+
+    private fun observeViewModel() {
+        viewModel.settingsList.observe(this::addToSettingsList)
+        viewModel.settingsActions.observe(this::addToSettingsAction)
         viewModel.toastEvent.observe(this::showToast)
         viewModel.showDeleteAccountDialogEvent.observe(this::showDeleteAccountDialog)
         viewModel.showSignoutDialogEvent.observe(this::showSignOutDialog)
+        viewModel.changeStreamUrlEvent.observe(this::showChangeUrlDialog)
+    }
+
+    private fun showChangeUrlDialog(currentUrl: String) {
+        dialogManager.changeStreamUrlDialog(currentUrl, viewModel::onStreamUrlChanged)
+    }
+
+    private fun onSettingsItemCLicked(itemID: Int) {
+        viewModel.onSettingsItemSelected(itemID)
+    }
+
+    private fun onSettingsActionCLicked(actionID: Int) {
+        viewModel.onSettingsActionSelected(actionID)
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
         is WelcomeActivityNavigationEvent -> handleWelcomeActivityNavigationEvent()
         is BluetoothConnectionNavigationEvent -> handleBluetoothConnectionNavigationEvent()
+        is ManualControlNavigationEvent -> handleManualControlNavigationEvent()
         else -> Unit
+    }
+
+    private fun setupRecyclers() {
+        settingsListRecycler.adapter = settingsListAdapter
+        settingsListRecycler.layoutManager = LinearLayoutManager(requireActivity())
+
+        settingsActionsRecycler.adapter = settingsActionAdapter
+        settingsActionsRecycler.layoutManager = LinearLayoutManager(requireActivity())
+    }
+
+    private fun addToSettingsList(settingsItem: List<SettingsListViewModel>) {
+        settingsListAdapter.items = settingsItem
+    }
+
+    private fun handleManualControlNavigationEvent() {
+        navigationController?.navigate(R.id.action_settingsFragment_to_manualControlFragment)
+    }
+
+    private fun addToSettingsAction(settingsAction: List<SettingsActionViewModel>) {
+        settingsActionAdapter.items = settingsAction
     }
 
     private fun handleBluetoothConnectionNavigationEvent() {

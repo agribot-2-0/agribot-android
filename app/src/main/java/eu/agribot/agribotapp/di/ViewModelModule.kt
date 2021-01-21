@@ -51,10 +51,10 @@ val viewModelModule = module {
         BluetoothConnectionViewModel(
             bluetoothConnectionService = get(),
             resourcesProvider = get { parametersOf(context) },
-            permissionManager = get(),
-            manualModeService = get()
+            permissionManager = get()
         )
     }
+
     viewModel { (context: Context) ->
         SplashViewModel(
             authenticationService = get(),
@@ -72,7 +72,8 @@ val viewModelModule = module {
     viewModel { (context: Context) ->
         ManualControlViewModel(
             manualModeService = get(),
-            resourcesProvider = get { parametersOf(context) }
+            resourcesProvider = get { parametersOf(context) },
+            appStorageService = get()
         )
     }
     viewModel { (context: Context) ->
@@ -120,7 +121,8 @@ val viewModelModule = module {
         SettingsViewModel(
             authenticationService = get(),
             resourcesProvider = get { parametersOf(context) },
-            bluetoothConnectionService = get()
+            bluetoothConnectionService = get(),
+            appStorageService = get()
         )
     }
     viewModel {

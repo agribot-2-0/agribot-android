@@ -9,6 +9,7 @@ import eu.agribot.agribotapp.domain.service.AppStorageService
 import eu.agribot.agribotapp.domain.service.AuthenticationService
 import eu.agribot.agribotapp.domain.service.AutonomyService
 import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
+import eu.agribot.agribotapp.domain.service.InternetConnectionService
 import eu.agribot.agribotapp.domain.service.KmlLayerService
 import eu.agribot.agribotapp.domain.service.ManualModeService
 import eu.agribot.agribotapp.domain.service.PathManagementService
@@ -43,6 +44,12 @@ val domainModule = module {
                     androidContext()
                 )
             }
+        )
+    }
+
+    single {
+        InternetConnectionService(
+            tcpConnectionManager = get()
         )
     }
 

@@ -256,5 +256,6 @@
     <string name="connecting_with_device">Wait for connect with Agribot…</string>
     <string name="left_right">Left / Right</string>
     <string name="front_back">Front / Back</string>
+    <string name="wakeup_button">Wake-Up</string>
 
 </resources>

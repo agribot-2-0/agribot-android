@@ -93,8 +93,8 @@ dependencies {
 	implementation "com.android.support:design:$versions.supportDesign"
 
 	//FirebaseAuth
-	implementation "com.google.firebase:firebase-auth:$versions.firebaseAuth"
 	implementation "com.google.android.gms:play-services-auth:$versions.serviceAuth"
+	implementation "com.google.firebase:firebase-auth:$versions.firebaseAuth"
 
 	//FirebaseFirestore
 	implementation "com.google.firebase:firebase-firestore-ktx:$versions.firestore"
@@ -113,6 +113,7 @@ dependencies {
 
 	//VideoPlayer
 	api "com.github.tcking:giraffeplayer2:$versions.videoPlayer"
+
 	//Unzip
 	implementation "net.lingala.zip4j:zip4j:$versions.zip4j"
 

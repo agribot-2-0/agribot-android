@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.ManualActionsViewModel" />
+    </data>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/manualModeActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/margin_medium"
+        android:paddingVertical="@dimen/margin_medium"
+        android:paddingHorizontal="@dimen/margin_xxlarge"
+        android:text="@{viewModel.actionName}"
+        android:textColor="@android:color/white" />
+
+</layout>

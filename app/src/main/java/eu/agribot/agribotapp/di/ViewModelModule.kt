@@ -54,7 +54,6 @@ val viewModelModule = module {
             permissionManager = get()
         )
     }
-
     viewModel { (context: Context) ->
         SplashViewModel(
             authenticationService = get(),
@@ -73,6 +72,7 @@ val viewModelModule = module {
         ManualControlViewModel(
             manualModeService = get(),
             resourcesProvider = get { parametersOf(context) },
+            internetConnectionService = get(),
             appStorageService = get()
         )
     }

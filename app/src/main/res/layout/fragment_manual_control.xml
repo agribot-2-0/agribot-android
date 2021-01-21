@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -27,10 +27,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_margin="@dimen/margin_small"
                 android:layout_weight="1"
                 android:background="@drawable/rounded_corner_layout"
                 android:orientation="horizontal"
+                android:layout_margin="@dimen/margin_small"
                 tools:ignore="NestedWeights">
 
                 <LinearLayout
@@ -339,52 +339,30 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_margin="@dimen/margin_medium"
-                android:layout_weight="4"
-                android:background="@drawable/rounded_corner_layout">
+                android:layout_weight="4">
 
                 <tcking.github.com.giraffeplayer2.VideoView
                     android:id="@+id/video_view"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/margin_small"
+                    android:gravity="center" />
             </FrameLayout>
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_margin="@dimen/margin_small"
                 android:layout_weight="1"
+                android:layout_margin="@dimen/margin_small"
                 android:background="@drawable/rounded_corner_layout"
                 android:orientation="horizontal">
 
-
-                <com.google.android.material.button.MaterialButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/manualModeRecyclerActions"
                     android:layout_gravity="center"
-                    android:layout_margin="@dimen/margin_medium"
-                    android:background="@drawable/rounded_button"
-                    android:onClick="@{() -> viewModel.startStopEngine()}"
-                    android:padding="@dimen/margin_medium"
-                    android:text="@string/start_stop_engine"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_medium" />
-
-
-                <com.google.android.material.button.MaterialButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/margin_medium"
-                    android:background="@drawable/rounded_button"
-                    android:onClick="@{()->viewModel.onTTControlButtonClicked()}"
-                    android:padding="@dimen/margin_medium"
-                    android:text="@string/override_button"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_medium" />
-
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 
@@ -394,9 +372,9 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/margin_small"
             android:layout_weight="1"
             android:background="@drawable/rounded_corner_layout"
+            android:layout_margin="@dimen/margin_small"
             android:orientation="vertical">
 
 
@@ -406,9 +384,9 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/margin_large"
                 android:layout_weight="1"
-                android:background="@drawable/rounded_button"
                 android:onClick="@{() -> viewModel.onToolControlClicked()}"
                 android:text="@string/title_tool_control"
+                android:background="@drawable/rounded_button"
                 tools:ignore="NestedWeights" />
 
             <LinearLayout
@@ -418,19 +396,19 @@
                 android:orientation="horizontal">
 
 
-                <!--                <ImageButton-->
-                <!--                    android:layout_width="0dp"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_weight="1"-->
-                <!--                    android:src="@drawable/ic_angle"-->
-                <!--                    android:tint="@color/base_green" />-->
+<!--                <ImageButton-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:src="@drawable/ic_angle"-->
+<!--                    android:tint="@color/base_green" />-->
 
-                <!--                <ImageButton-->
-                <!--                    android:layout_width="0dp"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_weight="1"-->
-                <!--                    android:src="@drawable/ic_dog_walk"-->
-                <!--                    android:tint="@color/base_green" />-->
+<!--                <ImageButton-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:src="@drawable/ic_dog_walk"-->
+<!--                    android:tint="@color/base_green" />-->
 
 
             </LinearLayout>

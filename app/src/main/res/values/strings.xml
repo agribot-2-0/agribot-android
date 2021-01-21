@@ -245,8 +245,8 @@
     <string name="change_stream_url">Change video stream URL</string>
     <string name="find_agribot">Find Agribot</string>
     <string name="connect_with_last_used_device">Connect With last used Agribot</string>
-    <string name="change_video_url">Zmień address transmisji Wideo</string>
-    <string name="actual_url">\"Actual URL: \"</string>
+    <string name="change_video_url">Change video source</string>
+    <string name="actual_url">\"Current video source: \"</string>
     <string name="checking_files">Checking files - please wait</string>
     <string name="download_progress">\"Download progress: \"</string>
     <string name="extracting_progress">\"Extracting progress: \"</string>

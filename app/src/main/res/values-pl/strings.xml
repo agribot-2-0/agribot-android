@@ -230,7 +230,7 @@
     <string name="find_agribot">Wyszukaj Agribota</string>
     <string name="connect_with_last_used_device">Połącz z ostatnio używanym Agribotem</string>
     <string name="change_video_url">Zmień adres transmisji Wideo</string>
-    <string name="actual_url">\"Actual URL: \"</string>
+    <string name="actual_url">\"Aktualne źródło wideo: \"</string>
     <string name="dialog_tiles_downloading_tittle">Twoje pliki są pobierane…</string>
     <string name="dialog_tiles_downloading_message">Pobieranie w toku</string>
     <string name="dialog_tiles_extracting_tittle">Twoje pliki są rozpakowywane</string>

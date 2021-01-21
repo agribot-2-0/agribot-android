@@ -48,7 +48,7 @@ class BluetoothMessageFrame() {
         }
 
         bluetoothMessageArray[getChecksumBytePosition()] =
-            getChecksumByte(bluetoothMessageArray.sliceArray(FramePositions.START_OF_FRAME.position..getWriteMessageDataLength() + FrameByteSize.DIFFERENCE_BETWEEN_SIZE_AND_POSITION.size))
+            getChecksumByte(bluetoothMessageArray.sliceArray(FramePositions.START_OF_FRAME.position..getWriteMessageDataLength() + FrameByteSize.DIFFERENCE_BETWEEN_SIZE_AND_LAST_BYTE_POSITION.size))
 
         bluetoothMessageArray[getEndOfFrameBytePosition()] = END_OF_FRAME_BYTE
     }
@@ -81,7 +81,7 @@ class BluetoothMessageFrame() {
     private fun getChecksumBytePosition(): Int {
         return getWriteMessageDataLength() + FrameByteSize.START_OF_FRAME_BYTE.size +
                 FrameByteSize.LENGTH_BYTE.size +
-                FrameByteSize.COMMNAD_BYTE.size - FrameByteSize.DIFFERENCE_BETWEEN_SIZE_AND_POSITION.size
+                FrameByteSize.COMMNAD_BYTE.size - FrameByteSize.DIFFERENCE_BETWEEN_SIZE_AND_LAST_BYTE_POSITION.size
     }
 
     private fun getEndOfFrameBytePosition(): Int {
@@ -90,7 +90,7 @@ class BluetoothMessageFrame() {
                 FrameByteSize.LENGTH_BYTE.size +
                 FrameByteSize.COMMNAD_BYTE.size +
                 FrameByteSize.CHECKSUM_BYTE.size -
-                FrameByteSize.DIFFERENCE_BETWEEN_SIZE_AND_POSITION.size
+                FrameByteSize.DIFFERENCE_BETWEEN_SIZE_AND_LAST_BYTE_POSITION.size
     }
 
     private fun getWriteMessageDataLength(): Int {
@@ -150,6 +150,6 @@ class BluetoothMessageFrame() {
     }
 
     private fun getReceivedCanDataEndPosition(): Int {
-        return FramePositions.START_MESSAGE_DATA.position + bluetoothMessageArray[FramePositions.LENGTH.position].toInt() - (FrameByteSize.ADDRESS_BYTE.size + FrameByteSize.DIFFERENCE_BETWEEN_SIZE_AND_POSITION.size)
+        return FramePositions.START_MESSAGE_DATA.position + bluetoothMessageArray[FramePositions.LENGTH.position].toInt() - (FrameByteSize.ADDRESS_BYTE.size + FrameByteSize.DIFFERENCE_BETWEEN_SIZE_AND_LAST_BYTE_POSITION.size)
     }
 }

@@ -1,10 +1,11 @@
 package eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator
 
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.FrameConstant
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.FrameConstant
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.carts.AgribotCartsRotate
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.carts.AgribotToolActivationStatus
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.WriteBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.model.tocommunication.ArcParametrsBD
+import eu.agribot.agribotapp.communication.bluetooth.model.tocommunication.RfidParametersBD
 import eu.agribot.agribotapp.communication.bluetooth.model.tocommunication.SwitchSettingsBD
 import eu.agribot.agribotapp.communication.bluetooth.model.tocommunication.TuzActivateBD
 import kotlin.math.abs
@@ -16,6 +17,7 @@ class AndroidBluetoothMessageCreator(private val bluetoothMessageManager: WriteB
         ByteArray(FrameConstant.TTCONTROL_MOVE_BACK_FRONT_ARRAY_SIZE)
     private var ttControlLeftRightArray =
         ByteArray(FrameConstant.TTCONTROL_MOVE_LEFT_RIGHT_ARRAY_SIZE)
+    private val rfidArray = ByteArray(2)
 
     override fun createARCMessage(arcParametrsBD: ArcParametrsBD) {
         val moveArcArray = ByteArray(FrameConstant.ARC_MESSAGE_ARRAY_SIZE)
@@ -84,5 +86,11 @@ class AndroidBluetoothMessageCreator(private val bluetoothMessageManager: WriteB
             if (tuzActivateBD.isBackTuzActivate) AgribotToolActivationStatus.ACTIVE.active else AgribotToolActivationStatus.INACTIVE.active
         ttControlLeftRightArray[3] = AgribotCartsRotate.RIGHT.rotate
         bluetoothMessageManager.sendTTControlTurnRightMessage(ttControlLeftRightArray)
+    }
+
+    override fun createRfifRequestMessage(rfidParametersBD: RfidParametersBD) {
+        rfidArray[0] = rfidParametersBD.comNumber.toByte()
+        rfidArray[1] = rfidParametersBD.antennaNumber.toByte()
+        bluetoothMessageManager.sendRfidScanRequest(rfidArray)
     }
 }

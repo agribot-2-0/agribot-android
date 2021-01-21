@@ -32,4 +32,6 @@ interface DialogManager {
     fun cancelTaskDialog(onCancelTaskConfirmed: () -> Unit)
 
     fun changeStreamUrlDialog(currentUrl: String, onSaveNewUrlConfirmed: (newUrl: String) -> Unit)
+
+    fun showNoFoundRfidTagDialog(onRepeatScanConfirmed: () -> Unit)
 }

@@ -15,7 +15,6 @@ class BluetoothDiscoveryBroadcastReceiver(
     val onDeviceDisconnected: () -> Unit
 ) : BroadcastReceiver() {
     companion object {
-        const val NO_BLUETOOTH_DEVICE_NAME: String = "NO NAME"
         val FILTER = IntentFilter().apply {
             addAction(BluetoothAdapter.ACTION_CONNECTION_STATE_CHANGED)
             addAction(BluetoothAdapter.EXTRA_CONNECTION_STATE)
@@ -30,12 +29,8 @@ class BluetoothDiscoveryBroadcastReceiver(
     override fun onReceive(context: Context, intent: Intent) {
         val device = intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
         val foundBluetoothDeviceBD: FoundBluetoothDeviceBD
-        if (device != null) {
-            foundBluetoothDeviceBD = if (device.name != null) {
-                FoundBluetoothDeviceBD(device.name, device.address)
-            } else {
-                FoundBluetoothDeviceBD(NO_BLUETOOTH_DEVICE_NAME, device.address)
-            }
+        if (device != null && device.name != null) {
+            foundBluetoothDeviceBD = FoundBluetoothDeviceBD(device.name, device.address)
             when (intent.action) {
                 BluetoothDevice.ACTION_FOUND -> onDeviceFound(foundBluetoothDeviceBD.toDomainModel())
                 BluetoothDevice.ACTION_ACL_CONNECTED -> onDeviceConnected()

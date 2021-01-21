@@ -116,4 +116,13 @@ class AndroidDialogManager(
             positiveButton(R.string.done)
         }
     }
+
+    override fun showNoFoundRfidTagDialog(onRepeatScanConfirmed: () -> Unit) {
+        MaterialDialog(context).show {
+            title(R.string.dialog_no_found_tags_tittle)
+            message(R.string.dialog_no_found_tags_message)
+            positiveButton(R.string.dialog_no_found_tags_confirm) { onRepeatScanConfirmed() }
+            negativeButton(R.string.cancel)
+        }
+    }
 }

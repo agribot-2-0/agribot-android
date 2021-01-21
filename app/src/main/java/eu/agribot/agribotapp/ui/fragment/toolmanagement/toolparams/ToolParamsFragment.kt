@@ -5,12 +5,23 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
+import eu.agribot.agribotapp.common.dialog.DialogManager
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentToolManagementParamsBinding
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
-import kotlinx.android.synthetic.main.fragment_tool_management_params.*
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams.data.AntennaNumber
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams.recycler.ReceivedRfidDataAdapter
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams.recycler.ReceivedRfidDataViewModel
+import kotlinx.android.synthetic.main.fragment_tool_management_params.antennaGroup
+import kotlinx.android.synthetic.main.fragment_tool_management_params.backAntenna
+import kotlinx.android.synthetic.main.fragment_tool_management_params.bothAntenna
+import kotlinx.android.synthetic.main.fragment_tool_management_params.frontAntenna
+import kotlinx.android.synthetic.main.fragment_tool_management_params.params_recycler
+import kotlinx.android.synthetic.main.fragment_tool_management_params.tagRfidRecycler
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -19,21 +30,65 @@ class ToolParamsFragment :
 
     override val layoutResourceId: Int = R.layout.fragment_tool_management_params
     override val viewModel: ToolParamsViewModel by viewModel { parametersOf(requireContext()) }
-
+    private val dialogManager: DialogManager by inject { parametersOf(requireContext()) }
+    private var rfidDataAdapter =
+        ReceivedRfidDataAdapter(onItemCLicked = this::onRfidDataElementClicked)
     private val hitchRecyclerAdapter =
         HitchListItemAdapter(this::onHitchRecyclerParametersChanged)
 
+    @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // TODO add tags scaning via bluetooth
         super.onViewCreated(view, savedInstanceState)
+        observeViewModel()
         viewModel.createToolsList()
-        viewModel.paramsList.observe(this::addParams)
         setupRecyclers()
+    }
+
+    @ExperimentalCoroutinesApi
+    private fun observeViewModel() {
+        viewModel.paramsList.observe(this::addParams)
+        viewModel.noRfidTagDataEvent.observe(this::showNoRfidDialogBox)
+        viewModel.isScanOperation.observe(this::getButtonIdNumber)
+        viewModel.rfidReceivedData.observe(this::appendRfidTagData)
+    }
+
+    private fun showNoRfidDialogBox(isNoFoundTagOperation: Boolean) {
+        if (isNoFoundTagOperation) {
+            dialogManager.showNoFoundRfidTagDialog(onRepeatScanConfirmed = viewModel::startRfidScan)
+        }
+    }
+
+    private fun onRfidDataElementClicked(rfidElement: ReceivedRfidDataViewModel) {
+        viewModel.onRfidTagSelected(rfidElement)
+    }
+
+    @ExperimentalCoroutinesApi
+    private fun getButtonIdNumber(isScanOperation: Boolean) {
+        if (isScanOperation)
+            when (antennaGroup.checkedRadioButtonId) {
+                frontAntenna.id -> {
+                    viewModel.scanRfid(AntennaNumber.FRONT_ANTENNA.number)
+                }
+                backAntenna.id -> {
+                    viewModel.scanRfid(AntennaNumber.BACK_ANTENNA.number)
+                }
+                bothAntenna.id -> {
+                    viewModel.scanRfid(AntennaNumber.BOTH_ANTENNAS.number)
+                }
+                else -> showToast(getString(R.string.no_antenna_selected))
+            }
     }
 
     private fun setupRecyclers() {
         params_recycler.adapter = hitchRecyclerAdapter
         params_recycler.layoutManager = LinearLayoutManager(requireActivity())
+
+        tagRfidRecycler.adapter = rfidDataAdapter
+        tagRfidRecycler.layoutManager = LinearLayoutManager(requireActivity())
+    }
+
+    private fun appendRfidTagData(tagData: List<ReceivedRfidDataViewModel>) {
+        rfidDataAdapter.items = tagData
     }
 
     private fun onHitchRecyclerParametersChanged(
@@ -41,7 +96,7 @@ class ToolParamsFragment :
         sliderValue: Int,
         isActivated: Boolean
     ) {
-        viewModel.onHitchParametersChanged(sliderNumber, sliderValue, isActivated)
+        viewModel.onHitchParametersChanged(sliderNumber, sliderValue)
     }
 
     private fun addParams(tools: List<HitchListItemViewModel>) {

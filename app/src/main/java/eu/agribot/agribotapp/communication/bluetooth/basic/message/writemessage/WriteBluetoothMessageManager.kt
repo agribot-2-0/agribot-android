@@ -31,4 +31,6 @@ interface WriteBluetoothMessageManager {
     fun stopHandshakeScope()
 
     fun writeHeartbeatMessage(heartbeatArray: ByteArray)
+
+    fun sendRfidScanRequest(rfidArray: ByteArray)
 }

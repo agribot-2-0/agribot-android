@@ -15,6 +15,7 @@ import eu.agribot.agribotapp.domain.service.ManualModeService
 import eu.agribot.agribotapp.domain.service.PathManagementService
 import eu.agribot.agribotapp.domain.service.RemoteControlService
 import eu.agribot.agribotapp.domain.service.TTControlService
+import eu.agribot.agribotapp.domain.service.ToolManagementService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
@@ -173,6 +174,13 @@ val domainModule = module {
                     androidContext()
                 )
             })
+    }
+
+    single {
+        ToolManagementService(
+            bluetoothMessageCreator = get(),
+            rfidMessageManager = get()
+        )
     }
 
     single {

@@ -236,8 +236,19 @@
     <string name="dialog_tiles_extracting_tittle">Twoje pliki są rozpakowywane</string>
     <string name="dialog_tiles_extracting_message">Trwa rozpakowywanie plików</string>
     <string name="checking_files">Sprawdzanie plików - proszę czekać</string>
-    <string name="download_progress">Postęp pobierania</string>
-    <string name="extracting_progress">Postęp rozpakowywania</string>
+    <string name="download_progress">\"Postęp pobierania: \"</string>
+
+    <string name="no_antenna_selected">Nie wybrano anteny</string>
+    <string name="front_antenna">Przednia Antena</string>
+    <string name="back_antenna">Tylnia Antena</string>
+    <string name="both_antenna">Obie Anteny</string>
+    <string name="front_antenna_scan">Skan przednią anteną</string>
+    <string name="both_antenna_scan">Skan obiema antenami</string>
+    <string name="back_antenna_scan">Skan tylnią anteną</string>
+    <string name="start_scan">Rozpocznij skanowanie</string>
+    <string name="found_rfid_tags">Znalenione tagi:</string>
+    <string name="rfid_data">Dane:</string>
+    <string name="antena_name">Antena :</string>
     <string name="path_deleted_message">Ścieżka usunięta pomyślnie</string>
     <string name="loading_path_problem">Problem z załadowaniem ścieżki</string>
     <string name="blank_path_name_error">Nazwa ścieżki nie może być pusta</string>
@@ -245,6 +256,10 @@
     <string name="left_right">LEWO / PRAWO</string>
     <string name="front_back">Przód / Tył</string>
     <string name="wakeup_button">Wake-Up</string>
+
+    <string name="dialog_no_found_tags_tittle">Nie znaleziono tagów</string>
+    <string name="dialog_no_found_tags_message">Chcesz powtórzyć skan? </string>
+    <string name="dialog_no_found_tags_confirm">Wyszukaj ponownie!</string>
 
 
 </resources>

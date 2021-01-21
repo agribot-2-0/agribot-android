@@ -1,7 +1,7 @@
 package eu.agribot.agribotapp.domain.service.joystick.manualmode
 
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator.BluetoothMessageCreator
-import eu.agribot.agribotapp.domain.model.fromdomain.ArcParametrs
+import eu.agribot.agribotapp.domain.model.fromdomain.ArcParameters
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.A_FACTOR_LEFT
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.A_FACTOR_LEFT_SECOND
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.A_FACTOR_RIGHT
@@ -95,11 +95,11 @@ class ManualSteeringJoystickManager(
             if (angle in BACKWARD_MIN_ANGLE..BACKWARD_MAX_ANGLE) JoystickForward.BACKWARD.forward else JoystickForward.FORWARD.forward
 
         if (angle != 0) {
-            sendChangedJoystickParmaetrs(ArcParametrs(radius, direction, forward, speed))
+            sendChangedJoystickParmaetrs(ArcParameters(radius, direction, forward, speed))
         }
     }
 
-    private fun sendChangedJoystickParmaetrs(arcParametrs: ArcParametrs) {
-        messageCreator.createARCMessage(arcParametrs.toCommunicationModel())
+    private fun sendChangedJoystickParmaetrs(arcParameters: ArcParameters) {
+        messageCreator.createARCMessage(arcParameters.toCommunicationModel())
     }
 }

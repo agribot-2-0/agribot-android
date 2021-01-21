@@ -1,15 +1,15 @@
 def versions = [
 		'appCompat'       : '1.1.0',
-		'constraintLayout': '2.0.2',
-		'androidCore'     : '1.2.0',
+		'constraintLayout': '2.0.4',
+		'androidCore'     : '1.3.2',
 		'coroutines'      : '1.3.9',
 		'flipper'         : '0.61.0',
 		'koin'            : '2.1.5',
 		'legacy'          : '1.0.0',
 		'lifecycle'       : '2.2.0',
-		'material'        : '1.1.0',
+		'material'        : '1.2.1',
 		'materialDialogs' : '3.3.0',
-		'navigation'      : '2.3.0',
+		'navigation'      : '2.3.2',
 		'soloader'        : '0.9.0',
 		'timber'          : '4.7.1',
 		'googleMap'       : '17.0.0',
@@ -20,13 +20,12 @@ def versions = [
 		'playVersion'     : '15.0.0',
 		'serviceAuth'     : '18.1.0',
 		'dexter'          : '6.2.1',
-		'firestore'       : '21.6.0',
+		'firestore'       : '22.0.0',
 		'firestorage'     : '19.2.0',
 		'mapUtils'        : '0.4.4',
 		'downloader'      : '0.6.0',
 		'videoPlayer'     : '0.1.25-full',
 		'zip4j'           : '2.6.4'
-
 
 
 ]
@@ -77,8 +76,8 @@ dependencies {
 
 	// Dialogs
 	implementation "com.afollestad.material-dialogs:core:$versions.materialDialogs"
-	implementation "com.afollestad.material-dialogs:lifecycle:$versions.materialDialogs"
 	implementation "com.afollestad.material-dialogs:input:$versions.materialDialogs"
+	implementation "com.afollestad.material-dialogs:lifecycle:$versions.materialDialogs"
 
 
 	//GoogleMap

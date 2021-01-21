@@ -33,19 +33,68 @@
                 android:background="@drawable/rounded_corner_layout"
                 android:orientation="vertical">
 
-                <TextView
+
+                <ImageView
+                    android:layout_width="440dp"
+                    android:layout_height="184dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:src="@drawable/agribot" />
+
+                <RadioGroup
+                    android:id="@+id/antennaGroup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_small"
                     android:gravity="center"
-                    android:text="RFID Tag" />
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/frontAntenna"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_medium"
+                        android:text="@string/front_antenna_scan" />
+
+                    <RadioButton
+                        android:id="@+id/bothAntenna"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_medium"
+                        android:text="@string/both_antenna_scan" />
+
+                    <RadioButton
+                        android:id="@+id/backAntenna"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_medium"
+                        android:text="@string/back_antenna_scan" />
+
+                </RadioGroup>
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:onClick="@{()-> viewModel.startRfidScan()}"
+                    android:text="@string/start_scan" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:background="@color/gray" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_small"
+                    android:textSize="@dimen/text_size_xlarge"
                     android:gravity="center"
-                    android:text="@{viewModel.toolRfidTag}" />
+                    android:text="@string/found_rfid_tags"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/tagRfidRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
             </LinearLayout>
 

@@ -23,6 +23,7 @@ import kotlin.experimental.xor
 class BluetoothMessageFrame() {
     var bluetoothMessageArray = ByteArray(EMPTY_ARRAY)
 
+    // basic constructor to create Write Message frame
     constructor(canMessageData: CANmessageData) : this() {
 
         bluetoothMessageArray =
@@ -151,5 +152,4 @@ class BluetoothMessageFrame() {
     private fun getReceivedCanDataEndPosition(): Int {
         return FramePositions.START_MESSAGE_DATA.position + bluetoothMessageArray[FramePositions.LENGTH.position].toInt() - (FrameByteSize.ADDRESS_BYTE.size + FrameByteSize.DIFFERENCE_BETWEEN_SIZE_AND_POSITION.size)
     }
-
 }

@@ -28,5 +28,4 @@ object FrameConstant {
     const val TWO_ELEMENT_ADDRES = 2
 
     const val CONST_ELEMENT_OF_FRAME_SIZE = 4
-
 }

@@ -114,7 +114,7 @@ class AndroidReceivedBluetoothMessageManager(
             }
 
             BluetoothAdressCodeModel.RFID_TAG.number -> {
-                rfidMessageManager.handleRfidMessage(bluetoothMessageFrame.getMessage())
+                rfidMessageManager.handleRfidMessage(bluetoothMessageFrame.getCanDataFromReceivedMessage())
             }
         }
     }
@@ -131,7 +131,7 @@ class AndroidReceivedBluetoothMessageManager(
 
     @ExperimentalCoroutinesApi
     private fun handleDiagnosticData(bluetoothMessageFrame: BluetoothMessageFrame) {
-        if (bluetoothMessageFrame.getMessage().size < EIGHT_BYTE_MESSAGE)
+        if (bluetoothMessageFrame.getCanDataFromReceivedMessage().size < EIGHT_BYTE_MESSAGE)
             return
         bluetoothMessageFrame.let { diagnosticData ->
             agribotDiagnosticDataFlow.value = DiagnosticBluetoothDataBD(
@@ -147,30 +147,30 @@ class AndroidReceivedBluetoothMessageManager(
 
     private fun getEngineRotations(bluetoothMessageFrame: BluetoothMessageFrame): Int {
         return bytesToUnsingedInt(
-            bluetoothMessageFrame.getMessage()
+            bluetoothMessageFrame.getCanDataFromReceivedMessage()
                 .sliceArray(ENGINE_ROTATIONS_FIRST_BYTE_POSITION..ENGINE_ROTATIONS_SECOND_BYTE_POSITION)
         )
     }
 
     private fun getTorqueOfEngine(bluetoothMessageFrame: BluetoothMessageFrame): Int {
-        return bluetoothMessageFrame.getMessage()[TORQUE_OF_ENGINE_BYTE_POSITION].toInt()
+        return bluetoothMessageFrame.getCanDataFromReceivedMessage()[TORQUE_OF_ENGINE_BYTE_POSITION].toInt()
     }
 
     private fun getEngineFuelRate(bluetoothMessageFrame: BluetoothMessageFrame): String {
-        return (bluetoothMessageFrame.getMessage()[ENGINE_FUEL_RATE_BYTE_POSITION] / FUEL_RATE_RATIO).toString()
+        return (bluetoothMessageFrame.getCanDataFromReceivedMessage()[ENGINE_FUEL_RATE_BYTE_POSITION] / FUEL_RATE_RATIO).toString()
     }
 
     private fun getFuelLevel(bluetoothMessageFrame: BluetoothMessageFrame): Int {
-        return bluetoothMessageFrame.getMessage()[FUEL_LEVEL_BYTE_POSITION].toInt()
+        return bluetoothMessageFrame.getCanDataFromReceivedMessage()[FUEL_LEVEL_BYTE_POSITION].toInt()
     }
 
     private fun getFuelTemperature(bluetoothMessageFrame: BluetoothMessageFrame): Int {
-        return bluetoothMessageFrame.getMessage()[FUEL_TEMPERATURE_BYTE_POSITION].toInt()
+        return bluetoothMessageFrame.getCanDataFromReceivedMessage()[FUEL_TEMPERATURE_BYTE_POSITION].toInt()
     }
 
     private fun getBatteryVoltage(bluetoothMessageFrame: BluetoothMessageFrame): String {
         val batteryVoltage = bytesToUnsingedInt(
-            bluetoothMessageFrame.getMessage()
+            bluetoothMessageFrame.getCanDataFromReceivedMessage()
                 .sliceArray(ACCUMULATOR_VOLTGE_FIRST_BYTE_POSITION..ACCUMULATOR_VOLTAGE_SECOND_BYTE_POSITION)
         ) * BATTERY_VOLTAGE_RATIO
         return if (batteryVoltage.toString().length > FOUR_DIGIT_NUMBER)

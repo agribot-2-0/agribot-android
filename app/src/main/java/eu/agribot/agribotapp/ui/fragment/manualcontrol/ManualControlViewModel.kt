@@ -50,9 +50,18 @@ class ManualControlViewModel(
 
     fun createActionsList() {
         actionsList.value = listOf(
-            ManualActionsViewModel(ActionID.WAKEUP.action, resourcesProvider.getString(R.string.wakeup_button)),
-            ManualActionsViewModel(ActionID.RUN_ENGINE.action, resourcesProvider.getString(R.string.start_stop_engine)),
-            ManualActionsViewModel(ActionID.OVERRIDE_MODE.action, resourcesProvider.getString(R.string.override_button))
+            ManualActionsViewModel(
+                ActionID.WAKEUP.action,
+                resourcesProvider.getString(R.string.wakeup_button)
+            ),
+            ManualActionsViewModel(
+                ActionID.RUN_ENGINE.action,
+                resourcesProvider.getString(R.string.start_stop_engine)
+            ),
+            ManualActionsViewModel(
+                ActionID.OVERRIDE_MODE.action,
+                resourcesProvider.getString(R.string.override_button)
+            )
         )
     }
 

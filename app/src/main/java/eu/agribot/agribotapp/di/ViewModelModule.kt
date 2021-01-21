@@ -257,7 +257,7 @@ val viewModelModule = module {
             pathManagementService = get(),
             filePathProvider = get(),
             kmlLayerService = get(),
-            resourcesProvider = get { parametersOf(context) },
+            resourcesProvider = get { parametersOf(context) }
 
         )
     }

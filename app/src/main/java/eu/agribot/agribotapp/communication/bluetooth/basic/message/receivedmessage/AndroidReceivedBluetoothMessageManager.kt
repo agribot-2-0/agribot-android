@@ -72,8 +72,8 @@ class AndroidReceivedBluetoothMessageManager(
     ) {
         try {
             if (bluetoothMessage[START_OF_FRAME_POSITION] == START_FRAME_MESSAGE) {
-                val length = bluetoothMessage[LENGHT_BYTE_POSITION].toInt()
-                if (length <= 0)
+                val bluetoothMessageLength = bluetoothMessage[LENGHT_BYTE_POSITION].toInt()
+                if (bluetoothMessageLength <= 0)
                     return
                 if (bluetoothMessage.isEmpty())
                     return

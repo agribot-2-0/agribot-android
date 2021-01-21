@@ -30,7 +30,7 @@ class ToolParamsViewModel(
     private val toolManagementService: ToolManagementService
 ) : BaseViewModel() {
     private val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
-    private val selectedRfidTagList: MutableLiveData<List<String>> = MutableLiveData(listOf())
+    private val selectedRfidTagList: MutableLiveData<List<Int>> = MutableLiveData(listOf())
     private val toolRfidTag: MutableLiveData<String> = MutableLiveData()
     val rfidReceivedData: MutableLiveData<List<ReceivedRfidDataViewModel>> =
         MutableLiveData(listOf())
@@ -45,7 +45,7 @@ class ToolParamsViewModel(
         rfidElement.rfidTagDataArray.forEach { rfifTagSingleByte ->
             selectedRfidTagList.value =
                 listOf(
-                    String.format(TagRfidFormatter.NUMBER_FORMAT.formatElement, rfifTagSingleByte),
+                    rfifTagSingleByte.toInt(),
                     *selectedRfidTagList.value!!.toTypedArray()
                 )
         }

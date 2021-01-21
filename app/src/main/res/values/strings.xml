@@ -5,6 +5,8 @@
     <!-- Commons -->
     <string name="exit">Exit</string>
     <string name="cancel">Cancel</string>
+    <string name="done">Done</string>
+
 
     <!-- Navigation drawer -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -44,6 +46,7 @@
     <string name="dialog_path_delete_tittle">Path delete</string>
     <string name="dialog_path_delete_message">Do you want to delete this path?</string>
     <string name="dialog_path_delete_confirm">Delete!</string>
+
 
 
     <!-- Tool Control -->
@@ -135,8 +138,6 @@
     <string name="too_short_password">Too shoort password [Password should be at least 6 characters ]</string>
     <string name="badly_email_formated">The email address is badly formatted.</string>
     <string name="no_internet_connection">No internet connection</string>
-
-
     <string name="connect_to_agribot">Connect to Agribot</string>
     <string name="nearby_devices_swipe_to_refresh_list">Nearby_Devices_List</string>
     <string name="start_stop_engine" translatable="false">START/STOP ENGINE</string>
@@ -171,7 +172,7 @@
     <string name="delete_task_button">Delete</string>
     <string name="edit_task_button">Edit</string>
     <string name="path_name">Path name</string>
-    <string name="delete_sucess_text">Task deleted sucessfully</string>
+    <string name="delete_sucess_text">Task deleted successfully</string>
     <string name="start_time">Start Time: "</string>
     <string name="no_path_text">No Path Selected</string>
     <string name="no_temperature_text">No Temperature Selected</string>
@@ -240,6 +241,12 @@
     <string name="create_layer_error">Problem with create map layer</string>
     <string name="type_path_name">Give path name</string>
     <string name="task_path_text">Path name</string>
+    <string name="change_stream_url">Change video stream URL</string>
+    <string name="find_agribot">Find Agribot</string>
+    <string name="connect_with_last_used_device">Connect With last used Agribot</string>
+    <string name="change_video_url">Change video source</string>
+    <string name="actual_url">\"Current video source: \"</string>
+
     <string name="no_antenna_selected">No Antenna selected</string>
     <string name="front_antenna">Front Antenna</string>
     <string name="back_antenna">Back Antenna</string>
@@ -262,6 +269,10 @@
     <string name="left_right">Left / Right</string>
     <string name="front_back">Front / Back</string>
 
+    <string name="dialog_tiles_downloading_tittle">Twoje pliki są pobierane…</string>
+    <string name="dialog_tiles_downloading_message">Pobieranie w toku</string>
+    <string name="dialog_tiles_extracting_tittle">Twoje pliki są rozpakowywane</string>
+    <string name="dialog_tiles_extracting_message">Trwa rozpakowywanie plików</string>
 
     <string name="checking_files">Checking files - please waiting</string>
     <string name="download_progress">\" Downloading progress \"</string>

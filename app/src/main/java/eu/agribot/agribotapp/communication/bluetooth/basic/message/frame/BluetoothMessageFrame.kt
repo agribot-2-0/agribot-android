@@ -36,10 +36,10 @@ class BluetoothMessageFrame() {
 
         bluetoothMessageArray[FramePositions.COMMAND_BYTE.position] = COMMAND_BYTE
 
-        bluetoothMessageArray[FramePositions.FIRST_BYTE_OF_ADRESS.position] =
+        bluetoothMessageArray[FramePositions.FIRST_BYTE_OF_ADDRESS.position] =
             getFirstWriteAdressElement(canMessageData)
 
-        bluetoothMessageArray[FramePositions.SECOND_BYTE_OF_ADRESS.position] =
+        bluetoothMessageArray[FramePositions.SECOND_BYTE_OF_ADDRESS.position] =
             getSecondWriteAdressElement(canMessageData)
 
         if (getWriteCanDataFrameSize(canMessageData) > EMPTY_ARRAY) {
@@ -135,14 +135,14 @@ class BluetoothMessageFrame() {
     }
 
     private fun getFirstReceivedAddressElement(): Int {
-        return (bluetoothMessageArray[FramePositions.FIRST_BYTE_OF_ADRESS.position].toInt() shl BIT_SHIFT)
+        return (bluetoothMessageArray[FramePositions.FIRST_BYTE_OF_ADDRESS.position].toInt() shl BIT_SHIFT)
     }
 
     private fun getSecondReceivedAdressElement(): Int {
-        return if (bluetoothMessageArray[FramePositions.SECOND_BYTE_OF_ADRESS.position].toInt() < EMPTY_ARRAY) {
-            ADDRESS_FLAG + bluetoothMessageArray[FramePositions.SECOND_BYTE_OF_ADRESS.position]
+        return if (bluetoothMessageArray[FramePositions.SECOND_BYTE_OF_ADDRESS.position].toInt() < EMPTY_ARRAY) {
+            ADDRESS_FLAG + bluetoothMessageArray[FramePositions.SECOND_BYTE_OF_ADDRESS.position]
         } else
-            bluetoothMessageArray[FramePositions.SECOND_BYTE_OF_ADRESS.position].toInt()
+            bluetoothMessageArray[FramePositions.SECOND_BYTE_OF_ADDRESS.position].toInt()
     }
 
     fun getCanDataFromReceivedMessage(): ByteArray {

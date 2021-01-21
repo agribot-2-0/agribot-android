@@ -70,7 +70,7 @@ class AndroidRfidMessageManager : RfidMessageManager {
         if (isRfidInformationMessage(rfidTagMessage)) {
             rfidMessageArray =
                 ByteArray(RfidMessageParameters.RFID_INITIALIZATION_ARRAY_SIZE.parameter)
-            rfidMessageCounter = getMessageLength(rfidTagMessage)
+            rfidMessageCounter = getMessageCounter(rfidTagMessage)
             antennaNumber = getRfidAntennaNumber(rfidTagMessage)
             endOfRfIdPosition = getEndOfRfidTagBytePosition(rfidTagMessage)
         }
@@ -84,7 +84,7 @@ class AndroidRfidMessageManager : RfidMessageManager {
         return rfidMessage[RfidMessageBytePosition.RFID_COM_NUMBER.position].toInt() == RfidMessageParameters.RFID_INFORMATION_MESSAGE.parameter
     }
 
-    private fun getMessageLength(rfidTagMessage: ByteArray): Int {
+    private fun getMessageCounter(rfidTagMessage: ByteArray): Int {
         return if (rfidTagMessage[RfidMessageBytePosition.RFID_MESSAGE_LENGTH.position].toInt() % RFID_DATA_SIZE.parameter != RfidMessageParameters.RFID_ONE_MESSAGE_DATA.parameter) {
             (rfidTagMessage[RfidMessageBytePosition.RFID_MESSAGE_LENGTH.position].toInt() / RFID_DATA_SIZE.parameter) + RfidMessageParameters.DIFFERENCE_BETWEEN_SIZE_AND_LAST_ARRAY_POSITION.parameter
         } else {

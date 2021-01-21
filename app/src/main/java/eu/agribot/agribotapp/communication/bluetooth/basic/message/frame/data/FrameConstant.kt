@@ -1,6 +1,7 @@
 package eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data
 
 object FrameConstant {
+
     const val ARC_MESSAGE_ARRAY_SIZE = 8
 
     const val EMPTY_CAN_ARRAY_SIZE = 1

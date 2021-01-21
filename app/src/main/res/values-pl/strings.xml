@@ -5,6 +5,8 @@
     <!-- Commons -->
     <string name="exit">Wyjście</string>
     <string name="cancel">Anuluj</string>
+    <string name="done">Gotowe</string>
+
 
     <!-- Navigation drawer -->
     <string name="navigation_drawer_open">Otwórz</string>
@@ -224,30 +226,39 @@
     <string name="dialog_task_cancel_message">Czy chesz anulować zadanie?</string>
     <string name="tool_mode_zero">Cała ścieżka</string>
     <string name="tool_mode_one">W międzyrzędziach</string>
-    <string name="no_antenna_selected">Nie wybrano Anteny</string>
-    <string name="front_antenna">Przednia Antena</string>
-    <string name="both_antenna"> Obie anteny</string>
-    <string name="back_antenna_scan">Skan tylnią anteną</string>
-    <string name="back_antenna">Tylna Antena</string>
-    <string name="front_antenna_scan">Skan przednią Anteną</string>
-    <string name="both_antenna_scan">Skan obiema antenami</string>
-    <string name="start_scan">Rozpocznij skanowanie</string>
-    <string name="found_rfid_tags">Znalezione tagi RFID :</string>
-    <string name="rfid_data">Data:</string>
-    <string name="antena_name">Antena :</string>
-    <string name="dialog_no_found_tags_tittle">Nie znaleziono tagów RFID</string>
-    <string name="dialog_no_found_tags_message">Czy chcesz powtórzyć skanowanie?</string>
-    <string name="dialog_no_found_tags_confirm">Powtórz Skan</string>
-
+    <string name="change_stream_url">Zmień adres URL streamu Video</string>
+    <string name="find_agribot">Wyszukaj Agribota</string>
+    <string name="connect_with_last_used_device">Połącz z ostatnio używanym Agribotem</string>
+    <string name="change_video_url">Zmień adres transmisji Wideo</string>
+    <string name="actual_url">\"Aktualne źródło wideo: \"</string>
+    <string name="dialog_tiles_downloading_tittle">Twoje pliki są pobierane…</string>
+    <string name="dialog_tiles_downloading_message">Pobieranie w toku</string>
+    <string name="dialog_tiles_extracting_tittle">Twoje pliki są rozpakowywane</string>
+    <string name="dialog_tiles_extracting_message">Trwa rozpakowywanie plików</string>
     <string name="checking_files">Sprawdzanie plików - proszę czekać</string>
     <string name="download_progress">\"Postęp pobierania: \"</string>
 
+    <string name="no_antenna_selected">Nie wybrano anteny</string>
+    <string name="front_antenna">Przednia Antena</string>
+    <string name="back_antenna">Tylnia Antena</string>
+    <string name="both_antenna">Obie Anteny</string>
+    <string name="front_antenna_scan">Skan przednią anteną</string>
+    <string name="both_antenna_scan">Skan obiema antenami</string>
+    <string name="back_antenna_scan">Skan tylnią anteną</string>
+    <string name="start_scan">Rozpocznij skanowanie</string>
+    <string name="found_rfid_tags">Znalenione tagi:</string>
+    <string name="rfid_data">Dane:</string>
+    <string name="antena_name">Antena :</string>
     <string name="path_deleted_message">Ścieżka usunięta pomyślnie</string>
     <string name="loading_path_problem">Problem z załadowaniem ścieżki</string>
     <string name="blank_path_name_error">Nazwa ścieżki nie może być pusta</string>
     <string name="connecting_with_device">Trwa łączenie z tym urządzeniem…</string>
     <string name="left_right">LEWO / PRAWO</string>
     <string name="front_back">Przód / Tył</string>
+
+    <string name="dialog_no_found_tags_tittle">Nie znaleziono tagów</string>
+    <string name="dialog_no_found_tags_message">Chcesz powtórzyć skan? </string>
+    <string name="dialog_no_found_tags_confirm">Wyszukaj ponownie!</string>
 
 
 </resources>

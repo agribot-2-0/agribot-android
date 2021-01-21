@@ -2,6 +2,7 @@ package eu.agribot.agribotapp.common.dialog
 
 import android.content.Context
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.input.input
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 
@@ -99,6 +100,20 @@ class AndroidDialogManager(
             message(R.string.dialog_task_cancel_message)
             positiveButton(R.string.dialog_task_select_confirm) { onCancelTaskConfirmed() }
             negativeButton(R.string.cancel)
+        }
+    }
+
+    override fun changeStreamUrlDialog(
+        currentUrl: String,
+        onSaveNewUrlConfirmed: (newUrl: String) -> Unit
+    ) {
+        MaterialDialog(context).show {
+            title(R.string.change_video_url)
+            message(R.string.actual_url, currentUrl)
+            input(waitForPositiveButton = true) { _, text ->
+                onSaveNewUrlConfirmed(text.toString())
+            }
+            positiveButton(R.string.done)
         }
     }
 

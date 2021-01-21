@@ -8,9 +8,9 @@ enum class FramePositions(val position: Int) {
 
     COMMAND_BYTE(2),
 
-    FIRST_BYTE_OF_ADRESS(3),
+    FIRST_BYTE_OF_ADDRESS(3),
 
-    SECOND_BYTE_OF_ADRESS(4),
+    SECOND_BYTE_OF_ADDRESS(4),
 
     START_MESSAGE_DATA(5),
 

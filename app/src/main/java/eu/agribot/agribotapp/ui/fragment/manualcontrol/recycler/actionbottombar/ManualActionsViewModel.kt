@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler
+package eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.actionbottombar
 
 import eu.agribot.agribotapp.base.BaseViewModel
 

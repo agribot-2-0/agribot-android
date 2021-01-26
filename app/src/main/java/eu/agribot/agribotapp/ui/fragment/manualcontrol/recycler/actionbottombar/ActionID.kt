@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler
+package eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.actionbottombar
 
 enum class ActionID(val action: Int) {
 

@@ -11,12 +11,12 @@ import eu.agribot.agribotapp.common.navigation.events.BluetoothConnectionNavigat
 import eu.agribot.agribotapp.common.navigation.events.TTControlNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolControlNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentManualControlBinding
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.ManualActionsAdapter
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.ManualActionsViewModel
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.actionbottombar.ManualActionsAdapter
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.actionbottombar.ManualActionsViewModel
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.diagnosticdatabar.DiagnosticDataAdapter
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.diagnosticdatabar.DiagnosticDataViewModel
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.videostream.VideoParameters
-import kotlinx.android.synthetic.main.fragment_manual_control.manual_mode_joystick
-import kotlinx.android.synthetic.main.fragment_manual_control.video_view
-import kotlinx.android.synthetic.main.fragment_manual_control.manualModeRecyclerActions
+import kotlinx.android.synthetic.main.fragment_manual_control.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import tcking.github.com.giraffeplayer2.Option
@@ -29,6 +29,7 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
     override val viewModel: ManualControlViewModel by viewModel { parametersOf(requireContext()) }
     private val actionsRecyclerAdapter =
         ManualActionsAdapter(onClickSelectedItem = this::onSelectedActionClicked)
+    private val diagnosticDataRecyclerAdapter = DiagnosticDataAdapter()
 
     override fun bindViewVariables(viewBinding: FragmentManualControlBinding) {
         viewBinding.viewModel = viewModel
@@ -123,6 +124,7 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
     private fun observeViewModel() {
         viewModel.toastMessage.observe(this::showToast)
         viewModel.actionsList.observe(this::addActions)
+        viewModel.diagnosticDataList.observe(this::addDiagnosticData)
     }
 
     private fun setupRecycler() {
@@ -130,10 +132,18 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
         manualModeRecyclerActions.adapter = actionsRecyclerAdapter
         manualModeRecyclerActions.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+        diagnosticDataRecycler.adapter = diagnosticDataRecyclerAdapter
+        diagnosticDataRecycler.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
     }
 
     private fun onSelectedActionClicked(actionID: Int) {
         viewModel.onActionClicked(actionID)
+    }
+
+    private fun addDiagnosticData(diagnosticData: List<DiagnosticDataViewModel>) {
+        diagnosticDataRecyclerAdapter.items = diagnosticData
     }
 
     private fun addActions(actions: List<ManualActionsViewModel>) {

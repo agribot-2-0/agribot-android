@@ -12,9 +12,7 @@ enum class FramePositions(val position: Int) {
 
     SECOND_BYTE_OF_ADDRESS(4),
 
-    START_MESSAGE_DATA(5),
+    START_CAN_DATA(5),
 
-    START_OF_CHECKSUM_ARRAY(1),
-
-    INITIALIZATION_CHECKSUM_BYTE(0)
+    START_OF_CHECKSUM_ARRAY(1)
 }

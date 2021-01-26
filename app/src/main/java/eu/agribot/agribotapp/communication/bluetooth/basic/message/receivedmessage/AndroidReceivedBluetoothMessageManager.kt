@@ -31,6 +31,7 @@ import eu.agribot.agribotapp.communication.bluetooth.model.fromcommunication.Dia
 import eu.agribot.agribotapp.communication.bluetooth.model.fromcommunication.RfidDataBD
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
+import timber.log.Timber
 import java.io.IOException
 
 class AndroidReceivedBluetoothMessageManager(
@@ -40,6 +41,7 @@ class AndroidReceivedBluetoothMessageManager(
     private val heartbeatManager: HeartbeatManager,
     private val rfidMessageManager: RfidMessageManager
 ) : ReceivedBluetoothMessageManager {
+
     @ExperimentalCoroutinesApi
     private val agribotDiagnosticDataFlow = MutableStateFlow<DiagnosticBluetoothDataBD?>(null)
 
@@ -90,9 +92,17 @@ class AndroidReceivedBluetoothMessageManager(
         }
     }
 
+    private fun logRfidMessage(message: ByteArray, messageName: String) {
+        var mymessage = ""
+        message.forEach {
+            mymessage = mymessage + String.format("%02X", it) + " "
+        }
+        Timber.e("%s%s", messageName, mymessage)
+    }
+
     @ExperimentalCoroutinesApi
     private fun handleMessageFrame(bluetoothMessageFrame: BluetoothMessageFrame) {
-        when (bluetoothMessageFrame.getAddress()) {
+        when (bluetoothMessageFrame.getReceivedMessageAddress()) {
             BluetoothAdressCodeModel.AGRIBOT_HANDSHAKE.number -> {
                 handleHandshakeMessage()
             }
@@ -106,6 +116,7 @@ class AndroidReceivedBluetoothMessageManager(
             }
 
             BluetoothAdressCodeModel.MANUAL_START.number -> {
+                writeBluetoothMessageManager.stopManualInitScope()
                 writeBluetoothMessageManager.sendManualControlStartMessage()
             }
 

@@ -246,9 +246,10 @@ class ToolParamsViewModel(
     }
 
     private fun onGotRfidData(rfidData: RfidData) {
-        rfidReceivedData.value!!.any { foundTool ->
+        val isTagalreadyAdded = rfidReceivedData.value!!.any { foundTool ->
             foundTool.rfidTagDataArray.contentEquals(rfidData.tagIDNumber)
-        }.let {
+        }
+        if (!isTagalreadyAdded) {
             rfidReceivedData.value = listOf(
                 ReceivedRfidDataViewModel(
                     antennaNumber = getAntennaName(rfidData.antennaNumber),

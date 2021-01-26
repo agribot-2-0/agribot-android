@@ -1,6 +1,7 @@
-package eu.agribot.agribotapp.communication.bluetooth.basic.message.heartbeat
+package eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.heartbeat
 
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.FrameConstant
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.heartbeat.HeartbeatManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.ConstantReceivedMessage
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.WriteBluetoothMessageManager
 import kotlinx.coroutines.CoroutineScope
@@ -11,7 +12,8 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class AndroidHeartbeatManager(private val bluetoothWriteBluetoothMessageManager: WriteBluetoothMessageManager) : HeartbeatManager {
+class AndroidHeartbeatManager(private val bluetoothWriteBluetoothMessageManager: WriteBluetoothMessageManager) :
+    HeartbeatManager {
     private var heartbeatArray = ByteArray(FrameConstant.EMPTY_CAN_ARRAY_SIZE)
     private var nextHeartbeatScope = CoroutineScope(Job() + Dispatchers.IO)
     private var heartbeatCounterScope = CoroutineScope(Job() + Dispatchers.IO)

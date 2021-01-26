@@ -260,6 +260,7 @@
     <string name="dialog_no_found_tags_tittle">Nie znaleziono tagów</string>
     <string name="dialog_no_found_tags_message">Chcesz powtórzyć skan? </string>
     <string name="dialog_no_found_tags_confirm">Wyszukaj ponownie!</string>
+    <string name="type_tool_name">Wpisz nazwę narzędzia</string>
 
 
 </resources>

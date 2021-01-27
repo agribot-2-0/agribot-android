@@ -49,7 +49,6 @@ class ToolParamsViewModel(
                     *selectedRfidTagList.value!!.toTypedArray()
                 )
         }
-
         toolDataManager.rfid = selectedRfidTagList.value!!
     }
 
@@ -233,12 +232,12 @@ class ToolParamsViewModel(
     @ExperimentalCoroutinesApi
     private fun getRfidData() {
         viewModelScope.launch {
-            toolManagementService.observeRfidDataFlow().collect { receiverRfidData ->
-                if (receiverRfidData != null) {
-                    if (receiverRfidData.antennaNumber == AntennaNumber.NO_ANTENNA.number) {
+            toolManagementService.observeRfidDataFlow().collect { receivedRfidData ->
+                if (receivedRfidData != null) {
+                    if (receivedRfidData.antennaNumber == AntennaNumber.NO_ANTENNA.number) {
                         noRfidTagDataEvent.postValue(true)
                     } else {
-                        onGotRfidData(receiverRfidData)
+                        onGotRfidData(receivedRfidData)
                     }
                 }
             }
@@ -262,7 +261,7 @@ class ToolParamsViewModel(
 
     private fun getDisplayRfidTag(tagIDArray: ByteArray): String {
         var rfidTagHexString = ""
-        tagIDArray.forEach {
+        tagIDArray.reversedArray().forEach {
             rfidTagHexString += String.format(
                 TagRfidFormatter.NUMBER_FORMAT.formatElement,
                 it

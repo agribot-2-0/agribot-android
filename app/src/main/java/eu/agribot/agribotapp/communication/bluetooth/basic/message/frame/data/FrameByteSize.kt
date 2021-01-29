@@ -8,7 +8,7 @@ enum class FrameByteSize(val size: Int) {
 
     COMMNAD_BYTE(1),
 
-    ADDRESS_BYTE(1),
+    ADDRESS_BYTE(2),
 
     CHECKSUM_BYTE(1),
 

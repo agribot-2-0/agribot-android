@@ -5,7 +5,7 @@ import eu.agribot.agribotapp.communication.bluetooth.basic.connection.AndroidBlu
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.BluetoothConnectionManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.socket.AndroidBluetoothSocketManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.socket.BluetoothSocketManager
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.heartbeat.AndroidHeartbeatManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.heartbeat.AndroidHeartbeatManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.heartbeat.HeartbeatManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.AndroidReceivedBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ReceivedBluetoothMessageManager

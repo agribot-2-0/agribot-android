@@ -10,15 +10,9 @@ object FrameConstant {
 
     const val TTCONTROL_MOVE_LEFT_RIGHT_ARRAY_SIZE = 4
 
-    const val START_FRAME_BYTE = 0x43.toByte()
-
-    const val COMMAND_BYTE = 0x00.toByte()
-
     const val EMPTY_ARRAY = 0
 
     const val DUMMY_BYTE = 0xFF.toByte()
-
-    const val END_OF_FRAME_BYTE = 0x0D.toByte()
 
     const val CONSTANT_ELEMENTS_OF_FRAME_SIZE = 3
 

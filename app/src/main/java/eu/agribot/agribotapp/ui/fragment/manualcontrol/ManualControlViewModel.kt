@@ -12,8 +12,10 @@ import eu.agribot.agribotapp.domain.service.AppStorageService
 import eu.agribot.agribotapp.domain.service.InternetConnectionService
 import eu.agribot.agribotapp.domain.service.ManualModeService
 import eu.agribot.agribotapp.domain.service.joystick.JoysticFilter
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.ActionID
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.ManualActionsViewModel
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.actionbottombar.ActionID
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.actionbottombar.ManualActionsViewModel
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.diagnosticdatabar.DiagnosticDataID
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.diagnosticdatabar.DiagnosticDataViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -30,14 +32,11 @@ class ManualControlViewModel(
         const val COUNTER_INCREMENT_VALUE = 1
     }
 
+    val diagnosticDataList: MutableLiveData<List<DiagnosticDataViewModel>> =
+        MutableLiveData(listOf())
+
     val toastMessage: MutableLiveEvent<String> = MutableLiveEvent()
     val actionsList: MutableLiveData<List<ManualActionsViewModel>> = MutableLiveData(listOf())
-    val accumulatorVoltage: MutableLiveData<String> = MutableLiveData()
-    val engineRotations: MutableLiveData<String> = MutableLiveData()
-    val torqueOfEngine: MutableLiveData<String> = MutableLiveData()
-    val engineFuelRate: MutableLiveData<String> = MutableLiveData()
-    val fuelLevel: MutableLiveData<String> = MutableLiveData()
-    val fuelTemperature: MutableLiveData<String> = MutableLiveData()
     private val joystickMessageCounter: MutableLiveData<Int> = MutableLiveData()
 
     fun onActionClicked(actionID: Int) {
@@ -91,20 +90,127 @@ class ManualControlViewModel(
     fun setDiagnosticData() = viewModelScope.launch {
         manualModeService.observeDiagnosticData().collect { diagnosticData ->
             if (diagnosticData != null) {
-                accumulatorVoltage.value = diagnosticData.batteryVoltage
-                engineRotations.value = diagnosticData.engineRotationsPerMinute.toString()
-                torqueOfEngine.value = diagnosticData.torqueOfEngine.toString()
-                engineFuelRate.value = diagnosticData.engineFuelRate
-                fuelLevel.value = diagnosticData.fuelLevel.toString()
-                fuelTemperature.value = diagnosticData.fuelTemperature.toString()
+                addToDiagnosticDataList(
+                    DiagnosticDataViewModel(
+                        DiagnosticDataID.VOLTAGE.ID,
+                        diagnosticData.batteryVoltage,
+                        resourcesProvider.getString(R.string.volt)
+                    )
+                )
+                addToDiagnosticDataList(
+                    DiagnosticDataViewModel(
+                        DiagnosticDataID.ENGINE_ROTATIONS.ID,
+                        diagnosticData.engineRotationsPerMinute.toString(),
+                        resourcesProvider.getString(R.string.rpm)
+
+                    )
+                )
+                addToDiagnosticDataList(
+                    DiagnosticDataViewModel(
+                        DiagnosticDataID.ENGINE_TORQUE.ID,
+                        diagnosticData.torqueOfEngine.toString(),
+                        resourcesProvider.getString(R.string.percent)
+                    )
+                )
+                addToDiagnosticDataList(
+                    DiagnosticDataViewModel(
+                        DiagnosticDataID.FUEL_LEVEL.ID,
+                        diagnosticData.fuelLevel.toString(),
+                        resourcesProvider.getString(R.string.percent)
+
+                    )
+                )
+                addToDiagnosticDataList(
+                    DiagnosticDataViewModel(
+                        DiagnosticDataID.FUEL_RATE.ID,
+                        diagnosticData.engineFuelRate,
+                        resourcesProvider.getString(R.string.liter_per_hour)
+
+                    )
+                )
+                addToDiagnosticDataList(
+                    DiagnosticDataViewModel(
+                        DiagnosticDataID.FUEL_TEMPERATURE.ID,
+                        diagnosticData.fuelTemperature.toString(),
+                        resourcesProvider.getString(R.string.celcius_degree)
+                    )
+                )
             } else {
                 resourcesProvider.getString(R.string.no_data_status).let { noData ->
-                    accumulatorVoltage.value = noData
-                    engineRotations.value = noData
-                    torqueOfEngine.value = noData
-                    engineFuelRate.value = noData
-                    fuelLevel.value = noData
-                    fuelTemperature.value = noData
+                    addToDiagnosticDataList(
+                        DiagnosticDataViewModel(
+                            DiagnosticDataID.VOLTAGE.ID,
+                            noData,
+                            resourcesProvider.getString(R.string.volt)
+                        )
+                    )
+                    addToDiagnosticDataList(
+                        DiagnosticDataViewModel(
+                            DiagnosticDataID.ENGINE_ROTATIONS.ID,
+                            noData,
+                            resourcesProvider.getString(R.string.rpm)
+
+                        )
+                    )
+                    addToDiagnosticDataList(
+                        DiagnosticDataViewModel(
+                            DiagnosticDataID.ENGINE_TORQUE.ID,
+                            noData,
+                            resourcesProvider.getString(R.string.percent)
+                        )
+                    )
+                    addToDiagnosticDataList(
+                        DiagnosticDataViewModel(
+                            DiagnosticDataID.FUEL_LEVEL.ID,
+                            noData,
+                            resourcesProvider.getString(R.string.percent)
+
+                        )
+                    )
+                    addToDiagnosticDataList(
+                        DiagnosticDataViewModel(
+                            DiagnosticDataID.FUEL_RATE.ID,
+                            noData,
+                            resourcesProvider.getString(R.string.liter_per_hour)
+
+                        )
+                    )
+                    addToDiagnosticDataList(
+                        DiagnosticDataViewModel(
+                            DiagnosticDataID.FUEL_TEMPERATURE.ID,
+                            noData,
+                            resourcesProvider.getString(R.string.celcius_degree)
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    private fun addToDiagnosticDataList(diagnosticData: DiagnosticDataViewModel) {
+        val isAttributeAlreadyAdded = diagnosticDataList.value!!.any { arrtibute ->
+            arrtibute.diagnosticDataID == diagnosticData.diagnosticDataID
+        }
+        if (!isAttributeAlreadyAdded)
+            diagnosticDataList.value = listOf(
+                *diagnosticDataList.value!!.toTypedArray(),
+                DiagnosticDataViewModel(
+                    diagnosticData.diagnosticDataID,
+                    diagnosticData.diagnosticDataValue,
+                    diagnosticData.diagnosticDataUnit
+                )
+
+            )
+        else {
+            diagnosticDataList.value = diagnosticDataList.value!!.map { oldAttribute ->
+                if (oldAttribute.diagnosticDataID == diagnosticData.diagnosticDataID) {
+                    DiagnosticDataViewModel(
+                        oldAttribute.diagnosticDataID,
+                        diagnosticData.diagnosticDataValue,
+                        oldAttribute.diagnosticDataUnit
+                    )
+                } else {
+                    oldAttribute
                 }
             }
         }

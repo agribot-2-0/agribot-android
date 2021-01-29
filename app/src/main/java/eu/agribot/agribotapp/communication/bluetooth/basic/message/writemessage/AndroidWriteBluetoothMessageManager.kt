@@ -7,7 +7,9 @@ import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.Fr
 import eu.agribot.agribotapp.communication.bluetooth.const.BluetoothAdressCodeModel
 import eu.agribot.agribotapp.communication.bluetooth.error.message.write.BluetoothMessageWriteErrorHandler
 import eu.agribot.agribotapp.communication.bluetooth.model.CANmessageData
-import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -20,7 +22,8 @@ class AndroidWriteBluetoothMessageManager(
 ) : WriteBluetoothMessageManager {
     private val emptyCanData = ByteArray(EMPTY_CAN_ARRAY_SIZE) { 0 }
     private val singleArray = ByteArray(1) { DUMMY_BYTE }
-    private var handshakeScope = MainScope()
+    private var handshakeScope = CoroutineScope(Job() + Dispatchers.IO)
+    private var manualModeScope = CoroutineScope(Job() + Dispatchers.IO)
     private val handshakeDelay = 500L
     private fun writeBluetoothMessage(
         message: ByteArray
@@ -53,40 +56,41 @@ class AndroidWriteBluetoothMessageManager(
     }
 
     override fun sendManualControlInitMessage() {
-        val manualControlInitFrame = BluetoothMessageFrame(
-            CANmessageData(
-                BluetoothAdressCodeModel.MANUAL_STARTING_INIT.number,
-                emptyCanData
-            )
-        )
-        writeBluetoothMessage(
-            manualControlInitFrame.bluetoothMessageArray
-        )
+        manualModeScope.launch {
+            while (true) {
+                delay(handshakeDelay)
+                writeBluetoothMessage(
+                    BluetoothMessageFrame(
+                        CANmessageData(
+                            BluetoothAdressCodeModel.MANUAL_STARTING_INIT.number,
+                            emptyCanData
+                        )
+                    ).bluetoothMessageArray
+                )
+            }
+        }
     }
 
     override fun sendManualControlStartMessage() {
-        val manualControlStartMessage =
+        writeBluetoothMessage(
             BluetoothMessageFrame(
                 CANmessageData(
                     BluetoothAdressCodeModel.MANUAL_START.number, emptyCanData
                 )
-            )
-        writeBluetoothMessage(
-            manualControlStartMessage.bluetoothMessageArray
+            ).bluetoothMessageArray
         )
     }
 
     override fun sendManualSteeringDataMessage(
         arcArray: ByteArray
     ) {
-        val arcParametrsMessage = BluetoothMessageFrame(
-            CANmessageData(
-                BluetoothAdressCodeModel.RIDE_THE_CURVE.number,
-                arcArray
-            )
-        )
         writeBluetoothMessage(
-            arcParametrsMessage.bluetoothMessageArray
+            BluetoothMessageFrame(
+                CANmessageData(
+                    BluetoothAdressCodeModel.RIDE_THE_CURVE.number,
+                    arcArray
+                )
+            ).bluetoothMessageArray
         )
     }
 
@@ -102,28 +106,24 @@ class AndroidWriteBluetoothMessageManager(
     }
 
     override fun sendStartEngineMessage() {
-        val engineStartMessage =
+        writeBluetoothMessage(
             BluetoothMessageFrame(
                 CANmessageData(
                     BluetoothAdressCodeModel.START_ENGINE.number,
                     singleArray
                 )
-            )
-        writeBluetoothMessage(
-            engineStartMessage.bluetoothMessageArray
+            ).bluetoothMessageArray
         )
     }
 
     override fun sendStopThreadMessage() {
-        val stopThreadMessage =
+        writeBluetoothMessage(
             BluetoothMessageFrame(
                 CANmessageData(
                     BluetoothAdressCodeModel.STOP_SIGNAL.number,
                     singleArray
                 )
-            )
-        writeBluetoothMessage(
-            stopThreadMessage.bluetoothMessageArray
+            ).bluetoothMessageArray
         )
     }
 
@@ -131,15 +131,13 @@ class AndroidWriteBluetoothMessageManager(
         switchSettingsArray: ByteArray
 
     ) {
-
-        val switchesMessageFrame = BluetoothMessageFrame(
-            CANmessageData(
-                BluetoothAdressCodeModel.AGRIBOT_SET_SWITCH.number,
-                switchSettingsArray
-            )
-        )
         writeBluetoothMessage(
-            switchesMessageFrame.bluetoothMessageArray
+            BluetoothMessageFrame(
+                CANmessageData(
+                    BluetoothAdressCodeModel.AGRIBOT_SET_SWITCH.number,
+                    switchSettingsArray
+                )
+            ).bluetoothMessageArray
         )
     }
 
@@ -157,35 +155,37 @@ class AndroidWriteBluetoothMessageManager(
     override fun sendTTControlForwardMessage(
         moveForwardArray: ByteArray
     ) {
-        val forwardMessageFrame = BluetoothMessageFrame(
-            CANmessageData(
-                BluetoothAdressCodeModel.MOVE_FORWARD_BACKWARD.number,
-                moveForwardArray
-            )
+        writeBluetoothMessage(
+            BluetoothMessageFrame(
+                CANmessageData(
+                    BluetoothAdressCodeModel.MOVE_FORWARD_BACKWARD.number,
+                    moveForwardArray
+                )
+            ).bluetoothMessageArray
         )
-        writeBluetoothMessage(forwardMessageFrame.bluetoothMessageArray)
     }
 
     override fun sendTTControlBackwardMessage(
         moveBackArray: ByteArray
     ) {
-        val backwardMessageFrame = BluetoothMessageFrame(
-            CANmessageData(
-                BluetoothAdressCodeModel.MOVE_FORWARD_BACKWARD.number,
-                moveBackArray
-            )
+        writeBluetoothMessage(
+            BluetoothMessageFrame(
+                CANmessageData(
+                    BluetoothAdressCodeModel.MOVE_FORWARD_BACKWARD.number,
+                    moveBackArray
+                )
+            ).bluetoothMessageArray
         )
-        writeBluetoothMessage(backwardMessageFrame.bluetoothMessageArray)
     }
 
     override fun sendTTControlTurnLeftMessage(
         moveLeftArray: ByteArray
     ) {
-        val rotateFrame = BluetoothMessageFrame(
-            CANmessageData(BluetoothAdressCodeModel.ROTATE_CARRIAGES.number, moveLeftArray)
+        writeBluetoothMessage(
+            BluetoothMessageFrame(
+                CANmessageData(BluetoothAdressCodeModel.ROTATE_CARRIAGES.number, moveLeftArray)
+            ).bluetoothMessageArray
         )
-
-        writeBluetoothMessage(rotateFrame.bluetoothMessageArray)
     }
 
     override fun sendTTControlTurnRightMessage(
@@ -200,7 +200,12 @@ class AndroidWriteBluetoothMessageManager(
 
     override fun stopHandshakeScope() {
         handshakeScope.cancel()
-        handshakeScope = MainScope()
+        handshakeScope = CoroutineScope(Job() + Dispatchers.IO)
+    }
+
+    override fun stopManualInitScope() {
+        manualModeScope.cancel()
+        manualModeScope = CoroutineScope(Job() + Dispatchers.IO)
     }
 
     override fun writeHeartbeatMessage(heartbeatArray: ByteArray) {

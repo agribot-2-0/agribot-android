@@ -1,12 +1,13 @@
 package eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid
 
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.data.RfidMessageParameters.RFID_DATA_SIZE
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.data.RfidManagerParametersInitializationValue
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.data.RfidMessageBytePosition
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.data.RfidMessageParameters
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.data.RfidMessageParameters.RFID_DATA_SIZE
 import eu.agribot.agribotapp.communication.bluetooth.model.fromcommunication.RfidDataBD
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
+import timber.log.Timber
 import java.nio.ByteBuffer
 
 class AndroidRfidMessageManager : RfidMessageManager {
@@ -25,6 +26,7 @@ class AndroidRfidMessageManager : RfidMessageManager {
 
     @ExperimentalCoroutinesApi
     override fun handleRfidMessage(rfidMessage: ByteArray) {
+
         if (isRfidInformationMessage(rfidMessage)) {
             setRfidTagInformation(rfidMessage)
             if (endOfRfIdPosition <= RfidMessageParameters.RFID_NO_RFID_TAG.parameter) {
@@ -54,8 +56,6 @@ class AndroidRfidMessageManager : RfidMessageManager {
         }
     }
 
-    // ONLY FOR DEVELOP
-    /*
     private fun logRfidMessage(message: ByteArray, messageName: String) {
         var mymessage = ""
         message.forEach {
@@ -63,8 +63,6 @@ class AndroidRfidMessageManager : RfidMessageManager {
         }
         Timber.e("%s%s", messageName, mymessage)
     }
-
-     */
 
     private fun setRfidTagInformation(rfidTagMessage: ByteArray) {
         if (isRfidInformationMessage(rfidTagMessage)) {

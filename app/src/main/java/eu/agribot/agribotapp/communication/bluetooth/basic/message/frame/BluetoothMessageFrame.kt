@@ -123,7 +123,7 @@ class BluetoothMessageFrame() {
 
     fun getReceivedMessageAddress(): Int {
         return if (getLength() > TWO_ELEMENT_ADDRES) {
-            getFirstAddresElementFrameReceivedMessage() + getSecondAddresElementFramReceivedMessage()
+            getFirstAddresElementFrameReceivedMessage() + getSecondAddresElementFrameReceivedMessage()
         } else
             StatusCode.ERROR_CODE.code
     }
@@ -132,7 +132,7 @@ class BluetoothMessageFrame() {
         return (bluetoothMessageArray[FramePositions.FIRST_BYTE_OF_ADDRESS.position].toInt() shl BIT_SHIFT)
     }
 
-    private fun getSecondAddresElementFramReceivedMessage(): Int {
+    private fun getSecondAddresElementFrameReceivedMessage(): Int {
         return if (bluetoothMessageArray[FramePositions.SECOND_BYTE_OF_ADDRESS.position].toInt() < EMPTY_ARRAY) {
             ADDRESS_FLAG + bluetoothMessageArray[FramePositions.SECOND_BYTE_OF_ADDRESS.position]
         } else

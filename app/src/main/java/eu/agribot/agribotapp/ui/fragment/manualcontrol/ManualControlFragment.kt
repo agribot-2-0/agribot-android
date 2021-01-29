@@ -16,7 +16,11 @@ import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.actionbottombar.
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.diagnosticdatabar.DiagnosticDataAdapter
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.diagnosticdatabar.DiagnosticDataViewModel
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.videostream.VideoParameters
-import kotlinx.android.synthetic.main.fragment_manual_control.*
+import kotlinx.android.synthetic.main.fragment_manual_control.video_view
+import kotlinx.android.synthetic.main.fragment_manual_control.manualModeRecyclerActions
+import kotlinx.android.synthetic.main.fragment_manual_control.diagnosticDataRecycler
+import kotlinx.android.synthetic.main.fragment_manual_control.manual_mode_joystick
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import tcking.github.com.giraffeplayer2.Option
@@ -35,6 +39,7 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
         viewBinding.viewModel = viewModel
     }
 
+    @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecycler()

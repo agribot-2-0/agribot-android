@@ -7,9 +7,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.databinding.ListItemManualDiagnosticDataBinding
-import kotlinx.android.synthetic.main.list_item_manual_diagnostic_data.view.*
+import kotlinx.android.synthetic.main.list_item_manual_diagnostic_data.view.diagnosticDataIcon
 
 class DiagnosticDataAdapter : RecyclerView.Adapter<DiagnosticDataViewHolder>() {
+    private val errorValue = -1
 
     var items = listOf<DiagnosticDataViewModel>()
         set(value) {
@@ -58,7 +59,7 @@ class DiagnosticDataAdapter : RecyclerView.Adapter<DiagnosticDataViewHolder>() {
                 R.drawable.ic_thermometer
             }
 
-            else -> -1
+            else -> errorValue
         }
 
         holder.itemView.diagnosticDataIcon.setImageResource(imageSrc)

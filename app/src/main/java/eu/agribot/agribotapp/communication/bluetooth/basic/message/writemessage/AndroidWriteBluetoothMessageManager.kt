@@ -184,8 +184,7 @@ class AndroidWriteBluetoothMessageManager(
         writeBluetoothMessage(
             BluetoothMessageFrame(
                 CANmessageData(BluetoothAdressCodeModel.ROTATE_CARRIAGES.number, moveLeftArray)
-            )
-                .bluetoothMessageArray
+            ).bluetoothMessageArray
         )
     }
 

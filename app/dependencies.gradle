@@ -116,9 +116,9 @@ dependencies {
 
 	//ijk Player
 	api "com.github.tcking:ijkplayer-arm64:$versions.ijkPlayer" //support arm64
-	api "com.github.tcking:ijkplayer-armv5:0.8.8-full" //support armv5
-	api "com.github.tcking:ijkplayer-x86:0.8.8-full" //support x86
-	api "com.github.tcking:ijkplayer-x86_64:0.8.8-full" //support x86_64
+	api "com.github.tcking:ijkplayer-armv5:$versions.ijkPlayer" //support armv5
+	api "com.github.tcking:ijkplayer-x86:$versions.ijkPlayer" //support x86
+	api "com.github.tcking:ijkplayer-x86_64:$versions.ijkPlayer" //support x86_64
 
 	//Unzip
 	implementation "net.lingala.zip4j:zip4j:$versions.zip4j"

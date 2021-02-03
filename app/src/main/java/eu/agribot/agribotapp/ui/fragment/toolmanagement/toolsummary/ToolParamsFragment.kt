@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams
+package eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary
 
 import android.os.Bundle
 import android.view.View
@@ -11,9 +11,9 @@ import eu.agribot.agribotapp.common.navigation.events.ToolNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentToolManagementParamsBinding
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams.data.AntennaNumber
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams.recycler.ReceivedRfidDataAdapter
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams.recycler.ReceivedRfidDataViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.data.AntennaNumber
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.recycler.ReceivedRfidDataAdapter
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.recycler.ReceivedRfidDataViewModel
 import kotlinx.android.synthetic.main.fragment_tool_management_params.antennaGroup
 import kotlinx.android.synthetic.main.fragment_tool_management_params.backAntenna
 import kotlinx.android.synthetic.main.fragment_tool_management_params.bothAntenna

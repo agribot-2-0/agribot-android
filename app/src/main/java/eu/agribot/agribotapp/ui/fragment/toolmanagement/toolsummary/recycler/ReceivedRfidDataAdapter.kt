@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams.recycler
+package eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.recycler
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

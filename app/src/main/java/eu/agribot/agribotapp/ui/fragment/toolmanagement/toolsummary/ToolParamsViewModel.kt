@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams
+package eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -15,10 +15,10 @@ import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.HitchListItemDetail
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams.data.AntennaNumber
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams.data.TagRfidFormatter
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams.data.ToolRecylerItemId
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams.recycler.ReceivedRfidDataViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.data.AntennaNumber
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.data.TagRfidFormatter
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.data.ToolRecylerItemId
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.recycler.ReceivedRfidDataViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch

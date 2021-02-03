@@ -278,4 +278,6 @@
     <string name="checking_files">Checking files - please waiting</string>
     <string name="download_progress">\" Downloading progress \"</string>
     <string name="type_tool_name">Give tool name</string>
+    <string name="capture">Capture</string>
+
 </resources>

@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams.data
+package eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.data
 
 enum class AntennaNumber(val number: Int) {
 

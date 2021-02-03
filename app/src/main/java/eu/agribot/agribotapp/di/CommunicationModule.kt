@@ -3,11 +3,15 @@ package eu.agribot.agribotapp.di
 import com.google.firebase.auth.FirebaseAuth
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.AndroidBluetoothConnectionManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.BluetoothConnectionManager
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.message.writemessage.AndroidWriteBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.socket.AndroidBluetoothSocketManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.socket.BluetoothSocketManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.heartbeat.AndroidHeartbeatManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.heartbeat.HeartbeatManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.AndroidReceivedBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ReceivedBluetoothMessageManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.AndroidRfidMessageManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.RfidMessageManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.AndroidWriteBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.WriteBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator.AndroidBluetoothMessageCreator
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator.BluetoothMessageCreator
@@ -25,6 +29,8 @@ import eu.agribot.agribotapp.communication.database.firestorage.AndroidFirestora
 import eu.agribot.agribotapp.communication.database.firestorage.FirestorageService
 import eu.agribot.agribotapp.communication.persistence.PersistentStorage
 import eu.agribot.agribotapp.communication.persistence.SharedPreferencesPersistentStorage
+import eu.agribot.agribotapp.communication.tcpconnection.AndroidTcpConnectionManager
+import eu.agribot.agribotapp.communication.tcpconnection.TcpConnectionManager
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
@@ -32,6 +38,10 @@ import org.koin.dsl.module
  * Koin module used to provide communication layer dependencies
  */
 val communicationModule = module {
+
+    single<TcpConnectionManager> {
+        AndroidTcpConnectionManager()
+    }
 
     single<BluetoothConnectionManager> {
         AndroidBluetoothConnectionManager(
@@ -47,12 +57,26 @@ val communicationModule = module {
 
     single<BluetoothSocketManager> { AndroidBluetoothSocketManager() }
 
+    single<HeartbeatManager> {
+        AndroidHeartbeatManager(
+            bluetoothWriteBluetoothMessageManager = get()
+
+        )
+    }
+
     single<ReceivedBluetoothMessageManager> {
         AndroidReceivedBluetoothMessageManager(
             receiveErrorHandler = get(),
             writeBluetoothMessageManager = get(),
-            bluetoothSocketManager = get()
+            bluetoothSocketManager = get(),
+            heartbeatManager = get(),
+            rfidMessageManager = get()
+
         )
+    }
+
+    single<RfidMessageManager> {
+        AndroidRfidMessageManager()
     }
 
     single<WriteBluetoothMessageManager> {

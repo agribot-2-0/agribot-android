@@ -2,7 +2,7 @@ package eu.agribot.agribotapp.domain.model.fromdomain
 
 import eu.agribot.agribotapp.communication.bluetooth.model.tocommunication.ArcParametrsBD
 
-class ArcParametrs(
+class ArcParameters(
     val radius: Double,
     val direction: Int,
     val forward: Int,

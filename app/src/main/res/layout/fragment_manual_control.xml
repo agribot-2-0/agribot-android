@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -27,314 +26,20 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_margin="@dimen/margin_small"
                 android:layout_weight="1"
                 android:background="@drawable/rounded_corner_layout"
                 android:orientation="horizontal"
-                android:layout_margin="@dimen/margin_small"
                 tools:ignore="NestedWeights">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/diagnosticDataRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
                     android:layout_margin="@dimen/margin_small"
-                    android:layout_weight="1"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal">
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_small"
-                        android:layout_weight="1"
-                        tools:ignore="NestedWeights">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_car_battery"
-                            app:tint="@color/base_green"
-                            android:height="40dp"
-                            android:width="40dp" />
-
-                    </FrameLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/battery_voltage"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="@{viewModel.accumulatorVoltage}"
-                            android:textColor="@color/base_green" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:text="@string/volt"
-                            android:textColor="@color/base_green" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/margin_small"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_small"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/ic_rpm"
-                            app:tint="@color/base_green" />
-
-                    </FrameLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/rpm"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="@{viewModel.engineRotations}"
-                            android:textColor="@color/base_green" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:text="@string/rpm"
-                            android:textColor="@color/base_green" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/margin_small"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_small"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/ic_engine"
-                            app:tint="@color/base_green" />
-
-                    </FrameLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/torque"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="@{viewModel.torqueOfEngine}"
-                            android:textColor="@color/base_green" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:text="@string/percent"
-                            android:textColor="@color/base_green" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/margin_small"
-                    android:layout_weight="1"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal">
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_small"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/ic_fuel"
-                            app:tint="@color/base_green" />
-
-                    </FrameLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/fuel_level"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="@{viewModel.fuelLevel}"
-                            android:textColor="@color/base_green" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:text="@string/percent"
-                            android:textColor="@color/base_green" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/margin_small"
-                    android:layout_weight="1"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal">
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_small"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/ic_fuelhour"
-                            app:tint="@color/base_green" />
-
-                    </FrameLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/fuel_rate"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="@{viewModel.engineFuelRate}"
-                            android:textColor="@color/base_green" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:text="@string/liter_per_hour"
-                            android:textColor="@color/base_green" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/margin_small"
-                    android:layout_weight="1"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal">
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_small"
-                        android:layout_weight="1">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/ic_thermometer"
-                            app:tint="@color/base_green" />
-
-                    </FrameLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/oil_temperature"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="@{viewModel.fuelTemperature}"
-                            android:textColor="@color/base_green" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="0dp"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:text="@string/celcius_degree"
-                            android:textColor="@color/base_green" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
+                    android:nestedScrollingEnabled="false" />
 
             </LinearLayout>
 
@@ -343,52 +48,28 @@
                 android:layout_height="0dp"
                 android:layout_weight="4">
 
-                <TextView
+                <tcking.github.com.giraffeplayer2.VideoView
+                    android:id="@+id/video_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/margin_small"
-                    android:background="@android:color/black"
-                    android:gravity="center"
-                    android:text="@string/camera_view"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold" />
+                    android:gravity="center" />
             </FrameLayout>
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
                 android:layout_margin="@dimen/margin_small"
+                android:layout_weight="1"
                 android:background="@drawable/rounded_corner_layout"
                 android:orientation="horizontal">
 
-
-                <com.google.android.material.button.MaterialButton
-                    android:layout_width="wrap_content"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/manualModeRecyclerActions"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/margin_medium"
-                    android:background="@drawable/rounded_button"
-                    android:onClick="@{() -> viewModel.startStopEngine()}"
-                    android:padding="@dimen/margin_medium"
-                    android:text="@string/start_stop_engine"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_medium" />
-
-
-               <com.google.android.material.button.MaterialButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/margin_medium"
-                    android:background="@drawable/rounded_button"
-                    android:onClick="@{()->viewModel.onTTControlButtonClicked()}"
-                    android:padding="@dimen/margin_medium"
-                    android:text="@string/override_button"
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/text_size_medium" />
-
+                    android:layout_gravity="center" />
 
             </LinearLayout>
 
@@ -398,9 +79,9 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_margin="@dimen/margin_small"
             android:layout_weight="1"
             android:background="@drawable/rounded_corner_layout"
-            android:layout_margin="@dimen/margin_small"
             android:orientation="vertical">
 
 
@@ -410,9 +91,9 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/margin_large"
                 android:layout_weight="1"
+                android:background="@drawable/rounded_button"
                 android:onClick="@{() -> viewModel.onToolControlClicked()}"
                 android:text="@string/title_tool_control"
-                android:background="@drawable/rounded_button"
                 tools:ignore="NestedWeights" />
 
             <LinearLayout
@@ -422,19 +103,19 @@
                 android:orientation="horizontal">
 
 
-<!--                <ImageButton-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:src="@drawable/ic_angle"-->
-<!--                    android:tint="@color/base_green" />-->
+                <!--                <ImageButton-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_weight="1"-->
+                <!--                    android:src="@drawable/ic_angle"-->
+                <!--                    android:tint="@color/base_green" />-->
 
-<!--                <ImageButton-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:src="@drawable/ic_dog_walk"-->
-<!--                    android:tint="@color/base_green" />-->
+                <!--                <ImageButton-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_weight="1"-->
+                <!--                    android:src="@drawable/ic_dog_walk"-->
+                <!--                    android:tint="@color/base_green" />-->
 
 
             </LinearLayout>

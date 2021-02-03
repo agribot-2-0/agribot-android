@@ -4,30 +4,73 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
+import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.TTControlNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolControlNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
+import eu.agribot.agribotapp.domain.service.AppStorageService
+import eu.agribot.agribotapp.domain.service.InternetConnectionService
 import eu.agribot.agribotapp.domain.service.ManualModeService
-import kotlinx.coroutines.delay
+import eu.agribot.agribotapp.domain.service.joystick.JoysticFilter
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.actionbottombar.ActionID
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.actionbottombar.ManualActionsViewModel
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.diagnosticdatabar.DiagnosticDataID
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.diagnosticdatabar.DiagnosticDataViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class ManualControlViewModel(
     private val manualModeService: ManualModeService,
-    private val resourcesProvider: ResourcesProvider
-
+    private val resourcesProvider: ResourcesProvider,
+    private val appStorageService: AppStorageService,
+    private val internetConnectionService: InternetConnectionService
 ) : BaseViewModel() {
 
     companion object {
-        const val REFRESH_DIAGNOSTIC_DATA_DELAY = 100L
-        const val SEND_JOYSTICK_MESSAGE_DELAY = 150L
+        const val COUNTER_INITIALIZATION_VALUE = 0
+        const val COUNTER_INCREMENT_VALUE = 1
     }
 
-    val accumulatorVoltage: MutableLiveData<String> = MutableLiveData()
-    val engineRotations: MutableLiveData<String> = MutableLiveData()
-    val torqueOfEngine: MutableLiveData<String> = MutableLiveData()
-    val engineFuelRate: MutableLiveData<String> = MutableLiveData()
-    val fuelLevel: MutableLiveData<String> = MutableLiveData()
-    val fuelTemperature: MutableLiveData<String> = MutableLiveData()
+    val diagnosticDataList: MutableLiveData<List<DiagnosticDataViewModel>> =
+        MutableLiveData(listOf())
+
+    val toastMessage: MutableLiveEvent<String> = MutableLiveEvent()
+    val actionsList: MutableLiveData<List<ManualActionsViewModel>> = MutableLiveData(listOf())
+    private val joystickMessageCounter: MutableLiveData<Int> = MutableLiveData()
+
+    fun onActionClicked(actionID: Int) {
+        when (actionID) {
+            ActionID.WAKEUP.action -> {
+                onWakeupButtonCLicked(onError = this::onWakeupError)
+            }
+
+            ActionID.RUN_ENGINE.action -> {
+                startStopEngine()
+            }
+
+            ActionID.OVERRIDE_MODE.action -> {
+                onTTControlButtonClicked()
+            }
+        }
+    }
+
+    fun createActionsList() {
+        actionsList.value = listOf(
+            ManualActionsViewModel(
+                ActionID.WAKEUP.action,
+                resourcesProvider.getString(R.string.wakeup_button)
+            ),
+            ManualActionsViewModel(
+                ActionID.RUN_ENGINE.action,
+                resourcesProvider.getString(R.string.start_stop_engine)
+            ),
+            ManualActionsViewModel(
+                ActionID.OVERRIDE_MODE.action,
+                resourcesProvider.getString(R.string.override_button)
+            )
+        )
+    }
 
     fun onToolControlClicked() {
         navigationEvent.postValue(
@@ -35,44 +78,166 @@ class ManualControlViewModel(
         )
     }
 
-    private fun refreshDiagnosticData() = viewModelScope.launch {
-        while (true) {
-            delay(REFRESH_DIAGNOSTIC_DATA_DELAY)
-            if (manualModeService.getDiagnosticData() != null) {
-                manualModeService.getDiagnosticData()?.let { diagnosticData ->
-                    accumulatorVoltage.value = diagnosticData.batteryVoltage
-                    engineRotations.value = diagnosticData.engineRotationsPerMinute.toString()
-                    torqueOfEngine.value = diagnosticData.torqueOfEngine.toString()
-                    engineFuelRate.value = diagnosticData.fuelLevel.toString()
-                    fuelLevel.value = diagnosticData.fuelLevel.toString()
-                    fuelTemperature.value = diagnosticData.fuelTemperature.toString()
-                }
+    fun getStreamUrl(): String = appStorageService.getStreamUrl()
+
+    fun onJoystickParametrChange(angel: Int, strength: Int) = viewModelScope.launch {
+        if (getJoystickMessageCounter() % JoysticFilter.JOYSTICK_FILTER_VALUE.value == COUNTER_INITIALIZATION_VALUE) {
+            manualModeService.onManualSteeringJoystickParametrChanged(angel, strength)
+        }
+    }
+
+    @ExperimentalCoroutinesApi
+    fun setDiagnosticData() = viewModelScope.launch {
+        manualModeService.observeDiagnosticData().collect { diagnosticData ->
+            if (diagnosticData != null) {
+                addToDiagnosticDataList(
+                    DiagnosticDataViewModel(
+                        DiagnosticDataID.VOLTAGE.ID,
+                        diagnosticData.batteryVoltage,
+                        resourcesProvider.getString(R.string.volt)
+                    )
+                )
+                addToDiagnosticDataList(
+                    DiagnosticDataViewModel(
+                        DiagnosticDataID.ENGINE_ROTATIONS.ID,
+                        diagnosticData.engineRotationsPerMinute.toString(),
+                        resourcesProvider.getString(R.string.rpm)
+
+                    )
+                )
+                addToDiagnosticDataList(
+                    DiagnosticDataViewModel(
+                        DiagnosticDataID.ENGINE_TORQUE.ID,
+                        diagnosticData.torqueOfEngine.toString(),
+                        resourcesProvider.getString(R.string.percent)
+                    )
+                )
+                addToDiagnosticDataList(
+                    DiagnosticDataViewModel(
+                        DiagnosticDataID.FUEL_LEVEL.ID,
+                        diagnosticData.fuelLevel.toString(),
+                        resourcesProvider.getString(R.string.percent)
+
+                    )
+                )
+                addToDiagnosticDataList(
+                    DiagnosticDataViewModel(
+                        DiagnosticDataID.FUEL_RATE.ID,
+                        diagnosticData.engineFuelRate,
+                        resourcesProvider.getString(R.string.liter_per_hour)
+
+                    )
+                )
+                addToDiagnosticDataList(
+                    DiagnosticDataViewModel(
+                        DiagnosticDataID.FUEL_TEMPERATURE.ID,
+                        diagnosticData.fuelTemperature.toString(),
+                        resourcesProvider.getString(R.string.celcius_degree)
+                    )
+                )
             } else {
-                accumulatorVoltage.value = resourcesProvider.getString(R.string.empty_data)
-                engineRotations.value = resourcesProvider.getString(R.string.empty_data)
-                torqueOfEngine.value = resourcesProvider.getString(R.string.empty_data)
-                engineFuelRate.value = resourcesProvider.getString(R.string.empty_data)
-                fuelLevel.value = resourcesProvider.getString(R.string.empty_data)
-                fuelTemperature.value = resourcesProvider.getString(R.string.empty_data)
+                resourcesProvider.getString(R.string.no_data_status).let { noData ->
+                    addToDiagnosticDataList(
+                        DiagnosticDataViewModel(
+                            DiagnosticDataID.VOLTAGE.ID,
+                            noData,
+                            resourcesProvider.getString(R.string.volt)
+                        )
+                    )
+                    addToDiagnosticDataList(
+                        DiagnosticDataViewModel(
+                            DiagnosticDataID.ENGINE_ROTATIONS.ID,
+                            noData,
+                            resourcesProvider.getString(R.string.rpm)
+
+                        )
+                    )
+                    addToDiagnosticDataList(
+                        DiagnosticDataViewModel(
+                            DiagnosticDataID.ENGINE_TORQUE.ID,
+                            noData,
+                            resourcesProvider.getString(R.string.percent)
+                        )
+                    )
+                    addToDiagnosticDataList(
+                        DiagnosticDataViewModel(
+                            DiagnosticDataID.FUEL_LEVEL.ID,
+                            noData,
+                            resourcesProvider.getString(R.string.percent)
+
+                        )
+                    )
+                    addToDiagnosticDataList(
+                        DiagnosticDataViewModel(
+                            DiagnosticDataID.FUEL_RATE.ID,
+                            noData,
+                            resourcesProvider.getString(R.string.liter_per_hour)
+
+                        )
+                    )
+                    addToDiagnosticDataList(
+                        DiagnosticDataViewModel(
+                            DiagnosticDataID.FUEL_TEMPERATURE.ID,
+                            noData,
+                            resourcesProvider.getString(R.string.celcius_degree)
+                        )
+                    )
+                }
             }
         }
     }
 
-    fun onJoystickParametrChange(angel: Int, strength: Int) = viewModelScope.launch {
-        delay(SEND_JOYSTICK_MESSAGE_DELAY)
-        manualModeService.onManualSteeringJoystickParametrChanged(angel, strength)
+    private fun addToDiagnosticDataList(diagnosticData: DiagnosticDataViewModel) {
+        val isAttributeAlreadyAdded = diagnosticDataList.value!!.any { arrtibute ->
+            arrtibute.diagnosticDataID == diagnosticData.diagnosticDataID
+        }
+        if (!isAttributeAlreadyAdded)
+            diagnosticDataList.value = listOf(
+                *diagnosticDataList.value!!.toTypedArray(),
+                DiagnosticDataViewModel(
+                    diagnosticData.diagnosticDataID,
+                    diagnosticData.diagnosticDataValue,
+                    diagnosticData.diagnosticDataUnit
+                )
+
+            )
+        else {
+            diagnosticDataList.value = diagnosticDataList.value!!.map { oldAttribute ->
+                if (oldAttribute.diagnosticDataID == diagnosticData.diagnosticDataID) {
+                    DiagnosticDataViewModel(
+                        oldAttribute.diagnosticDataID,
+                        diagnosticData.diagnosticDataValue,
+                        oldAttribute.diagnosticDataUnit
+                    )
+                } else {
+                    oldAttribute
+                }
+            }
+        }
     }
 
-    fun sendStartManualModeInfo() = viewModelScope.launch {
-        manualModeService.runManualMode()
-        refreshDiagnosticData()
+    private fun getJoystickMessageCounter(): Int {
+        if (joystickMessageCounter.value == null || joystickMessageCounter.value == JoysticFilter.JOYSTICK_COUNTER_MAX_VALUE.value) {
+            joystickMessageCounter.value = COUNTER_INITIALIZATION_VALUE
+        } else {
+            joystickMessageCounter.value = joystickMessageCounter.value!! + COUNTER_INCREMENT_VALUE
+        }
+        return joystickMessageCounter.value!!
     }
 
-    fun startStopEngine() {
+    private fun onWakeupButtonCLicked(onError: (error: String) -> Unit) = viewModelScope.launch {
+        internetConnectionService.connectWithAgribot(onConnectionError = onError)
+    }
+
+    private fun onWakeupError(errorMessage: String) {
+        toastMessage.postValue(errorMessage)
+    }
+
+    private fun startStopEngine() = viewModelScope.launch {
         manualModeService.startStopEngine()
     }
 
-    fun onTTControlButtonClicked() {
+    private fun onTTControlButtonClicked() {
         navigationEvent.postValue(
             TTControlNavigationEvent()
         )

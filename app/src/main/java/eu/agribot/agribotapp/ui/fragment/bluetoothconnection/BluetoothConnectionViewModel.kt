@@ -60,7 +60,7 @@ class BluetoothConnectionViewModel(
         }
     }
 
-    fun onBluetoothDeviceConnected() {
+    fun onBluetoothDeviceConnected() = viewModelScope.launch {
         toastEvent.postValue(resourcesProvider.getString(R.string.connected))
         postManualSteeringNavigationEvent()
     }

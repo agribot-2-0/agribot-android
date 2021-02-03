@@ -1,6 +1,7 @@
 package eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator
 
 import eu.agribot.agribotapp.communication.bluetooth.model.tocommunication.ArcParametrsBD
+import eu.agribot.agribotapp.communication.bluetooth.model.tocommunication.RfidParametersBD
 import eu.agribot.agribotapp.communication.bluetooth.model.tocommunication.SwitchSettingsBD
 import eu.agribot.agribotapp.communication.bluetooth.model.tocommunication.TuzActivateBD
 
@@ -17,4 +18,6 @@ interface BluetoothMessageCreator {
     fun createTTControlLeftMessage(tuzActivateBD: TuzActivateBD)
 
     fun createTTControlRightMessage(tuzActivateBD: TuzActivateBD)
+
+    fun createRfifRequestMessage(rfidParametersBD: RfidParametersBD)
 }

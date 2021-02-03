@@ -5,6 +5,8 @@
     <!-- Commons -->
     <string name="exit">Exit</string>
     <string name="cancel">Cancel</string>
+    <string name="done">Done</string>
+
 
     <!-- Navigation drawer -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -170,7 +172,7 @@
     <string name="delete_task_button">Delete</string>
     <string name="edit_task_button">Edit</string>
     <string name="path_name">Path name</string>
-    <string name="delete_sucess_text">Task deleted sucessfully</string>
+    <string name="delete_sucess_text">Task deleted successfully</string>
     <string name="start_time">Start Time: "</string>
     <string name="no_path_text">No Path Selected</string>
     <string name="no_temperature_text">No Temperature Selected</string>
@@ -225,14 +227,13 @@
     <string name="add_tool_success">Tool added successfully</string>
     <string name="no_tool_name">No tool name</string>
     <string name="cancel_task_button">CANCEL TASK</string>
+
+    <string name="dialog_no_found_tags_tittle">No found RFID Tag</string>
+    <string name="dialog_no_found_tags_message">Do you want to repeat scan?</string>
+    <string name="dialog_no_found_tags_confirm">Repeat Scan!</string>
+
     <string name="dialog_task_cancel_tittle">Cancel task</string>
     <string name="dialog_task_cancel_message">Do you want cancel a task?</string>
-    <string name="dialog_tiles_downloading_tittle">Your Files is downloading…</string>
-    <string name="dialog_tiles_downloading_message">Download progress</string>
-    <string name="dialog_tiles_extracting_tittle">Your Files is extracting</string>
-    <string name="dialog_tiles_extracting_message">Extract progress</string>
-    <string name="prev_button_arrow" translatable="false"><![CDATA[<-]]></string>
-    <string name="next_button_arrow" translatable="false"><![CDATA[->]]></string>
     <string name="tool_mode_zero">All path</string>
     <string name="tool_mode_one">Between rows</string>
     <string name="save_path">Save path</string>
@@ -240,11 +241,41 @@
     <string name="create_layer_error">Problem with create map layer</string>
     <string name="type_path_name">Give path name</string>
     <string name="task_path_text">Path name</string>
-    <string name="checking_files">Checking files - please wait</string>
-    <string name="download_progress">\"Download progress: \"</string>
-    <string name="extracting_progress">\"Extracting progress: \"</string>
+    <string name="change_stream_url">Change video stream URL</string>
+    <string name="find_agribot">Find Agribot</string>
+    <string name="connect_with_last_used_device">Connect With last used Agribot</string>
+    <string name="change_video_url">Change video source</string>
+    <string name="actual_url">\"Current video source: \"</string>
+
+    <string name="no_antenna_selected">No Antenna selected</string>
+    <string name="front_antenna">Front Antenna</string>
+    <string name="back_antenna">Back Antenna</string>
+    <string name="both_antenna">Both Antenna</string>
+    <string name="front_antenna_scan">Front Antenna Scan</string>
+    <string name="both_antenna_scan">Both Antenna Scan</string>
+    <string name="back_antenna_scan">Back Antenna Scan</string>
+    <string name="start_scan">Start Scan</string>
+    <string name="found_rfid_tags">Found RFID tags :</string>
+    <string name="rfid_data">Data:</string>
+    <string name="antena_name">Antenna :</string>
+
+    <string name="prev_button_arrow" translatable="false"><![CDATA[<-]]></string>
+    <string name="next_button_arrow" translatable="false"><![CDATA[->]]></string>
+
     <string name="path_deleted_message">Path deleted successfully</string>
     <string name="loading_path_problem">Loading Path Problem</string>
     <string name="blank_path_name_error">Path name cant\'t be blank</string>
+    <string name="connecting_with_device">Wait for connect with Agribot…</string>
+    <string name="left_right">Left / Right</string>
+    <string name="front_back">Front / Back</string>
+    <string name="wakeup_button">Wake-Up</string>
 
+    <string name="dialog_tiles_downloading_tittle">Twoje pliki są pobierane…</string>
+    <string name="dialog_tiles_downloading_message">Pobieranie w toku</string>
+    <string name="dialog_tiles_extracting_tittle">Twoje pliki są rozpakowywane</string>
+    <string name="dialog_tiles_extracting_message">Trwa rozpakowywanie plików</string>
+
+    <string name="checking_files">Checking files - please waiting</string>
+    <string name="download_progress">\" Downloading progress \"</string>
+    <string name="type_tool_name">Give tool name</string>
 </resources>

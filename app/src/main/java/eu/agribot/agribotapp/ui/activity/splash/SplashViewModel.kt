@@ -39,7 +39,7 @@ class SplashViewModel(
 
     private fun beginSplashDelay() = viewModelScope.launch {
         delay(SPLASH_SCREEN_TIMEOUT_MILLIS)
-        checkLoginStatusAndRedirect()
+        postMainActivityNavigationEvent()
     }
 
     private fun postMainActivityNavigationEvent() {

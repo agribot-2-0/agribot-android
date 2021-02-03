@@ -24,7 +24,7 @@ def versions = [
 		'firestorage'     : '19.2.0',
 		'mapUtils'        : '0.4.4',
 		'downloader'      : '0.6.0',
-		'ijkPlayer'		 : '0.8.8-full',
+		'ijkPlayer'		: '0.8.8-full',
 		'videoPlayer'     : '0.1.25-full',
 		'zip4j'           : '2.6.4'
 

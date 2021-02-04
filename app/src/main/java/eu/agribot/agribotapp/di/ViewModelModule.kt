@@ -31,7 +31,8 @@ import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.FindToolTagViewM
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.ToolManagementViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.ToolListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolname.ToolNameViewModel
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.ToolParamsViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparameters.ToolParamsViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.ToolSummaryViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.tooltagphoto.ToolTagPhotoViewModel
 import eu.agribot.agribotapp.ui.fragment.ttcontrol.TTControlViewModel
 import eu.agribot.agribotapp.ui.fragment.weather.WeatherViewModel
@@ -280,12 +281,23 @@ val viewModelModule = module {
         toolManagementService = get())
     }
 
-    viewModel {
-        FindToolTagViewModel()
+    viewModel {(context: Context) ->
+        FindToolTagViewModel(      toolDataManager = get(),
+            resourcesProvider = get { parametersOf(context) },
+            toolManagementService = get()
+        )
     }
 
     viewModel {
         DisplayToolPhotoViewModel(toolDataManager = get())
+    }
+
+    viewModel {(context: Context) ->
+        ToolSummaryViewModel(
+            resourcesProvider = get { parametersOf(context)},
+            toolDataManager = get(),
+            cloudDatabaseService = get()
+        )
     }
 
 }

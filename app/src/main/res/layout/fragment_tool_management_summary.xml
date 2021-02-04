@@ -1,6 +1,182 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <data>
+
+        <variable
+            name="viewModel"
+            type="eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.ToolSummaryViewModel" />
+    </data>
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_gray"
+        android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:background="@color/background_gray"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="@dimen/margin_medium"
+            android:layout_weight="1">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/margin_medium"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_corner_layout"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="200dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="36dp"
+                    android:textSize="@dimen/text_size_xlarge"
+                    android:gravity="center"
+                    android:text="Summary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/margin_medium"
+                android:layout_weight="3">
+
+                <ImageView
+                    android:id="@+id/summary_tool_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </androidx.cardview.widget.CardView>
+
+
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/margin_small"
+                android:layout_weight="0.5"
+                android:background="@drawable/rounded_corner_layout"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="36dp"
+                    android:textSize="@dimen/text_size_xlarge"
+                    android:gravity="center"
+                    android:text="@{viewModel.toolName}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/margin_small"
+                android:layout_weight="0.5"
+                android:background="@drawable/rounded_corner_layout"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="36dp"
+                    android:textSize="@dimen/text_size_xlarge"
+                    android:gravity="center"
+                    android:text="@{viewModel.toolRfidTag}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.cardview.widget.CardView>
+
+
+
+
+
+
+
+
+
+
+        </LinearLayout>
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/margin_medium"
+            android:layout_weight="1">
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/summary_params_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/margin_medium" />
+
+
+        </androidx.cardview.widget.CardView>
+
+
+    </LinearLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/margin_medium"
+            android:layout_weight="0.5"
+            android:background="@drawable/rounded_corner_layout"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/right_button"
+                android:layout_width="200dp"
+                android:layout_height="60dp"
+                android:layout_marginEnd="@dimen/margin_large"
+                android:onClick="@{()-> viewModel.sendToolData()}"
+                android:text="Save Tool"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+
+</layout>

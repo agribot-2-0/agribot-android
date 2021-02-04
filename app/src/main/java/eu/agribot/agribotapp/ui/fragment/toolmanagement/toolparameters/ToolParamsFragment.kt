@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary
+package eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparameters
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -9,12 +9,13 @@ import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.dialog.DialogManager
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.ToolManagementSummaryNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentToolManagementParamsBinding
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.recycler.ReceivedRfidDataAdapter
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.recycler.ReceivedRfidDataViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparameters.recycler.ReceivedRfidDataAdapter
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparameters.recycler.ReceivedRfidDataViewModel
 import kotlinx.android.synthetic.main.fragment_display_tool_photo.*
 import kotlinx.android.synthetic.main.fragment_tool_management_params.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -125,12 +126,13 @@ class ToolParamsFragment :
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
-        is ToolNavigationEvent -> navigateToToolManagement()
+        is ToolManagementSummaryNavigationEvent -> handleToolManagementSummaryNavigationEvent()
         else -> Unit
     }
 
-    private fun navigateToToolManagement() {
-        navigationController?.navigate(R.id.action_toolManagementParamsFragment_to_toolManagementFragment)
+    private fun handleToolManagementSummaryNavigationEvent(){
+        navigationController?.navigate(R.id.action_toolManagementParamsFragment_to_toolManagementSummaryFragment)
+
     }
 
     private fun getOutputDirectory(): File {

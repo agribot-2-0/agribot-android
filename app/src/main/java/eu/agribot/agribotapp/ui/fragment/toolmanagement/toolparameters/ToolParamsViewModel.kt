@@ -1,10 +1,11 @@
-package eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary
+package eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparameters
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
+import eu.agribot.agribotapp.common.navigation.events.ToolManagementSummaryNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
@@ -18,7 +19,7 @@ import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewM
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.data.AntennaNumber
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.data.TagRfidFormatter
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.data.ToolRecylerItemId
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.recycler.ReceivedRfidDataViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparameters.recycler.ReceivedRfidDataViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -108,6 +109,8 @@ class ToolParamsViewModel(
             )
         )
     }
+
+
 
     fun onHitchParametersChanged(
         sliderNumber: Int,
@@ -288,6 +291,10 @@ class ToolParamsViewModel(
 
             else -> resourcesProvider.getString(R.string.both_antenna)
         }
+    }
+
+    fun onSummaryButtonClicked(){
+        navigationEvent.postValue(ToolManagementSummaryNavigationEvent())
     }
 
     private fun clearRfidData() {

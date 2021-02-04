@@ -11,6 +11,7 @@ import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.dialog.DialogManager
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ShotToolPhotoNavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.ToolManagementSummaryNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolNameNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolParamsNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentToolManagementBinding
@@ -38,8 +39,7 @@ class ToolManagementFragment :
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
         is ToolNameNavigationEvent -> navigateToToolName()
-        is ToolParamsNavigationEvent -> navigateToToolParams()
-        is ShotToolPhotoNavigationEvent -> navigateToShotPhoto()
+        is ToolManagementSummaryNavigationEvent -> handleToolManagementSummaryNavigationEvent()
         else -> Unit
     }
 
@@ -115,11 +115,9 @@ class ToolManagementFragment :
         navigationController?.navigate(R.id.action_toolManagementFragment_to_toolManagementNameFragment)
     }
 
-    private fun navigateToToolParams() {
-        navigationController?.navigate(R.id.action_toolManagementFragment_to_toolManagementParamsFragment)
-    }
 
-    private fun navigateToShotPhoto() {
-        navigationController?.navigate(R.id.action_toolManagementFragment_to_toolManagementNameFragment)
+
+    private fun handleToolManagementSummaryNavigationEvent() {
+        navigationController?.navigate(R.id.action_toolManagementFragment_to_toolManagementSummaryFragment)
     }
 }

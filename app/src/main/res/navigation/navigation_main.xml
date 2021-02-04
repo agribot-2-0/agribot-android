@@ -117,12 +117,8 @@
             app:popEnterAnim="@anim/nav_slide_out_to_left"
             app:popExitAnim="@anim/nav_slide_in_from_left"/>
         <action
-            android:id="@+id/action_toolManagementFragment_to_toolManagementParamsFragment"
-            app:destination="@id/toolManagementParamsFragment"
-            app:enterAnim="@anim/nav_slide_in_from_right"
-            app:exitAnim="@anim/nav_slide_out_to_right"
-            app:popEnterAnim="@anim/nav_slide_out_to_left"
-            app:popExitAnim="@anim/nav_slide_in_from_left"/>
+            android:id="@+id/action_toolManagementFragment_to_toolManagementSummaryFragment"
+            app:destination="@id/toolManagementSummaryFragment" />
     </fragment>
 
     <fragment
@@ -137,16 +133,22 @@
 
     <fragment
         android:id="@+id/toolManagementParamsFragment"
-        android:name="eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.ToolParamsFragment"
+        android:name="eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparameters.ToolParamsFragment"
         android:label="@string/title_tool_management"
         tools:layout="@layout/fragment_tool_management_params" >
         <action
-            android:id="@+id/action_toolManagementParamsFragment_to_toolManagementFragment"
-            app:destination="@id/toolManagementFragment"
-            app:enterAnim="@anim/nav_slide_in_from_right"
-            app:exitAnim="@anim/nav_slide_out_to_right"
-            app:popEnterAnim="@anim/nav_slide_out_to_left"
-            app:popExitAnim="@anim/nav_slide_in_from_left"/>
+            android:id="@+id/action_toolManagementParamsFragment_to_toolManagementSummaryFragment"
+            app:destination="@id/toolManagementSummaryFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/toolManagementSummaryFragment"
+        android:name="eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.ToolSummaryFragment"
+        android:label="@string/title_tool_management"
+        tools:layout="@layout/fragment_tool_management_params" >
+        <action
+            android:id="@+id/action_toolManagementSummaryFragment_to_toolManagementFragment"
+            app:destination="@id/toolManagementFragment" />
     </fragment>
 
     <fragment

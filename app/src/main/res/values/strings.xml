@@ -278,6 +278,10 @@
     <string name="checking_files">Checking files - please waiting</string>
     <string name="download_progress">\" Downloading progress \"</string>
     <string name="type_tool_name">Give tool name</string>
-    <string name="capture">Capture</string>
+    <string name="capture" translatable="false">Capture</string>
+
+    <string name="summary_tool_name">Tool Name:  %1$S</string>
+    <string name="summary_tool_tag">Tool RFID Tag:  %1$S</string>
+
 
 </resources>

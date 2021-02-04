@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.recycler
+package eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparameters.recycler
 
 import eu.agribot.agribotapp.base.BaseViewHolder
 import eu.agribot.agribotapp.databinding.ListItemRfidDataBinding

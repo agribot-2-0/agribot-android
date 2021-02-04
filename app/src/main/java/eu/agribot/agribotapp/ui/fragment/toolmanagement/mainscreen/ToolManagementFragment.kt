@@ -10,6 +10,7 @@ import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.dialog.DialogManager
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.ShotToolPhotoNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolNameNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolParamsNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentToolManagementBinding
@@ -18,13 +19,7 @@ import eu.agribot.agribotapp.ui.fragment.swiperecyclerutils.SwipeRecyclerClickLi
 import eu.agribot.agribotapp.ui.fragment.swiperecyclerutils.SwipeRecyclerHelper
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.ToolListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.ToolListItemViewModel
-import kotlinx.android.synthetic.main.fragment_tool_management.seekbar_blue
-import kotlinx.android.synthetic.main.fragment_tool_management.seekbar_green
-import kotlinx.android.synthetic.main.fragment_tool_management.seekbar_pto
-import kotlinx.android.synthetic.main.fragment_tool_management.seekbar_tpl_push_pull
-import kotlinx.android.synthetic.main.fragment_tool_management.seekbar_tpl_up_down
-import kotlinx.android.synthetic.main.fragment_tool_management.seekbar_v_max
-import kotlinx.android.synthetic.main.fragment_tool_management.tool_recycler
+import kotlinx.android.synthetic.main.fragment_tool_management.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -44,6 +39,7 @@ class ToolManagementFragment :
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
         is ToolNameNavigationEvent -> navigateToToolName()
         is ToolParamsNavigationEvent -> navigateToToolParams()
+        is ShotToolPhotoNavigationEvent -> navigateToShotPhoto()
         else -> Unit
     }
 
@@ -121,5 +117,9 @@ class ToolManagementFragment :
 
     private fun navigateToToolParams() {
         navigationController?.navigate(R.id.action_toolManagementFragment_to_toolManagementParamsFragment)
+    }
+
+    private fun navigateToShotPhoto() {
+        navigationController?.navigate(R.id.action_toolManagementFragment_to_toolManagementNameFragment)
     }
 }

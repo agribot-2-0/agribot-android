@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.ui.fragment.toolmanagement.tooltagphoto
 
-import android.util.Log
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.domain.permission.PermissionError
@@ -22,6 +21,10 @@ class ToolTagPhotoViewModel(
 
     private fun onPermissionError(permissionError: PermissionError) {
         toastEvent.postValue(permissionError.name)
+    }
+
+    fun getToolPhotoName() : String{
+        return toolDataManager.toolName + ".jpg"
     }
 
     fun getPhotoSourceFile(): File {

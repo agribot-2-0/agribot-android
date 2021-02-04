@@ -15,9 +15,9 @@ import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.HitchListItemDetail
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.data.AntennaNumber
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.data.TagRfidFormatter
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.data.ToolRecylerItemId
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.data.AntennaNumber
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.data.TagRfidFormatter
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.data.ToolRecylerItemId
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.recycler.ReceivedRfidDataViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
@@ -38,6 +38,11 @@ class ToolParamsViewModel(
     val isScanOperation: MutableLiveEvent<Boolean> = MutableLiveEvent()
     val paramsList: MutableLiveData<List<HitchListItemViewModel>> =
         MutableLiveData(listOf())
+
+
+    fun getToolPhotoName() : String{
+        return "/" + toolDataManager.toolName + ".jpg"
+    }
 
     fun onRfidTagSelected(rfidElement: ReceivedRfidDataViewModel) {
         toolDataManager.rfid = listOf()

@@ -25,6 +25,7 @@ def versions = [
         'mapUtils'        : '0.4.4',
         'downloader'      : '0.6.0',
         'videoPlayer'     : '0.1.25-full',
+        'ijkPlayer'       : '0.8.8-full',
         'zip4j'           : '2.6.4',
         'camerax_version' : '1.1.0-alpha01'
 
@@ -113,6 +114,8 @@ dependencies {
 
     //VideoPlayer
     api "com.github.tcking:giraffeplayer2:$versions.videoPlayer"
+
+   
 
     //Unzip
     implementation "net.lingala.zip4j:zip4j:$versions.zip4j"

@@ -26,10 +26,13 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.CreatorWeathe
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.WeatherSettingsListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolControlViewModel
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.displaytoolphoto.DisplayToolPhotoViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.FindToolTagViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.ToolManagementViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.ToolListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolname.ToolNameViewModel
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams.ToolParamsViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.ToolParamsViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.tooltagphoto.ToolTagPhotoViewModel
 import eu.agribot.agribotapp.ui.fragment.ttcontrol.TTControlViewModel
 import eu.agribot.agribotapp.ui.fragment.weather.WeatherViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -269,4 +272,20 @@ val viewModelModule = module {
             resourcesProvider = get { parametersOf(context) }
         )
     }
+
+    viewModel { (context: Context) ->
+        ToolTagPhotoViewModel(
+        permissionManager = get(),
+        toolDataManager = get(),
+        toolManagementService = get())
+    }
+
+    viewModel {
+        FindToolTagViewModel()
+    }
+
+    viewModel {
+        DisplayToolPhotoViewModel(toolDataManager = get())
+    }
+
 }

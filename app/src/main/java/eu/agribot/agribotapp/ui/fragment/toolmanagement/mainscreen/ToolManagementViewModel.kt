@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
+import eu.agribot.agribotapp.common.navigation.events.ShotToolPhotoNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolNameNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolParamsNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
@@ -37,7 +38,7 @@ class ToolManagementViewModel(
 
     fun onNewToolButtonClicked() {
         navigationEvent.postValue(
-            ToolNameNavigationEvent()
+            ShotToolPhotoNavigationEvent()
         )
     }
 

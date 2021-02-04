@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.data
+package eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.data
 
 enum class TagRfidFormatter(val formatElement: String) {
 

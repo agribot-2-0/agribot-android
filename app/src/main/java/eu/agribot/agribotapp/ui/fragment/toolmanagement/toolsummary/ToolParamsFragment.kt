@@ -1,6 +1,8 @@
 package eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import eu.agribot.agribotapp.R
@@ -11,19 +13,15 @@ import eu.agribot.agribotapp.common.navigation.events.ToolNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentToolManagementParamsBinding
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.data.AntennaNumber
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.recycler.ReceivedRfidDataAdapter
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.recycler.ReceivedRfidDataViewModel
-import kotlinx.android.synthetic.main.fragment_tool_management_params.antennaGroup
-import kotlinx.android.synthetic.main.fragment_tool_management_params.backAntenna
-import kotlinx.android.synthetic.main.fragment_tool_management_params.bothAntenna
-import kotlinx.android.synthetic.main.fragment_tool_management_params.frontAntenna
-import kotlinx.android.synthetic.main.fragment_tool_management_params.params_recycler
-import kotlinx.android.synthetic.main.fragment_tool_management_params.tagRfidRecycler
+import kotlinx.android.synthetic.main.fragment_display_tool_photo.*
+import kotlinx.android.synthetic.main.fragment_tool_management_params.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import java.io.File
 
 class ToolParamsFragment :
     BaseFragment<ToolParamsViewModel, FragmentToolManagementParamsBinding>() {
@@ -42,13 +40,26 @@ class ToolParamsFragment :
         observeViewModel()
         viewModel.createToolsList()
         setupRecyclers()
+
+
+        val imgFile = File(getOutputDirectory().toString() + viewModel.getToolPhotoName())
+
+        Log.e("xd", "image file: " + imgFile)
+
+        if (imgFile.exists()) {
+            val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
+            val myImage = tool_photo
+            myImage.setImageBitmap(myBitmap)
+        }
+
+
     }
 
     @ExperimentalCoroutinesApi
     private fun observeViewModel() {
         viewModel.paramsList.observe(this::addParams)
         viewModel.noRfidTagDataEvent.observe(this::showNoRfidDialogBox)
-        viewModel.isScanOperation.observe(this::getButtonIdNumber)
+       // viewModel.isScanOperation.observe(this::getButtonIdNumber)
         viewModel.rfidReceivedData.observe(this::appendRfidTagData)
     }
 
@@ -62,6 +73,7 @@ class ToolParamsFragment :
         viewModel.onRfidTagSelected(rfidElement)
     }
 
+    /*
     @ExperimentalCoroutinesApi
     private fun getButtonIdNumber(isScanOperation: Boolean) {
         if (isScanOperation)
@@ -79,12 +91,17 @@ class ToolParamsFragment :
             }
     }
 
+
+     */
     private fun setupRecyclers() {
         params_recycler.adapter = hitchRecyclerAdapter
         params_recycler.layoutManager = LinearLayoutManager(requireActivity())
 
+        /*
         tagRfidRecycler.adapter = rfidDataAdapter
         tagRfidRecycler.layoutManager = LinearLayoutManager(requireActivity())
+
+         */
     }
 
     private fun appendRfidTagData(tagData: List<ReceivedRfidDataViewModel>) {
@@ -114,5 +131,13 @@ class ToolParamsFragment :
 
     private fun navigateToToolManagement() {
         navigationController?.navigate(R.id.action_toolManagementParamsFragment_to_toolManagementFragment)
+    }
+
+    private fun getOutputDirectory(): File {
+        val mediaDir = requireActivity().externalMediaDirs.firstOrNull()?.let {
+            File(it, resources.getString(R.string.app_name)).apply { mkdirs() }
+        }
+        return if (mediaDir != null && mediaDir.exists())
+            mediaDir else requireActivity().filesDir
     }
 }

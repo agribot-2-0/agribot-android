@@ -246,7 +246,7 @@
     <string name="both_antenna_scan">Skan obiema antenami</string>
     <string name="back_antenna_scan">Skan tylnią anteną</string>
     <string name="start_scan">Rozpocznij skanowanie</string>
-    <string name="found_rfid_tags">Znalenione tagi:</string>
+    <string name="found_rfid_tags">Znalezione tagi:</string>
     <string name="rfid_data">Dane:</string>
     <string name="antena_name">Antena :</string>
     <string name="path_deleted_message">Ścieżka usunięta pomyślnie</string>
@@ -266,5 +266,8 @@
     <string name="summary_tool_tag">RFID Tag Narzędzia:  %1$S</string>
     <string name="take_photo_failed">Zrobienie zdjęcia nie powiodło się</string>
     <string name="use_camera_failed">Użycie kamery niemożliwe</string>
+    <string name="find_tool">Znajdź narzędzie</string>
+    <string name="set_tool_parameters">Ustaw parametry narzędzia</string>
+    <string name="summary">Podsumowanie</string>
 
 </resources>

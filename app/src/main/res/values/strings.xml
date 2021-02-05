@@ -284,6 +284,9 @@
     <string name="summary_tool_tag">Tool RFID Tag:  %1$S</string>
     <string name="take_photo_failed">Take photo failed</string>
     <string name="use_camera_failed">Use camera failed</string>
+    <string name="find_tool">Find Tool</string>
+    <string name="set_tool_parameters">Set Tool Parameters</string>
+    <string name="summary">Summary</string>
 
 
 </resources>

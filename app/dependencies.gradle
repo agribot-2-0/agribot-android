@@ -24,8 +24,8 @@ def versions = [
 		'firestorage'     : '19.2.0',
 		'mapUtils'        : '0.4.4',
 		'downloader'      : '0.6.0',
+		'ijkPlayer'		: '0.8.8-full',
 		'videoPlayer'     : '0.1.25-full',
-		'ijkPlayer'       : '0.8.8-full',
 		'zip4j'           : '2.6.4',
 		'camerax' : '1.1.0-alpha01',
 		'glide'           : '4.11.0'
@@ -119,6 +119,12 @@ dependencies {
 	//Glide
 	implementation 'com.github.bumptech.glide:glide:4.12.0'
 	annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+
+	//ijkPlayer
+	api "com.github.tcking:ijkplayer-arm64:$versions.ijkPlayer" //support arm64
+	api "com.github.tcking:ijkplayer-armv5:$versions.ijkPlayer" //support armv5
+	api "com.github.tcking:ijkplayer-x86:$versions.ijkPlayer" //support x86
+	api "com.github.tcking:ijkplayer-x86_64:$versions.ijkPlayer" //support x86_64
 
 	//Unzip
 	implementation "net.lingala.zip4j:zip4j:$versions.zip4j"

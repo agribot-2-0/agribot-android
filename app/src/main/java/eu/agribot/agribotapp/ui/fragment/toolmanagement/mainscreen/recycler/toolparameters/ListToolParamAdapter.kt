@@ -38,5 +38,6 @@ class ListToolParamAdapter :
         val item = items[position]
         holder.bind(item)
         holder.itemView.tool_value_tx.text = item.paramValue.toString()
+        holder.itemView.tool_param_value.isEnabled = false
     }
 }

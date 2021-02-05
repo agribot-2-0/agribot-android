@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.dialog.DialogManager
@@ -41,20 +42,15 @@ class ToolParamsFragment :
         observeViewModel()
         viewModel.createToolsList()
         setupRecyclers()
-
-
-        val imgFile = File(getOutputDirectory().toString() + viewModel.getToolPhotoName())
-
-        Log.e("xd", "image file: " + imgFile)
-
-        if (imgFile.exists()) {
-            val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
-            val myImage = tool_photo
-            myImage.setImageBitmap(myBitmap)
-        }
-
-
+        setToolPhoto()
     }
+
+    private fun setToolPhoto(){
+        Glide.with(requireContext())
+            .load(getOutputDirectory().toString() + viewModel.getToolPhotoName())
+            .into(tool_photo)
+    }
+
 
     @ExperimentalCoroutinesApi
     private fun observeViewModel() {

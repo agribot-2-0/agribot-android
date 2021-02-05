@@ -27,7 +27,8 @@ def versions = [
         'videoPlayer'     : '0.1.25-full',
         'ijkPlayer'       : '0.8.8-full',
         'zip4j'           : '2.6.4',
-        'camerax_version' : '1.1.0-alpha01'
+        'camerax' : '1.1.0-alpha01',
+        'glide'           : '4.11.0'
 
 
 ]
@@ -115,26 +116,29 @@ dependencies {
     //VideoPlayer
     api "com.github.tcking:giraffeplayer2:$versions.videoPlayer"
 
-   
+   //Glide
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+
 
     //Unzip
     implementation "net.lingala.zip4j:zip4j:$versions.zip4j"
 
     // CameraX core library
     def camerax_version = '1.0.0-rc01'
-    implementation "androidx.camera:camera-core:$camerax_version"
+    implementation "androidx.camera:camera-core:$versions.camerax"
 
     // CameraX Camera2 extensions
-    implementation "androidx.camera:camera-camera2:$camerax_version"
+    implementation "androidx.camera:camera-camera2:$versions.camerax"
 
     // CameraX Lifecycle library
-    implementation "androidx.camera:camera-lifecycle:$camerax_version"
+    implementation "androidx.camera:camera-lifecycle:$versions.camerax"
 
     // CameraX View class
-    implementation 'androidx.camera:camera-view:1.0.0-alpha20'
+    implementation "androidx.camera:camera-view:1.0.0-alpha20"
 
     // Glide
-    implementation 'com.github.bumptech.glide:glide:4.11.0'
-    kapt 'com.github.bumptech.glide:compiler:4.11.0'
+    implementation "com.github.bumptech.glide:glide:$versions.glide"
+    kapt "com.github.bumptech.glide:compiler:$versions.glide"
 
 }

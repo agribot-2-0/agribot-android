@@ -4,6 +4,7 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import com.bumptech.glide.Glide
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
@@ -21,24 +22,19 @@ class DisplayToolPhotoFragment : BaseFragment<DisplayToolPhotoViewModel, Fragmen
     override val layoutResourceId: Int = R.layout.fragment_display_tool_photo
     override val viewModel: DisplayToolPhotoViewModel by viewModel { parametersOf(requireContext()) }
 
-
     override fun bindViewVariables(viewBinding: FragmentDisplayToolPhotoBinding) {
         viewBinding.viewModel = viewModel
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setToolPhoto()
+    }
 
-        val imgFile = File(getOutputDirectory().toString() + viewModel.getToolPhotoName())
-
-        Log.e("xd", "image file: " + imgFile)
-
-        if (imgFile.exists()) {
-            val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
-            val myImage = imageView4
-            myImage.setImageBitmap(myBitmap)
-        }
-
+    private fun setToolPhoto(){
+        Glide.with(requireContext())
+            .load(getOutputDirectory().toString() + viewModel.getToolPhotoName())
+            .into(imageView4)
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {

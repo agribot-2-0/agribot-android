@@ -6,6 +6,7 @@ import android.view.View
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.dialog.DialogManager
@@ -21,9 +22,11 @@ import eu.agribot.agribotapp.ui.fragment.swiperecyclerutils.SwipeRecyclerHelper
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.ToolListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.ToolListItemViewModel
 import kotlinx.android.synthetic.main.fragment_tool_management.*
+import kotlinx.android.synthetic.main.fragment_tool_management_summary.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import java.io.File
 
 class ToolManagementFragment :
     BaseFragment<ToolManagementViewModel, FragmentToolManagementBinding>() {
@@ -45,7 +48,23 @@ class ToolManagementFragment :
 
     private fun onItemClicked(toolListItemViewModel: ToolListItemViewModel) {
         viewModel.onToolSelected(toolListItemViewModel)
+        setToolPhoto()
     }
+
+    private fun setToolPhoto(){
+        Glide.with(requireContext())
+            .load(getOutputDirectory().toString() + viewModel.getToolPhotoName())
+            .into(main_screen_tool_photo)
+    }
+
+    private fun getOutputDirectory(): File {
+        val mediaDir = requireActivity().externalMediaDirs.firstOrNull()?.let {
+            File(it, resources.getString(R.string.app_name)).apply { mkdirs() }
+        }
+        return if (mediaDir != null && mediaDir.exists())
+            mediaDir else requireActivity().filesDir
+    }
+
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,7 +73,10 @@ class ToolManagementFragment :
         setupRecycler()
         viewModel.getAvailableTool()
         viewModel.toolList.observe(this::addToToolList)
+        setSeekBarsListener()
+    }
 
+    private fun setSeekBarsListener(){
         // TODO Remove it when seekbars moved to tiles
         seekbar_tpl_up_down.setOnTouchListener { _, _ -> true }
         seekbar_tpl_push_pull.setOnTouchListener { _, _ -> true }
@@ -114,8 +136,6 @@ class ToolManagementFragment :
     private fun navigateToToolName() {
         navigationController?.navigate(R.id.action_toolManagementFragment_to_toolManagementNameFragment)
     }
-
-
 
     private fun handleToolManagementSummaryNavigationEvent() {
         navigationController?.navigate(R.id.action_toolManagementFragment_to_toolManagementSummaryFragment)

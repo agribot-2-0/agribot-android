@@ -93,15 +93,12 @@
                 android:background="@drawable/rounded_corner_layout"
                 android:orientation="vertical">
 
-                <TextView
+                <ImageView
+                    android:id="@+id/main_screen_tool_photo"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/margin_small"
-                    android:background="@android:color/black"
-                    android:gravity="center"
-                    android:text="@string/tool_picture"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold" />
+                    android:gravity="center" />
 
             </LinearLayout>
 

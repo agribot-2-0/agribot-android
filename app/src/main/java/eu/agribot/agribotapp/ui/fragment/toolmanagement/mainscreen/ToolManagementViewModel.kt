@@ -37,6 +37,12 @@ class ToolManagementViewModel(
     val vMaxValue: MutableLiveData<Int> = MutableLiveData()
     val vMaxString: MutableLiveData<String> = MutableLiveData()
 
+
+
+    fun getToolPhotoName() : String{
+        return toolDataManager.getToolPhotoPathName()
+    }
+
     fun onNewToolButtonClicked() {
         navigationEvent.postValue(
             ToolNameNavigationEvent()

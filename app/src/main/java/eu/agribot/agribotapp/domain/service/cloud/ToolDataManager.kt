@@ -26,4 +26,8 @@ class ToolDataManager {
         yellow = toolDetails.yellow
         vMax = toolDetails.vMax
     }
+
+    fun getToolPhotoPathName() : String{
+       return "/$toolName.jpg"
+    }
 }

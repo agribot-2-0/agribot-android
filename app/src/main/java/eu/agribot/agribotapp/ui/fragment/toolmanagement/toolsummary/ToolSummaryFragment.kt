@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
@@ -12,6 +13,7 @@ import eu.agribot.agribotapp.common.navigation.events.ToolNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentToolManagementSummaryBinding
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
+import kotlinx.android.synthetic.main.fragment_tool_management_params.*
 import kotlinx.android.synthetic.main.fragment_tool_management_summary.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -32,17 +34,14 @@ class ToolSummaryFragment : BaseFragment<ToolSummaryViewModel, FragmentToolManag
         viewModel.setSummaryParameters()
         setupRecycler()
         viewModel.paramsList.observe(this::addParams)
+        setToolPhoto()
+    }
 
-        val imgFile = File(getOutputDirectory().toString() + viewModel.getToolPhotoName())
 
-        Log.e("xd", "image file: " + imgFile)
-
-        if (imgFile.exists()) {
-            val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
-            val myImage = summary_tool_photo
-            myImage.setImageBitmap(myBitmap)
-        }
-
+    private fun setToolPhoto(){
+        Glide.with(requireContext())
+            .load(getOutputDirectory().toString() + viewModel.getToolPhotoName())
+            .into(summary_tool_photo)
     }
 
 

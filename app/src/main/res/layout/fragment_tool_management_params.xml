@@ -29,12 +29,12 @@
 
             <TextView
                 android:id="@+id/textView4"
-                android:layout_width="200dp"
-                android:layout_height="60dp"
-                android:layout_marginStart="36dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_xxlarge"
                 android:textSize="@dimen/text_size_xlarge"
                 android:gravity="center"
-                android:text="Set Tool Parameters"
+                android:text="@string/set_tool_parameters"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -101,11 +101,11 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/right_button"
-                android:layout_width="200dp"
-                android:layout_height="60dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/margin_large"
                 android:onClick="@{()-> viewModel.onSummaryButtonClicked()}"
-                android:text="Summary"
+                android:text="@string/summary"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

@@ -23,6 +23,7 @@ class FindToolTagViewModel(
     private val resourcesProvider: ResourcesProvider,
     private val toolManagementService: ToolManagementService
 ) : BaseViewModel() {
+
     private val selectedRfidTagList: MutableLiveData<List<Int>> = MutableLiveData(listOf())
     val rfidReceivedData: MutableLiveData<List<ReceivedRfidDataViewModel>> =
         MutableLiveData(listOf())
@@ -43,7 +44,7 @@ class FindToolTagViewModel(
     fun scanRfid(antennaNumber: Int) = viewModelScope.launch {
         toolManagementService.scanRfidTags(
             RfidParameters(
-                comNumber = 1,
+                comNumber = DEFAULT_COM_NUMBER,
                 antennaNumber = antennaNumber
             )
         )
@@ -123,5 +124,9 @@ class FindToolTagViewModel(
     private fun clearRfidData() {
         rfidReceivedData.value = listOf()
         toolManagementService.clearRfidData()
+    }
+
+    companion object {
+        const val DEFAULT_COM_NUMBER = 1
     }
 }

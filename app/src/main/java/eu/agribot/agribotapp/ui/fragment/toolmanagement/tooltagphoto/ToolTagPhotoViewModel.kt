@@ -22,7 +22,7 @@ class ToolTagPhotoViewModel(
     }
 
     fun getToolPhotoName(): String {
-        return toolDataManager.toolName + ".jpg"
+        return toolDataManager.getToolPhotoPathName()
     }
 
     fun shotToolPhoto() {

@@ -48,12 +48,12 @@ class ToolManagementFragment :
 
     private fun onItemClicked(toolListItemViewModel: ToolListItemViewModel) {
         viewModel.onToolSelected(toolListItemViewModel)
-        setToolPhoto(toolListItemViewModel.toolName)
+        setToolPhoto()
     }
 
-    private fun setToolPhoto(toolName: String) {
+    private fun setToolPhoto() {
         Glide.with(requireContext())
-            .load(getOutputDirectory().toString() + "/" + toolName + ".jpg")
+            .load(getOutputDirectory().toString() + viewModel.getToolPhotoFileName())
             .into(main_tool_photo)
     }
 

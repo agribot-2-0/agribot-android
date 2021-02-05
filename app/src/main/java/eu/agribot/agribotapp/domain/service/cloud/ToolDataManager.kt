@@ -1,6 +1,7 @@
 package eu.agribot.agribotapp.domain.service.cloud
 
 import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
+import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePath.TOOL_PHOTO_FILE_TYPE
 
 class ToolDataManager {
     private val initString = ""
@@ -28,6 +29,6 @@ class ToolDataManager {
     }
 
     fun getToolPhotoPathName(): String {
-        return "/$toolName.jpg"
+        return "/$toolName$TOOL_PHOTO_FILE_TYPE"
     }
 }

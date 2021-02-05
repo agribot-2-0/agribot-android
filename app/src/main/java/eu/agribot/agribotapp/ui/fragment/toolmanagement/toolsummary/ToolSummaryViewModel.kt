@@ -49,7 +49,7 @@ class ToolSummaryViewModel(
     }
 
     fun getToolPhotoName(): String {
-        return "/" + toolDataManager.toolName + ".jpg"
+        return toolDataManager.getToolPhotoPathName()
     }
 
     fun sendToolData() {

@@ -1,8 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.toolmanagement.tooltagphoto
 
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
@@ -75,7 +73,7 @@ class ToolTagPhotoFragment : BaseFragment<ToolTagPhotoViewModel, FragmentCreateP
                     this, cameraSelector, preview, imageCapture, imageAnalyzer
                 )
             } catch (exc: Exception) {
-                Log.e("xd", "Use case binding failed", exc)
+                showToast(getString(R.string.use_camera_failed))
             }
         }, ContextCompat.getMainExecutor(requireContext()))
     }
@@ -100,12 +98,10 @@ class ToolTagPhotoFragment : BaseFragment<ToolTagPhotoViewModel, FragmentCreateP
             ContextCompat.getMainExecutor(requireContext()),
             object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
-                    Log.e("xd", "Photo capture failed: ${exc.message}", exc)
+                    showToast(getString(R.string.take_photo_failed))
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    val savedUri = Uri.fromFile(photoFile)
-                    val msg = "Photo capture succeeded: $savedUri"
                     navigateToDisplayPhotoFragment()
                 }
             })

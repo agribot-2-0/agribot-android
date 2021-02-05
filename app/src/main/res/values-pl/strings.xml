@@ -264,6 +264,7 @@
 
     <string name="summary_tool_name">Nazwa Narzędzia:  %1$S</string>
     <string name="summary_tool_tag">RFID Tag Narzędzia:  %1$S</string>
-
+    <string name="take_photo_failed">Zrobienie zdjęcia nie powiodło się</string>
+    <string name="use_camera_failed">Użycie kamery niemożliwe</string>
 
 </resources>

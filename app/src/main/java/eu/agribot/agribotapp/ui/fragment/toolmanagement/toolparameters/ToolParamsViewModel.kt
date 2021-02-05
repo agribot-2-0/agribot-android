@@ -12,7 +12,6 @@ import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.HitchListItemDetail
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.data.ToolRecylerItemId
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparameters.recycler.ReceivedRfidDataViewModel
 
 class ToolParamsViewModel(
     private val toolDataManager: ToolDataManager,
@@ -20,26 +19,12 @@ class ToolParamsViewModel(
     private val cloudDatabaseService: CloudDatabaseService
 ) : BaseViewModel() {
     private val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
-    private val selectedRfidTagList: MutableLiveData<List<Int>> = MutableLiveData(listOf())
     private val toolRfidTag: MutableLiveData<String> = MutableLiveData()
     val paramsList: MutableLiveData<List<HitchListItemViewModel>> =
         MutableLiveData(listOf())
 
     fun getToolPhotoName(): String {
         return toolDataManager.getToolPhotoPathName()
-    }
-
-    fun onRfidTagSelected(rfidElement: ReceivedRfidDataViewModel) {
-        toolDataManager.rfid = listOf()
-
-        rfidElement.rfidTagDataArray.forEach { rfifTagSingleByte ->
-            selectedRfidTagList.value =
-                listOf(
-                    rfifTagSingleByte.toInt(),
-                    *selectedRfidTagList.value!!.toTypedArray()
-                )
-        }
-        toolDataManager.rfid = selectedRfidTagList.value!!
     }
 
     private fun addToolParamItemsToRecycler() {

@@ -20,6 +20,7 @@ class ToolManagementViewModel(
     private val cloudDatabaseService: CloudDatabaseService,
     private val toolDataManager: ToolDataManager
 ) : BaseViewModel() {
+
     val toolList: MutableLiveData<List<ToolListItemViewModel>> = MutableLiveData(listOf())
     val listToolParamList: MutableLiveData<List<ListToolParamViewModel>> = MutableLiveData(listOf())
     val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
@@ -120,6 +121,10 @@ class ToolManagementViewModel(
                 }
             }
         }
+    }
+
+    fun getToolPhotoFileName(): String {
+        return toolDataManager.getToolPhotoPathName()
     }
 
     fun onNewToolButtonClicked() {

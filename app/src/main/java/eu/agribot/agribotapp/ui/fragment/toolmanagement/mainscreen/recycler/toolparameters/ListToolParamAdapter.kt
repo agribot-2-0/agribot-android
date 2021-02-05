@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import eu.agribot.agribotapp.databinding.ListItemToolParamBinding
 import kotlinx.android.synthetic.main.list_item_tool_param.view.*
 
-class ListToolParamAdapter  :
+class ListToolParamAdapter :
     RecyclerView.Adapter<ListToolParamViewHolder>() {
 
     var items = listOf<ListToolParamViewModel>()
@@ -22,7 +22,6 @@ class ListToolParamAdapter  :
                 field = value
             }.dispatchUpdatesTo(this)
         }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListToolParamViewHolder =
         ListToolParamViewHolder(

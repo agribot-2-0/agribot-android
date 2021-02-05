@@ -2,7 +2,6 @@ package eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -52,7 +51,7 @@ class ToolManagementFragment :
         setToolPhoto(toolListItemViewModel.toolName)
     }
 
-    private fun setToolPhoto(toolName : String){
+    private fun setToolPhoto(toolName: String) {
         Glide.with(requireContext())
             .load(getOutputDirectory().toString() + "/" + toolName + ".jpg")
             .into(main_tool_photo)
@@ -66,7 +65,6 @@ class ToolManagementFragment :
             mediaDir else requireActivity().filesDir
     }
 
-
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -77,7 +75,7 @@ class ToolManagementFragment :
         viewModel.listToolParamList.observe(this::addToolParamItem)
     }
 
-    private fun addToolParamItem(listToolParamItem : List<ListToolParamViewModel>){
+    private fun addToolParamItem(listToolParamItem: List<ListToolParamViewModel>) {
         toolParamAdapter.items = listToolParamItem
     }
 
@@ -86,7 +84,7 @@ class ToolManagementFragment :
         setupToolParamRecycler()
     }
 
-    private fun setupToolsNameRecycler(){
+    private fun setupToolsNameRecycler() {
         main_tool_name_recycler.adapter = toolListAdapter
         main_tool_name_recycler.layoutManager = LinearLayoutManager(requireActivity())
         main_tool_name_recycler.addItemDecoration(
@@ -104,9 +102,9 @@ class ToolManagementFragment :
         ).attachToRecyclerView(main_tool_name_recycler)
     }
 
-    private fun setupToolParamRecycler(){
+    private fun setupToolParamRecycler() {
         main_tool_parameter_recycler.adapter = toolParamAdapter
-        main_tool_parameter_recycler.layoutManager =  LinearLayoutManager(requireActivity())
+        main_tool_parameter_recycler.layoutManager = LinearLayoutManager(requireActivity())
     }
 
     private fun deleteButton(position: Int): SwipeHelper.UnderlayButton {

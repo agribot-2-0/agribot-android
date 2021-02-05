@@ -16,28 +16,26 @@ class ToolSummaryViewModel(
     private val toolDataManager: ToolDataManager,
     private val cloudDatabaseService: CloudDatabaseService,
     private val resourcesProvider: ResourcesProvider
-    ): BaseViewModel() {
+) : BaseViewModel() {
 
-    val toolName : MutableLiveData<String> = MutableLiveData()
-    val toolRfidTag : MutableLiveData<String> = MutableLiveData()
+    val toolName: MutableLiveData<String> = MutableLiveData()
+    val toolRfidTag: MutableLiveData<String> = MutableLiveData()
     val paramsList: MutableLiveData<List<ListToolParamViewModel>> =
         MutableLiveData(listOf())
 
-
-    fun setSummaryParameters(){
+    fun setSummaryParameters() {
         setToolName()
         setToolTag()
         setAllParameters()
     }
 
-    private fun setToolName(){
-        toolName.value = String.format(resourcesProvider.getString(R.string.summary_tool_name),toolDataManager.toolName)
+    private fun setToolName() {
+        toolName.value = String.format(resourcesProvider.getString(R.string.summary_tool_name), toolDataManager.toolName)
     }
 
-    private fun setToolTag(){
-        toolRfidTag.value = String.format(resourcesProvider.getString(R.string.summary_tool_tag),getDisplayRfidTag(toolDataManager.rfid))
+    private fun setToolTag() {
+        toolRfidTag.value = String.format(resourcesProvider.getString(R.string.summary_tool_tag), getDisplayRfidTag(toolDataManager.rfid))
     }
-
 
     private fun getDisplayRfidTag(tagIDArray: List<Int>): String {
         var rfidTagHexString = ""
@@ -50,11 +48,11 @@ class ToolSummaryViewModel(
         return rfidTagHexString
     }
 
-    fun getToolPhotoName() : String{
+    fun getToolPhotoName(): String {
         return "/" + toolDataManager.toolName + ".jpg"
     }
 
-    fun sendToolData(){
+    fun sendToolData() {
         cloudDatabaseService.addTool(
             toolName = toolDataManager.toolName,
             toolDetails = ToolDetails(
@@ -71,13 +69,13 @@ class ToolSummaryViewModel(
         )
     }
 
-    private fun onAddNewToolSucess(){
+    private fun onAddNewToolSucess() {
         navigationEvent.postValue(
             ToolNavigationEvent()
         )
     }
 
-    private fun setAllParameters(){
+    private fun setAllParameters() {
         toolDataManager.let {
             addToParamList(getTplUpDownItem(it.tplUpDown.toInt()))
             addToParamList(getTplPushItem(it.tplPushPull.toInt()))
@@ -85,74 +83,67 @@ class ToolSummaryViewModel(
             addToParamList(getBlueFlowItem(it.blue.toInt()))
             addToParamList(getYellowFlowItem(it.yellow.toInt()))
             addToParamList(getGreenFlowItem(it.green.toInt()))
-            addToParamList( getVelocityItem(it.vMax.toInt()))
+            addToParamList(getVelocityItem(it.vMax.toInt()))
         }
-
     }
 
-    private fun getTplUpDownItem(tplUpDownValue: Int) : ListToolParamViewModel {
+    private fun getTplUpDownItem(tplUpDownValue: Int): ListToolParamViewModel {
         return ListToolParamViewModel(
             ListToolParamItem.TPL_UP_DOWN.toolParamId,
             resourcesProvider.getString(R.string.tpl_up_down),
-            tplUpDownValue,resourcesProvider.getString(R.string.rpm)
+            tplUpDownValue, resourcesProvider.getString(R.string.rpm)
         )
     }
 
-    private fun getTplPushItem(tplPushValue: Int) : ListToolParamViewModel{
+    private fun getTplPushItem(tplPushValue: Int): ListToolParamViewModel {
         return ListToolParamViewModel(
             ListToolParamItem.TPL_PUSH_PULL.toolParamId,
             resourcesProvider.getString(R.string.tpl_push_pull),
-            tplPushValue,resourcesProvider.getString(R.string.rpm)
+            tplPushValue, resourcesProvider.getString(R.string.rpm)
         )
-
     }
 
-    private fun getPtoItemItem(ptoValue : Int): ListToolParamViewModel {
+    private fun getPtoItemItem(ptoValue: Int): ListToolParamViewModel {
         return ListToolParamViewModel(
             ListToolParamItem.PTO.toolParamId,
             resourcesProvider.getString(R.string.pto),
-            ptoValue,resourcesProvider.getString(R.string.rpm)
+            ptoValue, resourcesProvider.getString(R.string.rpm)
         )
-
     }
 
-    private fun getBlueFlowItem(blueFlowValue: Int): ListToolParamViewModel{
+    private fun getBlueFlowItem(blueFlowValue: Int): ListToolParamViewModel {
         return ListToolParamViewModel(
             ListToolParamItem.BLUE_FLOW.toolParamId,
             resourcesProvider.getString(R.string.blue_flow),
-            blueFlowValue,resourcesProvider.getString(R.string.rpm)
+            blueFlowValue, resourcesProvider.getString(R.string.rpm)
         )
-
     }
 
-    private fun getYellowFlowItem(yellowFlowValue : Int) : ListToolParamViewModel{
-        return  ListToolParamViewModel(
+    private fun getYellowFlowItem(yellowFlowValue: Int): ListToolParamViewModel {
+        return ListToolParamViewModel(
             ListToolParamItem.YELLOW_FLOW.toolParamId,
-            resourcesProvider.getString(R.string.yellow_flow),yellowFlowValue,
+            resourcesProvider.getString(R.string.yellow_flow), yellowFlowValue,
             resourcesProvider.getString(R.string.rpm)
         )
-
     }
 
-    private fun getGreenFlowItem(greenFlowValue: Int) : ListToolParamViewModel{
+    private fun getGreenFlowItem(greenFlowValue: Int): ListToolParamViewModel {
         return ListToolParamViewModel(
             ListToolParamItem.GREEN_FLOW.toolParamId,
             resourcesProvider.getString(R.string.green_flow),
-            greenFlowValue,resourcesProvider.getString(R.string.rpm)
+            greenFlowValue, resourcesProvider.getString(R.string.rpm)
         )
-
     }
 
-    private fun getVelocityItem(velocityVmaxValue: Int) : ListToolParamViewModel{
+    private fun getVelocityItem(velocityVmaxValue: Int): ListToolParamViewModel {
         return ListToolParamViewModel(
             ListToolParamItem.VELOCITY.toolParamId,
             resourcesProvider.getString(R.string.v_max),
-            velocityVmaxValue,resourcesProvider.getString(R.string.rpm)
+            velocityVmaxValue, resourcesProvider.getString(R.string.rpm)
         )
-
     }
 
-    private fun addToParamList(listToolParam : ListToolParamViewModel){
+    private fun addToParamList(listToolParam: ListToolParamViewModel) {
         val isAttributeAlreadyAdded = paramsList.value!!.any { arrtibute ->
             arrtibute.toolParamID == listToolParam.toolParamID
         }
@@ -181,5 +172,4 @@ class ToolSummaryViewModel(
             }
         }
     }
-
 }

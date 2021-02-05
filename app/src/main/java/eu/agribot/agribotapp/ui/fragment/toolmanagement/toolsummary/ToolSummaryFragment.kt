@@ -30,7 +30,7 @@ class ToolSummaryFragment : BaseFragment<ToolSummaryViewModel, FragmentToolManag
         setToolPhoto()
     }
 
-    private fun setToolPhoto(){
+    private fun setToolPhoto() {
         Glide.with(requireContext())
             .load(getOutputDirectory().toString() + viewModel.getToolPhotoName())
             .into(summary_tool_photo)
@@ -41,14 +41,13 @@ class ToolSummaryFragment : BaseFragment<ToolSummaryViewModel, FragmentToolManag
         else -> Unit
     }
 
-    private fun handleToolNavigationEvent(){
+    private fun handleToolNavigationEvent() {
         navigationController?.navigate(R.id.action_toolManagementSummaryFragment_to_toolManagementFragment)
     }
 
     private fun setupRecycler() {
         summary_params_recycler.adapter = hitchRecyclerAdapter
         summary_params_recycler.layoutManager = LinearLayoutManager(requireActivity())
-
     }
 
     private fun addParams(tools: List<ListToolParamViewModel>) {

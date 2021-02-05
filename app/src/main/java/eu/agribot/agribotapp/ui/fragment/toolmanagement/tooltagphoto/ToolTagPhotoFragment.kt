@@ -14,11 +14,12 @@ import androidx.core.content.ContextCompat
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.databinding.FragmentCreatePhotoBinding
-import kotlinx.android.synthetic.main.fragment_create_photo.*
+import kotlinx.android.synthetic.main.fragment_create_photo.view_finder
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.io.File
-import java.util.concurrent.*
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 typealias LumaListener = (luma: Double) -> Unit
 
@@ -30,7 +31,6 @@ class ToolTagPhotoFragment : BaseFragment<ToolTagPhotoViewModel, FragmentCreateP
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var outputDirectory: File
 
-
     override fun bindViewVariables(viewBinding: FragmentCreatePhotoBinding) {
         viewBinding.viewModel = viewModel
     }
@@ -41,7 +41,6 @@ class ToolTagPhotoFragment : BaseFragment<ToolTagPhotoViewModel, FragmentCreateP
         viewModel.takePhotoEvent.observe(this::takePhoto)
         cameraExecutor = Executors.newSingleThreadExecutor()
         outputDirectory = getOutputDirectory()
-
     }
 
     private fun startCamera() {
@@ -64,7 +63,6 @@ class ToolTagPhotoFragment : BaseFragment<ToolTagPhotoViewModel, FragmentCreateP
             val imageAnalyzer = ImageAnalysis.Builder()
                 .build()
 
-
             // Select back camera as a default
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
@@ -76,15 +74,13 @@ class ToolTagPhotoFragment : BaseFragment<ToolTagPhotoViewModel, FragmentCreateP
                 cameraProvider.bindToLifecycle(
                     this, cameraSelector, preview, imageCapture, imageAnalyzer
                 )
-
             } catch (exc: Exception) {
                 Log.e("xd", "Use case binding failed", exc)
             }
-
         }, ContextCompat.getMainExecutor(requireContext()))
     }
 
-    private fun takePhoto(isTakePhotoAction : Boolean) {
+    private fun takePhoto(isTakePhotoAction: Boolean) {
         // Get a stable reference of the modifiable image capture use case
         val imageCapture = imageCapture ?: return
 
@@ -123,8 +119,7 @@ class ToolTagPhotoFragment : BaseFragment<ToolTagPhotoViewModel, FragmentCreateP
             mediaDir else requireActivity().filesDir
     }
 
-    private fun navigateToDisplayPhotoFragment(){
+    private fun navigateToDisplayPhotoFragment() {
         navigationController?.navigate(R.id.action_shotToolPhoto_to_displayToolPhoto)
     }
-
 }

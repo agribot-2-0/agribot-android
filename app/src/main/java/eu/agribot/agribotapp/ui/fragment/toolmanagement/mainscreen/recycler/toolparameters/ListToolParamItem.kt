@@ -1,6 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toolparameters
 
-enum class ListToolParamItem (val toolParamId : Int) {
+enum class ListToolParamItem(val toolParamId: Int) {
 
     TPL_UP_DOWN(0),
 

@@ -24,7 +24,7 @@ class ToolManagementViewModel(
     val listToolParamList: MutableLiveData<List<ListToolParamViewModel>> = MutableLiveData(listOf())
     val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
 
-    private fun setAllParameters(toolDetails: ToolDetails){
+    private fun setAllParameters(toolDetails: ToolDetails) {
         toolDetails.let {
             addToParamList(getTplUpDownItem(it))
             addToParamList(getTplPushItem(it))
@@ -32,77 +32,70 @@ class ToolManagementViewModel(
             addToParamList(getBlueFlowItem(it))
             addToParamList(getYellowFlowItem(it))
             addToParamList(getGreenFlowItem(it))
-            addToParamList( getVelocityItem(it))
+            addToParamList(getVelocityItem(it))
         }
-
     }
 
-    private fun getTplUpDownItem(toolDetails: ToolDetails) : ListToolParamViewModel {
-       return ListToolParamViewModel(
-           ListToolParamItem.TPL_UP_DOWN.toolParamId,
-           resourcesProvider.getString(R.string.tpl_up_down),
-           toolDetails.tplUpDown.toInt(),resourcesProvider.getString(R.string.rpm)
-       )
+    private fun getTplUpDownItem(toolDetails: ToolDetails): ListToolParamViewModel {
+        return ListToolParamViewModel(
+            ListToolParamItem.TPL_UP_DOWN.toolParamId,
+            resourcesProvider.getString(R.string.tpl_up_down),
+            toolDetails.tplUpDown.toInt(), resourcesProvider.getString(R.string.rpm)
+        )
     }
 
-    private fun getTplPushItem(toolDetails: ToolDetails) : ListToolParamViewModel{
+    private fun getTplPushItem(toolDetails: ToolDetails): ListToolParamViewModel {
         return ListToolParamViewModel(
             ListToolParamItem.TPL_PUSH_PULL.toolParamId,
             resourcesProvider.getString(R.string.tpl_push_pull),
-            toolDetails.tplPushPull.toInt(),resourcesProvider.getString(R.string.rpm)
+            toolDetails.tplPushPull.toInt(), resourcesProvider.getString(R.string.rpm)
         )
-
     }
 
     private fun getPtoItemItem(toolDetails: ToolDetails): ListToolParamViewModel {
         return ListToolParamViewModel(
             ListToolParamItem.PTO.toolParamId,
             resourcesProvider.getString(R.string.pto),
-            toolDetails.pto.toInt(),resourcesProvider.getString(R.string.rpm)
+            toolDetails.pto.toInt(), resourcesProvider.getString(R.string.rpm)
         )
-
     }
 
-    private fun getBlueFlowItem(toolDetails: ToolDetails): ListToolParamViewModel{
+    private fun getBlueFlowItem(toolDetails: ToolDetails): ListToolParamViewModel {
         return ListToolParamViewModel(
             ListToolParamItem.BLUE_FLOW.toolParamId,
             resourcesProvider.getString(R.string.blue_flow),
-            toolDetails.blue.toInt(),resourcesProvider.getString(R.string.rpm)
+            toolDetails.blue.toInt(), resourcesProvider.getString(R.string.rpm)
         )
-
     }
 
-    private fun getYellowFlowItem(toolDetails: ToolDetails) : ListToolParamViewModel{
-        return  ListToolParamViewModel(
+    private fun getYellowFlowItem(toolDetails: ToolDetails): ListToolParamViewModel {
+        return ListToolParamViewModel(
             ListToolParamItem.YELLOW_FLOW.toolParamId,
-            resourcesProvider.getString(R.string.yellow_flow),toolDetails.yellow.toInt(),
+            resourcesProvider.getString(R.string.yellow_flow), toolDetails.yellow.toInt(),
             resourcesProvider.getString(R.string.rpm)
         )
-
     }
 
-    private fun getGreenFlowItem(toolDetails: ToolDetails) : ListToolParamViewModel{
+    private fun getGreenFlowItem(toolDetails: ToolDetails): ListToolParamViewModel {
         return ListToolParamViewModel(
             ListToolParamItem.GREEN_FLOW.toolParamId,
             resourcesProvider.getString(R.string.green_flow),
-            toolDetails.green.toInt(),resourcesProvider.getString(R.string.rpm)
+            toolDetails.green.toInt(), resourcesProvider.getString(R.string.rpm)
         )
-
     }
 
-    private fun getVelocityItem(toolDetails: ToolDetails) : ListToolParamViewModel{
+    private fun getVelocityItem(toolDetails: ToolDetails): ListToolParamViewModel {
         return ListToolParamViewModel(
             ListToolParamItem.VELOCITY.toolParamId,
             resourcesProvider.getString(R.string.v_max),
-            toolDetails.vMax.toInt(),resourcesProvider.getString(R.string.rpm)
+            toolDetails.vMax.toInt(), resourcesProvider.getString(R.string.rpm)
         )
-
     }
 
-    private fun addToParamList(listToolParam : ListToolParamViewModel){
+    private fun addToParamList(listToolParam: ListToolParamViewModel) {
         val isAttributeAlreadyAdded = listToolParamList.value!!.any { arrtibute ->
-        arrtibute.toolParamID == listToolParam.toolParamID
-    }
+            arrtibute.toolParamID == listToolParam.toolParamID
+        }
         if (!isAttributeAlreadyAdded)
             listToolParamList.value = listOf(
                 *listToolParamList.value!!.toTypedArray(),

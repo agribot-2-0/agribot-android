@@ -22,12 +22,11 @@ class LuminosityAnalyzer(listener: LumaListener? = null) : ImageAnalysis.Analyze
      * Helper extension function used to extract a byte array from an image plane buffer
      */
     private fun ByteBuffer.toByteArray(): ByteArray {
-        rewind()    // Rewind the buffer to zero
+        rewind() // Rewind the buffer to zero
         val data = ByteArray(remaining())
-        get(data)   // Copy the buffer into a byte array
+        get(data) // Copy the buffer into a byte array
         return data // Return the byte array
     }
-
 
     override fun analyze(image: ImageProxy) {
         // If there are no listeners attached, we don't need to perform analysis

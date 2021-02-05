@@ -31,7 +31,6 @@ class FindToolTagFragment :
         viewBinding.viewModel = viewModel
     }
 
-
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
         is ShotToolPhotoNavigationEvent -> navigateToShotPhoto()
         else -> Unit
@@ -45,24 +44,21 @@ class FindToolTagFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecycler()
-       observeViewModel()
-
+        observeViewModel()
     }
 
     @ExperimentalCoroutinesApi
-    private fun observeViewModel(){
+    private fun observeViewModel() {
         viewModel.isScanOperation.observe(this::getButtonIdNumber)
         viewModel.rfidReceivedData.observe(this::appendRfidTagData)
         viewModel.noRfidTagDataEvent.observe(this::showNoRfidDialogBox)
-
     }
 
     private fun appendRfidTagData(tagData: List<ReceivedRfidDataViewModel>) {
         rfidDataAdapter.items = tagData
     }
 
-
-    private fun setupRecycler(){
+    private fun setupRecycler() {
         found_tool_recycler.adapter = rfidDataAdapter
         found_tool_recycler.layoutManager = LinearLayoutManager(requireActivity())
     }
@@ -85,12 +81,10 @@ class FindToolTagFragment :
         viewModel.onRfidTagSelected(rfidElement)
     }
 
+    @ExperimentalCoroutinesApi
     private fun showNoRfidDialogBox(isNoFoundTagOperation: Boolean) {
         if (isNoFoundTagOperation) {
             dialogManager.showNoFoundRfidTagDialog(onRepeatScanConfirmed = viewModel::startRfidScan)
         }
     }
-
-
-
 }

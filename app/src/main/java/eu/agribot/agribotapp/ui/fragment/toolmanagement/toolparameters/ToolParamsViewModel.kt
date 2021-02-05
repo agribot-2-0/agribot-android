@@ -1,47 +1,31 @@
 package eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparameters
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolManagementSummaryNavigationEvent
-import eu.agribot.agribotapp.common.navigation.events.ToolNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
-import eu.agribot.agribotapp.domain.model.fromdomain.RfidParameters
-import eu.agribot.agribotapp.domain.model.todomain.RfidData
-import eu.agribot.agribotapp.domain.service.ToolManagementService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.HitchListItemDetail
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.data.AntennaNumber
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.data.TagRfidFormatter
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.data.ToolRecylerItemId
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparameters.recycler.ReceivedRfidDataViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 class ToolParamsViewModel(
     private val toolDataManager: ToolDataManager,
     private val resourcesProvider: ResourcesProvider,
-    private val cloudDatabaseService: CloudDatabaseService,
-    private val toolManagementService: ToolManagementService
+    private val cloudDatabaseService: CloudDatabaseService
 ) : BaseViewModel() {
     private val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
     private val selectedRfidTagList: MutableLiveData<List<Int>> = MutableLiveData(listOf())
     private val toolRfidTag: MutableLiveData<String> = MutableLiveData()
-    val rfidReceivedData: MutableLiveData<List<ReceivedRfidDataViewModel>> =
-        MutableLiveData(listOf())
-    val noRfidTagDataEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
-    val isScanOperation: MutableLiveEvent<Boolean> = MutableLiveEvent()
     val paramsList: MutableLiveData<List<HitchListItemViewModel>> =
         MutableLiveData(listOf())
 
-
-    fun getToolPhotoName() : String{
+    fun getToolPhotoName(): String {
         return toolDataManager.getToolPhotoPathName()
     }
 
@@ -110,8 +94,6 @@ class ToolParamsViewModel(
         )
     }
 
-
-
     fun onHitchParametersChanged(
         sliderNumber: Int,
         sliderValue: Int
@@ -174,24 +156,6 @@ class ToolParamsViewModel(
         }
     }
 
-    fun sendToolData() {
-        postToolManagementNavigationEvent()
-        cloudDatabaseService.addTool(
-            toolName = toolDataManager.toolName,
-            toolDetails = ToolDetails(
-                rfid = toolDataManager.rfid,
-                pto = toolDataManager.pto,
-                tplPushPull = toolDataManager.tplPushPull,
-                tplUpDown = toolDataManager.tplUpDown,
-                blue = toolDataManager.blue,
-                yellow = toolDataManager.yellow,
-                green = toolDataManager.green,
-                vMax = toolDataManager.vMax
-            ),
-            onSucess = this::onSuccess
-        )
-    }
-
     fun createToolsList() {
         cloudDatabaseService.getToolDetails(
             toolName = toolDataManager.toolName,
@@ -207,98 +171,11 @@ class ToolParamsViewModel(
         addToolParamItemsToRecycler()
     }
 
-    private fun postToolManagementNavigationEvent() {
-        navigationEvent.postValue(
-            ToolNavigationEvent()
-        )
-    }
-
     private fun postToastErrorMessageEvent(errorMessage: String) {
         toastMessageEvent.postValue(errorMessage)
     }
 
-    private fun onSuccess() {
-        toastMessageEvent.postValue(resourcesProvider.getString(R.string.add_tool_success))
-    }
-
-    fun startRfidScan() {
-        isScanOperation.postValue(true)
-        clearRfidData()
-    }
-
-    @ExperimentalCoroutinesApi
-    fun scanRfid(antennaNumber: Int) = viewModelScope.launch {
-        toolManagementService.scanRfidTags(
-            RfidParameters(
-                comNumber = 1,
-                antennaNumber = antennaNumber
-            )
-        )
-        getRfidData()
-    }
-
-    @ExperimentalCoroutinesApi
-    private fun getRfidData() {
-        viewModelScope.launch {
-            toolManagementService.observeRfidDataFlow().collect { receivedRfidData ->
-                if (receivedRfidData != null) {
-                    if (receivedRfidData.antennaNumber == AntennaNumber.NO_ANTENNA.number) {
-                        noRfidTagDataEvent.postValue(true)
-                    } else {
-                        onGotRfidData(receivedRfidData)
-                    }
-                }
-            }
-        }
-    }
-
-    private fun onGotRfidData(rfidData: RfidData) {
-        val isTagalreadyAdded = rfidReceivedData.value!!.any { foundTool ->
-            foundTool.rfidTagDataArray.contentEquals(rfidData.tagIDNumber)
-        }
-        if (!isTagalreadyAdded) {
-            rfidReceivedData.value = listOf(
-                ReceivedRfidDataViewModel(
-                    antennaNumber = getAntennaName(rfidData.antennaNumber),
-                    rfidTagData = getDisplayRfidTag(rfidData.tagIDNumber),
-                    rfidTagDataArray = rfidData.tagIDNumber
-                ), *rfidReceivedData.value!!.toTypedArray()
-            )
-        }
-    }
-
-    private fun getDisplayRfidTag(tagIDArray: ByteArray): String {
-        var rfidTagHexString = ""
-        tagIDArray.reversedArray().forEach {
-            rfidTagHexString += String.format(
-                TagRfidFormatter.NUMBER_FORMAT.formatElement,
-                it
-            ) + TagRfidFormatter.NUMBER_SEPARATOR.formatElement
-        }
-        return rfidTagHexString
-    }
-
-    private fun getAntennaName(antenaNumber: Int): String {
-        return when (antenaNumber) {
-
-            AntennaNumber.FRONT_ANTENNA.number -> {
-                resourcesProvider.getString(R.string.front_antenna)
-            }
-
-            AntennaNumber.BACK_ANTENNA.number -> {
-                resourcesProvider.getString(R.string.back_antenna)
-            }
-
-            else -> resourcesProvider.getString(R.string.both_antenna)
-        }
-    }
-
-    fun onSummaryButtonClicked(){
+    fun onSummaryButtonClicked() {
         navigationEvent.postValue(ToolManagementSummaryNavigationEvent())
-    }
-
-    private fun clearRfidData() {
-        rfidReceivedData.value = listOf()
-        toolManagementService.clearRfidData()
     }
 }

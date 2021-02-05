@@ -29,7 +29,7 @@ import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewM
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.displaytoolphoto.DisplayToolPhotoViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.FindToolTagViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.ToolManagementViewModel
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.ToolListItemViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toollist.ToolListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolname.ToolNameViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparameters.ToolParamsViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.ToolSummaryViewModel
@@ -247,8 +247,7 @@ val viewModelModule = module {
         ToolParamsViewModel(
             toolDataManager = get(),
             resourcesProvider = get { parametersOf(context) },
-            cloudDatabaseService = get(),
-            toolManagementService = get()
+            cloudDatabaseService = get()
         )
     }
 
@@ -274,11 +273,11 @@ val viewModelModule = module {
         )
     }
 
-    viewModel { (context: Context) ->
+    viewModel {
         ToolTagPhotoViewModel(
         permissionManager = get(),
-        toolDataManager = get(),
-        toolManagementService = get())
+        toolDataManager = get()
+        )
     }
 
     viewModel {(context: Context) ->

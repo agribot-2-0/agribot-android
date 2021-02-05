@@ -9,9 +9,9 @@ import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
 import java.io.File
 
 class ToolTagPhotoViewModel(
-    private val permissionManager: PermissionManager, private val toolDataManager: ToolDataManager,
-    private val toolManagementService: ToolManagementService
-) : BaseViewModel() {
+    private val permissionManager: PermissionManager,
+    private val toolDataManager: ToolDataManager
+    ) : BaseViewModel() {
     val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val takePhotoEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
 
@@ -25,10 +25,6 @@ class ToolTagPhotoViewModel(
 
     fun getToolPhotoName() : String{
         return toolDataManager.toolName + ".jpg"
-    }
-
-    fun getPhotoSourceFile(): File {
-        return toolManagementService.getImageFile(toolDataManager.toolName)
     }
 
     fun shotToolPhoto() {

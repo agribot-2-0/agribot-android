@@ -10,9 +10,7 @@ import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.model.fromdomain.RfidParameters
 import eu.agribot.agribotapp.domain.model.todomain.RfidData
 import eu.agribot.agribotapp.domain.service.ToolManagementService
-import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.data.AntennaNumber
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.data.TagRfidFormatter
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparameters.recycler.ReceivedRfidDataViewModel
@@ -20,22 +18,22 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class FindToolTagViewModel(private val toolDataManager: ToolDataManager,
-                           private val resourcesProvider: ResourcesProvider,
-                           private val toolManagementService: ToolManagementService
-) : BaseViewModel()  {
-    private val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
+class FindToolTagViewModel(
+    private val toolDataManager: ToolDataManager,
+    private val resourcesProvider: ResourcesProvider,
+    private val toolManagementService: ToolManagementService
+) : BaseViewModel() {
     private val selectedRfidTagList: MutableLiveData<List<Int>> = MutableLiveData(listOf())
     val rfidReceivedData: MutableLiveData<List<ReceivedRfidDataViewModel>> =
         MutableLiveData(listOf())
     val noRfidTagDataEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
     val isScanOperation: MutableLiveEvent<Boolean> = MutableLiveEvent()
 
-
-    fun onNextButtonClicked(){
+    fun onNextButtonClicked() {
         navigationEvent.postValue(ShotToolPhotoNavigationEvent())
     }
 
+    @ExperimentalCoroutinesApi
     fun startRfidScan() {
         isScanOperation.postValue(true)
         clearRfidData()
@@ -121,6 +119,7 @@ class FindToolTagViewModel(private val toolDataManager: ToolDataManager,
         toolDataManager.rfid = selectedRfidTagList.value!!
     }
 
+    @ExperimentalCoroutinesApi
     private fun clearRfidData() {
         rfidReceivedData.value = listOf()
         toolManagementService.clearRfidData()

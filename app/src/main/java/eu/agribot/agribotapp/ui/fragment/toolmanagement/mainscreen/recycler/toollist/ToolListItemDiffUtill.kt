@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler
+package eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toollist
 
 import androidx.recyclerview.widget.DiffUtil
 

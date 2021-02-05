@@ -27,7 +27,7 @@ class ToolDataManager {
         vMax = toolDetails.vMax
     }
 
-    fun getToolPhotoPathName() : String{
-       return "/$toolName.jpg"
+    fun getToolPhotoPathName(): String {
+        return "/$toolName.jpg"
     }
 }

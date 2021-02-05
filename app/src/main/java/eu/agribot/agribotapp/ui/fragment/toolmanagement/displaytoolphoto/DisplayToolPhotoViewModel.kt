@@ -7,15 +7,15 @@ import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
 
 class DisplayToolPhotoViewModel(private val toolDataManager: ToolDataManager) : BaseViewModel() {
 
-    fun getToolPhotoName() : String{
+    fun getToolPhotoName(): String {
         return toolDataManager.getToolPhotoPathName()
     }
 
-    fun onPhotoRepeatButtonClicked(){
+    fun onPhotoRepeatButtonClicked() {
         navigationEvent.postValue(ShotToolPhotoNavigationEvent())
     }
 
-    fun onNextButtonClicked(){
+    fun onNextButtonClicked() {
         navigationEvent.postValue(ToolNavigationEvent())
     }
 }

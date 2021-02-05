@@ -1,26 +1,18 @@
 package eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparameters
 
-import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
-import eu.agribot.agribotapp.common.dialog.DialogManager
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolManagementSummaryNavigationEvent
-import eu.agribot.agribotapp.common.navigation.events.ToolNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentToolManagementParamsBinding
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparameters.recycler.ReceivedRfidDataAdapter
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparameters.recycler.ReceivedRfidDataViewModel
-import kotlinx.android.synthetic.main.fragment_display_tool_photo.*
 import kotlinx.android.synthetic.main.fragment_tool_management_params.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.io.File
@@ -30,9 +22,6 @@ class ToolParamsFragment :
 
     override val layoutResourceId: Int = R.layout.fragment_tool_management_params
     override val viewModel: ToolParamsViewModel by viewModel { parametersOf(requireContext()) }
-    private val dialogManager: DialogManager by inject { parametersOf(requireContext()) }
-    private var rfidDataAdapter =
-        ReceivedRfidDataAdapter(onItemCLicked = this::onRfidDataElementClicked)
     private val hitchRecyclerAdapter =
         HitchListItemAdapter(this::onHitchRecyclerParametersChanged)
 
@@ -45,64 +34,20 @@ class ToolParamsFragment :
         setToolPhoto()
     }
 
-    private fun setToolPhoto(){
+    private fun setToolPhoto() {
         Glide.with(requireContext())
             .load(getOutputDirectory().toString() + viewModel.getToolPhotoName())
             .into(tool_photo)
     }
 
-
     @ExperimentalCoroutinesApi
     private fun observeViewModel() {
         viewModel.paramsList.observe(this::addParams)
-        viewModel.noRfidTagDataEvent.observe(this::showNoRfidDialogBox)
-       // viewModel.isScanOperation.observe(this::getButtonIdNumber)
-        viewModel.rfidReceivedData.observe(this::appendRfidTagData)
     }
 
-    private fun showNoRfidDialogBox(isNoFoundTagOperation: Boolean) {
-        if (isNoFoundTagOperation) {
-            dialogManager.showNoFoundRfidTagDialog(onRepeatScanConfirmed = viewModel::startRfidScan)
-        }
-    }
-
-    private fun onRfidDataElementClicked(rfidElement: ReceivedRfidDataViewModel) {
-        viewModel.onRfidTagSelected(rfidElement)
-    }
-
-    /*
-    @ExperimentalCoroutinesApi
-    private fun getButtonIdNumber(isScanOperation: Boolean) {
-        if (isScanOperation)
-            when (antennaGroup.checkedRadioButtonId) {
-                frontAntenna.id -> {
-                    viewModel.scanRfid(AntennaNumber.FRONT_ANTENNA.number)
-                }
-                backAntenna.id -> {
-                    viewModel.scanRfid(AntennaNumber.BACK_ANTENNA.number)
-                }
-                bothAntenna.id -> {
-                    viewModel.scanRfid(AntennaNumber.BOTH_ANTENNAS.number)
-                }
-                else -> showToast(getString(R.string.no_antenna_selected))
-            }
-    }
-
-
-     */
     private fun setupRecyclers() {
         params_recycler.adapter = hitchRecyclerAdapter
         params_recycler.layoutManager = LinearLayoutManager(requireActivity())
-
-        /*
-        tagRfidRecycler.adapter = rfidDataAdapter
-        tagRfidRecycler.layoutManager = LinearLayoutManager(requireActivity())
-
-         */
-    }
-
-    private fun appendRfidTagData(tagData: List<ReceivedRfidDataViewModel>) {
-        rfidDataAdapter.items = tagData
     }
 
     private fun onHitchRecyclerParametersChanged(
@@ -126,9 +71,8 @@ class ToolParamsFragment :
         else -> Unit
     }
 
-    private fun handleToolManagementSummaryNavigationEvent(){
+    private fun handleToolManagementSummaryNavigationEvent() {
         navigationController?.navigate(R.id.action_toolManagementParamsFragment_to_toolManagementSummaryFragment)
-
     }
 
     private fun getOutputDirectory(): File {

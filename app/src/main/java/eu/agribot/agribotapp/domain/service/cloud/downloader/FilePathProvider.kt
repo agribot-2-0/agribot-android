@@ -31,16 +31,4 @@ class FilePathProvider(private val context: Context) {
             context.applicationContext.filesDir.absolutePath
         }
     }
-
-    fun getPhotoPath(photoName: String): String {
-        return if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()) {
-            val file: File = ContextCompat.getExternalFilesDirs(
-                context.applicationContext,
-                null
-            )[0]
-             file.absolutePath + photoName
-        } else {
-            context.applicationContext.filesDir.absolutePath
-        }
-    }
 }

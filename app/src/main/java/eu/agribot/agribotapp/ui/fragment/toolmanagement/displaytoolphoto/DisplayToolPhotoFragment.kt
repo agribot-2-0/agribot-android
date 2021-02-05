@@ -1,8 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.toolmanagement.displaytoolphoto
 
-import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import com.bumptech.glide.Glide
 import eu.agribot.agribotapp.R
@@ -15,7 +13,6 @@ import kotlinx.android.synthetic.main.fragment_display_tool_photo.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.io.File
-
 
 class DisplayToolPhotoFragment : BaseFragment<DisplayToolPhotoViewModel, FragmentDisplayToolPhotoBinding>() {
 
@@ -31,7 +28,7 @@ class DisplayToolPhotoFragment : BaseFragment<DisplayToolPhotoViewModel, Fragmen
         setToolPhoto()
     }
 
-    private fun setToolPhoto(){
+    private fun setToolPhoto() {
         Glide.with(requireContext())
             .load(getOutputDirectory().toString() + viewModel.getToolPhotoName())
             .into(imageView4)
@@ -43,11 +40,11 @@ class DisplayToolPhotoFragment : BaseFragment<DisplayToolPhotoViewModel, Fragmen
         else -> Unit
     }
 
-    private fun handleShotToolPhotoNavigationEvent(){
+    private fun handleShotToolPhotoNavigationEvent() {
         navigationController?.navigate(R.id.action_displayToolPhoto_to_shotToolPhoto)
     }
 
-    private fun handleToolNavigationEvent(){
+    private fun handleToolNavigationEvent() {
         navigationController?.navigate(R.id.action_displayToolPhoto_to_toolManagementParamsFragment)
     }
 
@@ -58,5 +55,4 @@ class DisplayToolPhotoFragment : BaseFragment<DisplayToolPhotoViewModel, Fragmen
         return if (mediaDir != null && mediaDir.exists())
             mediaDir else requireActivity().filesDir
     }
-
 }

@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
@@ -9,10 +8,9 @@ import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.HitchListItemDetail
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.data.TagRfidFormatter
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.data.ToolRecylerItemId
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toolparameters.ListToolParamItem
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toolparameters.ListToolParamViewModel
 
 class ToolSummaryViewModel(
     private val toolDataManager: ToolDataManager,
@@ -22,14 +20,14 @@ class ToolSummaryViewModel(
 
     val toolName : MutableLiveData<String> = MutableLiveData()
     val toolRfidTag : MutableLiveData<String> = MutableLiveData()
-    val paramsList: MutableLiveData<List<HitchListItemViewModel>> =
+    val paramsList: MutableLiveData<List<ListToolParamViewModel>> =
         MutableLiveData(listOf())
 
 
     fun setSummaryParameters(){
         setToolName()
         setToolTag()
-        addToolParamItemsToRecycler()
+        setAllParameters()
     }
 
     private fun setToolName(){
@@ -38,7 +36,6 @@ class ToolSummaryViewModel(
 
     private fun setToolTag(){
         toolRfidTag.value = String.format(resourcesProvider.getString(R.string.summary_tool_tag),getDisplayRfidTag(toolDataManager.rfid))
-        Log.e("xd"," " + toolDataManager.rfid )
     }
 
 
@@ -80,82 +77,103 @@ class ToolSummaryViewModel(
         )
     }
 
-    private fun addToolParamItemsToRecycler() {
-        addToolToToolParamList(
-            toolName = resourcesProvider.getString(R.string.v_max),
-            switchNumber = ToolRecylerItemId.V_MAX.ID,
-            hitchListItemDetail = HitchListItemDetail(
-                toolStartValue = toolDataManager.vMax.toInt()
-            )
-        )
-        addToolToToolParamList(
-            toolName = resourcesProvider.getString(R.string.green_flow),
-            switchNumber = ToolRecylerItemId.GREEN.ID,
-            hitchListItemDetail = HitchListItemDetail(
-                toolStartValue = toolDataManager.green.toInt()
-            )
-        )
-        addToolToToolParamList(
-            toolName = resourcesProvider.getString(R.string.yellow_flow),
-            switchNumber = ToolRecylerItemId.YELLOW.ID,
-            hitchListItemDetail = HitchListItemDetail(
-                toolStartValue = toolDataManager.yellow.toInt()
-            )
-        )
-        addToolToToolParamList(
-            toolName = resourcesProvider.getString(R.string.blue_flow),
-            switchNumber = ToolRecylerItemId.BLUE.ID,
-            hitchListItemDetail = HitchListItemDetail(
-                toolStartValue = toolDataManager.blue.toInt()
-            )
-        )
-        addToolToToolParamList(
-            toolName = resourcesProvider.getString(R.string.pto),
-            switchNumber = ToolRecylerItemId.PTO.ID,
-            hitchListItemDetail = HitchListItemDetail(
-                toolStartValue = toolDataManager.pto.toInt()
-            )
-        )
-        addToolToToolParamList(
-            toolName = resourcesProvider.getString(R.string.tpl_push_pull),
-            switchNumber = ToolRecylerItemId.TPL_PUSH_PULL.ID,
-            hitchListItemDetail = HitchListItemDetail(
-                toolStartValue = toolDataManager.tplPushPull.toInt()
-            )
-        )
-        addToolToToolParamList(
-            toolName = resourcesProvider.getString(R.string.tpl_up_down),
-            switchNumber = ToolRecylerItemId.TPL_UP_DOWN.ID,
-            hitchListItemDetail = HitchListItemDetail(
-                toolStartValue = toolDataManager.tplUpDown.toInt()
-            )
+    private fun setAllParameters(){
+        toolDataManager.let {
+            addToParamList(getTplUpDownItem(it.tplUpDown.toInt()))
+            addToParamList(getTplPushItem(it.tplPushPull.toInt()))
+            addToParamList(getPtoItemItem(it.pto.toInt()))
+            addToParamList(getBlueFlowItem(it.blue.toInt()))
+            addToParamList(getYellowFlowItem(it.yellow.toInt()))
+            addToParamList(getGreenFlowItem(it.green.toInt()))
+            addToParamList( getVelocityItem(it.vMax.toInt()))
+        }
+
+    }
+
+    private fun getTplUpDownItem(tplUpDownValue: Int) : ListToolParamViewModel {
+        return ListToolParamViewModel(
+            ListToolParamItem.TPL_UP_DOWN.toolParamId,
+            resourcesProvider.getString(R.string.tpl_up_down),
+            tplUpDownValue,resourcesProvider.getString(R.string.rpm)
         )
     }
 
-    private fun addToolToToolParamList(
-        toolName: String,
-        switchNumber: Int,
-        hitchListItemDetail: HitchListItemDetail
-    ) {
-        val isToolAlreadyAdded = paramsList.value!!.any {
-            it.toolName == toolName
-        }
+    private fun getTplPushItem(tplPushValue: Int) : ListToolParamViewModel{
+        return ListToolParamViewModel(
+            ListToolParamItem.TPL_PUSH_PULL.toolParamId,
+            resourcesProvider.getString(R.string.tpl_push_pull),
+            tplPushValue,resourcesProvider.getString(R.string.rpm)
+        )
 
-        if (!isToolAlreadyAdded) {
+    }
+
+    private fun getPtoItemItem(ptoValue : Int): ListToolParamViewModel {
+        return ListToolParamViewModel(
+            ListToolParamItem.PTO.toolParamId,
+            resourcesProvider.getString(R.string.pto),
+            ptoValue,resourcesProvider.getString(R.string.rpm)
+        )
+
+    }
+
+    private fun getBlueFlowItem(blueFlowValue: Int): ListToolParamViewModel{
+        return ListToolParamViewModel(
+            ListToolParamItem.BLUE_FLOW.toolParamId,
+            resourcesProvider.getString(R.string.blue_flow),
+            blueFlowValue,resourcesProvider.getString(R.string.rpm)
+        )
+
+    }
+
+    private fun getYellowFlowItem(yellowFlowValue : Int) : ListToolParamViewModel{
+        return  ListToolParamViewModel(
+            ListToolParamItem.YELLOW_FLOW.toolParamId,
+            resourcesProvider.getString(R.string.yellow_flow),yellowFlowValue,
+            resourcesProvider.getString(R.string.rpm)
+        )
+
+    }
+
+    private fun getGreenFlowItem(greenFlowValue: Int) : ListToolParamViewModel{
+        return ListToolParamViewModel(
+            ListToolParamItem.GREEN_FLOW.toolParamId,
+            resourcesProvider.getString(R.string.green_flow),
+            greenFlowValue,resourcesProvider.getString(R.string.rpm)
+        )
+
+    }
+
+    private fun getVelocityItem(velocityVmaxValue: Int) : ListToolParamViewModel{
+        return ListToolParamViewModel(
+            ListToolParamItem.VELOCITY.toolParamId,
+            resourcesProvider.getString(R.string.v_max),
+            velocityVmaxValue,resourcesProvider.getString(R.string.rpm)
+        )
+
+    }
+
+    private fun addToParamList(listToolParam : ListToolParamViewModel){
+        val isAttributeAlreadyAdded = paramsList.value!!.any { arrtibute ->
+            arrtibute.toolParamID == listToolParam.toolParamID
+        }
+        if (!isAttributeAlreadyAdded)
             paramsList.value = listOf(
-                HitchListItemViewModel(
-                    toolName = toolName,
-                    switchNumber = switchNumber,
-                    hitchListItemDetail = hitchListItemDetail
-                ), *paramsList.value!!.toTypedArray()
+                *paramsList.value!!.toTypedArray(),
+                ListToolParamViewModel(
+                    listToolParam.toolParamID,
+                    listToolParam.paramName,
+                    listToolParam.paramValue,
+                    listToolParam.paramUnit
+                )
             )
-        } else {
+        else {
             paramsList.value = paramsList.value!!.map { oldAttribute ->
-                if (oldAttribute.toolName == toolName) {
-                    HitchListItemViewModel(
-                        toolName = toolName,
-                        switchNumber = switchNumber,
-                        hitchListItemDetail = hitchListItemDetail
+                if (oldAttribute.toolParamID == listToolParam.toolParamID) {
+                    ListToolParamViewModel(
+                        oldAttribute.toolParamID,
+                        oldAttribute.paramName,
+                        listToolParam.paramValue,
+                        oldAttribute.paramUnit
                     )
                 } else {
                     oldAttribute

@@ -8,6 +8,10 @@ apply from: "releasesigning.gradle"
 apply from: "buildtypes.gradle"
 apply plugin: 'com.google.gms.google-services'
 
+dependencies {
+    implementation 'androidx.cardview:cardview:1.0.0'
+}
+
 android {
 	compileSdkVersion 29
 	buildToolsVersion "29.0.3"

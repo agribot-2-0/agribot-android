@@ -4,16 +4,16 @@ import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
-import eu.agribot.agribotapp.common.navigation.events.ShotToolPhotoNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolManagementSummaryNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolNameNavigationEvent
-import eu.agribot.agribotapp.common.navigation.events.ToolParamsNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
-import eu.agribot.agribotapp.domain.model.cdb.ToolItem
 import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
+import eu.agribot.agribotapp.domain.model.cdb.ToolItem
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.ToolListItemViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toollist.ToolListItemViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toolparameters.ListToolParamItem
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toolparameters.ListToolParamViewModel
 
 class ToolManagementViewModel(
     private val resourcesProvider: ResourcesProvider,
@@ -21,26 +21,112 @@ class ToolManagementViewModel(
     private val toolDataManager: ToolDataManager
 ) : BaseViewModel() {
     val toolList: MutableLiveData<List<ToolListItemViewModel>> = MutableLiveData(listOf())
+    val listToolParamList: MutableLiveData<List<ListToolParamViewModel>> = MutableLiveData(listOf())
     val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
-    val ptoValue: MutableLiveData<Int> = MutableLiveData()
-    val ptoString: MutableLiveData<String> = MutableLiveData()
-    val tplUpDownValue: MutableLiveData<Int> = MutableLiveData()
-    val tplUpDownString: MutableLiveData<String> = MutableLiveData()
-    val tplPushPullValue: MutableLiveData<Int> = MutableLiveData()
-    val tplPushPullString: MutableLiveData<String> = MutableLiveData()
-    val greenValue: MutableLiveData<Int> = MutableLiveData()
-    val greenString: MutableLiveData<String> = MutableLiveData()
-    val yellowValue: MutableLiveData<Int> = MutableLiveData()
-    val yellowString: MutableLiveData<String> = MutableLiveData()
-    val blueValue: MutableLiveData<Int> = MutableLiveData()
-    val blueString: MutableLiveData<String> = MutableLiveData()
-    val vMaxValue: MutableLiveData<Int> = MutableLiveData()
-    val vMaxString: MutableLiveData<String> = MutableLiveData()
 
+    private fun setAllParameters(toolDetails: ToolDetails){
+        toolDetails.let {
+            addToParamList(getTplUpDownItem(it))
+            addToParamList(getTplPushItem(it))
+            addToParamList(getPtoItemItem(it))
+            addToParamList(getBlueFlowItem(it))
+            addToParamList(getYellowFlowItem(it))
+            addToParamList(getGreenFlowItem(it))
+            addToParamList( getVelocityItem(it))
+        }
 
+    }
 
-    fun getToolPhotoName() : String{
-        return toolDataManager.getToolPhotoPathName()
+    private fun getTplUpDownItem(toolDetails: ToolDetails) : ListToolParamViewModel {
+       return ListToolParamViewModel(
+           ListToolParamItem.TPL_UP_DOWN.toolParamId,
+           resourcesProvider.getString(R.string.tpl_up_down),
+           toolDetails.tplUpDown.toInt(),resourcesProvider.getString(R.string.rpm)
+       )
+    }
+
+    private fun getTplPushItem(toolDetails: ToolDetails) : ListToolParamViewModel{
+        return ListToolParamViewModel(
+            ListToolParamItem.TPL_PUSH_PULL.toolParamId,
+            resourcesProvider.getString(R.string.tpl_push_pull),
+            toolDetails.tplPushPull.toInt(),resourcesProvider.getString(R.string.rpm)
+        )
+
+    }
+
+    private fun getPtoItemItem(toolDetails: ToolDetails): ListToolParamViewModel {
+        return ListToolParamViewModel(
+            ListToolParamItem.PTO.toolParamId,
+            resourcesProvider.getString(R.string.pto),
+            toolDetails.pto.toInt(),resourcesProvider.getString(R.string.rpm)
+        )
+
+    }
+
+    private fun getBlueFlowItem(toolDetails: ToolDetails): ListToolParamViewModel{
+        return ListToolParamViewModel(
+            ListToolParamItem.BLUE_FLOW.toolParamId,
+            resourcesProvider.getString(R.string.blue_flow),
+            toolDetails.blue.toInt(),resourcesProvider.getString(R.string.rpm)
+        )
+
+    }
+
+    private fun getYellowFlowItem(toolDetails: ToolDetails) : ListToolParamViewModel{
+        return  ListToolParamViewModel(
+            ListToolParamItem.YELLOW_FLOW.toolParamId,
+            resourcesProvider.getString(R.string.yellow_flow),toolDetails.yellow.toInt(),
+            resourcesProvider.getString(R.string.rpm)
+        )
+
+    }
+
+    private fun getGreenFlowItem(toolDetails: ToolDetails) : ListToolParamViewModel{
+        return ListToolParamViewModel(
+            ListToolParamItem.GREEN_FLOW.toolParamId,
+            resourcesProvider.getString(R.string.green_flow),
+            toolDetails.green.toInt(),resourcesProvider.getString(R.string.rpm)
+        )
+
+    }
+
+    private fun getVelocityItem(toolDetails: ToolDetails) : ListToolParamViewModel{
+        return ListToolParamViewModel(
+            ListToolParamItem.VELOCITY.toolParamId,
+            resourcesProvider.getString(R.string.v_max),
+            toolDetails.vMax.toInt(),resourcesProvider.getString(R.string.rpm)
+        )
+
+    }
+
+    private fun addToParamList(listToolParam : ListToolParamViewModel){
+        val isAttributeAlreadyAdded = listToolParamList.value!!.any { arrtibute ->
+        arrtibute.toolParamID == listToolParam.toolParamID
+    }
+        if (!isAttributeAlreadyAdded)
+            listToolParamList.value = listOf(
+                *listToolParamList.value!!.toTypedArray(),
+                ListToolParamViewModel(
+                    listToolParam.toolParamID,
+                    listToolParam.paramName,
+                    listToolParam.paramValue,
+                    listToolParam.paramUnit
+                )
+            )
+        else {
+            listToolParamList.value = listToolParamList.value!!.map { oldAttribute ->
+                if (oldAttribute.toolParamID == listToolParam.toolParamID) {
+                    ListToolParamViewModel(
+                        oldAttribute.toolParamID,
+                        oldAttribute.paramName,
+                        listToolParam.paramValue,
+                        oldAttribute.paramUnit
+                    )
+                } else {
+                    oldAttribute
+                }
+            }
+        }
     }
 
     fun onNewToolButtonClicked() {
@@ -59,22 +145,7 @@ class ToolManagementViewModel(
 
     private fun onGetToolDetails(toolDetails: ToolDetails) {
         toolDataManager.updateAllToolParameters(toolDetails)
-        ptoValue.value = toolDetails.pto.toInt()
-        tplUpDownValue.value = toolDetails.tplUpDown.toInt()
-        tplPushPullValue.value = toolDetails.tplPushPull.toInt()
-        greenValue.value = toolDetails.green.toInt()
-        yellowValue.value = toolDetails.yellow.toInt()
-        blueValue.value = toolDetails.blue.toInt()
-        vMaxValue.value = toolDetails.vMax.toInt()
-
-        // TODO refactor displaing data to tiles, right now it is harcoded
-        ptoString.value = toolDetails.pto.toString() + " RPM"
-        tplUpDownString.value = toolDetails.tplUpDown.toString() + " RPM"
-        tplPushPullString.value = toolDetails.tplPushPull.toString() + " RPM"
-        greenString.value = toolDetails.green.toString() + " RPM"
-        yellowString.value = toolDetails.yellow.toString() + " RPM"
-        blueString.value = toolDetails.blue.toString() + " RPM"
-        vMaxString.value = toolDetails.vMax.toString() + " RPM"
+        setAllParameters(toolDetails)
     }
 
     fun onDeleteButtonClicked(positionOnList: Int) {

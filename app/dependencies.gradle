@@ -135,10 +135,14 @@ dependencies {
     implementation "androidx.camera:camera-lifecycle:$versions.camerax"
 
     // CameraX View class
-    implementation "androidx.camera:camera-view:1.0.0-alpha20"
+    implementation "androidx.camera:camera-view:1.0.0-alpha21"
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$versions.glide"
     kapt "com.github.bumptech.glide:compiler:$versions.glide"
+
+    //swipe recycler
+    implementation 'com.ernestoyaquello.dragdropswiperecyclerview:drag-drop-swipe-recyclerview:1.0.0'
+
 
 }

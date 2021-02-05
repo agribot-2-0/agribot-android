@@ -4,7 +4,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageCapture
@@ -64,11 +63,7 @@ class ToolTagPhotoFragment : BaseFragment<ToolTagPhotoViewModel, FragmentCreateP
 
             val imageAnalyzer = ImageAnalysis.Builder()
                 .build()
-                .also {
-                    it.setAnalyzer(cameraExecutor, LuminosityAnalyzer { luma ->
-                        Log.d("xd", "Average luminosity: $luma")
-                    })
-                }
+
 
             // Select back camera as a default
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
@@ -116,7 +111,6 @@ class ToolTagPhotoFragment : BaseFragment<ToolTagPhotoViewModel, FragmentCreateP
                     val savedUri = Uri.fromFile(photoFile)
                     val msg = "Photo capture succeeded: $savedUri"
                     navigateToDisplayPhotoFragment()
-                    Log.d("xd", msg)
                 }
             })
     }

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -10,81 +9,111 @@
             type="eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparameters.ToolParamsViewModel" />
     </data>
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background_gray"
         android:orientation="vertical">
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="@dimen/margin_small"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_corner_layout"
-            android:gravity="end"
-            android:orientation="horizontal">
-
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_xxlarge"
-                android:textSize="@dimen/text_size_xlarge"
-                android:gravity="center"
-                android:text="@string/set_tool_parameters"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_margin="@dimen/margin_small"
-            android:layout_weight="5"
+            android:layout_weight="4"
             android:background="@color/background_gray"
-            android:gravity="center"
             android:orientation="horizontal">
+
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="@dimen/margin_small"
+                android:layout_margin="@dimen/margin_medium"
                 android:layout_weight="1"
-                android:background="@drawable/rounded_corner_layout"
                 android:orientation="vertical">
 
 
-                <ImageView
-                    android:id="@+id/tool_photo"
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/margin_medium" />
+                    android:layout_height="0dp"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:layout_weight="3">
+
+                    <ImageView
+                        android:id="@+id/params_tool_photo"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_margin="@dimen/margin_small"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/rounded_corner_layout"
+                    android:gravity="end"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_xxlarge"
+                        android:gravity="center"
+                        android:textSize="@dimen/text_size_xlarge"
+                        android:text="@{viewModel.toolName}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.cardview.widget.CardView>
+
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_margin="@dimen/margin_small"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/rounded_corner_layout"
+                    android:gravity="end"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_xxlarge"
+                        android:gravity="center"
+                        android:textSize="@dimen/text_size_xlarge"
+                        android:text="@{viewModel.toolRfidTag}"
+
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.cardview.widget.CardView>
+
 
             </LinearLayout>
 
-            <LinearLayout
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="@dimen/margin_small"
-                android:layout_weight="1"
-                android:background="@drawable/rounded_corner_layout"
-                android:orientation="vertical">
+                android:layout_margin="@dimen/margin_medium"
+                android:layout_weight="1">
+
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/params_recycler"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_margin="@dimen/margin_medium"
-                    android:layout_weight="1" />
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/margin_medium" />
 
-            </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
 
         </LinearLayout>
 
@@ -92,8 +121,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_margin="@dimen/margin_small"
-            android:layout_weight="1"
+            android:layout_margin="@dimen/margin_medium"
+            android:layout_weight="0.5"
             android:background="@drawable/rounded_corner_layout"
             android:gravity="end"
             android:orientation="horizontal">
@@ -104,15 +133,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/margin_large"
-                android:onClick="@{()-> viewModel.onSummaryButtonClicked()}"
-                android:text="@string/summary"
+                android:onClick="@{()-> viewModel.sendToolData()}"
+                android:text="@string/button_save"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
     </LinearLayout>
+
 
 </layout>

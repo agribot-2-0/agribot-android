@@ -287,6 +287,9 @@
     <string name="find_tool">Find Tool</string>
     <string name="set_tool_parameters">Set Tool Parameters</string>
     <string name="summary">Summary</string>
+    <string name="repeat_photo">Repeat photo</string>
+    <string name="save_changes">Save Changes</string>
+
 
 
 </resources>

@@ -42,7 +42,7 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:onClick="@{()-> viewModel.onPhotoRepeatButtonClicked()}"
-                android:text="Repeat photo"
+                android:text="@string/repeat_photo"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -54,7 +54,7 @@
                 android:layout_gravity="left"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:onClick="@{()-> viewModel.onNextButtonClicked()}"
-                android:text="Next"
+                android:text="@string/next"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

@@ -11,6 +11,7 @@ import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
 import eu.agribot.agribotapp.domain.model.cdb.ToolItem
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
+import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePath
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toollist.ToolListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toolparameters.ListToolParamItem
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toolparameters.ListToolParamViewModel
@@ -20,7 +21,7 @@ class ToolManagementViewModel(
     private val cloudDatabaseService: CloudDatabaseService,
     private val toolDataManager: ToolDataManager
 ) : BaseViewModel() {
-
+    val setPhotoEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val toolList: MutableLiveData<List<ToolListItemViewModel>> = MutableLiveData(listOf())
     val listToolParamList: MutableLiveData<List<ListToolParamViewModel>> = MutableLiveData(listOf())
     val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
@@ -123,10 +124,6 @@ class ToolManagementViewModel(
         }
     }
 
-    fun getToolPhotoFileName(): String {
-        return toolDataManager.getToolPhotoPathName()
-    }
-
     fun onNewToolButtonClicked() {
         navigationEvent.postValue(
             ToolNameNavigationEvent()
@@ -139,6 +136,11 @@ class ToolManagementViewModel(
             onGetToolDetails = this::onGetToolDetails,
             onGetToolDetailsError = this::postToastErrorMessageEvent
         )
+        setPhotoEvent.postValue(getToolPhotoPathName(toolListItemViewModel.toolName))
+    }
+
+    private fun getToolPhotoPathName(toolName: String): String {
+        return "/$toolName${FilePath.TOOL_PHOTO_FILE_TYPE}"
     }
 
     private fun onGetToolDetails(toolDetails: ToolDetails) {

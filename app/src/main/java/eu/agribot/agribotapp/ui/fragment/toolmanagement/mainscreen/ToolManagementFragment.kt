@@ -48,12 +48,11 @@ class ToolManagementFragment :
 
     private fun onItemClicked(toolListItemViewModel: ToolListItemViewModel) {
         viewModel.onToolSelected(toolListItemViewModel)
-        setToolPhoto()
     }
 
-    private fun setToolPhoto() {
+    private fun setToolPhoto(photoPath: String) {
         Glide.with(requireContext())
-            .load(getOutputDirectory().toString() + viewModel.getToolPhotoFileName())
+            .load(getOutputDirectory().toString() + photoPath)
             .into(main_tool_photo)
     }
 
@@ -71,8 +70,13 @@ class ToolManagementFragment :
         viewModel.toastMessageEvent.observe(this::showToast)
         setupRecycler()
         viewModel.getAvailableTool()
+        observeViewModel()
+    }
+
+    private fun observeViewModel() {
         viewModel.toolList.observe(this::addToToolList)
         viewModel.listToolParamList.observe(this::addToolParamItem)
+        viewModel.setPhotoEvent.observe(this::setToolPhoto)
     }
 
     private fun addToolParamItem(listToolParamItem: List<ListToolParamViewModel>) {

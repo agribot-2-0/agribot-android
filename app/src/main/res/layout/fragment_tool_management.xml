@@ -23,32 +23,6 @@
             android:orientation="vertical"
             android:layout_margin="@dimen/margin_small">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_margin="@dimen/margin_small"
-                android:layout_weight="0.5"
-                android:background="@drawable/rounded_corner_layout"
-                android:gravity="end"
-                android:orientation="horizontal">
-
-
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_xxlarge"
-                    android:textSize="@dimen/text_size_xlarge"
-                    android:gravity="center"
-                    android:text="@string/set_tool_parameters"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.cardview.widget.CardView>
-
-
-
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"

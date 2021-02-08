@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
-import eu.agribot.agribotapp.common.navigation.events.ToolManagementSummaryNavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.ToolNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentToolManagementParamsBinding
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
@@ -37,7 +37,7 @@ class ToolParamsFragment :
     private fun setToolPhoto() {
         Glide.with(requireContext())
             .load(getOutputDirectory().toString() + viewModel.getToolPhotoName())
-            .into(tool_photo)
+            .into(params_tool_photo)
     }
 
     @ExperimentalCoroutinesApi
@@ -67,12 +67,12 @@ class ToolParamsFragment :
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
-        is ToolManagementSummaryNavigationEvent -> handleToolManagementSummaryNavigationEvent()
+        is ToolNavigationEvent -> handleToolManagementNavigationEvent()
         else -> Unit
     }
 
-    private fun handleToolManagementSummaryNavigationEvent() {
-        navigationController?.navigate(R.id.action_toolManagementParamsFragment_to_toolManagementSummaryFragment)
+    private fun handleToolManagementNavigationEvent() {
+        navigationController?.navigate(R.id.action_toolManagementParamsFragment_to_toolManagementFragment)
     }
 
     private fun getOutputDirectory(): File {

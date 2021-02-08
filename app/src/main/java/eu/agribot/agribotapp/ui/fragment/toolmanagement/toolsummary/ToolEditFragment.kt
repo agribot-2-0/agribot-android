@@ -8,19 +8,20 @@ import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolNavigationEvent
-import eu.agribot.agribotapp.databinding.FragmentToolManagementSummaryBinding
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toolparameters.ListToolParamAdapter
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toolparameters.ListToolParamViewModel
-import kotlinx.android.synthetic.main.fragment_tool_management_summary.*
+import eu.agribot.agribotapp.databinding.FragmentToolManagementEditBinding
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemAdapter
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
+import kotlinx.android.synthetic.main.fragment_tool_management_edit.edit_tool_photo
+import kotlinx.android.synthetic.main.fragment_tool_management_edit.params_recycler
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.io.File
 
-class ToolSummaryFragment : BaseFragment<ToolSummaryViewModel, FragmentToolManagementSummaryBinding>() {
+class ToolEditFragment : BaseFragment<ToolEditViewModel, FragmentToolManagementEditBinding>() {
 
-    override val layoutResourceId: Int = R.layout.fragment_tool_management_summary
-    override val viewModel: ToolSummaryViewModel by viewModel { parametersOf(requireContext()) }
-    private val hitchRecyclerAdapter = ListToolParamAdapter()
+    override val layoutResourceId: Int = R.layout.fragment_tool_management_edit
+    override val viewModel: ToolEditViewModel by viewModel { parametersOf(requireContext()) }
+    private val hitchRecyclerAdapter = HitchListItemAdapter(this::onHitchRecyclerParametersChanged)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,7 +34,7 @@ class ToolSummaryFragment : BaseFragment<ToolSummaryViewModel, FragmentToolManag
     private fun setToolPhoto() {
         Glide.with(requireContext())
             .load(getOutputDirectory().toString() + viewModel.getToolPhotoName())
-            .into(summary_tool_photo)
+            .into(edit_tool_photo)
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
@@ -46,11 +47,19 @@ class ToolSummaryFragment : BaseFragment<ToolSummaryViewModel, FragmentToolManag
     }
 
     private fun setupRecycler() {
-        summary_params_recycler.adapter = hitchRecyclerAdapter
-        summary_params_recycler.layoutManager = LinearLayoutManager(requireActivity())
+        params_recycler.adapter = hitchRecyclerAdapter
+        params_recycler.layoutManager = LinearLayoutManager(requireActivity())
     }
 
-    private fun addParams(tools: List<ListToolParamViewModel>) {
+    private fun onHitchRecyclerParametersChanged(
+        sliderNumber: Int,
+        sliderValue: Int,
+        isActivated: Boolean
+    ) {
+        viewModel.onHitchParametersChanged(sliderNumber, sliderValue)
+    }
+
+    private fun addParams(tools: List<HitchListItemViewModel>) {
         hitchRecyclerAdapter.items = tools
     }
 
@@ -62,7 +71,7 @@ class ToolSummaryFragment : BaseFragment<ToolSummaryViewModel, FragmentToolManag
             mediaDir else requireActivity().filesDir
     }
 
-    override fun bindViewVariables(viewBinding: FragmentToolManagementSummaryBinding) {
+    override fun bindViewVariables(viewBinding: FragmentToolManagementEditBinding) {
         viewBinding.viewModel = viewModel
     }
 }

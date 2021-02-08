@@ -32,7 +32,7 @@ import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.ToolManagemen
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toollist.ToolListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolname.ToolNameViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparameters.ToolParamsViewModel
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.ToolSummaryViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.ToolEditViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.tooltagphoto.ToolTagPhotoViewModel
 import eu.agribot.agribotapp.ui.fragment.ttcontrol.TTControlViewModel
 import eu.agribot.agribotapp.ui.fragment.weather.WeatherViewModel
@@ -246,8 +246,9 @@ val viewModelModule = module {
     viewModel { (context: Context) ->
         ToolParamsViewModel(
             toolDataManager = get(),
-            resourcesProvider = get { parametersOf(context) },
-            cloudDatabaseService = get()
+            cloudDatabaseService = get(),
+            resourcesProvider = get { parametersOf(context) }
+
         )
     }
 
@@ -275,13 +276,14 @@ val viewModelModule = module {
 
     viewModel {
         ToolTagPhotoViewModel(
-        permissionManager = get(),
-        toolDataManager = get()
+            permissionManager = get(),
+            toolDataManager = get()
         )
     }
 
     viewModel { (context: Context) ->
-        FindToolTagViewModel(toolDataManager = get(),
+        FindToolTagViewModel(
+            toolDataManager = get(),
             resourcesProvider = get { parametersOf(context) },
             toolManagementService = get()
         )
@@ -292,7 +294,7 @@ val viewModelModule = module {
     }
 
     viewModel { (context: Context) ->
-        ToolSummaryViewModel(
+        ToolEditViewModel(
             resourcesProvider = get { parametersOf(context) },
             toolDataManager = get(),
             cloudDatabaseService = get()

@@ -269,5 +269,9 @@
     <string name="find_tool">Znajdź narzędzie</string>
     <string name="set_tool_parameters">Ustaw parametry narzędzia</string>
     <string name="summary">Podsumowanie</string>
+    <string name="repeat_photo">Powtórz zdjęcie</string>
+    <string name="save_changes">Zapisz zmiany</string>
+
+    save_changes
 
 </resources>

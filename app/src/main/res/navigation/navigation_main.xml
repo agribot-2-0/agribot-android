@@ -139,11 +139,14 @@
         <action
             android:id="@+id/action_toolManagementParamsFragment_to_toolManagementSummaryFragment"
             app:destination="@id/toolManagementSummaryFragment" />
+        <action
+            android:id="@+id/action_toolManagementParamsFragment_to_toolManagementFragment"
+            app:destination="@id/toolManagementFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/toolManagementSummaryFragment"
-        android:name="eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.ToolSummaryFragment"
+        android:name="eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.ToolEditFragment"
         android:label="@string/title_tool_management"
         tools:layout="@layout/fragment_tool_management_params" >
         <action

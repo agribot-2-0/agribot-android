@@ -133,7 +133,7 @@
                 custom:JV_borderWidth="2dp"
                 custom:JV_buttonColor="@color/base_green"
                 custom:JV_backgroundSizeRatio="80%"
-                custom:JV_buttonSizeRatio="25%"
+                custom:JV_buttonSizeRatio="15%"
                 custom:JV_fixedCenter="false" />
 
 

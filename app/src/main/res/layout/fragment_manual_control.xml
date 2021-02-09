@@ -121,13 +121,13 @@
             </LinearLayout>
 
 
-            <io.github.controlwear.virtual.joystick.android.JoystickView xmlns:custom="http://schemas.android.com/apk/res-auto"
+            <io.github.controlwear.virtual.joystick.android.JoystickView
+                xmlns:custom="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/manual_mode_joystick"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                custom:JV_backgroundColor="@android:color/darker_gray"
-                custom:JV_borderColor="@android:color/black"
+                android:background="@drawable/joystick_background"
                 custom:JV_borderWidth="2dp"
                 custom:JV_buttonColor="@android:color/black"
                 custom:JV_buttonSizeRatio="15%"

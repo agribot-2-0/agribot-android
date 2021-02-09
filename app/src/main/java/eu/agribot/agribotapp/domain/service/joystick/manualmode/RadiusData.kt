@@ -20,5 +20,5 @@ enum class RadiusData(val value: Double) {
 
     HARD_FRONT_LEFT(2.toDouble()),
 
-    LOW_FRONT_LEFT(2.toDouble())
+    LOW_FRONT_LEFT(4.toDouble())
 }

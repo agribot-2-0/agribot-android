@@ -1,7 +1,10 @@
 package eu.agribot.agribotapp.domain.service.joystick.manualmode
 
+import android.util.Log
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator.BluetoothMessageCreator
 import eu.agribot.agribotapp.domain.model.fromdomain.ArcParameters
+import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.FORWARD_RANGE_MAX
+import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.FORWARD_RANGE_MIN
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.SPEED_CONVENTER
 
 class ManualSteeringJoystickManager(
@@ -14,7 +17,7 @@ class ManualSteeringJoystickManager(
         val speed = (getSpeedValue(strength))
         val forward = getForwardValue(angle)
 
-        if (angle != 0) {
+        if (speed != 0.toDouble()) {
             sendChangedJoystickParmaetrs(
                 ArcParameters(
                     radius,
@@ -24,6 +27,7 @@ class ManualSteeringJoystickManager(
                 )
             )
         }
+        Log.e("JOYSTICK", " ANGLE : " + angle + " RADIUS: " + radius + " DIRECTION: " + direction + " FORWARD: " + forward + "SPEED: " + speed)
     }
 
     private fun getRadiusValue(joystickAngle: Int): Double {
@@ -73,7 +77,7 @@ class ManualSteeringJoystickManager(
     }
 
     private fun getForwardValue(angle: Int): Int {
-        return if (angle in AngleRange.BACK.minValue..AngleRange.BACK.maxValue) JoystickForward.BACKWARD.forward else JoystickForward.FORWARD.forward
+        return if (angle in FORWARD_RANGE_MIN..FORWARD_RANGE_MAX) JoystickForward.FORWARD.value else JoystickForward.BACKWARD.value
     }
 
     private fun sendChangedJoystickParmaetrs(arcParameters: ArcParameters) {

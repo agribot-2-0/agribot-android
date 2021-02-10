@@ -25,7 +25,7 @@ class ToolEditViewModel(
         MutableLiveData(listOf())
 
     fun getToolPhotoDirection(): String {
-        return toolManagementService.getPhotoDirectory().absolutePath + toolDataManager.getToolPhotoPathName()
+        return toolManagementService.getToolPhotoToDisplay(toolDataManager.getToolPhotoPathName()).absolutePath + toolDataManager.getToolPhotoPathName()
     }
 
     fun setSummaryParameters() {

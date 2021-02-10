@@ -217,7 +217,7 @@ class PathManagementService(
         onError: (error: String) -> Unit
     ) {
         updatePathName(pathName)
-        cloudStorageService.removeFileInCLoud(
+        cloudStorageService.removeFileInCloud(
             getFileVersion(getPathName()) + fileFormat,
             onSucess,
             onError

@@ -32,7 +32,7 @@ class FilePathProvider(private val context: Context) {
         }
     }
 
-    fun getToolPhotoDirectory() : String {
+    fun getToolPhotoDirectory(): String {
         val folder = File(getToolPhotoPath())
         if (!folder.exists()) {
             folder.mkdir()
@@ -40,7 +40,7 @@ class FilePathProvider(private val context: Context) {
         return getToolPhotoPath()
     }
 
-    fun getToolPhotoPath(): String {
+    private fun getToolPhotoPath(): String {
         return if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()) {
             val file: File = ContextCompat.getExternalFilesDirs(
                 context.applicationContext,

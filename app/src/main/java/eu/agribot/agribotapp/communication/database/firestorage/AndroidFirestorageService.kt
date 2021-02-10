@@ -140,7 +140,7 @@ class AndroidFirestorageService(
     override fun downloadPhotoFile(
         toolPhotoName: String,
         filePath: String,
-        onDownloadSucess: (file: File) -> Unit,
+        onDownloadSucess: () -> Unit,
         onDownloadError: (error: Throwable) -> Unit
     ) {
         storage.reference.child("${firebaseService.getCurrentUser()?.uid}/$TOOL_PHOTO_SOURCE/$toolPhotoName")
@@ -153,12 +153,7 @@ class AndroidFirestorageService(
                     .build()
                     .start(object : OnDownloadListener {
                         override fun onDownloadComplete() {
-                            onDownloadSucess(
-                                File(
-                                    filePath,
-                                    toolPhotoName
-                                )
-                            )
+                            onDownloadSucess()
                         }
 
                         override fun onError(error: Error) {

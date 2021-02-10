@@ -49,8 +49,7 @@ interface FirestorageService {
     fun downloadPhotoFile(
         toolPhotoName: String,
         filePath: String,
-        onDownloadSucess: (file: File) -> Unit,
+        onDownloadSucess: () -> Unit,
         onDownloadError: (error: Throwable) -> Unit
     )
-
 }

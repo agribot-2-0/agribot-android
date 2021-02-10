@@ -12,7 +12,7 @@ class DisplayToolPhotoViewModel(
 ) : BaseViewModel() {
 
     fun getToolPhotoDirection(): String {
-        return toolManagementService.getPhotoDirectory().absolutePath + toolDataManager.getToolPhotoPathName()
+        return toolManagementService.getToolPhotoToDisplay(toolDataManager.getToolPhotoPathName()).absolutePath + toolDataManager.getToolPhotoPathName()
     }
 
     fun onPhotoRepeatButtonClicked() {
@@ -20,15 +20,18 @@ class DisplayToolPhotoViewModel(
     }
 
     fun onNextButtonClicked() {
-        toolManagementService.uploadToolPhotoToCloud(toolName = toolDataManager.toolName, toolPhotoSource = getToolPhotoDirection(),onSucess = this::onUploadPhotoSucess, onError = this::onError)
+        toolManagementService.uploadToolPhotoToCloud(
+            toolName = toolDataManager.toolName,
+            toolPhotoSource = getToolPhotoDirection(),
+            onSucess = this::onUploadPhotoSucess,
+            onError = this::onError
+        )
     }
 
-    private fun onError(error: String){
-
+    private fun onError(error: String) {
     }
 
-    private fun onUploadPhotoSucess(){
+    private fun onUploadPhotoSucess() {
         navigationEvent.postValue(ToolNavigationEvent())
-
     }
 }

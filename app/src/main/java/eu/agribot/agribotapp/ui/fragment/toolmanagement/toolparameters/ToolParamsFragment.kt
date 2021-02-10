@@ -74,5 +74,4 @@ class ToolParamsFragment :
     private fun handleToolManagementNavigationEvent() {
         navigationController?.navigate(R.id.action_toolManagementParamsFragment_to_toolManagementFragment)
     }
-
 }

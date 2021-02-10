@@ -92,7 +92,21 @@ class CloudStorageService(
         )
     }
 
-    fun removeFileInCLoud(
+    fun downloadToolPhotoFile(
+        filePath: String,
+        fileName: String,
+        onDownloadToolPhotoErrorSucess: () -> Unit,
+        onDownloadToolPhotoError: (exception: Throwable) -> Unit
+    ) {
+        firestorageService.downloadPhotoFile(
+            fileName,
+            filePath,
+            onDownloadToolPhotoErrorSucess,
+            onDownloadToolPhotoError
+        )
+    }
+
+    fun removeFileInCloud(
         fileName: String,
         onSucess: () -> Unit,
         onError: (exception: String) -> Unit

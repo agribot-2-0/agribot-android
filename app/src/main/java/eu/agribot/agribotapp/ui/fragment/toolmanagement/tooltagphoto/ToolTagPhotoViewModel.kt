@@ -11,7 +11,7 @@ import java.io.File
 class ToolTagPhotoViewModel(
     private val permissionManager: PermissionManager,
     private val toolDataManager: ToolDataManager,
-    private val toolManagementService: ToolManagementService,
+    private val toolManagementService: ToolManagementService
 ) : BaseViewModel() {
     val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val takePhotoEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()

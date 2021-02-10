@@ -102,5 +102,4 @@ class ToolTagPhotoFragment : BaseFragment<ToolTagPhotoViewModel, FragmentCreateP
     private fun navigateToDisplayPhotoFragment() {
         navigationController?.navigate(R.id.action_shotToolPhoto_to_displayToolPhoto)
     }
-
 }

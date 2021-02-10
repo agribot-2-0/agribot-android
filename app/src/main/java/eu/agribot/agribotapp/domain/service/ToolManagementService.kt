@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.domain.service
 
+import android.util.Log
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.RfidMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator.BluetoothMessageCreator
 import eu.agribot.agribotapp.domain.model.fromdomain.RfidParameters
@@ -62,7 +63,6 @@ class ToolManagementService(
         return File(filePathProvider.getToolPhotoDirectory())
     }
 
-
     fun uploadToolPhotoToCloud(
         toolName: String,
         onSucess: () -> Unit,
@@ -75,5 +75,28 @@ class ToolManagementService(
             onSucess,
             onError
         )
+    }
+
+    fun getToolPhotoToDisplay(photoName: String): File {
+        if (File(getPhotoDirectory().absolutePath + photoName).exists()) {
+            return getPhotoDirectory()
+        } else {
+            cloudStorageService.downloadToolPhotoFile(
+                getPhotoDirectory().absolutePath,
+                photoName,
+                onDownloadToolPhotoErrorSucess = this::onSucess,
+                onDownloadToolPhotoError = this::onError
+            )
+        }
+        return getPhotoDirectory()
+    }
+
+    private fun onSucess(): File {
+        return getPhotoDirectory()
+    }
+
+    // TODO MAP FIRESTORAGE ERROR, currently work around log
+    private fun onError(error: Throwable) {
+        Log.e("DOWNLOAD", "ERROR: " + error)
     }
 }

@@ -12,7 +12,6 @@ import eu.agribot.agribotapp.databinding.FragmentDisplayToolPhotoBinding
 import kotlinx.android.synthetic.main.fragment_display_tool_photo.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-import java.io.File
 
 class DisplayToolPhotoFragment : BaseFragment<DisplayToolPhotoViewModel, FragmentDisplayToolPhotoBinding>() {
 
@@ -47,5 +46,4 @@ class DisplayToolPhotoFragment : BaseFragment<DisplayToolPhotoViewModel, Fragmen
     private fun handleToolNavigationEvent() {
         navigationController?.navigate(R.id.action_displayToolPhoto_to_toolManagementParamsFragment)
     }
-
 }

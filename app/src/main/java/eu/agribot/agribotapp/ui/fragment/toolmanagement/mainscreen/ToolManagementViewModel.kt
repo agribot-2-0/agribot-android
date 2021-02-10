@@ -9,6 +9,7 @@ import eu.agribot.agribotapp.common.navigation.events.ToolNameNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
 import eu.agribot.agribotapp.domain.model.cdb.ToolItem
+import eu.agribot.agribotapp.domain.service.ToolManagementService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
 import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePath
@@ -19,7 +20,8 @@ import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.tool
 class ToolManagementViewModel(
     private val resourcesProvider: ResourcesProvider,
     private val cloudDatabaseService: CloudDatabaseService,
-    private val toolDataManager: ToolDataManager
+    private val toolDataManager: ToolDataManager,
+    private val toolManagementService: ToolManagementService
 ) : BaseViewModel() {
     val setPhotoEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val toolList: MutableLiveData<List<ToolListItemViewModel>> = MutableLiveData(listOf())
@@ -36,6 +38,10 @@ class ToolManagementViewModel(
             addToParamList(getGreenFlowItem(it))
             addToParamList(getVelocityItem(it))
         }
+    }
+
+    fun getToolPhotoDirection(toolName: String): String {
+        return toolManagementService.getToolPhotoToDisplay(toolName).absolutePath + toolName
     }
 
     private fun getTplUpDownItem(toolDetails: ToolDetails): ListToolParamViewModel {

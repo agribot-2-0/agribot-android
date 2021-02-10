@@ -25,7 +25,6 @@ import kotlinx.android.synthetic.main.fragment_tool_management.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-import java.io.File
 
 class ToolManagementFragment :
     BaseFragment<ToolManagementViewModel, FragmentToolManagementBinding>() {
@@ -52,16 +51,8 @@ class ToolManagementFragment :
 
     private fun setToolPhoto(photoPath: String) {
         Glide.with(requireContext())
-            .load(getOutputDirectory().toString() + photoPath)
+            .load(viewModel.getToolPhotoDirection(photoPath))
             .into(main_tool_photo)
-    }
-
-    private fun getOutputDirectory(): File {
-        val mediaDir = requireActivity().externalMediaDirs.firstOrNull()?.let {
-            File(it, resources.getString(R.string.app_name)).apply { mkdirs() }
-        }
-        return if (mediaDir != null && mediaDir.exists())
-            mediaDir else requireActivity().filesDir
     }
 
     @SuppressLint("ClickableViewAccessibility")

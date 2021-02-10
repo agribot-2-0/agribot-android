@@ -2,23 +2,13 @@ package eu.agribot.agribotapp.domain.service.joystick.manualmode
 
 enum class RadiusData(val value: Double) {
 
-    FRONT(11.toDouble()),
+    CLOCKWISE(1.0),
 
-    LOW_FRONT_RIGHT((-4).toDouble()),
+    COUNTERCLOCKWISE(-1.0),
 
-    HARD_FRONT_RIGHT((-2).toDouble()),
+    GENTLE(4.0),
 
-    HARD_BACK_RIGHT((-2).toDouble()),
+    SHARP(2.0),
 
-    LOW_BACK_RIGHT((-4).toDouble()),
-
-    BACK(11.toDouble()),
-
-    LOW_BACK_LEFT(4.toDouble()),
-
-    HARD_BACK_LEFT(2.toDouble()),
-
-    HARD_FRONT_LEFT(2.toDouble()),
-
-    LOW_FRONT_LEFT(4.toDouble())
+    STRAIGHT(11.0)
 }

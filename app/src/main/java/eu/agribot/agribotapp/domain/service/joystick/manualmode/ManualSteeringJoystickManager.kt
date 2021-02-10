@@ -4,7 +4,8 @@ import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.
 import eu.agribot.agribotapp.domain.model.fromdomain.ArcParameters
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.FORWARD_RANGE_MAX
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.FORWARD_RANGE_MIN
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.SPEED_CONVENTER
+import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.MAX_JOYSTICK_STRENGTH_VALUE
+import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.MAX_ROBOT_SPEED_IN_METERS_PER_SECOND
 
 class ManualSteeringJoystickManager(
     private val messageCreator: BluetoothMessageCreator
@@ -36,31 +37,31 @@ class ManualSteeringJoystickManager(
                 joystickRadius = RadiusData.STRAIGHT.value
             }
             in AngleRange.LOW_FRONT_RIGHT.minValue..AngleRange.LOW_FRONT_RIGHT.maxValue -> {
-                joystickRadius = RadiusData.COUNTERCLOCKWISE.value * RadiusData.GENTLE.value
+                joystickRadius = RadiusData.CLOCKWISE.value * RadiusData.GENTLE.value
             }
             in AngleRange.HARD_FRONT_RIGHT.minValue..AngleRange.HARD_FRONT_RIGHT.maxValue -> {
-                joystickRadius = RadiusData.COUNTERCLOCKWISE.value * RadiusData.SHARP.value
+                joystickRadius = RadiusData.CLOCKWISE.value * RadiusData.SHARP.value
             }
             in AngleRange.HARD_BACK_RIGHT.minValue..AngleRange.HARD_BACK_RIGHT.maxValue -> {
-                joystickRadius = RadiusData.COUNTERCLOCKWISE.value * RadiusData.SHARP.value
+                joystickRadius = RadiusData.CLOCKWISE.value * RadiusData.SHARP.value
             }
             in AngleRange.LOW_BACK_RIGHT.minValue..AngleRange.LOW_BACK_RIGHT.maxValue -> {
-                joystickRadius = RadiusData.COUNTERCLOCKWISE.value * RadiusData.GENTLE.value
+                joystickRadius = RadiusData.CLOCKWISE.value * RadiusData.GENTLE.value
             }
             in AngleRange.BACK.minValue..AngleRange.BACK.maxValue -> {
                 joystickRadius = RadiusData.STRAIGHT.value
             }
             in AngleRange.LOW_BACK_LEFT.minValue..AngleRange.LOW_BACK_LEFT.maxValue -> {
-                joystickRadius = RadiusData.CLOCKWISE.value * RadiusData.GENTLE.value
+                joystickRadius = RadiusData.COUNTERCLOCKWISE.value * RadiusData.GENTLE.value
             }
             in AngleRange.HARD_BACK_LEFT.minValue..AngleRange.HARD_BACK_LEFT.maxValue -> {
-                joystickRadius = RadiusData.CLOCKWISE.value * RadiusData.SHARP.value
+                joystickRadius = RadiusData.COUNTERCLOCKWISE.value * RadiusData.SHARP.value
             }
             in AngleRange.HARD_FRONT_LEFT.minValue..AngleRange.HARD_FRONT_LEFT.maxValue -> {
-                joystickRadius = RadiusData.CLOCKWISE.value * RadiusData.SHARP.value
+                joystickRadius = RadiusData.COUNTERCLOCKWISE.value * RadiusData.SHARP.value
             }
             in AngleRange.LOW_FRONT_LEFT.minValue..AngleRange.LOW_FRONT_LEFT.maxValue -> {
-                joystickRadius = RadiusData.CLOCKWISE.value * RadiusData.GENTLE.value
+                joystickRadius = RadiusData.COUNTERCLOCKWISE.value * RadiusData.GENTLE.value
             }
         }
         return joystickRadius
@@ -71,7 +72,7 @@ class ManualSteeringJoystickManager(
     }
 
     private fun getSpeedValue(strength: Int): Double {
-        return (strength * SPEED_CONVENTER)
+        return (strength * MAX_ROBOT_SPEED_IN_METERS_PER_SECOND) / MAX_JOYSTICK_STRENGTH_VALUE
     }
 
     private fun getForwardValue(angle: Int): Int {

@@ -2,9 +2,9 @@ package eu.agribot.agribotapp.domain.service.joystick.manualmode
 
 enum class RadiusData(val value: Double) {
 
-    CLOCKWISE(1.0),
+    COUNTERCLOCKWISE(1.0),
 
-    COUNTERCLOCKWISE(-1.0),
+    CLOCKWISE(-1.0),
 
     GENTLE(4.0),
 

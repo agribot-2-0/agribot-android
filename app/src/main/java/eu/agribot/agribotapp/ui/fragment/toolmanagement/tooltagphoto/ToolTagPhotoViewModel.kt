@@ -4,11 +4,14 @@ import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.domain.permission.PermissionError
 import eu.agribot.agribotapp.domain.permission.PermissionManager
+import eu.agribot.agribotapp.domain.service.ToolManagementService
 import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
+import java.io.File
 
 class ToolTagPhotoViewModel(
     private val permissionManager: PermissionManager,
-    private val toolDataManager: ToolDataManager
+    private val toolDataManager: ToolDataManager,
+    private val toolManagementService: ToolManagementService,
 ) : BaseViewModel() {
     val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val takePhotoEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
@@ -27,5 +30,9 @@ class ToolTagPhotoViewModel(
 
     fun shotToolPhoto() {
         takePhotoEvent.postValue(true)
+    }
+
+    fun getPhotoFile(): File {
+        return toolManagementService.getPhotoDirectory()
     }
 }

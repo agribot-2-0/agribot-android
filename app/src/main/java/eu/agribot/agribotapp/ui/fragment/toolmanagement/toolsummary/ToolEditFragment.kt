@@ -15,7 +15,6 @@ import kotlinx.android.synthetic.main.fragment_tool_management_edit.edit_tool_ph
 import kotlinx.android.synthetic.main.fragment_tool_management_edit.params_recycler
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-import java.io.File
 
 class ToolEditFragment : BaseFragment<ToolEditViewModel, FragmentToolManagementEditBinding>() {
 
@@ -33,7 +32,7 @@ class ToolEditFragment : BaseFragment<ToolEditViewModel, FragmentToolManagementE
 
     private fun setToolPhoto() {
         Glide.with(requireContext())
-            .load(getOutputDirectory().toString() + viewModel.getToolPhotoName())
+            .load(viewModel.getToolPhotoDirection())
             .into(edit_tool_photo)
     }
 
@@ -61,14 +60,6 @@ class ToolEditFragment : BaseFragment<ToolEditViewModel, FragmentToolManagementE
 
     private fun addParams(tools: List<HitchListItemViewModel>) {
         hitchRecyclerAdapter.items = tools
-    }
-
-    private fun getOutputDirectory(): File {
-        val mediaDir = requireActivity().externalMediaDirs.firstOrNull()?.let {
-            File(it, resources.getString(R.string.app_name)).apply { mkdirs() }
-        }
-        return if (mediaDir != null && mediaDir.exists())
-            mediaDir else requireActivity().filesDir
     }
 
     override fun bindViewVariables(viewBinding: FragmentToolManagementEditBinding) {

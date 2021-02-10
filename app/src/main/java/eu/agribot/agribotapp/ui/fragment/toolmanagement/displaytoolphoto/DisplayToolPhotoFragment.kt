@@ -30,7 +30,7 @@ class DisplayToolPhotoFragment : BaseFragment<DisplayToolPhotoViewModel, Fragmen
 
     private fun setToolPhoto() {
         Glide.with(requireContext())
-            .load(getOutputDirectory().toString() + viewModel.getToolPhotoName())
+            .load(viewModel.getToolPhotoDirection())
             .into(imageView4)
     }
 
@@ -48,11 +48,4 @@ class DisplayToolPhotoFragment : BaseFragment<DisplayToolPhotoViewModel, Fragmen
         navigationController?.navigate(R.id.action_displayToolPhoto_to_toolManagementParamsFragment)
     }
 
-    private fun getOutputDirectory(): File {
-        val mediaDir = requireActivity().externalMediaDirs.firstOrNull()?.let {
-            File(it, resources.getString(R.string.app_name)).apply { mkdirs() }
-        }
-        return if (mediaDir != null && mediaDir.exists())
-            mediaDir else requireActivity().filesDir
-    }
 }

@@ -11,11 +11,11 @@ import eu.agribot.agribotapp.common.navigation.events.ToolNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentToolManagementParamsBinding
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
-import kotlinx.android.synthetic.main.fragment_tool_management_params.*
+import kotlinx.android.synthetic.main.fragment_tool_management_params.params_recycler
+import kotlinx.android.synthetic.main.fragment_tool_management_params.params_tool_photo
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-import java.io.File
 
 class ToolParamsFragment :
     BaseFragment<ToolParamsViewModel, FragmentToolManagementParamsBinding>() {
@@ -36,7 +36,7 @@ class ToolParamsFragment :
 
     private fun setToolPhoto() {
         Glide.with(requireContext())
-            .load(getOutputDirectory().toString() + viewModel.getToolPhotoName())
+            .load(viewModel.getToolPhotoDirection())
             .into(params_tool_photo)
     }
 
@@ -75,11 +75,4 @@ class ToolParamsFragment :
         navigationController?.navigate(R.id.action_toolManagementParamsFragment_to_toolManagementFragment)
     }
 
-    private fun getOutputDirectory(): File {
-        val mediaDir = requireActivity().externalMediaDirs.firstOrNull()?.let {
-            File(it, resources.getString(R.string.app_name)).apply { mkdirs() }
-        }
-        return if (mediaDir != null && mediaDir.exists())
-            mediaDir else requireActivity().filesDir
-    }
 }

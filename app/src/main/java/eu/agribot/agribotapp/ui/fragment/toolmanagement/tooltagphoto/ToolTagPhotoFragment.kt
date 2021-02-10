@@ -27,7 +27,6 @@ class ToolTagPhotoFragment : BaseFragment<ToolTagPhotoViewModel, FragmentCreateP
     override val viewModel: ToolTagPhotoViewModel by viewModel { parametersOf(requireContext()) }
     private var imageCapture: ImageCapture? = null
     private lateinit var cameraExecutor: ExecutorService
-    private lateinit var outputDirectory: File
 
     override fun bindViewVariables(viewBinding: FragmentCreatePhotoBinding) {
         viewBinding.viewModel = viewModel
@@ -38,17 +37,14 @@ class ToolTagPhotoFragment : BaseFragment<ToolTagPhotoViewModel, FragmentCreateP
         viewModel.checkPermissions(this::startCamera)
         viewModel.takePhotoEvent.observe(this::takePhoto)
         cameraExecutor = Executors.newSingleThreadExecutor()
-        outputDirectory = getOutputDirectory()
     }
 
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
 
         cameraProviderFuture.addListener({
-            // Used to bind the lifecycle of cameras to the lifecycle owner
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
 
-            // Preview
             val preview = Preview.Builder()
                 .build()
                 .also {
@@ -61,16 +57,15 @@ class ToolTagPhotoFragment : BaseFragment<ToolTagPhotoViewModel, FragmentCreateP
             val imageAnalyzer = ImageAnalysis.Builder()
                 .build()
 
-            // Select back camera as a default
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-
             try {
-                // Unbind use cases before rebinding
                 cameraProvider.unbindAll()
 
-                // Bind use cases to camera
                 cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview, imageCapture, imageAnalyzer
+                    this,
+                    CameraSelector.DEFAULT_BACK_CAMERA,
+                    preview,
+                    imageCapture,
+                    imageAnalyzer
                 )
             } catch (exc: Exception) {
                 showToast(getString(R.string.use_camera_failed))
@@ -79,43 +74,33 @@ class ToolTagPhotoFragment : BaseFragment<ToolTagPhotoViewModel, FragmentCreateP
     }
 
     private fun takePhoto(isTakePhotoAction: Boolean) {
-        // Get a stable reference of the modifiable image capture use case
-        val imageCapture = imageCapture ?: return
+        if (isTakePhotoAction) {
+            val imageCapture = imageCapture ?: return
 
-        // Create time-stamped output file to hold the image
-        val photoFile = File(
-            outputDirectory,
-            viewModel.getToolPhotoName()
-        )
+            val outputOptions = ImageCapture.OutputFileOptions.Builder(
+                File(
+                    viewModel.getPhotoFile(),
+                    viewModel.getToolPhotoName()
+                )
+            ).build()
 
-        // Create output options object which contains file + metadata
-        val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
+            imageCapture.takePicture(
+                outputOptions,
+                ContextCompat.getMainExecutor(requireContext()),
+                object : ImageCapture.OnImageSavedCallback {
+                    override fun onError(exc: ImageCaptureException) {
+                        showToast(getString(R.string.take_photo_failed))
+                    }
 
-        // Set up image capture listener, which is triggered after photo has
-        // been taken
-        imageCapture.takePicture(
-            outputOptions,
-            ContextCompat.getMainExecutor(requireContext()),
-            object : ImageCapture.OnImageSavedCallback {
-                override fun onError(exc: ImageCaptureException) {
-                    showToast(getString(R.string.take_photo_failed))
-                }
-
-                override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    navigateToDisplayPhotoFragment()
-                }
-            })
-    }
-
-    private fun getOutputDirectory(): File {
-        val mediaDir = requireActivity().externalMediaDirs.firstOrNull()?.let {
-            File(it, resources.getString(R.string.app_name)).apply { mkdirs() }
+                    override fun onImageSaved(output: ImageCapture.OutputFileResults) {
+                        navigateToDisplayPhotoFragment()
+                    }
+                })
         }
-        return if (mediaDir != null && mediaDir.exists())
-            mediaDir else requireActivity().filesDir
     }
 
     private fun navigateToDisplayPhotoFragment() {
         navigationController?.navigate(R.id.action_shotToolPhoto_to_displayToolPhoto)
     }
+
 }

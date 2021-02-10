@@ -247,8 +247,8 @@ val viewModelModule = module {
         ToolParamsViewModel(
             toolDataManager = get(),
             cloudDatabaseService = get(),
-            resourcesProvider = get { parametersOf(context) }
-
+            resourcesProvider = get { parametersOf(context) },
+            toolManagementService = get()
         )
     }
 
@@ -277,7 +277,8 @@ val viewModelModule = module {
     viewModel {
         ToolTagPhotoViewModel(
             permissionManager = get(),
-            toolDataManager = get()
+            toolDataManager = get(),
+            toolManagementService = get()
         )
     }
 
@@ -290,14 +291,18 @@ val viewModelModule = module {
     }
 
     viewModel {
-        DisplayToolPhotoViewModel(toolDataManager = get())
+        DisplayToolPhotoViewModel(
+            toolDataManager = get(),
+            toolManagementService = get()
+        )
     }
 
     viewModel { (context: Context) ->
         ToolEditViewModel(
             resourcesProvider = get { parametersOf(context) },
             toolDataManager = get(),
-            cloudDatabaseService = get()
+            cloudDatabaseService = get(),
+            toolManagementService = get()
         )
     }
 }

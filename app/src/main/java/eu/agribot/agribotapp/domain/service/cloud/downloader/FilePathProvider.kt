@@ -31,4 +31,24 @@ class FilePathProvider(private val context: Context) {
             context.applicationContext.filesDir.absolutePath
         }
     }
+
+    fun getToolPhotoDirectory() : String {
+        val folder = File(getToolPhotoPath())
+        if (!folder.exists()) {
+            folder.mkdir()
+        }
+        return getToolPhotoPath()
+    }
+
+    fun getToolPhotoPath(): String {
+        return if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()) {
+            val file: File = ContextCompat.getExternalFilesDirs(
+                context.applicationContext,
+                null
+            )[0]
+            file.absolutePath + "/user_tool"
+        } else {
+            context.applicationContext.filesDir.absolutePath
+        }
+    }
 }

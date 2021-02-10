@@ -7,6 +7,7 @@ import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
+import eu.agribot.agribotapp.domain.service.ToolManagementService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
@@ -15,7 +16,8 @@ import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.data.TagRfidForm
 class ToolParamsViewModel(
     private val toolDataManager: ToolDataManager,
     private val cloudDatabaseService: CloudDatabaseService,
-    private val resourcesProvider: ResourcesProvider
+    private val resourcesProvider: ResourcesProvider,
+    private val toolManagementService: ToolManagementService
 
 ) : BaseViewModel() {
     val toolName: MutableLiveData<String> = MutableLiveData()
@@ -23,10 +25,6 @@ class ToolParamsViewModel(
     val toolRfidTag: MutableLiveData<String> = MutableLiveData()
     val paramsList: MutableLiveData<List<HitchListItemViewModel>> =
         MutableLiveData(listOf())
-
-    fun getToolPhotoName(): String {
-        return toolDataManager.getToolPhotoPathName()
-    }
 
     private fun createHitchParametersList() {
         addToolToToolParamList(toolDataManager.getMaximumRobotVelocity())
@@ -138,5 +136,9 @@ class ToolParamsViewModel(
             ) + TagRfidFormatter.NUMBER_SEPARATOR.formatElement
         }
         return rfidTagHexString
+    }
+
+    fun getToolPhotoDirection(): String {
+        return toolManagementService.getPhotoDirectory().absolutePath + toolDataManager.getToolPhotoPathName()
     }
 }

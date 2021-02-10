@@ -4,6 +4,8 @@ import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessa
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator.BluetoothMessageCreator
 import eu.agribot.agribotapp.domain.model.fromdomain.RfidParameters
 import eu.agribot.agribotapp.domain.model.todomain.RfidData
+import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
+import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePathProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -11,11 +13,18 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.io.File
 
 class ToolManagementService(
     private val bluetoothMessageCreator: BluetoothMessageCreator,
-    private val rfidMessageManager: RfidMessageManager
+    private val rfidMessageManager: RfidMessageManager,
+    private val cloudStorageService: CloudStorageService,
+    private val filePathProvider: FilePathProvider
 ) {
+
+    companion object {
+        const val TOOL_PHOTO_FILE_EXTENSION = ".jpg"
+    }
 
     @ExperimentalCoroutinesApi
     private val rfidDataFlow = MutableStateFlow<RfidData?>(null)
@@ -47,5 +56,24 @@ class ToolManagementService(
     fun clearRfidData() {
         rfidDataFlow.value = null
         rfidMessageManager.clearRfidDataFlow()
+    }
+
+    fun getPhotoDirectory(): File {
+        return File(filePathProvider.getToolPhotoDirectory())
+    }
+
+
+    fun uploadToolPhotoToCloud(
+        toolName: String,
+        onSucess: () -> Unit,
+        toolPhotoSource: String,
+        onError: (error: String) -> Unit
+    ) {
+        cloudStorageService.uploadToolPhotoFile(
+            toolPhotoSource,
+            toolName + TOOL_PHOTO_FILE_EXTENSION,
+            onSucess,
+            onError
+        )
     }
 }

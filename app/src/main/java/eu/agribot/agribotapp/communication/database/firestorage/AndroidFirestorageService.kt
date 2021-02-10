@@ -9,6 +9,7 @@ import com.google.firebase.storage.ktx.storage
 import eu.agribot.agribotapp.communication.database.firebase.FirebaseService
 import eu.agribot.agribotapp.communication.database.firestorage.DownloadObjects.MAPS_FILE
 import eu.agribot.agribotapp.communication.database.firestorage.DownloadObjects.PATH_SOURCE
+import eu.agribot.agribotapp.communication.database.firestorage.DownloadObjects.TOOL_PHOTO_SOURCE
 import java.io.File
 
 class AndroidFirestorageService(
@@ -39,28 +40,29 @@ class AndroidFirestorageService(
         onDownloadSucess: (file: File) -> Unit,
         onDownloadError: (error: Throwable) -> Unit
     ) {
-        storage.reference.child("${firebaseService.getCurrentUser()?.uid}/$PATH_SOURCE/$fileName").downloadUrl.addOnSuccessListener {
-            PRDownloader.download(
-                it.toString(),
-                filePath,
-                fileName
-            )
-                .build()
-                .start(object : OnDownloadListener {
-                    override fun onDownloadComplete() {
-                        onDownloadSucess(
-                            File(
-                                filePath,
-                                fileName
+        storage.reference.child("${firebaseService.getCurrentUser()?.uid}/$PATH_SOURCE/$fileName")
+            .downloadUrl.addOnSuccessListener {
+                PRDownloader.download(
+                    it.toString(),
+                    filePath,
+                    fileName
+                )
+                    .build()
+                    .start(object : OnDownloadListener {
+                        override fun onDownloadComplete() {
+                            onDownloadSucess(
+                                File(
+                                    filePath,
+                                    fileName
+                                )
                             )
-                        )
-                    }
+                        }
 
-                    override fun onError(error: Error) {
-                        onDownloadError(error.connectionException)
-                    }
-                })
-        }
+                        override fun onError(error: Error) {
+                            onDownloadError(error.connectionException)
+                        }
+                    })
+            }
     }
 
     override fun uploadPathFile(
@@ -102,21 +104,67 @@ class AndroidFirestorageService(
         storage.reference.child("${firebaseService.getCurrentUser()?.uid}/$MAPS_FILE")
             .downloadUrl
             .addOnSuccessListener {
-            PRDownloader.download(
-                it.toString(),
-                pathFile,
-                MAPS_FILE
-            ).build()
-                .setOnStartOrResumeListener(onDownloadStart)
-                .start(object : OnDownloadListener {
-                    override fun onDownloadComplete() {
-                        onDownloadSucess()
-                    }
+                PRDownloader.download(
+                    it.toString(),
+                    pathFile,
+                    MAPS_FILE
+                ).build()
+                    .setOnStartOrResumeListener(onDownloadStart)
+                    .start(object : OnDownloadListener {
+                        override fun onDownloadComplete() {
+                            onDownloadSucess()
+                        }
 
-                    override fun onError(error: Error?) {
-                        onDownloadError(error)
-                    }
-                })
-        }
+                        override fun onError(error: Error?) {
+                            onDownloadError(error)
+                        }
+                    })
+            }
+    }
+
+    override fun uploadPhotoFile(
+        toolPhotoPath: String,
+        toolName: String,
+        onSucess: () -> Unit,
+        onError: (exception: Exception) -> Unit
+    ) {
+        storage.reference.child("${firebaseService.getCurrentUser()?.uid}/$TOOL_PHOTO_SOURCE/$toolName")
+            .putFile(Uri.fromFile(File(toolPhotoPath)))
+            .addOnFailureListener { exception ->
+                onError(exception)
+            }.addOnSuccessListener {
+                onSucess.invoke()
+            }
+    }
+
+    override fun downloadPhotoFile(
+        toolPhotoName: String,
+        filePath: String,
+        onDownloadSucess: (file: File) -> Unit,
+        onDownloadError: (error: Throwable) -> Unit
+    ) {
+        storage.reference.child("${firebaseService.getCurrentUser()?.uid}/$TOOL_PHOTO_SOURCE/$toolPhotoName")
+            .downloadUrl.addOnSuccessListener {
+                PRDownloader.download(
+                    it.toString(),
+                    filePath,
+                    toolPhotoName
+                )
+                    .build()
+                    .start(object : OnDownloadListener {
+                        override fun onDownloadComplete() {
+                            onDownloadSucess(
+                                File(
+                                    filePath,
+                                    toolPhotoName
+                                )
+                            )
+                        }
+
+                        override fun onError(error: Error) {
+                            onDownloadError(error.connectionException)
+                        }
+                    })
+            }
     }
 }

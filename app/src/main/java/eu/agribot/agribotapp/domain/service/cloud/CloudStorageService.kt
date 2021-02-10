@@ -78,6 +78,20 @@ class CloudStorageService(
         )
     }
 
+    fun uploadToolPhotoFile(
+        filePath: String,
+        fileName: String,
+        onSucess: () -> Unit,
+        onError: (exception: String) -> Unit
+    ) {
+        firestorageService.uploadPhotoFile(
+            filePath,
+            fileName,
+            onSucess,
+            onError = { onError(cloudStorageErrorHandler.getStorageError(it)) }
+        )
+    }
+
     fun removeFileInCLoud(
         fileName: String,
         onSucess: () -> Unit,

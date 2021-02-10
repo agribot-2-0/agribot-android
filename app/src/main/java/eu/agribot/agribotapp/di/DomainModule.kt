@@ -184,7 +184,9 @@ val domainModule = module {
     single {
         ToolManagementService(
             bluetoothMessageCreator = get(),
-            rfidMessageManager = get()
+            rfidMessageManager = get(),
+            cloudStorageService = get(),
+            filePathProvider = get()
         )
     }
 

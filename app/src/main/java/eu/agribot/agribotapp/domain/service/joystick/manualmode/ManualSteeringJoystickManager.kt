@@ -1,16 +1,20 @@
 package eu.agribot.agribotapp.domain.service.joystick.manualmode
 
+import android.annotation.SuppressLint
+import android.util.Log
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator.BluetoothMessageCreator
 import eu.agribot.agribotapp.domain.model.fromdomain.ArcParameters
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.FORWARD_RANGE_MAX
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.FORWARD_RANGE_MIN
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.MAX_JOYSTICK_STRENGTH_VALUE
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.MAX_ROBOT_SPEED_IN_METERS_PER_SECOND
+import timber.log.Timber
 
 class ManualSteeringJoystickManager(
     private val messageCreator: BluetoothMessageCreator
 ) {
 
+    @SuppressLint("LogNotTimber")
     fun onJoystickConfigurationChanged(angle: Int, strength: Int) {
         val radius: Double = getRadiusValue(angle)
         val direction = getDirectionValue(radius)
@@ -27,6 +31,12 @@ class ManualSteeringJoystickManager(
                 )
             )
         }
+
+        Timber.d( String.format("\nJoystic Param :\n" +
+                " 1. Radius %s |\n" +
+                " 2. Speed %s |\n" +
+                " 3. Forward %s |\n" +
+                " 4. Direction %s |\n ", radius.toString(),speed.toString(),forward.toString(),direction.toString()))
     }
 
     private fun getRadiusValue(joystickAngle: Int): Double {

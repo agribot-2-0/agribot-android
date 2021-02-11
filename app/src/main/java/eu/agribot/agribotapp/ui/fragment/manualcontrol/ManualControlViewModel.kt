@@ -128,13 +128,26 @@ class ManualControlViewModel(
 
                     )
                 )
-                addToDiagnosticDataList(
-                    DiagnosticDataViewModel(
-                        DiagnosticDataID.FUEL_TEMPERATURE.ID,
-                        diagnosticData.fuelTemperature.toString(),
-                        resourcesProvider.getString(R.string.celcius_degree)
-                    )
-                )
+
+                manualModeService.observeHydraulicData().collect { hydraulicData ->
+                    if (hydraulicData != null) {
+                        addToDiagnosticDataList(
+                            DiagnosticDataViewModel(
+                                DiagnosticDataID.OIL_TEMPERATURE.ID,
+                                hydraulicData.oilTemperature,
+                                resourcesProvider.getString(R.string.celcius_degree)
+                            )
+                        )
+                    } else {
+                        addToDiagnosticDataList(
+                            DiagnosticDataViewModel(
+                                DiagnosticDataID.OIL_TEMPERATURE.ID,
+                                resourcesProvider.getString(R.string.no_data_status),
+                                resourcesProvider.getString(R.string.celcius_degree)
+                            )
+                        )
+                    }
+                }
             } else {
                 resourcesProvider.getString(R.string.no_data_status).let { noData ->
                     addToDiagnosticDataList(
@@ -173,13 +186,6 @@ class ManualControlViewModel(
                             noData,
                             resourcesProvider.getString(R.string.liter_per_hour)
 
-                        )
-                    )
-                    addToDiagnosticDataList(
-                        DiagnosticDataViewModel(
-                            DiagnosticDataID.FUEL_TEMPERATURE.ID,
-                            noData,
-                            resourcesProvider.getString(R.string.celcius_degree)
                         )
                     )
                 }

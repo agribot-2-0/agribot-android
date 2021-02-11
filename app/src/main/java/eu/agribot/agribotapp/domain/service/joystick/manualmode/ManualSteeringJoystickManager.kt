@@ -1,7 +1,6 @@
 package eu.agribot.agribotapp.domain.service.joystick.manualmode
 
 import android.annotation.SuppressLint
-import android.util.Log
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator.BluetoothMessageCreator
 import eu.agribot.agribotapp.domain.model.fromdomain.ArcParameters
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.FORWARD_RANGE_MAX
@@ -32,11 +31,19 @@ class ManualSteeringJoystickManager(
             )
         }
 
-        Timber.d( String.format("\nJoystic Param :\n" +
-                " 1. Radius %s |\n" +
-                " 2. Speed %s |\n" +
-                " 3. Forward %s |\n" +
-                " 4. Direction %s |\n ", radius.toString(),speed.toString(),forward.toString(),direction.toString()))
+        Timber.d(
+            String.format(
+                "\nJoystic Param :\n" +
+                        " 1. Radius %s |\n" +
+                        " 2. Speed %s |\n" +
+                        " 3. Forward %s |\n" +
+                        " 4. Direction %s |\n ",
+                radius.toString(),
+                speed.toString(),
+                forward.toString(),
+                direction.toString()
+            )
+        )
     }
 
     private fun getRadiusValue(joystickAngle: Int): Double {

@@ -11,6 +11,8 @@ import eu.agribot.agribotapp.ui.fragment.bluetoothconnection.BluetoothConnection
 import eu.agribot.agribotapp.ui.fragment.bluetoothconnection.recycler.BluetoothNearbyListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.controlPanel.ControlPanelViewModel
 import eu.agribot.agribotapp.ui.fragment.controlPanel.taskselect.TaskSelectViewModel
+import eu.agribot.agribotapp.ui.fragment.controlPanel.viewpager.robotdata.PagerRobotDataViewModel
+import eu.agribot.agribotapp.ui.fragment.controlPanel.viewpager.taskdetails.PagerTaskDetailsViewModel
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.ManualControlViewModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.mainpathscreen.PathManagementViewModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.NewPathViewModel
@@ -268,5 +270,13 @@ val viewModelModule = module {
         PathNameViewModel(pathManagementService = get(),
             resourcesProvider = get { parametersOf(context) }
         )
+    }
+
+    viewModel { (context: Context) ->
+        PagerTaskDetailsViewModel(resourcesProvider = get { parametersOf(context) }, cloudDatabaseService = get())
+    }
+
+    viewModel {
+        PagerRobotDataViewModel()
     }
 }

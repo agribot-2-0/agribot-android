@@ -193,7 +193,7 @@
     <string name="next_button">Next</string>
     <string name="configuration_progress">Postęp konfiguracji</string>
     <string name="set_time_question">Czy chcesz ustawic czas?</string>
-    <string name="start_task_button">Rozpocznij zadanie</string>
+    <string name="start_task_button">Start Task</string>
     <string name="select_task_label">Select Task</string>
     <string name="not_kml_polygon_layer">This Layer haven\'t a KML points</string>
     <string name="task_name">Task Name : </string>
@@ -278,4 +278,9 @@
     <string name="checking_files">Checking files - please waiting</string>
     <string name="download_progress">\" Downloading progress \"</string>
     <string name="type_tool_name">Give tool name</string>
+    <string name="current_task">Current Task :</string>
+    <string name="current_path">Current Path:</string>
+    <string name="robot_state">Robot Status</string>
+    <string name="task_state">Task Status</string>
+    <string name="task_list">Tasks List</string>
 </resources>

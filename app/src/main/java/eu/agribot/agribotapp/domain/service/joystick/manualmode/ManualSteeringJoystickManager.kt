@@ -1,105 +1,108 @@
 package eu.agribot.agribotapp.domain.service.joystick.manualmode
 
+import android.annotation.SuppressLint
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator.BluetoothMessageCreator
 import eu.agribot.agribotapp.domain.model.fromdomain.ArcParameters
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.A_FACTOR_LEFT
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.A_FACTOR_LEFT_SECOND
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.A_FACTOR_RIGHT
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.A_FACTOR_RIGHT_SECOND
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.BACKWARD_MAX_ANGLE
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.BACKWARD_MIN_ANGLE
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.B_FACTOR_LEFT
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.B_FACTOR_LEFT_SECOND
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.B_FACTOR_RIGHT
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.B_FACTOR_RIGHT_SECOND
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.FR0NT_LEFT_MAX_ANGLE
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.FRONT_LEFT_MIN_ANGLE
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.FRONT_MAX_ANGLE
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.FRONT_MIN_ANGLE
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.FRONT_RIGHT_MAX_ANGLE
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.FRONT_RIGHT_MIN_ANGLE
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.INITIALIZE_JOYSTICK_ANGLE
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.LEFT_MAX_ANGLE
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.LEFT_MIN_ANGLE
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.MAX_ARCH
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.MIN_ARCH
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.REAR_LEFT_MAX_ANGLE
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.REAR_LEFT_MIN_ANGLE
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.REAR_MAX_ANGLE
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.REAR_MIN_ANGLE
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.REAR_RIGHT_MAX_ANGLE
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.REAR_RIGHT_MIN_ANGLE
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.RIGHT_MAX_ANGLE
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.RIGHT_MIN_ANGLE
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.SPEED_CONVENTER
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.STOCK_JOYSTICK_FIRST_QUARTER_MAX
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.STOCK_JOYSTICK_FIRST_QUARTER_MIN
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.STOCK_JOYSTICK_FOURTH_QUARTER_MAX
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.STOCK_JOYSTICK_FOURTH_QUARTER_MIN
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.STOCK_JOYSTICK_SECOND_THIRD_QUARTER_MAX
-import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.STOCK_JOYSTICK_SECOND_THIRD_QUARTER_MIN
+import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.FORWARD_RANGE_MAX
+import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.FORWARD_RANGE_MIN
+import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.MAX_JOYSTICK_STRENGTH_VALUE
+import eu.agribot.agribotapp.domain.service.joystick.manualmode.JoystickConstants.MAX_ROBOT_SPEED_IN_METERS_PER_SECOND
+import timber.log.Timber
 
 class ManualSteeringJoystickManager(
     private val messageCreator: BluetoothMessageCreator
 ) {
 
+    @SuppressLint("LogNotTimber")
     fun onJoystickConfigurationChanged(angle: Int, strength: Int) {
-        var joystickAngle = INITIALIZE_JOYSTICK_ANGLE
-        var radius: Double = MAX_ARCH
+        val radius: Double = getRadiusValue(angle)
+        val direction = getDirectionValue(radius)
+        val speed = getSpeedValue(strength)
+        val forward = getForwardValue(angle)
 
-        when (angle) {
-            in STOCK_JOYSTICK_SECOND_THIRD_QUARTER_MIN..STOCK_JOYSTICK_SECOND_THIRD_QUARTER_MAX -> {
-                joystickAngle = -angle + JoystickConstants.RIGHT_ANGLE
-            }
-            in STOCK_JOYSTICK_FIRST_QUARTER_MIN..STOCK_JOYSTICK_FIRST_QUARTER_MAX -> {
-                joystickAngle = -angle + JoystickConstants.RIGHT_ANGLE
-            }
-            in STOCK_JOYSTICK_FOURTH_QUARTER_MIN..STOCK_JOYSTICK_FOURTH_QUARTER_MAX -> {
-                val beta = -(angle - JoystickConstants.RIGHT_ANGLE)
-                joystickAngle = if (beta <= JoystickConstants.SEMI_TURN_ANGLE) {
-                    beta + JoystickConstants.FULL_TURN_ANGLE
-                } else {
-                    beta
-                }
-            }
+        if (speed != NO_REQUEST_SPEED) {
+            sendChangedJoystickParmaetrs(
+                ArcParameters(
+                    radius,
+                    direction,
+                    forward,
+                    speed
+                )
+            )
         }
 
-        if (joystickAngle in (FRONT_MIN_ANGLE) until FRONT_MAX_ANGLE) {
-            radius =
-                MAX_ARCH
-        } else if (joystickAngle < REAR_MIN_ANGLE || joystickAngle > REAR_MAX_ANGLE) {
-            radius =
-                MAX_ARCH
-        } else if (joystickAngle in (FRONT_LEFT_MIN_ANGLE) until FR0NT_LEFT_MAX_ANGLE) {
-            radius =
-                A_FACTOR_LEFT * joystickAngle + B_FACTOR_LEFT
-        } else if (joystickAngle in (LEFT_MIN_ANGLE) until LEFT_MAX_ANGLE) {
-            radius =
-                MIN_ARCH
-        } else if (joystickAngle in (REAR_LEFT_MIN_ANGLE) until REAR_LEFT_MAX_ANGLE) {
-            radius =
-                A_FACTOR_LEFT_SECOND * joystickAngle + B_FACTOR_LEFT_SECOND
-        } else if (joystickAngle in FRONT_RIGHT_MIN_ANGLE..FRONT_RIGHT_MAX_ANGLE) {
-            radius =
-                A_FACTOR_RIGHT * joystickAngle + B_FACTOR_RIGHT
-        } else if (joystickAngle in RIGHT_MIN_ANGLE..RIGHT_MAX_ANGLE) {
-            radius = -MIN_ARCH
-        } else if (joystickAngle in REAR_RIGHT_MIN_ANGLE..REAR_RIGHT_MAX_ANGLE) {
-            radius =
-                A_FACTOR_RIGHT_SECOND * joystickAngle + B_FACTOR_RIGHT_SECOND
-        }
-        val direction =
-            if (radius > 0) JoystickDirection.RIGHT.directory else JoystickDirection.LEFT.directory
-        val speed = (strength * SPEED_CONVENTER)
-        val forward =
-            if (angle in BACKWARD_MIN_ANGLE..BACKWARD_MAX_ANGLE) JoystickForward.BACKWARD.forward else JoystickForward.FORWARD.forward
+        Timber.d(
+            String.format(
+                "\nJoystic Param :\n" +
+                        " 1. Radius %s |\n" +
+                        " 2. Speed %s |\n" +
+                        " 3. Forward %s |\n" +
+                        " 4. Direction %s |\n ",
+                radius.toString(),
+                speed.toString(),
+                forward.toString(),
+                direction.toString()
+            )
+        )
+    }
 
-        if (angle != 0) {
-            sendChangedJoystickParmaetrs(ArcParameters(radius, direction, forward, speed))
+    private fun getRadiusValue(joystickAngle: Int): Double {
+        var joystickRadius = INITIALIZATION_RADIUS
+
+        when (joystickAngle) {
+            in AngleRange.FRONT.minValue..AngleRange.FRONT.maxValue -> {
+                joystickRadius = RadiusData.STRAIGHT.value
+            }
+            in AngleRange.LOW_FRONT_RIGHT.minValue..AngleRange.LOW_FRONT_RIGHT.maxValue -> {
+                joystickRadius = RadiusData.CLOCKWISE.value * RadiusData.GENTLE.value
+            }
+            in AngleRange.HARD_FRONT_RIGHT.minValue..AngleRange.HARD_FRONT_RIGHT.maxValue -> {
+                joystickRadius = RadiusData.CLOCKWISE.value * RadiusData.SHARP.value
+            }
+            in AngleRange.HARD_BACK_RIGHT.minValue..AngleRange.HARD_BACK_RIGHT.maxValue -> {
+                joystickRadius = RadiusData.CLOCKWISE.value * RadiusData.SHARP.value
+            }
+            in AngleRange.LOW_BACK_RIGHT.minValue..AngleRange.LOW_BACK_RIGHT.maxValue -> {
+                joystickRadius = RadiusData.CLOCKWISE.value * RadiusData.GENTLE.value
+            }
+            in AngleRange.BACK.minValue..AngleRange.BACK.maxValue -> {
+                joystickRadius = RadiusData.STRAIGHT.value
+            }
+            in AngleRange.LOW_BACK_LEFT.minValue..AngleRange.LOW_BACK_LEFT.maxValue -> {
+                joystickRadius = RadiusData.COUNTERCLOCKWISE.value * RadiusData.GENTLE.value
+            }
+            in AngleRange.HARD_BACK_LEFT.minValue..AngleRange.HARD_BACK_LEFT.maxValue -> {
+                joystickRadius = RadiusData.COUNTERCLOCKWISE.value * RadiusData.SHARP.value
+            }
+            in AngleRange.HARD_FRONT_LEFT.minValue..AngleRange.HARD_FRONT_LEFT.maxValue -> {
+                joystickRadius = RadiusData.COUNTERCLOCKWISE.value * RadiusData.SHARP.value
+            }
+            in AngleRange.LOW_FRONT_LEFT.minValue..AngleRange.LOW_FRONT_LEFT.maxValue -> {
+                joystickRadius = RadiusData.COUNTERCLOCKWISE.value * RadiusData.GENTLE.value
+            }
         }
+        return joystickRadius
+    }
+
+    private fun getDirectionValue(radius: Double): Int {
+        return if (radius > RIGHT_DIRECTION_VALUE) JoystickDirection.RIGHT.direction else JoystickDirection.LEFT.direction
+    }
+
+    private fun getSpeedValue(strength: Int): Double {
+        return (strength * MAX_ROBOT_SPEED_IN_METERS_PER_SECOND) / MAX_JOYSTICK_STRENGTH_VALUE
+    }
+
+    private fun getForwardValue(angle: Int): Int {
+        return if (angle in FORWARD_RANGE_MIN..FORWARD_RANGE_MAX) JoystickForward.FORWARD.value else JoystickForward.BACKWARD.value
     }
 
     private fun sendChangedJoystickParmaetrs(arcParameters: ArcParameters) {
         messageCreator.createARCMessage(arcParameters.toCommunicationModel())
+    }
+
+    companion object {
+        const val INITIALIZATION_RADIUS = 0.0
+        const val NO_REQUEST_SPEED = 0.0
+        const val RIGHT_DIRECTION_VALUE = 0
     }
 }

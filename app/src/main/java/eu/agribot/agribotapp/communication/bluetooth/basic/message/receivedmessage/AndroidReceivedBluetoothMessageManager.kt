@@ -129,11 +129,15 @@ class AndroidReceivedBluetoothMessageManager(
             }
 
             BluetoothAdressCodeModel.AGRIBOT_DIAGNOSTIC_DATA_1.number -> {
-                handleDiagnosticData(bluetoothMessageFrame)
+                if (bluetoothMessageFrame.bluetoothMessageArray.size > MinimumMessageLength.DIAGNOSTIC_DATA.size) {
+                    handleDiagnosticData(bluetoothMessageFrame)
+                }
             }
 
             BluetoothAdressCodeModel.HYDRAULIC_DIAGNOSTIC_DATA_.number -> {
-                handleHydraulicDiagnosticData(bluetoothMessageFrame)
+                if (bluetoothMessageFrame.bluetoothMessageArray.size > MinimumMessageLength.HYDRAULIC_DATA.size) {
+                    handleHydraulicDiagnosticData(bluetoothMessageFrame)
+                }
             }
 
             BluetoothAdressCodeModel.RFID_TAG.number -> {

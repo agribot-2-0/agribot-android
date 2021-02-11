@@ -87,7 +87,12 @@ class ManualControlViewModel(
     }
 
     @ExperimentalCoroutinesApi
-    fun setDiagnosticData() = viewModelScope.launch {
+    fun setDiagnosticData() {
+        observeDiagnosticData()
+        observeHydraulicData()
+    }
+
+    private fun observeDiagnosticData() = viewModelScope.launch {
         manualModeService.observeDiagnosticData().collect { diagnosticData ->
             if (diagnosticData != null) {
                 addToDiagnosticDataList(
@@ -128,26 +133,6 @@ class ManualControlViewModel(
 
                     )
                 )
-
-                manualModeService.observeHydraulicData().collect { hydraulicData ->
-                    if (hydraulicData != null) {
-                        addToDiagnosticDataList(
-                            DiagnosticDataViewModel(
-                                DiagnosticDataID.OIL_TEMPERATURE.ID,
-                                hydraulicData.oilTemperature,
-                                resourcesProvider.getString(R.string.celcius_degree)
-                            )
-                        )
-                    } else {
-                        addToDiagnosticDataList(
-                            DiagnosticDataViewModel(
-                                DiagnosticDataID.OIL_TEMPERATURE.ID,
-                                resourcesProvider.getString(R.string.no_data_status),
-                                resourcesProvider.getString(R.string.celcius_degree)
-                            )
-                        )
-                    }
-                }
             } else {
                 resourcesProvider.getString(R.string.no_data_status).let { noData ->
                     addToDiagnosticDataList(
@@ -189,6 +174,28 @@ class ManualControlViewModel(
                         )
                     )
                 }
+            }
+        }
+    }
+
+    private fun observeHydraulicData() = viewModelScope.launch {
+        manualModeService.observeHydraulicData().collect { hydraulicData ->
+            if (hydraulicData != null) {
+                addToDiagnosticDataList(
+                    DiagnosticDataViewModel(
+                        DiagnosticDataID.OIL_TEMPERATURE.ID,
+                        hydraulicData.oilTemperature,
+                        resourcesProvider.getString(R.string.celcius_degree)
+                    )
+                )
+            } else {
+                addToDiagnosticDataList(
+                    DiagnosticDataViewModel(
+                        DiagnosticDataID.OIL_TEMPERATURE.ID,
+                        resourcesProvider.getString(R.string.no_data_status),
+                        resourcesProvider.getString(R.string.celcius_degree)
+                    )
+                )
             }
         }
     }
@@ -235,9 +242,7 @@ class ManualControlViewModel(
         internetConnectionService.connectWithAgribot(onConnectionError = onError)
     }
 
-    private fun onWakeupError(errorMessage: String) {
-        toastMessage.postValue(errorMessage)
-    }
+    private fun onWakeupError(errorMessage: String) = toastMessage.postValue(errorMessage)
 
     private fun startStopEngine() = viewModelScope.launch {
         manualModeService.startStopEngine()

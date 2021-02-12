@@ -9,7 +9,7 @@ interface FirestorageService {
     fun listAllItem(
         currentUserID: String,
         onFilesAvailable: (fileName: String) -> Unit,
-        onError: (exception: Exception) -> Unit
+        onError: (exception: Throwable) -> Unit
     )
 
     fun downloadPathFileFromUrl(
@@ -22,21 +22,21 @@ interface FirestorageService {
     fun removePathFileInCloudStorage(
         fileName: String,
         onSucess: () -> Unit,
-        onError: (exception: Exception) -> Unit
+        onError: (exception: Throwable) -> Unit
     )
 
     fun downloadZipMapTiles(
         pathFile: String,
         onDownloadStart: () -> Unit,
         onDownloadSucess: () -> Unit,
-        onDownloadError: (error: Error?) -> Unit
+        onDownloadError: (error: Throwable) -> Unit
 
     )
 
     fun uploadFileToCloud(
         uploadFileModelCDB: UploadFileModelCDB,
         onSucess: () -> Unit,
-        onError: (exception: Exception) -> Unit
+        onError: (exception: Throwable) -> Unit
     )
 
     fun downloadPhotoFile(

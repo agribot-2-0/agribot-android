@@ -21,7 +21,7 @@ class AndroidFirestorageService(
     override fun listAllItem(
         currentUserID: String,
         onFilesAvailable: (fileName: String) -> Unit,
-        onError: (exception: java.lang.Exception) -> Unit
+        onError: (exception: Throwable) -> Unit
     ) {
         Firebase.storage.reference.child("$currentUserID/$PATH_SOURCE/")
             .listAll()
@@ -68,7 +68,7 @@ class AndroidFirestorageService(
     override fun removePathFileInCloudStorage(
         fileName: String,
         onSucess: () -> Unit,
-        onError: (exception: Exception) -> Unit
+        onError: (exception: Throwable) -> Unit
     ) {
         storage.reference.child("${firebaseService.getCurrentUser()?.uid}/$PATH_SOURCE/$fileName")
             .delete()
@@ -84,7 +84,7 @@ class AndroidFirestorageService(
         pathFile: String,
         onDownloadStart: () -> Unit,
         onDownloadSucess: () -> Unit,
-        onDownloadError: (error: Error?) -> Unit
+        onDownloadError: (error: Throwable) -> Unit
     ) {
         storage.reference.child("${firebaseService.getCurrentUser()?.uid}/$MAPS_FILE")
             .downloadUrl
@@ -100,8 +100,8 @@ class AndroidFirestorageService(
                             onDownloadSucess()
                         }
 
-                        override fun onError(error: Error?) {
-                            onDownloadError(error)
+                        override fun onError(error: Error) {
+                            onDownloadError(error.connectionException)
                         }
                     })
             }
@@ -110,7 +110,7 @@ class AndroidFirestorageService(
     override fun uploadFileToCloud(
         uploadFileModelCDB: UploadFileModelCDB,
         onSucess: () -> Unit,
-        onError: (exception: Exception) -> Unit
+        onError: (uploadFileError: Throwable) -> Unit
     ) {
         storage.reference.child("${firebaseService.getCurrentUser()?.uid}/${uploadFileModelCDB.fileSource}/${uploadFileModelCDB.fileNAme}")
             .putFile(Uri.fromFile(File(uploadFileModelCDB.filePath)))
@@ -125,7 +125,7 @@ class AndroidFirestorageService(
         toolPhotoName: String,
         filePath: String,
         onDownloadSucess: () -> Unit,
-        onDownloadError: (error: Throwable) -> Unit
+        onDownloadError: (downloadFileError: Throwable) -> Unit
     ) {
         storage.reference.child("${firebaseService.getCurrentUser()?.uid}/$TOOL_PHOTO_SOURCE/$toolPhotoName")
             .downloadUrl.addOnSuccessListener {

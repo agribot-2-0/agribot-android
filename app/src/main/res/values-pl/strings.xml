@@ -261,6 +261,11 @@
     <string name="dialog_no_found_tags_message">Chcesz powtórzyć skan? </string>
     <string name="dialog_no_found_tags_confirm">Wyszukaj ponownie!</string>
     <string name="type_tool_name">Wpisz nazwę narzędzia</string>
+    <string name="current_task">Aktualne zadanie :</string>
+    <string name="current_path">Aktualna ścieżka :</string>
+    <string name="robot_state">Stan Robota</string>
+    <string name="task_state">Stan Zadania</string>
+    <string name="task_list">Lista Zadań</string>
 
     <string name="summary_tool_name">Nazwa Narzędzia:  %1$S</string>
     <string name="summary_tool_tag">RFID Tag Narzędzia:  %1$S</string>

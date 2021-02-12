@@ -170,6 +170,17 @@
     </fragment>
 
     <fragment
+        android:id="@+id/pager_task_details"
+        android:name="eu.agribot.agribotapp.ui.fragment.controlPanel.ControlPanelFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/pager_task_details">
+
+        <action
+            android:id="@+id/action_pager_task_details_to_selectTaskFragment"
+            app:destination="@id/selectTaskFragment" />
+    </fragment>
+
+    <fragment
         android:id="@+id/pathManagementFragment"
         android:name="eu.agribot.agribotapp.ui.fragment.pathmanagement.mainpathscreen.PathManagementFragment"
         android:label="@string/title_path_management"

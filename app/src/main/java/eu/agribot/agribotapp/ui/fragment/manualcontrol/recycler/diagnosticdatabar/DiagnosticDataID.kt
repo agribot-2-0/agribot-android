@@ -11,5 +11,5 @@ enum class DiagnosticDataID(val ID: Int) {
 
     FUEL_RATE(4),
 
-    FUEL_TEMPERATURE(5)
+    OIL_TEMPERATURE(5)
 }

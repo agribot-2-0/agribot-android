@@ -180,8 +180,8 @@
     <string name="no_pressure_text">No Pressure Selected</string>
     <string name="no_wind_text">No Wind Selected</string>
     <string name="no_start_date">No start Date</string>
-    <string name="map_tile_problem">Problem z dodaniem nakładki na mape</string>
-    <string name="marker_problem">Problem z dodaniem markera na mape</string>
+    <string name="map_tile_problem">Problem with map layer</string>
+    <string name="marker_problem">Problem with map marker</string>
     <string name="start_date">Start Date</string>
     <string name="wind">Wind</string>
     <string name="no_data_available">No Data</string>
@@ -191,9 +191,9 @@
     <string name="back_button">Back</string>
     <string name="layer_problem">Path Layer Problem</string>
     <string name="next_button">Next</string>
-    <string name="configuration_progress">Postęp konfiguracji</string>
-    <string name="set_time_question">Czy chcesz ustawic czas?</string>
-    <string name="start_task_button">Rozpocznij zadanie</string>
+    <string name="configuration_progress">Configuration progress</string>
+    <string name="set_time_question">Do you want to set time?</string>
+    <string name="start_task_button">Start Task</string>
     <string name="select_task_label">Select Task</string>
     <string name="not_kml_polygon_layer">This Layer haven\'t a KML points</string>
     <string name="task_name">Task Name : </string>
@@ -270,10 +270,10 @@
     <string name="front_back">Front / Back</string>
     <string name="wakeup_button">Wake-Up</string>
 
-    <string name="dialog_tiles_downloading_tittle">Twoje pliki są pobierane…</string>
-    <string name="dialog_tiles_downloading_message">Pobieranie w toku</string>
-    <string name="dialog_tiles_extracting_tittle">Twoje pliki są rozpakowywane</string>
-    <string name="dialog_tiles_extracting_message">Trwa rozpakowywanie plików</string>
+    <string name="dialog_tiles_downloading_tittle">Your files is downloading…</string>
+    <string name="dialog_tiles_downloading_message">Downloading in progress</string>
+    <string name="dialog_tiles_extracting_tittle">Your files is extracting</string>
+    <string name="dialog_tiles_extracting_message">Extracting files in progress</string>
 
     <string name="checking_files">Checking files - please waiting</string>
     <string name="download_progress">\" Downloading progress \"</string>
@@ -292,4 +292,9 @@
 
 
 
+    <string name="current_task">Current Task :</string>
+    <string name="current_path">Current Path:</string>
+    <string name="robot_state">Robot Status</string>
+    <string name="task_state">Task Status</string>
+    <string name="task_list">Tasks List</string>
 </resources>

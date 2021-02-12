@@ -11,18 +11,21 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.TileOverlayOptions
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.maps.android.kml.KmlContainer
 import com.google.maps.android.kml.KmlLayer
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
-import eu.agribot.agribotapp.common.dialog.DialogManager
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.TaskSelectNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentControlPanelBinding
+import eu.agribot.agribotapp.ui.fragment.controlPanel.viewpager.DashboardPagerAdapter
 import eu.agribot.agribotapp.ui.fragment.taskcreator.MapParameters
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TileProvider
 import eu.agribot.agribotapp.ui.fragment.taskcreator.URLPath
-import org.koin.android.ext.android.inject
+import kotlinx.android.synthetic.main.fragment_control_panel.pager
+import kotlinx.android.synthetic.main.fragment_control_panel.tab_layout
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.io.IOException
@@ -31,7 +34,6 @@ import java.io.InputStream
 class ControlPanelFragment :
     BaseFragment<ControlPanelViewModel, FragmentControlPanelBinding>(), OnMapReadyCallback {
 
-    private val dialogManager: DialogManager by inject { parametersOf(requireContext()) }
     override val layoutResourceId: Int = R.layout.fragment_control_panel
     override val viewModel: ControlPanelViewModel by viewModel { parametersOf(requireContext()) }
     private var googleMapFragment: GoogleMap? = null
@@ -57,11 +59,25 @@ class ControlPanelFragment :
         mapFragment.getMapAsync(this)
         viewModel.getAgribotPosition()
         viewModel.getActualTask()
+        observeViewModel()
+        setupViewPager()
+    }
+
+    private fun observeViewModel() {
         viewModel.pathStream.observe(this::onGotSelectedLayer)
         viewModel.markers.observe(this::updateMapMarker)
         viewModel.toastMessageEvent.observe(this::showToast)
         viewModel.cameraPosition.observe(this::updateMapCameraPosition)
-        viewModel.cancelTaskButtonClicked.observe(this::onCancelTask)
+    }
+
+    private fun setupViewPager() {
+        pager.adapter = DashboardPagerAdapter(this)
+        TabLayoutMediator(
+            tab_layout, pager
+        ) { tab: TabLayout.Tab, position: Int ->
+            tab.text =
+                arrayOf(getString(R.string.robot_state), getString(R.string.task_state), getString(R.string.task_list))[position]
+        }.attach()
     }
 
     private fun updateMapCameraPosition(latLng: LatLng) {
@@ -70,12 +86,6 @@ class ControlPanelFragment :
                 latLng, getMapZoom()
             )
         )
-    }
-
-    private fun onCancelTask(cancelTask: Boolean) {
-        if (cancelTask) {
-            dialogManager.cancelTaskDialog(viewModel::sendCancelTask)
-        }
     }
 
     private fun addTileOverlay() {
@@ -110,7 +120,8 @@ class ControlPanelFragment :
                 googleMapFragment?.moveCamera(
                     CameraUpdateFactory.newLatLngZoom(
                         agribotMarker.position,
-                        getMapZoom())
+                        getMapZoom()
+                    )
                 )
             } catch (exception: IOException) {
                 showToast(getString(R.string.map_marker_problem))

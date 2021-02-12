@@ -187,13 +187,13 @@ class CloudDatabaseService(
     }
 
     fun getActualTaskDetails(
-        onGetCurrentTaskDetailsSucess: (TaskDetails) -> Unit,
-        onGetCurrentTaskNameSucess: (taskName: String) -> Unit,
+        onGetCurrentTaskDetailsSuccess: (TaskDetails) -> Unit,
+        onGetCurrentTaskNameSuccess: (taskName: String) -> Unit,
         onError: (error: String) -> Unit
     ) {
         cloudDatabase.getCurrentTaskDetails(
-            onGetCurrentTaskNameSucess = onGetCurrentTaskNameSucess,
-            onGetCurrentTaskDetailsSucess = { onGetCurrentTaskDetailsSucess(it.toDomainModel()) },
+            onGetCurrentTaskNameSucess = onGetCurrentTaskNameSuccess,
+            onGetCurrentTaskDetailsSucess = { onGetCurrentTaskDetailsSuccess(it.toDomainModel()) },
             onDatabaseError = {
                 onError(it.message!!)
             })

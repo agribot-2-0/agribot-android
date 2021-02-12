@@ -1,13 +1,13 @@
-package eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler
+package eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparameters.recycler
 
 import androidx.recyclerview.widget.DiffUtil
 
-class ToolListItemDiffUtill(
-    private val oldList: List<ToolListItemViewModel>,
-    private val newList: List<ToolListItemViewModel>
+class ReceivedRfidDataDiffUtill(
+    private val oldList: List<ReceivedRfidDataViewModel>,
+    private val newList: List<ReceivedRfidDataViewModel>
 ) : DiffUtil.Callback() {
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition].toolName == newList[newItemPosition].toolName
+        return oldList[oldItemPosition].rfidTagData == newList[newItemPosition].rfidTagData
     }
 
     override fun getOldListSize() = oldList.size

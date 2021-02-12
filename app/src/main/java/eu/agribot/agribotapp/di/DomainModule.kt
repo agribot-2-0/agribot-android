@@ -133,7 +133,12 @@ val domainModule = module {
     }
 
     single {
-        ToolDataManager()
+        ToolDataManager(
+            resourcesProvider = get {
+                parametersOf(
+                    androidContext()
+                )
+            })
     }
 
     single {
@@ -179,7 +184,9 @@ val domainModule = module {
     single {
         ToolManagementService(
             bluetoothMessageCreator = get(),
-            rfidMessageManager = get()
+            rfidMessageManager = get(),
+            cloudStorageService = get(),
+            filePathProvider = get()
         )
     }
 

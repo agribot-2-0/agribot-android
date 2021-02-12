@@ -6,4 +6,6 @@ interface PermissionValidator {
     fun hasBluetoothPermissions(): Boolean
 
     fun hasBluetoothAdminPermissions(): Boolean
+
+    fun hasCameraPermissions(): Boolean
 }

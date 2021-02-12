@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.ToolListItemViewModel" />
+            type="eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toollist.ToolListItemViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView

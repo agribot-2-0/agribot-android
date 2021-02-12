@@ -25,6 +25,6 @@ class ToolNameFragment :
     }
 
     private fun navigateToToolName() {
-        navigationController?.navigate(R.id.action_toolManagementNameFragment_to_toolManagementParamsFragment)
+        navigationController?.navigate(R.id.action_toolManagementNameFragment_to_findToolFragment)
     }
 }

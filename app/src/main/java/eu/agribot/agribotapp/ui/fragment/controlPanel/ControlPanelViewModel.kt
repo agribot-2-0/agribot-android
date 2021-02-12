@@ -41,8 +41,8 @@ class ControlPanelViewModel(
 
     fun getActualTask() {
         cloudDatabaseService.getActualTaskDetails(
-            onGetCurrentTaskDetailsSucess = this::onGotCurrentTaskDetails,
-            onGetCurrentTaskNameSucess = this::onGotCurrentTaskName,
+            onGetCurrentTaskDetailsSuccess = this::onGotCurrentTaskDetails,
+            onGetCurrentTaskNameSuccess = this::onGotCurrentTaskName,
             onError = this::postToastErrorMessageEvent
         )
     }

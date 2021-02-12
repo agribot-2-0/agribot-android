@@ -55,7 +55,7 @@ class DiagnosticDataAdapter : RecyclerView.Adapter<DiagnosticDataViewHolder>() {
             DiagnosticDataID.FUEL_RATE.ID -> {
                 R.drawable.ic_fuelhour
             }
-            DiagnosticDataID.FUEL_TEMPERATURE.ID -> {
+            DiagnosticDataID.OIL_TEMPERATURE.ID -> {
                 R.drawable.ic_thermometer
             }
 

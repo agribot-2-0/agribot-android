@@ -33,5 +33,7 @@ enum class BluetoothAdressCodeModel(val number: Int) {
 
     AGRIBOT_DIAGNOSTIC_DATA_1(100),
 
+    HYDRAULIC_DIAGNOSTIC_DATA_(105),
+
     RFID_TAG(500)
 }

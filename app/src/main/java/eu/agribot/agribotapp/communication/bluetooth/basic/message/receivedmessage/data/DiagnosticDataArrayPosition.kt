@@ -1,19 +1,22 @@
 package eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data
 
-object DiagnosticDataArrayPosition {
-    const val ACCUMULATOR_VOLTGE_FIRST_BYTE_POSITION = 6
+enum class DiagnosticDataArrayPosition(val position: Int) {
 
-    const val ACCUMULATOR_VOLTAGE_SECOND_BYTE_POSITION = 7
+    ACCUMULATOR_VOLTGE_FIRST_BYTE(6),
 
-    const val ENGINE_ROTATIONS_FIRST_BYTE_POSITION = 0
+    ACCUMULATOR_VOLTAGE_SECOND_BYTE(7),
 
-    const val ENGINE_ROTATIONS_SECOND_BYTE_POSITION = 1
+    ENGINE_ROTATIONS_FIRST_BYTE(0),
 
-    const val TORQUE_OF_ENGINE_BYTE_POSITION = 2
+    ENGINE_ROTATIONS_SECOND_BYTE(1),
 
-    const val ENGINE_FUEL_RATE_BYTE_POSITION = 3
+    TORQUE_OF_ENGINE_BYTE(2),
 
-    const val FUEL_LEVEL_BYTE_POSITION = 4
+    ENGINE_FUEL_RATE_BYTE(3),
 
-    const val FUEL_TEMPERATURE_BYTE_POSITION = 5
+    FUEL_LEVEL_BYTE(4),
+
+    FUEL_TEMPERATURE_BYTE(5),
+
+    HUDRAULIC_OIL_TEMPERATURE_BYTE(2),
 }

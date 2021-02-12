@@ -151,9 +151,7 @@ class CloudStorageService(
             onDownloadSucess = onDownloadFileSuccess,
             onDownloadStart = onDownloadStart,
             onDownloadError = {
-                if (it != null) {
-                    onDownloadFileError(cloudStorageErrorHandler.getStorageError(it.connectionException))
-                }
+                onDownloadFileError(cloudStorageErrorHandler.getStorageError(it))
             }
         )
     }

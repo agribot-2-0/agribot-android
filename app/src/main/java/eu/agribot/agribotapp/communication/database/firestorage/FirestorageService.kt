@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.communication.database.firestorage
 
-import com.downloader.Error
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.UploadFileModelCDB
 import java.io.File
 

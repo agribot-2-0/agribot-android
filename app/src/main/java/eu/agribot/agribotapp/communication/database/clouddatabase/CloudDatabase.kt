@@ -3,7 +3,6 @@ package eu.agribot.agribotapp.communication.database.clouddatabase
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.ActualTaskCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.EngineHealthCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.NewRobotTaskDetailsCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotHealthEngineCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotLocalizationPoseCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationHumidityCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationPressureCDB
@@ -14,6 +13,9 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskItem
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.ToolDetailsCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.TooltemCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserInfoCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.state.RobotEngineCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.state.RobotHydraulicsCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.state.RobotTaskCDB
 
 interface CloudDatabase {
 
@@ -24,13 +26,25 @@ interface CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     )
 
-    fun getEngineHealthData(
-        onDatabaseSucess: (data: EngineHealthCDB) -> Unit,
+    //ROBOT STATE
+
+    fun getRobotStateEngineData(
+        onDatabaseSucess: (data: RobotEngineCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 
-    fun getRobotHealthEngineData(
-        onDatabaseSucess: (data: RobotHealthEngineCDB) -> Unit,
+    fun getRobotStateHydraulicsData(
+        onDatabaseSucess: (data: RobotHydraulicsCDB) -> Unit,
+        onDatabaseError: (Throwable) -> Unit
+    )
+
+    fun getRobotStateTaskData(
+        onDatabaseSucess: (data: RobotTaskCDB) -> Unit,
+        onDatabaseError: (Throwable) -> Unit
+    )
+
+    fun getEngineHealthData(
+        onDatabaseSucess: (data: EngineHealthCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 

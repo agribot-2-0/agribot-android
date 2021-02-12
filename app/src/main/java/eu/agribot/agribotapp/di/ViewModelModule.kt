@@ -273,10 +273,14 @@ val viewModelModule = module {
     }
 
     viewModel { (context: Context) ->
-        PagerTaskDetailsViewModel(resourcesProvider = get { parametersOf(context) }, cloudDatabaseService = get())
+        PagerTaskDetailsViewModel(
+            resourcesProvider = get { parametersOf(context) },
+            cloudDatabaseService = get()
+        )
     }
 
-    viewModel {
-        PagerRobotDataViewModel()
+    viewModel { (context: Context) ->
+        PagerRobotDataViewModel(cloudDatabaseService = get(),
+            resourcesProvider = get { parametersOf(context) })
     }
 }

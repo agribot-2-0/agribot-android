@@ -5,7 +5,6 @@ import com.google.firebase.firestore.FirebaseFirestore.getInstance
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.ActualTaskCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.EngineHealthCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.NewRobotTaskDetailsCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotHealthEngineCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotLocalizationPoseCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationHumidityCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationPressureCDB
@@ -16,18 +15,21 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskItem
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.ToolDetailsCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.TooltemCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserInfoCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_ENGINE
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_ROBOTS
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_USER
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_HEALTH
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_HEALTH_ENGINE
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_LOCALIZATION_POSE
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_STATE_ENGINE
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_STATE_HYDRAULICS
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_STATE_TASK
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_TASKS
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_TOOLS
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_WEATHER_STATION_HUMIDITYE
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_WEATHER_STATION_PRESSURE
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_WEATHER_STATION_TEMPERATURE
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_WEATHER_STATION_WIND
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.state.RobotEngineCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.state.RobotHydraulicsCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.state.RobotTaskCDB
 import timber.log.Timber
 import java.io.IOException
 
@@ -59,7 +61,7 @@ class FirebaseDatabase : CloudDatabase {
         onDatabaseSucess: (data: EngineHealthCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        database.collection(COLLECTION_ENGINE).document(userRobotName + DOCUMENT_HEALTH)
+        database.collection(COLLECTION_ROBOTS).document(userRobotName + DOCUMENT_STATE_ENGINE)
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(Throwable("Could not parse firebase data"))
@@ -73,19 +75,57 @@ class FirebaseDatabase : CloudDatabase {
             }
     }
 
-    override fun getRobotHealthEngineData(
-        onDatabaseSucess: (data: RobotHealthEngineCDB) -> Unit,
+    override fun getRobotStateEngineData(
+        onDatabaseSucess: (data: RobotEngineCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document(userRobotName + DOCUMENT_HEALTH_ENGINE)
+            .document(userRobotName + DOCUMENT_STATE_ENGINE)
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(Throwable("Could not parse firebase data"))
                     return@addSnapshotListener
                 }
                 if (snapshot != null && snapshot.exists()) {
-                    snapshot.toObject(RobotHealthEngineCDB::class.java)?.let {
+                    snapshot.toObject(RobotEngineCDB::class.java)?.let {
+                        onDatabaseSucess(it)
+                    }
+                }
+            }
+    }
+
+    override fun getRobotStateHydraulicsData(
+        onDatabaseSucess: (data: RobotHydraulicsCDB) -> Unit,
+        onDatabaseError: (Throwable) -> Unit
+    ) {
+        database.collection(COLLECTION_ROBOTS)
+            .document(userRobotName + DOCUMENT_STATE_HYDRAULICS)
+            .addSnapshotListener { snapshot, databaseException ->
+                if (databaseException != null) {
+                    onDatabaseError(Throwable("Could not parse firebase data"))
+                    return@addSnapshotListener
+                }
+                if (snapshot != null && snapshot.exists()) {
+                    snapshot.toObject(RobotHydraulicsCDB::class.java)?.let {
+                        onDatabaseSucess(it)
+                    }
+                }
+            }
+    }
+
+    override fun getRobotStateTaskData(
+        onDatabaseSucess: (data: RobotTaskCDB) -> Unit,
+        onDatabaseError: (Throwable) -> Unit
+    ) {
+        database.collection(COLLECTION_ROBOTS)
+            .document(userRobotName + DOCUMENT_STATE_TASK)
+            .addSnapshotListener { snapshot, databaseException ->
+                if (databaseException != null) {
+                    onDatabaseError(Throwable("Could not parse firebase data"))
+                    return@addSnapshotListener
+                }
+                if (snapshot != null && snapshot.exists()) {
+                    snapshot.toObject(RobotTaskCDB::class.java)?.let {
                         onDatabaseSucess(it)
                     }
                 }

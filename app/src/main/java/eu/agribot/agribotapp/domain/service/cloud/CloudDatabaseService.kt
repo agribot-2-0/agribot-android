@@ -4,7 +4,6 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabase
 import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
 import eu.agribot.agribotapp.domain.model.cdb.ActualTask
 import eu.agribot.agribotapp.domain.model.cdb.EngineHealth
-import eu.agribot.agribotapp.domain.model.cdb.RobotHealthEngine
 import eu.agribot.agribotapp.domain.model.cdb.RobotLocalizationPose
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationHumidity
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationPressure
@@ -15,6 +14,9 @@ import eu.agribot.agribotapp.domain.model.cdb.TaskItem
 import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
 import eu.agribot.agribotapp.domain.model.cdb.ToolItem
 import eu.agribot.agribotapp.domain.model.cdb.UserInfo
+import eu.agribot.agribotapp.domain.model.cdb.state.RobotEngine
+import eu.agribot.agribotapp.domain.model.cdb.state.RobotHydraulics
+import eu.agribot.agribotapp.domain.model.cdb.state.RobotTask
 import eu.agribot.agribotapp.domain.model.cdb.taskprogram.taskmodel.NewRobotTaskDetails
 
 class CloudDatabaseService(
@@ -40,11 +42,35 @@ class CloudDatabaseService(
         )
     }
 
-    fun getRobotHealthEngine(
-        onSuccess: (RobotHealthEngine) -> Unit,
+    fun getRobotStateEngine(
+        onSuccess: (RobotEngine) -> Unit,
         onError: (String) -> Unit
     ) {
-        cloudDatabase.getRobotHealthEngineData(onDatabaseSucess = {
+        cloudDatabase.getRobotStateEngineData(onDatabaseSucess = {
+            onSuccess(it.toDomainModel())
+        },
+            onDatabaseError = {
+                onError(it.message!!)
+            })
+    }
+
+    fun getRobotStateHydraulics(
+        onSuccess: (RobotHydraulics) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        cloudDatabase.getRobotStateHydraulicsData(onDatabaseSucess = {
+            onSuccess(it.toDomainModel())
+        },
+            onDatabaseError = {
+                onError(it.message!!)
+            })
+    }
+
+    fun getRobotStateTask(
+        onSuccess: (RobotTask) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        cloudDatabase.getRobotStateTaskData(onDatabaseSucess = {
             onSuccess(it.toDomainModel())
         },
             onDatabaseError = {

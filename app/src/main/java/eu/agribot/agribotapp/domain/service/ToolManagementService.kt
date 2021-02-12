@@ -65,8 +65,8 @@ class ToolManagementService(
 
     fun uploadToolPhotoToCloud(
         toolName: String,
-        onSucess: () -> Unit,
         toolPhotoSource: String,
+        onSucess: () -> Unit,
         onError: (error: String) -> Unit
     ) {
         cloudStorageService.uploadToolPhotoFile(
@@ -77,21 +77,21 @@ class ToolManagementService(
         )
     }
 
-    fun getToolPhotoToDisplay(photoName: String): File {
-        if (File(getPhotoDirectory().absolutePath + photoName).exists()) {
+    fun getToolPhotoToDisplay(toolName: String): File {
+        if (File(getPhotoDirectory().absolutePath + toolName).exists()) {
             return getPhotoDirectory()
         } else {
             cloudStorageService.downloadToolPhotoFile(
                 getPhotoDirectory().absolutePath,
-                photoName,
-                onDownloadToolPhotoErrorSucess = this::onSucess,
+                toolName,
+                onDownloadToolPhotoSuccess = this::onSuccess,
                 onDownloadToolPhotoError = this::onError
             )
         }
         return getPhotoDirectory()
     }
 
-    private fun onSucess(): File {
+    private fun onSuccess(): File {
         return getPhotoDirectory()
     }
 

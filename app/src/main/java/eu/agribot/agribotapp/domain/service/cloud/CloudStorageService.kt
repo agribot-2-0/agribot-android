@@ -3,6 +3,8 @@ package eu.agribot.agribotapp.domain.service.cloud
 import eu.agribot.agribotapp.communication.database.firestorage.DownloaderPath
 import eu.agribot.agribotapp.communication.database.firestorage.FirestorageService
 import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
+import eu.agribot.agribotapp.domain.model.cdb.UploadFilePath
+import eu.agribot.agribotapp.domain.model.fromdomain.UploadFileModel
 import eu.agribot.agribotapp.domain.service.AuthenticationService
 import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePath.MAPS_FILE
 import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePath.MAPS_PATH
@@ -53,13 +55,13 @@ class CloudStorageService(
 
     private fun downloadFile(
         fileName: String,
-        onDownloadFileSucess: (file: File) -> Unit,
+        onDownloadFileSuccess: (file: File) -> Unit,
         onDownloadFileError: (error: String) -> Unit
     ) {
         firestorageService.downloadPathFileFromUrl(
             fileName,
             filePathProvider.getLayerPath(DownloaderPath.LAYER_PATH.filePath),
-            onDownloadFileSucess,
+            onDownloadFileSuccess,
             onDownloadError = { onDownloadFileError(cloudStorageErrorHandler.getStorageError(it)) }
         )
     }
@@ -67,13 +69,15 @@ class CloudStorageService(
     fun uploadPathFile(
         filePath: String,
         fileName: String,
-        onSucess: () -> Unit,
+        onSuccess: () -> Unit,
         onError: (exception: String) -> Unit
     ) {
-        firestorageService.uploadPathFile(
+        firestorageService.uploadFileToCloud(UploadFileModel(
             filePath,
             fileName,
-            onSucess,
+            UploadFilePath.ROBOT_PATH.source
+        ).toCommunicationModel(),
+            onSuccess,
             onError = { onError(cloudStorageErrorHandler.getStorageError(it)) }
         )
     }
@@ -81,13 +85,15 @@ class CloudStorageService(
     fun uploadToolPhotoFile(
         filePath: String,
         fileName: String,
-        onSucess: () -> Unit,
+        onSuccess: () -> Unit,
         onError: (exception: String) -> Unit
     ) {
-        firestorageService.uploadPhotoFile(
+        firestorageService.uploadFileToCloud(UploadFileModel(
             filePath,
             fileName,
-            onSucess,
+            UploadFilePath.TOOL_PHOTO.source
+        ).toCommunicationModel(),
+            onSuccess,
             onError = { onError(cloudStorageErrorHandler.getStorageError(it)) }
         )
     }
@@ -95,25 +101,25 @@ class CloudStorageService(
     fun downloadToolPhotoFile(
         filePath: String,
         fileName: String,
-        onDownloadToolPhotoErrorSucess: () -> Unit,
+        onDownloadToolPhotoSuccess: () -> Unit,
         onDownloadToolPhotoError: (exception: Throwable) -> Unit
     ) {
         firestorageService.downloadPhotoFile(
             fileName,
             filePath,
-            onDownloadToolPhotoErrorSucess,
+            onDownloadToolPhotoSuccess,
             onDownloadToolPhotoError
         )
     }
 
     fun removeFileInCloud(
         fileName: String,
-        onSucess: () -> Unit,
+        onSuccess: () -> Unit,
         onError: (exception: String) -> Unit
     ) {
         firestorageService.removePathFileInCloudStorage(
             fileName,
-            onSucess,
+            onSuccess,
             onError = { onError(cloudStorageErrorHandler.getStorageError(it)) })
     }
 
@@ -136,13 +142,13 @@ class CloudStorageService(
     }
 
     private fun downloadZipTiles(
-        onDownloadFileSucess: () -> Unit,
+        onDownloadFileSuccess: () -> Unit,
         onDownloadStart: () -> Unit,
         onDownloadFileError: (error: String) -> Unit
     ) {
         firestorageService.downloadZipMapTiles(
             filePathProvider.getLayerPath(DownloaderPath.MAP_PATH.filePath),
-            onDownloadSucess = onDownloadFileSucess,
+            onDownloadSucess = onDownloadFileSuccess,
             onDownloadStart = onDownloadStart,
             onDownloadError = {
                 if (it != null) {

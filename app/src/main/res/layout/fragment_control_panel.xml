@@ -20,14 +20,14 @@
             android:layout_margin="@dimen/margin_small"
             android:layout_weight="3"
             android:background="@color/background_gray"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/margin_small"
                 android:layout_marginTop="@dimen/margin_small"
-                android:layout_weight="1"
+                android:layout_weight="4"
                 android:background="@drawable/rounded_corner_layout">
 
                 <fragment
@@ -41,8 +41,8 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
@@ -259,276 +259,210 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="@dimen/margin_small"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_corner_layout">
-
-                    <CalendarView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="@dimen/margin_small"
-                        android:colorAccent="@color/base_green"
-                        />
-                </LinearLayout>
-
 
             </LinearLayout>
 
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/margin_medium"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_corner_layout"
-            android:orientation="vertical">
-
-            <TableLayout
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/margin_medium"
-                android:collapseColumns="2"
-                android:gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_corner_layout"
                 android:orientation="vertical">
 
-                <TableRow
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_medium"
-                        android:layout_weight="1"
-                        android:background="@drawable/rounded_corner_layout"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="42dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_thermometer"
-                            android:layout_margin="@dimen/margin_xlarge" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/margin_small"
-                            android:text="@string/no_data_available"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_medium"
-                        android:layout_weight="1"
-                        android:background="@drawable/rounded_corner_layout"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="42dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_thermometer"
-                            android:layout_margin="@dimen/margin_xlarge" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/margin_small"
-                            android:text="@string/no_data_available"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_medium"
-                        android:layout_weight="1"
-                        android:background="@drawable/rounded_corner_layout"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="42dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_thermometer"
-                            android:layout_margin="@dimen/margin_xlarge" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/margin_small"
-                            android:text="@string/no_data_available"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_medium"
-                        android:layout_weight="1"
-                        android:background="@drawable/rounded_corner_layout"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="42dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_thermometer"
-                            android:layout_margin="@dimen/margin_xlarge" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/margin_small"
-                            android:text="@string/no_data_available"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_medium"
-                        android:layout_weight="1"
-                        android:background="@drawable/rounded_corner_layout"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="42dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_thermometer"
-                            android:layout_margin="@dimen/margin_xlarge" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/margin_small"
-                            android:text="@string/no_data_available"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_medium"
-                        android:layout_weight="1"
-                        android:background="@drawable/rounded_corner_layout"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="43dp"
-                            android:src="@drawable/ic_thermometer"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/margin_xlarge" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/margin_small"
-                            android:text="@string/no_data_available"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_medium"
-                        android:layout_weight="1"
-                        android:background="@drawable/rounded_corner_layout"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="42dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_thermometer"
-                            android:layout_margin="@dimen/margin_xlarge" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/margin_small"
-                            android:text="@string/no_data_available"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_medium"
-                        android:layout_weight="1"
-                        android:background="@drawable/rounded_corner_layout"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="43dp"
-                            android:src="@drawable/ic_thermometer"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/margin_xlarge" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/margin_small"
-                            android:text="@string/no_data_available"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-
-                </TableRow>
-
-                <com.google.android.material.button.MaterialButton
+                <TableLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_margin="@dimen/margin_small"
-                    android:onClick="@{()->viewModel.onSelectTaskButtonClicked()}"
-                    android:text="@string/start_task_button" />
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:collapseColumns="2"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                <com.google.android.material.button.MaterialButton
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_margin="@dimen/margin_small"
-                    android:onClick="@{() -> viewModel.onCancelTaskButtonClicked()}"
-                    android:text="@string/cancel_task_button" />
 
-            </TableLayout>
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_medium"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_corner_layout"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="42dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_thermometer"
+                                android:layout_margin="@dimen/margin_xlarge" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="@dimen/margin_small"
+                                android:text="@string/no_data_available"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_medium"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_corner_layout"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="42dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_thermometer"
+                                android:layout_margin="@dimen/margin_xlarge" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="@dimen/margin_small"
+                                android:text="@string/no_data_available"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_medium"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_corner_layout"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="42dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_thermometer"
+                                android:layout_margin="@dimen/margin_xlarge" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="@dimen/margin_small"
+                                android:text="@string/no_data_available"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_medium"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_corner_layout"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="43dp"
+                                android:src="@drawable/ic_thermometer"
+                                android:layout_gravity="center"
+                                android:layout_margin="@dimen/margin_xlarge" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="@dimen/margin_small"
+                                android:text="@string/no_data_available"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_medium"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_corner_layout"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="42dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_thermometer"
+                                android:layout_margin="@dimen/margin_xlarge" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="@dimen/margin_small"
+                                android:text="@string/no_data_available"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_medium"
+                            android:layout_weight="1"
+                            android:background="@drawable/rounded_corner_layout"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="43dp"
+                                android:src="@drawable/ic_thermometer"
+                                android:layout_gravity="center"
+                                android:layout_margin="@dimen/margin_xlarge" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="@dimen/margin_small"
+                                android:text="@string/no_data_available"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+
+                    </TableRow>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_small"
+                        android:onClick="@{()->viewModel.onSelectTaskButtonClicked()}"
+                        android:text="@string/start_task_button" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_small"
+                        android:onClick="@{() -> viewModel.onCancelTaskButtonClicked()}"
+                        android:text="@string/cancel_task_button" />
+
+                </TableLayout>
+
+
+        </LinearLayout>
+
+
 
 
         </LinearLayout>

@@ -6,6 +6,7 @@ import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.UploadFileModelCDB
 import eu.agribot.agribotapp.communication.database.firebase.FirebaseService
 import eu.agribot.agribotapp.communication.database.firestorage.DownloadObjects.MAPS_FILE
 import eu.agribot.agribotapp.communication.database.firestorage.DownloadObjects.PATH_SOURCE
@@ -46,8 +47,7 @@ class AndroidFirestorageService(
                     it.toString(),
                     filePath,
                     fileName
-                )
-                    .build()
+                ).build()
                     .start(object : OnDownloadListener {
                         override fun onDownloadComplete() {
                             onDownloadSucess(
@@ -62,21 +62,6 @@ class AndroidFirestorageService(
                             onDownloadError(error.connectionException)
                         }
                     })
-            }
-    }
-
-    override fun uploadPathFile(
-        filePath: String,
-        fileName: String,
-        onSucess: () -> Unit,
-        onError: (exception: Exception) -> Unit
-    ) {
-        storage.reference.child("${firebaseService.getCurrentUser()?.uid}/$PATH_SOURCE/$fileName")
-            .putFile(Uri.fromFile(File(filePath)))
-            .addOnFailureListener { exception ->
-                onError(exception)
-            }.addOnSuccessListener {
-                onSucess.invoke()
             }
     }
 
@@ -122,14 +107,13 @@ class AndroidFirestorageService(
             }
     }
 
-    override fun uploadPhotoFile(
-        toolPhotoPath: String,
-        toolName: String,
+    override fun uploadFileToCloud(
+        uploadFileModelCDB: UploadFileModelCDB,
         onSucess: () -> Unit,
         onError: (exception: Exception) -> Unit
     ) {
-        storage.reference.child("${firebaseService.getCurrentUser()?.uid}/$TOOL_PHOTO_SOURCE/$toolName")
-            .putFile(Uri.fromFile(File(toolPhotoPath)))
+        storage.reference.child("${firebaseService.getCurrentUser()?.uid}/${uploadFileModelCDB.fileSource}/${uploadFileModelCDB.fileNAme}")
+            .putFile(Uri.fromFile(File(uploadFileModelCDB.filePath)))
             .addOnFailureListener { exception ->
                 onError(exception)
             }.addOnSuccessListener {
@@ -149,8 +133,7 @@ class AndroidFirestorageService(
                     it.toString(),
                     filePath,
                     toolPhotoName
-                )
-                    .build()
+                ).build()
                     .start(object : OnDownloadListener {
                         override fun onDownloadComplete() {
                             onDownloadSucess()

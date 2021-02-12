@@ -6,7 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import eu.agribot.agribotapp.databinding.ListItemToolParamBinding
-import kotlinx.android.synthetic.main.list_item_tool_param.view.*
+import kotlinx.android.synthetic.main.list_item_tool_param.view.tool_param_value
+import kotlinx.android.synthetic.main.list_item_tool_param.view.tool_value_tx
 
 class ListToolParamAdapter :
     RecyclerView.Adapter<ListToolParamViewHolder>() {

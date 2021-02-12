@@ -21,7 +21,9 @@ import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.tool
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toollist.ToolListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toolparameters.ListToolParamAdapter
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toolparameters.ListToolParamViewModel
-import kotlinx.android.synthetic.main.fragment_tool_management.*
+import kotlinx.android.synthetic.main.fragment_tool_management.main_tool_name_recycler
+import kotlinx.android.synthetic.main.fragment_tool_management.main_tool_parameter_recycler
+import kotlinx.android.synthetic.main.fragment_tool_management.main_tool_photo
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf

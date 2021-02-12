@@ -2,7 +2,6 @@ package eu.agribot.agribotapp.ui.fragment.controlPanel
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.observe
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -68,7 +67,7 @@ class ControlPanelFragment :
     private fun updateMapCameraPosition(latLng: LatLng) {
         googleMapFragment?.moveCamera(
             CameraUpdateFactory.newLatLngZoom(
-                latLng, MapParameters.MID_ZOOM.mapParametr
+                latLng, getMapZoom()
             )
         )
     }
@@ -110,8 +109,8 @@ class ControlPanelFragment :
                 )
                 googleMapFragment?.moveCamera(
                     CameraUpdateFactory.newLatLngZoom(
-                        agribotMarker.position, MapParameters.MID_ZOOM.mapParametr
-                    )
+                        agribotMarker.position,
+                        getMapZoom())
                 )
             } catch (exception: IOException) {
                 showToast(getString(R.string.map_marker_problem))
@@ -150,5 +149,13 @@ class ControlPanelFragment :
         googleMapFragment!!.setMinZoomPreference(MapParameters.MIN_ZOOM.mapParametr)
         googleMapFragment!!.setMaxZoomPreference(MapParameters.MAX_ZOOM.mapParametr)
         addTileOverlay()
+    }
+
+    private fun getMapZoom(): Float {
+        return if (googleMapFragment?.cameraPosition!!.zoom > MapParameters.MID_ZOOM.mapParametr) {
+            googleMapFragment?.cameraPosition!!.zoom
+        } else {
+            MapParameters.MID_ZOOM.mapParametr
+        }
     }
 }

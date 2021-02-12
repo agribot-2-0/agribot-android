@@ -5,6 +5,7 @@ import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator.BluetoothMessageCreator
 import eu.agribot.agribotapp.domain.model.fromdomain.SwitchSettings
 import eu.agribot.agribotapp.domain.model.todomain.DiagnosticData
+import eu.agribot.agribotapp.domain.model.todomain.HydraulicData
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.ManualSteeringJoystickManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -25,6 +26,10 @@ class ManualModeService(
     @ExperimentalCoroutinesApi
     private val diagnosticDataFlow = MutableStateFlow<DiagnosticData?>(null)
     var diagnosticDataFlowScope = CoroutineScope(Job() + Dispatchers.IO)
+
+    @ExperimentalCoroutinesApi
+    private val hydraulicDataFlow = MutableStateFlow<HydraulicData?>(null)
+    var hydraulicDataFlowScope = CoroutineScope(Job() + Dispatchers.IO)
 
     fun onManualSteeringJoystickParametrChanged(joystickAngle: Int, joystickStrength: Int) {
         manualSteeringJoystickManager.onJoystickConfigurationChanged(
@@ -58,5 +63,22 @@ class ManualModeService(
     fun observeDiagnosticData(): MutableStateFlow<DiagnosticData?> {
         getDiagnosticData()
         return diagnosticDataFlow
+    }
+
+    @ExperimentalCoroutinesApi
+    private fun getHydraulicData() {
+        hydraulicDataFlowScope.launch {
+            receivedBluetoothMessageManager.observeHydraulicData()?.collect {
+                if (it != null) {
+                    hydraulicDataFlow.value = it.toDomainModel()
+                }
+            }
+        }
+    }
+
+    @ExperimentalCoroutinesApi
+    fun observeHydraulicData(): MutableStateFlow<HydraulicData?> {
+        getHydraulicData()
+        return hydraulicDataFlow
     }
 }

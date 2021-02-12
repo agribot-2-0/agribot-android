@@ -24,9 +24,12 @@ def versions = [
 		'firestorage'     : '19.2.0',
 		'mapUtils'        : '0.4.4',
 		'downloader'      : '0.6.0',
-		'ijkPlayer'		: '0.8.8-full',
+		'ijkPlayer'       : '0.8.8-full',
 		'videoPlayer'     : '0.1.25-full',
-		'zip4j'           : '2.6.4'
+		'zip4j'           : '2.6.4',
+		'camerax'         : '1.1.0-alpha01',
+		'glide'           : '4.12.0',
+		'cameraxView'     : '1.0.0-alpha21'
 
 
 ]
@@ -122,5 +125,21 @@ dependencies {
 
 	//Unzip
 	implementation "net.lingala.zip4j:zip4j:$versions.zip4j"
+
+	// CameraX core library
+	implementation "androidx.camera:camera-core:$versions.camerax"
+
+	// CameraX Camera2 extensions
+	implementation "androidx.camera:camera-camera2:$versions.camerax"
+
+	// CameraX Lifecycle library
+	implementation "androidx.camera:camera-lifecycle:$versions.camerax"
+
+	// CameraX View class
+	implementation "androidx.camera:camera-view:$versions.cameraxView"
+
+	// Glide
+	implementation "com.github.bumptech.glide:glide:$versions.glide"
+	kapt "com.github.bumptech.glide:compiler:$versions.glide"
 
 }

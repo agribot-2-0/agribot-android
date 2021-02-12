@@ -13,6 +13,7 @@ class ToolNameViewModel(
     private val toolDataManager: ToolDataManager,
     private val resourcesProvider: ResourcesProvider
 ) : BaseViewModel() {
+
     val toolName: MutableLiveData<String> = MutableLiveData()
     val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
 

@@ -39,12 +39,52 @@
     </fragment>
 
     <fragment
+        android:id="@+id/findToolFragment"
+        android:name="eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.FindToolTagFragment"
+        android:label="@string/title_manual_control"
+        tools:layout="@layout/fragment_find_tool_tag">
+
+        <action
+            android:id="@+id/action_findToolFragment_to_shotToolPhoto"
+            app:destination="@id/shotToolPhoto" />
+    </fragment>
+
+    <fragment
         android:id="@+id/overrideMode"
         android:name="eu.agribot.agribotapp.ui.fragment.ttcontrol.TTControlModeFragment"
         android:label="Override Mode"
         tools:layout="@layout/fragment_ttcontrol">
 
 
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/shotToolPhoto"
+        android:name="eu.agribot.agribotapp.ui.fragment.toolmanagement.tooltagphoto.ToolTagPhotoFragment"
+        android:label="Override Mode"
+        tools:layout="@layout/fragment_create_photo">
+
+
+        <action
+            android:id="@+id/action_shotToolPhoto_to_displayToolPhoto"
+            app:destination="@id/displayToolPhoto" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/displayToolPhoto"
+        android:name="eu.agribot.agribotapp.ui.fragment.toolmanagement.displaytoolphoto.DisplayToolPhotoFragment"
+        android:label="Override Mode"
+        tools:layout="@layout/fragment_display_tool_photo">
+
+
+        <action
+            android:id="@+id/action_displayToolPhoto_to_toolManagementParamsFragment"
+            app:destination="@id/toolManagementParamsFragment" />
+        <action
+            android:id="@+id/action_displayToolPhoto_to_shotToolPhoto"
+            app:destination="@id/shotToolPhoto" />
     </fragment>
 
 
@@ -77,12 +117,8 @@
             app:popEnterAnim="@anim/nav_slide_out_to_left"
             app:popExitAnim="@anim/nav_slide_in_from_left"/>
         <action
-            android:id="@+id/action_toolManagementFragment_to_toolManagementParamsFragment"
-            app:destination="@id/toolManagementParamsFragment"
-            app:enterAnim="@anim/nav_slide_in_from_right"
-            app:exitAnim="@anim/nav_slide_out_to_right"
-            app:popEnterAnim="@anim/nav_slide_out_to_left"
-            app:popExitAnim="@anim/nav_slide_in_from_left"/>
+            android:id="@+id/action_toolManagementFragment_to_toolManagementSummaryFragment"
+            app:destination="@id/toolManagementSummaryFragment" />
     </fragment>
 
     <fragment
@@ -91,26 +127,31 @@
         android:label="@string/title_tool_management"
         tools:layout="@layout/fragment_tool_management_name" >
         <action
-            android:id="@+id/action_toolManagementNameFragment_to_toolManagementParamsFragment"
-            app:destination="@id/toolManagementParamsFragment"
-            app:enterAnim="@anim/nav_slide_in_from_right"
-            app:exitAnim="@anim/nav_slide_out_to_right"
-            app:popEnterAnim="@anim/nav_slide_out_to_left"
-            app:popExitAnim="@anim/nav_slide_in_from_left"/>
+            android:id="@+id/action_toolManagementNameFragment_to_findToolFragment"
+            app:destination="@id/findToolFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/toolManagementParamsFragment"
-        android:name="eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams.ToolParamsFragment"
+        android:name="eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparameters.ToolParamsFragment"
         android:label="@string/title_tool_management"
         tools:layout="@layout/fragment_tool_management_params" >
         <action
+            android:id="@+id/action_toolManagementParamsFragment_to_toolManagementSummaryFragment"
+            app:destination="@id/toolManagementSummaryFragment" />
+        <action
             android:id="@+id/action_toolManagementParamsFragment_to_toolManagementFragment"
-            app:destination="@id/toolManagementFragment"
-            app:enterAnim="@anim/nav_slide_in_from_right"
-            app:exitAnim="@anim/nav_slide_out_to_right"
-            app:popEnterAnim="@anim/nav_slide_out_to_left"
-            app:popExitAnim="@anim/nav_slide_in_from_left"/>
+            app:destination="@id/toolManagementFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/toolManagementSummaryFragment"
+        android:name="eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.ToolEditFragment"
+        android:label="@string/title_tool_management"
+        tools:layout="@layout/fragment_tool_management_params" >
+        <action
+            android:id="@+id/action_toolManagementSummaryFragment_to_toolManagementFragment"
+            app:destination="@id/toolManagementFragment" />
     </fragment>
 
     <fragment
@@ -126,6 +167,17 @@
             app:exitAnim="@anim/nav_slide_out_to_right"
             app:popEnterAnim="@anim/nav_slide_out_to_left"
             app:popExitAnim="@anim/nav_slide_in_from_left" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/pager_task_details"
+        android:name="eu.agribot.agribotapp.ui.fragment.controlPanel.ControlPanelFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/pager_task_details">
+
+        <action
+            android:id="@+id/action_pager_task_details_to_selectTaskFragment"
+            app:destination="@id/selectTaskFragment" />
     </fragment>
 
     <fragment

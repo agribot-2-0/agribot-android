@@ -25,6 +25,10 @@ class AndroidPermissionValidator(val context: Context) :
         return hasBluetoothAdminPermission()
     }
 
+    override fun hasCameraPermissions(): Boolean {
+        return hasCameraPermission()
+    }
+
     @RequiresApi(Build.VERSION_CODES.Q)
     private fun hasLocationPermissionWithBackground() =
         context.checkSelfPermission(Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
@@ -37,4 +41,7 @@ class AndroidPermissionValidator(val context: Context) :
 
     private fun hasBluetoothAdminPermission() =
         context.checkSelfPermission(Manifest.permission.BLUETOOTH_ADMIN) == PackageManager.PERMISSION_GRANTED
+
+    private fun hasCameraPermission() =
+        context.checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
 }

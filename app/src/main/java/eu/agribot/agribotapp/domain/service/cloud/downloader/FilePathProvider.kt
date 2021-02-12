@@ -13,7 +13,7 @@ class FilePathProvider(private val context: Context) {
             val file: File = ContextCompat.getExternalFilesDirs(
                 context.applicationContext,
                 null
-            )[0]
+            )[FILE_PATH_ARRAY_POSITION]
             file.absolutePath + pathDirection
         } else {
             context.applicationContext.filesDir.absolutePath
@@ -25,10 +25,34 @@ class FilePathProvider(private val context: Context) {
             val file: File = ContextCompat.getExternalFilesDirs(
                 context.applicationContext,
                 null
-            )[0]
+            )[FILE_PATH_ARRAY_POSITION]
             URLPath.FILE.path + file.absolutePath + mapPath
         } else {
             context.applicationContext.filesDir.absolutePath
         }
+    }
+
+    fun getToolPhotoDirectory(): String {
+        val folder = File(getToolPhotoPath())
+        if (!folder.exists()) {
+            folder.mkdir()
+        }
+        return getToolPhotoPath()
+    }
+
+    private fun getToolPhotoPath(): String {
+        return if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()) {
+            val file: File = ContextCompat.getExternalFilesDirs(
+                context.applicationContext,
+                null
+            )[FILE_PATH_ARRAY_POSITION]
+            file.absolutePath + "/user_tool"
+        } else {
+            context.applicationContext.filesDir.absolutePath
+        }
+    }
+
+    companion object {
+        const val FILE_PATH_ARRAY_POSITION = 0
     }
 }

@@ -24,4 +24,6 @@ object ConstantReceivedMessage {
     const val HEARTBEAT_COUNTER_MAX_VALUE = 20
 
     const val ARRAY_BIT_SHIFT = 8
+
+    const val HYDRAULIC_OIL_TEMPERATURE_OFFSET = 80
 }

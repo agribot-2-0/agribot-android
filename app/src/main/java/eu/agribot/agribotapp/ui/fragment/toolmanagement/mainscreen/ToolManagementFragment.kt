@@ -6,25 +6,24 @@ import android.view.View
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.dialog.DialogManager
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.ToolManagementSummaryNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolNameNavigationEvent
-import eu.agribot.agribotapp.common.navigation.events.ToolParamsNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentToolManagementBinding
 import eu.agribot.agribotapp.ui.fragment.swiperecyclerutils.SwipeHelper
 import eu.agribot.agribotapp.ui.fragment.swiperecyclerutils.SwipeRecyclerClickListener
 import eu.agribot.agribotapp.ui.fragment.swiperecyclerutils.SwipeRecyclerHelper
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.ToolListItemAdapter
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.ToolListItemViewModel
-import kotlinx.android.synthetic.main.fragment_tool_management.seekbar_blue
-import kotlinx.android.synthetic.main.fragment_tool_management.seekbar_green
-import kotlinx.android.synthetic.main.fragment_tool_management.seekbar_pto
-import kotlinx.android.synthetic.main.fragment_tool_management.seekbar_tpl_push_pull
-import kotlinx.android.synthetic.main.fragment_tool_management.seekbar_tpl_up_down
-import kotlinx.android.synthetic.main.fragment_tool_management.seekbar_v_max
-import kotlinx.android.synthetic.main.fragment_tool_management.tool_recycler
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toollist.ToolListItemAdapter
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toollist.ToolListItemViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toolparameters.ListToolParamAdapter
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toolparameters.ListToolParamViewModel
+import kotlinx.android.synthetic.main.fragment_tool_management.main_tool_name_recycler
+import kotlinx.android.synthetic.main.fragment_tool_management.main_tool_parameter_recycler
+import kotlinx.android.synthetic.main.fragment_tool_management.main_tool_photo
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -35,7 +34,8 @@ class ToolManagementFragment :
     private val dialogManager: DialogManager by inject { parametersOf(requireContext()) }
     override val layoutResourceId: Int = R.layout.fragment_tool_management
     override val viewModel: ToolManagementViewModel by viewModel { parametersOf(requireContext()) }
-    private var adapter = ToolListItemAdapter(this::onItemClicked)
+    private var toolListAdapter = ToolListItemAdapter(this::onItemClicked)
+    private var toolParamAdapter = ListToolParamAdapter()
 
     override fun bindViewVariables(viewBinding: FragmentToolManagementBinding) {
         viewBinding.viewModel = viewModel
@@ -43,12 +43,18 @@ class ToolManagementFragment :
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
         is ToolNameNavigationEvent -> navigateToToolName()
-        is ToolParamsNavigationEvent -> navigateToToolParams()
+        is ToolManagementSummaryNavigationEvent -> handleToolManagementSummaryNavigationEvent()
         else -> Unit
     }
 
     private fun onItemClicked(toolListItemViewModel: ToolListItemViewModel) {
         viewModel.onToolSelected(toolListItemViewModel)
+    }
+
+    private fun setToolPhoto(photoPath: String) {
+        Glide.with(requireContext())
+            .load(viewModel.getToolPhotoDirection(photoPath))
+            .into(main_tool_photo)
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -57,22 +63,28 @@ class ToolManagementFragment :
         viewModel.toastMessageEvent.observe(this::showToast)
         setupRecycler()
         viewModel.getAvailableTool()
-        viewModel.toolList.observe(this::addToToolList)
+        observeViewModel()
+    }
 
-        // TODO Remove it when seekbars moved to tiles
-        seekbar_tpl_up_down.setOnTouchListener { _, _ -> true }
-        seekbar_tpl_push_pull.setOnTouchListener { _, _ -> true }
-        seekbar_pto.setOnTouchListener { _, _ -> true }
-        seekbar_green.setOnTouchListener { _, _ -> true }
-        seekbar_blue.setOnTouchListener { _, _ -> true }
-        seekbar_blue.setOnTouchListener { _, _ -> true }
-        seekbar_v_max.setOnTouchListener { _, _ -> true }
+    private fun observeViewModel() {
+        viewModel.toolList.observe(this::addToToolList)
+        viewModel.listToolParamList.observe(this::addToolParamItem)
+        viewModel.setPhotoEvent.observe(this::setToolPhoto)
+    }
+
+    private fun addToolParamItem(listToolParamItem: List<ListToolParamViewModel>) {
+        toolParamAdapter.items = listToolParamItem
     }
 
     private fun setupRecycler() {
-        tool_recycler.adapter = adapter
-        tool_recycler.layoutManager = LinearLayoutManager(requireActivity())
-        tool_recycler.addItemDecoration(
+        setupToolsNameRecycler()
+        setupToolParamRecycler()
+    }
+
+    private fun setupToolsNameRecycler() {
+        main_tool_name_recycler.adapter = toolListAdapter
+        main_tool_name_recycler.layoutManager = LinearLayoutManager(requireActivity())
+        main_tool_name_recycler.addItemDecoration(
             DividerItemDecoration(
                 requireContext(),
                 DividerItemDecoration.VERTICAL
@@ -80,11 +92,16 @@ class ToolManagementFragment :
         )
         ItemTouchHelper(
             SwipeRecyclerHelper(
-                tool_recycler,
+                main_tool_name_recycler,
                 deleteButton = this::deleteButton,
                 editButton = this::editButton
             )
-        ).attachToRecyclerView(tool_recycler)
+        ).attachToRecyclerView(main_tool_name_recycler)
+    }
+
+    private fun setupToolParamRecycler() {
+        main_tool_parameter_recycler.adapter = toolParamAdapter
+        main_tool_parameter_recycler.layoutManager = LinearLayoutManager(requireActivity())
     }
 
     private fun deleteButton(position: Int): SwipeHelper.UnderlayButton {
@@ -98,7 +115,7 @@ class ToolManagementFragment :
     }
 
     private fun addToToolList(task: List<ToolListItemViewModel>) {
-        adapter.items = task
+        toolListAdapter.items = task
     }
 
     private fun showDeleteTaskDialog(itemPosition: Int) {
@@ -119,7 +136,7 @@ class ToolManagementFragment :
         navigationController?.navigate(R.id.action_toolManagementFragment_to_toolManagementNameFragment)
     }
 
-    private fun navigateToToolParams() {
-        navigationController?.navigate(R.id.action_toolManagementFragment_to_toolManagementParamsFragment)
+    private fun handleToolManagementSummaryNavigationEvent() {
+        navigationController?.navigate(R.id.action_toolManagementFragment_to_toolManagementSummaryFragment)
     }
 }

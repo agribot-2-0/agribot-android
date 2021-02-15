@@ -48,6 +48,7 @@
     <string name="dialog_path_delete_confirm">Delete!</string>
 
 
+
     <!-- Tool Control -->
     <string name="pto">PTO</string>
     <string name="no_rpm">0 rpm</string>
@@ -277,6 +278,20 @@
     <string name="checking_files">Checking files - please waiting</string>
     <string name="download_progress">\" Downloading progress \"</string>
     <string name="type_tool_name">Give tool name</string>
+    <string name="capture" translatable="false">Capture</string>
+
+    <string name="summary_tool_name">Tool Name:  %1$S</string>
+    <string name="summary_tool_tag">Tool RFID Tag:  %1$S</string>
+    <string name="take_photo_failed">Take photo failed</string>
+    <string name="use_camera_failed">Use camera failed</string>
+    <string name="find_tool">Find Tool</string>
+    <string name="set_tool_parameters">Set Tool Parameters</string>
+    <string name="summary">Summary</string>
+    <string name="repeat_photo">Repeat photo</string>
+    <string name="save_changes">Save Changes</string>
+
+
+
     <string name="current_task">Current Task :</string>
     <string name="current_path">Current Path:</string>
     <string name="robot_state">Robot Status</string>

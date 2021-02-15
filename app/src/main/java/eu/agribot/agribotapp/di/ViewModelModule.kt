@@ -28,10 +28,14 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.CreatorWeathe
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.WeatherSettingsListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolControlViewModel
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.displaytoolphoto.DisplayToolPhotoViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.FindToolTagViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.ToolManagementViewModel
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.ToolListItemViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toollist.ToolListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolname.ToolNameViewModel
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparams.ToolParamsViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparameters.ToolParamsViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.ToolEditViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.tooltagphoto.ToolTagPhotoViewModel
 import eu.agribot.agribotapp.ui.fragment.ttcontrol.TTControlViewModel
 import eu.agribot.agribotapp.ui.fragment.weather.WeatherViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -230,7 +234,8 @@ val viewModelModule = module {
         ToolManagementViewModel(
             resourcesProvider = get { parametersOf(context) },
             cloudDatabaseService = get(),
-            toolDataManager = get()
+            toolDataManager = get(),
+            toolManagementService = get()
         )
     }
 
@@ -244,8 +249,8 @@ val viewModelModule = module {
     viewModel { (context: Context) ->
         ToolParamsViewModel(
             toolDataManager = get(),
-            resourcesProvider = get { parametersOf(context) },
             cloudDatabaseService = get(),
+            resourcesProvider = get { parametersOf(context) },
             toolManagementService = get()
         )
     }
@@ -282,5 +287,37 @@ val viewModelModule = module {
     viewModel { (context: Context) ->
         PagerRobotDataViewModel(cloudDatabaseService = get(),
             resourcesProvider = get { parametersOf(context) })
+    }
+
+    viewModel {
+        ToolTagPhotoViewModel(
+            permissionManager = get(),
+            toolDataManager = get(),
+            toolManagementService = get()
+        )
+    }
+
+    viewModel { (context: Context) ->
+        FindToolTagViewModel(
+            toolDataManager = get(),
+            resourcesProvider = get { parametersOf(context) },
+            toolManagementService = get()
+        )
+    }
+
+    viewModel {
+        DisplayToolPhotoViewModel(
+            toolDataManager = get(),
+            toolManagementService = get()
+        )
+    }
+
+    viewModel { (context: Context) ->
+        ToolEditViewModel(
+            resourcesProvider = get { parametersOf(context) },
+            toolDataManager = get(),
+            cloudDatabaseService = get(),
+            toolManagementService = get()
+        )
     }
 }

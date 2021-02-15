@@ -38,6 +38,8 @@ class PermissionListener(
             onError(PermissionError.BLUETOOTH_DENIED_PERMANENTLY)
         hasDeniedBluetoothAdmin(report) ->
             onError(PermissionError.BLUETOOTH_DENIED)
+        hasDeniedCamera(report) ->
+            onError(PermissionError.CAMERA_DENIED)
         else -> onSuccess.invoke()
     }
 
@@ -88,6 +90,12 @@ class PermissionListener(
     private fun hasDeniedLocation(report: MultiplePermissionsReport): Boolean {
         return report.deniedPermissionResponses.any {
             it.permissionName == Manifest.permission.ACCESS_FINE_LOCATION
+        }
+    }
+
+    private fun hasDeniedCamera(report: MultiplePermissionsReport): Boolean {
+        return report.deniedPermissionResponses.any {
+            it.permissionName == Manifest.permission.CAMERA
         }
     }
 }

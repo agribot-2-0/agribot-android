@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toolparameters.ListToolParamViewModel" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/cardview_task_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_medium"
+        android:padding="@dimen/margin_xxlarge"
+        android:orientation="vertical"
+        app:cardCornerRadius="@dimen/margin_small"
+        app:cardElevation="@dimen/margin_medium">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/margin_large"
+            android:paddingRight="@dimen/margin_large" >
+
+            <TextView
+                android:id="@+id/tool_param_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.paramName}"/>
+
+            <SeekBar
+                android:id="@+id/tool_param_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tool_param_name"
+                android:layout_alignParentStart="true"
+                android:progress="@{viewModel.paramValue}"
+                android:layout_toStartOf="@+id/tool_value_tx" />
+
+            <TextView
+                android:id="@+id/tool_value_tx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tool_param_name"
+                android:layout_toStartOf="@+id/tool_param_unit" />
+
+            <TextView
+                android:id="@id/tool_param_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.paramUnit}"
+                android:layout_below="@id/tool_param_name"
+                android:layout_alignParentEnd="true" />
+
+
+
+
+
+
+        </RelativeLayout>
+
+
+
+    </androidx.cardview.widget.CardView>
+</layout>

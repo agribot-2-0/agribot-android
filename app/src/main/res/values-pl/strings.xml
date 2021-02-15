@@ -266,6 +266,7 @@
     <string name="robot_state">Stan Robota</string>
     <string name="task_state">Stan Zadania</string>
     <string name="task_list">Lista Zadań</string>
+    <string name="task_param_not_set">Nie Ustawiono</string>
 
 
 </resources>

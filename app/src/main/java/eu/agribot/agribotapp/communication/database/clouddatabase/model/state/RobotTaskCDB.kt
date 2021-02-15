@@ -8,6 +8,6 @@ data class RobotTaskCDB(
 ) : BaseCloudDatabaseModel<RobotTask> {
 
     override fun toDomainModel() = RobotTask(
-        progress = this.progress,
+        progress = this.progress
     )
 }

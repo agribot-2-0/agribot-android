@@ -37,5 +37,4 @@ enum class RobotStateItems(val ID: Int) {
     MANUAL_CONTROL_FUEL_RATE(16),
 
     MANUAL_CONTROL_OIL_TEMPERATURE(17)
-
 }

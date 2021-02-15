@@ -4,7 +4,6 @@ import com.google.firebase.Timestamp
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.BaseCloudDatabaseModel
 import eu.agribot.agribotapp.domain.model.cdb.state.RobotHydraulics
 
-
 data class RobotHydraulicsCDB(
     val oil_cooler_temperature: Double = 0.0,
     val oil_pressure_manifold_B: Double = 0.0,
@@ -30,4 +29,3 @@ data class RobotHydraulicsCDB(
         timestamp = this.timestamp
     )
 }
-

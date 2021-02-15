@@ -16,8 +16,6 @@ import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.RobotStateViewMo
 import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.items.RobotStateItems
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.actionbottombar.ActionID
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.actionbottombar.ManualActionsViewModel
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.diagnosticdatabar.DiagnosticDataID
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.diagnosticdatabar.DiagnosticDataViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -93,14 +91,14 @@ class ManualControlViewModel(
         manualModeService.observeDiagnosticData().collect { diagnosticData ->
             if (diagnosticData != null) {
                 addToDiagnosticDataList(
-                    DiagnosticDataViewModel(
+                    RobotStateViewModel(
                         RobotStateItems.MANUAL_CONTROL_VOLTAGE.ID,
                         diagnosticData.batteryVoltage,
                         resourcesProvider.getString(R.string.volt)
                     )
                 )
                 addToDiagnosticDataList(
-                    DiagnosticDataViewModel(
+                    RobotStateViewModel(
                         RobotStateItems.MANUAL_CONTROL_ENGINE_ROTATIONS.ID,
                         diagnosticData.engineRotationsPerMinute.toString(),
                         resourcesProvider.getString(R.string.rpm)
@@ -108,14 +106,14 @@ class ManualControlViewModel(
                     )
                 )
                 addToDiagnosticDataList(
-                    DiagnosticDataViewModel(
+                    RobotStateViewModel(
                         RobotStateItems.MANUAL_CONTROL_ENGINE_TORQUE.ID,
                         diagnosticData.torqueOfEngine.toString(),
                         resourcesProvider.getString(R.string.percent)
                     )
                 )
                 addToDiagnosticDataList(
-                    DiagnosticDataViewModel(
+                    RobotStateViewModel(
                         RobotStateItems.FUEL_LEVEL.ID,
                         diagnosticData.fuelLevel.toString(),
                         resourcesProvider.getString(R.string.percent)
@@ -123,7 +121,7 @@ class ManualControlViewModel(
                     )
                 )
                 addToDiagnosticDataList(
-                    DiagnosticDataViewModel(
+                    RobotStateViewModel(
                         RobotStateItems.MANUAL_CONTROL_FUEL_RATE.ID,
                         diagnosticData.engineFuelRate,
                         resourcesProvider.getString(R.string.liter_per_hour)
@@ -131,7 +129,7 @@ class ManualControlViewModel(
                     )
                 )
                 addToDiagnosticDataList(
-                    DiagnosticDataViewModel(
+                    RobotStateViewModel(
                         RobotStateItems.MANUAL_CONTROL_OIL_TEMPERATURE.ID,
                         diagnosticData.fuelTemperature.toString(),
                         resourcesProvider.getString(R.string.celcius_degree)
@@ -140,14 +138,14 @@ class ManualControlViewModel(
             } else {
                 resourcesProvider.getString(R.string.no_data_status).let { noData ->
                     addToDiagnosticDataList(
-                        DiagnosticDataViewModel(
+                        RobotStateViewModel(
                             RobotStateItems.MANUAL_CONTROL_VOLTAGE.ID,
                             noData,
                             resourcesProvider.getString(R.string.volt)
                         )
                     )
                     addToDiagnosticDataList(
-                        DiagnosticDataViewModel(
+                        RobotStateViewModel(
                             RobotStateItems.MANUAL_CONTROL_ENGINE_ROTATIONS.ID,
                             noData,
                             resourcesProvider.getString(R.string.rpm)
@@ -155,14 +153,14 @@ class ManualControlViewModel(
                         )
                     )
                     addToDiagnosticDataList(
-                        DiagnosticDataViewModel(
+                        RobotStateViewModel(
                             RobotStateItems.MANUAL_CONTROL_ENGINE_TORQUE.ID,
                             noData,
                             resourcesProvider.getString(R.string.percent)
                         )
                     )
                     addToDiagnosticDataList(
-                        DiagnosticDataViewModel(
+                        RobotStateViewModel(
                             RobotStateItems.MANUAL_CONTROL_FUEL_LEVEL.ID,
                             noData,
                             resourcesProvider.getString(R.string.percent)
@@ -170,7 +168,7 @@ class ManualControlViewModel(
                         )
                     )
                     addToDiagnosticDataList(
-                        DiagnosticDataViewModel(
+                        RobotStateViewModel(
                             RobotStateItems.MANUAL_CONTROL_FUEL_RATE.ID,
                             noData,
                             resourcesProvider.getString(R.string.liter_per_hour)
@@ -178,7 +176,7 @@ class ManualControlViewModel(
                         )
                     )
                     addToDiagnosticDataList(
-                        DiagnosticDataViewModel(
+                        RobotStateViewModel(
                             RobotStateItems.MANUAL_CONTROL_OIL_TEMPERATURE.ID,
                             noData,
                             resourcesProvider.getString(R.string.celcius_degree)
@@ -189,26 +187,26 @@ class ManualControlViewModel(
         }
     }
 
-    private fun addToDiagnosticDataList(diagnosticData: DiagnosticDataViewModel) {
+    private fun addToDiagnosticDataList(diagnosticData: RobotStateViewModel) {
         val isAttributeAlreadyAdded = diagnosticDataList.value!!.any { arrtibute ->
-            arrtibute.stateItemId == diagnosticData.diagnosticDataID
+            arrtibute.stateItemId == diagnosticData.stateItemId
         }
         if (!isAttributeAlreadyAdded)
             diagnosticDataList.value = listOf(
                 *diagnosticDataList.value!!.toTypedArray(),
                 RobotStateViewModel(
-                    diagnosticData.diagnosticDataID,
-                    diagnosticData.diagnosticDataValue,
-                    diagnosticData.diagnosticDataUnit
+                    diagnosticData.stateItemId,
+                    diagnosticData.stateValue,
+                    diagnosticData.stateUnit
                 )
 
             )
         else {
             diagnosticDataList.value = diagnosticDataList.value!!.map { oldAttribute ->
-                if (oldAttribute.stateItemId == diagnosticData.diagnosticDataID) {
+                if (oldAttribute.stateItemId == diagnosticData.stateItemId) {
                     RobotStateViewModel(
                         oldAttribute.stateItemId,
-                        diagnosticData.diagnosticDataValue,
+                        diagnosticData.stateValue,
                         oldAttribute.stateUnit
                     )
                 } else {

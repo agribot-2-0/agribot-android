@@ -25,7 +25,6 @@ class RobotStateAdapter :
             }.dispatchUpdatesTo(this)
         }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RobotStateViewHolder =
         RobotStateViewHolder(
             ListItemRobotStateBinding.inflate(
@@ -96,13 +95,9 @@ class RobotStateAdapter :
             RobotStateItems.MANUAL_CONTROL_OIL_TEMPERATURE.ID -> {
                 R.drawable.ic_manual_control_oil_temp
             }
-
             else -> -1
         }
 
-
         holder.itemView.stateImage.setImageResource(imageSrc)
     }
-
 }
-

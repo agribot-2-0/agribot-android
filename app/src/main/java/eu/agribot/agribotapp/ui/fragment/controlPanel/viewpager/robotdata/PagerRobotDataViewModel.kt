@@ -11,6 +11,7 @@ import eu.agribot.agribotapp.domain.model.cdb.state.RobotHydraulics
 import eu.agribot.agribotapp.domain.model.cdb.state.RobotTask
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.RobotStateViewModel
+import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.items.RobotStateItems
 
 class PagerRobotDataViewModel(
     val cloudDatabaseService: CloudDatabaseService,
@@ -24,7 +25,6 @@ class PagerRobotDataViewModel(
         getRobotHydraulicsData()
         getRobotTaskData()
     }
-
 
     private fun getRobotEngineData() {
         cloudDatabaseService.getRobotStateEngine(
@@ -47,31 +47,33 @@ class PagerRobotDataViewModel(
         )
     }
 
-
     private fun onGetRobotDataError(errorText: String) {
         toastEvent.postValue(errorText)
     }
-
+    // TODO ADD ESTIMATED TASK END TIME, && ROBOT SPEED
     private fun onGotRobotEngineData(engine: RobotEngine) {
-        Log.e("xd", "robot engine : " + engine)
+        addParameterToRobotDataStateList(
+            RobotStateViewModel(
+                RobotStateItems.FUEL_LEVEL.ID,
+                engine.fuel_level.toString(),
+                resourcesProvider.getString(R.string.percent)
+            )
+        )
     }
 
     private fun onGotRobotHydraulicsData(hydraulics: RobotHydraulics) {
-        Log.e("xd", "robot engine : " + hydraulics)
+        Log.d("hydraulic", "robot engine : " + hydraulics)
     }
 
     private fun onGotRobotTaskData(task: RobotTask) {
-        for (x in 0..3) {
-            addParameterToRobotDataStateList(
-                RobotStateViewModel(
-                  x,
-                    task.progress.toString(),
-                    resourcesProvider.getString(R.string.percent)
-                )
+        addParameterToRobotDataStateList(
+            RobotStateViewModel(
+                RobotStateItems.TASK_PROGRESS.ID,
+                task.progress.toString(),
+                resourcesProvider.getString(R.string.percent)
             )
-        }
+        )
     }
-
 
     private fun addParameterToRobotDataStateList(robotStateParameter: RobotStateViewModel) {
         val isAttributeAlreadyAdded = robotDataStateList.value!!.any { arrtibute ->
@@ -101,4 +103,3 @@ class PagerRobotDataViewModel(
         }
     }
 }
-

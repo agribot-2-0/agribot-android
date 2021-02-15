@@ -46,26 +46,24 @@
 
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin_small"
-                        android:layout_weight="1"
                         android:gravity="end"
                         android:text="@{viewModel.stateValue}"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_xlarge"
+                        android:textSize="@dimen/text_size_medium"
                         android:textStyle="bold"
                         tool:text="VALUE" />
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin_small"
-                        android:layout_weight="1"
                         android:gravity="start"
                         android:text="@{viewModel.stateUnit}"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_xlarge"
+                        android:textSize="@dimen/text_size_medium"
                         android:textStyle="bold"
                         tool:text="UNIT" />
 

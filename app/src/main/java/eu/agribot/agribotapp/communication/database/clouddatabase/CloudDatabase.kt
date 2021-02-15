@@ -26,7 +26,7 @@ interface CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     )
 
-    //ROBOT STATE
+    // ROBOT STATE
 
     fun getRobotStateEngineData(
         onDatabaseSucess: (data: RobotEngineCDB) -> Unit,

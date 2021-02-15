@@ -1,18 +1,20 @@
 package eu.agribot.agribotapp.ui.fragment.controlPanel.viewpager.taskdetails
 
 import android.annotation.SuppressLint
+import android.text.format.DateFormat
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.LiveEvent
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
-import eu.agribot.agribotapp.domain.model.cdb.ActualTask
 import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.RobotStateViewModel
 import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.items.RobotStateItems
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TaskDetailsElements
+import java.util.Calendar
+import java.util.Locale
 
 class PagerTaskDetailsViewModel(
     private val cloudDatabaseService: CloudDatabaseService,
@@ -22,19 +24,9 @@ class PagerTaskDetailsViewModel(
     val robotDataStateList: MutableLiveData<List<RobotStateViewModel>> = MutableLiveData(listOf())
 
     private val emptyTaskName = ""
-    val currentTask: MutableLiveData<String> = MutableLiveData()
+    private val currentTask: MutableLiveData<String> = MutableLiveData()
     val pathName: MutableLiveData<String> = MutableLiveData()
-    val temperature: MutableLiveData<String> = MutableLiveData()
-    val humidity: MutableLiveData<String> = MutableLiveData()
-    val pressure: MutableLiveData<String> = MutableLiveData()
-    val wind: MutableLiveData<String> = MutableLiveData()
-    val taskDate: MutableLiveData<String> = MutableLiveData()
     val toastMessageEvent: LiveEvent<String> = MutableLiveEvent()
-    val cancelTaskButtonEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
-
-    fun onCancelTaskButtonClicked() {
-        cancelTaskButtonEvent.postValue(true)
-    }
 
     private fun setEmptyActualTask() {
         onGotCurrentTaskName(emptyTaskName)
@@ -56,8 +48,13 @@ class PagerTaskDetailsViewModel(
 
     @SuppressLint("SimpleDateFormat")
     private fun onGotCurrentTaskDetails(taskDetails: TaskDetails) {
+        (if (currentTask.value != null && currentTask.value != "") {
+            setCurrentTask(currentTask.value!!)
+        } else {
+            setEmptyParameter(RobotStateItems.CURRENT_TASK.ID)
+        })
+
         taskDetails.let {
-            setCurrentTask(it)
             setCurrentPath(it)
             setStartDate(it)
             setStartTime(it)
@@ -66,48 +63,56 @@ class PagerTaskDetailsViewModel(
             setWindParam(it)
             setPressureParam(it)
         }
-
-
     }
 
     private fun setStartDate(taskDetails: TaskDetails) {
-        addParameterToRobotDataStateList(
-            RobotStateViewModel(
-                RobotStateItems.START_DATE.ID,
-                changeTextToSymbol(taskDetails.temperature_condition) + taskDetails.temperature_value,
-                TaskDetailsElements.TEMPERATURE_UNIT.detailsElement
-            )
-        )
-    }
-
-    private fun setStartTime(taskDetails: TaskDetails) {
-        addParameterToRobotDataStateList(
-            RobotStateViewModel(
-                RobotStateItems.START_TIME.ID,
-                changeTextToSymbol(taskDetails.temperature_condition) + taskDetails.temperature_value,
-                TaskDetailsElements.TEMPERATURE_UNIT.detailsElement
-            )
-        )
-    }
-
-    private fun setCurrentTask(taskDetails: TaskDetails) {
-        if (taskDetails.temperature_value != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
+        if (!taskDetails.start_time_estimated) {
             addParameterToRobotDataStateList(
                 RobotStateViewModel(
-                    RobotStateItems.CURRENT_TASK.ID,
-                    changeTextToSymbol(taskDetails.temperature_condition) + taskDetails.temperature_value,
-                    TaskDetailsElements.TEMPERATURE_UNIT.detailsElement
+                    RobotStateItems.START_DATE.ID,
+                    taskDetails.start_time?.let { getDate(it.seconds) }.toString(),
+                    ""
                 )
             )
         } else {
+            setEmptyParameter(RobotStateItems.START_TIME.ID)
+        }
+    }
+
+    private fun getDate(timestamp: Long): String {
+        val calendar = Calendar.getInstance(Locale.ENGLISH)
+        calendar.timeInMillis = timestamp * 1000L
+        return DateFormat.format("dd-MM-yyyy", calendar).toString()
+    }
+
+    private fun getTime(timestamp: Long): String {
+        val calendar = Calendar.getInstance(Locale.ENGLISH)
+        calendar.timeInMillis = timestamp * 1000L
+        return DateFormat.format("HH:mm", calendar).toString()
+    }
+
+    private fun setStartTime(taskDetails: TaskDetails) {
+        if (!taskDetails.start_time_estimated) {
             addParameterToRobotDataStateList(
                 RobotStateViewModel(
-                    RobotStateItems.CURRENT_TASK.ID,
-                    resourcesProvider.getString(R.string.no_temperature_text),
-                    TaskDetailsElements.TEMPERATURE_UNIT.detailsElement
+                    RobotStateItems.START_TIME.ID,
+                    taskDetails.start_time?.let { getTime(it.seconds) }.toString(),
+                    ""
                 )
             )
+        } else {
+            setEmptyParameter(RobotStateItems.START_DATE.ID)
         }
+    }
+
+    private fun setCurrentTask(taskName: String) {
+        addParameterToRobotDataStateList(
+            RobotStateViewModel(
+                RobotStateItems.CURRENT_TASK.ID,
+                taskName,
+                ""
+            )
+        )
     }
 
     private fun setCurrentPath(taskDetails: TaskDetails) {
@@ -120,15 +125,8 @@ class PagerTaskDetailsViewModel(
                 )
             )
         } else {
-            addParameterToRobotDataStateList(
-                RobotStateViewModel(
-                    RobotStateItems.CURRENT_PATH.ID,
-                    resourcesProvider.getString(R.string.empty_task_name),
-                    ""
-                )
-            )
+            setEmptyParameter(RobotStateItems.CURRENT_PATH.ID)
         }
-
     }
 
     private fun setHumidityParam(taskDetails: TaskDetails) {
@@ -141,13 +139,7 @@ class PagerTaskDetailsViewModel(
                 )
             )
         } else {
-            addParameterToRobotDataStateList(
-                RobotStateViewModel(
-                    RobotStateItems.HUMIDITY.ID,
-                    resourcesProvider.getString(R.string.no_temperature_text),
-                    TaskDetailsElements.PERCENT.detailsElement
-                )
-            )
+            setEmptyParameter(RobotStateItems.HUMIDITY.ID)
         }
     }
 
@@ -161,13 +153,7 @@ class PagerTaskDetailsViewModel(
                 )
             )
         } else {
-            addParameterToRobotDataStateList(
-                RobotStateViewModel(
-                    RobotStateItems.TEMPERATURE.ID,
-                    resourcesProvider.getString(R.string.no_temperature_text),
-                    TaskDetailsElements.TEMPERATURE_UNIT.detailsElement
-                )
-            )
+            setEmptyParameter(RobotStateItems.TEMPERATURE.ID)
         }
     }
 
@@ -181,13 +167,7 @@ class PagerTaskDetailsViewModel(
                 )
             )
         } else {
-            addParameterToRobotDataStateList(
-                RobotStateViewModel(
-                    RobotStateItems.WIND.ID,
-                    resourcesProvider.getString(R.string.no_wind_text),
-                    TaskDetailsElements.SPEED_UNIT.detailsElement
-                )
-            )
+            setEmptyParameter(RobotStateItems.WIND.ID)
         }
     }
 
@@ -201,14 +181,17 @@ class PagerTaskDetailsViewModel(
                 )
             )
         } else {
-            addParameterToRobotDataStateList(
-                RobotStateViewModel(
-                    RobotStateItems.PRESSURE.ID,
-                    resourcesProvider.getString(R.string.no_pressure_text),
-                    TaskDetailsElements.SPEED_UNIT.detailsElement
-                )
-            )
+            setEmptyParameter(RobotStateItems.PRESSURE.ID)
         }
+    }
+
+    private fun setEmptyParameter(paramID: Int) {
+        addParameterToRobotDataStateList(
+            RobotStateViewModel(
+                paramID,
+                resourcesProvider.getString(R.string.task_param_not_set), ""
+            )
+        )
     }
 
     private fun changeTextToSymbol(conditionText: String): String {
@@ -220,13 +203,13 @@ class PagerTaskDetailsViewModel(
         }
     }
 
-
     private fun addParameterToRobotDataStateList(robotStateParameter: RobotStateViewModel) {
         val isAttributeAlreadyAdded = robotDataStateList.value!!.any { arrtibute ->
             arrtibute.stateItemId == robotStateParameter.stateItemId
         }
         if (!isAttributeAlreadyAdded)
-            robotDataStateList.value = listOf(  *robotDataStateList.value!!.toTypedArray(),
+            robotDataStateList.value = listOf(
+                *robotDataStateList.value!!.toTypedArray(),
                 RobotStateViewModel(
                     robotStateParameter.stateItemId,
                     robotStateParameter.stateValue,
@@ -251,10 +234,5 @@ class PagerTaskDetailsViewModel(
 
     private fun postToastErrorMessageEvent(errorMessage: String) {
         toastMessageEvent.postValue(errorMessage)
-    }
-
-    fun sendCancelTask() {
-        cloudDatabaseService.setCurrentTask(ActualTask())
-        setEmptyActualTask()
     }
 }

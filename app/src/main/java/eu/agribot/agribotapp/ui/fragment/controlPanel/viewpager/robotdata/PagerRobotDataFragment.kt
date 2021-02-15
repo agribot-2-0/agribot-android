@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.databinding.PagerRobotDataBinding
-import eu.agribot.agribotapp.ui.fragment.controlPanel.viewpager.recycler.RobotStateAdapter
-import eu.agribot.agribotapp.ui.fragment.controlPanel.viewpager.recycler.RobotStateViewModel
+import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.RobotStateAdapter
+import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.RobotStateViewModel
 import kotlinx.android.synthetic.main.pager_robot_data.robotDataRecycler
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf

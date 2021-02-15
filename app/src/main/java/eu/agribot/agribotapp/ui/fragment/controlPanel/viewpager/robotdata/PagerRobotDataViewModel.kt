@@ -10,8 +10,7 @@ import eu.agribot.agribotapp.domain.model.cdb.state.RobotEngine
 import eu.agribot.agribotapp.domain.model.cdb.state.RobotHydraulics
 import eu.agribot.agribotapp.domain.model.cdb.state.RobotTask
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
-import eu.agribot.agribotapp.ui.fragment.controlPanel.viewpager.recycler.RobotStateViewModel
-import eu.agribot.agribotapp.ui.fragment.controlPanel.viewpager.robotdata.items.RobotStateItems
+import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.RobotStateViewModel
 
 class PagerRobotDataViewModel(
     val cloudDatabaseService: CloudDatabaseService,

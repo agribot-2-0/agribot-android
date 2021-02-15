@@ -10,14 +10,17 @@ import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.model.cdb.ActualTask
 import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
+import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.RobotStateViewModel
+import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.items.RobotStateItems
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TaskDetailsElements
-import java.text.SimpleDateFormat
-import java.util.TimeZone
 
 class PagerTaskDetailsViewModel(
     private val cloudDatabaseService: CloudDatabaseService,
     private val resourcesProvider: ResourcesProvider
 ) : BaseViewModel() {
+
+    val robotDataStateList: MutableLiveData<List<RobotStateViewModel>> = MutableLiveData(listOf())
+
     private val emptyTaskName = ""
     val currentTask: MutableLiveData<String> = MutableLiveData()
     val pathName: MutableLiveData<String> = MutableLiveData()
@@ -53,47 +56,158 @@ class PagerTaskDetailsViewModel(
 
     @SuppressLint("SimpleDateFormat")
     private fun onGotCurrentTaskDetails(taskDetails: TaskDetails) {
-        if (!taskDetails.start_time_estimated) {
-            val dateFormat = SimpleDateFormat(TaskDetailsElements.DATE_FORMAT.detailsElement)
-            dateFormat.timeZone = TimeZone.getTimeZone(TaskDetailsElements.TIMEZONE.detailsElement)
-            taskDate.value =
-                resourcesProvider.getString(R.string.start_time) + dateFormat.format(taskDetails.start_time!!.toDate())
-        } else {
-            taskDate.value = resourcesProvider.getString(R.string.no_start_date)
-        }
-        if (taskDetails.path_name != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
-            pathName.value = taskDetails.path_name
-        } else {
-            pathName.value = resourcesProvider.getString(R.string.no_path_text)
-            currentTask.value = resourcesProvider.getString(R.string.empty_task_name)
+        taskDetails.let {
+            setCurrentTask(it)
+            setCurrentPath(it)
+            setStartDate(it)
+            setStartTime(it)
+            setTemperatureParam(it)
+            setHumidityParam(it)
+            setWindParam(it)
+            setPressureParam(it)
         }
 
+
+    }
+
+    private fun setStartDate(taskDetails: TaskDetails) {
+        addParameterToRobotDataStateList(
+            RobotStateViewModel(
+                RobotStateItems.START_DATE.ID,
+                changeTextToSymbol(taskDetails.temperature_condition) + taskDetails.temperature_value,
+                TaskDetailsElements.TEMPERATURE_UNIT.detailsElement
+            )
+        )
+    }
+
+    private fun setStartTime(taskDetails: TaskDetails) {
+        addParameterToRobotDataStateList(
+            RobotStateViewModel(
+                RobotStateItems.START_TIME.ID,
+                changeTextToSymbol(taskDetails.temperature_condition) + taskDetails.temperature_value,
+                TaskDetailsElements.TEMPERATURE_UNIT.detailsElement
+            )
+        )
+    }
+
+    private fun setCurrentTask(taskDetails: TaskDetails) {
         if (taskDetails.temperature_value != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
-            temperature.value =
-                changeTextToSymbol(taskDetails.temperature_condition) + TaskDetailsElements.SEPARATOR.detailsElement + taskDetails.temperature_value + TaskDetailsElements.TEMPERATURE_UNIT.detailsElement
+            addParameterToRobotDataStateList(
+                RobotStateViewModel(
+                    RobotStateItems.CURRENT_TASK.ID,
+                    changeTextToSymbol(taskDetails.temperature_condition) + taskDetails.temperature_value,
+                    TaskDetailsElements.TEMPERATURE_UNIT.detailsElement
+                )
+            )
         } else {
-            temperature.value = resourcesProvider.getString(R.string.no_temperature_text)
+            addParameterToRobotDataStateList(
+                RobotStateViewModel(
+                    RobotStateItems.CURRENT_TASK.ID,
+                    resourcesProvider.getString(R.string.no_temperature_text),
+                    TaskDetailsElements.TEMPERATURE_UNIT.detailsElement
+                )
+            )
+        }
+    }
+
+    private fun setCurrentPath(taskDetails: TaskDetails) {
+        if (taskDetails.path_name != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
+            addParameterToRobotDataStateList(
+                RobotStateViewModel(
+                    RobotStateItems.CURRENT_PATH.ID,
+                    taskDetails.path_name,
+                    ""
+                )
+            )
+        } else {
+            addParameterToRobotDataStateList(
+                RobotStateViewModel(
+                    RobotStateItems.CURRENT_PATH.ID,
+                    resourcesProvider.getString(R.string.empty_task_name),
+                    ""
+                )
+            )
         }
 
+    }
+
+    private fun setHumidityParam(taskDetails: TaskDetails) {
         if (taskDetails.humidity_value != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
-            humidity.value =
-                changeTextToSymbol(taskDetails.humidity_condition) + TaskDetailsElements.SEPARATOR.detailsElement + taskDetails.humidity_value + TaskDetailsElements.PERCENT.detailsElement
+            addParameterToRobotDataStateList(
+                RobotStateViewModel(
+                    RobotStateItems.HUMIDITY.ID,
+                    changeTextToSymbol(taskDetails.humidity_condition) + taskDetails.humidity_value,
+                    TaskDetailsElements.PERCENT.detailsElement
+                )
+            )
         } else {
-            humidity.value = resourcesProvider.getString(R.string.no_humidity_text)
+            addParameterToRobotDataStateList(
+                RobotStateViewModel(
+                    RobotStateItems.HUMIDITY.ID,
+                    resourcesProvider.getString(R.string.no_temperature_text),
+                    TaskDetailsElements.PERCENT.detailsElement
+                )
+            )
         }
+    }
 
-        if (taskDetails.pressure_value != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
-            pressure.value =
-                changeTextToSymbol(taskDetails.pressure_condition) + TaskDetailsElements.SEPARATOR.detailsElement + taskDetails.pressure_value + TaskDetailsElements.PRESSURE_UNIT.detailsElement
+    private fun setTemperatureParam(taskDetails: TaskDetails) {
+        if (taskDetails.temperature_value != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
+            addParameterToRobotDataStateList(
+                RobotStateViewModel(
+                    RobotStateItems.TEMPERATURE.ID,
+                    changeTextToSymbol(taskDetails.temperature_condition) + taskDetails.temperature_value,
+                    TaskDetailsElements.TEMPERATURE_UNIT.detailsElement
+                )
+            )
         } else {
-            pressure.value = resourcesProvider.getString(R.string.no_pressure_text)
+            addParameterToRobotDataStateList(
+                RobotStateViewModel(
+                    RobotStateItems.TEMPERATURE.ID,
+                    resourcesProvider.getString(R.string.no_temperature_text),
+                    TaskDetailsElements.TEMPERATURE_UNIT.detailsElement
+                )
+            )
         }
+    }
 
+    private fun setWindParam(taskDetails: TaskDetails) {
         if (taskDetails.wind_value != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
-            wind.value =
-                changeTextToSymbol(taskDetails.wind_condition) + TaskDetailsElements.SEPARATOR.detailsElement + taskDetails.wind_value + TaskDetailsElements.SPEED_UNIT.detailsElement
+            addParameterToRobotDataStateList(
+                RobotStateViewModel(
+                    RobotStateItems.WIND.ID,
+                    changeTextToSymbol(taskDetails.wind_condition) + taskDetails.wind_value,
+                    TaskDetailsElements.SPEED_UNIT.detailsElement
+                )
+            )
         } else {
-            wind.value = resourcesProvider.getString(R.string.no_wind_text)
+            addParameterToRobotDataStateList(
+                RobotStateViewModel(
+                    RobotStateItems.WIND.ID,
+                    resourcesProvider.getString(R.string.no_wind_text),
+                    TaskDetailsElements.SPEED_UNIT.detailsElement
+                )
+            )
+        }
+    }
+
+    private fun setPressureParam(taskDetails: TaskDetails) {
+        if (taskDetails.pressure_value != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
+            addParameterToRobotDataStateList(
+                RobotStateViewModel(
+                    RobotStateItems.PRESSURE.ID,
+                    changeTextToSymbol(taskDetails.pressure_condition) + taskDetails.pressure_value,
+                    TaskDetailsElements.PRESSURE_UNIT.detailsElement
+                )
+            )
+        } else {
+            addParameterToRobotDataStateList(
+                RobotStateViewModel(
+                    RobotStateItems.PRESSURE.ID,
+                    resourcesProvider.getString(R.string.no_pressure_text),
+                    TaskDetailsElements.SPEED_UNIT.detailsElement
+                )
+            )
         }
     }
 
@@ -103,6 +217,35 @@ class PagerTaskDetailsViewModel(
             TaskDetailsElements.MORE_TEXT.detailsElement -> TaskDetailsElements.MORE_SYMBOL.detailsElement
             TaskDetailsElements.EQUAL_TEXT.detailsElement -> TaskDetailsElements.EQUAL_SYMBOL.detailsElement
             else -> TaskDetailsElements.SEPARATOR.detailsElement
+        }
+    }
+
+
+    private fun addParameterToRobotDataStateList(robotStateParameter: RobotStateViewModel) {
+        val isAttributeAlreadyAdded = robotDataStateList.value!!.any { arrtibute ->
+            arrtibute.stateItemId == robotStateParameter.stateItemId
+        }
+        if (!isAttributeAlreadyAdded)
+            robotDataStateList.value = listOf(  *robotDataStateList.value!!.toTypedArray(),
+                RobotStateViewModel(
+                    robotStateParameter.stateItemId,
+                    robotStateParameter.stateValue,
+                    robotStateParameter.stateUnit
+                )
+
+            )
+        else {
+            robotDataStateList.value = robotDataStateList.value!!.map { oldAttribute ->
+                if (oldAttribute.stateItemId == robotStateParameter.stateItemId) {
+                    RobotStateViewModel(
+                        oldAttribute.stateItemId,
+                        robotStateParameter.stateValue,
+                        oldAttribute.stateUnit
+                    )
+                } else {
+                    oldAttribute
+                }
+            }
         }
     }
 

@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.controlPanel.viewpager.recycler
+package eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler
 
 import androidx.recyclerview.widget.DiffUtil
 

@@ -8,10 +8,14 @@ import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationPressure
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationTemperature
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationWind
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
+import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.RobotStateViewModel
+import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.items.RobotStateItems
+import eu.agribot.agribotapp.ui.fragment.taskcreator.TaskDetailsElements
 
 class WeatherViewModel(
     private val cloudDatabaseService: CloudDatabaseService
 ) : BaseViewModel() {
+    val weatherState: MutableLiveData<List<RobotStateViewModel>> = MutableLiveData(listOf())
     val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val weatherStationWindSpeed: MutableLiveData<String> = MutableLiveData()
     val weatherStationTemperature: MutableLiveData<String> = MutableLiveData()
@@ -54,22 +58,83 @@ class WeatherViewModel(
     }
 
     private fun onGetRobotHumiditySucess(robotWeatherStationHumidity: RobotWeatherStationHumidity) {
-        weatherStationHumidity.value = robotWeatherStationHumidity.value.toString()
+        addParameterToRobotDataStateList(
+            RobotStateViewModel(
+                RobotStateItems.HUMIDITY.ID,
+                robotWeatherStationHumidity.value.toString(),
+                TaskDetailsElements.PERCENT.detailsElement
+
+            )
+        )
     }
 
     private fun onGetRobotTemperatureSucess(robotWeatherStationTemperature: RobotWeatherStationTemperature) {
-        weatherStationTemperature.value = robotWeatherStationTemperature.value.toString()
+        addParameterToRobotDataStateList(
+            RobotStateViewModel(
+                RobotStateItems.TEMPERATURE.ID,
+                approximateParam(robotWeatherStationTemperature.value),
+                TaskDetailsElements.TEMPERATURE_UNIT.detailsElement
+
+            )
+        )
     }
 
     private fun onGetRobotWindSucess(robotWeatherStationWind: RobotWeatherStationWind) {
-        weatherStationWindSpeed.value = robotWeatherStationWind.speed_value.toString()
+        addParameterToRobotDataStateList(
+            RobotStateViewModel(
+                RobotStateItems.WIND.ID,
+                approximateParam(robotWeatherStationWind.speed_value),
+                TaskDetailsElements.SPEED_UNIT.detailsElement
+            )
+        )
+    }
+
+    private fun approximateParam(value: Double): String {
+        return String.format("%.2f", value)
     }
 
     private fun onGetRobotPressureSucess(robotWeatherStationPressure: RobotWeatherStationPressure) {
+
+        addParameterToRobotDataStateList(
+            RobotStateViewModel(
+                RobotStateItems.PRESSURE.ID,
+                approximateParam(robotWeatherStationPressure.value),
+                TaskDetailsElements.PRESSURE_UNIT.detailsElement
+            )
+        )
+
         weatherStationPressure.value = robotWeatherStationPressure.value.toString()
     }
 
     private fun postErrorMessage(errorText: String) {
         toastEvent.postValue(errorText)
+    }
+
+    private fun addParameterToRobotDataStateList(robotStateParameter: RobotStateViewModel) {
+        val isAttributeAlreadyAdded = weatherState.value!!.any { arrtibute ->
+            arrtibute.stateItemId == robotStateParameter.stateItemId
+        }
+        if (!isAttributeAlreadyAdded)
+            weatherState.value = listOf(
+                RobotStateViewModel(
+                    robotStateParameter.stateItemId,
+                    robotStateParameter.stateValue,
+                    robotStateParameter.stateUnit
+                ),
+                *weatherState.value!!.toTypedArray()
+            )
+        else {
+            weatherState.value = weatherState.value!!.map { oldAttribute ->
+                if (oldAttribute.stateItemId == robotStateParameter.stateItemId) {
+                    RobotStateViewModel(
+                        oldAttribute.stateItemId,
+                        robotStateParameter.stateValue,
+                        oldAttribute.stateUnit
+                    )
+                } else {
+                    oldAttribute
+                }
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen
 
 import android.annotation.SuppressLint
+import android.text.format.DateFormat
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.kml.KmlContainer
@@ -17,14 +18,16 @@ import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
 import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePathProvider
+import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.RobotStateViewModel
+import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.items.RobotStateItems
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TaskDetailsElements
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.TaskListItemViewModel
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
 import java.io.InputStream
-import java.text.SimpleDateFormat
-import java.util.TimeZone
+import java.util.Calendar
+import java.util.Locale
 
 class TaskCreatorViewModel(
     private val resourcesProvider: ResourcesProvider,
@@ -35,6 +38,9 @@ class TaskCreatorViewModel(
     private val filePathProvider: FilePathProvider
 
 ) : BaseViewModel() {
+    val robotDataStateList: MutableLiveData<List<RobotStateViewModel>> = MutableLiveData(listOf())
+    private val currentTask: MutableLiveData<String> = MutableLiveData()
+
     val selectedLayer: MutableLiveData<InputStream> = MutableLiveData()
     val taskDetails: MutableLiveData<TaskDetails> = MutableLiveData()
     val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
@@ -147,57 +153,197 @@ class TaskCreatorViewModel(
     fun onTaskSelected(taskListItemViewModel: TaskListItemViewModel) {
         cloudDatabaseService.getTaskDetails(
             taskId = taskListItemViewModel.taskName,
-            onGetTaskDetails = this::onGotTaskDetails,
+            onGetTaskDetails = this::onGotCurrentTaskDetails,
             onGetTaskDetailsError = this::postToastErrorMessageEvent
         )
     }
 
     @SuppressLint("SimpleDateFormat")
-    private fun onGotTaskDetails(taskDetails: TaskDetails) {
-        taskCreatorDataManager.updateAllTaskParametrs(taskDetails)
+    private fun onGotCurrentTaskDetails(taskDetails: TaskDetails) {
+        (if (currentTask.value != null && currentTask.value != "") {
+            setCurrentTask(currentTask.value!!)
+        } else {
+            setEmptyParameter(RobotStateItems.CURRENT_TASK.ID)
+        })
+
+        taskDetails.let {
+            setCurrentPath(it)
+            setStartDate(it)
+            setStartTime(it)
+            setTemperatureParam(it)
+            setHumidityParam(it)
+            setWindParam(it)
+            setPressureParam(it)
+        }
+    }
+
+    private fun setStartDate(taskDetails: TaskDetails) {
         if (!taskDetails.start_time_estimated) {
-            val dateFormat = SimpleDateFormat(TaskDetailsElements.DATE_FORMAT.detailsElement)
-            dateFormat.timeZone = TimeZone.getTimeZone(TaskDetailsElements.TIMEZONE.detailsElement)
-            taskDate.value =
-                resourcesProvider.getString(R.string.start_time) + dateFormat.format(taskDetails.start_time!!.toDate())
+            addParameterToRobotDataStateList(
+                RobotStateViewModel(
+                    RobotStateItems.START_DATE.ID,
+                    taskDetails.start_time?.let { getDate(it.seconds) }.toString(),
+                    ""
+                )
+            )
         } else {
-            taskDate.value = resourcesProvider.getString(R.string.no_start_date)
+            setEmptyParameter(RobotStateItems.START_TIME.ID)
         }
+    }
+
+    private fun getDate(timestamp: Long): String {
+        val calendar = Calendar.getInstance(Locale.ENGLISH)
+        calendar.timeInMillis = timestamp * 1000L
+        return DateFormat.format("dd-MM-yyyy", calendar).toString()
+    }
+
+    private fun getTime(timestamp: Long): String {
+        val calendar = Calendar.getInstance(Locale.ENGLISH)
+        calendar.timeInMillis = timestamp * 1000L
+        return DateFormat.format("HH:mm", calendar).toString()
+    }
+
+    private fun setStartTime(taskDetails: TaskDetails) {
+        if (!taskDetails.start_time_estimated) {
+            addParameterToRobotDataStateList(
+                RobotStateViewModel(
+                    RobotStateItems.START_TIME.ID,
+                    taskDetails.start_time?.let { getTime(it.seconds) }.toString(),
+                    ""
+                )
+            )
+        } else {
+            setEmptyParameter(RobotStateItems.START_DATE.ID)
+        }
+    }
+
+    private fun setCurrentTask(taskName: String) {
+        addParameterToRobotDataStateList(
+            RobotStateViewModel(
+                RobotStateItems.CURRENT_TASK.ID,
+                taskName,
+                ""
+            )
+        )
+    }
+
+    private fun setCurrentPath(taskDetails: TaskDetails) {
         if (taskDetails.path_name != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
-            pathName.value =
-                taskDetails.path_name
+            addParameterToRobotDataStateList(
+                RobotStateViewModel(
+                    RobotStateItems.CURRENT_PATH.ID,
+                    taskDetails.path_name,
+                    ""
+                )
+            )
+            pathName.value = taskDetails.path_name
+            checkIsCurrentPathExistInStorage()
         } else {
-            pathName.value = resourcesProvider.getString(R.string.no_path_text)
+            setEmptyParameter(RobotStateItems.CURRENT_PATH.ID)
         }
+    }
 
-        if (taskDetails.temperature_value != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
-            temperature.value =
-                changeConditionTextToSymbol(taskDetails.temperature_condition) + TaskDetailsElements.SEPARATOR.detailsElement + taskDetails.temperature_value + TaskDetailsElements.TEMPERATURE_UNIT.detailsElement
-        } else {
-            temperature.value = resourcesProvider.getString(R.string.no_temperature_text)
-        }
-
+    private fun setHumidityParam(taskDetails: TaskDetails) {
         if (taskDetails.humidity_value != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
-            humidity.value =
-                changeConditionTextToSymbol(taskDetails.humidity_condition) + TaskDetailsElements.SEPARATOR.detailsElement + taskDetails.humidity_value + TaskDetailsElements.PERCENT.detailsElement
+            addParameterToRobotDataStateList(
+                RobotStateViewModel(
+                    RobotStateItems.HUMIDITY.ID,
+                    changeTextToSymbol(taskDetails.humidity_condition) + taskDetails.humidity_value,
+                    TaskDetailsElements.PERCENT.detailsElement
+                )
+            )
         } else {
-            humidity.value = resourcesProvider.getString(R.string.no_humidity_text)
+            setEmptyParameter(RobotStateItems.HUMIDITY.ID)
         }
+    }
 
-        if (taskDetails.pressure_value != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
-            pressure.value =
-                changeConditionTextToSymbol(taskDetails.pressure_condition) + TaskDetailsElements.SEPARATOR.detailsElement + taskDetails.pressure_value + TaskDetailsElements.PRESSURE_UNIT.detailsElement
+    private fun setTemperatureParam(taskDetails: TaskDetails) {
+        if (taskDetails.temperature_value != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
+            addParameterToRobotDataStateList(
+                RobotStateViewModel(
+                    RobotStateItems.TEMPERATURE.ID,
+                    changeTextToSymbol(taskDetails.temperature_condition) + taskDetails.temperature_value,
+                    TaskDetailsElements.TEMPERATURE_UNIT.detailsElement
+                )
+            )
         } else {
-            pressure.value = resourcesProvider.getString(R.string.no_pressure_text)
+            setEmptyParameter(RobotStateItems.TEMPERATURE.ID)
         }
+    }
 
+    private fun setWindParam(taskDetails: TaskDetails) {
         if (taskDetails.wind_value != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
-            wind.value =
-                changeConditionTextToSymbol(taskDetails.wind_condition) + TaskDetailsElements.SEPARATOR.detailsElement + taskDetails.wind_value + TaskDetailsElements.SPEED_UNIT.detailsElement
+            addParameterToRobotDataStateList(
+                RobotStateViewModel(
+                    RobotStateItems.WIND.ID,
+                    changeTextToSymbol(taskDetails.wind_condition) + taskDetails.wind_value,
+                    TaskDetailsElements.SPEED_UNIT.detailsElement
+                )
+            )
         } else {
-            wind.value = resourcesProvider.getString(R.string.no_wind_text)
+            setEmptyParameter(RobotStateItems.WIND.ID)
         }
-        checkIsCurrentPathExistInStorage()
+    }
+
+    private fun setPressureParam(taskDetails: TaskDetails) {
+        if (taskDetails.pressure_value != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
+            addParameterToRobotDataStateList(
+                RobotStateViewModel(
+                    RobotStateItems.PRESSURE.ID,
+                    changeTextToSymbol(taskDetails.pressure_condition) + taskDetails.pressure_value,
+                    TaskDetailsElements.PRESSURE_UNIT.detailsElement
+                )
+            )
+        } else {
+            setEmptyParameter(RobotStateItems.PRESSURE.ID)
+        }
+    }
+
+    private fun setEmptyParameter(paramID: Int) {
+        addParameterToRobotDataStateList(
+            RobotStateViewModel(
+                paramID,
+                resourcesProvider.getString(R.string.task_param_not_set), ""
+            )
+        )
+    }
+
+    private fun changeTextToSymbol(conditionText: String): String {
+        return when (conditionText) {
+            TaskDetailsElements.LESS_TEXT.detailsElement -> TaskDetailsElements.LESS_SYMBOL.detailsElement
+            TaskDetailsElements.MORE_TEXT.detailsElement -> TaskDetailsElements.MORE_SYMBOL.detailsElement
+            TaskDetailsElements.EQUAL_TEXT.detailsElement -> TaskDetailsElements.EQUAL_SYMBOL.detailsElement
+            else -> TaskDetailsElements.SEPARATOR.detailsElement
+        }
+    }
+
+    private fun addParameterToRobotDataStateList(robotStateParameter: RobotStateViewModel) {
+        val isAttributeAlreadyAdded = robotDataStateList.value!!.any { arrtibute ->
+            arrtibute.stateItemId == robotStateParameter.stateItemId
+        }
+        if (!isAttributeAlreadyAdded)
+            robotDataStateList.value = listOf(
+                *robotDataStateList.value!!.toTypedArray(),
+                RobotStateViewModel(
+                    robotStateParameter.stateItemId,
+                    robotStateParameter.stateValue,
+                    robotStateParameter.stateUnit
+                )
+
+            )
+        else {
+            robotDataStateList.value = robotDataStateList.value!!.map { oldAttribute ->
+                if (oldAttribute.stateItemId == robotStateParameter.stateItemId) {
+                    RobotStateViewModel(
+                        oldAttribute.stateItemId,
+                        robotStateParameter.stateValue,
+                        oldAttribute.stateUnit
+                    )
+                } else {
+                    oldAttribute
+                }
+            }
+        }
     }
 
     private fun changeConditionTextToSymbol(conditionText: String): String {

@@ -17,10 +17,6 @@ class WeatherViewModel(
 ) : BaseViewModel() {
     val weatherState: MutableLiveData<List<RobotStateViewModel>> = MutableLiveData(listOf())
     val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
-    val weatherStationWindSpeed: MutableLiveData<String> = MutableLiveData()
-    val weatherStationTemperature: MutableLiveData<String> = MutableLiveData()
-    val weatherStationPressure: MutableLiveData<String> = MutableLiveData()
-    val weatherStationHumidity: MutableLiveData<String> = MutableLiveData()
 
     fun prepareWeatherStationData() {
         getRobotHumidity()
@@ -94,7 +90,6 @@ class WeatherViewModel(
     }
 
     private fun onGetRobotPressureSucess(robotWeatherStationPressure: RobotWeatherStationPressure) {
-
         addParameterToRobotDataStateList(
             RobotStateViewModel(
                 RobotStateItems.PRESSURE.ID,
@@ -102,8 +97,6 @@ class WeatherViewModel(
                 TaskDetailsElements.PRESSURE_UNIT.detailsElement
             )
         )
-
-        weatherStationPressure.value = robotWeatherStationPressure.value.toString()
     }
 
     private fun postErrorMessage(errorText: String) {

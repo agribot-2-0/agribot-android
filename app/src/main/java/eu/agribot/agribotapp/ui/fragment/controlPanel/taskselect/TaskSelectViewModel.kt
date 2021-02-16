@@ -14,6 +14,11 @@ class TaskSelectViewModel(
 ) : BaseViewModel() {
     val taskList: MutableLiveData<List<TaskListItemViewModel>> = MutableLiveData(listOf())
     val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
+    val cancelTaskButtonEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
+
+    fun onCancelTaskButtonClicked() {
+        cancelTaskButtonEvent.postValue(true)
+    }
 
     fun getAvailableTask() {
         cloudDatabaseService.getTaskItem(
@@ -51,5 +56,9 @@ class TaskSelectViewModel(
 
     private fun postDashboardNavigationEvent() {
         navigationEvent.postValue(DashboardNavigationEvent())
+    }
+
+    fun sendCancelTask() {
+        cloudDatabaseService.setCurrentTask(ActualTask())
     }
 }

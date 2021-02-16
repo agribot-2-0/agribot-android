@@ -266,6 +266,7 @@
     <string name="robot_state">Stan Robota</string>
     <string name="task_state">Stan Zadania</string>
     <string name="task_list">Lista Zadań</string>
+    <string name="task_param_not_set">Nie Ustawiono</string>
 
     <string name="summary_tool_name">Nazwa Narzędzia:  %1$S</string>
     <string name="summary_tool_tag">RFID Tag Narzędzia:  %1$S</string>

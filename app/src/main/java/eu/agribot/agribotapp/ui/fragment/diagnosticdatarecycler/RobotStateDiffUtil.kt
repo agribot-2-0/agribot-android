@@ -1,13 +1,13 @@
-package eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.diagnosticdatabar
+package eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler
 
 import androidx.recyclerview.widget.DiffUtil
 
-class DiagnosticDataDiffUtill(
-    private val oldList: List<DiagnosticDataViewModel>,
-    private val newList: List<DiagnosticDataViewModel>
+class RobotStateDiffUtil(
+    private val oldList: List<RobotStateViewModel>,
+    private val newList: List<RobotStateViewModel>
 ) : DiffUtil.Callback() {
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition].diagnosticDataID == newList[newItemPosition].diagnosticDataID
+        return oldList[oldItemPosition].stateItemId == newList[newItemPosition].stateItemId
     }
 
     override fun getOldListSize() = oldList.size

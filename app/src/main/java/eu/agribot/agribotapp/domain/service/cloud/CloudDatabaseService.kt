@@ -4,7 +4,6 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabase
 import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
 import eu.agribot.agribotapp.domain.model.cdb.ActualTask
 import eu.agribot.agribotapp.domain.model.cdb.EngineHealth
-import eu.agribot.agribotapp.domain.model.cdb.RobotHealthEngine
 import eu.agribot.agribotapp.domain.model.cdb.RobotLocalizationPose
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationHumidity
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationPressure
@@ -15,6 +14,9 @@ import eu.agribot.agribotapp.domain.model.cdb.TaskItem
 import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
 import eu.agribot.agribotapp.domain.model.cdb.ToolItem
 import eu.agribot.agribotapp.domain.model.cdb.UserInfo
+import eu.agribot.agribotapp.domain.model.cdb.state.RobotEngine
+import eu.agribot.agribotapp.domain.model.cdb.state.RobotHydraulics
+import eu.agribot.agribotapp.domain.model.cdb.state.RobotTask
 import eu.agribot.agribotapp.domain.model.cdb.taskprogram.taskmodel.NewRobotTaskDetails
 
 class CloudDatabaseService(
@@ -31,7 +33,7 @@ class CloudDatabaseService(
         onError: (error: String) -> Unit
     ) {
         cloudDatabase.getEngineHealthData(
-            onDatabaseSucess = {
+            onDatabaseSuccess = {
                 onSuccess(it.toDomainModel())
             },
             onDatabaseError = {
@@ -40,11 +42,35 @@ class CloudDatabaseService(
         )
     }
 
-    fun getRobotHealthEngine(
-        onSuccess: (RobotHealthEngine) -> Unit,
+    fun getRobotStateEngine(
+        onSuccess: (RobotEngine) -> Unit,
         onError: (String) -> Unit
     ) {
-        cloudDatabase.getRobotHealthEngineData(onDatabaseSucess = {
+        cloudDatabase.getRobotStateEngineData(onDatabaseSuccess = {
+            onSuccess(it.toDomainModel())
+        },
+            onDatabaseError = {
+                onError(it.message!!)
+            })
+    }
+
+    fun getRobotStateHydraulics(
+        onSuccess: (RobotHydraulics) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        cloudDatabase.getRobotStateHydraulicsData(onDatabaseSuccess = {
+            onSuccess(it.toDomainModel())
+        },
+            onDatabaseError = {
+                onError(it.message!!)
+            })
+    }
+
+    fun getRobotStateTask(
+        onSuccess: (RobotTask) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        cloudDatabase.getRobotStateTaskData(onDatabaseSuccess = {
             onSuccess(it.toDomainModel())
         },
             onDatabaseError = {
@@ -56,7 +82,7 @@ class CloudDatabaseService(
         onSuccess: (RobotLocalizationPose) -> Unit,
         onError: (String) -> Unit
     ) {
-        cloudDatabase.getRobotLocalizationPoseData(onDatabaseSucess = {
+        cloudDatabase.getRobotLocalizationPoseData(onDatabaseSuccess = {
             onSuccess(it.toDomainModel())
         },
             onDatabaseError = {
@@ -68,7 +94,7 @@ class CloudDatabaseService(
         onSuccess: (RobotWeatherStationHumidity) -> Unit,
         onError: (String) -> Unit
     ) {
-        cloudDatabase.getRobotWeatherStationHumidityData(onDatabaseSucess = {
+        cloudDatabase.getRobotWeatherStationHumidityData(onDatabaseSuccess = {
             onSuccess(it.toDomainModel())
         },
             onDatabaseError = {
@@ -80,7 +106,7 @@ class CloudDatabaseService(
         onSuccess: (RobotWeatherStationWind) -> Unit,
         onError: (String) -> Unit
     ) {
-        cloudDatabase.getRobotWeatherStationWindData(onDatabaseSucess = {
+        cloudDatabase.getRobotWeatherStationWindData(onDatabaseSuccess = {
             onSuccess(it.toDomainModel())
         },
             onDatabaseError = {
@@ -92,7 +118,7 @@ class CloudDatabaseService(
         onSuccess: (RobotWeatherStationPressure) -> Unit,
         onError: (String) -> Unit
     ) {
-        cloudDatabase.getRobotWeatherStationPressureData(onDatabaseSucess = {
+        cloudDatabase.getRobotWeatherStationPressureData(onDatabaseSuccess = {
             onSuccess(it.toDomainModel())
         },
             onDatabaseError = {
@@ -104,7 +130,7 @@ class CloudDatabaseService(
         onSuccess: (RobotWeatherStationTemperature) -> Unit,
         onError: (String) -> Unit
     ) {
-        cloudDatabase.getRobotWeatherStationTemperatureData(onDatabaseSucess = {
+        cloudDatabase.getRobotWeatherStationTemperatureData(onDatabaseSuccess = {
             onSuccess(it.toDomainModel())
         },
             onDatabaseError = {
@@ -131,7 +157,7 @@ class CloudDatabaseService(
         onError: (String) -> Unit
     ) {
         cloudDatabase.saveUserData(
-            onDatabaseSucess = {
+            onDatabaseSuccess = {
                 onSucess()
             },
             onDatabaseError = {
@@ -145,7 +171,7 @@ class CloudDatabaseService(
         onSucess: () -> Unit,
         onError: (String) -> Unit
     ) {
-        cloudDatabase.deleteUserData(onDatabaseSucess = {
+        cloudDatabase.deleteUserData(onDatabaseSuccess = {
             onSucess()
         },
             onDatabaseError = {
@@ -193,7 +219,7 @@ class CloudDatabaseService(
     ) {
         cloudDatabase.getCurrentTaskDetails(
             onGetCurrentTaskNameSucess = onGetCurrentTaskNameSuccess,
-            onGetCurrentTaskDetailsSucess = { onGetCurrentTaskDetailsSuccess(it.toDomainModel()) },
+            onGetCurrentTaskDetailsSuccess = { onGetCurrentTaskDetailsSuccess(it.toDomainModel()) },
             onDatabaseError = {
                 onError(it.message!!)
             })

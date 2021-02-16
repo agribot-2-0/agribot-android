@@ -11,10 +11,10 @@ import eu.agribot.agribotapp.common.navigation.events.BluetoothConnectionNavigat
 import eu.agribot.agribotapp.common.navigation.events.TTControlNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolControlNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentManualControlBinding
+import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.RobotStateAdapter
+import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.RobotStateViewModel
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.actionbottombar.ManualActionsAdapter
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.actionbottombar.ManualActionsViewModel
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.diagnosticdatabar.DiagnosticDataAdapter
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.diagnosticdatabar.DiagnosticDataViewModel
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.videostream.VideoParameters
 import kotlinx.android.synthetic.main.fragment_manual_control.video_view
 import kotlinx.android.synthetic.main.fragment_manual_control.manualModeRecyclerActions
@@ -33,7 +33,7 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
     override val viewModel: ManualControlViewModel by viewModel { parametersOf(requireContext()) }
     private val actionsRecyclerAdapter =
         ManualActionsAdapter(onClickSelectedItem = this::onSelectedActionClicked)
-    private val diagnosticDataRecyclerAdapter = DiagnosticDataAdapter()
+    private val diagnosticDataRecyclerAdapter = RobotStateAdapter()
 
     override fun bindViewVariables(viewBinding: FragmentManualControlBinding) {
         viewBinding.viewModel = viewModel
@@ -147,7 +147,7 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
         viewModel.onActionClicked(actionID)
     }
 
-    private fun addDiagnosticData(diagnosticData: List<DiagnosticDataViewModel>) {
+    private fun addDiagnosticData(diagnosticData: List<RobotStateViewModel>) {
         diagnosticDataRecyclerAdapter.items = diagnosticData
     }
 

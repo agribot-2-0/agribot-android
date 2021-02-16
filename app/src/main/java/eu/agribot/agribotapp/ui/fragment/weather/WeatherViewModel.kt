@@ -19,8 +19,8 @@ class WeatherViewModel(
     val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
 
     fun prepareWeatherStationData() {
-        getRobotHumidity()
         getRobotTemperature()
+        getRobotHumidity()
         getRobotWind()
         getRobotPressure()
     }

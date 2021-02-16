@@ -3,7 +3,6 @@ package eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -14,9 +13,7 @@ import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolManagementSummaryNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolNameNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentToolManagementBinding
-import eu.agribot.agribotapp.ui.fragment.swiperecyclerutils.SwipeHelper
-import eu.agribot.agribotapp.ui.fragment.swiperecyclerutils.SwipeRecyclerClickListener
-import eu.agribot.agribotapp.ui.fragment.swiperecyclerutils.SwipeRecyclerHelper
+import eu.agribot.agribotapp.ui.fragment.swiperecyclerutils.SwipeRecyclerUtil
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toollist.ToolListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toollist.ToolListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toolparameters.ListToolParamAdapter
@@ -84,19 +81,19 @@ class ToolManagementFragment :
     private fun setupToolsNameRecycler() {
         main_tool_name_recycler.adapter = toolListAdapter
         main_tool_name_recycler.layoutManager = LinearLayoutManager(requireActivity())
-        main_tool_name_recycler.addItemDecoration(
-            DividerItemDecoration(
-                requireContext(),
-                DividerItemDecoration.VERTICAL
-            )
-        )
+        setuptouchHelper()
+    }
+
+    private fun setuptouchHelper() {
         ItemTouchHelper(
-            SwipeRecyclerHelper(
-                main_tool_name_recycler,
-                deleteButton = this::deleteButton,
-                editButton = this::editButton
+            SwipeRecyclerUtil(
+                requireContext(),
+                onEditSwiped = this::editButton,
+                onRemoveSwiped = this::deleteButton
             )
-        ).attachToRecyclerView(main_tool_name_recycler)
+        ).attachToRecyclerView(
+            main_tool_name_recycler
+        )
     }
 
     private fun setupToolParamRecycler() {
@@ -104,14 +101,8 @@ class ToolManagementFragment :
         main_tool_parameter_recycler.layoutManager = LinearLayoutManager(requireActivity())
     }
 
-    private fun deleteButton(position: Int): SwipeHelper.UnderlayButton {
-        return SwipeHelper.UnderlayButton(
-            requireContext(),
-            getString(R.string.delete_task_button),
-            resources.getDimension(R.dimen.text_size_small),
-            android.R.color.holo_red_light,
-            SwipeRecyclerClickListener(position, onButtonClicked = this::showDeleteTaskDialog)
-        )
+    private fun deleteButton(position: Int) {
+        showDeleteTaskDialog(position)
     }
 
     private fun addToToolList(task: List<ToolListItemViewModel>) {
@@ -119,17 +110,15 @@ class ToolManagementFragment :
     }
 
     private fun showDeleteTaskDialog(itemPosition: Int) {
-        dialogManager.showDeleteTaskDialog(itemPosition, viewModel::onDeleteButtonClicked)
+        dialogManager.showDeleteTaskDialog(itemPosition, onTaskToDeleteConfirmed = viewModel::onDeleteButtonClicked, onTaskToDeleteAbort = this::refreshRecycler)
     }
 
-    private fun editButton(position: Int): SwipeHelper.UnderlayButton {
-        return SwipeHelper.UnderlayButton(
-            requireContext(),
-            getString(R.string.edit_task_button),
-            resources.getDimension(R.dimen.text_size_small),
-            android.R.color.holo_blue_light,
-            SwipeRecyclerClickListener(position, onButtonClicked = viewModel::onEditButtonClicked)
-        )
+    private fun refreshRecycler() {
+        toolListAdapter.notifyDataSetChanged()
+    }
+
+    private fun editButton(position: Int) {
+        viewModel.onEditButtonClicked(position)
     }
 
     private fun navigateToToolName() {

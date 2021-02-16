@@ -29,59 +29,59 @@ interface CloudDatabase {
     // ROBOT STATE
 
     fun getRobotStateEngineData(
-        onDatabaseSucess: (data: RobotEngineCDB) -> Unit,
+        onDatabaseSuccess: (data: RobotEngineCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 
     fun getRobotStateHydraulicsData(
-        onDatabaseSucess: (data: RobotHydraulicsCDB) -> Unit,
+        onDatabaseSuccess: (data: RobotHydraulicsCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 
     fun getRobotStateTaskData(
-        onDatabaseSucess: (data: RobotTaskCDB) -> Unit,
+        onDatabaseSuccess: (data: RobotTaskCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 
     fun getEngineHealthData(
-        onDatabaseSucess: (data: EngineHealthCDB) -> Unit,
+        onDatabaseSuccess: (data: EngineHealthCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 
     fun getRobotLocalizationPoseData(
-        onDatabaseSucess: (data: RobotLocalizationPoseCDB) -> Unit,
+        onDatabaseSuccess: (data: RobotLocalizationPoseCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 
     fun getRobotWeatherStationHumidityData(
-        onDatabaseSucess: (data: RobotWeatherStationHumidityCDB) -> Unit,
+        onDatabaseSuccess: (data: RobotWeatherStationHumidityCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 
     fun getRobotWeatherStationWindData(
-        onDatabaseSucess: (data: RobotWeatherStationWindCDB) -> Unit,
+        onDatabaseSuccess: (data: RobotWeatherStationWindCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 
     fun getRobotWeatherStationPressureData(
-        onDatabaseSucess: (data: RobotWeatherStationPressureCDB) -> Unit,
+        onDatabaseSuccess: (data: RobotWeatherStationPressureCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 
     fun getRobotWeatherStationTemperatureData(
-        onDatabaseSucess: (data: RobotWeatherStationTemperatureCDB) -> Unit,
+        onDatabaseSuccess: (data: RobotWeatherStationTemperatureCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 
     fun saveUserData(
         data: UserInfoCDB,
         user: String,
-        onDatabaseSucess: () -> Unit,
+        onDatabaseSuccess: () -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 
     fun deleteUserData(
-        onDatabaseSucess: () -> Unit,
+        onDatabaseSuccess: () -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 
@@ -99,7 +99,7 @@ interface CloudDatabase {
 
     fun getCurrentTaskDetails(
         onGetCurrentTaskNameSucess: (currentTaskName: String) -> Unit,
-        onGetCurrentTaskDetailsSucess: (taskDetailsCDB: TaskDetailsCDB) -> Unit,
+        onGetCurrentTaskDetailsSuccess: (taskDetailsCDB: TaskDetailsCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
 
@@ -110,7 +110,7 @@ interface CloudDatabase {
 
     fun deleteSelectedTask(
         taskID: String,
-        onDeleteSucess: () -> Unit,
+        onDeleteSuccess: () -> Unit,
         onDeleteError: (Throwable) -> Unit
     )
 

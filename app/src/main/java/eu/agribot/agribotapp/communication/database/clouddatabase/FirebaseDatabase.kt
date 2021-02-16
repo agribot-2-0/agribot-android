@@ -58,7 +58,7 @@ class FirebaseDatabase : CloudDatabase {
     }
 
     override fun getEngineHealthData(
-        onDatabaseSucess: (data: EngineHealthCDB) -> Unit,
+        onDatabaseSuccess: (data: EngineHealthCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS).document(userRobotName + DOCUMENT_STATE_ENGINE)
@@ -69,14 +69,14 @@ class FirebaseDatabase : CloudDatabase {
                 }
                 if (snapshot != null && snapshot.exists()) {
                     snapshot.toObject(EngineHealthCDB::class.java)?.let {
-                        onDatabaseSucess(it)
+                        onDatabaseSuccess(it)
                     }
                 }
             }
     }
 
     override fun getRobotStateEngineData(
-        onDatabaseSucess: (data: RobotEngineCDB) -> Unit,
+        onDatabaseSuccess: (data: RobotEngineCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
@@ -88,14 +88,14 @@ class FirebaseDatabase : CloudDatabase {
                 }
                 if (snapshot != null && snapshot.exists()) {
                     snapshot.toObject(RobotEngineCDB::class.java)?.let {
-                        onDatabaseSucess(it)
+                        onDatabaseSuccess(it)
                     }
                 }
             }
     }
 
     override fun getRobotStateHydraulicsData(
-        onDatabaseSucess: (data: RobotHydraulicsCDB) -> Unit,
+        onDatabaseSuccess: (data: RobotHydraulicsCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
@@ -107,14 +107,14 @@ class FirebaseDatabase : CloudDatabase {
                 }
                 if (snapshot != null && snapshot.exists()) {
                     snapshot.toObject(RobotHydraulicsCDB::class.java)?.let {
-                        onDatabaseSucess(it)
+                        onDatabaseSuccess(it)
                     }
                 }
             }
     }
 
     override fun getRobotStateTaskData(
-        onDatabaseSucess: (data: RobotTaskCDB) -> Unit,
+        onDatabaseSuccess: (data: RobotTaskCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
@@ -126,14 +126,14 @@ class FirebaseDatabase : CloudDatabase {
                 }
                 if (snapshot != null && snapshot.exists()) {
                     snapshot.toObject(RobotTaskCDB::class.java)?.let {
-                        onDatabaseSucess(it)
+                        onDatabaseSuccess(it)
                     }
                 }
             }
     }
 
     override fun getRobotLocalizationPoseData(
-        onDatabaseSucess: (data: RobotLocalizationPoseCDB) -> Unit,
+        onDatabaseSuccess: (data: RobotLocalizationPoseCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
@@ -145,14 +145,14 @@ class FirebaseDatabase : CloudDatabase {
                 }
                 if (snapshot != null && snapshot.exists()) {
                     snapshot.toObject(RobotLocalizationPoseCDB::class.java)?.let {
-                        onDatabaseSucess(it)
+                        onDatabaseSuccess(it)
                     }
                 }
             }
     }
 
     override fun getRobotWeatherStationHumidityData(
-        onDatabaseSucess: (data: RobotWeatherStationHumidityCDB) -> Unit,
+        onDatabaseSuccess: (data: RobotWeatherStationHumidityCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
@@ -164,14 +164,14 @@ class FirebaseDatabase : CloudDatabase {
                 }
                 if (snapshot != null && snapshot.exists()) {
                     snapshot.toObject(RobotWeatherStationHumidityCDB::class.java)?.let {
-                        onDatabaseSucess(it)
+                        onDatabaseSuccess(it)
                     }
                 }
             }
     }
 
     override fun getRobotWeatherStationPressureData(
-        onDatabaseSucess: (RobotWeatherStationPressureCDB) -> Unit,
+        onDatabaseSuccess: (RobotWeatherStationPressureCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
@@ -183,14 +183,14 @@ class FirebaseDatabase : CloudDatabase {
                 }
                 if (snapshot != null && snapshot.exists()) {
                     snapshot.toObject(RobotWeatherStationPressureCDB::class.java)?.let {
-                        onDatabaseSucess(it)
+                        onDatabaseSuccess(it)
                     }
                 }
             }
     }
 
     override fun getRobotWeatherStationWindData(
-        onDatabaseSucess: (RobotWeatherStationWindCDB) -> Unit,
+        onDatabaseSuccess: (RobotWeatherStationWindCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
@@ -202,14 +202,14 @@ class FirebaseDatabase : CloudDatabase {
                 }
                 if (snapshot != null && snapshot.exists()) {
                     snapshot.toObject(RobotWeatherStationWindCDB::class.java)?.let {
-                        onDatabaseSucess(it)
+                        onDatabaseSuccess(it)
                     }
                 }
             }
     }
 
     override fun getRobotWeatherStationTemperatureData(
-        onDatabaseSucess: (data: RobotWeatherStationTemperatureCDB) -> Unit,
+        onDatabaseSuccess: (data: RobotWeatherStationTemperatureCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
@@ -221,7 +221,7 @@ class FirebaseDatabase : CloudDatabase {
                 }
                 if (snapshot != null && snapshot.exists()) {
                     snapshot.toObject(RobotWeatherStationTemperatureCDB::class.java)?.let {
-                        onDatabaseSucess(it)
+                        onDatabaseSuccess(it)
                     }
                 }
             }
@@ -230,14 +230,14 @@ class FirebaseDatabase : CloudDatabase {
     override fun saveUserData(
         data: UserInfoCDB,
         user: String,
-        onDatabaseSucess: () -> Unit,
+        onDatabaseSuccess: () -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_USER)
             .document("$user/$COLLECTION_ROBOTS/$userRobotName")
             .set(data)
             .addOnSuccessListener {
-                onDatabaseSucess.invoke()
+                onDatabaseSuccess.invoke()
             }
             .addOnFailureListener { exception ->
                 onDatabaseError(exception)
@@ -245,14 +245,14 @@ class FirebaseDatabase : CloudDatabase {
     }
 
     override fun deleteUserData(
-        onDatabaseSucess: () -> Unit,
+        onDatabaseSuccess: () -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_USER)
             .document("$currentFirebaseUser/$COLLECTION_ROBOTS/$userRobotName")
             .delete()
             .addOnSuccessListener {
-                onDatabaseSucess.invoke()
+                onDatabaseSuccess.invoke()
             }
             .addOnFailureListener { exception ->
                 onDatabaseError(exception)
@@ -294,7 +294,7 @@ class FirebaseDatabase : CloudDatabase {
 
     override fun getCurrentTaskDetails(
         onGetCurrentTaskNameSucess: (currentTaskName: String) -> Unit,
-        onGetCurrentTaskDetailsSucess: (taskDetailsCDB: TaskDetailsCDB) -> Unit,
+        onGetCurrentTaskDetailsSuccess: (taskDetailsCDB: TaskDetailsCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
@@ -310,7 +310,7 @@ class FirebaseDatabase : CloudDatabase {
                             onGetCurrentTaskNameSucess(it.actual_task)
                             getTaskDetails(
                                 it.actual_task,
-                                onGetCurrentTaskDetailsSucess,
+                                onGetCurrentTaskDetailsSuccess,
                                 onDatabaseError
                             )
                         }
@@ -337,14 +337,14 @@ class FirebaseDatabase : CloudDatabase {
 
     override fun deleteSelectedTask(
         taskID: String,
-        onDeleteSucess: () -> Unit,
+        onDeleteSuccess: () -> Unit,
         onDeleteError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
             .document("$userRobotName/$DOCUMENT_TASKS/$taskID")
             .delete()
             .addOnSuccessListener {
-                onDeleteSucess()
+                onDeleteSuccess()
             }
             .addOnFailureListener { exception ->
                 onDeleteError(exception)

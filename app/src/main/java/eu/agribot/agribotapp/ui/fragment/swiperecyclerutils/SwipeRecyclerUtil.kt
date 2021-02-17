@@ -45,7 +45,7 @@ class SwipeRecyclerUtil(
         actionState: Int,
         isCurrentlyActive: Boolean
     ) {
-        if (isSwipeToRightSiteOperation(dX)) {
+        if (isSwipeToRightSideOperation(dX)) {
             RecyclerViewSwipeDecorator.Builder(
                 canvas,
                 recyclerView,
@@ -85,7 +85,7 @@ class SwipeRecyclerUtil(
         super.onChildDraw(canvas, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
     }
 
-    private fun isSwipeToRightSiteOperation(swipeValue: Float): Boolean {
+    private fun isSwipeToRightSideOperation(swipeValue: Float): Boolean {
         return swipeValue > RIGHT_SITE_MIN_SWIPE_VALUE
     }
 

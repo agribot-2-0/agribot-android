@@ -29,14 +29,14 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/margin_large"
+                android:layout_marginHorizontal="@dimen/margin_small"
                 android:padding="@dimen/margin_small"
                 tool:src="@drawable/ic_settings_bluetooth" />
 
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight="10"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:layout_marginHorizontal="@dimen/margin_xxlarge"
@@ -71,11 +71,7 @@
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="@dimen/margin_medium"
-            android:background="@color/background_gray" />
+
 
     </LinearLayout>
 

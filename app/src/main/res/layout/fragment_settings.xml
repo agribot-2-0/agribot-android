@@ -20,7 +20,6 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_margin="@dimen/margin_small"
             android:orientation="vertical"
             app:cardCornerRadius="2dp"
             app:cardElevation="6dp">
@@ -34,11 +33,16 @@
 
         </androidx.cardview.widget.CardView>
 
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/background_gray"/>
+
+
         <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_margin="@dimen/margin_small"
             android:orientation="vertical"
             app:cardCornerRadius="2dp"
             app:cardElevation="6dp">

@@ -35,16 +35,17 @@ class SettingsViewModel(
     }
 
     fun prepareSettingsItem() {
+
         settingsList.value = listOf(
-            SettingsListViewModel(
-                ItemID.CONNECTION.ID,
-                resourcesProvider.getString(R.string.settings_category_connection),
-                resourcesProvider.getString(R.string.settings_connection_description)
-            ),
             SettingsListViewModel(
                 ItemID.ACCOUNT.ID,
                 resourcesProvider.getString(R.string.settings_category_user),
                 resourcesProvider.getString(R.string.settiongs_account_description)
+            ),
+            SettingsListViewModel(
+                ItemID.CONNECTION.ID,
+                resourcesProvider.getString(R.string.settings_category_connection),
+                resourcesProvider.getString(R.string.settings_connection_description)
             ),
             SettingsListViewModel(
                 ItemID.OTHER.ID,

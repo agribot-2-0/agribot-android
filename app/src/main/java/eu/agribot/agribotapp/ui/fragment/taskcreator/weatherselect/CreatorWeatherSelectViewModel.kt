@@ -69,8 +69,9 @@ class CreatorWeatherSelectViewModel(
     }
 
     private fun prepareWeatherStationData() {
-        getRobotHumidity()
+        weatherAttributeList.value = listOf()
         getRobotTemperature()
+        getRobotHumidity()
         getRobotWind()
         getRobotPressure()
     }
@@ -235,7 +236,8 @@ class CreatorWeatherSelectViewModel(
         }
         if (!isAttributeAlreadyAdded)
             weatherAttributeList.value = listOf(
-                WeatherSettingsListItemViewModel(
+                *weatherAttributeList.value!!.toTypedArray(),
+                        WeatherSettingsListItemViewModel(
                     weatherSelectDataModel.id,
                     weatherSelectDataModel.conditionArray,
                     weatherSelectDataModel.minimumPickerValue,
@@ -244,8 +246,7 @@ class CreatorWeatherSelectViewModel(
                     weatherSelectDataModel.isSwitchActive,
                     weatherSelectDataModel.presetValue,
                     weatherSelectDataModel.presetCondition
-                ),
-                *weatherAttributeList.value!!.toTypedArray()
+                )
             )
         else {
             weatherAttributeList.value = weatherAttributeList.value!!.map { oldAttribute ->

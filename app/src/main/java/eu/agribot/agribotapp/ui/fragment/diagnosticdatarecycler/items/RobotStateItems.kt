@@ -1,0 +1,40 @@
+package eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.items
+
+enum class RobotStateItems(val ID: Int) {
+
+    FUEL_LEVEL(0),
+
+    TASK_PROGRESS(1),
+
+    ESTIMATED_TASK_FINISH_TIME(2),
+
+    ROBOT_SPEED(3),
+
+    START_TIME(4),
+
+    START_DATE(5),
+
+    WIND(6),
+
+    TEMPERATURE(7),
+
+    PRESSURE(8),
+
+    HUMIDITY(9),
+
+    CURRENT_TASK(10),
+
+    CURRENT_PATH(11),
+
+    MANUAL_CONTROL_VOLTAGE(12),
+
+    MANUAL_CONTROL_ENGINE_ROTATIONS(13),
+
+    MANUAL_CONTROL_ENGINE_TORQUE(14),
+
+    MANUAL_CONTROL_FUEL_LEVEL(15),
+
+    MANUAL_CONTROL_FUEL_RATE(16),
+
+    MANUAL_CONTROL_OIL_TEMPERATURE(17)
+}

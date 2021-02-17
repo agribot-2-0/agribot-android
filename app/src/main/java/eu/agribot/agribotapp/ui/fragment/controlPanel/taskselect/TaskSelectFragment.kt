@@ -34,6 +34,7 @@ class TaskSelectFragment : BaseFragment<TaskSelectViewModel, FragmentTaskSelectB
         viewModel.taskList.observe(this::addTaskItem)
         viewModel.getAvailableTask()
         viewModel.toastEvent.observe(this::showToast)
+        viewModel.cancelTaskButtonEvent.observe(this::onCancelTask)
     }
 
     private fun onTaskSelected(taskListItemViewModel: TaskListItemViewModel) {
@@ -59,5 +60,11 @@ class TaskSelectFragment : BaseFragment<TaskSelectViewModel, FragmentTaskSelectB
 
     private fun addTaskItem(task: List<TaskListItemViewModel>) {
         taskAdapter.items = task
+    }
+
+    private fun onCancelTask(cancelTask: Boolean) {
+        if (cancelTask) {
+            dialogManager.cancelTaskDialog(viewModel::sendCancelTask)
+        }
     }
 }

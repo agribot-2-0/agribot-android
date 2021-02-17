@@ -5,7 +5,6 @@ import com.google.firebase.firestore.FirebaseFirestore.getInstance
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.ActualTaskCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.EngineHealthCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.NewRobotTaskDetailsCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotHealthEngineCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotLocalizationPoseCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationHumidityCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.RobotWeatherStationPressureCDB
@@ -16,18 +15,21 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskItem
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.ToolDetailsCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.TooltemCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserInfoCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_ENGINE
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_ROBOTS
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_USER
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_HEALTH
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_HEALTH_ENGINE
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_LOCALIZATION_POSE
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_STATE_ENGINE
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_STATE_HYDRAULICS
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_STATE_TASK
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_TASKS
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_TOOLS
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_WEATHER_STATION_HUMIDITYE
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_WEATHER_STATION_PRESSURE
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_WEATHER_STATION_TEMPERATURE
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_WEATHER_STATION_WIND
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.state.RobotEngineCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.state.RobotHydraulicsCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.state.RobotTaskCDB
 import timber.log.Timber
 import java.io.IOException
 
@@ -56,10 +58,10 @@ class FirebaseDatabase : CloudDatabase {
     }
 
     override fun getEngineHealthData(
-        onDatabaseSucess: (data: EngineHealthCDB) -> Unit,
+        onDatabaseSuccess: (data: EngineHealthCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        database.collection(COLLECTION_ENGINE).document(userRobotName + DOCUMENT_HEALTH)
+        database.collection(COLLECTION_ROBOTS).document(userRobotName + DOCUMENT_STATE_ENGINE)
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(Throwable("Could not parse firebase data"))
@@ -67,33 +69,71 @@ class FirebaseDatabase : CloudDatabase {
                 }
                 if (snapshot != null && snapshot.exists()) {
                     snapshot.toObject(EngineHealthCDB::class.java)?.let {
-                        onDatabaseSucess(it)
+                        onDatabaseSuccess(it)
                     }
                 }
             }
     }
 
-    override fun getRobotHealthEngineData(
-        onDatabaseSucess: (data: RobotHealthEngineCDB) -> Unit,
+    override fun getRobotStateEngineData(
+        onDatabaseSuccess: (data: RobotEngineCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document(userRobotName + DOCUMENT_HEALTH_ENGINE)
+            .document(userRobotName + DOCUMENT_STATE_ENGINE)
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(Throwable("Could not parse firebase data"))
                     return@addSnapshotListener
                 }
                 if (snapshot != null && snapshot.exists()) {
-                    snapshot.toObject(RobotHealthEngineCDB::class.java)?.let {
-                        onDatabaseSucess(it)
+                    snapshot.toObject(RobotEngineCDB::class.java)?.let {
+                        onDatabaseSuccess(it)
+                    }
+                }
+            }
+    }
+
+    override fun getRobotStateHydraulicsData(
+        onDatabaseSuccess: (data: RobotHydraulicsCDB) -> Unit,
+        onDatabaseError: (Throwable) -> Unit
+    ) {
+        database.collection(COLLECTION_ROBOTS)
+            .document(userRobotName + DOCUMENT_STATE_HYDRAULICS)
+            .addSnapshotListener { snapshot, databaseException ->
+                if (databaseException != null) {
+                    onDatabaseError(Throwable("Could not parse firebase data"))
+                    return@addSnapshotListener
+                }
+                if (snapshot != null && snapshot.exists()) {
+                    snapshot.toObject(RobotHydraulicsCDB::class.java)?.let {
+                        onDatabaseSuccess(it)
+                    }
+                }
+            }
+    }
+
+    override fun getRobotStateTaskData(
+        onDatabaseSuccess: (data: RobotTaskCDB) -> Unit,
+        onDatabaseError: (Throwable) -> Unit
+    ) {
+        database.collection(COLLECTION_ROBOTS)
+            .document(userRobotName + DOCUMENT_STATE_TASK)
+            .addSnapshotListener { snapshot, databaseException ->
+                if (databaseException != null) {
+                    onDatabaseError(Throwable("Could not parse firebase data"))
+                    return@addSnapshotListener
+                }
+                if (snapshot != null && snapshot.exists()) {
+                    snapshot.toObject(RobotTaskCDB::class.java)?.let {
+                        onDatabaseSuccess(it)
                     }
                 }
             }
     }
 
     override fun getRobotLocalizationPoseData(
-        onDatabaseSucess: (data: RobotLocalizationPoseCDB) -> Unit,
+        onDatabaseSuccess: (data: RobotLocalizationPoseCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
@@ -105,14 +145,14 @@ class FirebaseDatabase : CloudDatabase {
                 }
                 if (snapshot != null && snapshot.exists()) {
                     snapshot.toObject(RobotLocalizationPoseCDB::class.java)?.let {
-                        onDatabaseSucess(it)
+                        onDatabaseSuccess(it)
                     }
                 }
             }
     }
 
     override fun getRobotWeatherStationHumidityData(
-        onDatabaseSucess: (data: RobotWeatherStationHumidityCDB) -> Unit,
+        onDatabaseSuccess: (data: RobotWeatherStationHumidityCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
@@ -124,14 +164,14 @@ class FirebaseDatabase : CloudDatabase {
                 }
                 if (snapshot != null && snapshot.exists()) {
                     snapshot.toObject(RobotWeatherStationHumidityCDB::class.java)?.let {
-                        onDatabaseSucess(it)
+                        onDatabaseSuccess(it)
                     }
                 }
             }
     }
 
     override fun getRobotWeatherStationPressureData(
-        onDatabaseSucess: (RobotWeatherStationPressureCDB) -> Unit,
+        onDatabaseSuccess: (RobotWeatherStationPressureCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
@@ -143,14 +183,14 @@ class FirebaseDatabase : CloudDatabase {
                 }
                 if (snapshot != null && snapshot.exists()) {
                     snapshot.toObject(RobotWeatherStationPressureCDB::class.java)?.let {
-                        onDatabaseSucess(it)
+                        onDatabaseSuccess(it)
                     }
                 }
             }
     }
 
     override fun getRobotWeatherStationWindData(
-        onDatabaseSucess: (RobotWeatherStationWindCDB) -> Unit,
+        onDatabaseSuccess: (RobotWeatherStationWindCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
@@ -162,14 +202,14 @@ class FirebaseDatabase : CloudDatabase {
                 }
                 if (snapshot != null && snapshot.exists()) {
                     snapshot.toObject(RobotWeatherStationWindCDB::class.java)?.let {
-                        onDatabaseSucess(it)
+                        onDatabaseSuccess(it)
                     }
                 }
             }
     }
 
     override fun getRobotWeatherStationTemperatureData(
-        onDatabaseSucess: (data: RobotWeatherStationTemperatureCDB) -> Unit,
+        onDatabaseSuccess: (data: RobotWeatherStationTemperatureCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
@@ -181,7 +221,7 @@ class FirebaseDatabase : CloudDatabase {
                 }
                 if (snapshot != null && snapshot.exists()) {
                     snapshot.toObject(RobotWeatherStationTemperatureCDB::class.java)?.let {
-                        onDatabaseSucess(it)
+                        onDatabaseSuccess(it)
                     }
                 }
             }
@@ -190,14 +230,14 @@ class FirebaseDatabase : CloudDatabase {
     override fun saveUserData(
         data: UserInfoCDB,
         user: String,
-        onDatabaseSucess: () -> Unit,
+        onDatabaseSuccess: () -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_USER)
             .document("$user/$COLLECTION_ROBOTS/$userRobotName")
             .set(data)
             .addOnSuccessListener {
-                onDatabaseSucess.invoke()
+                onDatabaseSuccess.invoke()
             }
             .addOnFailureListener { exception ->
                 onDatabaseError(exception)
@@ -205,14 +245,14 @@ class FirebaseDatabase : CloudDatabase {
     }
 
     override fun deleteUserData(
-        onDatabaseSucess: () -> Unit,
+        onDatabaseSuccess: () -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_USER)
             .document("$currentFirebaseUser/$COLLECTION_ROBOTS/$userRobotName")
             .delete()
             .addOnSuccessListener {
-                onDatabaseSucess.invoke()
+                onDatabaseSuccess.invoke()
             }
             .addOnFailureListener { exception ->
                 onDatabaseError(exception)
@@ -254,7 +294,7 @@ class FirebaseDatabase : CloudDatabase {
 
     override fun getCurrentTaskDetails(
         onGetCurrentTaskNameSucess: (currentTaskName: String) -> Unit,
-        onGetCurrentTaskDetailsSucess: (taskDetailsCDB: TaskDetailsCDB) -> Unit,
+        onGetCurrentTaskDetailsSuccess: (taskDetailsCDB: TaskDetailsCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
@@ -270,7 +310,7 @@ class FirebaseDatabase : CloudDatabase {
                             onGetCurrentTaskNameSucess(it.actual_task)
                             getTaskDetails(
                                 it.actual_task,
-                                onGetCurrentTaskDetailsSucess,
+                                onGetCurrentTaskDetailsSuccess,
                                 onDatabaseError
                             )
                         }
@@ -297,14 +337,14 @@ class FirebaseDatabase : CloudDatabase {
 
     override fun deleteSelectedTask(
         taskID: String,
-        onDeleteSucess: () -> Unit,
+        onDeleteSuccess: () -> Unit,
         onDeleteError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
             .document("$userRobotName/$DOCUMENT_TASKS/$taskID")
             .delete()
             .addOnSuccessListener {
-                onDeleteSucess()
+                onDeleteSuccess()
             }
             .addOnFailureListener { exception ->
                 onDeleteError(exception)

@@ -2,9 +2,13 @@ package eu.agribot.agribotapp.communication.database.clouddatabase.model.paths
 
 object CloudDatabasePaths {
 
-    const val DOCUMENT_HEALTH = "health"
+    const val DOCUMENT_HEALTH = "state"
 
-    const val DOCUMENT_HEALTH_ENGINE = "/health/engine"
+    const val DOCUMENT_STATE_ENGINE = "/state/engine"
+
+    const val DOCUMENT_STATE_HYDRAULICS = "/state/hydraulics"
+
+    const val DOCUMENT_STATE_TASK = "/state/task"
 
     const val DOCUMENT_LOCALIZATION_POSE = "/localization/pose"
 

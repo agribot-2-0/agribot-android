@@ -9,15 +9,22 @@
             type="eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.actionbottombar.ManualActionsViewModel" />
     </data>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/manualModeActionButton"
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="@dimen/margin_medium"
-        android:paddingVertical="@dimen/margin_medium"
-        android:paddingHorizontal="@dimen/margin_xxlarge"
-        android:text="@{viewModel.actionName}"
-        android:textColor="@android:color/white" />
+        android:layout_margin="@dimen/margin_small"
+        android:padding="@dimen/margin_small">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/manualModeActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@{viewModel.actionName}"
+            android:textColor="@android:color/white" />
+
+    </FrameLayout>
+
+
 
 </layout>

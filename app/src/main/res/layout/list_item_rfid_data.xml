@@ -50,7 +50,6 @@
                     android:textSize="@dimen/text_size_medium"
                     android:textStyle="bold" />
 
-
             </TableRow>
 
             <TableRow

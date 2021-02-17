@@ -13,7 +13,7 @@ class SwipeRecyclerUtil(
     val onEditSwiped: (position: Int) -> Unit,
     val onRemoveSwiped: (position: Int) -> Unit
 ) : ItemTouchHelper.SimpleCallback(
-    0,
+    DEFAULT_DRAG_DIRECTION,
     ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
 ) {
     override fun onMove(
@@ -37,7 +37,7 @@ class SwipeRecyclerUtil(
     }
 
     override fun onChildDraw(
-        c: Canvas,
+        canvas: Canvas,
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder,
         dX: Float,
@@ -47,7 +47,7 @@ class SwipeRecyclerUtil(
     ) {
         if (dX > 0) {
             RecyclerViewSwipeDecorator.Builder(
-                c,
+                canvas,
                 recyclerView,
                 viewHolder,
                 dX,
@@ -65,7 +65,7 @@ class SwipeRecyclerUtil(
                 .decorate()
         } else {
             RecyclerViewSwipeDecorator.Builder(
-                c,
+                canvas,
                 recyclerView,
                 viewHolder,
                 dX,
@@ -82,6 +82,10 @@ class SwipeRecyclerUtil(
                 .create()
                 .decorate()
         }
-        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+        super.onChildDraw(canvas, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+    }
+
+    companion object {
+        const val DEFAULT_DRAG_DIRECTION = 0
     }
 }

@@ -42,9 +42,9 @@ class TaskListItemAdapter(val onClickSelectedItem: (TaskListItemViewModel) -> Un
         val item = items[position]
         holder.bind(item)
 
-        holder.itemView.cardview_task_item.setBackgroundResource(R.color.white)
+        holder.itemView.tableTaskListItem.setBackgroundResource(R.color.white)
         if (selectedItemPosition == position) {
-            holder.itemView.cardview_task_item.setBackgroundResource(R.color.base_green_lighter)
+            holder.itemView.tableTaskListItem.setBackgroundResource(R.color.base_green_lighter)
         }
         holder.itemView.setOnClickListener {
             selectedItem?.invoke(item)

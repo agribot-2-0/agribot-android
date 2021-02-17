@@ -20,9 +20,7 @@ class PagerTaskDetailsViewModel(
     private val cloudDatabaseService: CloudDatabaseService,
     private val resourcesProvider: ResourcesProvider
 ) : BaseViewModel() {
-
     val robotDataStateList: MutableLiveData<List<RobotStateViewModel>> = MutableLiveData(listOf())
-
     private val emptyTaskName = ""
     private val currentTask: MutableLiveData<String> = MutableLiveData()
     val pathName: MutableLiveData<String> = MutableLiveData()
@@ -53,7 +51,6 @@ class PagerTaskDetailsViewModel(
         } else {
             setEmptyParameter(RobotStateItems.CURRENT_TASK.ID)
         })
-
         taskDetails.let {
             setCurrentPath(it)
             setStartDate(it)
@@ -82,13 +79,13 @@ class PagerTaskDetailsViewModel(
     private fun getDate(timestamp: Long): String {
         val calendar = Calendar.getInstance(Locale.ENGLISH)
         calendar.timeInMillis = timestamp * 1000L
-        return DateFormat.format("dd-MM-yyyy", calendar).toString()
+        return DateFormat.format(TimePatterns.DATE.pattern, calendar).toString()
     }
 
     private fun getTime(timestamp: Long): String {
         val calendar = Calendar.getInstance(Locale.ENGLISH)
         calendar.timeInMillis = timestamp * 1000L
-        return DateFormat.format("HH:mm", calendar).toString()
+        return DateFormat.format(TimePatterns.TIME.pattern, calendar).toString()
     }
 
     private fun setStartTime(taskDetails: TaskDetails) {

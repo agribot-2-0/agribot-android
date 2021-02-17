@@ -313,6 +313,9 @@ class FirebaseDatabase : CloudDatabase {
                                 onGetCurrentTaskDetailsSuccess,
                                 onDatabaseError
                             )
+                        } else {
+                            onGetCurrentTaskNameSucess("")
+                            onGetCurrentTaskDetailsSuccess(TaskDetailsCDB())
                         }
                     }
                 }

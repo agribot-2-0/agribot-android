@@ -55,7 +55,5 @@
             </TableRow>
         </TableLayout>
 
-
-
     </androidx.cardview.widget.CardView>
 </layout>

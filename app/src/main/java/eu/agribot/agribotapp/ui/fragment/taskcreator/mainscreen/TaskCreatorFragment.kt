@@ -2,6 +2,7 @@ package eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen
 
 import android.os.Bundle
 import android.view.View
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -19,12 +20,15 @@ import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskNameNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskPathNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentCreatorConfiguratorBinding
+import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.RobotStateAdapter
+import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.RobotStateViewModel
 import eu.agribot.agribotapp.ui.fragment.swiperecyclerutils.SwipeRecyclerUtil
 import eu.agribot.agribotapp.ui.fragment.taskcreator.MapParameters
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TileProvider
 import eu.agribot.agribotapp.ui.fragment.taskcreator.URLPath
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.TaskListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.TaskListItemViewModel
+import kotlinx.android.synthetic.main.fragment_creator_configurator.task_details_recycler
 import kotlinx.android.synthetic.main.fragment_creator_configurator.task_recycler
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -35,6 +39,7 @@ import java.io.InputStream
 class TaskCreatorFragment :
     BaseFragment<TaskCreatorViewModel, FragmentCreatorConfiguratorBinding>(), OnMapReadyCallback {
 
+    private val taskDetailsAdapter = RobotStateAdapter()
     private val dialogManager: DialogManager by inject { parametersOf(requireContext()) }
     override val layoutResourceId: Int = R.layout.fragment_creator_configurator
     override val viewModel: TaskCreatorViewModel by viewModel { parametersOf(requireContext()) }
@@ -51,11 +56,12 @@ class TaskCreatorFragment :
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.creator_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-        setupRecycler()
+        setupRecyclers()
         viewModel.getAvailableTask()
         viewModel.selectedLayer.observe(this::onGotSelectedLayer)
         viewModel.taskList.observe(this::addToTaskList)
         viewModel.cameraPosition.observe((this::updateMapCameraPosition))
+        viewModel.robotDataStateList.observe(this::addTaskStateItems)
     }
 
     private fun updateMapCameraPosition(latLng: LatLng) {
@@ -66,7 +72,12 @@ class TaskCreatorFragment :
         )
     }
 
-    private fun setupRecycler() {
+    private fun setupRecyclers() {
+        setupTaskListRecycler()
+        setupTaskDetailsRecycler()
+    }
+
+    private fun setupTaskListRecycler() {
         task_recycler.adapter = adapter
         task_recycler.layoutManager = LinearLayoutManager(requireActivity())
         setuptouchHelper()
@@ -82,6 +93,11 @@ class TaskCreatorFragment :
         ).attachToRecyclerView(
             task_recycler
         )
+    }
+
+    private fun setupTaskDetailsRecycler() {
+        task_details_recycler.adapter = taskDetailsAdapter
+        task_details_recycler.layoutManager = GridLayoutManager(context, 4)
     }
 
     private fun refreshRecycler() {
@@ -176,5 +192,9 @@ class TaskCreatorFragment :
         googleMapFragment!!.setMinZoomPreference(MapParameters.MIN_ZOOM.mapParametr)
         googleMapFragment!!.setMaxZoomPreference(MapParameters.MAX_ZOOM.mapParametr)
         addTileOverlay()
+    }
+
+    private fun addTaskStateItems(robotTaskStateItems: List<RobotStateViewModel>) {
+        taskDetailsAdapter.items = robotTaskStateItems
     }
 }

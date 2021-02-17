@@ -4,7 +4,7 @@ import com.google.firebase.Timestamp
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationPressure
 
 data class RobotWeatherStationPressureCDB(
-    val accuracy: Int = -1,
+    val accuracy: Double = 0.0,
     val timestamp: Timestamp = Timestamp(0, 0),
     val value: Double = 1.0
 ) :

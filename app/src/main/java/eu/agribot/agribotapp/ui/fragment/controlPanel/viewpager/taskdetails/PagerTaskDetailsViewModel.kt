@@ -2,7 +2,6 @@ package eu.agribot.agribotapp.ui.fragment.controlPanel.viewpager.taskdetails
 
 import android.annotation.SuppressLint
 import android.text.format.DateFormat
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
@@ -47,7 +46,6 @@ class PagerTaskDetailsViewModel(
 
     @SuppressLint("SimpleDateFormat")
     private fun onGotCurrentTaskDetails(taskDetails: TaskDetails) {
-        Log.e("xd", String.format("|Task Name : %s | Path name: %s |", currentTask.value, taskDetails.path_name))
         (if (currentTask.value != null && currentTask.value != "") {
             setCurrentTask(currentTask.value!!)
         } else {

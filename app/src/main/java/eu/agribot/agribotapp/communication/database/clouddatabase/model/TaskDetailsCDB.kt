@@ -4,25 +4,25 @@ import com.google.firebase.Timestamp
 import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
 
 data class TaskDetailsCDB(
-    val path_name: String = "*",
+    val path_name: String = DEFAULT_VALUE,
     val start_time: Timestamp? = Timestamp(0, 0),
     val start_time_estimated: Boolean = true,
 
-    val temperature_value: String = "*",
-    val temperature_condition: String = "*",
+    val temperature_value: String = DEFAULT_VALUE,
+    val temperature_condition: String = DEFAULT_VALUE,
 
-    val wind_value: String = "*",
-    val wind_condition: String = "*",
+    val wind_value: String = DEFAULT_VALUE,
+    val wind_condition: String = DEFAULT_VALUE,
 
-    val humidity_value: String = "*",
-    val humidity_condition: String = "*",
+    val humidity_value: String = DEFAULT_VALUE,
+    val humidity_condition: String = DEFAULT_VALUE,
 
-    val pressure_value: String = "*",
-    val pressure_condition: String = "*",
+    val pressure_value: String = DEFAULT_VALUE,
+    val pressure_condition: String = DEFAULT_VALUE,
 
-    val front_tool_name: String = "*",
+    val front_tool_name: String = DEFAULT_VALUE,
     val front_tool_mode: Int = 0,
-    val back_tool_name: String = "*",
+    val back_tool_name: String = DEFAULT_VALUE,
     val back_tool_mode: Int = 0
 ) : BaseCloudDatabaseModel<TaskDetails> {
     override fun toDomainModel() = TaskDetails(
@@ -42,4 +42,8 @@ data class TaskDetailsCDB(
         back_tool_name = this.back_tool_name,
         back_tool_mode = this.back_tool_mode
     )
+
+    companion object {
+        private const val DEFAULT_VALUE = "*"
+    }
 }

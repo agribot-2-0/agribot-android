@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.ui.fragment.weather
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
@@ -20,10 +19,40 @@ class WeatherViewModel(
     val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
 
     fun prepareWeatherStationData() {
+        setEmptyWeatherList()
         getRobotTemperature()
         getRobotHumidity()
         getRobotWind()
         getRobotPressure()
+    }
+
+    private fun setEmptyWeatherList() {
+        weatherState.value = listOf(
+            RobotStateViewModel(
+                RobotStateItems.TEMPERATURE.ID,
+                DEFAULT_WEATHER_VALUE,
+                TaskDetailsElements.TEMPERATURE_UNIT.detailsElement
+            ),
+
+            RobotStateViewModel(
+                RobotStateItems.HUMIDITY.ID,
+                DEFAULT_WEATHER_VALUE,
+                TaskDetailsElements.PERCENT.detailsElement
+            ),
+
+            RobotStateViewModel(
+                RobotStateItems.WIND.ID,
+                DEFAULT_WEATHER_VALUE,
+                TaskDetailsElements.SPEED_UNIT.detailsElement
+            ),
+
+            RobotStateViewModel(
+                RobotStateItems.PRESSURE.ID,
+                DEFAULT_WEATHER_VALUE,
+                TaskDetailsElements.PRESSURE_UNIT.detailsElement
+            )
+
+        )
     }
 
     private fun getRobotHumidity() {
@@ -96,7 +125,6 @@ class WeatherViewModel(
     }
 
     private fun approximateParam(value: Double, accuracy: Double): String {
-        Log.e("xd", "accurancy: " + accuracy)
         return if (accuracy > 0.1 && accuracy < 1) {
             String.format("%.1f", value)
         } else if (accuracy > 0 && accuracy < 0.1) {
@@ -147,5 +175,9 @@ class WeatherViewModel(
                 }
             }
         }
+    }
+
+    companion object {
+        const val DEFAULT_WEATHER_VALUE = "*"
     }
 }

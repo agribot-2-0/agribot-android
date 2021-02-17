@@ -92,10 +92,10 @@ class PathManagementFragment :
     private fun setupRecycler() {
         pathManagementRecycler.adapter = adapter
         pathManagementRecycler.layoutManager = LinearLayoutManager(requireActivity())
-        setuptouchHelper()
+        setupItemTouchHelper()
     }
 
-    private fun setuptouchHelper() {
+    private fun setupItemTouchHelper() {
         ItemTouchHelper(
             SwipeRecyclerUtil(
                 requireContext(),

@@ -80,10 +80,10 @@ class TaskCreatorFragment :
     private fun setupTaskListRecycler() {
         task_recycler.adapter = adapter
         task_recycler.layoutManager = LinearLayoutManager(requireActivity())
-        setuptouchHelper()
+        setupItemTouchHelper()
     }
 
-    private fun setuptouchHelper() {
+    private fun setupItemTouchHelper() {
         ItemTouchHelper(
             SwipeRecyclerUtil(
                 requireContext(),

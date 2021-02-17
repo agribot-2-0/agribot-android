@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.weather
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
@@ -57,7 +58,10 @@ class WeatherViewModel(
         addParameterToRobotDataStateList(
             RobotStateViewModel(
                 RobotStateItems.HUMIDITY.ID,
-                robotWeatherStationHumidity.value.toString(),
+                approximateParam(
+                    robotWeatherStationHumidity.value,
+                    robotWeatherStationHumidity.accuracy
+                ),
                 TaskDetailsElements.PERCENT.detailsElement
 
             )
@@ -68,7 +72,10 @@ class WeatherViewModel(
         addParameterToRobotDataStateList(
             RobotStateViewModel(
                 RobotStateItems.TEMPERATURE.ID,
-                approximateParam(robotWeatherStationTemperature.value),
+                approximateParam(
+                    robotWeatherStationTemperature.value,
+                    robotWeatherStationTemperature.accuracy
+                ),
                 TaskDetailsElements.TEMPERATURE_UNIT.detailsElement
 
             )
@@ -79,21 +86,32 @@ class WeatherViewModel(
         addParameterToRobotDataStateList(
             RobotStateViewModel(
                 RobotStateItems.WIND.ID,
-                approximateParam(robotWeatherStationWind.speed_value),
+                approximateParam(
+                    robotWeatherStationWind.speed_value,
+                    robotWeatherStationWind.speed_accuracy
+                ),
                 TaskDetailsElements.SPEED_UNIT.detailsElement
             )
         )
     }
 
-    private fun approximateParam(value: Double): String {
-        return String.format("%.2f", value)
+    private fun approximateParam(value: Double, accuracy: Double): String {
+        Log.e("xd", "accurancy: " + accuracy)
+        return if (accuracy > 0.1 && accuracy < 1) {
+            String.format("%.1f", value)
+        } else if (accuracy > 0 && accuracy < 0.1) {
+            String.format("%.2f", value)
+        } else value.toInt().toString()
     }
 
     private fun onGetRobotPressureSucess(robotWeatherStationPressure: RobotWeatherStationPressure) {
         addParameterToRobotDataStateList(
             RobotStateViewModel(
                 RobotStateItems.PRESSURE.ID,
-                approximateParam(robotWeatherStationPressure.value),
+                approximateParam(
+                    robotWeatherStationPressure.value,
+                    robotWeatherStationPressure.accuracy
+                ),
                 TaskDetailsElements.PRESSURE_UNIT.detailsElement
             )
         )

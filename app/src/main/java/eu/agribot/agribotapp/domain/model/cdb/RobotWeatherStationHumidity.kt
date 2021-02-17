@@ -3,7 +3,7 @@ package eu.agribot.agribotapp.domain.model.cdb
 import com.google.firebase.Timestamp
 
 data class RobotWeatherStationHumidity(
-    val accuracy: Int,
-    val value: Int,
+    val accuracy: Double,
+    val value: Double,
     val timestamp: Timestamp
 )

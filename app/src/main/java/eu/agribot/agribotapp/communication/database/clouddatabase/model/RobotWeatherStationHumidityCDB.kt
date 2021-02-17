@@ -4,8 +4,8 @@ import com.google.firebase.Timestamp
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationHumidity
 
 data class RobotWeatherStationHumidityCDB(
-    val accuracy: Int = -1,
-    val value: Int = -1,
+    val accuracy: Double = 0.0,
+    val value: Double = 0.0,
     val timestamp: Timestamp = Timestamp(0, 0)
 ) : BaseCloudDatabaseModel<RobotWeatherStationHumidity> {
 

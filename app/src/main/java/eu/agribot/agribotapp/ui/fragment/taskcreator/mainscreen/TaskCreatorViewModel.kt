@@ -160,7 +160,7 @@ class TaskCreatorViewModel(
 
     @SuppressLint("SimpleDateFormat")
     private fun onGotCurrentTaskDetails(taskDetails: TaskDetails) {
-        (if (currentTask.value != null && currentTask.value != "") {
+        (if (currentTask.value != null && currentTask.value != TaskDetailsElements.EMPTY_TASK.detailsElement) {
             setCurrentTask(currentTask.value!!)
         } else {
             setEmptyParameter(RobotStateItems.CURRENT_TASK.ID)
@@ -183,7 +183,7 @@ class TaskCreatorViewModel(
                 RobotStateViewModel(
                     RobotStateItems.START_DATE.ID,
                     taskDetails.start_time?.let { getDate(it.seconds) }.toString(),
-                    ""
+                    TaskDetailsElements.NO_UNIT_VALUE.detailsElement
                 )
             )
         } else {
@@ -209,7 +209,8 @@ class TaskCreatorViewModel(
                 RobotStateViewModel(
                     RobotStateItems.START_TIME.ID,
                     taskDetails.start_time?.let { getTime(it.seconds) }.toString(),
-                    ""
+                    TaskDetailsElements.NO_UNIT_VALUE.detailsElement
+
                 )
             )
         } else {
@@ -222,7 +223,8 @@ class TaskCreatorViewModel(
             RobotStateViewModel(
                 RobotStateItems.CURRENT_TASK.ID,
                 taskName,
-                ""
+                TaskDetailsElements.NO_UNIT_VALUE.detailsElement
+
             )
         )
     }
@@ -233,7 +235,7 @@ class TaskCreatorViewModel(
                 RobotStateViewModel(
                     RobotStateItems.CURRENT_PATH.ID,
                     taskDetails.path_name,
-                    ""
+                    TaskDetailsElements.NO_UNIT_VALUE.detailsElement
                 )
             )
             pathName.value = taskDetails.path_name
@@ -303,7 +305,8 @@ class TaskCreatorViewModel(
         addParameterToRobotDataStateList(
             RobotStateViewModel(
                 paramID,
-                resourcesProvider.getString(R.string.task_param_not_set), ""
+                resourcesProvider.getString(R.string.task_param_not_set),
+                TaskDetailsElements.NO_UNIT_VALUE.detailsElement
             )
         )
     }

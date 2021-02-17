@@ -21,12 +21,14 @@ interface DialogManager {
 
     fun showDeleteTaskDialog(
         itemPosition: Int,
-        onTaskToDeleteConfirmed: (itemPosition: Int) -> Unit
+        onTaskToDeleteConfirmed: (itemPosition: Int) -> Unit,
+        onTaskToDeleteAbort: () -> Unit
     )
 
     fun showDeletePathDialog(
         itemPosition: Int,
-        onTaskToDeleteConfirmed: (itemPosition: Int) -> Unit
+        onTaskToDeleteConfirmed: (itemPosition: Int) -> Unit,
+        onTaskToDeleteAbort: () -> Unit
     )
 
     fun cancelTaskDialog(onCancelTaskConfirmed: () -> Unit)

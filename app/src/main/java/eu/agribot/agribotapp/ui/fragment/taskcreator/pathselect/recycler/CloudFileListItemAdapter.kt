@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.databinding.ListItemCloudfilesBinding
-import kotlinx.android.synthetic.main.list_item_cloudfiles.view.*
+import kotlinx.android.synthetic.main.list_item_cloudfiles.view.card_list_file
 
 class CloudFileListItemAdapter(onClickSelectedItem: (CloudFileListItemViewModel) -> Unit) :
     RecyclerView.Adapter<CloudFileListItemViewHolder>() {

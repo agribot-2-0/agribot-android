@@ -42,15 +42,9 @@ class TaskCreatorViewModel(
     private val currentTask: MutableLiveData<String> = MutableLiveData()
 
     val selectedLayer: MutableLiveData<InputStream> = MutableLiveData()
-    val taskDetails: MutableLiveData<TaskDetails> = MutableLiveData()
     val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
-    val taskDate: MutableLiveData<String> = MutableLiveData()
     val taskList: MutableLiveData<List<TaskListItemViewModel>> = MutableLiveData(listOf())
     val pathName: MutableLiveData<String> = MutableLiveData()
-    val temperature: MutableLiveData<String> = MutableLiveData()
-    val humidity: MutableLiveData<String> = MutableLiveData()
-    val pressure: MutableLiveData<String> = MutableLiveData()
-    val wind: MutableLiveData<String> = MutableLiveData()
     val cameraPosition: MutableLiveData<LatLng> = MutableLiveData()
 
     fun getCoordinatesFromKml(containers: Iterable<KmlContainer?>) {
@@ -346,15 +340,6 @@ class TaskCreatorViewModel(
                     oldAttribute
                 }
             }
-        }
-    }
-
-    private fun changeConditionTextToSymbol(conditionText: String): String {
-        return when (conditionText) {
-            TaskDetailsElements.LESS_TEXT.detailsElement -> TaskDetailsElements.LESS_SYMBOL.detailsElement
-            TaskDetailsElements.MORE_TEXT.detailsElement -> TaskDetailsElements.MORE_SYMBOL.detailsElement
-            TaskDetailsElements.EQUAL_TEXT.detailsElement -> TaskDetailsElements.EQUAL_SYMBOL.detailsElement
-            else -> TaskDetailsElements.SEPARATOR.detailsElement
         }
     }
 

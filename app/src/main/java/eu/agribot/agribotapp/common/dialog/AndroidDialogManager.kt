@@ -63,7 +63,9 @@ class AndroidDialogManager(
 
     override fun showDeleteTaskDialog(
         itemPosition: Int,
-        onTaskToDeleteConfirmed: (itemPosition: Int) -> Unit
+        onTaskToDeleteConfirmed: (itemPosition: Int) -> Unit,
+        onTaskToDeleteAbort: () -> Unit
+
     ) {
         MaterialDialog(context).show {
             title(R.string.dialog_task_delete_tittle)
@@ -73,13 +75,17 @@ class AndroidDialogManager(
                     itemPosition
                 )
             }
-            negativeButton(R.string.cancel)
+            negativeButton(R.string.cancel) {
+                onTaskToDeleteAbort.invoke()
+            }
         }
     }
 
     override fun showDeletePathDialog(
         itemPosition: Int,
-        onTaskToDeleteConfirmed: (itemPosition: Int) -> Unit
+        onTaskToDeleteConfirmed: (itemPosition: Int) -> Unit,
+        onTaskToDeleteAbort: () -> Unit
+
     ) {
         MaterialDialog(context)
             .show {
@@ -90,7 +96,9 @@ class AndroidDialogManager(
                         itemPosition
                     )
                 }
-                negativeButton(R.string.cancel)
+                negativeButton(R.string.cancel) {
+                    onTaskToDeleteAbort.invoke()
+                }
             }
     }
 

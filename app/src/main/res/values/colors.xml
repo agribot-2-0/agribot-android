@@ -18,4 +18,8 @@
     <color name="polyline_path">#ff33cc</color>
     <color name="polyline_path_new">#66ffff</color>
 
+    <color name="recycler_swipe_edit"> #668cff</color>
+    <color name="recycler_swipe_remove">#ff3300</color>
+
+
 </resources>

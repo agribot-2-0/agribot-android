@@ -1,10 +1,7 @@
 package eu.agribot.agribotapp.ui.fragment.pathmanagement.mainpathscreen
 
-import java.io.IOException
-import java.io.InputStream
 import android.os.Bundle
 import android.view.View
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -23,9 +20,7 @@ import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.NewPathNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.PathNameNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentPathManagementBinding
-import eu.agribot.agribotapp.ui.fragment.swiperecyclerutils.SwipeHelper
-import eu.agribot.agribotapp.ui.fragment.swiperecyclerutils.SwipeRecyclerClickListener
-import eu.agribot.agribotapp.ui.fragment.swiperecyclerutils.SwipeRecyclerHelper
+import eu.agribot.agribotapp.ui.fragment.swiperecyclerutils.SwipeRecyclerUtil
 import eu.agribot.agribotapp.ui.fragment.taskcreator.MapParameters
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TileProvider
 import eu.agribot.agribotapp.ui.fragment.taskcreator.URLPath
@@ -35,6 +30,8 @@ import kotlinx.android.synthetic.main.fragment_path_management.pathManagementRec
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import java.io.IOException
+import java.io.InputStream
 
 class PathManagementFragment :
     BaseFragment<PathManagementViewModel, FragmentPathManagementBinding>(), OnMapReadyCallback {
@@ -95,44 +92,35 @@ class PathManagementFragment :
     private fun setupRecycler() {
         pathManagementRecycler.adapter = adapter
         pathManagementRecycler.layoutManager = LinearLayoutManager(requireActivity())
-
-        pathManagementRecycler.addItemDecoration(
-            DividerItemDecoration(
-                requireContext(),
-                DividerItemDecoration.VERTICAL
-            )
-        )
-        ItemTouchHelper(
-            SwipeRecyclerHelper(
-                pathManagementRecycler,
-                deleteButton = this::deleteButton,
-                editButton = this::editButton
-            )
-        ).attachToRecyclerView(pathManagementRecycler)
+        setupItemTouchHelper()
     }
 
-    private fun deleteButton(position: Int): SwipeHelper.UnderlayButton {
-        return SwipeHelper.UnderlayButton(
-            requireContext(),
-            getString(R.string.delete_task_button),
-            resources.getDimension(R.dimen.text_size_small),
-            android.R.color.holo_red_light,
-            SwipeRecyclerClickListener(position, onButtonClicked = this::showDeletePathDialog)
+    private fun setupItemTouchHelper() {
+        ItemTouchHelper(
+            SwipeRecyclerUtil(
+                requireContext(),
+                onEditSwiped = this::editButton,
+                onRemoveSwiped = this::deleteButton
+            )
+        ).attachToRecyclerView(
+            pathManagementRecycler
         )
+    }
+
+    private fun deleteButton(position: Int) {
+        showDeletePathDialog(position)
     }
 
     private fun showDeletePathDialog(itemPosition: Int) {
-        dialogManager.showDeletePathDialog(itemPosition, viewModel::onDeleteButtonClicked)
+        dialogManager.showDeletePathDialog(itemPosition, viewModel::onDeleteButtonClicked, this::refreshRecycler)
     }
 
-    private fun editButton(position: Int): SwipeHelper.UnderlayButton {
-        return SwipeHelper.UnderlayButton(
-            requireContext(),
-            getString(R.string.edit_task_button),
-            resources.getDimension(R.dimen.text_size_small),
-            android.R.color.holo_blue_light,
-            SwipeRecyclerClickListener(position, onButtonClicked = viewModel::onEditButtonClicked)
-        )
+    private fun refreshRecycler() {
+        adapter.notifyDataSetChanged()
+    }
+
+    private fun editButton(position: Int) {
+        viewModel.onEditButtonClicked(position)
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {

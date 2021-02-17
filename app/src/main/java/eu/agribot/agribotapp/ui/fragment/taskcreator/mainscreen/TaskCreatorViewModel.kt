@@ -36,7 +36,6 @@ class TaskCreatorViewModel(
 
 ) : BaseViewModel() {
     val selectedLayer: MutableLiveData<InputStream> = MutableLiveData()
-    val taskDetails: MutableLiveData<TaskDetails> = MutableLiveData()
     val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val taskDate: MutableLiveData<String> = MutableLiveData()
     val taskList: MutableLiveData<List<TaskListItemViewModel>> = MutableLiveData(listOf())

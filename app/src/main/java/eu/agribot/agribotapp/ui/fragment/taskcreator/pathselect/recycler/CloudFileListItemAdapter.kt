@@ -1,20 +1,13 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.ItemTouchHelper.DOWN
-import androidx.recyclerview.widget.ItemTouchHelper.END
-import androidx.recyclerview.widget.ItemTouchHelper.START
-import androidx.recyclerview.widget.ItemTouchHelper.UP
 import androidx.recyclerview.widget.RecyclerView
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.databinding.ListItemCloudfilesBinding
 import kotlinx.android.synthetic.main.list_item_cloudfiles.view.card_list_file
-import java.util.Collections
 
 class CloudFileListItemAdapter(onClickSelectedItem: (CloudFileListItemViewModel) -> Unit) :
     RecyclerView.Adapter<CloudFileListItemViewHolder>() {

@@ -33,43 +33,6 @@ class CloudFileListItemAdapter(onClickSelectedItem: (CloudFileListItemViewModel)
             }.dispatchUpdatesTo(this)
         }
 
-    val simpleItemTouchCallback =
-        object : ItemTouchHelper.SimpleCallback(
-            // [1] The allowed directions for moving (drag-and-drop) items
-            UP or DOWN or START or END,
-            // [2] The allowed directions for swiping items
-            0
-        ) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                Log.e("xd", "on move")
-                // [3] Do something when an item is moved
-
-                val adapter = recyclerView.adapter
-                val from = viewHolder.adapterPosition
-                val to = target.adapterPosition
-
-                // [4] Keep up-to-date the underlying data set
-                Collections.swap(items, from, to)
-                // [5] Tell the adapter to switch the 2 items
-                adapter?.notifyItemMoved(from, to)
-
-                return true
-            }
-
-            override fun onSwiped(
-                viewHolder: RecyclerView.ViewHolder,
-                direction: Int
-            ) {
-
-                Log.e("xd", "dir:" + direction)
-                // [6] Do something when an item is swiped
-            }
-        }
-
     private var selectedItem: ((CloudFileListItemViewModel) -> Unit)? = onClickSelectedItem
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CloudFileListItemViewHolder =

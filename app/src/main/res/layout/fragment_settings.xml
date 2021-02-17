@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools">
 
     <data>
 
@@ -14,11 +15,12 @@
         android:orientation="horizontal"
         android:baselineAligned="false">
 
-        <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+        <androidx.cardview.widget.CardView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_margin="@dimen/margin_medium"
+            android:layout_margin="@dimen/margin_small"
             android:orientation="vertical"
             app:cardCornerRadius="2dp"
             app:cardElevation="6dp">
@@ -26,7 +28,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/settingsListRecycler"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                tool:itemCount="10"
+                tool:listitem="@layout/list_item_settings"/>
 
         </androidx.cardview.widget.CardView>
 
@@ -34,7 +38,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_margin="@dimen/margin_medium"
+            android:layout_margin="@dimen/margin_small"
             android:orientation="vertical"
             app:cardCornerRadius="2dp"
             app:cardElevation="6dp">

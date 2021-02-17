@@ -124,7 +124,7 @@
     <string name="toast_remove_account_sucess">Konto usunięte pomyślnie</string>
     <string name="toast_remove_account_failed">Podczas usuwania konta wystąpił błąd</string>
     <string name="toast_logout_sucess">Wylogowanie z aplikacji zakończone sukcesem</string>
-    <string name="login_As_Text">Zalogowano jako: </string>
+    <string name="login_As_Text">Zalogowano jako: %1$S</string>
     <string name="settings_remove_your_account">Usuń swoje konto</string>
     <string name="sign_out">Wyloguj</string>
 
@@ -277,7 +277,12 @@
     <string name="summary">Podsumowanie</string>
     <string name="repeat_photo">Powtórz zdjęcie</string>
     <string name="save_changes">Zapisz zmiany</string>
+    <string name="settings_category_connection">Połączenie</string>
+    <string name="settings_category_user">Użytkownik</string>
+    <string name="settings_category_other">Inne</string>
+    <string name="settings_connection_description">Zarządzaj połączeniem</string>
+    <string name="settiongs_account_description">Zarządzaj swoim kontem</string>
+    <string name="settiongs_other_description">Zarządzaj pozostałymi ustawieniami</string>
 
-    save_changes
 
 </resources>

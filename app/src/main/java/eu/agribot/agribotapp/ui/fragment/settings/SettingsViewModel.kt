@@ -11,8 +11,8 @@ import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.service.AppStorageService
 import eu.agribot.agribotapp.domain.service.AuthenticationService
 import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
-import eu.agribot.agribotapp.ui.fragment.settings.recycler.settingslist.ItemID
 import eu.agribot.agribotapp.ui.fragment.settings.recycler.settingsaction.SettingsActionViewModel
+import eu.agribot.agribotapp.ui.fragment.settings.recycler.settingslist.ItemID
 import eu.agribot.agribotapp.ui.fragment.settings.recycler.settingslist.SettingsListViewModel
 
 class SettingsViewModel(
@@ -37,51 +37,76 @@ class SettingsViewModel(
     fun prepareSettingsItem() {
         settingsList.value = listOf(
             SettingsListViewModel(
-                ItemID.LOGIN_AS.ID,
-                resourcesProvider.getString(R.string.login_As_Text) + user
+                ItemID.CONNECTION.ID,
+                resourcesProvider.getString(R.string.settings_category_connection),
+                resourcesProvider.getString(R.string.settings_connection_description)
             ),
             SettingsListViewModel(
-                ItemID.SIGN_OUT.ID,
-                resourcesProvider.getString(R.string.sign_out)
+                ItemID.ACCOUNT.ID,
+                resourcesProvider.getString(R.string.settings_category_user),
+                resourcesProvider.getString(R.string.settiongs_account_description)
             ),
             SettingsListViewModel(
-                ItemID.DELETE_ACCOUNT.ID,
-                resourcesProvider.getString(R.string.delete_account)
-            ),
-            SettingsListViewModel(
-                ItemID.CHANGE_URL.ID,
-                resourcesProvider.getString(R.string.change_stream_url)
-            )
-        )
-    }
-
-    fun prepareSettingsAction() {
-        settingsActions.value = listOf(
-            SettingsActionViewModel(
-                ItemID.SEARCH_DEVICE.ID,
-                resourcesProvider.getString(R.string.find_agribot)
-            ),
-            SettingsActionViewModel(
-                ItemID.DISCONNECT.ID,
-                resourcesProvider.getString(R.string.disconnect_button)
+                ItemID.OTHER.ID,
+                resourcesProvider.getString(R.string.settings_category_other),
+                resourcesProvider.getString(R.string.settiongs_other_description)
             )
         )
     }
 
     fun onSettingsItemSelected(itemID: Int) {
         when (itemID) {
-            ItemID.SIGN_OUT.ID -> {
-                onUserSignOut()
+            ItemID.CONNECTION.ID -> {
+                setConnectionSettingsDetails()
             }
 
-            ItemID.DELETE_ACCOUNT.ID -> {
-                onUserRemove()
+            ItemID.ACCOUNT.ID -> {
+                setUserSettingsDetails()
             }
 
-            ItemID.CHANGE_URL.ID -> {
-                onStreamUrlChange()
+            ItemID.OTHER.ID -> {
+                setOtherSettingsDetails()
             }
         }
+    }
+
+    private fun setConnectionSettingsDetails() {
+        settingsActions.value = listOf(
+            SettingsActionViewModel(
+                ItemID.SEARCH_BLUETOOTH_DEVICE.ID,
+                resourcesProvider.getString(R.string.find_agribot)
+            ),
+            SettingsActionViewModel(
+                ItemID.DISCONNECT_BLUETOOTH_DEVICE.ID,
+                resourcesProvider.getString(R.string.disconnect_button)
+            )
+        )
+    }
+
+    private fun setUserSettingsDetails() {
+        settingsActions.value = listOf(
+            SettingsActionViewModel(
+                ItemID.LOGIN_AS.ID,
+                String.format(resourcesProvider.getString(R.string.login_As_Text), user)
+            ),
+            SettingsActionViewModel(
+                ItemID.LOG_OUT.ID,
+                resourcesProvider.getString(R.string.sign_out)
+            ),
+            SettingsActionViewModel(
+                ItemID.REMOVE_ACCOUNT.ID,
+                resourcesProvider.getString(R.string.delete_account)
+            )
+        )
+    }
+
+    private fun setOtherSettingsDetails() {
+        settingsActions.value = listOf(
+            SettingsActionViewModel(
+                ItemID.CHANGE_URL_STREAM.ID,
+                resourcesProvider.getString(R.string.change_video_url)
+            )
+        )
     }
 
     private fun onStreamUrlChange() {
@@ -94,12 +119,22 @@ class SettingsViewModel(
 
     fun onSettingsActionSelected(actionID: Int) {
         when (actionID) {
-            ItemID.SEARCH_DEVICE.ID -> {
+            ItemID.SEARCH_BLUETOOTH_DEVICE.ID -> {
                 onSearchBluetoothDeviceClicked()
             }
 
-            ItemID.DISCONNECT.ID -> {
+            ItemID.DISCONNECT_BLUETOOTH_DEVICE.ID -> {
                 onDisconnectBluetoothDeviceClicked()
+            }
+            ItemID.LOG_OUT.ID -> {
+                onUserSignOut()
+            }
+
+            ItemID.REMOVE_ACCOUNT.ID -> {
+                onUserRemove()
+            }
+            ItemID.CHANGE_URL_STREAM.ID -> {
+                onStreamUrlChange()
             }
         }
     }

@@ -125,7 +125,7 @@
     <string name="toast_remove_account_sucess">Remove your account successfully</string>
     <string name="toast_remove_account_failed">Remove your account failed</string>
     <string name="toast_logout_sucess">Log out from application successful</string>
-    <string name="login_As_Text">Login as: </string>
+    <string name="login_As_Text">Login as: %1$S</string>
     <string name="sign_out">Sign Out</string>
     <string name="settings_remove_your_account">Remove Your Account</string>
 
@@ -298,4 +298,10 @@
     <string name="task_state">Task Status</string>
     <string name="task_list">Tasks List</string>
     <string name="task_param_not_set">Not  set</string>
+    <string name="settings_category_connection">Connections</string>
+    <string name="settings_category_user">User</string>
+    <string name="settings_category_other">Other</string>
+    <string name="settings_connection_description">Manage yours connection</string>
+    <string name="settiongs_account_description">Manage yours account</string>
+    <string name="settiongs_other_description">Manage others settings</string>
 </resources>

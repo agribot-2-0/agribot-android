@@ -4,5 +4,6 @@ import eu.agribot.agribotapp.base.BaseViewModel
 
 data class SettingsListViewModel(
     val settingID: Int,
-    val settingName: String
+    val settingName: String,
+    val settingsDescripion: String
 ) : BaseViewModel()

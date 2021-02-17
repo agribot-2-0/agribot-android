@@ -35,7 +35,7 @@ class SettingsActionAdapter(val onItemSelected: (itemID: Int) -> Unit) :
         val item = items[position]
         holder.bind(item)
 
-        holder.itemView.settingAction.setOnClickListener {
+        holder.itemView.settingsAction.setOnClickListener {
             onItemSelected(item.actionID)
         }
     }

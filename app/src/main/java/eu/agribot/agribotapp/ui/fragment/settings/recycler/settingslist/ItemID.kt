@@ -2,15 +2,21 @@ package eu.agribot.agribotapp.ui.fragment.settings.recycler.settingslist
 
 enum class ItemID(val ID: Int) {
 
-    LOGIN_AS(0),
+    CONNECTION(0),
 
-    SIGN_OUT(1),
+    ACCOUNT(1),
 
-    DELETE_ACCOUNT(2),
+    OTHER(2),
 
-    CHANGE_URL(3),
+    SEARCH_BLUETOOTH_DEVICE(0),
 
-    SEARCH_DEVICE(0),
+    DISCONNECT_BLUETOOTH_DEVICE(1),
 
-    DISCONNECT(11)
+    LOGIN_AS(2),
+
+    LOG_OUT(3),
+
+    REMOVE_ACCOUNT(4),
+
+    CHANGE_URL_STREAM(5)
 }

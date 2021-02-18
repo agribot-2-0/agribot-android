@@ -16,7 +16,7 @@ class ManualControlViewModel(
 ) : BaseViewModel() {
     private val joystickMessageCounter: MutableLiveData<Int> = MutableLiveData()
     val buttonText: MutableLiveData<String> = MutableLiveData(resourcesProvider.getString(R.string.title_tool_control))
-    val pagerState: MutableLiveData<Int> = MutableLiveData()
+    val pagerState: MutableLiveData<Int> = MutableLiveData(PagerPostion.DISPLAY_STATE.number)
 
     companion object {
         const val COUNTER_INITIALIZATION_VALUE = 0

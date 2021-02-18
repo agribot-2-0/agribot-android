@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.databinding.ListItemToolBinding
+import kotlinx.android.synthetic.main.list_item_tool.view.cardview_tool_item
 import kotlinx.android.synthetic.main.task_list_item.view.*
 
 class ToolListItemAdapter(private val onClickSelectedItem: (ToolListItemViewModel) -> Unit) :
@@ -42,9 +43,9 @@ class ToolListItemAdapter(private val onClickSelectedItem: (ToolListItemViewMode
         val item = items[position]
         holder.bind(item)
 
-        holder.itemView.tableTaskListItem.setBackgroundResource(R.color.white)
+        holder.itemView.cardview_tool_item.setBackgroundResource(R.color.white)
         if (selectedItemPosition == position) {
-            holder.itemView.tableTaskListItem.setBackgroundResource(R.color.base_green_lighter)
+            holder.itemView.cardview_tool_item.setBackgroundResource(R.color.base_green_lighter)
         }
         holder.itemView.setOnClickListener {
             selectedItem?.invoke(item)

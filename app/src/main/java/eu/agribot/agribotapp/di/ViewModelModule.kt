@@ -127,7 +127,8 @@ val viewModelModule = module {
             authenticationService = get(),
             resourcesProvider = get { parametersOf(context) },
             bluetoothConnectionService = get(),
-            appStorageService = get()
+            appStorageService = get(),
+            internetConnectionService = get()
         )
     }
     viewModel {
@@ -324,7 +325,6 @@ val viewModelModule = module {
         ManualControlCurrentStateViewModel(
             manualModeService = get(),
             resourcesProvider = get { parametersOf(context) },
-            internetConnectionService = get(),
             appStorageService = get()
         )
     }

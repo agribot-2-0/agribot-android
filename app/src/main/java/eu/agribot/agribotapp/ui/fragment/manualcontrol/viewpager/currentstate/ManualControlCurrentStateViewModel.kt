@@ -8,7 +8,6 @@ import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.TTControlNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.service.AppStorageService
-import eu.agribot.agribotapp.domain.service.InternetConnectionService
 import eu.agribot.agribotapp.domain.service.ManualModeService
 import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.RobotStateViewModel
 import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.items.RobotStateItems
@@ -21,8 +20,7 @@ import kotlinx.coroutines.launch
 class ManualControlCurrentStateViewModel(
     private val manualModeService: ManualModeService,
     private val resourcesProvider: ResourcesProvider,
-    private val appStorageService: AppStorageService,
-    private val internetConnectionService: InternetConnectionService
+    private val appStorageService: AppStorageService
 ) : BaseViewModel() {
     val diagnosticDataList: MutableLiveData<List<RobotStateViewModel>> =
         MutableLiveData(listOf())
@@ -32,10 +30,6 @@ class ManualControlCurrentStateViewModel(
 
     fun onActionClicked(actionID: Int) {
         when (actionID) {
-            ActionID.WAKEUP.action -> {
-                onWakeupButtonCLicked(onError = this::onWakeupError)
-            }
-
             ActionID.RUN_ENGINE.action -> {
                 startStopEngine()
             }
@@ -48,10 +42,6 @@ class ManualControlCurrentStateViewModel(
 
     fun createActionsList() {
         actionsList.value = listOf(
-            ManualActionsViewModel(
-                ActionID.WAKEUP.action,
-                resourcesProvider.getString(R.string.wakeup_button)
-            ),
             ManualActionsViewModel(
                 ActionID.RUN_ENGINE.action,
                 resourcesProvider.getString(R.string.start_stop_engine)
@@ -193,14 +183,6 @@ class ManualControlCurrentStateViewModel(
                 }
             }
         }
-    }
-
-    private fun onWakeupButtonCLicked(onError: (error: String) -> Unit) = viewModelScope.launch {
-        internetConnectionService.connectWithAgribot(onConnectionError = onError)
-    }
-
-    private fun onWakeupError(errorMessage: String) {
-        toastMessage.postValue(errorMessage)
     }
 
     private fun startStopEngine() = viewModelScope.launch {

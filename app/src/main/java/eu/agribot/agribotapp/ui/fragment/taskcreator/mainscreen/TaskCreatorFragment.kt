@@ -2,7 +2,7 @@ package eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen
 
 import android.os.Bundle
 import android.view.View
-import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -20,14 +20,15 @@ import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskNameNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskPathNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentCreatorConfiguratorBinding
+import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.RobotStateAdapter
+import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.RobotStateViewModel
+import eu.agribot.agribotapp.ui.fragment.swiperecyclerutils.SwipeRecyclerUtil
 import eu.agribot.agribotapp.ui.fragment.taskcreator.MapParameters
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TileProvider
 import eu.agribot.agribotapp.ui.fragment.taskcreator.URLPath
-import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.TaskListItemViewModel
-import eu.agribot.agribotapp.ui.fragment.swiperecyclerutils.SwipeHelper
-import eu.agribot.agribotapp.ui.fragment.swiperecyclerutils.SwipeRecyclerClickListener
-import eu.agribot.agribotapp.ui.fragment.swiperecyclerutils.SwipeRecyclerHelper
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.TaskListItemAdapter
+import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.TaskListItemViewModel
+import kotlinx.android.synthetic.main.fragment_creator_configurator.task_details_recycler
 import kotlinx.android.synthetic.main.fragment_creator_configurator.task_recycler
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -38,6 +39,7 @@ import java.io.InputStream
 class TaskCreatorFragment :
     BaseFragment<TaskCreatorViewModel, FragmentCreatorConfiguratorBinding>(), OnMapReadyCallback {
 
+    private val taskDetailsAdapter = RobotStateAdapter()
     private val dialogManager: DialogManager by inject { parametersOf(requireContext()) }
     override val layoutResourceId: Int = R.layout.fragment_creator_configurator
     override val viewModel: TaskCreatorViewModel by viewModel { parametersOf(requireContext()) }
@@ -54,11 +56,12 @@ class TaskCreatorFragment :
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.creator_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-        setupRecycler()
+        setupRecyclers()
         viewModel.getAvailableTask()
         viewModel.selectedLayer.observe(this::onGotSelectedLayer)
         viewModel.taskList.observe(this::addToTaskList)
         viewModel.cameraPosition.observe((this::updateMapCameraPosition))
+        viewModel.robotDataStateList.observe(this::addTaskStateItems)
     }
 
     private fun updateMapCameraPosition(latLng: LatLng) {
@@ -69,46 +72,52 @@ class TaskCreatorFragment :
         )
     }
 
-    private fun setupRecycler() {
-        task_recycler.adapter = adapter
-        task_recycler.layoutManager = LinearLayoutManager(requireActivity())
-        task_recycler.addItemDecoration(
-            DividerItemDecoration(
-                requireContext(),
-                DividerItemDecoration.VERTICAL
-            )
-        )
-        ItemTouchHelper(
-            SwipeRecyclerHelper(
-                task_recycler,
-                deleteButton = this::deleteButton,
-                editButton = this::editButton
-            )
-        ).attachToRecyclerView(task_recycler)
+    private fun setupRecyclers() {
+        setupTaskListRecycler()
+        setupTaskDetailsRecycler()
     }
 
-    private fun deleteButton(position: Int): SwipeHelper.UnderlayButton {
-        return SwipeHelper.UnderlayButton(
-            requireContext(),
-            getString(R.string.delete_task_button),
-            resources.getDimension(R.dimen.text_size_small),
-            android.R.color.holo_red_light,
-            SwipeRecyclerClickListener(position, onButtonClicked = this::showDeleteTaskDialog)
+    private fun setupTaskListRecycler() {
+        task_recycler.adapter = adapter
+        task_recycler.layoutManager = LinearLayoutManager(requireActivity())
+        setupItemTouchHelper()
+    }
+
+    private fun setupItemTouchHelper() {
+        ItemTouchHelper(
+            SwipeRecyclerUtil(
+                requireContext(),
+                onEditSwiped = this::editButton,
+                onRemoveSwiped = this::deleteButton
+            )
+        ).attachToRecyclerView(
+            task_recycler
         )
+    }
+
+    private fun setupTaskDetailsRecycler() {
+        task_details_recycler.adapter = taskDetailsAdapter
+        task_details_recycler.layoutManager = GridLayoutManager(context, 4)
+    }
+
+    private fun refreshRecycler() {
+        adapter.notifyDataSetChanged()
+    }
+
+    private fun deleteButton(position: Int) {
+        showDeleteTaskDialog(position)
     }
 
     private fun showDeleteTaskDialog(itemPosition: Int) {
-        dialogManager.showDeleteTaskDialog(itemPosition, viewModel::onDeleteButtonClicked)
+        dialogManager.showDeleteTaskDialog(
+            itemPosition,
+            viewModel::onDeleteButtonClicked,
+            this::refreshRecycler
+        )
     }
 
-    private fun editButton(position: Int): SwipeHelper.UnderlayButton {
-        return SwipeHelper.UnderlayButton(
-            requireContext(),
-            getString(R.string.edit_task_button),
-            resources.getDimension(R.dimen.text_size_small),
-            android.R.color.holo_blue_light,
-            SwipeRecyclerClickListener(position, onButtonClicked = viewModel::onEditButtonClicked)
-        )
+    private fun editButton(position: Int) {
+        viewModel.onEditButtonClicked(position)
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
@@ -183,5 +192,9 @@ class TaskCreatorFragment :
         googleMapFragment!!.setMinZoomPreference(MapParameters.MIN_ZOOM.mapParametr)
         googleMapFragment!!.setMaxZoomPreference(MapParameters.MAX_ZOOM.mapParametr)
         addTileOverlay()
+    }
+
+    private fun addTaskStateItems(robotTaskStateItems: List<RobotStateViewModel>) {
+        taskDetailsAdapter.items = robotTaskStateItems
     }
 }

@@ -11,7 +11,7 @@
 
     <androidx.cardview.widget.CardView
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/cardview_task_item"
+        android:id="@+id/cardview_tool_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_medium"
@@ -56,14 +56,7 @@
                 android:layout_below="@id/tool_param_name"
                 android:layout_alignParentEnd="true" />
 
-
-
-
-
-
         </RelativeLayout>
-
-
 
     </androidx.cardview.widget.CardView>
 </layout>

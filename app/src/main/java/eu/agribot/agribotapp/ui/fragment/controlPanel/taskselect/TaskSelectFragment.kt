@@ -11,7 +11,7 @@ import eu.agribot.agribotapp.common.navigation.events.DashboardNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentTaskSelectBinding
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.TaskListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.taskcreator.mainscreen.recycler.TaskListItemViewModel
-import kotlinx.android.synthetic.main.fragment_task_select.*
+import kotlinx.android.synthetic.main.fragment_task_select.task_select_recycler
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -31,6 +31,7 @@ class TaskSelectFragment : BaseFragment<TaskSelectViewModel, FragmentTaskSelectB
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecycler()
+        setDefaultItemPosition()
         viewModel.taskList.observe(this::addTaskItem)
         viewModel.getAvailableTask()
         viewModel.toastEvent.observe(this::showToast)
@@ -42,6 +43,11 @@ class TaskSelectFragment : BaseFragment<TaskSelectViewModel, FragmentTaskSelectB
             taskName = taskListItemViewModel.taskName,
             viewModel::setCurrentTask
         )
+    }
+
+    private fun setDefaultItemPosition() {
+        taskAdapter.selectedItemPosition = -1
+        taskAdapter.notifyDataSetChanged()
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
@@ -65,6 +71,7 @@ class TaskSelectFragment : BaseFragment<TaskSelectViewModel, FragmentTaskSelectB
     private fun onCancelTask(cancelTask: Boolean) {
         if (cancelTask) {
             dialogManager.cancelTaskDialog(viewModel::sendCancelTask)
+            setDefaultItemPosition()
         }
     }
 }

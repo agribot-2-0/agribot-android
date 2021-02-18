@@ -9,25 +9,31 @@
             type="eu.agribot.agribotapp.ui.fragment.settings.recycler.settingsaction.SettingsActionViewModel" />
     </data>
 
-    <androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/cardviewSettingsActionItem"
+    <LinearLayout
+        android:id="@+id/settingsAction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_medium"
-        android:orientation="vertical"
-        app:cardCornerRadius="2dp"
-        app:cardElevation="6dp">
+        android:gravity="center"
+        android:layout_marginVertical="@dimen/margin_medium"
+        android:orientation="vertical">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/settingAction"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_medium"
-                    android:gravity="center"
-                    android:text="@{viewModel.actionName}"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_medium"
-                    android:textStyle="bold" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_small"
+            android:gravity="center"
+            android:padding="@dimen/margin_small"
+            android:text="@{viewModel.actionName}"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="@dimen/text_size_large" />
 
-    </androidx.cardview.widget.CardView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="@dimen/margin_medium"
+            android:background="@color/background_gray" />
+
+    </LinearLayout>
 </layout>

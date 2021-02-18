@@ -39,7 +39,6 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
         super.onViewCreated(view, savedInstanceState)
         setupRecyclers()
         viewModel.prepareSettingsItem()
-        viewModel.prepareSettingsAction()
         observeViewModel()
     }
 

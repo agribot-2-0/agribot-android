@@ -27,5 +27,9 @@ enum class TaskDetailsElements(val detailsElement: String) {
 
     DATE_FORMAT("dd/MM/yyyy HH:mm"),
 
-    TIMEZONE("GMT")
+    TIMEZONE("GMT"),
+
+    NO_UNIT_VALUE(""),
+
+    EMPTY_TASK("")
 }

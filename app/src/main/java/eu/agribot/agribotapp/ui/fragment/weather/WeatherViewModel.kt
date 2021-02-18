@@ -8,21 +8,51 @@ import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationPressure
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationTemperature
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationWind
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
+import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.RobotStateViewModel
+import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.items.RobotStateItems
+import eu.agribot.agribotapp.ui.fragment.taskcreator.TaskDetailsElements
 
 class WeatherViewModel(
     private val cloudDatabaseService: CloudDatabaseService
 ) : BaseViewModel() {
+    val weatherState: MutableLiveData<List<RobotStateViewModel>> = MutableLiveData(listOf())
     val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
-    val weatherStationWindSpeed: MutableLiveData<String> = MutableLiveData()
-    val weatherStationTemperature: MutableLiveData<String> = MutableLiveData()
-    val weatherStationPressure: MutableLiveData<String> = MutableLiveData()
-    val weatherStationHumidity: MutableLiveData<String> = MutableLiveData()
 
     fun prepareWeatherStationData() {
-        getRobotHumidity()
+        setEmptyWeatherList()
         getRobotTemperature()
+        getRobotHumidity()
         getRobotWind()
         getRobotPressure()
+    }
+
+    private fun setEmptyWeatherList() {
+        weatherState.value = listOf(
+            RobotStateViewModel(
+                RobotStateItems.TEMPERATURE.ID,
+                DEFAULT_WEATHER_VALUE,
+                TaskDetailsElements.TEMPERATURE_UNIT.detailsElement
+            ),
+
+            RobotStateViewModel(
+                RobotStateItems.HUMIDITY.ID,
+                DEFAULT_WEATHER_VALUE,
+                TaskDetailsElements.PERCENT.detailsElement
+            ),
+
+            RobotStateViewModel(
+                RobotStateItems.WIND.ID,
+                DEFAULT_WEATHER_VALUE,
+                TaskDetailsElements.SPEED_UNIT.detailsElement
+            ),
+
+            RobotStateViewModel(
+                RobotStateItems.PRESSURE.ID,
+                DEFAULT_WEATHER_VALUE,
+                TaskDetailsElements.PRESSURE_UNIT.detailsElement
+            )
+
+        )
     }
 
     private fun getRobotHumidity() {
@@ -54,22 +84,100 @@ class WeatherViewModel(
     }
 
     private fun onGetRobotHumiditySucess(robotWeatherStationHumidity: RobotWeatherStationHumidity) {
-        weatherStationHumidity.value = robotWeatherStationHumidity.value.toString()
+        addParameterToRobotDataStateList(
+            RobotStateViewModel(
+                RobotStateItems.HUMIDITY.ID,
+                approximateParam(
+                    robotWeatherStationHumidity.value,
+                    robotWeatherStationHumidity.accuracy
+                ),
+                TaskDetailsElements.PERCENT.detailsElement
+
+            )
+        )
     }
 
     private fun onGetRobotTemperatureSucess(robotWeatherStationTemperature: RobotWeatherStationTemperature) {
-        weatherStationTemperature.value = robotWeatherStationTemperature.value.toString()
+        addParameterToRobotDataStateList(
+            RobotStateViewModel(
+                RobotStateItems.TEMPERATURE.ID,
+                approximateParam(
+                    robotWeatherStationTemperature.value,
+                    robotWeatherStationTemperature.accuracy
+                ),
+                TaskDetailsElements.TEMPERATURE_UNIT.detailsElement
+
+            )
+        )
     }
 
     private fun onGetRobotWindSucess(robotWeatherStationWind: RobotWeatherStationWind) {
-        weatherStationWindSpeed.value = robotWeatherStationWind.speed_value.toString()
+        addParameterToRobotDataStateList(
+            RobotStateViewModel(
+                RobotStateItems.WIND.ID,
+                approximateParam(
+                    robotWeatherStationWind.speed_value,
+                    robotWeatherStationWind.speed_accuracy
+                ),
+                TaskDetailsElements.SPEED_UNIT.detailsElement
+            )
+        )
+    }
+
+    private fun approximateParam(value: Double, accuracy: Double): String {
+        return if (accuracy > 0.1 && accuracy < 1) {
+            String.format("%.1f", value)
+        } else if (accuracy > 0 && accuracy < 0.1) {
+            String.format("%.2f", value)
+        } else value.toInt().toString()
     }
 
     private fun onGetRobotPressureSucess(robotWeatherStationPressure: RobotWeatherStationPressure) {
-        weatherStationPressure.value = robotWeatherStationPressure.value.toString()
+        addParameterToRobotDataStateList(
+            RobotStateViewModel(
+                RobotStateItems.PRESSURE.ID,
+                approximateParam(
+                    robotWeatherStationPressure.value,
+                    robotWeatherStationPressure.accuracy
+                ),
+                TaskDetailsElements.PRESSURE_UNIT.detailsElement
+            )
+        )
     }
 
     private fun postErrorMessage(errorText: String) {
         toastEvent.postValue(errorText)
+    }
+
+    private fun addParameterToRobotDataStateList(robotStateParameter: RobotStateViewModel) {
+        val isAttributeAlreadyAdded = weatherState.value!!.any { arrtibute ->
+            arrtibute.stateItemId == robotStateParameter.stateItemId
+        }
+        if (!isAttributeAlreadyAdded)
+            weatherState.value = listOf(
+                RobotStateViewModel(
+                    robotStateParameter.stateItemId,
+                    robotStateParameter.stateValue,
+                    robotStateParameter.stateUnit
+                ),
+                *weatherState.value!!.toTypedArray()
+            )
+        else {
+            weatherState.value = weatherState.value!!.map { oldAttribute ->
+                if (oldAttribute.stateItemId == robotStateParameter.stateItemId) {
+                    RobotStateViewModel(
+                        oldAttribute.stateItemId,
+                        robotStateParameter.stateValue,
+                        oldAttribute.stateUnit
+                    )
+                } else {
+                    oldAttribute
+                }
+            }
+        }
+    }
+
+    companion object {
+        const val DEFAULT_WEATHER_VALUE = "*"
     }
 }

@@ -30,7 +30,6 @@ class ManualControlCurrentStateViewModel(
     val toastMessage: MutableLiveEvent<String> = MutableLiveEvent()
     val actionsList: MutableLiveData<List<ManualActionsViewModel>> = MutableLiveData(listOf())
 
-
     fun onActionClicked(actionID: Int) {
         when (actionID) {
             ActionID.WAKEUP.action -> {
@@ -65,7 +64,6 @@ class ManualControlCurrentStateViewModel(
     }
 
     fun getStreamUrl(): String = appStorageService.getStreamUrl()
-
 
     @ExperimentalCoroutinesApi
     fun setDiagnosticData() = viewModelScope.launch {

@@ -15,6 +15,7 @@ import eu.agribot.agribotapp.ui.fragment.manualcontrol.videostream.VideoParamete
 import kotlinx.android.synthetic.main.pager_manual_control_current_state.diagnosticDataRecycler
 import kotlinx.android.synthetic.main.pager_manual_control_current_state.manualModeRecyclerActions
 import kotlinx.android.synthetic.main.pager_manual_control_current_state.video_view
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import tcking.github.com.giraffeplayer2.Option
@@ -34,11 +35,11 @@ class ManualControlCurrentStateFragment :
         ManualActionsAdapter(onClickSelectedItem = this::onSelectedActionClicked)
     private val diagnosticDataRecyclerAdapter = RobotStateAdapter()
 
-
     override fun bindViewVariables(viewBinding: PagerManualControlCurrentStateBinding) {
         viewBinding.viewModel = viewModel
     }
 
+    @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecycler()
@@ -75,7 +76,6 @@ class ManualControlCurrentStateFragment :
         viewModel.actionsList.observe(this::addActions)
         viewModel.diagnosticDataList.observe(this::addDiagnosticData)
     }
-
 
     private fun createVideoInfo(): VideoInfo {
         val myVideoInfo = VideoInfo(Uri.parse(viewModel.getStreamUrl()))
@@ -151,5 +151,4 @@ class ManualControlCurrentStateFragment :
         video_view.videoInfo(videoInfo)
         video_view.setVideoPath(Uri.parse(viewModel.getStreamUrl()).toString()).player.start()
     }
-
 }

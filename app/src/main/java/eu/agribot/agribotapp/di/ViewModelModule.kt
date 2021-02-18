@@ -77,7 +77,8 @@ val viewModelModule = module {
     }
     viewModel { (context: Context) ->
         ManualControlViewModel(
-            manualModeService = get()
+            manualModeService = get(),
+            resourcesProvider = get { parametersOf(context) }
         )
     }
     viewModel { (context: Context) ->
@@ -327,5 +328,4 @@ val viewModelModule = module {
             appStorageService = get()
         )
     }
-
 }

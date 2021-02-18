@@ -283,6 +283,7 @@
     <string name="settings_connection_description">Zarządzaj połączeniem</string>
     <string name="settiongs_account_description">Zarządzaj swoim kontem</string>
     <string name="settiongs_other_description">Zarządzaj pozostałymi ustawieniami</string>
+    <string name="overview_mode">Podgląd stanu Robota</string>
 
 
 </resources>

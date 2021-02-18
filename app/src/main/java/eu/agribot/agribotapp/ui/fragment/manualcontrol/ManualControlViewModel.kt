@@ -4,38 +4,33 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
-import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
-import eu.agribot.agribotapp.common.navigation.events.TTControlNavigationEvent
-import eu.agribot.agribotapp.common.navigation.events.ToolControlNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
-import eu.agribot.agribotapp.domain.service.AppStorageService
-import eu.agribot.agribotapp.domain.service.InternetConnectionService
 import eu.agribot.agribotapp.domain.service.ManualModeService
 import eu.agribot.agribotapp.domain.service.joystick.JoysticFilter
-import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.RobotStateViewModel
-import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.items.RobotStateItems
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.actionbottombar.ActionID
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.actionbottombar.ManualActionsViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.PagerPostion
 import kotlinx.coroutines.launch
 
 class ManualControlViewModel(
-    private val manualModeService: ManualModeService
+    private val manualModeService: ManualModeService,
+    private val resourcesProvider: ResourcesProvider
 ) : BaseViewModel() {
+    private val joystickMessageCounter: MutableLiveData<Int> = MutableLiveData()
+    val buttonText: MutableLiveData<String> = MutableLiveData(resourcesProvider.getString(R.string.title_tool_control))
+    val pagerState: MutableLiveData<Int> = MutableLiveData()
 
     companion object {
         const val COUNTER_INITIALIZATION_VALUE = 0
         const val COUNTER_INCREMENT_VALUE = 1
     }
 
-    private val joystickMessageCounter: MutableLiveData<Int> = MutableLiveData()
-
-
     fun onToolControlClicked() {
-        navigationEvent.postValue(
-            ToolControlNavigationEvent()
-        )
+        if (pagerState.value == PagerPostion.DISPLAY_STATE.number) {
+            pagerState.value = PagerPostion.TOOL_CONTROL.number
+            buttonText.value = resourcesProvider.getString(R.string.overview_mode)
+        } else {
+            pagerState.value = PagerPostion.DISPLAY_STATE.number
+            buttonText.value = resourcesProvider.getString(R.string.title_tool_control)
+        }
     }
 
     fun onJoystickParametrChange(angel: Int, strength: Int) = viewModelScope.launch {
@@ -43,7 +38,6 @@ class ManualControlViewModel(
             manualModeService.onManualSteeringJoystickParametrChanged(angel, strength)
         }
     }
-
 
     private fun getJoystickMessageCounter(): Int {
         if (joystickMessageCounter.value == null || joystickMessageCounter.value == JoysticFilter.JOYSTICK_COUNTER_MAX_VALUE.value) {
@@ -53,7 +47,4 @@ class ManualControlViewModel(
         }
         return joystickMessageCounter.value!!
     }
-
-
-
 }

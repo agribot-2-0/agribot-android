@@ -21,7 +21,6 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
     override val layoutResourceId: Int = R.layout.fragment_manual_control
     override val viewModel: ManualControlViewModel by viewModel { parametersOf(requireContext()) }
 
-
     override fun bindViewVariables(viewBinding: FragmentManualControlBinding) {
         viewBinding.viewModel = viewModel
     }
@@ -33,11 +32,21 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
         manual_mode_joystick.setOnMoveListener { angle, strength ->
             viewModel.onJoystickParametrChange(angle, strength)
         }
+        observeViewModel()
         setupViewPager()
+    }
+
+    private fun observeViewModel() {
+        viewModel.pagerState.observe(this::onPagerStateChanged)
     }
 
     private fun setupViewPager() {
         manualControlViewPager.adapter = ManualControlViewPagerAdapter(this)
+        manualControlViewPager.isUserInputEnabled = false
+    }
+
+    private fun onPagerStateChanged(state: Int) {
+        manualControlViewPager.currentItem = state
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {

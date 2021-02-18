@@ -25,47 +25,10 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/diagnosticDataRecycler"
-                android:layout_width="match_parent"
-                android:layout_gravity="center"
-                android:layout_height="0dp"
-                android:layout_weight="1.5"
-                android:layout_margin="@dimen/margin_small"
-                android:background="@color/background_gray"
-                android:nestedScrollingEnabled="false" />
-
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="4"
-            android:layout_marginStart="@dimen/text_size_medium"
-            android:layout_marginVertical="@dimen/text_size_medium">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/margin_small"
-            android:orientation="vertical">
-
-                <tcking.github.com.giraffeplayer2.VideoView
-                    android:id="@+id/video_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center" />
-
-
-        </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/manualModeRecyclerActions"
-                android:layout_width="match_parent"
-                android:layout_gravity="center"
-                android:layout_height="wrap_content"
-                android:background="@color/background_gray"
-                android:nestedScrollingEnabled="false" />
+           <androidx.viewpager2.widget.ViewPager2
+               android:id="@+id/manualControlViewPager"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"/>
 
 
         </LinearLayout>

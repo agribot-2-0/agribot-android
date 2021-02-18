@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolControlViewModel" />
+            type="eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.ToolControlViewModel" />
     </data>
 
     <LinearLayout

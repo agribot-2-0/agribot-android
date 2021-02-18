@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.toolcontrol
+package eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol
 
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.base.BaseViewModel

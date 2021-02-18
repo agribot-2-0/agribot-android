@@ -102,7 +102,6 @@ class ManualControlCurrentStateViewModel(
 
                     )
                 )
-
             } else {
                 resourcesProvider.getString(R.string.no_data_status).let { noData ->
                     addToDiagnosticDataList(
@@ -155,7 +154,6 @@ class ManualControlCurrentStateViewModel(
         }
     }
 
-
     private fun getHydraulicData() = viewModelScope.launch {
         if (manualModeService.observeHydraulicData().value != null) {
             addToDiagnosticDataList(
@@ -174,7 +172,6 @@ class ManualControlCurrentStateViewModel(
                 )
             )
         }
-
     }
 
     private fun addToDiagnosticDataList(diagnosticData: RobotStateViewModel) {

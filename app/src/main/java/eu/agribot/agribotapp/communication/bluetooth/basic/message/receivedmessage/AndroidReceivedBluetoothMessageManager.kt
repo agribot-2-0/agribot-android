@@ -174,7 +174,7 @@ class AndroidReceivedBluetoothMessageManager(
 
     private fun handleHydraulicDiagnosticData(bluetoothMessageFrame: BluetoothMessageFrame) {
         bluetoothMessageFrame.let { hydraulicData ->
-            if (bluetoothMessageFrame.getCanDataFromReceivedMessage().size > 2) {
+            if (bluetoothMessageFrame.getCanDataFromReceivedMessage().size > MINIMUM_HYDRAULIC_DATA_LENGTH) {
                 agribotHydraulicDataFlow.value = HydraulicBluetoothDataBD(
                     oilTemperature = getHydraulicOilTemperature(hydraulicData)
                 )
@@ -235,5 +235,9 @@ class AndroidReceivedBluetoothMessageManager(
 
     private fun handleHeartbeatMessage() {
         heartbeatManager.restartHeartbeatCounter()
+    }
+
+    companion object {
+        const val MINIMUM_HYDRAULIC_DATA_LENGTH = 2
     }
 }

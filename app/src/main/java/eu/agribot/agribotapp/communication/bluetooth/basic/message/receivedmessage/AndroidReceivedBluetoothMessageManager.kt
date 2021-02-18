@@ -174,9 +174,11 @@ class AndroidReceivedBluetoothMessageManager(
 
     private fun handleHydraulicDiagnosticData(bluetoothMessageFrame: BluetoothMessageFrame) {
         bluetoothMessageFrame.let { hydraulicData ->
-            agribotHydraulicDataFlow.value = HydraulicBluetoothDataBD(
-                oilTemperature = getHydraulicOilTemperature(hydraulicData)
-            )
+            if (bluetoothMessageFrame.getCanDataFromReceivedMessage().size > 2) {
+                agribotHydraulicDataFlow.value = HydraulicBluetoothDataBD(
+                    oilTemperature = getHydraulicOilTemperature(hydraulicData)
+                )
+            }
         }
     }
 

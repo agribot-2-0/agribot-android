@@ -56,7 +56,12 @@ class ManualControlCurrentStateViewModel(
     fun getStreamUrl(): String = appStorageService.getStreamUrl()
 
     @ExperimentalCoroutinesApi
-    fun setDiagnosticData() = viewModelScope.launch {
+    fun setDiagnosticData() {
+        getDiagnosticData()
+        getHydraulicData()
+    }
+
+    private fun getDiagnosticData() = viewModelScope.launch {
         manualModeService.observeDiagnosticData().collect { diagnosticData ->
             if (diagnosticData != null) {
                 addToDiagnosticDataList(
@@ -97,13 +102,7 @@ class ManualControlCurrentStateViewModel(
 
                     )
                 )
-                addToDiagnosticDataList(
-                    RobotStateViewModel(
-                        RobotStateItems.MANUAL_CONTROL_OIL_TEMPERATURE.ID,
-                        diagnosticData.fuelTemperature.toString(),
-                        resourcesProvider.getString(R.string.celcius_degree)
-                    )
-                )
+
             } else {
                 resourcesProvider.getString(R.string.no_data_status).let { noData ->
                     addToDiagnosticDataList(
@@ -154,6 +153,28 @@ class ManualControlCurrentStateViewModel(
                 }
             }
         }
+    }
+
+
+    private fun getHydraulicData() = viewModelScope.launch {
+        if (manualModeService.observeHydraulicData().value != null) {
+            addToDiagnosticDataList(
+                RobotStateViewModel(
+                    RobotStateItems.MANUAL_CONTROL_OIL_TEMPERATURE.ID,
+                    manualModeService.observeHydraulicData().value!!.oilTemperature,
+                    resourcesProvider.getString(R.string.celcius_degree)
+                )
+            )
+        } else {
+            addToDiagnosticDataList(
+                RobotStateViewModel(
+                    RobotStateItems.MANUAL_CONTROL_OIL_TEMPERATURE.ID,
+                    resourcesProvider.getString(R.string.no_data_status),
+                    resourcesProvider.getString(R.string.celcius_degree)
+                )
+            )
+        }
+
     }
 
     private fun addToDiagnosticDataList(diagnosticData: RobotStateViewModel) {

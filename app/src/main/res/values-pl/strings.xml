@@ -255,7 +255,7 @@
     <string name="connecting_with_device">Trwa łączenie z tym urządzeniem…</string>
     <string name="left_right">LEWO / PRAWO</string>
     <string name="front_back">Przód / Tył</string>
-    <string name="wakeup_button">Wake-Up</string>
+    <string name="wakeup_button">Obudź Agribota</string>
 
     <string name="dialog_no_found_tags_tittle">Nie znaleziono tagów</string>
     <string name="dialog_no_found_tags_message">Chcesz powtórzyć skan? </string>
@@ -283,6 +283,7 @@
     <string name="settings_connection_description">Zarządzaj połączeniem</string>
     <string name="settiongs_account_description">Zarządzaj swoim kontem</string>
     <string name="settiongs_other_description">Zarządzaj pozostałymi ustawieniami</string>
+    <string name="overview_mode">Podgląd stanu Robota</string>
 
 
 </resources>

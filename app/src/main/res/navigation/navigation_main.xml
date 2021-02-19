@@ -219,7 +219,7 @@
 
     <fragment
         android:id="@+id/toolControlFragment"
-        android:name="eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolControlFragment"
+        android:name="eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.ToolControlFragment"
         android:label="@string/title_tool_control"
         tools:layout="@layout/fragment_tool_control" />
 

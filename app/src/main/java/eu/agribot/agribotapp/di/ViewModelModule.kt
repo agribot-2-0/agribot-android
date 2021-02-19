@@ -14,6 +14,8 @@ import eu.agribot.agribotapp.ui.fragment.controlPanel.taskselect.TaskSelectViewM
 import eu.agribot.agribotapp.ui.fragment.controlPanel.viewpager.robotdata.PagerRobotDataViewModel
 import eu.agribot.agribotapp.ui.fragment.controlPanel.viewpager.taskdetails.PagerTaskDetailsViewModel
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.ManualControlViewModel
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.currentstate.ManualControlCurrentStateViewModel
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.ToolControlViewModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.mainpathscreen.PathManagementViewModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.NewPathViewModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.pathname.PathNameViewModel
@@ -26,7 +28,6 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.timeselect.CreatorTimeSelec
 import eu.agribot.agribotapp.ui.fragment.taskcreator.toolselect.CreatorToolSelectViewModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.CreatorWeatherSelectViewModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.WeatherSettingsListItemViewModel
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.ToolControlViewModel
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.displaytoolphoto.DisplayToolPhotoViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.FindToolTagViewModel
@@ -77,9 +78,7 @@ val viewModelModule = module {
     viewModel { (context: Context) ->
         ManualControlViewModel(
             manualModeService = get(),
-            resourcesProvider = get { parametersOf(context) },
-            internetConnectionService = get(),
-            appStorageService = get()
+            resourcesProvider = get { parametersOf(context) }
         )
     }
     viewModel { (context: Context) ->
@@ -128,7 +127,8 @@ val viewModelModule = module {
             authenticationService = get(),
             resourcesProvider = get { parametersOf(context) },
             bluetoothConnectionService = get(),
-            appStorageService = get()
+            appStorageService = get(),
+            internetConnectionService = get()
         )
     }
     viewModel {
@@ -318,6 +318,14 @@ val viewModelModule = module {
             toolDataManager = get(),
             cloudDatabaseService = get(),
             toolManagementService = get()
+        )
+    }
+
+    viewModel { (context: Context) ->
+        ManualControlCurrentStateViewModel(
+            manualModeService = get(),
+            resourcesProvider = get { parametersOf(context) },
+            appStorageService = get()
         )
     }
 }

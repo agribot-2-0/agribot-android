@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.toolcontrol
+package eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol
 
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.base.BaseViewModel
@@ -109,7 +109,7 @@ class ToolControlViewModel(
         )
     }
 
-    fun onTuzParametersChanged(progress: Int) {
+    fun onTplParametersChanged(progress: Int) {
         if (activeTpl.value != null) {
             onHitchParametersChanged(
                     activeTpl.value!!.tuzNumber,

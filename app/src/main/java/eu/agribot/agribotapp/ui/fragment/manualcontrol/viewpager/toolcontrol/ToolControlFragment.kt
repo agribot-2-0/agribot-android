@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.toolcontrol
+package eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol
 
 import android.os.Bundle
 import android.view.View

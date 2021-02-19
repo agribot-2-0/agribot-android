@@ -18,5 +18,7 @@ enum class ItemID(val ID: Int) {
 
     REMOVE_ACCOUNT(4),
 
-    CHANGE_URL_STREAM(5)
+    CHANGE_URL_STREAM(5),
+
+    WAKEUP_MESSAGE(6),
 }

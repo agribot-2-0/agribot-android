@@ -89,7 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:onProgressChanged="@{(seekBar, progress, fromUser) -> viewModel.onTuzParametersChanged(progress)}"
+            android:onProgressChanged="@{(seekBar, progress, fromUser) -> viewModel.onTplParametersChanged(progress)}"
             android:padding="@dimen/margin_small"
             android:progress="50"
             app:layout_constraintEnd_toEndOf="parent"

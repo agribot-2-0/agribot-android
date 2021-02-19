@@ -28,7 +28,6 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
     @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         manual_mode_joystick.setOnMoveListener { angle, strength ->
             viewModel.onJoystickParametrChange(angle, strength)
         }

@@ -7,6 +7,8 @@ import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.TTControlNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
+import eu.agribot.agribotapp.domain.model.UserRoleType
+import eu.agribot.agribotapp.domain.model.todomain.UserRole
 import eu.agribot.agribotapp.domain.service.AppStorageService
 import eu.agribot.agribotapp.domain.service.ManualModeService
 import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.RobotStateViewModel
@@ -20,13 +22,13 @@ import kotlinx.coroutines.launch
 class ManualControlCurrentStateViewModel(
     private val manualModeService: ManualModeService,
     private val resourcesProvider: ResourcesProvider,
-    private val appStorageService: AppStorageService
+    private val appStorageService: AppStorageService,
 ) : BaseViewModel() {
     val diagnosticDataList: MutableLiveData<List<RobotStateViewModel>> =
         MutableLiveData(listOf())
-
     val toastMessage: MutableLiveEvent<String> = MutableLiveEvent()
     val actionsList: MutableLiveData<List<ManualActionsViewModel>> = MutableLiveData(listOf())
+
 
     fun onActionClicked(actionID: Int) {
         when (actionID) {
@@ -40,17 +42,26 @@ class ManualControlCurrentStateViewModel(
         }
     }
 
-    fun createActionsList() {
-        actionsList.value = listOf(
-            ManualActionsViewModel(
-                ActionID.RUN_ENGINE.action,
-                resourcesProvider.getString(R.string.start_stop_engine)
-            ),
-            ManualActionsViewModel(
-                ActionID.OVERRIDE_MODE.action,
-                resourcesProvider.getString(R.string.override_button)
+    private fun createActionsList(withAdmin: Boolean) {
+        if (withAdmin) {
+            actionsList.value = listOf(
+                ManualActionsViewModel(
+                    ActionID.RUN_ENGINE.action,
+                    resourcesProvider.getString(R.string.start_stop_engine)
+                ),
+                ManualActionsViewModel(
+                    ActionID.OVERRIDE_MODE.action,
+                    resourcesProvider.getString(R.string.override_button)
+                )
             )
-        )
+        } else {
+            actionsList.value = listOf(
+                ManualActionsViewModel(
+                    ActionID.RUN_ENGINE.action,
+                    resourcesProvider.getString(R.string.start_stop_engine)
+                )
+            )
+        }
     }
 
     fun getStreamUrl(): String = appStorageService.getStreamUrl()
@@ -211,5 +222,27 @@ class ManualControlCurrentStateViewModel(
         navigationEvent.postValue(
             TTControlNavigationEvent()
         )
+    }
+
+    fun getUserRole() {
+        manualModeService.getUserRole(
+            onGotUserRole = this::onGotUserRole,
+            onDatabaseError = this::onDatabaseError
+        )
+    }
+
+    private fun onGotUserRole(userRole: UserRole) {
+        when (userRole.role) {
+            UserRoleType.USER.name.toLowerCase() -> {
+                createActionsList(false)
+            }
+            UserRoleType.ADMIN.name.toLowerCase() -> {
+                createActionsList(true)
+            }
+        }
+    }
+
+    private fun onDatabaseError(error: String) {
+
     }
 }

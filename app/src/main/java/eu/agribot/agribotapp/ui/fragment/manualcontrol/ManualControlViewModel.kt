@@ -1,10 +1,13 @@
 package eu.agribot.agribotapp.ui.fragment.manualcontrol
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
+import eu.agribot.agribotapp.domain.model.UserRoleType
+import eu.agribot.agribotapp.domain.model.todomain.UserRole
 import eu.agribot.agribotapp.domain.service.ManualModeService
 import eu.agribot.agribotapp.domain.service.joystick.JoysticFilter
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.PagerPostion
@@ -15,7 +18,8 @@ class ManualControlViewModel(
     private val resourcesProvider: ResourcesProvider
 ) : BaseViewModel() {
     private val joystickMessageCounter: MutableLiveData<Int> = MutableLiveData()
-    val buttonText: MutableLiveData<String> = MutableLiveData(resourcesProvider.getString(R.string.title_tool_control))
+    val buttonText: MutableLiveData<String> =
+        MutableLiveData(resourcesProvider.getString(R.string.title_tool_control))
     val pagerState: MutableLiveData<Int> = MutableLiveData(PagerPostion.DISPLAY_STATE.number)
 
     companion object {
@@ -47,4 +51,8 @@ class ManualControlViewModel(
         }
         return joystickMessageCounter.value!!
     }
+
+
+
+
 }

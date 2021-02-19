@@ -15,6 +15,7 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskItem
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.ToolDetailsCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.TooltemCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserInfoCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserRoleCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_ROBOTS
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_USER
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_LOCALIZATION_POSE
@@ -465,6 +466,23 @@ class FirebaseDatabase : CloudDatabase {
                 it.toObject(RobotLocalizationPoseCDB::class.java).let { robotLocalization ->
                     if (robotLocalization != null) {
                         onGotRobotCoordinate(robotLocalization)
+                    }
+                }
+            }
+            .addOnFailureListener(onDatabaseError)
+    }
+
+    override fun getUserRole(
+        onGotUserRole: (UserRoleCDB) -> Unit,
+        onDatabaseError: (Throwable) -> Unit
+    ) {
+        database.collection(COLLECTION_USER)
+            .document(currentFirebaseUser)
+            .get()
+            .addOnSuccessListener { it ->
+                it.toObject(UserRoleCDB::class.java).let { userRole ->
+                    if (userRole != null) {
+                        onGotUserRole(userRole)
                     }
                 }
             }

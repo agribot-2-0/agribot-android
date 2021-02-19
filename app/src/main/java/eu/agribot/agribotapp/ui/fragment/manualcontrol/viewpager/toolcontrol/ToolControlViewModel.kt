@@ -109,7 +109,7 @@ class ToolControlViewModel(
         )
     }
 
-    fun onTuzParametersChanged(progress: Int) {
+    fun onTplParametersChanged(progress: Int) {
         if (activeTpl.value != null) {
             onHitchParametersChanged(
                     activeTpl.value!!.tuzNumber,

@@ -158,17 +158,17 @@ class AndroidReceivedBluetoothMessageManager(
 
     @ExperimentalCoroutinesApi
     private fun handleDiagnosticData(bluetoothMessageFrame: BluetoothMessageFrame) {
-        if (bluetoothMessageFrame.getCanDataFromReceivedMessage().size < EIGHT_BYTE_MESSAGE)
-            return
-        bluetoothMessageFrame.let { diagnosticData ->
-            agribotDiagnosticDataFlow.value = DiagnosticBluetoothDataBD(
-                engineFuelRate = getEngineFuelRate(diagnosticData),
-                batteryVoltage = getBatteryVoltage(diagnosticData),
-                engineRotationsPerMinute = getEngineRotations(diagnosticData),
-                torqueOfEngine = getTorqueOfEngine(diagnosticData),
-                fuelLevel = getFuelLevel(diagnosticData),
-                fuelTemperature = getFuelTemperature(diagnosticData)
-            )
+        if (bluetoothMessageFrame.getCanDataFromReceivedMessage().size > MinimumMessageLength.DIAGNOSTIC_DATA.size) {
+            bluetoothMessageFrame.let { diagnosticData ->
+                agribotDiagnosticDataFlow.value = DiagnosticBluetoothDataBD(
+                    engineFuelRate = getEngineFuelRate(diagnosticData),
+                    batteryVoltage = getBatteryVoltage(diagnosticData),
+                    engineRotationsPerMinute = getEngineRotations(diagnosticData),
+                    torqueOfEngine = getTorqueOfEngine(diagnosticData),
+                    fuelLevel = getFuelLevel(diagnosticData),
+                    fuelTemperature = getFuelTemperature(diagnosticData)
+                )
+            }
         }
     }
 

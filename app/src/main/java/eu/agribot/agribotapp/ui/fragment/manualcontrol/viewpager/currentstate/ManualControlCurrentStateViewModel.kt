@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
-import eu.agribot.agribotapp.common.navigation.events.TTControlNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.model.UserRoleType
 import eu.agribot.agribotapp.domain.model.todomain.UserRole
@@ -22,13 +21,12 @@ import kotlinx.coroutines.launch
 class ManualControlCurrentStateViewModel(
     private val manualModeService: ManualModeService,
     private val resourcesProvider: ResourcesProvider,
-    private val appStorageService: AppStorageService,
+    private val appStorageService: AppStorageService
 ) : BaseViewModel() {
     val diagnosticDataList: MutableLiveData<List<RobotStateViewModel>> =
         MutableLiveData(listOf())
     val toastMessage: MutableLiveEvent<String> = MutableLiveEvent()
     val actionsList: MutableLiveData<List<ManualActionsViewModel>> = MutableLiveData(listOf())
-
 
     fun onActionClicked(actionID: Int) {
         when (actionID) {
@@ -219,9 +217,7 @@ class ManualControlCurrentStateViewModel(
     }
 
     private fun onTTControlButtonClicked() {
-        navigationEvent.postValue(
-            TTControlNavigationEvent()
-        )
+        manualModeService.onTTControlEvent(true)
     }
 
     fun getUserRole() {
@@ -243,6 +239,5 @@ class ManualControlCurrentStateViewModel(
     }
 
     private fun onDatabaseError(error: String) {
-
     }
 }

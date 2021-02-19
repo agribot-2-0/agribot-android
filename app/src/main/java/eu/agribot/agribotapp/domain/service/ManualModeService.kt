@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.domain.service
 
+import android.util.Log
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ReceivedBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.WriteBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator.BluetoothMessageCreator
@@ -28,6 +29,10 @@ class ManualModeService(
     private val cloudDatabase: CloudDatabase
 ) {
     private val engineStartDelay = 100L
+
+    @ExperimentalCoroutinesApi
+    private val ttControlFlow = MutableStateFlow<Boolean>(false)
+    var ttControlFlowScope = CoroutineScope(Job() + Dispatchers.IO)
 
     @ExperimentalCoroutinesApi
     private val diagnosticDataFlow = MutableStateFlow<DiagnosticData?>(null)
@@ -66,6 +71,16 @@ class ManualModeService(
     }
 
     @ExperimentalCoroutinesApi
+    fun onTTControlEvent(state: Boolean) {
+        Log.e("xd", "state: " + state)
+        ttControlFlow.value = state
+    }
+
+    fun observeTTControlFlow(): MutableStateFlow<Boolean> {
+        return ttControlFlow
+    }
+
+    @ExperimentalCoroutinesApi
     fun observeDiagnosticData(): MutableStateFlow<DiagnosticData?> {
         getDiagnosticData()
         return diagnosticDataFlow
@@ -97,6 +112,4 @@ class ManualModeService(
             onDatabaseError = { onDatabaseError(cloudStorageErrorHandler.getStorageError(it)) }
         )
     }
-
-
 }

@@ -1,16 +1,16 @@
 package eu.agribot.agribotapp.ui.fragment.manualcontrol
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
+import eu.agribot.agribotapp.common.navigation.events.TTControlNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
-import eu.agribot.agribotapp.domain.model.UserRoleType
-import eu.agribot.agribotapp.domain.model.todomain.UserRole
 import eu.agribot.agribotapp.domain.service.ManualModeService
 import eu.agribot.agribotapp.domain.service.joystick.JoysticFilter
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.PagerPostion
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class ManualControlViewModel(
@@ -52,7 +52,13 @@ class ManualControlViewModel(
         return joystickMessageCounter.value!!
     }
 
-
-
-
+    @InternalCoroutinesApi
+    fun observeoverrideMode() = viewModelScope.launch {
+        manualModeService.observeTTControlFlow().collect {
+            if (it) {
+                navigationEvent.postValue(TTControlNavigationEvent())
+                manualModeService.onTTControlEvent(false)
+            }
+        }
+    }
 }

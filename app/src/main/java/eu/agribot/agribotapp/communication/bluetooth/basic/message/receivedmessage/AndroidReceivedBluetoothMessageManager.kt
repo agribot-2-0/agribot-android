@@ -6,7 +6,6 @@ import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.Fr
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.heartbeat.HeartbeatManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.ConstantReceivedMessage.ARRAY_BIT_SHIFT
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.ConstantReceivedMessage.BATTERY_VOLTAGE_RATIO
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.ConstantReceivedMessage.EIGHT_BYTE_MESSAGE
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.ConstantReceivedMessage.FIRST_DIGIT
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.ConstantReceivedMessage.FOURTH_DIGIT
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.ConstantReceivedMessage.FOUR_DIGIT_NUMBER
@@ -158,17 +157,17 @@ class AndroidReceivedBluetoothMessageManager(
 
     @ExperimentalCoroutinesApi
     private fun handleDiagnosticData(bluetoothMessageFrame: BluetoothMessageFrame) {
-        if (bluetoothMessageFrame.getCanDataFromReceivedMessage().size < EIGHT_BYTE_MESSAGE)
-            return
-        bluetoothMessageFrame.let { diagnosticData ->
-            agribotDiagnosticDataFlow.value = DiagnosticBluetoothDataBD(
-                engineFuelRate = getEngineFuelRate(diagnosticData),
-                batteryVoltage = getBatteryVoltage(diagnosticData),
-                engineRotationsPerMinute = getEngineRotations(diagnosticData),
-                torqueOfEngine = getTorqueOfEngine(diagnosticData),
-                fuelLevel = getFuelLevel(diagnosticData),
-                fuelTemperature = getFuelTemperature(diagnosticData)
-            )
+        if (bluetoothMessageFrame.getCanDataFromReceivedMessage().size > MinimumMessageLength.DIAGNOSTIC_DATA.size) {
+            bluetoothMessageFrame.let { diagnosticData ->
+                agribotDiagnosticDataFlow.value = DiagnosticBluetoothDataBD(
+                    engineFuelRate = getEngineFuelRate(diagnosticData),
+                    batteryVoltage = getBatteryVoltage(diagnosticData),
+                    engineRotationsPerMinute = getEngineRotations(diagnosticData),
+                    torqueOfEngine = getTorqueOfEngine(diagnosticData),
+                    fuelLevel = getFuelLevel(diagnosticData),
+                    fuelTemperature = getFuelTemperature(diagnosticData)
+                )
+            }
         }
     }
 

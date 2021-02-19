@@ -45,11 +45,12 @@ class ManualControlCurrentStateFragment :
         setupRecycler()
         observeViewModel()
         viewModel.setDiagnosticData()
+        viewModel.getUserRole()
         playVideoStream(createVideoInfo())
     }
 
     private fun setupRecycler() {
-        viewModel.createActionsList()
+        viewModel.getUserRole()
         manualModeRecyclerActions.adapter = actionsRecyclerAdapter
         manualModeRecyclerActions.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)

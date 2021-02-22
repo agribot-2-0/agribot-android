@@ -304,4 +304,5 @@
     <string name="settings_connection_description">Manage yours connection</string>
     <string name="settiongs_account_description">Manage yours account</string>
     <string name="settiongs_other_description">Manage others settings</string>
+    <string name="displayed_tool_tag_text">Tool tag %1S</string>
 </resources>

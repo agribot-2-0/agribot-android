@@ -9,4 +9,9 @@ interface PersistentStorage {
     fun saveVideoStreamUrl(url: String)
 
     fun getVideoStreamUrl(): String
+
+    fun saveRobotSerialNumber(serial: String)
+
+    fun getRobotSerialNumber(): String
 }
+

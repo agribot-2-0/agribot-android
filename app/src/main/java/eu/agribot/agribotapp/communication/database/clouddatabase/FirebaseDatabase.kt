@@ -16,6 +16,7 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskItem
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.ToolDetailsCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.TooltemCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserInfoCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserRobotNameCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserRoleCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_ROBOTS
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_USER
@@ -32,20 +33,21 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.Cl
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.state.RobotEngineCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.state.RobotHydraulicsCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.state.RobotTaskCDB
+import eu.agribot.agribotapp.communication.persistence.PersistentStorage
 import timber.log.Timber
 import java.io.IOException
 
-class FirebaseDatabase : CloudDatabase {
+class FirebaseDatabase(private val persistentStorage: PersistentStorage) : CloudDatabase {
     private val currentFirebaseUser = FirebaseAuth.getInstance().currentUser?.uid.toString()
     private val database = getInstance()
-    var userRobotName: String? = null
+    // var userRobotName: String? = null
 
     override fun getUserData(
         onDatabaseSucess: (data: UserInfoCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_USER)
-            .document("$currentFirebaseUser/$COLLECTION_ROBOTS/$userRobotName")
+            .document("$currentFirebaseUser/$COLLECTION_ROBOTS/${persistentStorage.getRobotSerialNumber()}")
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(Throwable("Could not parse firebase data"))
@@ -63,7 +65,8 @@ class FirebaseDatabase : CloudDatabase {
         onDatabaseSuccess: (data: EngineHealthCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        database.collection(COLLECTION_ROBOTS).document(userRobotName + DOCUMENT_STATE_ENGINE)
+        database.collection(COLLECTION_ROBOTS)
+            .document(persistentStorage.getRobotSerialNumber() + DOCUMENT_STATE_ENGINE)
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(Throwable("Could not parse firebase data"))
@@ -82,7 +85,7 @@ class FirebaseDatabase : CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document(userRobotName + DOCUMENT_STATE_ENGINE)
+            .document(persistentStorage.getRobotSerialNumber() + DOCUMENT_STATE_ENGINE)
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(Throwable("Could not parse firebase data"))
@@ -101,7 +104,7 @@ class FirebaseDatabase : CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document(userRobotName + DOCUMENT_STATE_HYDRAULICS)
+            .document(persistentStorage.getRobotSerialNumber() + DOCUMENT_STATE_HYDRAULICS)
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(Throwable("Could not parse firebase data"))
@@ -120,7 +123,7 @@ class FirebaseDatabase : CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document(userRobotName + DOCUMENT_STATE_TASK)
+            .document(persistentStorage.getRobotSerialNumber() + DOCUMENT_STATE_TASK)
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(Throwable("Could not parse firebase data"))
@@ -139,7 +142,7 @@ class FirebaseDatabase : CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document(userRobotName + DOCUMENT_LOCALIZATION_POSE)
+            .document(persistentStorage.getRobotSerialNumber() + DOCUMENT_LOCALIZATION_POSE)
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(Throwable("Could not parse firebase data"))
@@ -158,7 +161,7 @@ class FirebaseDatabase : CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document(userRobotName + DOCUMENT_WEATHER_STATION_HUMIDITYE)
+            .document(persistentStorage.getRobotSerialNumber() + DOCUMENT_WEATHER_STATION_HUMIDITYE)
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(Throwable("Could not parse firebase data"))
@@ -177,7 +180,7 @@ class FirebaseDatabase : CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document(userRobotName + DOCUMENT_WEATHER_STATION_PRESSURE)
+            .document(persistentStorage.getRobotSerialNumber() + DOCUMENT_WEATHER_STATION_PRESSURE)
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(Throwable("Could not parse firebase data"))
@@ -196,7 +199,7 @@ class FirebaseDatabase : CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document(userRobotName + DOCUMENT_WEATHER_STATION_WIND)
+            .document(persistentStorage.getRobotSerialNumber() + DOCUMENT_WEATHER_STATION_WIND)
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(Throwable("Could not parse firebase data"))
@@ -215,7 +218,7 @@ class FirebaseDatabase : CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document(userRobotName + DOCUMENT_WEATHER_STATION_TEMPERATURE)
+            .document(persistentStorage.getRobotSerialNumber() + DOCUMENT_WEATHER_STATION_TEMPERATURE)
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(Throwable("Could not parse firebase data"))
@@ -236,7 +239,7 @@ class FirebaseDatabase : CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_USER)
-            .document("$user/$COLLECTION_ROBOTS/$userRobotName")
+            .document("$user/$COLLECTION_ROBOTS/$persistentStorage.getRobotSerialNumber()")
             .set(data)
             .addOnSuccessListener {
                 onDatabaseSuccess.invoke()
@@ -251,7 +254,7 @@ class FirebaseDatabase : CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_USER)
-            .document("$currentFirebaseUser/$COLLECTION_ROBOTS/$userRobotName")
+            .document("$currentFirebaseUser/$COLLECTION_ROBOTS/$persistentStorage.getRobotSerialNumber()")
             .delete()
             .addOnSuccessListener {
                 onDatabaseSuccess.invoke()
@@ -267,7 +270,7 @@ class FirebaseDatabase : CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document("$userRobotName/$DOCUMENT_TASKS/$taskName")
+            .document("$persistentStorage.getRobotSerialNumber()/$DOCUMENT_TASKS/$taskName")
             .set(newRobotTaskDetailsCDB)
             .addOnFailureListener { exception ->
                 onDatabaseError(exception)
@@ -280,7 +283,7 @@ class FirebaseDatabase : CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document("$userRobotName/$DOCUMENT_TASKS/$taskID")
+            .document("$persistentStorage.getRobotSerialNumber()/$DOCUMENT_TASKS/$taskID")
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(Throwable("Could not parse firebase data"))
@@ -300,7 +303,7 @@ class FirebaseDatabase : CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document(userRobotName!!)
+            .document(persistentStorage.getRobotSerialNumber())
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(databaseException)
@@ -324,12 +327,12 @@ class FirebaseDatabase : CloudDatabase {
             }
     }
 
-    override fun setCurrenttask(
+    override fun setCurrentTask(
         actualTaskCDB: ActualTaskCDB,
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document(userRobotName!!)
+            .document(persistentStorage.getRobotSerialNumber())
             .update(
                 mapOf(
                     "actual_task" to actualTaskCDB.actual_task
@@ -346,7 +349,7 @@ class FirebaseDatabase : CloudDatabase {
         onDeleteError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document("$userRobotName/$DOCUMENT_TASKS/$taskID")
+            .document("$persistentStorage.getRobotSerialNumber()/$DOCUMENT_TASKS/$taskID")
             .delete()
             .addOnSuccessListener {
                 onDeleteSuccess()
@@ -360,12 +363,12 @@ class FirebaseDatabase : CloudDatabase {
         onGetTaskItem: (taskItemCDB: TaskItemCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        database.collection("$COLLECTION_ROBOTS/$userRobotName/$DOCUMENT_TASKS")
+        database.collection("$COLLECTION_ROBOTS/$persistentStorage.getRobotSerialNumber()/$DOCUMENT_TASKS")
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
                     database.collection(COLLECTION_ROBOTS)
-                        .document(userRobotName + "/" + DOCUMENT_TASKS + "/" + document.id)
+                        .document(persistentStorage.getRobotSerialNumber() + "/" + DOCUMENT_TASKS + "/" + document.id)
                         .addSnapshotListener { snapshot, databaseException ->
                             if (databaseException != null) {
                                 onDatabaseError(Throwable("Could not parse firebase data"))
@@ -461,7 +464,7 @@ class FirebaseDatabase : CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document(userRobotName + DOCUMENT_LOCALIZATION_POSE)
+            .document(persistentStorage.getRobotSerialNumber() + DOCUMENT_LOCALIZATION_POSE)
             .get()
             .addOnSuccessListener { it ->
                 it.toObject(RobotLocalizationPoseCDB::class.java).let { robotLocalization ->
@@ -474,25 +477,32 @@ class FirebaseDatabase : CloudDatabase {
     }
 
     override fun setUserRole(user: String, onDatabaseError: (Throwable) -> Unit) {
-        Log.e("xd", "user, : " + user)
         database.collection(COLLECTION_USER)
             .document(user)
             .set(UserRoleCDB(role = UserRoleType.USER.name.toLowerCase()))
             .addOnFailureListener { exception ->
-                Log.e("xd", "failure: " + exception)
+                Timber.e("failure: %s", exception)
                 onDatabaseError(exception)
             }
     }
 
-    override fun getUsersRobotName(onGetUsserRobotNAmeSucess: () -> Unit) {
+    override fun setUserRobotName(userRobotName: String, currentUser : String) {
+        database.collection("$COLLECTION_USER/")
+            .document("$currentUser/$COLLECTION_ROBOTS/$userRobotName")
+            .set(UserRobotNameCDB(robotName = userRobotName))
+            .addOnFailureListener { it-> Log.e("xd", "failure: " + it) }
+
+    }
+
+    override fun getUsersRobotName(onGetUsserRobotNameSucess: () -> Unit) {
         try {
             database.collection("$COLLECTION_USER/$currentFirebaseUser/$COLLECTION_ROBOTS")
                 .get()
                 .addOnSuccessListener { result ->
                     if (result != null && !result.isEmpty) {
-                        userRobotName = result.documents[0].id
-                        onGetUsserRobotNAmeSucess.invoke()
-                    }else{
+                        persistentStorage.saveRobotSerialNumber(result.documents[0].id)
+                        onGetUsserRobotNameSucess.invoke()
+                    } else {
                         Timber.e("Robot name problem ")
                     }
                 }
@@ -502,3 +512,5 @@ class FirebaseDatabase : CloudDatabase {
         }
     }
 }
+
+

@@ -305,4 +305,6 @@
     <string name="settiongs_account_description">Manage yours account</string>
     <string name="settiongs_other_description">Manage others settings</string>
     <string name="displayed_tool_tag_text">Tool tag %1S</string>
+    <string name="robot_serial_number_dialog_title">robot_serial_number_dialog_title</string>
+    <string name="type_robot_serial_number_dialog_message">type_robot_serial_number</string>
 </resources>

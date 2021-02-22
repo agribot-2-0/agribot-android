@@ -1,10 +1,6 @@
 package eu.agribot.agribotapp.domain.service
 
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.InputStream
+import android.util.Log
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.communication.database.firestorage.DownloaderPath
@@ -15,6 +11,11 @@ import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
 import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePathProvider
 import org.xmlpull.v1.XmlPullParserException
 import org.xmlpull.v1.XmlPullParserFactory
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
 
 class PathManagementService(
     private val filepathProvider: FilePathProvider,
@@ -71,6 +72,12 @@ class PathManagementService(
         }
     }
 
+    private fun createPathDirectoryWhenIsNotExist() {
+        if (!File(filepathProvider.getLayerPath(DownloaderPath.LAYER_PATH.filePath)).exists()) {
+            File(filepathProvider.getLayerPath(DownloaderPath.LAYER_PATH.filePath)).mkdir()
+        }
+    }
+
     private fun onGotLayerFile(file: File) {
         val fileInputStream: InputStream = FileInputStream(file)
         layerStream = fileInputStream
@@ -81,6 +88,7 @@ class PathManagementService(
         onSucess: () -> Unit,
         onError: (error: String) -> Unit
     ) {
+        createPathDirectoryWhenIsNotExist()
         val fileVersionName = getFileVersion(getPathName())
         createKmlFile(getFileOutputStream(fileVersionName), coordinateList, onError)
         uploadPathToCloud(fileVersionName, onSucess, onError)

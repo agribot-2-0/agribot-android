@@ -12,6 +12,13 @@ class SharedPreferencesPersistentStorage(context: Context) : PersistentStorage {
         )
     }
 
+    private val robotSerialNumberSP: SharedPreferences by lazy {
+        context.getSharedPreferences(
+            PersistentDataDetails.ROBOT_SERIAL_NUMBER.persistentName,
+            Context.MODE_PRIVATE
+        )
+    }
+
     override fun saveVideoStreamUrl(url: String) {
         videoStreamSP.edit()
             .putString(PersistentDataDetails.VIDEOSTREAM.data, url)
@@ -23,4 +30,18 @@ class SharedPreferencesPersistentStorage(context: Context) : PersistentStorage {
             PersistentDataDetails.VIDEOSTREAM.data,
             PersistentDataDetails.VIDEOSTREAM.defaultValue
         ) ?: ""
+
+    override fun saveRobotSerialNumber(serial: String) {
+        robotSerialNumberSP.edit()
+            .putString(PersistentDataDetails.ROBOT_SERIAL_NUMBER.data, serial)
+            .apply()
+    }
+
+    override fun getRobotSerialNumber(): String =
+        robotSerialNumberSP.getString(
+            PersistentDataDetails.ROBOT_SERIAL_NUMBER.data,
+            PersistentDataDetails.ROBOT_SERIAL_NUMBER.defaultValue
+        ) ?: ""
+
+
 }

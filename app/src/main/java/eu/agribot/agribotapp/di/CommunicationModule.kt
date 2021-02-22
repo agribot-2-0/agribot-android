@@ -99,7 +99,7 @@ val communicationModule = module {
     }
 
     single<CloudDatabase> {
-        FirebaseDatabase()
+        FirebaseDatabase(persistentStorage = get())
     }
 
     single<FirestorageService> {

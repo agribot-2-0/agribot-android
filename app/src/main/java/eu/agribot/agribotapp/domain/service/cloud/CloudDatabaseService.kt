@@ -234,7 +234,7 @@ class CloudDatabaseService(
     }
 
     fun setCurrentTask(actualTask: ActualTask) {
-        cloudDatabase.setCurrenttask(
+        cloudDatabase.setCurrentTask(
             actualTaskCDB = actualTask.toCommunicationModel(),
             onDatabaseError = { cloudStorageErrorHandler.getStorageError(it as Exception) }
         )

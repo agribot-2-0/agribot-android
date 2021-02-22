@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.ui.activity.splash
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent

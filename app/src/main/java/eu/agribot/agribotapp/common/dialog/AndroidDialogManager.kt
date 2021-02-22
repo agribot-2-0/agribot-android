@@ -125,6 +125,17 @@ class AndroidDialogManager(
         }
     }
 
+    override fun showChangeRobotSerialNumberDialog(onSaveRobotSerialNumber: (newUrl: String) -> Unit) {
+        MaterialDialog(context).show {
+            title(R.string.robot_serial_number_dialog_title)
+            message(R.string.type_robot_serial_number_dialog_message)
+            input(waitForPositiveButton = true) { _, text ->
+                onSaveRobotSerialNumber(text.toString())
+            }
+            positiveButton(R.string.done)
+        }
+    }
+
     override fun showNoFoundRfidTagDialog(onRepeatScanConfirmed: () -> Unit) {
         MaterialDialog(context).show {
             title(R.string.dialog_no_found_tags_tittle)

@@ -193,7 +193,9 @@ val domainModule = module {
 
     single {
         AppStorageService(
-            persistentStorage = get()
+            persistentStorage = get(),
+            cloudDatabase = get(),
+            authenticationService = get()
         )
     }
 }

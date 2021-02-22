@@ -35,5 +35,7 @@ interface DialogManager {
 
     fun changeStreamUrlDialog(currentUrl: String, onSaveNewUrlConfirmed: (newUrl: String) -> Unit)
 
+    fun showChangeRobotSerialNumberDialog(onSaveRobotSerialNumber: (newRobotSerialNumber: String) -> Unit)
+
     fun showNoFoundRfidTagDialog(onRepeatScanConfirmed: () -> Unit)
 }

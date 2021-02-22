@@ -1,11 +1,13 @@
 package eu.agribot.agribotapp.domain.service
 
+import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabase
 import eu.agribot.agribotapp.communication.database.firebase.FirebaseService
 import eu.agribot.agribotapp.domain.error.AuthenticationErrorHandler
 
 class AuthenticationService(
     val firebaseService: FirebaseService,
-    val authenticationErrorHandler: AuthenticationErrorHandler
+    val authenticationErrorHandler: AuthenticationErrorHandler,
+    val cloudDatabase: CloudDatabase
 ) {
 
     fun login(
@@ -18,6 +20,15 @@ class AuthenticationService(
             loginFailed(authenticationErrorHandler.getMessageForLoginException(it))
         })
     }
+
+    fun setDefaultUserRole(
+        onError: (error: String) -> Unit
+    ) {
+        cloudDatabase.setUserRole(user = getCurrentUser().userUID, onDatabaseError = {
+            onError(authenticationErrorHandler.getMessageForSignupException(it))
+        })
+    }
+
 
     fun resetEmail(
         userLogin: String,

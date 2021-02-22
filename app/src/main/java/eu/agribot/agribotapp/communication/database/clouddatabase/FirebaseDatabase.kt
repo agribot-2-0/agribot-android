@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore.getInstance
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.ActualTaskCDB
@@ -15,6 +16,7 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskItem
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.ToolDetailsCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.TooltemCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserInfoCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserRoleCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_ROBOTS
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_USER
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_LOCALIZATION_POSE
@@ -471,14 +473,30 @@ class FirebaseDatabase : CloudDatabase {
             .addOnFailureListener(onDatabaseError)
     }
 
+    override fun setUserRole(user: String, onDatabaseError: (Throwable) -> Unit) {
+        Log.e("xd", "user, : " + user)
+        database.collection(COLLECTION_USER)
+            .document(user)
+            .set(UserRoleCDB(role = UserRoleType.USER.name.toLowerCase()))
+            .addOnFailureListener { exception ->
+                Log.e("xd", "failure: " + exception)
+                onDatabaseError(exception)
+            }
+    }
+
     override fun getUsersRobotName(onGetUsserRobotNAmeSucess: () -> Unit) {
         try {
             database.collection("$COLLECTION_USER/$currentFirebaseUser/$COLLECTION_ROBOTS")
                 .get()
                 .addOnSuccessListener { result ->
-                    userRobotName = result.documents[0].id
-                    onGetUsserRobotNAmeSucess.invoke()
+                    if (result != null && !result.isEmpty) {
+                        userRobotName = result.documents[0].id
+                        onGetUsserRobotNAmeSucess.invoke()
+                    }else{
+                        Timber.e("Robot name problem ")
+                    }
                 }
+
         } catch (exception: IOException) {
             Timber.e("Robot name problem %s", exception)
         }

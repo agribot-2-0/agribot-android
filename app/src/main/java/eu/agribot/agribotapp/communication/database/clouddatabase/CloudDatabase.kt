@@ -147,4 +147,6 @@ interface CloudDatabase {
         onGotRobotCoordinate: (RobotLocalizationPoseCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
+
+    fun setUserRole(user: String, onDatabaseError: (Throwable) -> Unit)
 }

@@ -1,7 +1,9 @@
 package eu.agribot.agribotapp.communication.database.firebase
 
 import android.annotation.SuppressLint
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
+import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabase
 import timber.log.Timber
 
 class AndroidFirebaseService(
@@ -30,7 +32,7 @@ class AndroidFirebaseService(
         emailRegister: String,
         passwordRegister: String,
         onSucess: () -> Unit,
-        onError: (Exception) -> Unit
+        onError: (Throwable) -> Unit
 
     ) {
         firebaseAuth.createUserWithEmailAndPassword(
@@ -68,7 +70,9 @@ class AndroidFirebaseService(
         firebaseAuth.currentUser?.let { nonNullUser ->
             nonNullUser.delete()
                 .addOnSuccessListener { onSucess() }
-                .addOnFailureListener { exception -> onError(exception) }
+                .addOnFailureListener {
+                    exception -> onError(exception)
+                }
         } ?: run {
             onSucess()
         }

@@ -16,8 +16,8 @@ class SignupViewModel(
 
 ) : BaseViewModel() {
 
-    val email: MutableLiveData<String> = MutableLiveData()
-    val password: MutableLiveData<String> = MutableLiveData()
+    private val email: MutableLiveData<String> = MutableLiveData()
+    private val password: MutableLiveData<String> = MutableLiveData()
     val showToastEvent: LiveEvent<String> = MutableLiveEvent()
 
     fun onEmailChanged(text: CharSequence) {
@@ -38,7 +38,7 @@ class SignupViewModel(
         performRegister()
     }
 
-    fun performRegister() {
+    private fun performRegister() {
         authenticationService.register(
             email.value.toString(), password.value.toString(),
             registerSucess = this::onRegisterSucess, registerFailed = this::onRegisterError
@@ -46,23 +46,25 @@ class SignupViewModel(
         )
     }
 
-    fun onRegisterError(registerError: String) {
+    private fun onRegisterError(registerError: String) {
         showToastEvent.postValue(registerError)
     }
 
-    fun onRegisterSucess() {
+    private fun onRegisterSucess() {
         showToastEvent.postValue(resourcesProvider.getString(R.string.toast_register_sucess))
         authenticationService.login(
             email.value.toString(), password.value.toString(),
             loginSucess = this::postMainActivityNavigationEvent, loginFailed = this::onLoginFailed
         )
+        authenticationService.setDefaultUserRole(onError = this::onRegisterError)
+
     }
 
-    fun onLoginFailed(LoginError: String) {
+    private fun onLoginFailed(LoginError: String) {
         showToastEvent.postValue(LoginError)
     }
 
-    fun postMainActivityNavigationEvent() {
+    private fun postMainActivityNavigationEvent() {
         navigationEvent.postValue(
             MainActivityNavigationEvent()
         )

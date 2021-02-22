@@ -64,7 +64,8 @@ val domainModule = module {
     single {
         AuthenticationService(
             firebaseService = get(),
-            authenticationErrorHandler = get()
+            authenticationErrorHandler = get(),
+            cloudDatabase = get()
         )
     }
 

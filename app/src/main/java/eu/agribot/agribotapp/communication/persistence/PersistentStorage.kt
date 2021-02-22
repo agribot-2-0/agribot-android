@@ -14,4 +14,3 @@ interface PersistentStorage {
 
     fun getRobotSerialNumber(): String
 }
-

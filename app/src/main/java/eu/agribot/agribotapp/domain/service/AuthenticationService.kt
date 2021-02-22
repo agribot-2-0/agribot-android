@@ -29,7 +29,6 @@ class AuthenticationService(
         })
     }
 
-
     fun resetEmail(
         userLogin: String,
         confirmSending: () -> Unit,

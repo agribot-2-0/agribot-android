@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.domain.service
 
-import android.util.Log
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.communication.database.firestorage.DownloaderPath

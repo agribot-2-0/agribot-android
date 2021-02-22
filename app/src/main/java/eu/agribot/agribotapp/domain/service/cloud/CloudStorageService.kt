@@ -136,7 +136,6 @@ class CloudStorageService(
             downloadZipTiles(onDownloadedMapTiles, onDownloadStart, onDownloadedMapTilesError)
         } else {
             onGotMapTilesAlready.invoke()
-
         }
     }
 

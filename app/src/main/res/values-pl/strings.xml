@@ -284,8 +284,9 @@
     <string name="settiongs_account_description">Zarządzaj swoim kontem</string>
     <string name="settiongs_other_description">Zarządzaj pozostałymi ustawieniami</string>
     <string name="displayed_tool_tag_text">Tag Narzędzia %1S</string>
-    <string name="robot_serial_number_dialog_title">robot_serial_number_dialog_title</string>
-    <string name="type_robot_serial_number_dialog_message">type_robot_serial_number</string>
+    <string name="robot_serial_number_dialog_title">Numer seryjny Agribota</string>
+    <string name="type_robot_serial_number_dialog_message">Podaj numer seryjny Agribota</string>
+    <string name="no_selected_rfid_tag">Nie wybrano tagu rfid narzędzia!</string>
 
 
 </resources>

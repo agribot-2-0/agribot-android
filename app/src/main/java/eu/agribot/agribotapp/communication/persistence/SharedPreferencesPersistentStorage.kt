@@ -42,6 +42,4 @@ class SharedPreferencesPersistentStorage(context: Context) : PersistentStorage {
             PersistentDataDetails.ROBOT_SERIAL_NUMBER.data,
             PersistentDataDetails.ROBOT_SERIAL_NUMBER.defaultValue
         ) ?: ""
-
-
 }

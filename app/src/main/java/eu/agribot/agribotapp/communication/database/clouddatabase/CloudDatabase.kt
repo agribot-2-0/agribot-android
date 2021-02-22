@@ -150,6 +150,5 @@ interface CloudDatabase {
 
     fun setUserRole(user: String, onDatabaseError: (Throwable) -> Unit)
 
-    fun setUserRobotName(userRobotName: String, currentUser : String)
-
+    fun setUserRobotName(userRobotName: String, currentUser: String)
 }

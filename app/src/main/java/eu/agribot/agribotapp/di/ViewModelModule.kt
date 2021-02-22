@@ -100,7 +100,7 @@ val viewModelModule = module {
         SignupViewModel(
             authenticationService = get(),
             resourcesProvider = get { parametersOf(context) },
-            appStorageService = get( )
+            appStorageService = get()
         )
     }
     viewModel {

@@ -1,3 +1,3 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase.model
 
-data class UserRobotNameCDB (val robotName : String = "")
+data class UserRobotNameCDB(val robotName: String = "")

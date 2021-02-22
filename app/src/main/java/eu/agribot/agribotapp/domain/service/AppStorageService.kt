@@ -21,7 +21,10 @@ class AppStorageService(
         persistentStorage.saveRobotSerialNumber(newRobotSerialNumber)
     }
 
-     fun saveRobotSerialNumberOnCloudDatabase() {
-        cloudDatabase.setUserRobotName(persistentStorage.getRobotSerialNumber(),authenticationService.getCurrentUser().userUID)
+    fun saveRobotSerialNumberOnCloudDatabase() {
+        cloudDatabase.setUserRobotName(
+            persistentStorage.getRobotSerialNumber(),
+            authenticationService.getCurrentUser().userUID
+        )
     }
 }

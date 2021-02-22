@@ -1,9 +1,7 @@
 package eu.agribot.agribotapp.communication.database.firebase
 
 import android.annotation.SuppressLint
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
-import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabase
 import timber.log.Timber
 
 class AndroidFirebaseService(

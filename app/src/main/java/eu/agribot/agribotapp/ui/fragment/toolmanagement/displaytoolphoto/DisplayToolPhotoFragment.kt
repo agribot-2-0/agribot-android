@@ -1,7 +1,6 @@
 package eu.agribot.agribotapp.ui.fragment.toolmanagement.displaytoolphoto
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import com.bumptech.glide.Glide
 import eu.agribot.agribotapp.R

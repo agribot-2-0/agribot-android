@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.ui.fragment.toolmanagement.tooltagphoto
 
-import android.util.Log
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.domain.permission.PermissionError

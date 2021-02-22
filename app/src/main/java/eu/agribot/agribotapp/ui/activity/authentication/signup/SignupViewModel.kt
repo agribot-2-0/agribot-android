@@ -39,14 +39,13 @@ class SignupViewModel(
 
     fun onClickButtonRegister() {
         postDialogEvent()
-
     }
 
-    fun onRobotSerialNumberHasChanged(robotSerialNumber: String){
+    fun onRobotSerialNumberHasChanged(robotSerialNumber: String) {
         performRegister(robotSerialNumber)
     }
 
-    private fun postDialogEvent(){
+    private fun postDialogEvent() {
         showDialogEvent.postValue(true)
     }
 
@@ -56,7 +55,6 @@ class SignupViewModel(
             registerSucess = this::onRegisterSucess, registerFailed = this::onRegisterError
         )
         appStorageService.saveRobotSerialNumber(robotSerialNumber)
-
     }
 
     private fun onRegisterError(registerError: String) {
@@ -71,7 +69,6 @@ class SignupViewModel(
         )
         authenticationService.setDefaultUserRole(onError = this::onRegisterError)
         appStorageService.saveRobotSerialNumberOnCloudDatabase()
-
     }
 
     private fun onLoginFailed(LoginError: String) {

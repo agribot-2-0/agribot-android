@@ -486,12 +486,11 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
             }
     }
 
-    override fun setUserRobotName(userRobotName: String, currentUser : String) {
+    override fun setUserRobotName(userRobotName: String, currentUser: String) {
         database.collection("$COLLECTION_USER/")
             .document("$currentUser/$COLLECTION_ROBOTS/$userRobotName")
             .set(UserRobotNameCDB(robotName = userRobotName))
-            .addOnFailureListener { it-> Log.e("xd", "failure: " + it) }
-
+            .addOnFailureListener { it -> Log.e("xd", "failure: " + it) }
     }
 
     override fun getUsersRobotName(onGetUsserRobotNameSucess: () -> Unit) {
@@ -506,11 +505,8 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
                         Timber.e("Robot name problem ")
                     }
                 }
-
         } catch (exception: IOException) {
             Timber.e("Robot name problem %s", exception)
         }
     }
 }
-
-

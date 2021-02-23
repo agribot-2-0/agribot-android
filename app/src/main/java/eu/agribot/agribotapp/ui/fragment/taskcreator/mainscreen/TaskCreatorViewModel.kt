@@ -104,7 +104,8 @@ class TaskCreatorViewModel(
             taskList.value = listOf(
                 TaskListItemViewModel(
                     taskItem.taskName,
-                    taskItem.pathName
+                    taskItem.pathName,
+                    false
                 ), *taskList.value!!.toTypedArray()
             )
         }
@@ -119,7 +120,8 @@ class TaskCreatorViewModel(
         taskList.value = taskList.value!!.minus(
             TaskListItemViewModel(
                 taskList.value?.get(positionOnList)!!.taskName,
-                taskList.value?.get(positionOnList)!!.pathName
+                taskList.value?.get(positionOnList)!!.pathName,
+                false
             )
         )
     }
@@ -165,7 +167,6 @@ class TaskCreatorViewModel(
             setWindParam(it)
             setPressureParam(it)
         }
-
     }
 
     private fun setStartDate(taskDetails: TaskDetails) {

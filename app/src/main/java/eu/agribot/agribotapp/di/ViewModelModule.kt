@@ -155,7 +155,8 @@ val viewModelModule = module {
     viewModel {
         TaskListItemViewModel(
             taskName = get(),
-            pathName = get()
+            pathName = get(),
+            isActiveTask = get()
         )
     }
 

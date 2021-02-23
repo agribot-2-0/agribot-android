@@ -349,7 +349,7 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         onDeleteError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document(persistentStorage.getRobotSerialNumber()+ "/$DOCUMENT_TASKS/$taskID")
+            .document(persistentStorage.getRobotSerialNumber() + "/$DOCUMENT_TASKS/$taskID")
             .delete()
             .addOnSuccessListener {
                 onDeleteSuccess()
@@ -492,14 +492,28 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
             .addOnFailureListener { it -> Log.e("xd", "failure: " + it) }
     }
 
-    override fun getUsersRobotName(onGetUsserRobotNameSucess: () -> Unit) {
+    override fun getCurrentTaskName(onGotCurrentTask: (curerentTask: String) -> Unit) {
+        database.collection(COLLECTION_ROBOTS)
+            .document(persistentStorage.getRobotSerialNumber())
+            .addSnapshotListener { snapshot, databaseException ->
+                if (snapshot != null && snapshot.exists()) {
+                    snapshot.toObject(ActualTaskCDB::class.java)?.let { it ->
+                        if (it.actual_task != "") {
+                            onGotCurrentTask(it.actual_task)
+                        }
+                    }
+                }
+            }
+    }
+
+    override fun getUsersRobotName(onGetUsserRobotNAmeSucess: () -> Unit) {
         try {
             database.collection("$COLLECTION_USER/$currentFirebaseUser/$COLLECTION_ROBOTS")
                 .get()
                 .addOnSuccessListener { result ->
                     if (result != null && !result.isEmpty) {
                         persistentStorage.saveRobotSerialNumber(result.documents[0].id)
-                        onGetUsserRobotNameSucess.invoke()
+                        onGetUsserRobotNAmeSucess.invoke()
                     } else {
                         Timber.e("Robot name problem ")
                     }

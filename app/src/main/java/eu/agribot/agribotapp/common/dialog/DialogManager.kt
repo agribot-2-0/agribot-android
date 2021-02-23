@@ -16,7 +16,9 @@ interface DialogManager {
 
     fun showTaskSelectedDialog(
         taskName: String,
-        onTaskSelectedConfirmed: (taskName: String) -> Unit
+        onTaskSelectedConfirmed: (taskName: String) -> Unit,
+        onNegativeButtonClicked: (refresh: Boolean) -> Unit
+
     )
 
     fun showDeleteTaskDialog(

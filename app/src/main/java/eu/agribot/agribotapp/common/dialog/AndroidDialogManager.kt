@@ -51,13 +51,15 @@ class AndroidDialogManager(
 
     override fun showTaskSelectedDialog(
         taskName: String,
-        onTaskSelectedConfirmed: (taskName: String) -> Unit
+        onTaskSelectedConfirmed: (taskName: String) -> Unit,
+        onNegativeButtonClicked: (refresh: Boolean) -> Unit
+
     ) {
         MaterialDialog(context).show {
             title(R.string.dialog_task_select_tittle)
             message(R.string.dialog_task_select_message)
             positiveButton(R.string.dialog_task_select_confirm) { onTaskSelectedConfirmed(taskName) }
-            negativeButton(R.string.cancel)
+            negativeButton(R.string.cancel) { onNegativeButtonClicked(true) }
         }
     }
 

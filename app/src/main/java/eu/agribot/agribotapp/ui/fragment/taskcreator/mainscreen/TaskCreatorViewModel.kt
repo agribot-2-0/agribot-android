@@ -145,6 +145,7 @@ class TaskCreatorViewModel(
     }
 
     fun onTaskSelected(taskListItemViewModel: TaskListItemViewModel) {
+        currentTask.value = taskListItemViewModel.taskName
         cloudDatabaseService.getTaskDetails(
             taskId = taskListItemViewModel.taskName,
             onGetTaskDetails = this::onGotCurrentTaskDetails,
@@ -154,12 +155,7 @@ class TaskCreatorViewModel(
 
     @SuppressLint("SimpleDateFormat")
     private fun onGotCurrentTaskDetails(taskDetails: TaskDetails) {
-        (if (currentTask.value != null && currentTask.value != TaskDetailsElements.EMPTY_TASK.detailsElement) {
-            setCurrentTask(currentTask.value!!)
-        } else {
-            setEmptyParameter(RobotStateItems.CURRENT_TASK.ID)
-        })
-
+        setCurrentTask(currentTask.value!!)
         taskDetails.let {
             setCurrentPath(it)
             setStartDate(it)
@@ -169,6 +165,7 @@ class TaskCreatorViewModel(
             setWindParam(it)
             setPressureParam(it)
         }
+
     }
 
     private fun setStartDate(taskDetails: TaskDetails) {

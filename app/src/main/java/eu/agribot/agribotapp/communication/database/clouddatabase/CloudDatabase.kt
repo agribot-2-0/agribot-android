@@ -13,6 +13,7 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskItem
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.ToolDetailsCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.TooltemCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserInfoCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserRoleCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.state.RobotEngineCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.state.RobotHydraulicsCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.state.RobotTaskCDB
@@ -153,4 +154,9 @@ interface CloudDatabase {
     fun setUserRobotName(userRobotName: String, currentUser: String)
 
     fun getCurrentTaskName(onGotCurrentTask: (curerentTask: String) -> Unit)
+
+    fun getUserRole(
+        onGotUserRole: (UserRoleCDB) -> Unit,
+        onDatabaseError: (Throwable) -> Unit
+    )
 }

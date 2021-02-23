@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase
 
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore.getInstance
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.ActualTaskCDB
@@ -16,8 +15,8 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskItem
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.ToolDetailsCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.TooltemCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserInfoCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserRobotNameCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserRoleCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserRobotNameCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_ROBOTS
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_USER
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_LOCALIZATION_POSE
@@ -40,7 +39,6 @@ import java.io.IOException
 class FirebaseDatabase(private val persistentStorage: PersistentStorage) : CloudDatabase {
     private val currentFirebaseUser = FirebaseAuth.getInstance().currentUser?.uid.toString()
     private val database = getInstance()
-    // var userRobotName: String? = null
 
     override fun getUserData(
         onDatabaseSucess: (data: UserInfoCDB) -> Unit,
@@ -239,7 +237,7 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_USER)
-            .document("$user/$COLLECTION_ROBOTS/$persistentStorage.getRobotSerialNumber()")
+            .document("$user/$COLLECTION_ROBOTS/" + persistentStorage.getRobotSerialNumber())
             .set(data)
             .addOnSuccessListener {
                 onDatabaseSuccess.invoke()
@@ -254,7 +252,7 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_USER)
-            .document("$currentFirebaseUser/$COLLECTION_ROBOTS/$persistentStorage.getRobotSerialNumber()")
+            .document("$currentFirebaseUser/$COLLECTION_ROBOTS/" + persistentStorage.getRobotSerialNumber())
             .delete()
             .addOnSuccessListener {
                 onDatabaseSuccess.invoke()
@@ -476,6 +474,23 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
             .addOnFailureListener(onDatabaseError)
     }
 
+    override fun getUserRole(
+        onGotUserRole: (UserRoleCDB) -> Unit,
+        onDatabaseError: (Throwable) -> Unit
+    ) {
+        database.collection(COLLECTION_USER)
+            .document(currentFirebaseUser)
+            .get()
+            .addOnSuccessListener { it ->
+                it.toObject(UserRoleCDB::class.java).let { userRole ->
+                    if (userRole != null) {
+                        onGotUserRole(userRole)
+                    }
+                }
+            }
+            .addOnFailureListener(onDatabaseError)
+    }
+
     override fun setUserRole(user: String, onDatabaseError: (Throwable) -> Unit) {
         database.collection(COLLECTION_USER)
             .document(user)
@@ -489,7 +504,6 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         database.collection("$COLLECTION_USER/")
             .document("$currentUser/$COLLECTION_ROBOTS/$userRobotName")
             .set(UserRobotNameCDB(robotName = userRobotName))
-            .addOnFailureListener { it -> Log.e("xd", "failure: " + it) }
     }
 
     override fun getCurrentTaskName(onGotCurrentTask: (curerentTask: String) -> Unit) {

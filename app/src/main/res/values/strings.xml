@@ -308,4 +308,5 @@
     <string name="robot_serial_number_dialog_title">Agribot serial number</string>
     <string name="type_robot_serial_number_dialog_message">Give Agribot Serial Number</string>
     <string name="no_selected_rfid_tag">No rfid tag selected!</string>
+    <string name="overview_mode">Overview</string>
 </resources>

@@ -94,7 +94,9 @@ val domainModule = module {
             manualSteeringJoystickManager = get(),
             writeBluetoothMessageManager = get(),
             receivedBluetoothMessageManager = get(),
-            messageCreator = get()
+            messageCreator = get(),
+            cloudDatabase = get(),
+            cloudStorageErrorHandler = get()
         )
     }
 

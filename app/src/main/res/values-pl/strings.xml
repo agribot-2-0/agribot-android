@@ -257,7 +257,7 @@
     <string name="connecting_with_device">Trwa łączenie z tym urządzeniem…</string>
     <string name="left_right">LEWO / PRAWO</string>
     <string name="front_back">Przód / Tył</string>
-    <string name="wakeup_button">Wake-Up</string>
+    <string name="wakeup_button">Obudź Agribota</string>
 
     <string name="dialog_no_found_tags_tittle">Nie znaleziono tagów</string>
     <string name="dialog_no_found_tags_message">Chcesz powtórzyć skan? </string>
@@ -289,6 +289,7 @@
     <string name="robot_serial_number_dialog_title">Numer seryjny Agribota</string>
     <string name="type_robot_serial_number_dialog_message">Podaj numer seryjny Agribota</string>
     <string name="no_selected_rfid_tag">Nie wybrano tagu rfid narzędzia!</string>
+    <string name="overview_mode">Podgląd stanu Robota</string>
 
 
 </resources>

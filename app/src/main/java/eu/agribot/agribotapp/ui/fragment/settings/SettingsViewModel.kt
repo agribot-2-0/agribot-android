@@ -1,6 +1,7 @@
 package eu.agribot.agribotapp.ui.fragment.settings
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.LiveEvent
@@ -11,15 +12,19 @@ import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.service.AppStorageService
 import eu.agribot.agribotapp.domain.service.AuthenticationService
 import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
+import eu.agribot.agribotapp.domain.service.InternetConnectionService
 import eu.agribot.agribotapp.ui.fragment.settings.recycler.settingsaction.SettingsActionViewModel
 import eu.agribot.agribotapp.ui.fragment.settings.recycler.settingslist.ItemID
 import eu.agribot.agribotapp.ui.fragment.settings.recycler.settingslist.SettingsListViewModel
+import kotlinx.coroutines.launch
 
 class SettingsViewModel(
     private val authenticationService: AuthenticationService,
     private val resourcesProvider: ResourcesProvider,
     private val appStorageService: AppStorageService,
-    private val bluetoothConnectionService: BluetoothConnectionService
+    private val bluetoothConnectionService: BluetoothConnectionService,
+    private val internetConnectionService: InternetConnectionService
+
 ) : BaseViewModel() {
     val settingsList: MutableLiveData<List<SettingsListViewModel>> = MutableLiveData(listOf())
     val settingsActions: MutableLiveData<List<SettingsActionViewModel>> = MutableLiveData(listOf())
@@ -55,6 +60,14 @@ class SettingsViewModel(
         )
     }
 
+    private fun onWakeupButtonCLicked(onError: (error: String) -> Unit) = viewModelScope.launch {
+        internetConnectionService.connectWithAgribot(onConnectionError = onError)
+    }
+
+    private fun onWakeupError(errorMessage: String) {
+        toastEvent.postValue(errorMessage)
+    }
+
     fun onSettingsItemSelected(itemID: Int) {
         when (itemID) {
             ItemID.CONNECTION.ID -> {
@@ -80,6 +93,10 @@ class SettingsViewModel(
             SettingsActionViewModel(
                 ItemID.DISCONNECT_BLUETOOTH_DEVICE.ID,
                 resourcesProvider.getString(R.string.disconnect_button)
+            ),
+            SettingsActionViewModel(
+                ItemID.WAKEUP_MESSAGE.ID,
+                resourcesProvider.getString(R.string.wakeup_button)
             )
         )
     }
@@ -136,6 +153,9 @@ class SettingsViewModel(
             }
             ItemID.CHANGE_URL_STREAM.ID -> {
                 onStreamUrlChange()
+            }
+            ItemID.WAKEUP_MESSAGE.ID -> {
+                onWakeupButtonCLicked(onError = this::onWakeupError)
             }
         }
     }

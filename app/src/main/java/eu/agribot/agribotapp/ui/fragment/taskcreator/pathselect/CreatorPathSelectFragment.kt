@@ -48,7 +48,7 @@ class CreatorPathSelectFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.checkPathSelected()
+        viewModel.isPathSelected()
         viewModel.availableFiles.observe(this::addToAvailableFile)
         viewModel.downloadAvailableFileList()
         viewModel.selectedLayer.observe(this::onGotSelectedLayer)

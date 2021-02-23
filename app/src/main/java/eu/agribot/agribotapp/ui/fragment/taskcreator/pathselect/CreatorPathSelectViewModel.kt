@@ -34,12 +34,10 @@ class CreatorPathSelectViewModel(
     val selectedLayer: MutableLiveData<InputStream> = MutableLiveData()
     val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val cameraPosition: MutableLiveData<LatLng> = MutableLiveData()
-    val currentPathName: MutableLiveData<String> = MutableLiveData()
-    val invalidPathName = "empty_path"
+
 
     private fun getSavedPath() {
-        if (taskCreatorDataManager.taskDetails.path_name != invalidPathName) {
-            currentPathName.value = taskCreatorDataManager.taskDetails.path_name
+        if (taskCreatorDataManager.taskDetails.path_name != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
             downloadSelectedFile(taskCreatorDataManager.taskDetails.path_name)
         }
     }
@@ -100,8 +98,8 @@ class CreatorPathSelectViewModel(
         }
     }
 
-    fun checkPathSelected(): Boolean {
-        return currentPathName.value != null && currentPathName.value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol
+    fun isPathSelected(): Boolean {
+        return taskCreatorDataManager.taskDetails.path_name != PickerSymbols.PICKER_DEFAULT_VALUE.symbol
     }
 
     fun downloadAvailableFileList() {
@@ -140,7 +138,7 @@ class CreatorPathSelectViewModel(
     }
 
     fun onNextButtonClicked() {
-        if (checkPathSelected()) {
+        if (isPathSelected()) {
             navigationEvent.postValue(
                 CreatorTaskTimeNavigationEvent()
             )

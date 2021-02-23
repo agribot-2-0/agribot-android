@@ -270,7 +270,7 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document("$persistentStorage.getRobotSerialNumber()/$DOCUMENT_TASKS/$taskName")
+            .document(persistentStorage.getRobotSerialNumber() + "/$DOCUMENT_TASKS/$taskName")
             .set(newRobotTaskDetailsCDB)
             .addOnFailureListener { exception ->
                 onDatabaseError(exception)
@@ -283,7 +283,7 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document("$persistentStorage.getRobotSerialNumber()/$DOCUMENT_TASKS/$taskID")
+            .document(persistentStorage.getRobotSerialNumber() + "/$DOCUMENT_TASKS/$taskID")
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(Throwable("Could not parse firebase data"))
@@ -349,7 +349,7 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         onDeleteError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document("$persistentStorage.getRobotSerialNumber()/$DOCUMENT_TASKS/$taskID")
+            .document(persistentStorage.getRobotSerialNumber()+ "/$DOCUMENT_TASKS/$taskID")
             .delete()
             .addOnSuccessListener {
                 onDeleteSuccess()
@@ -363,7 +363,7 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         onGetTaskItem: (taskItemCDB: TaskItemCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        database.collection("$COLLECTION_ROBOTS/$persistentStorage.getRobotSerialNumber()/$DOCUMENT_TASKS")
+        database.collection("$COLLECTION_ROBOTS/" + persistentStorage.getRobotSerialNumber() + "/$DOCUMENT_TASKS")
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
@@ -481,7 +481,6 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
             .document(user)
             .set(UserRoleCDB(role = UserRoleType.USER.name.toLowerCase()))
             .addOnFailureListener { exception ->
-                Timber.e("failure: %s", exception)
                 onDatabaseError(exception)
             }
     }

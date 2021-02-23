@@ -84,7 +84,6 @@ class TaskSelectFragment : BaseFragment<TaskSelectViewModel, FragmentTaskSelectB
     private fun onCancelTask(cancelTask: Boolean) {
         if (cancelTask) {
             dialogManager.cancelTaskDialog(viewModel::sendCancelTask)
-            setDefaultItemPosition()
         }
     }
 }

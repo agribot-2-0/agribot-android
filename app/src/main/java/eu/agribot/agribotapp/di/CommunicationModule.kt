@@ -82,13 +82,14 @@ val communicationModule = module {
     single<WriteBluetoothMessageManager> {
         AndroidWriteBluetoothMessageManager(
             bluetoothMessageWriteErrorHandler = get(),
-            bluetoothSocketManager = get()
+            bluetoothSocketManager = get(),
         )
     }
 
     single<FirebaseService> {
         AndroidFirebaseService(
             firebaseAuth = FirebaseAuth.getInstance()
+
         )
     }
 

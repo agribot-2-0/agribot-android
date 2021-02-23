@@ -159,4 +159,6 @@ interface CloudDatabase {
         onGotUserRole: (UserRoleCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
+
+    fun removeUserDocuments()
 }

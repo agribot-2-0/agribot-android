@@ -491,6 +491,12 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
             .addOnFailureListener(onDatabaseError)
     }
 
+    override fun removeUserDocuments() {
+        database.collection(COLLECTION_USER)
+            .document(currentFirebaseUser)
+            .delete()
+    }
+
     override fun setUserRole(user: String, onDatabaseError: (Throwable) -> Unit) {
         database.collection(COLLECTION_USER)
             .document(user)

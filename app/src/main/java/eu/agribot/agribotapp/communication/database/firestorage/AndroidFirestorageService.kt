@@ -1,6 +1,7 @@
 package eu.agribot.agribotapp.communication.database.firestorage
 
 import android.net.Uri
+import android.util.Log
 import com.downloader.Error
 import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
@@ -145,4 +146,25 @@ class AndroidFirestorageService(
                     })
             }
     }
+
+    override fun removeUserFolder() {
+        storage.reference.child("${firebaseService.getCurrentUser()?.uid}/")
+            .listAll()
+            .addOnSuccessListener { items ->
+                items.prefixes.forEach { file ->
+                    Log.e("xd", "file " + file)
+                    file.delete()
+
+                    items.prefixes.forEach { folder ->
+                        Log.e("xd", "folder " + folder)
+                        folder.delete()
+                    }
+                }
+            }
+            .addOnFailureListener { it->
+                Log.e("xd","problem " + it)
+            }
+    }
+
 }
+

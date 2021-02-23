@@ -2,12 +2,14 @@ package eu.agribot.agribotapp.domain.service
 
 import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabase
 import eu.agribot.agribotapp.communication.database.firebase.FirebaseService
+import eu.agribot.agribotapp.communication.database.firestorage.FirestorageService
 import eu.agribot.agribotapp.domain.error.AuthenticationErrorHandler
 
 class AuthenticationService(
     val firebaseService: FirebaseService,
     val authenticationErrorHandler: AuthenticationErrorHandler,
-    val cloudDatabase: CloudDatabase
+    val cloudDatabase: CloudDatabase,
+    val firestorageService: FirestorageService
 ) {
 
     fun login(
@@ -72,6 +74,8 @@ class AuthenticationService(
     }
 
     fun removeUser(onSucessRemove: () -> Unit, onErrorRemove: (error: String) -> Unit) {
+       cloudDatabase.removeUserDocuments()
+        firestorageService.removeUserFolder()
         firebaseService.removeUserFromFirebase(
             onSucessRemove,
             onError = {

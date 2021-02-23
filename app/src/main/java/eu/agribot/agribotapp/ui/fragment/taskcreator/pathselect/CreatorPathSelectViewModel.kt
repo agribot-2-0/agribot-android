@@ -14,6 +14,7 @@ import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
 import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePathProvider
 import eu.agribot.agribotapp.ui.fragment.taskcreator.PathNameFileSymbol
 import eu.agribot.agribotapp.ui.fragment.taskcreator.pathselect.recycler.CloudFileListItemViewModel
+import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.data.PickerSymbols
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
@@ -31,7 +32,6 @@ class CreatorPathSelectViewModel(
     val availableFiles: MutableLiveData<List<CloudFileListItemViewModel>> =
         MutableLiveData(listOf())
     val selectedLayer: MutableLiveData<InputStream> = MutableLiveData()
-    var isPathSelected = false
     val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val cameraPosition: MutableLiveData<LatLng> = MutableLiveData()
     val currentPathName: MutableLiveData<String> = MutableLiveData()
@@ -100,8 +100,8 @@ class CreatorPathSelectViewModel(
         }
     }
 
-    fun checkPathSelected() {
-        isPathSelected = currentPathName.value != null
+    fun checkPathSelected(): Boolean {
+        return currentPathName.value != null && currentPathName.value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol
     }
 
     fun downloadAvailableFileList() {
@@ -118,7 +118,6 @@ class CreatorPathSelectViewModel(
     }
 
     fun downloadSelectedFile(fileName: String) {
-        isPathSelected = true
         taskCreatorDataManager.onUpdatePathName(fileName)
         for (item in fileListPathsList.value!!) {
             if (item.fileName.contains(fileName))
@@ -141,7 +140,7 @@ class CreatorPathSelectViewModel(
     }
 
     fun onNextButtonClicked() {
-        if (isPathSelected) {
+        if (checkPathSelected()) {
             navigationEvent.postValue(
                 CreatorTaskTimeNavigationEvent()
             )

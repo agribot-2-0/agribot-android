@@ -127,6 +127,8 @@
     <string name="toast_remove_account_failed">Podczas usuwania konta wystąpił błąd</string>
     <string name="toast_logout_sucess">Wylogowanie z aplikacji zakończone sukcesem</string>
     <string name="login_As_Text">Zalogowano jako: %1$S</string>
+    <string name="your_robot_text">Numer RSN Twojego robota: %1$S</string>
+
     <string name="settings_remove_your_account">Usuń swoje konto</string>
     <string name="sign_out">Wyloguj</string>
 

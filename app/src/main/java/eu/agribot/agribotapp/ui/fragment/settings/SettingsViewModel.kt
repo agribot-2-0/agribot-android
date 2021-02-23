@@ -108,6 +108,10 @@ class SettingsViewModel(
                 String.format(resourcesProvider.getString(R.string.login_As_Text), user)
             ),
             SettingsActionViewModel(
+                ItemID.ROBOT_RSN.ID,
+                String.format(resourcesProvider.getString(R.string.your_robot_text), appStorageService.getRobotSerialNumber())
+            ),
+            SettingsActionViewModel(
                 ItemID.LOG_OUT.ID,
                 resourcesProvider.getString(R.string.sign_out)
             ),

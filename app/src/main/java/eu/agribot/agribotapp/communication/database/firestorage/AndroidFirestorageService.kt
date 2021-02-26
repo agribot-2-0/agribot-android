@@ -161,10 +161,8 @@ class AndroidFirestorageService(
                     }
                 }
             }
-            .addOnFailureListener { it->
-                Log.e("xd","problem " + it)
+            .addOnFailureListener { it ->
+                Log.e("xd", "problem " + it)
             }
     }
-
 }
-

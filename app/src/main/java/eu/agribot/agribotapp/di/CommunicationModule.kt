@@ -5,10 +5,10 @@ import eu.agribot.agribotapp.communication.bluetooth.basic.connection.AndroidBlu
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.BluetoothConnectionManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.socket.AndroidBluetoothSocketManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.socket.BluetoothSocketManager
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.heartbeat.AndroidHeartbeatManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.heartbeat.HeartbeatManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.AndroidReceivedBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ReceivedBluetoothMessageManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.heartbeat.AndroidHeartbeatManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.AndroidRfidMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.RfidMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.AndroidWriteBluetoothMessageManager
@@ -82,7 +82,7 @@ val communicationModule = module {
     single<WriteBluetoothMessageManager> {
         AndroidWriteBluetoothMessageManager(
             bluetoothMessageWriteErrorHandler = get(),
-            bluetoothSocketManager = get(),
+            bluetoothSocketManager = get()
         )
     }
 

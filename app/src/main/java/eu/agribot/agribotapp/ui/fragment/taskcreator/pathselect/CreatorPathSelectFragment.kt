@@ -54,7 +54,6 @@ class CreatorPathSelectFragment :
         viewModel.selectedLayer.observe(this::onGotSelectedLayer)
         viewModel.toastEvent.observe(this::showToast)
         viewModel.cameraPosition.observe((this::updateMapCameraPosition))
-
         setupRecycler()
 
         val mapFragment =

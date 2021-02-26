@@ -2,12 +2,10 @@ package eu.agribot.agribotapp.communication.database.firebase
 
 import android.annotation.SuppressLint
 import com.google.firebase.auth.FirebaseAuth
-import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabase
-import eu.agribot.agribotapp.communication.database.firestorage.FirestorageService
 import timber.log.Timber
 
 class AndroidFirebaseService(
-    override val firebaseAuth: FirebaseAuth,
+    override val firebaseAuth: FirebaseAuth
 ) : FirebaseService {
 
     @SuppressLint("TimberArgCount")

@@ -44,7 +44,8 @@ class ManualControlCurrentStateFragment :
         super.onViewCreated(view, savedInstanceState)
         setupRecycler()
         observeViewModel()
-        viewModel.setDiagnosticData()
+        viewModel.getDiagnosticData()
+        viewModel.getHydraulicData()
         viewModel.getUserRole()
         playVideoStream(createVideoInfo())
     }

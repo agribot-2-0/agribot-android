@@ -65,6 +65,7 @@ class AndroidFirebaseService(
     }
 
     override fun removeUserFromFirebase(onSucess: () -> Unit, onError: (Exception) -> Unit) {
+
         firebaseAuth.currentUser?.let { nonNullUser ->
             nonNullUser.delete()
                 .addOnSuccessListener { onSucess() }

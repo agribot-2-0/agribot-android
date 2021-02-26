@@ -76,6 +76,7 @@ class AuthenticationService(
     fun removeUser(onSucessRemove: () -> Unit, onErrorRemove: (error: String) -> Unit) {
         cloudDatabase.removeUserDocuments()
         firestorageService.removeUserFolder()
+
         firebaseService.removeUserFromFirebase(
             onSucessRemove,
             onError = {

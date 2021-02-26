@@ -89,7 +89,6 @@ val communicationModule = module {
     single<FirebaseService> {
         AndroidFirebaseService(
             firebaseAuth = FirebaseAuth.getInstance()
-
         )
     }
 

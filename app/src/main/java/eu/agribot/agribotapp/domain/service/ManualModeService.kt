@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.domain.service
 
-import android.util.Log
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ReceivedBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.WriteBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator.BluetoothMessageCreator
@@ -32,7 +31,6 @@ class ManualModeService(
 
     @ExperimentalCoroutinesApi
     private val ttControlFlow = MutableStateFlow<Boolean>(false)
-    var ttControlFlowScope = CoroutineScope(Job() + Dispatchers.IO)
 
     @ExperimentalCoroutinesApi
     private val diagnosticDataFlow = MutableStateFlow<DiagnosticData?>(null)
@@ -71,8 +69,18 @@ class ManualModeService(
     }
 
     @ExperimentalCoroutinesApi
+    private fun getHydraulicData() {
+        hydraulicDataFlowScope.launch {
+            receivedBluetoothMessageManager.observeHydraulicData().collect {
+                if (it != null) {
+                    hydraulicDataFlow.value = it.toDomainModel()
+                }
+            }
+        }
+    }
+
+    @ExperimentalCoroutinesApi
     fun onTTControlEvent(state: Boolean) {
-        Log.e("xd", "state: " + state)
         ttControlFlow.value = state
     }
 
@@ -84,17 +92,6 @@ class ManualModeService(
     fun observeDiagnosticData(): MutableStateFlow<DiagnosticData?> {
         getDiagnosticData()
         return diagnosticDataFlow
-    }
-
-    @ExperimentalCoroutinesApi
-    private fun getHydraulicData() {
-        hydraulicDataFlowScope.launch {
-            receivedBluetoothMessageManager.observeHydraulicData().collect {
-                if (it != null) {
-                    hydraulicDataFlow.value = it.toDomainModel()
-                }
-            }
-        }
     }
 
     @ExperimentalCoroutinesApi

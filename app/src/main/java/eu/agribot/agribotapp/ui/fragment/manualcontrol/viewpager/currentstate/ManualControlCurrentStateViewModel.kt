@@ -14,9 +14,9 @@ import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.RobotStateViewMo
 import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.items.RobotStateItems
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.actionbottombar.ActionID
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.actionbottombar.ManualActionsViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 class ManualControlCurrentStateViewModel(
     private val manualModeService: ManualModeService,
@@ -64,13 +64,7 @@ class ManualControlCurrentStateViewModel(
 
     fun getStreamUrl(): String = appStorageService.getStreamUrl()
 
-    @ExperimentalCoroutinesApi
-    fun setDiagnosticData() {
-        getDiagnosticData()
-        getHydraulicData()
-    }
-
-    private fun getDiagnosticData() = viewModelScope.launch {
+    fun getDiagnosticData() = viewModelScope.launch {
         manualModeService.observeDiagnosticData().collect { diagnosticData ->
             if (diagnosticData != null) {
                 addToDiagnosticDataList(
@@ -163,7 +157,7 @@ class ManualControlCurrentStateViewModel(
         }
     }
 
-    private fun getHydraulicData() = viewModelScope.launch {
+    fun getHydraulicData() = viewModelScope.launch {
         if (manualModeService.observeHydraulicData().value != null) {
             addToDiagnosticDataList(
                 RobotStateViewModel(
@@ -229,10 +223,10 @@ class ManualControlCurrentStateViewModel(
 
     private fun onGotUserRole(userRole: UserRole) {
         when (userRole.role) {
-            UserRoleType.USER.name.toLowerCase() -> {
+            UserRoleType.USER.name.toLowerCase(Locale.ROOT) -> {
                 createActionsList(false)
             }
-            UserRoleType.ADMIN.name.toLowerCase() -> {
+            UserRoleType.ADMIN.name.toLowerCase(Locale.ROOT) -> {
                 createActionsList(true)
             }
         }

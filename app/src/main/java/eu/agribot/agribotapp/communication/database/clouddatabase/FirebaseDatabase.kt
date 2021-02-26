@@ -35,6 +35,7 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.model.state.Ro
 import eu.agribot.agribotapp.communication.persistence.PersistentStorage
 import timber.log.Timber
 import java.io.IOException
+import java.util.Locale
 
 class FirebaseDatabase(private val persistentStorage: PersistentStorage) : CloudDatabase {
     private val currentFirebaseUser = FirebaseAuth.getInstance().currentUser?.uid.toString()
@@ -500,7 +501,7 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
     override fun setUserRole(user: String, onDatabaseError: (Throwable) -> Unit) {
         database.collection(COLLECTION_USER)
             .document(user)
-            .set(UserRoleCDB(role = UserRoleType.USER.name.toLowerCase()))
+            .set(UserRoleCDB(role = UserRoleType.USER.name.toLowerCase(Locale.ROOT)))
             .addOnFailureListener { exception ->
                 onDatabaseError(exception)
             }
@@ -526,14 +527,14 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
             }
     }
 
-    override fun getUsersRobotName(onGetUsserRobotNAmeSucess: () -> Unit) {
+    override fun getUsersRobotName(onGetUserRobotNameSucess: () -> Unit) {
         try {
             database.collection("$COLLECTION_USER/$currentFirebaseUser/$COLLECTION_ROBOTS")
                 .get()
                 .addOnSuccessListener { result ->
                     if (result != null && !result.isEmpty) {
                         persistentStorage.saveRobotSerialNumber(result.documents[0].id)
-                        onGetUsserRobotNAmeSucess.invoke()
+                        onGetUserRobotNameSucess.invoke()
                     } else {
                         Timber.e("Robot name problem ")
                     }

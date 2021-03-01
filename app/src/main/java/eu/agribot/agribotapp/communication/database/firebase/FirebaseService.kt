@@ -19,7 +19,7 @@ interface FirebaseService {
         emailRegister: String,
         passwordRegister: String,
         onSucess: () -> Unit,
-        onError: (Exception) -> Unit
+        onError: (Throwable) -> Unit
     )
 
     fun signOut(signOut: () -> Unit)

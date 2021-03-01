@@ -130,6 +130,8 @@ class CloudStorageService(
         onDownloadedMapTilesError: (error: String) -> Unit
 
     ) {
+        onGotMapTilesAlready.invoke()
+
         if (!isTileFileExistInStorage()) {
             downloadZipTiles(onDownloadedMapTiles, onDownloadStart, onDownloadedMapTilesError)
         } else {

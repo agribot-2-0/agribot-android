@@ -145,4 +145,23 @@ class AndroidFirestorageService(
                     })
             }
     }
+
+    override fun removeUserFolder() {
+        storage.reference.child("${firebaseService.getCurrentUser()?.uid}").listAll()
+            .addOnSuccessListener { item ->
+                item.items.forEach { file ->
+                    file.delete()
+                }
+                item.prefixes.forEach { folder ->
+                    folder.listAll()
+                        .addOnSuccessListener { item ->
+                            item.items.forEach { file ->
+                                file.delete()
+                            }
+                            item.prefixes.forEach { folder -> folder.delete() }
+                        }
+                    folder.delete()
+                }
+            }
+    }
 }

@@ -183,7 +183,6 @@
     <fragment
         android:id="@+id/pathManagementFragment"
         android:name="eu.agribot.agribotapp.ui.fragment.pathmanagement.mainpathscreen.PathManagementFragment"
-        android:label="@string/title_path_management"
         tools:layout="@layout/fragment_path_management" >
         <action
             android:id="@+id/action_pathManagementFragment_to_newPathFragment"

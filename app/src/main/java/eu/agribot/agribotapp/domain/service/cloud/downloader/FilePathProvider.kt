@@ -3,6 +3,7 @@ package eu.agribot.agribotapp.domain.service.cloud.downloader
 import android.content.Context
 import android.os.Environment
 import androidx.core.content.ContextCompat
+import eu.agribot.agribotapp.communication.database.firestorage.DownloaderPath
 import eu.agribot.agribotapp.ui.fragment.taskcreator.URLPath
 import java.io.File
 
@@ -46,7 +47,7 @@ class FilePathProvider(private val context: Context) {
                 context.applicationContext,
                 null
             )[FILE_PATH_ARRAY_POSITION]
-            file.absolutePath + "/user_tool"
+            file.absolutePath + DownloaderPath.TOOL_PATH.filePath
         } else {
             context.applicationContext.filesDir.absolutePath
         }

@@ -53,8 +53,8 @@ class PagerTaskDetailsViewModel(
         })
         taskDetails.let {
             setCurrentPath(it)
-            setStartDate(it)
             setStartTime(it)
+            setStartDate(it)
             setTemperatureParam(it)
             setHumidityParam(it)
             setWindParam(it)
@@ -220,7 +220,7 @@ class PagerTaskDetailsViewModel(
                     RobotStateViewModel(
                         oldAttribute.stateItemId,
                         robotStateParameter.stateValue,
-                        oldAttribute.stateUnit
+                        robotStateParameter.stateUnit
                     )
                 } else {
                     oldAttribute

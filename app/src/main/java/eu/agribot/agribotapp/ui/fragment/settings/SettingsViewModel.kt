@@ -61,6 +61,7 @@ class SettingsViewModel(
     }
 
     private fun onWakeupButtonCLicked(onError: (error: String) -> Unit) = viewModelScope.launch {
+        toastEvent.postValue(resourcesProvider.getString(R.string.wakeup_agribot_message))
         internetConnectionService.connectWithAgribot(onConnectionError = onError)
     }
 
@@ -106,6 +107,10 @@ class SettingsViewModel(
             SettingsActionViewModel(
                 ItemID.LOGIN_AS.ID,
                 String.format(resourcesProvider.getString(R.string.login_As_Text), user)
+            ),
+            SettingsActionViewModel(
+                ItemID.ROBOT_RSN.ID,
+                String.format(resourcesProvider.getString(R.string.your_robot_text), appStorageService.getRobotSerialNumber())
             ),
             SettingsActionViewModel(
                 ItemID.LOG_OUT.ID,

@@ -33,10 +33,11 @@ class ToolControlViewModel(
 ) : BaseViewModel() {
 
     companion object
+
     val frontToolsList: MutableLiveData<List<HitchListItemViewModel>> =
-            MutableLiveData(listOf())
+        MutableLiveData(listOf())
     val backToolsList: MutableLiveData<List<HitchListItemViewModel>> =
-            MutableLiveData(listOf())
+        MutableLiveData(listOf())
     private val activeTpl: MutableLiveData<TplSwitchesActive> = MutableLiveData()
     val switchesActive: MutableLiveData<TplSwitchesState> = MutableLiveData()
 
@@ -46,11 +47,11 @@ class ToolControlViewModel(
         isActivated: Boolean
     ) {
         manualModeService.onSwitchParametrChanged(
-                SwitchSettings(
-                        sliderNumber,
-                        isActivated,
-                        sliderValue
-                )
+            SwitchSettings(
+                sliderNumber,
+                isActivated,
+                sliderValue
+            )
         )
     }
 
@@ -75,68 +76,78 @@ class ToolControlViewModel(
 
     private fun setFrontUpTplActive(activeStatus: Boolean) {
         switchesActive.value = TplSwitchesState(
-                frontUpTplChecked = activeStatus,
-                frontBottomTplChecked = false,
-                rearUpTplChecked = false,
-                rearBottomTplChecked = false
+            frontUpTplChecked = activeStatus,
+            frontBottomTplChecked = false,
+            rearUpTplChecked = false,
+            rearBottomTplChecked = false
         )
     }
 
     private fun setFrontDownTplActive(activeStatus: Boolean) {
         switchesActive.value = TplSwitchesState(
-                frontUpTplChecked = false,
-                frontBottomTplChecked = activeStatus,
-                rearUpTplChecked = false,
-                rearBottomTplChecked = false
+            frontUpTplChecked = false,
+            frontBottomTplChecked = activeStatus,
+            rearUpTplChecked = false,
+            rearBottomTplChecked = false
         )
     }
 
     private fun setBackUpTplActive(activeStatus: Boolean) {
         switchesActive.value = TplSwitchesState(
-                frontUpTplChecked = false,
-                frontBottomTplChecked = false,
-                rearUpTplChecked = activeStatus,
-                rearBottomTplChecked = false
+            frontUpTplChecked = false,
+            frontBottomTplChecked = false,
+            rearUpTplChecked = activeStatus,
+            rearBottomTplChecked = false
         )
     }
 
     private fun setBackDownTplActive(activeStatus: Boolean) {
         switchesActive.value = TplSwitchesState(
-                frontUpTplChecked = false,
-                frontBottomTplChecked = false,
-                rearUpTplChecked = false,
-                rearBottomTplChecked = activeStatus
+            frontUpTplChecked = false,
+            frontBottomTplChecked = false,
+            rearUpTplChecked = false,
+            rearBottomTplChecked = activeStatus
         )
     }
 
     fun onTplParametersChanged(progress: Int) {
         if (activeTpl.value != null) {
             onHitchParametersChanged(
-                    activeTpl.value!!.tuzNumber,
-                    progress,
-                    activeTpl.value!!.isTplActive
+                activeTpl.value!!.tuzNumber,
+                progress,
+                activeTpl.value!!.isTplActive
             )
         }
     }
 
     private fun addToFrontToolsList(toolName: String, switchNumber: Int) {
-        frontToolsList.value = listOf(
+        val isAttributeAlreadyAdded = frontToolsList.value!!.any { arrtibute ->
+            arrtibute.toolName == toolName
+        }
+        if (!isAttributeAlreadyAdded) {
+            frontToolsList.value = listOf(
                 HitchListItemViewModel(
-                        toolName,
-                        switchNumber
+                    toolName,
+                    switchNumber
                 ),
                 *frontToolsList.value!!.toTypedArray()
-        )
+            )
+        }
     }
 
     private fun addToBackToolsList(toolName: String, switchNumber: Int) {
-        backToolsList.value = listOf(
+        val isAttributeAlreadyAdded = backToolsList.value!!.any { arrtibute ->
+            arrtibute.toolName == toolName
+        }
+        if (!isAttributeAlreadyAdded) {
+            backToolsList.value = listOf(
                 HitchListItemViewModel(
-                        toolName,
-                        switchNumber
+                    toolName,
+                    switchNumber
                 ),
                 *backToolsList.value!!.toTypedArray()
-        )
+            )
+        }
     }
 
     fun createToolsLists() {
@@ -147,7 +158,7 @@ class ToolControlViewModel(
     private fun createFrontToolsList() {
         val toolList = mutableListOf(GREEN_TOOL, YELLOW_TOOL, BLUE_TOOL, PTO_TOOL)
         val switchNumber = mutableListOf(
-                FRONT_GREEN, FRONT_YELLOW, FRONT_BLUE, FRONT_PTO
+            FRONT_GREEN, FRONT_YELLOW, FRONT_BLUE, FRONT_PTO
         )
         for (itemPosition in PTO_TOOL_LIST_POSITION..GREEN_TOOL_LIST_POSITION) {
             addToFrontToolsList(toolList[itemPosition], switchNumber[itemPosition])
@@ -157,7 +168,7 @@ class ToolControlViewModel(
     private fun createBackToolsList() {
         val toolList = mutableListOf(GREEN_TOOL, YELLOW_TOOL, BLUE_TOOL, PTO_TOOL)
         val switchNumber = mutableListOf(
-                BACK_GREEN, BACK_YELLOW, BACK_BLUE, BACK_PTO
+            BACK_GREEN, BACK_YELLOW, BACK_BLUE, BACK_PTO
         )
         for (itemPosition in PTO_TOOL_LIST_POSITION..GREEN_TOOL_LIST_POSITION) {
             addToBackToolsList(toolList[itemPosition], switchNumber[itemPosition])

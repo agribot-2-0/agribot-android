@@ -27,6 +27,7 @@ class ToolManagementViewModel(
     val toolList: MutableLiveData<List<ToolListItemViewModel>> = MutableLiveData(listOf())
     val listToolParamList: MutableLiveData<List<ListToolParamViewModel>> = MutableLiveData(listOf())
     val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
+    val toolTag: MutableLiveData<String> = MutableLiveData()
 
     private fun setAllParameters(toolDetails: ToolDetails) {
         toolDetails.let {
@@ -139,7 +140,7 @@ class ToolManagementViewModel(
     fun onToolSelected(toolListItemViewModel: ToolListItemViewModel) {
         cloudDatabaseService.getToolDetails(
             toolName = toolListItemViewModel.toolName,
-            onGetToolDetails = this::onGetToolDetails,
+            onGetToolDetails = this::onGotToolDetails,
             onGetToolDetailsError = this::postToastErrorMessageEvent
         )
         setPhotoEvent.postValue(getToolPhotoPathName(toolListItemViewModel.toolName))
@@ -149,9 +150,13 @@ class ToolManagementViewModel(
         return "/$toolName${FilePath.TOOL_PHOTO_FILE_TYPE}"
     }
 
-    private fun onGetToolDetails(toolDetails: ToolDetails) {
+    private fun onGotToolDetails(toolDetails: ToolDetails) {
         toolDataManager.updateAllToolParameters(toolDetails)
         setAllParameters(toolDetails)
+        toolTag.value = String.format(
+            resourcesProvider.getString(R.string.displayed_tool_tag_text),
+            toolDetails.rfid
+        )
     }
 
     fun onDeleteButtonClicked(positionOnList: Int) {

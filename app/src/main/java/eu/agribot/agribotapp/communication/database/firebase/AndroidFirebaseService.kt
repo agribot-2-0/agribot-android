@@ -30,7 +30,7 @@ class AndroidFirebaseService(
         emailRegister: String,
         passwordRegister: String,
         onSucess: () -> Unit,
-        onError: (Exception) -> Unit
+        onError: (Throwable) -> Unit
 
     ) {
         firebaseAuth.createUserWithEmailAndPassword(
@@ -65,10 +65,13 @@ class AndroidFirebaseService(
     }
 
     override fun removeUserFromFirebase(onSucess: () -> Unit, onError: (Exception) -> Unit) {
+
         firebaseAuth.currentUser?.let { nonNullUser ->
             nonNullUser.delete()
                 .addOnSuccessListener { onSucess() }
-                .addOnFailureListener { exception -> onError(exception) }
+                .addOnFailureListener {
+                    exception -> onError(exception)
+                }
         } ?: run {
             onSucess()
         }

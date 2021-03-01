@@ -5,7 +5,6 @@ import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.MainActivityNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.WelcomeActivityNavigationEvent
-import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.service.AuthenticationService
 import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
@@ -17,8 +16,7 @@ class SplashViewModel(
     private val authenticationService: AuthenticationService,
     private val bluetoothConnectionService: BluetoothConnectionService,
     private val cloudDatabaseService: CloudDatabaseService,
-    private val cloudStorageService: CloudStorageService,
-    private val resourcesProvider: ResourcesProvider
+    private val cloudStorageService: CloudStorageService
 ) : BaseViewModel() {
     val postDialogEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
     val postProgressPlace: MutableLiveEvent<Boolean> = MutableLiveEvent()
@@ -30,7 +28,7 @@ class SplashViewModel(
     }
 
     private fun getUserRobotName() {
-        cloudDatabaseService.getUserRobotName(onGotRobotName = this::onGotRobotName)
+        cloudDatabaseService.getUserRobotName(onGotUserRobotNameSucess = this::onGotRobotName)
     }
 
     private fun onGotRobotName() {

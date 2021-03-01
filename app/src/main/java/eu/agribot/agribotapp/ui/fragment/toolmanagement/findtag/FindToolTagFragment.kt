@@ -52,6 +52,7 @@ class FindToolTagFragment :
         viewModel.isScanOperation.observe(this::getButtonIdNumber)
         viewModel.rfidReceivedData.observe(this::appendRfidTagData)
         viewModel.noRfidTagDataEvent.observe(this::showNoRfidDialogBox)
+        viewModel.toastEvent.observe(this::showToast)
     }
 
     private fun appendRfidTagData(tagData: List<ReceivedRfidDataViewModel>) {

@@ -66,8 +66,7 @@ val viewModelModule = module {
             authenticationService = get(),
             bluetoothConnectionService = get(),
             cloudDatabaseService = get(),
-            cloudStorageService = get(),
-            resourcesProvider = get { parametersOf(context) }
+            cloudStorageService = get()
         )
     }
     viewModel {
@@ -98,7 +97,8 @@ val viewModelModule = module {
     viewModel { (context: Context) ->
         SignupViewModel(
             authenticationService = get(),
-            resourcesProvider = get { parametersOf(context) }
+            resourcesProvider = get { parametersOf(context) },
+            appStorageService = get()
         )
     }
     viewModel {
@@ -154,7 +154,8 @@ val viewModelModule = module {
     viewModel {
         TaskListItemViewModel(
             taskName = get(),
-            pathName = get()
+            pathName = get(),
+            isActiveTask = get()
         )
     }
 

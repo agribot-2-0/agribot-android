@@ -104,7 +104,7 @@ interface CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     )
 
-    fun setCurrenttask(
+    fun setCurrentTask(
         actualTaskCDB: ActualTaskCDB,
         onDatabaseError: (Throwable) -> Unit
     )
@@ -149,8 +149,16 @@ interface CloudDatabase {
         onDatabaseError: (Throwable) -> Unit
     )
 
+    fun setUserRole(user: String, onDatabaseError: (Throwable) -> Unit)
+
+    fun setUserRobotName(userRobotName: String, currentUser: String)
+
+    fun getCurrentTaskName(onGotCurrentTask: (curerentTask: String) -> Unit)
+
     fun getUserRole(
         onGotUserRole: (UserRoleCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     )
+
+    fun removeUserDocuments()
 }

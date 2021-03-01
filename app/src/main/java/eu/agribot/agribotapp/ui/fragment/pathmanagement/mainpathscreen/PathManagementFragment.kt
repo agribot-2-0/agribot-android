@@ -66,6 +66,7 @@ class PathManagementFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.path_management_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -112,7 +113,11 @@ class PathManagementFragment :
     }
 
     private fun showDeletePathDialog(itemPosition: Int) {
-        dialogManager.showDeletePathDialog(itemPosition, viewModel::onDeleteButtonClicked, this::refreshRecycler)
+        dialogManager.showDeletePathDialog(
+            itemPosition,
+            viewModel::onDeleteButtonClicked,
+            this::refreshRecycler
+        )
     }
 
     private fun refreshRecycler() {

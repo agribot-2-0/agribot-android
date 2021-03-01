@@ -16,7 +16,9 @@ interface DialogManager {
 
     fun showTaskSelectedDialog(
         taskName: String,
-        onTaskSelectedConfirmed: (taskName: String) -> Unit
+        onTaskSelectedConfirmed: (taskName: String) -> Unit,
+        onNegativeButtonClicked: (refresh: Boolean) -> Unit
+
     )
 
     fun showDeleteTaskDialog(
@@ -34,6 +36,8 @@ interface DialogManager {
     fun cancelTaskDialog(onCancelTaskConfirmed: () -> Unit)
 
     fun changeStreamUrlDialog(currentUrl: String, onSaveNewUrlConfirmed: (newUrl: String) -> Unit)
+
+    fun showChangeRobotSerialNumberDialog(onSaveRobotSerialNumber: (newRobotSerialNumber: String) -> Unit)
 
     fun showNoFoundRfidTagDialog(onRepeatScanConfirmed: () -> Unit)
 }

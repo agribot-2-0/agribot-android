@@ -47,7 +47,7 @@ class FilePathProvider(private val context: Context) {
                 context.applicationContext,
                 null
             )[FILE_PATH_ARRAY_POSITION]
-            file.absolutePath + DownloaderPath.TOOL_PATCH.filePath
+            file.absolutePath + DownloaderPath.TOOL_PATH.filePath
         } else {
             context.applicationContext.filesDir.absolutePath
         }

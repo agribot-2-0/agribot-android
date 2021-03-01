@@ -16,6 +16,7 @@ import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.actionbottombar.
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.actionbottombar.ManualActionsViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.Locale
 
 class ManualControlCurrentStateViewModel(
@@ -233,5 +234,6 @@ class ManualControlCurrentStateViewModel(
     }
 
     private fun onDatabaseError(error: String) {
+        Timber.e(error)
     }
 }

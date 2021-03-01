@@ -66,8 +66,7 @@ val viewModelModule = module {
             authenticationService = get(),
             bluetoothConnectionService = get(),
             cloudDatabaseService = get(),
-            cloudStorageService = get(),
-            resourcesProvider = get { parametersOf(context) }
+            cloudStorageService = get()
         )
     }
     viewModel {

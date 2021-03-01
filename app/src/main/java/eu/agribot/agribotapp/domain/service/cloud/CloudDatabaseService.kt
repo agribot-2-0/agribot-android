@@ -23,8 +23,8 @@ class CloudDatabaseService(
     val cloudStorageErrorHandler: CloudStorageErrorHandler
 ) {
 
-    fun getUserRobotName(onGotRobotName: () -> Unit) {
-        cloudDatabase.getUsersRobotName(onGotRobotName)
+    fun getUserRobotName(onGotUserRobotNameSucess: () -> Unit) {
+        cloudDatabase.getUsersRobotName(onGotUserRobotNameSucess)
     }
 
     fun getRobotStateEngine(

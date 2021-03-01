@@ -69,7 +69,6 @@ class AuthenticationService(
             userName = firebaseUser?.displayName.toString(),
             userEmail = firebaseUser?.email.toString(),
             userUID = firebaseUser?.uid.toString()
-
         )
     }
 

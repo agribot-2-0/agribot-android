@@ -15,8 +15,8 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.model.TaskItem
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.ToolDetailsCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.TooltemCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserInfoCDB
-import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserRoleCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserRobotNameCDB
+import eu.agribot.agribotapp.communication.database.clouddatabase.model.UserRoleCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_ROBOTS
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabaseCollection.COLLECTION_USER
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.paths.CloudDatabasePaths.DOCUMENT_LOCALIZATION_POSE
@@ -38,7 +38,6 @@ import java.io.IOException
 import java.util.Locale
 
 class FirebaseDatabase(private val persistentStorage: PersistentStorage) : CloudDatabase {
-    private val currentFirebaseUser = FirebaseAuth.getInstance().currentUser?.uid.toString()
     private val database = getInstance()
 
     override fun getUserData(
@@ -46,7 +45,7 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_USER)
-            .document("$currentFirebaseUser/$COLLECTION_ROBOTS/${persistentStorage.getRobotSerialNumber()}")
+            .document(FirebaseAuth.getInstance().currentUser?.uid.toString() + "/$COLLECTION_ROBOTS/${persistentStorage.getRobotSerialNumber()}")
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(Throwable("Could not parse firebase data"))
@@ -253,7 +252,7 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_USER)
-            .document("$currentFirebaseUser/$COLLECTION_ROBOTS/" + persistentStorage.getRobotSerialNumber())
+            .document(FirebaseAuth.getInstance().currentUser?.uid.toString() + "/$COLLECTION_ROBOTS/" + persistentStorage.getRobotSerialNumber())
             .delete()
             .addOnSuccessListener {
                 onDatabaseSuccess.invoke()
@@ -395,7 +394,7 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_USER)
-            .document("$currentFirebaseUser/$DOCUMENT_TOOLS/$toolName")
+            .document(FirebaseAuth.getInstance().currentUser?.uid.toString() + "/$DOCUMENT_TOOLS/$toolName")
             .set(toolDetailsCDB)
             .addOnSuccessListener {
                 onDatabaseSucess()
@@ -409,7 +408,7 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         onGetToolItem: (toolItemCDB: TooltemCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        database.collection("$COLLECTION_USER/$currentFirebaseUser/$DOCUMENT_TOOLS")
+        database.collection("$COLLECTION_USER/" + FirebaseAuth.getInstance().currentUser?.uid.toString() + "/$DOCUMENT_TOOLS")
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
@@ -427,7 +426,7 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         onDeleteSucess: () -> Unit,
         onDeleteError: (Throwable) -> Unit
     ) {
-        database.collection("$COLLECTION_USER/$currentFirebaseUser/$DOCUMENT_TOOLS")
+        database.collection("$COLLECTION_USER/" + FirebaseAuth.getInstance().currentUser?.uid.toString() + "/$DOCUMENT_TOOLS")
             .document(toolName)
             .delete()
             .addOnSuccessListener {
@@ -443,7 +442,7 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         onGetToolDetailsSucess: (toolDetailsCDB: ToolDetailsCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        database.collection("$COLLECTION_USER/$currentFirebaseUser/$DOCUMENT_TOOLS")
+        database.collection("$COLLECTION_USER/" + FirebaseAuth.getInstance().currentUser?.uid.toString() + "/$DOCUMENT_TOOLS")
             .document(toolName)
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
@@ -480,7 +479,7 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_USER)
-            .document(currentFirebaseUser)
+            .document(FirebaseAuth.getInstance().currentUser?.uid.toString())
             .get()
             .addOnSuccessListener { it ->
                 it.toObject(UserRoleCDB::class.java).let { userRole ->
@@ -494,7 +493,7 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
 
     override fun removeUserDocuments() {
         database.collection(COLLECTION_USER)
-            .document(currentFirebaseUser)
+            .document(FirebaseAuth.getInstance().currentUser?.uid.toString())
             .delete()
     }
 
@@ -516,7 +515,7 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
     override fun getCurrentTaskName(onGotCurrentTask: (curerentTask: String) -> Unit) {
         database.collection(COLLECTION_ROBOTS)
             .document(persistentStorage.getRobotSerialNumber())
-            .addSnapshotListener { snapshot, databaseException ->
+            .addSnapshotListener { snapshot, _ ->
                 if (snapshot != null && snapshot.exists()) {
                     snapshot.toObject(ActualTaskCDB::class.java)?.let { it ->
                         if (it.actual_task != "") {
@@ -527,20 +526,20 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
             }
     }
 
-    override fun getUsersRobotName(onGetUserRobotNameSucess: () -> Unit) {
+    override fun getUsersRobotName(onGotUserRobotNameSucess: () -> Unit) {
         try {
-            database.collection("$COLLECTION_USER/$currentFirebaseUser/$COLLECTION_ROBOTS")
+            database.collection("$COLLECTION_USER/" + FirebaseAuth.getInstance().currentUser?.uid.toString() + "/$COLLECTION_ROBOTS")
                 .get()
                 .addOnSuccessListener { result ->
                     if (result != null && !result.isEmpty) {
                         persistentStorage.saveRobotSerialNumber(result.documents[0].id)
-                        onGetUserRobotNameSucess.invoke()
+                        onGotUserRobotNameSucess.invoke()
                     } else {
                         Timber.e("Robot name problem ")
                     }
                 }
         } catch (exception: IOException) {
-            Timber.e("Robot name problem %s", exception)
+            Timber.e(String.format("Robot name problem %s", exception))
         }
     }
 }

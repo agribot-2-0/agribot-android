@@ -311,4 +311,5 @@
     <string name="type_robot_serial_number_dialog_message">Give Agribot Serial Number</string>
     <string name="no_selected_rfid_tag">No rfid tag selected!</string>
     <string name="overview_mode">Overview</string>
+    <string name="wakeup_agribot_message">Wakeup Agribot</string>
 </resources>

@@ -61,6 +61,7 @@ class SettingsViewModel(
     }
 
     private fun onWakeupButtonCLicked(onError: (error: String) -> Unit) = viewModelScope.launch {
+        toastEvent.postValue(resourcesProvider.getString(R.string.wakeup_agribot_message))
         internetConnectionService.connectWithAgribot(onConnectionError = onError)
     }
 

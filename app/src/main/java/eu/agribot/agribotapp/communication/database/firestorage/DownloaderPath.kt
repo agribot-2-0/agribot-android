@@ -5,4 +5,6 @@ enum class DownloaderPath(val filePath: String) {
     LAYER_PATH("/user_path"),
 
     MAP_PATH("/user_map"),
+
+    TOOL_PATCH("/user_tool")
 }

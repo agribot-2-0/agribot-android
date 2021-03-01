@@ -292,6 +292,7 @@
     <string name="type_robot_serial_number_dialog_message">Podaj numer seryjny Agribota</string>
     <string name="no_selected_rfid_tag">Nie wybrano tagu rfid narzędzia!</string>
     <string name="overview_mode">Podgląd stanu Robota</string>
+    <string name="wakeup_agribot_message">Budzenie Agribota</string>
 
 
 </resources>

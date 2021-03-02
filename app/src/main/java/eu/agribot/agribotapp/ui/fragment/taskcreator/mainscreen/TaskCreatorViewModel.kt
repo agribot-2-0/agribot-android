@@ -104,7 +104,8 @@ class TaskCreatorViewModel(
             taskList.value = listOf(
                 TaskListItemViewModel(
                     taskItem.taskName,
-                    taskItem.pathName
+                    taskItem.pathName,
+                    false
                 ), *taskList.value!!.toTypedArray()
             )
         }
@@ -119,7 +120,8 @@ class TaskCreatorViewModel(
         taskList.value = taskList.value!!.minus(
             TaskListItemViewModel(
                 taskList.value?.get(positionOnList)!!.taskName,
-                taskList.value?.get(positionOnList)!!.pathName
+                taskList.value?.get(positionOnList)!!.pathName,
+                false
             )
         )
     }
@@ -145,6 +147,7 @@ class TaskCreatorViewModel(
     }
 
     fun onTaskSelected(taskListItemViewModel: TaskListItemViewModel) {
+        currentTask.value = taskListItemViewModel.taskName
         cloudDatabaseService.getTaskDetails(
             taskId = taskListItemViewModel.taskName,
             onGetTaskDetails = this::onGotCurrentTaskDetails,
@@ -154,12 +157,7 @@ class TaskCreatorViewModel(
 
     @SuppressLint("SimpleDateFormat")
     private fun onGotCurrentTaskDetails(taskDetails: TaskDetails) {
-        (if (currentTask.value != null && currentTask.value != TaskDetailsElements.EMPTY_TASK.detailsElement) {
-            setCurrentTask(currentTask.value!!)
-        } else {
-            setEmptyParameter(RobotStateItems.CURRENT_TASK.ID)
-        })
-
+        setCurrentTask(currentTask.value!!)
         taskDetails.let {
             setCurrentPath(it)
             setStartDate(it)
@@ -334,7 +332,7 @@ class TaskCreatorViewModel(
                     RobotStateViewModel(
                         oldAttribute.stateItemId,
                         robotStateParameter.stateValue,
-                        oldAttribute.stateUnit
+                        robotStateParameter.stateUnit
                     )
                 } else {
                     oldAttribute

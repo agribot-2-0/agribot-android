@@ -19,7 +19,7 @@ class AuthenticationErrorHandler(val resourcesProvider: ResourcesProvider) {
         else -> resourcesProvider.getString(R.string.unkown_error)
     }
 
-    fun getMessageForSignupException(exception: Exception): String = when (exception) {
+    fun getMessageForSignupException(exception: Throwable): String = when (exception) {
         is FirebaseAuthInvalidCredentialsException -> resourcesProvider.getString(R.string.error_signup_data)
         is FirebaseAuthUserCollisionException -> resourcesProvider.getString(R.string.email_already_used)
         is FirebaseNetworkException -> resourcesProvider.getString(R.string.no_internet_connection)

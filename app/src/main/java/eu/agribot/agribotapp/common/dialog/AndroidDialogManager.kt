@@ -51,13 +51,15 @@ class AndroidDialogManager(
 
     override fun showTaskSelectedDialog(
         taskName: String,
-        onTaskSelectedConfirmed: (taskName: String) -> Unit
+        onTaskSelectedConfirmed: (taskName: String) -> Unit,
+        onNegativeButtonClicked: (refresh: Boolean) -> Unit
+
     ) {
         MaterialDialog(context).show {
             title(R.string.dialog_task_select_tittle)
             message(R.string.dialog_task_select_message)
             positiveButton(R.string.dialog_task_select_confirm) { onTaskSelectedConfirmed(taskName) }
-            negativeButton(R.string.cancel)
+            negativeButton(R.string.cancel) { onNegativeButtonClicked(true) }
         }
     }
 
@@ -120,6 +122,17 @@ class AndroidDialogManager(
             message(R.string.actual_url, currentUrl)
             input(waitForPositiveButton = true) { _, text ->
                 onSaveNewUrlConfirmed(text.toString())
+            }
+            positiveButton(R.string.done)
+        }
+    }
+
+    override fun showChangeRobotSerialNumberDialog(onSaveRobotSerialNumber: (newUrl: String) -> Unit) {
+        MaterialDialog(context).show {
+            title(R.string.robot_serial_number_dialog_title)
+            message(R.string.type_robot_serial_number_dialog_message)
+            input(waitForPositiveButton = true) { _, text ->
+                onSaveRobotSerialNumber(text.toString())
             }
             positiveButton(R.string.done)
         }

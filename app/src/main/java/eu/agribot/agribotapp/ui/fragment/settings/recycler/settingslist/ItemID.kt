@@ -21,4 +21,6 @@ enum class ItemID(val ID: Int) {
     CHANGE_URL_STREAM(5),
 
     WAKEUP_MESSAGE(6),
+
+    ROBOT_RSN(7)
 }

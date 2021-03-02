@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseActivity
+import eu.agribot.agribotapp.common.dialog.DialogManager
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.LoginActivityNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.MainActivityNavigationEvent
@@ -12,6 +13,7 @@ import eu.agribot.agribotapp.databinding.ActivitySignupBinding
 import eu.agribot.agribotapp.ui.activity.authentication.login.LoginActivity
 import eu.agribot.agribotapp.ui.activity.authentication.welcome.WelcomeActivity
 import eu.agribot.agribotapp.ui.activity.main.MainActivity
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -21,6 +23,8 @@ class SignupActivity : BaseActivity<SignupViewModel, ActivitySignupBinding>() {
             return Intent(context, SignupActivity::class.java)
         }
     }
+
+    private val dialogManager: DialogManager by inject { parametersOf(this) }
 
     override val layoutResourceId: Int = R.layout.activity_signup
     override val viewModel: SignupViewModel by viewModel { parametersOf(this) }
@@ -32,6 +36,7 @@ class SignupActivity : BaseActivity<SignupViewModel, ActivitySignupBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.showToastEvent.observe(this::showToast)
+        viewModel.showDialogEvent.observe(this::showRobotSerialNumberDialog)
     }
 
     override fun onBackPressed() {
@@ -46,12 +51,16 @@ class SignupActivity : BaseActivity<SignupViewModel, ActivitySignupBinding>() {
         else -> Unit
     }
 
-    fun handleMainActivityNavigationEvent() {
+    private fun showRobotSerialNumberDialog(isSerialNumberAction: Boolean) {
+        dialogManager.showChangeRobotSerialNumberDialog(onSaveRobotSerialNumber = viewModel::onRobotSerialNumberHasChanged)
+    }
+
+    private fun handleMainActivityNavigationEvent() {
         this.finish()
         startActivity(MainActivity.getStartingIntent(this))
     }
 
-    fun handleLoginActivityNavigationEvent() {
+    private fun handleLoginActivityNavigationEvent() {
         this.finish()
         startActivity(LoginActivity.getStartingIntent(this))
     }

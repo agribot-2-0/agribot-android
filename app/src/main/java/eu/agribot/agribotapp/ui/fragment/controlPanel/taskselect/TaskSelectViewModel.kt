@@ -15,6 +15,8 @@ class TaskSelectViewModel(
     val taskList: MutableLiveData<List<TaskListItemViewModel>> = MutableLiveData(listOf())
     val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val cancelTaskButtonEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
+    private val currentTaskName: MutableLiveData<String> = MutableLiveData()
+    val adapterEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
 
     fun onCancelTaskButtonClicked() {
         cancelTaskButtonEvent.postValue(true)
@@ -44,10 +46,23 @@ class TaskSelectViewModel(
             taskList.value = listOf(
                 TaskListItemViewModel(
                     taskItem.taskName,
-                    taskItem.pathName
+                    taskItem.pathName,
+                    checkIsTaskIsActual(taskItem.taskName)
                 ), *taskList.value!!.toTypedArray()
             )
         }
+    }
+
+    fun getCurrentTask() {
+        cloudDatabaseService.getCurrentTaskName(onGotCurrentTaskName = this::setCurrentTaskLiveData)
+    }
+
+    private fun setCurrentTaskLiveData(currentTask: String) {
+        currentTaskName.value = currentTask
+    }
+
+    private fun checkIsTaskIsActual(taskName: String): Boolean {
+        return taskName == currentTaskName.value
     }
 
     private fun postToastErrorMessageEvent(toastText: String) {
@@ -60,5 +75,11 @@ class TaskSelectViewModel(
 
     fun sendCancelTask() {
         cloudDatabaseService.setCurrentTask(ActualTask())
+        taskList.value?.forEach {
+            if (it.isActiveTask) {
+                it.isActiveTask = false
+            }
+        }
+        adapterEvent.postValue(true)
     }
 }

@@ -30,18 +30,31 @@ class TaskSelectFragment : BaseFragment<TaskSelectViewModel, FragmentTaskSelectB
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        observeViewModel()
+        viewModel.getCurrentTask()
         setupRecycler()
         setDefaultItemPosition()
-        viewModel.taskList.observe(this::addTaskItem)
         viewModel.getAvailableTask()
+    }
+
+    private fun observeViewModel() {
+        viewModel.taskList.observe(this::addTaskItem)
         viewModel.toastEvent.observe(this::showToast)
         viewModel.cancelTaskButtonEvent.observe(this::onCancelTask)
+        viewModel.adapterEvent.observe(this::refreshAdapter)
+    }
+
+    private fun refreshAdapter(isRefreshAction: Boolean) {
+        if (isRefreshAction) {
+            setDefaultItemPosition()
+        }
     }
 
     private fun onTaskSelected(taskListItemViewModel: TaskListItemViewModel) {
         dialogManager.showTaskSelectedDialog(
             taskName = taskListItemViewModel.taskName,
-            viewModel::setCurrentTask
+            viewModel::setCurrentTask,
+            this::refreshAdapter
         )
     }
 
@@ -71,7 +84,6 @@ class TaskSelectFragment : BaseFragment<TaskSelectViewModel, FragmentTaskSelectB
     private fun onCancelTask(cancelTask: Boolean) {
         if (cancelTask) {
             dialogManager.cancelTaskDialog(viewModel::sendCancelTask)
-            setDefaultItemPosition()
         }
     }
 }

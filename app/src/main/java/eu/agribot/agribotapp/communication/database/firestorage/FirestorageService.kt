@@ -44,4 +44,6 @@ interface FirestorageService {
         onDownloadSucess: () -> Unit,
         onDownloadError: (error: Throwable) -> Unit
     )
+
+    fun removeUserFolder()
 }

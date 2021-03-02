@@ -4,5 +4,6 @@ import eu.agribot.agribotapp.base.BaseViewModel
 
 data class TaskListItemViewModel(
     val taskName: String,
-    val pathName: String
+    val pathName: String,
+    var isActiveTask: Boolean
 ) : BaseViewModel()

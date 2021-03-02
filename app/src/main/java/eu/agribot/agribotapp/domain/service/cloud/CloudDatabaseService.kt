@@ -3,7 +3,6 @@ package eu.agribot.agribotapp.domain.service.cloud
 import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabase
 import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
 import eu.agribot.agribotapp.domain.model.cdb.ActualTask
-import eu.agribot.agribotapp.domain.model.cdb.EngineHealth
 import eu.agribot.agribotapp.domain.model.cdb.RobotLocalizationPose
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationHumidity
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationPressure
@@ -24,22 +23,8 @@ class CloudDatabaseService(
     val cloudStorageErrorHandler: CloudStorageErrorHandler
 ) {
 
-    fun getUserRobotName(onGotRobotName: () -> Unit) {
-        cloudDatabase.getUsersRobotName(onGotRobotName)
-    }
-
-    fun getEngineHealth(
-        onSuccess: (EngineHealth) -> Unit,
-        onError: (error: String) -> Unit
-    ) {
-        cloudDatabase.getEngineHealthData(
-            onDatabaseSuccess = {
-                onSuccess(it.toDomainModel())
-            },
-            onDatabaseError = {
-                onError(it.message!!)
-            }
-        )
+    fun getUserRobotName(onGotUserRobotNameSucess: () -> Unit) {
+        cloudDatabase.getUsersRobotName(onGotUserRobotNameSucess)
     }
 
     fun getRobotStateEngine(
@@ -234,7 +219,7 @@ class CloudDatabaseService(
     }
 
     fun setCurrentTask(actualTask: ActualTask) {
-        cloudDatabase.setCurrenttask(
+        cloudDatabase.setCurrentTask(
             actualTaskCDB = actualTask.toCommunicationModel(),
             onDatabaseError = { cloudStorageErrorHandler.getStorageError(it as Exception) }
         )
@@ -301,5 +286,9 @@ class CloudDatabaseService(
                 )
             },
             onDatabaseError = { onGetToolDetailsError(cloudStorageErrorHandler.getStorageError(it)) })
+    }
+
+    fun getCurrentTaskName(onGotCurrentTaskName: (taskName: String) -> Unit) {
+        cloudDatabase.getCurrentTaskName(onGotCurrentTaskName)
     }
 }

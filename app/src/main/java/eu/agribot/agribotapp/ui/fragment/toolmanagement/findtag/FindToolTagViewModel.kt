@@ -23,7 +23,7 @@ class FindToolTagViewModel(
     private val resourcesProvider: ResourcesProvider,
     private val toolManagementService: ToolManagementService
 ) : BaseViewModel() {
-
+    val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
     private val selectedRfidTagList: MutableLiveData<List<Int>> = MutableLiveData(listOf())
     val rfidReceivedData: MutableLiveData<List<ReceivedRfidDataViewModel>> =
         MutableLiveData(listOf())
@@ -31,7 +31,11 @@ class FindToolTagViewModel(
     val isScanOperation: MutableLiveEvent<Boolean> = MutableLiveEvent()
 
     fun onNextButtonClicked() {
-        navigationEvent.postValue(ShotToolPhotoNavigationEvent())
+        if (toolDataManager.rfid != toolDataManager.noRfidTag) {
+            navigationEvent.postValue(ShotToolPhotoNavigationEvent())
+        } else {
+            toastEvent.postValue(resourcesProvider.getString(R.string.no_selected_rfid_tag))
+        }
     }
 
     @ExperimentalCoroutinesApi

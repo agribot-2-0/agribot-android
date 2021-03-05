@@ -9,7 +9,7 @@ data class DiagnosticBluetoothDataBD(
     val fuelLevel: Int = -1,
     val fuelTemperature: Int = -1,
     val batteryVoltage: String = "",
-    val hydraulicOilTemperature : String = ""
+    val hydraulicOilTemperature: String = ""
 
 ) : BaseBluetoothDataModel<DiagnosticData> {
     override fun toDomainModel() = DiagnosticData(

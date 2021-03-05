@@ -29,7 +29,6 @@ import eu.agribot.agribotapp.communication.bluetooth.const.BluetoothAdressCodeMo
 import eu.agribot.agribotapp.communication.bluetooth.const.PersistentConnectionParameters
 import eu.agribot.agribotapp.communication.bluetooth.error.message.receive.BluetoothMessageReceiveErrorHandler
 import eu.agribot.agribotapp.communication.bluetooth.model.fromcommunication.DiagnosticBluetoothDataBD
-import eu.agribot.agribotapp.communication.bluetooth.model.fromcommunication.HydraulicBluetoothDataBD
 import eu.agribot.agribotapp.communication.bluetooth.model.fromcommunication.RfidDataBD
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -46,7 +45,6 @@ class AndroidReceivedBluetoothMessageManager(
 
     @ExperimentalCoroutinesApi
     private val agribotDiagnosticDataFlow = MutableStateFlow<DiagnosticBluetoothDataBD?>(null)
-    private val agribotHydraulicDataFlow = MutableStateFlow<HydraulicBluetoothDataBD?>(null)
 
     @ExperimentalCoroutinesApi
     private val rfidDataBDFlow = MutableStateFlow<RfidDataBD?>(null)
@@ -69,10 +67,6 @@ class AndroidReceivedBluetoothMessageManager(
     @ExperimentalCoroutinesApi
     override fun observeDiagnosticData(): MutableStateFlow<DiagnosticBluetoothDataBD?> {
         return agribotDiagnosticDataFlow
-    }
-
-    override fun observeHydraulicData(): MutableStateFlow<HydraulicBluetoothDataBD?> {
-        return agribotHydraulicDataFlow
     }
 
     @ExperimentalCoroutinesApi
@@ -146,7 +140,7 @@ class AndroidReceivedBluetoothMessageManager(
     }
 
     @ExperimentalCoroutinesApi
-    override fun observe(): MutableStateFlow<RfidDataBD?> {
+    override fun observeRfidData(): MutableStateFlow<RfidDataBD?> {
         return rfidDataBDFlow
     }
 

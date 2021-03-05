@@ -7,17 +7,11 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabase
 import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
 import eu.agribot.agribotapp.domain.model.fromdomain.SwitchSettings
 import eu.agribot.agribotapp.domain.model.todomain.DiagnosticData
-import eu.agribot.agribotapp.domain.model.todomain.HydraulicData
 import eu.agribot.agribotapp.domain.model.todomain.UserRole
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.ManualSteeringJoystickManager
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 class ManualModeService(
     private val manualSteeringJoystickManager: ManualSteeringJoystickManager,
@@ -35,10 +29,6 @@ class ManualModeService(
     @ExperimentalCoroutinesApi
     private val diagnosticDataFlow = MutableStateFlow<DiagnosticData?>(null)
     var diagnosticDataFlowScope = CoroutineScope(Job() + Dispatchers.IO)
-
-    @ExperimentalCoroutinesApi
-    private val hydraulicDataFlow = MutableStateFlow<HydraulicData?>(null)
-    var hydraulicDataFlowScope = CoroutineScope(Job() + Dispatchers.IO)
 
     fun onManualSteeringJoystickParametrChanged(joystickAngle: Int, joystickStrength: Int) {
         manualSteeringJoystickManager.onJoystickConfigurationChanged(
@@ -69,17 +59,6 @@ class ManualModeService(
     }
 
     @ExperimentalCoroutinesApi
-    private fun getHydraulicData() {
-        hydraulicDataFlowScope.launch {
-            receivedBluetoothMessageManager.observeHydraulicData().collect {
-                if (it != null) {
-                    hydraulicDataFlow.value = it.toDomainModel()
-                }
-            }
-        }
-    }
-
-    @ExperimentalCoroutinesApi
     fun onTTControlEvent(state: Boolean) {
         ttControlFlow.value = state
     }
@@ -92,12 +71,6 @@ class ManualModeService(
     fun observeDiagnosticData(): MutableStateFlow<DiagnosticData?> {
         getDiagnosticData()
         return diagnosticDataFlow
-    }
-
-    @ExperimentalCoroutinesApi
-    fun observeHydraulicData(): MutableStateFlow<HydraulicData?> {
-        getHydraulicData()
-        return hydraulicDataFlow
     }
 
     fun getUserRole(

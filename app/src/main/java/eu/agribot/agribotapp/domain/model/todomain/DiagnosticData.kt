@@ -6,5 +6,7 @@ data class DiagnosticData(
     val engineFuelRate: String,
     val fuelLevel: Int,
     val fuelTemperature: Int,
-    val batteryVoltage: String
+    val batteryVoltage: String,
+    val hydraulicOilTemperature : String
+
 )

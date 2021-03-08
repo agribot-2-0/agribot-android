@@ -52,6 +52,10 @@ class PathManagementService(
         )
     }
 
+    fun setEmptyLayerPath() {
+        layerStream = null
+    }
+
     fun getSelectedPathLayer(): InputStream? {
         return layerStream
     }

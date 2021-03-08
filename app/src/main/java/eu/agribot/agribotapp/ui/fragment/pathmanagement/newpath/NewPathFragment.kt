@@ -79,6 +79,10 @@ class NewPathFragment :
         pathStream.close()
     }
 
+    private fun logcamPosition(cameraPositionModel: CameraPositionModel) {
+        moveCameraToSelectedPosition(cameraPositionModel)
+    }
+
     private fun setSelectedLayer(mapStream: InputStream) {
         try {
             alreadyCreatedPath = KmlLayer(googleMapFragment!!, mapStream, requireContext())
@@ -165,7 +169,7 @@ class NewPathFragment :
         googleMapFragment!!.setOnCameraMoveListener(this)
         addTileOverlay()
         viewModel.getPath()
-        viewModel.cameraPosition.observe(this::moveCameraToSelectedPosition)
+        viewModel.cameraPosition.observe(this::logcamPosition)
     }
 
     override fun onCameraIdle() {

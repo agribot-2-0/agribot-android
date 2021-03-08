@@ -214,13 +214,19 @@ class NewPathViewModel(
     }
 
     private fun onGotAgribotPosition(robotLocalizationPose: RobotLocalizationPose) {
-        cameraPosition.value = CameraPositionModel(
-            LatLng(
-                robotLocalizationPose.latitude,
-                robotLocalizationPose.longitude
-            ), true
-        )
+        setAgribotPosition(robotLocalizationPose)
     }
+
+    private fun setAgribotPosition(robotLocalizationPose: RobotLocalizationPose) =
+        viewModelScope.launch {
+            delay(SET_CAMERA_POSITION_DELAY)
+            cameraPosition.value = CameraPositionModel(
+                LatLng(
+                    robotLocalizationPose.latitude,
+                    robotLocalizationPose.longitude
+                ), true
+            )
+        }
 
     private fun openSelectedLayer() = viewModelScope.launch {
         delay(initializationDelay)
@@ -253,5 +259,9 @@ class NewPathViewModel(
 
     private fun onGetKmlUnsuccess() {
         toastMessage.postValue(resourcesProvider.getString(R.string.loading_path_problem))
+    }
+
+    companion object {
+        const val SET_CAMERA_POSITION_DELAY = 50L
     }
 }

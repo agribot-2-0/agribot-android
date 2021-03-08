@@ -7,6 +7,7 @@ import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.model.UserRoleType
+import eu.agribot.agribotapp.domain.model.todomain.DiagnosticData
 import eu.agribot.agribotapp.domain.model.todomain.UserRole
 import eu.agribot.agribotapp.domain.service.AppStorageService
 import eu.agribot.agribotapp.domain.service.ManualModeService
@@ -14,6 +15,7 @@ import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.RobotStateViewMo
 import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.items.RobotStateItems
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.actionbottombar.ActionID
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.actionbottombar.ManualActionsViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -65,6 +67,7 @@ class ManualControlCurrentStateViewModel(
 
     fun getStreamUrl(): String = appStorageService.getStreamUrl()
 
+    @ExperimentalCoroutinesApi
     fun getDiagnosticData() = viewModelScope.launch {
         manualModeService.observeDiagnosticData().collect { diagnosticData ->
             if (diagnosticData != null) {
@@ -103,10 +106,10 @@ class ManualControlCurrentStateViewModel(
                             RobotStateItems.FUEL_LEVEL.ID,
                             diagnosticData.fuelLevel.toString(),
                             resourcesProvider.getString(R.string.percent)
-
                         )
                     )
                 }
+
                 if (diagnosticData.engineFuelRate != INVALID_TEXT_VALUE) {
                     addToDiagnosticDataList(
                         RobotStateViewModel(
@@ -120,7 +123,7 @@ class ManualControlCurrentStateViewModel(
                 if (diagnosticData.hydraulicOilTemperature != INVALID_TEXT_VALUE) {
                     addToDiagnosticDataList(
                         RobotStateViewModel(
-                            RobotStateItems.MANUAL_CONTROL_FUEL_RATE.ID,
+                            RobotStateItems.MANUAL_CONTROL_OIL_TEMPERATURE.ID,
                             diagnosticData.hydraulicOilTemperature,
                             resourcesProvider.getString(R.string.celcius_degree)
 
@@ -151,14 +154,15 @@ class ManualControlCurrentStateViewModel(
                             resourcesProvider.getString(R.string.percent)
                         )
                     )
+
                     addToDiagnosticDataList(
                         RobotStateViewModel(
-                            RobotStateItems.MANUAL_CONTROL_FUEL_LEVEL.ID,
+                            RobotStateItems.FUEL_LEVEL.ID,
                             noData,
                             resourcesProvider.getString(R.string.percent)
-
                         )
                     )
+
                     addToDiagnosticDataList(
                         RobotStateViewModel(
                             RobotStateItems.MANUAL_CONTROL_FUEL_RATE.ID,
@@ -179,6 +183,19 @@ class ManualControlCurrentStateViewModel(
         }
     }
 
+    private fun logDiagnosticData(diagnosticData: DiagnosticData) {
+        Timber.d(
+            String.format(
+                resourcesProvider.getString(R.string.diagnostic_data_log),
+                diagnosticData.torqueOfEngine.toString(),
+                diagnosticData.engineFuelRate,
+                diagnosticData.fuelLevel.toString(),
+                diagnosticData.engineRotationsPerMinute.toString(),
+                diagnosticData.batteryVoltage,
+                diagnosticData.hydraulicOilTemperature
+            )
+        )
+    }
 
     private fun addToDiagnosticDataList(diagnosticData: RobotStateViewModel) {
         val isAttributeAlreadyAdded = diagnosticDataList.value!!.any { arrtibute ->

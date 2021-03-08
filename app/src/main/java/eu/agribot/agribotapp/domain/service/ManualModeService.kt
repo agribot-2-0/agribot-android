@@ -9,9 +9,14 @@ import eu.agribot.agribotapp.domain.model.fromdomain.SwitchSettings
 import eu.agribot.agribotapp.domain.model.todomain.DiagnosticData
 import eu.agribot.agribotapp.domain.model.todomain.UserRole
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.ManualSteeringJoystickManager
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class ManualModeService(
     private val manualSteeringJoystickManager: ManualSteeringJoystickManager,
@@ -63,6 +68,7 @@ class ManualModeService(
         ttControlFlow.value = state
     }
 
+    @ExperimentalCoroutinesApi
     fun observeTTControlFlow(): MutableStateFlow<Boolean> {
         return ttControlFlow
     }

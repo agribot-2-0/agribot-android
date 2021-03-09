@@ -34,6 +34,7 @@ import eu.agribot.agribotapp.communication.restapi.RestApiService
 import eu.agribot.agribotapp.communication.tcpconnection.AndroidTcpConnectionManager
 import eu.agribot.agribotapp.communication.tcpconnection.TcpConnectionManager
 import org.koin.android.ext.koin.androidContext
+import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
 /**
@@ -125,6 +126,11 @@ val communicationModule = module {
 
     single<RestApiService>
     {
-        AndroidRestApiService()
+        AndroidRestApiService(
+            resourcesProvider = get {
+            parametersOf(
+                androidContext()
+            )
+        })
     }
 }

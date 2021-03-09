@@ -2,7 +2,7 @@ package eu.agribot.agribotapp.communication.restapi
 
 import com.google.gson.annotations.SerializedName
 
-class WeatherResponse {
+class WeatherResponseModelApiData {
 
     @SerializedName("lat")
     var lat: Float = 0.toFloat()
@@ -16,16 +16,18 @@ class WeatherResponse {
     @SerializedName("timezone_offset")
     var timezoneOffset: Int = 0
 
+    @SerializedName("hourly")
+    var hourly: ArrayList<Hourly>? = null
 
     class Hourly {
         @SerializedName("dt")
         var dt: Int = 0
 
         @SerializedName("temp")
-        var temp: Double? = 0.0
+        var temp: Double = 0.0
 
         @SerializedName("feels_like")
-        var feelsLike: Double? = 0.0
+        var feelsLike: Double = 0.0
 
         @SerializedName("pressure")
         var pressure: Int = 0
@@ -34,10 +36,10 @@ class WeatherResponse {
         var humidity: Int = 0
 
         @SerializedName("dew_point")
-        var dewPoint: Double? = 0.0
+        var dewPoint: Double = 0.0
 
         @SerializedName("uvi")
-        var uvi: Int = 0
+        var uvi: Double = 0.0
 
         @SerializedName("clouds")
         var clouds: Int = 0
@@ -46,16 +48,16 @@ class WeatherResponse {
         var visibility: Int = 0
 
         @SerializedName("wind_speed")
-        var windSpeed: Double? = 0.0
+        var windSpeed: Double = 0.0
 
         @SerializedName("wind_deg")
         var windDeg: Int = 0
 
         @SerializedName("weather")
-        var weather: Weather? = null
+        var weather: ArrayList<Weather?>? = null
 
         @SerializedName("pop")
-        var pop: Int = 0
+        var pop: Double = 0.0
     }
 
 

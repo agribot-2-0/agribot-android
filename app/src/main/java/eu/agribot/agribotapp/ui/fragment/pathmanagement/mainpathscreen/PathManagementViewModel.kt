@@ -67,6 +67,7 @@ class PathManagementViewModel(
     }
 
     fun postNewPathNavigationEvent() {
+        pathManagementService.setEmptyLayerPath()
         navigationEvent.postValue(PathNameNavigationEvent())
     }
 

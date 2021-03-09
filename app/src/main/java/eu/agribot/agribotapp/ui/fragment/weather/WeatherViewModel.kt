@@ -7,13 +7,15 @@ import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationHumidity
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationPressure
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationTemperature
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationWind
+import eu.agribot.agribotapp.domain.service.WeatherService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.RobotStateViewModel
 import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.items.RobotStateItems
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TaskDetailsElements
 
 class WeatherViewModel(
-    private val cloudDatabaseService: CloudDatabaseService
+    private val cloudDatabaseService: CloudDatabaseService,
+    private val weatherService: WeatherService
 ) : BaseViewModel() {
     val weatherState: MutableLiveData<List<RobotStateViewModel>> = MutableLiveData(listOf())
     val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
@@ -175,6 +177,10 @@ class WeatherViewModel(
                 }
             }
         }
+    }
+
+    fun getData(){
+        weatherService.getCurrentData()
     }
 
     companion object {

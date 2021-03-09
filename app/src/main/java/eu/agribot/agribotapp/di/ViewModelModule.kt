@@ -118,7 +118,8 @@ val viewModelModule = module {
     }
     viewModel {
         WeatherViewModel(
-            cloudDatabaseService = get()
+            cloudDatabaseService = get(),
+            weatherService = get()
         )
     }
 

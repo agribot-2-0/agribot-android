@@ -29,6 +29,8 @@ import eu.agribot.agribotapp.communication.database.firestorage.AndroidFirestora
 import eu.agribot.agribotapp.communication.database.firestorage.FirestorageService
 import eu.agribot.agribotapp.communication.persistence.PersistentStorage
 import eu.agribot.agribotapp.communication.persistence.SharedPreferencesPersistentStorage
+import eu.agribot.agribotapp.communication.restapi.AndroidRestApiService
+import eu.agribot.agribotapp.communication.restapi.RestApiService
 import eu.agribot.agribotapp.communication.tcpconnection.AndroidTcpConnectionManager
 import eu.agribot.agribotapp.communication.tcpconnection.TcpConnectionManager
 import org.koin.android.ext.koin.androidContext
@@ -118,5 +120,11 @@ val communicationModule = module {
     single<BluetoothConnectionErrorHandler>
     {
         AndroidBluetoothConnectionErrorHandler()
+
+    }
+
+    single<RestApiService>
+    {
+        AndroidRestApiService()
     }
 }

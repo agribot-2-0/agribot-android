@@ -26,6 +26,7 @@ class WeatherFragment : BaseFragment<WeatherViewModel, FragmentWeatherBinding>()
         viewModel.prepareWeatherStationData()
         setupRecycler()
         viewModel.weatherState.observe(this:: addToWeatherList)
+        viewModel.getData()
     }
 
     private fun setupRecycler() {

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparameters.recycler.ReceivedRfidDataViewModel" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="100dp"
+        android:layout_height="180dp"
+        android:layout_margin="@dimen/margin_medium"
+        android:orientation="vertical"
+        app:cardCornerRadius="22dp"
+        app:cardElevation="@dimen/margin_small">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/forecastDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:text="15:00"/>
+
+            <ImageView
+                android:id="@+id/forecastImage"
+                android:layout_width="72dp"
+                android:layout_height="64dp"
+                android:src="@drawable/ic_cloudy_weather" />
+
+            <TextView
+                android:id="@+id/forecastTemperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:text="10*C"/>
+
+            <TextView
+                android:id="@+id/forecastHumidity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="@dimen/text_size_small"
+                android:text="Humidity : 10%"/>
+
+            <TextView
+                android:id="@+id/forecastWind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_small"
+    android:textStyle="bold"
+                android:text="Wind : 10km/h"/>
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

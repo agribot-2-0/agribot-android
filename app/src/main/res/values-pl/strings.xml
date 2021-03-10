@@ -294,5 +294,8 @@
     <string name="overview_mode">Podgląd stanu Robota</string>
     <string name="wakeup_agribot_message">Budzenie Agribota</string>
 
+    <string name="humidity_percent_value">Wilgotność %1S %2S</string>
+    <string name="wind_value">Wiatr %1S km/h</string>
+
 
 </resources>

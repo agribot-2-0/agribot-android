@@ -192,9 +192,14 @@ val domainModule = module {
         )
     }
 
-    single{
+    single {
         WeatherService(
-            restApiService = get()
+            restApiService = get(),
+            resourcesProvider = get {
+                parametersOf(
+                    androidContext()
+                )
+            }
         )
     }
 }

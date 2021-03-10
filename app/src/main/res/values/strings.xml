@@ -48,7 +48,6 @@
     <string name="dialog_path_delete_confirm">Delete!</string>
 
 
-
     <!-- Tool Control -->
     <string name="pto">PTO</string>
     <string name="no_rpm">0 rpm</string>
@@ -293,7 +292,6 @@
     <string name="save_changes">Save Changes</string>
 
 
-
     <string name="current_task">Current Task :</string>
     <string name="current_path">Current Path:</string>
     <string name="robot_state">Robot Status</string>
@@ -312,4 +310,9 @@
     <string name="no_selected_rfid_tag">No rfid tag selected!</string>
     <string name="overview_mode">Overview</string>
     <string name="wakeup_agribot_message">Wakeup Agribot</string>
+
+    <string name="celcius_degree_value" translatable="false">%1S °C</string>
+    <string name="humidity_percent_value">Humidity %1S %2S </string>
+    <string name="wind_value">Wind %1S km/h</string>
+
 </resources>

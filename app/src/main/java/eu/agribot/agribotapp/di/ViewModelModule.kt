@@ -116,8 +116,9 @@ val viewModelModule = module {
             resourcesProvider = get { parametersOf(context) }
         )
     }
-    viewModel {
+    viewModel {(context: Context) ->
         WeatherViewModel(
+            resourcesProvider = get { parametersOf(context) },
             cloudDatabaseService = get(),
             weatherService = get()
         )

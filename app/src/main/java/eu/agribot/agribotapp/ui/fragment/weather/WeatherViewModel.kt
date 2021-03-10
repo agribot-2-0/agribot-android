@@ -1,8 +1,10 @@
 package eu.agribot.agribotapp.ui.fragment.weather
 
 import androidx.lifecycle.MutableLiveData
+import com.github.mikephil.charting.data.Entry
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
+import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationHumidity
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationPressure
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationTemperature
@@ -12,13 +14,24 @@ import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.RobotStateViewModel
 import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.items.RobotStateItems
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TaskDetailsElements
+import eu.agribot.agribotapp.ui.fragment.weather.forecast.ForecastWeatherViewModel
 
 class WeatherViewModel(
     private val cloudDatabaseService: CloudDatabaseService,
-    private val weatherService: WeatherService
+    private val weatherService: WeatherService,
+    private val resourcesProvider: ResourcesProvider
 ) : BaseViewModel() {
+    val currentTemperature: MutableLiveData<String> = MutableLiveData()
+    val currentWind: MutableLiveData<String> = MutableLiveData()
+    val currentHumidity: MutableLiveData<String> = MutableLiveData()
+    val currentWeatherImage: MutableLiveData<String> = MutableLiveData()
+    val temperatureValuesChartList: MutableLiveData<List<Entry>> = MutableLiveData(listOf())
+    val isChartValuesReady : MutableLiveEvent<Boolean> = MutableLiveEvent()
+
     val weatherState: MutableLiveData<List<RobotStateViewModel>> = MutableLiveData(listOf())
     val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
+    val forecastWeatherItems: MutableLiveData<List<ForecastWeatherViewModel>> =
+        MutableLiveData(listOf())
 
     fun prepareWeatherStationData() {
         setEmptyWeatherList()
@@ -179,11 +192,31 @@ class WeatherViewModel(
         }
     }
 
-    fun getData(){
-        weatherService.getCurrentData()
+    fun getData() {
+        weatherService.getCurrentData(onGotForecastWeatherData = this::addForecastItemsToList)
+    }
+
+    private fun addForecastItemsToList(items: List<ForecastWeatherViewModel>) {
+        forecastWeatherItems.value = items.slice(1 until items.size)
+        currentTemperature.value = items[CURRENT_FORCAST_WEATHER_INDEX].temperature
+        currentHumidity.value = items[CURRENT_FORCAST_WEATHER_INDEX].humidity
+        currentWind.value = items[CURRENT_FORCAST_WEATHER_INDEX].wind
+        currentWeatherImage.value = items[CURRENT_FORCAST_WEATHER_INDEX].imageNumber
+            temperatureValuesChartList.value =
+                items.map { Entry(it.timestamp.toFloat(), chainToDigit(it.temperature)) }
+        isChartValuesReady.postValue(true)
+    }
+
+    private fun chainToDigit(data: String): Float {
+        return try {
+            data.toFloat()
+        } catch (exception: NumberFormatException) {
+            return 0F
+        }
     }
 
     companion object {
         const val DEFAULT_WEATHER_VALUE = "*"
+        const val CURRENT_FORCAST_WEATHER_INDEX = 0
     }
 }

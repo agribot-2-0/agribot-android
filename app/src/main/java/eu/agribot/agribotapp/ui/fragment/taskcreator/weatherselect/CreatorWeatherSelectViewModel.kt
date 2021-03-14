@@ -39,27 +39,27 @@ class CreatorWeatherSelectViewModel(
         val weatherParametrList =
             listOf(
                 TemperatureItem(
-                    presetValue = taskCreatorDataManager.taskDetails.temperature_value,
-                    isSwitchActive = (taskCreatorDataManager.taskDetails.temperature_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
-                    presetCondition = taskCreatorDataManager.taskDetails.temperature_condition
+                    presetValue = taskCreatorDataManager.taskDetails.temperatureValue,
+                    isSwitchActive = (taskCreatorDataManager.taskDetails.temperatureValue != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
+                    presetCondition = taskCreatorDataManager.taskDetails.temperatureCondition
                 ).toWeatherDataModel(),
 
                 PressureItem(
-                    presetValue = taskCreatorDataManager.taskDetails.pressure_value,
-                    isSwitchActive = (taskCreatorDataManager.taskDetails.pressure_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
-                    presetCondition = taskCreatorDataManager.taskDetails.pressure_condition
+                    presetValue = taskCreatorDataManager.taskDetails.pressureValue,
+                    isSwitchActive = (taskCreatorDataManager.taskDetails.pressureValue != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
+                    presetCondition = taskCreatorDataManager.taskDetails.pressureCondition
                 ).toWeatherDataModel(),
 
                 WindItem(
-                    presetValue = taskCreatorDataManager.taskDetails.wind_value,
-                    isSwitchActive = (taskCreatorDataManager.taskDetails.wind_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
-                    presetCondition = taskCreatorDataManager.taskDetails.wind_condition
+                    presetValue = taskCreatorDataManager.taskDetails.windValue,
+                    isSwitchActive = (taskCreatorDataManager.taskDetails.windValue != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
+                    presetCondition = taskCreatorDataManager.taskDetails.windCondition
                 ).toWeatherDataModel(),
 
                 HumidityItem(
-                    presetValue = taskCreatorDataManager.taskDetails.humidity_value,
-                    isSwitchActive = (taskCreatorDataManager.taskDetails.humidity_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
-                    presetCondition = taskCreatorDataManager.taskDetails.humidity_condition
+                    presetValue = taskCreatorDataManager.taskDetails.humidityValue,
+                    isSwitchActive = (taskCreatorDataManager.taskDetails.humidityValue != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
+                    presetCondition = taskCreatorDataManager.taskDetails.humidityCondition
                 ).toWeatherDataModel()
             )
 
@@ -171,7 +171,7 @@ class CreatorWeatherSelectViewModel(
     private fun onGetRobotHumiditySucess(weatherStationHumidity: RobotWeatherStationHumidity) {
         addToWeatherAttributeList(
             HumidityItem(
-                isSwitchActive = (taskCreatorDataManager.getTaskParemeters().humidity_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
+                isSwitchActive = (taskCreatorDataManager.getTaskParemeters().humidityValue != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
                 currentValue = weatherStationHumidity.value.toString() + WeatherUnit.HUMIDITY_UNIT.unit
             ).toWeatherDataModel()
         )
@@ -187,7 +187,7 @@ class CreatorWeatherSelectViewModel(
     private fun onGetRobotTemperatureSucess(weatherStationTemperature: RobotWeatherStationTemperature) {
         addToWeatherAttributeList(
             TemperatureItem(
-                isSwitchActive = (taskCreatorDataManager.getTaskParemeters().temperature_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
+                isSwitchActive = (taskCreatorDataManager.getTaskParemeters().temperatureValue != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
                 currentValue = weatherStationTemperature.value.toString() + WeatherUnit.TEMPERATURE_UNIT.unit
             ).toWeatherDataModel()
         )
@@ -203,8 +203,8 @@ class CreatorWeatherSelectViewModel(
     private fun onGetRobotWindSucess(weatherStationWind: RobotWeatherStationWind) {
         addToWeatherAttributeList(
             WindItem(
-                isSwitchActive = (taskCreatorDataManager.getTaskParemeters().wind_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
-                currentValue = weatherStationWind.speed_value.toString() + WeatherUnit.WIND_UNIT.unit
+                isSwitchActive = (taskCreatorDataManager.getTaskParemeters().windValue != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
+                currentValue = weatherStationWind.speedValue.toString() + WeatherUnit.WIND_UNIT.unit
             ).toWeatherDataModel()
         )
     }
@@ -219,7 +219,7 @@ class CreatorWeatherSelectViewModel(
     private fun onGetRobotPressureSucess(weatherStationPressure: RobotWeatherStationPressure) {
         addToWeatherAttributeList(
             PressureItem(
-                isSwitchActive = (taskCreatorDataManager.getTaskParemeters().pressure_value != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
+                isSwitchActive = (taskCreatorDataManager.getTaskParemeters().pressureValue != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
                 currentValue = weatherStationPressure.value.toString() + WeatherUnit.PRESSURE_UNIT.unit
             ).toWeatherDataModel()
         )

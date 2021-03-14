@@ -26,7 +26,6 @@ class ForecastWeatherAdapter(fragment: Fragment) :
             }.dispatchUpdatesTo(this)
         }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForecastWeatherViewHolder =
         ForecastWeatherViewHolder(
             ListItemWeatherForecastBinding.inflate(

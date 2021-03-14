@@ -19,6 +19,13 @@ class SharedPreferencesPersistentStorage(context: Context) : PersistentStorage {
         )
     }
 
+    private val forecastDataSP: SharedPreferences by lazy {
+        context.getSharedPreferences(
+            PersistentDataDetails.ROBOT_SERIAL_NUMBER.persistentName,
+            Context.MODE_PRIVATE
+        )
+    }
+
     override fun saveVideoStreamUrl(url: String) {
         videoStreamSP.edit()
             .putString(PersistentDataDetails.VIDEOSTREAM.data, url)
@@ -41,5 +48,17 @@ class SharedPreferencesPersistentStorage(context: Context) : PersistentStorage {
         robotSerialNumberSP.getString(
             PersistentDataDetails.ROBOT_SERIAL_NUMBER.data,
             PersistentDataDetails.ROBOT_SERIAL_NUMBER.defaultValue
+        ) ?: ""
+
+    override fun saveWeatherForecast(serial: String) {
+        forecastDataSP.edit()
+            .putString(PersistentDataDetails.FORECAST_WEATHER_DATA.data, serial)
+            .apply()
+    }
+
+    override fun getWeatherForecast(): String =
+        forecastDataSP.getString(
+            PersistentDataDetails.FORECAST_WEATHER_DATA.data,
+            PersistentDataDetails.FORECAST_WEATHER_DATA.defaultValue
         ) ?: ""
 }

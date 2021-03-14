@@ -4,5 +4,7 @@ import eu.agribot.agribotapp.communication.restapi.models.WeatherResponseModelAp
 
 interface RestApiService {
 
-    fun getCurrentData(onGotWeatherResponse: (weatherResponse: WeatherResponseModelApiData) -> Unit)
+    fun getOpenWeatherDataFromApi(onGotWeatherResponse: (weatherResponse: WeatherResponseModelApiData) -> Unit)
+
+    fun getOpenWeatherDataFromPersistent(): WeatherResponseModelApiData?
 }

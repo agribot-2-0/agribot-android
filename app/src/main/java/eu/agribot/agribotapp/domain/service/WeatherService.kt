@@ -1,54 +1,89 @@
 package eu.agribot.agribotapp.domain.service
 
+import android.annotation.SuppressLint
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.communication.restapi.RestApiService
 import eu.agribot.agribotapp.ui.fragment.controlPanel.viewpager.taskdetails.TimePatterns
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.data.WeatherUnit
 import eu.agribot.agribotapp.ui.fragment.weather.forecast.ForecastWeatherViewModel
+import eu.agribot.agribotapp.ui.fragment.weather.forecast.chart.ChartWeatherData
+import java.sql.Timestamp
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 class WeatherService(
     private val restApiService: RestApiService,
     private val resourcesProvider: ResourcesProvider
 ) {
 
-    fun getCurrentData(onGotForecastWeatherData: (forecastList: List<ForecastWeatherViewModel>) -> Unit) {
-        restApiService.getCurrentData(onGotWeatherResponse = { weatherItem ->
-            weatherItem.hourly?.let {
-                onGotForecastWeatherData(it.map { weatherParam ->
-                    ForecastWeatherViewModel(
-                        timestamp = weatherParam.dt,
-                        date = getDateFromTimestamp(weatherParam.dt)!!,
-                        temperature = String.format(
-                            resourcesProvider.getString(R.string.celcius_degree_value),
-                            weatherParam.temp.toString()
-                        ),
-                        imageNumber = weatherParam.weather?.get(0)?.icon!!,
-                        humidity = String.format(
-                            resourcesProvider.getString(R.string.humidity_percent_value),
-                            weatherParam.humidity, WeatherUnit.HUMIDITY_UNIT.unit
-                        ),
-                        wind = String.format(
-                            resourcesProvider.getString(R.string.wind_value),
-                            weatherParam.windSpeed.toString()
+    fun getForecastData(
+        onGotForecastWeatherData: (forecastList: List<ForecastWeatherViewModel>) -> Unit,
+        onGotChartValuesData: (List<ChartWeatherData>) -> Unit
+    ) {
+        if (isWeatherActually()) {
+            restApiService.getOpenWeatherDataFromPersistent()
+        } else {
+            restApiService.getOpenWeatherDataFromApi(onGotWeatherResponse = { weatherItem ->
+                weatherItem.hourly?.let {
+                    onGotChartValuesData(it.map {
+                        ChartWeatherData(
+                            timestamp = it.dt.toFloat(),
+                            temperatureValue = it.temp.toFloat()
                         )
-                    )
-                })
-            }
-        })
+                    })
+                    onGotForecastWeatherData(it.map { weatherParam ->
+                        ForecastWeatherViewModel(
+                            timestamp = weatherParam.dt,
+                            date = getDateFromTimestamp(weatherParam.dt)!!,
+                            temperature = String.format(
+                                resourcesProvider.getString(R.string.celcius_degree_value),
+                                weatherParam.temp.toString()
+                            ),
+                            imageNumber = weatherParam.weather?.get(0)?.icon!!,
+                            humidity = String.format(
+                                resourcesProvider.getString(R.string.humidity_percent_value),
+                                weatherParam.humidity, WeatherUnit.HUMIDITY_UNIT.unit
+                            ),
+                            wind = String.format(
+                                resourcesProvider.getString(R.string.wind_value),
+                                weatherParam.windSpeed.toString()
+                            )
+                        )
+                    })
+                }
+            })
+        }
     }
 
+    private fun isWeatherActually(): Boolean {
+        return if (restApiService.getOpenWeatherDataFromPersistent() != null) {
+            val weatherDataCalendarDate = Calendar.getInstance(Locale.ENGLISH)
+            weatherDataCalendarDate.timeInMillis =
+                restApiService.getOpenWeatherDataFromPersistent()?.hourly!![0].dt.toLong()
+            val currentCalendarDate = Calendar.getInstance(Locale.ENGLISH)
+            currentCalendarDate.timeInMillis = Timestamp(System.currentTimeMillis()).time
+            weatherDataCalendarDate.add(Calendar.HOUR, TWO_HOURS)
+            weatherDataCalendarDate.after(currentCalendarDate)
+        } else false
+    }
+
+    @SuppressLint("SimpleDateFormat")
     private fun getDateFromTimestamp(s: Int): String? {
         return try {
             val sdf = SimpleDateFormat(TimePatterns.DATE_TIME.pattern)
-            val netDate = Date(s * 1000L)
+            val netDate = Date(s * TIMESTAMP_CONV_VALUE)
             sdf.format(netDate)
         } catch (e: Exception) {
             e.toString()
         }
     }
 
+    companion object {
+        const val TWO_HOURS = 2
 
+        const val TIMESTAMP_CONV_VALUE = 1000L
+    }
 }

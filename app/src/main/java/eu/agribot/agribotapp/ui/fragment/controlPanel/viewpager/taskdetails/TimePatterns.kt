@@ -6,5 +6,5 @@ enum class TimePatterns(val pattern: String) {
 
     TIME("HH:mm"),
 
-    DATE_TIME("dd/MM/yyyy\nHH:mm" )
+    DATE_TIME("dd/MM/yyyy\nHH:mm")
 }

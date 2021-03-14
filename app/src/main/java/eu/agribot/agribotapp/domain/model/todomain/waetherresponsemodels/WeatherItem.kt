@@ -10,5 +10,3 @@ data class WeatherItem(
 
     val icon: String?
 )
-
-

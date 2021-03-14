@@ -30,8 +30,4 @@ data class WeatherResponseModelApiData(
         timezoneOffset = this.timezoneOffset,
         hourly = this.hourly?.map { it.toDomainModel() }
     )
-
 }
-
-
-

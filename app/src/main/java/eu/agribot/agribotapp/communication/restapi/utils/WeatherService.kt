@@ -13,7 +13,6 @@ interface WeatherService {
         @Query("lon") lon: String,
         @Query("exclude") exclude: String,
         @Query("APPID") app_id: String,
-        @Query("units") units: String,
-
-        ): Call<WeatherResponseModelApiData>
+        @Query("units") units: String
+    ): Call<WeatherResponseModelApiData>
 }

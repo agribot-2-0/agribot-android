@@ -121,16 +121,17 @@ val communicationModule = module {
     single<BluetoothConnectionErrorHandler>
     {
         AndroidBluetoothConnectionErrorHandler()
-
     }
 
     single<RestApiService>
     {
         AndroidRestApiService(
             resourcesProvider = get {
-            parametersOf(
-                androidContext()
-            )
-        })
+                parametersOf(
+                    androidContext()
+                )
+            },
+            persistentStorage = get()
+        )
     }
 }

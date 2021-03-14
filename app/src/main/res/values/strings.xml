@@ -312,7 +312,9 @@
     <string name="wakeup_agribot_message">Wakeup Agribot</string>
 
     <string name="celcius_degree_value" translatable="false">%1S °C</string>
-    <string name="humidity_percent_value">Humidity %1S %2S </string>
-    <string name="wind_value">Wind %1S km/h</string>
+    <string name="humidity_percent_value">Humidity %1$S%2$S </string>
+    <string name="wind_value">Wind %1$S km/h</string>
+    <string name="pressure_value">Pressure %1$S hPA</string>
+
 
 </resources>

@@ -67,6 +67,51 @@ class ManualControlCurrentStateViewModel(
 
     fun getStreamUrl(): String = appStorageService.getStreamUrl()
 
+    fun prepareDiagnosticData() {
+        diagnosticDataList.value = listOf(
+            RobotStateViewModel(
+                RobotStateItems.MANUAL_CONTROL_VOLTAGE.ID,
+                resourcesProvider.getString(R.string.no_data_status),
+                resourcesProvider.getString(R.string.volt)
+            ),
+
+            RobotStateViewModel(
+                RobotStateItems.MANUAL_CONTROL_ENGINE_ROTATIONS.ID,
+                resourcesProvider.getString(R.string.no_data_status),
+                resourcesProvider.getString(R.string.rpm)
+
+            ),
+            RobotStateViewModel(
+                RobotStateItems.MANUAL_CONTROL_ENGINE_TORQUE.ID,
+                resourcesProvider.getString(R.string.no_data_status),
+                resourcesProvider.getString(R.string.percent)
+            ),
+
+            RobotStateViewModel(
+                RobotStateItems.MANUAL_CONTROL_FUEL_LEVEL.ID,
+                resourcesProvider.getString(R.string.no_data_status),
+                resourcesProvider.getString(R.string.percent)
+
+            ),
+            RobotStateViewModel(
+                RobotStateItems.MANUAL_CONTROL_FUEL_RATE.ID,
+                resourcesProvider.getString(R.string.no_data_status),
+                resourcesProvider.getString(R.string.liter_per_hour)
+
+            ),
+            RobotStateViewModel(
+                RobotStateItems.MANUAL_CONTROL_OIL_TEMPERATURE.ID,
+                resourcesProvider.getString(R.string.no_data_status),
+                resourcesProvider.getString(R.string.celcius_degree)
+
+            ), RobotStateViewModel(
+                RobotStateItems.MANUAL_CONTROL_OIL_TEMPERATURE.ID,
+                resourcesProvider.getString(R.string.no_data_status),
+                resourcesProvider.getString(R.string.celcius_degree)
+            )
+        )
+    }
+
     @ExperimentalCoroutinesApi
     fun getDiagnosticData() = viewModelScope.launch {
         manualModeService.observeDiagnosticData().collect { diagnosticData ->

@@ -18,8 +18,8 @@ data class ToolDetails(
         blue = this.blue,
         yellow = this.yellow,
         green = this.green,
-        tpl_up_down = this.tplUpDown,
-        tpl_push_pull = this.tplPushPull,
-        v_max = this.vMax
+        tplUpDown = this.tplUpDown,
+        tplPushPull = this.tplPushPull,
+        vMax = this.vMax
     )
 }

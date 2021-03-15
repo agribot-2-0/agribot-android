@@ -85,8 +85,8 @@ class WeatherViewModel(
         this.robotWeatherStationWind.value = String.format(
             resourcesProvider.getString(R.string.wind_value),
             approximateParam(
-                robotWeatherStationWind.speed_value,
-                robotWeatherStationWind.speed_accuracy
+                robotWeatherStationWind.speedValue,
+                robotWeatherStationWind.speedAccuracy
             )
         )
     }

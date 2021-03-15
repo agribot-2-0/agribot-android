@@ -19,21 +19,21 @@ class TaskCreatorDataManager {
     fun updateAllTaskParametrs(taskDetail: TaskDetails) {
         taskDetails =
             taskDetails.copy(
-                path_name = taskDetail.path_name,
-                start_time = taskDetail.start_time,
-                start_time_estimated = taskDetail.start_time_estimated,
-                temperature_value = taskDetail.temperature_value,
-                temperature_condition = taskDetail.temperature_condition,
-                pressure_value = taskDetail.pressure_value,
-                pressure_condition = taskDetail.pressure_condition,
-                humidity_value = taskDetail.humidity_value,
-                humidity_condition = taskDetail.humidity_condition,
-                wind_value = taskDetail.wind_value,
-                wind_condition = taskDetail.wind_condition,
-                front_tool_name = taskDetail.front_tool_name,
-                front_tool_mode = taskDetail.front_tool_mode,
-                back_tool_name = taskDetail.back_tool_name,
-                back_tool_mode = taskDetail.back_tool_mode
+                pathName = taskDetail.pathName,
+                startTime = taskDetail.startTime,
+                startTimeEstimated = taskDetail.startTimeEstimated,
+                temperatureValue = taskDetail.temperatureValue,
+                temperatureCondition = taskDetail.temperatureCondition,
+                pressureValue = taskDetail.pressureValue,
+                pressureCondition = taskDetail.pressureCondition,
+                humidityValue = taskDetail.humidityValue,
+                humidityCondition = taskDetail.humidityCondition,
+                windValue = taskDetail.windValue,
+                windCondition = taskDetail.windCondition,
+                frontToolName = taskDetail.frontToolName,
+                frontToolMode = taskDetail.frontToolMode,
+                backToolName = taskDetail.backToolName,
+                backToolMode = taskDetail.backToolMode
             )
     }
 
@@ -42,69 +42,69 @@ class TaskCreatorDataManager {
     }
 
     fun onUpdatePathName(pathName: String) {
-        taskDetails = taskDetails.copy(path_name = pathName)
+        taskDetails = taskDetails.copy(pathName = pathName)
     }
 
     fun onUpdateTimestamp(timestamp: Timestamp) {
-        taskDetails = taskDetails.copy(start_time = timestamp)
+        taskDetails = taskDetails.copy(startTime = timestamp)
     }
 
     fun onUpdateTemperatureValue(temperatureValue: String?) {
         if (temperatureValue != null) {
-            taskDetails = taskDetails.copy(temperature_value = temperatureValue)
+            taskDetails = taskDetails.copy(temperatureValue = temperatureValue)
         }
     }
 
     fun onUpdateTemperatureCondition(temperatureCondition: String) {
-        taskDetails = taskDetails.copy(temperature_condition = temperatureCondition)
+        taskDetails = taskDetails.copy(temperatureCondition = temperatureCondition)
     }
 
     fun onUpdatewindValue(windValue: String?) {
         if (windValue != null) {
-            taskDetails = taskDetails.copy(wind_value = windValue)
+            taskDetails = taskDetails.copy(windValue = windValue)
         }
     }
 
     fun onUpdatewindCondition(windCondition: String) {
-        taskDetails = taskDetails.copy(wind_condition = windCondition)
+        taskDetails = taskDetails.copy(windCondition = windCondition)
     }
 
     fun onUpdatehumidityValue(humidityValue: String?) {
         if (humidityValue != null)
-            taskDetails = taskDetails.copy(humidity_value = humidityValue)
+            taskDetails = taskDetails.copy(humidityValue = humidityValue)
     }
 
     fun onUpdatehumidityCondition(humidityCondition: String) {
-        taskDetails = taskDetails.copy(humidity_condition = humidityCondition)
+        taskDetails = taskDetails.copy(humidityCondition = humidityCondition)
     }
 
     fun onUpdatepressureValue(pressureValue: String?) {
         if (pressureValue != null) {
-            taskDetails = taskDetails.copy(pressure_value = pressureValue)
+            taskDetails = taskDetails.copy(pressureValue = pressureValue)
         }
     }
 
     fun onUpdatepressureCondition(pressureCondition: String) {
-        taskDetails = taskDetails.copy(pressure_condition = pressureCondition)
+        taskDetails = taskDetails.copy(pressureCondition = pressureCondition)
     }
 
     fun onUpdateTimestampEstimated(timestampEstimated: Boolean) {
-        taskDetails = taskDetails.copy(start_time_estimated = timestampEstimated)
+        taskDetails = taskDetails.copy(startTimeEstimated = timestampEstimated)
     }
 
     fun onUpdateFrontToolName(toolName: String) {
-        taskDetails = taskDetails.copy(front_tool_name = toolName)
+        taskDetails = taskDetails.copy(frontToolName = toolName)
     }
 
     fun onUpdateFrontToolMode(toolMode: Int) {
-        taskDetails = taskDetails.copy(front_tool_mode = toolMode)
+        taskDetails = taskDetails.copy(frontToolMode = toolMode)
     }
 
     fun onUpdateBackToolName(toolName: String) {
-        taskDetails = taskDetails.copy(back_tool_name = toolName)
+        taskDetails = taskDetails.copy(backToolName = toolName)
     }
 
     fun onUpdateBackToolMode(toolMode: Int) {
-        taskDetails = taskDetails.copy(back_tool_mode = toolMode)
+        taskDetails = taskDetails.copy(backToolMode = toolMode)
     }
 }

@@ -42,21 +42,21 @@ class CreatorToolSelectViewModel(
         cloudDatabaseService.addTask(
             taskName = taskCreatorDataManager.getTaskParemeters().task_name,
             newRobotTaskDetails = NewRobotTaskDetails(
-                path_name = formatPathName(taskCreatorDataManager.getTaskParemeters().path_name),
-                start_time = if (taskCreatorDataManager.getTaskParemeters().start_time_estimated) {
+                path_name = formatPathName(taskCreatorDataManager.getTaskParemeters().pathName),
+                start_time = if (taskCreatorDataManager.getTaskParemeters().startTimeEstimated) {
                     Timestamp(defaultTimestap, 0)
                 } else {
-                    taskCreatorDataManager.getTaskParemeters().start_time
+                    taskCreatorDataManager.getTaskParemeters().startTime
                 },
-                start_time_estimated = taskCreatorDataManager.getTaskParemeters().start_time_estimated,
-                temperature_value = taskCreatorDataManager.getTaskParemeters().temperature_value,
-                temperature_condition = taskCreatorDataManager.getTaskParemeters().temperature_condition,
-                wind_value = taskCreatorDataManager.getTaskParemeters().wind_value,
-                wind_condition = taskCreatorDataManager.getTaskParemeters().wind_condition,
-                humidity_value = taskCreatorDataManager.getTaskParemeters().humidity_value,
-                humidity_condition = taskCreatorDataManager.getTaskParemeters().humidity_condition,
-                pressure_value = taskCreatorDataManager.getTaskParemeters().pressure_value,
-                pressure_condition = taskCreatorDataManager.getTaskParemeters().pressure_condition,
+                start_time_estimated = taskCreatorDataManager.getTaskParemeters().startTimeEstimated,
+                temperature_value = taskCreatorDataManager.getTaskParemeters().temperatureValue,
+                temperature_condition = taskCreatorDataManager.getTaskParemeters().temperatureCondition,
+                wind_value = taskCreatorDataManager.getTaskParemeters().windValue,
+                wind_condition = taskCreatorDataManager.getTaskParemeters().windCondition,
+                humidity_value = taskCreatorDataManager.getTaskParemeters().humidityValue,
+                humidity_condition = taskCreatorDataManager.getTaskParemeters().humidityCondition,
+                pressure_value = taskCreatorDataManager.getTaskParemeters().pressureValue,
+                pressure_condition = taskCreatorDataManager.getTaskParemeters().pressureCondition,
                 front_tool_name = frontToolName,
                 front_tool_mode = if (frontToolName == defaultToolName) {
                     defaultToolMode
@@ -79,10 +79,10 @@ class CreatorToolSelectViewModel(
     }
 
     fun getAvailableTool() {
-        frontToolName = taskCreatorDataManager.getTaskParemeters().front_tool_name
-        frontToolMode = taskCreatorDataManager.getTaskParemeters().front_tool_mode
-        backToolName = taskCreatorDataManager.getTaskParemeters().back_tool_name
-        backToolMode = taskCreatorDataManager.getTaskParemeters().back_tool_mode
+        frontToolName = taskCreatorDataManager.getTaskParemeters().frontToolName
+        frontToolMode = taskCreatorDataManager.getTaskParemeters().frontToolMode
+        backToolName = taskCreatorDataManager.getTaskParemeters().backToolName
+        backToolMode = taskCreatorDataManager.getTaskParemeters().backToolMode
         cloudDatabaseService.getToolItem(
             onGetToolItem = this::onAvailableToolFound,
             onGetToolItemError = this::postToastErrorMessageEvent

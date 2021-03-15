@@ -1,45 +1,77 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase.model.state
 
 import com.google.firebase.Timestamp
+import com.google.gson.annotations.SerializedName
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.BaseCloudDatabaseModel
 import eu.agribot.agribotapp.domain.model.cdb.state.RobotEngine
 
 data class RobotEngineCDB(
-    val accumulator_voltage: Double = 0.0,
-    val engine_protection_lamp: String = "",
-    val engine_stop_lamp: String = "",
-    val engine_warning_lamp: String = "",
-    val error_number: Int = 0,
-    val error_state: String = "",
-    val error_total_count: Int = 0,
+    @SerializedName("accumulator_voltage")
+    val accumulatorVoltage: Double = 0.0,
+
+    @SerializedName("engine_protection_lamp")
+    val engineProtectionLamp: String = "",
+
+    @SerializedName("engine_stop_lamp")
+    val engineStopLamp: String = "",
+
+    @SerializedName("engine_warning_lamp")
+    val engineWarningLamp: String = "",
+
+    @SerializedName("error_number")
+    val errorNumber: Int = 0,
+
+    @SerializedName("error_state")
+    val errorState: String = "",
+
+    @SerializedName("error_total_count")
+    val errorTotalCount: Int = 0,
+
+    @SerializedName("fmi")
     val fmi: Int = 0,
-    val fuel_level: Int = 0,
-    val fuel_rate: Int = 0,
-    val fuel_temperature: Int = 0,
+
+    @SerializedName("fuel_level")
+    val fuelLevel: Int = 0,
+
+    @SerializedName("fuel_rate")
+    val fuelRate: Int = 0,
+
+    @SerializedName("fuel_temperature")
+    val fuelTemperature: Int = 0,
+
+    @SerializedName("occ")
     val occ: Int = 0,
+
+    @SerializedName("rpm")
     val rpm: Int = 0,
+
+    @SerializedName("spn")
     val spn: Int = 0,
+
+    @SerializedName("timestamp")
     val timestamp: Timestamp = Timestamp(0L, 0),
-    val torque_of_engine: Int = 0
+
+    @SerializedName("torque_of_engine")
+    val torqueOfEngine: Int = 0
 
 ) : BaseCloudDatabaseModel<RobotEngine> {
 
     override fun toDomainModel() = RobotEngine(
-        accumulator_voltage = this.accumulator_voltage,
-        engine_protection_lamp = this.engine_protection_lamp,
-        engine_stop_lamp = this.engine_stop_lamp,
-        engine_warning_lamp = this.engine_warning_lamp,
-        error_number = this.error_number,
-        error_state = this.error_state,
-        error_total_count = this.error_total_count,
+        accumulatorVoltage = this.accumulatorVoltage,
+        engineProtectionLamp = this.engineProtectionLamp,
+        engineStopLamp = this.engineStopLamp,
+        engineWarningLamp = this.engineWarningLamp,
+        errorNumber = this.errorNumber,
+        errorState = this.errorState,
+        errorTotalCount = this.errorTotalCount,
         fmi = this.fmi,
-        fuel_level = this.fuel_level,
-        fuel_rate = this.fuel_rate,
-        fuel_temperature = this.fuel_temperature,
+        fuelLevel = this.fuelLevel,
+        fuelRate = this.fuelRate,
+        fuelTemperature = this.fuelTemperature,
         occ = this.occ,
         rpm = this.rpm,
         spn = this.spn,
         timestamp = this.timestamp,
-        torque_of_engine = this.torque_of_engine
+        torqueOfEngine = this.torqueOfEngine
     )
 }

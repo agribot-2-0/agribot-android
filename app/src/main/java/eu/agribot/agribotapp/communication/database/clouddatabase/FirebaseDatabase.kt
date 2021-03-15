@@ -309,10 +309,10 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
                 }
                 if (snapshot != null && snapshot.exists()) {
                     snapshot.toObject(ActualTaskCDB::class.java)?.let { it ->
-                        if (it.actual_task != "") {
-                            onGetCurrentTaskNameSucess(it.actual_task)
+                        if (it.actualTask != "") {
+                            onGetCurrentTaskNameSucess(it.actualTask)
                             getTaskDetails(
-                                it.actual_task,
+                                it.actualTask,
                                 onGetCurrentTaskDetailsSuccess,
                                 onDatabaseError
                             )
@@ -333,7 +333,7 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
             .document(persistentStorage.getRobotSerialNumber())
             .update(
                 mapOf(
-                    "actual_task" to actualTaskCDB.actual_task
+                    "actual_task" to actualTaskCDB.actualTask
                 )
             )
             .addOnFailureListener { exception ->
@@ -377,7 +377,7 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
                                     onGetTaskItem(
                                         TaskItemCDB(
                                             taskName = document.id,
-                                            pathName = it.path_name
+                                            pathName = it.pathName
                                         )
                                     )
                                 }
@@ -518,8 +518,8 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
             .addSnapshotListener { snapshot, _ ->
                 if (snapshot != null && snapshot.exists()) {
                     snapshot.toObject(ActualTaskCDB::class.java)?.let { it ->
-                        if (it.actual_task != "") {
-                            onGotCurrentTask(it.actual_task)
+                        if (it.actualTask != "") {
+                            onGotCurrentTask(it.actualTask)
                         }
                     }
                 }

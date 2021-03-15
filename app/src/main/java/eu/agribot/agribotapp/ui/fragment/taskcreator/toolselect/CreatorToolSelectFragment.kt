@@ -48,8 +48,8 @@ class CreatorToolSelectFragment :
             SpinnerSelectedItemAdapter(
                 this::onFrontToolNameSelected
             )
-        if (viewModel.mToolNames.value!!.contains(viewModel.taskCreatorDataManager.getTaskParemeters().front_tool_name)) {
-            front_tool_name.setSelection(viewModel.mToolNames.value!!.indexOf(viewModel.taskCreatorDataManager.getTaskParemeters().front_tool_name))
+        if (viewModel.mToolNames.value!!.contains(viewModel.taskCreatorDataManager.getTaskParemeters().frontToolName)) {
+            front_tool_name.setSelection(viewModel.mToolNames.value!!.indexOf(viewModel.taskCreatorDataManager.getTaskParemeters().frontToolName))
         }
 
         back_tool_name.adapter = spinnerArrayAdapter
@@ -57,8 +57,8 @@ class CreatorToolSelectFragment :
             SpinnerSelectedItemAdapter(
                 this::onBackToolNameSelected
             )
-        if (viewModel.mToolNames.value!!.contains(viewModel.taskCreatorDataManager.getTaskParemeters().back_tool_name)) {
-            back_tool_name.setSelection(viewModel.mToolNames.value!!.indexOf(viewModel.taskCreatorDataManager.getTaskParemeters().back_tool_name))
+        if (viewModel.mToolNames.value!!.contains(viewModel.taskCreatorDataManager.getTaskParemeters().backToolName)) {
+            back_tool_name.setSelection(viewModel.mToolNames.value!!.indexOf(viewModel.taskCreatorDataManager.getTaskParemeters().backToolName))
         }
     }
 

@@ -116,8 +116,8 @@ class WeatherViewModel(
             RobotStateViewModel(
                 RobotStateItems.WIND.ID,
                 approximateParam(
-                    robotWeatherStationWind.speed_value,
-                    robotWeatherStationWind.speed_accuracy
+                    robotWeatherStationWind.speedValue,
+                    robotWeatherStationWind.speedAccuracy
                 ),
                 TaskDetailsElements.SPEED_UNIT.detailsElement
             )

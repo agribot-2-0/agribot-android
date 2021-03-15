@@ -29,20 +29,20 @@ data class NewRobotTaskDetails(
 
 ) : BaseCloudDatabaseModel<NewRobotTaskDetailsCDB> {
     override fun toCommunicationModel() = NewRobotTaskDetailsCDB(
-        path_name = this.path_name,
-        start_time = this.start_time,
-        start_time_estimated = this.start_time_estimated,
-        temperature_value = this.temperature_value,
-        temperature_condition = this.temperature_condition,
-        wind_value = this.wind_value,
-        wind_condition = this.wind_condition,
-        humidity_value = this.humidity_value,
-        humidity_condition = this.humidity_condition,
-        pressure_value = this.pressure_value,
-        pressure_condition = this.pressure_condition,
-        front_tool_name = this.front_tool_name,
-        front_tool_mode = this.front_tool_mode,
-        back_tool_name = this.back_tool_name,
-        back_tool_mode = this.back_tool_mode
+        pathName = this.path_name,
+        startTime = this.start_time,
+        startTimeEstimated = this.start_time_estimated,
+        temperatureValue = this.temperature_value,
+        temperatureCondition = this.temperature_condition,
+        windValue = this.wind_value,
+        windCondition = this.wind_condition,
+        humidityValue = this.humidity_value,
+        humidityCondition = this.humidity_condition,
+        pressureValue = this.pressure_value,
+        pressureCondition = this.pressure_condition,
+        frontToolName = this.front_tool_name,
+        frontToolMode = this.front_tool_mode,
+        backToolName = this.back_tool_name,
+        backToolMode = this.back_tool_mode
     )
 }

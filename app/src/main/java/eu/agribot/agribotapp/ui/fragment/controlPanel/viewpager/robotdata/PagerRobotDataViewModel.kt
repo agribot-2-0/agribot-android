@@ -55,7 +55,7 @@ class PagerRobotDataViewModel(
         addParameterToRobotDataStateList(
             RobotStateViewModel(
                 RobotStateItems.FUEL_LEVEL.ID,
-                engine.fuel_level.toString(),
+                engine.fuelLevel.toString(),
                 resourcesProvider.getString(R.string.percent)
             )
         )

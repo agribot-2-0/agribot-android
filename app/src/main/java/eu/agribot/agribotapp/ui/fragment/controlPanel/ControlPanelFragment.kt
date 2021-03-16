@@ -24,8 +24,7 @@ import eu.agribot.agribotapp.ui.fragment.controlPanel.viewpager.DashboardPagerAd
 import eu.agribot.agribotapp.ui.fragment.taskcreator.MapParameters
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TileProvider
 import eu.agribot.agribotapp.ui.fragment.taskcreator.URLPath
-import kotlinx.android.synthetic.main.fragment_control_panel.pager
-import kotlinx.android.synthetic.main.fragment_control_panel.tab_layout
+import kotlinx.android.synthetic.main.fragment_control_panel.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.io.IOException
@@ -68,6 +67,15 @@ class ControlPanelFragment :
         viewModel.markers.observe(this::updateMapMarker)
         viewModel.toastMessageEvent.observe(this::showToast)
         viewModel.cameraPosition.observe(this::updateMapCameraPosition)
+        viewModel.pathName.observe(this::removeLayerFromMap)
+    }
+
+    private fun removeLayerFromMap(pathName: String) {
+        if (pathName == NO_SELECTED_PATH_SYMBOL) {
+            if (mapPathLayer != null) {
+                mapPathLayer!!.removeLayerFromMap()
+            }
+        }
     }
 
     private fun setupViewPager() {
@@ -76,7 +84,11 @@ class ControlPanelFragment :
             tab_layout, pager
         ) { tab: TabLayout.Tab, position: Int ->
             tab.text =
-                arrayOf(getString(R.string.robot_state), getString(R.string.task_state), getString(R.string.task_list))[position]
+                arrayOf(
+                    getString(R.string.robot_state),
+                    getString(R.string.task_state),
+                    getString(R.string.task_list)
+                )[position]
         }.attach()
     }
 
@@ -168,5 +180,9 @@ class ControlPanelFragment :
         } else {
             MapParameters.MID_ZOOM.mapParametr
         }
+    }
+
+    companion object {
+        const val NO_SELECTED_PATH_SYMBOL = "*"
     }
 }

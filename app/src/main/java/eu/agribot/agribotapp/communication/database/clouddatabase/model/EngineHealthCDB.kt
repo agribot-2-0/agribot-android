@@ -1,15 +1,16 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase.model
 
-import com.google.gson.annotations.SerializedName
+import com.google.firebase.firestore.PropertyName
 import eu.agribot.agribotapp.domain.model.cdb.EngineHealth
 
 data class EngineHealthCDB(
+    @get:PropertyName("error_code")
+    @set:PropertyName("error_code")
+    var errorCode: Int = -1,
 
-    @SerializedName("error_code")
-    val errorCode: Int = -1,
-
-    @SerializedName("error_name")
-    val errorName: String = ""
+    @get:PropertyName("error_name")
+    @set:PropertyName("error_name")
+    var errorName: String = ""
 ) : BaseCloudDatabaseModel<EngineHealth> {
 
     override fun toDomainModel() = EngineHealth(

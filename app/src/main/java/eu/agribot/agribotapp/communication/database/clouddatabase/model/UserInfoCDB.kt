@@ -1,14 +1,16 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase.model
 
-import com.google.gson.annotations.SerializedName
+import com.google.firebase.firestore.PropertyName
 import eu.agribot.agribotapp.domain.model.cdb.UserInfo
 
 data class UserInfoCDB(
-    @SerializedName("robot_name")
-    val robotName: String = "",
+    @get:PropertyName("robot_name")
+    @set:PropertyName("robot_name")
+    var robotName: String = "",
 
-    @SerializedName("user_name")
-    val userName: String = ""
+    @get:PropertyName("user_name")
+    @set:PropertyName("user_name")
+    var userName: String = ""
 
 ) : BaseCloudDatabaseModel<UserInfo> {
 

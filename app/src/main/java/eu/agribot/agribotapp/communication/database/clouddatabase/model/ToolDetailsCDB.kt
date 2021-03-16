@@ -1,6 +1,6 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase.model
 
-import com.google.gson.annotations.SerializedName
+import com.google.firebase.firestore.PropertyName
 import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
 
 data class ToolDetailsCDB(
@@ -15,14 +15,17 @@ data class ToolDetailsCDB(
 
     val green: Double = 0.0,
 
-    @SerializedName("tpl_up_down")
-    val tplUpDown: Double = 0.0,
+    @get:PropertyName("tpl_up_down")
+    @set:PropertyName("tpl_up_down")
+    var tplUpDown: Double = 0.0,
 
-    @SerializedName("tpl_push_pull")
-    val tplPushPull: Double = 0.0,
+    @get:PropertyName("tpl_push_pull")
+    @set:PropertyName("tpl_push_pull")
+    var tplPushPull: Double = 0.0,
 
-    @SerializedName("v_max")
-    val vMax: Double = 0.0
+    @get:PropertyName("v_max")
+    @set:PropertyName("v_max")
+    var vMax: Double = 0.0
 ) : BaseCloudDatabaseModel<ToolDetails> {
     override fun toDomainModel() = ToolDetails(
         rfid = this.rfid,

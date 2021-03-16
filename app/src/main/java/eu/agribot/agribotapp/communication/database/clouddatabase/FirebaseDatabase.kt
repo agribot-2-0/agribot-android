@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore.getInstance
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.ActualTaskCDB
@@ -91,6 +92,9 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
                 }
                 if (snapshot != null && snapshot.exists()) {
                     snapshot.toObject(RobotEngineCDB::class.java)?.let {
+                        Log.e("xd", "state engine: " + snapshot.data.toString())
+                        Log.e("xd", "state engine obj : " + it.xd)
+
                         onDatabaseSuccess(it)
                     }
                 }
@@ -520,20 +524,22 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
                     snapshot.toObject(ActualTaskCDB::class.java)?.let { it ->
                         if (it.actualTask != "") {
                             onGotCurrentTask(it.actualTask)
+                        } else {
+                            onGotCurrentTask("")
                         }
                     }
                 }
             }
     }
 
-    override fun getUsersRobotName(onGotUserRobotNameSucess: () -> Unit) {
+    override fun getUsersRobotName(onGetUserRobotNameSuccess: () -> Unit) {
         try {
             database.collection("$COLLECTION_USER/" + FirebaseAuth.getInstance().currentUser?.uid.toString() + "/$COLLECTION_ROBOTS")
                 .get()
                 .addOnSuccessListener { result ->
                     if (result != null && !result.isEmpty) {
                         persistentStorage.saveRobotSerialNumber(result.documents[0].id)
-                        onGotUserRobotNameSucess.invoke()
+                        onGetUserRobotNameSuccess.invoke()
                     } else {
                         Timber.e("Robot name problem ")
                     }

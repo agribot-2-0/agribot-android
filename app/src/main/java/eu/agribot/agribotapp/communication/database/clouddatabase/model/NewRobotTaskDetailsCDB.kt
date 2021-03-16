@@ -1,52 +1,67 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase.model
 
 import com.google.firebase.Timestamp
-import com.google.gson.annotations.SerializedName
+import com.google.firebase.firestore.PropertyName
 
 data class NewRobotTaskDetailsCDB(
 
-    @SerializedName("path_name")
-    val pathName: String,
+    @get:PropertyName("path_name")
+    @set:PropertyName("path_name")
+    var pathName: String,
 
-    @SerializedName("start_time")
-    val startTime: Timestamp?,
+    @get:PropertyName("start_time")
+    @set:PropertyName("start_time")
+    var startTime: Timestamp?,
 
-    @SerializedName("start_time_estimated")
-    val startTimeEstimated: Boolean,
+    @get:PropertyName("start_time_estimated")
+    @set:PropertyName("start_time_estimated")
+    var startTimeEstimated: Boolean,
 
-    @SerializedName("temperature_value")
-    val temperatureValue: String,
+    @get:PropertyName("temperature_value")
+    @set:PropertyName("temperature_value")
+    var temperatureValue: String,
 
-    @SerializedName("temperature_condition")
-    val temperatureCondition: String,
+    @get:PropertyName("temperature_condition")
+    @set:PropertyName("temperature_condition")
+    var temperatureCondition: String,
 
-    @SerializedName("wind_value")
-    val windValue: String,
+    @get:PropertyName("wind_value")
+    @set:PropertyName("wind_value")
+    var windValue: String,
 
-    @SerializedName("wind_condition")
-    val windCondition: String,
+    @get:PropertyName("wind_condition")
+    @set:PropertyName("wind_condition")
+    var windCondition: String,
 
-    @SerializedName("humidity_value")
-    val humidityValue: String,
+    @get:PropertyName("humidity_value")
+    @set:PropertyName("humidity_value")
+    var humidityValue: String,
 
-    @SerializedName("humidity_condition")
-    val humidityCondition: String,
+    @get:PropertyName("humidity_condition")
+    @set:PropertyName("humidity_condition")
+    var humidityCondition: String,
 
-    @SerializedName("pressure_value")
-    val pressureValue: String,
+    @get:PropertyName("pressure_value")
+    @set:PropertyName("pressure_value")
+    var pressureValue: String,
 
-    @SerializedName("pressure_condition")
-    val pressureCondition: String,
+    @get:PropertyName("pressure_condition")
+    @set:PropertyName("pressure_condition")
+    var pressureCondition: String,
 
-    @SerializedName("front_tool_name")
-    val frontToolName: String,
+    @get:PropertyName("front_tool_name")
+    @set:PropertyName("front_tool_name")
+    var frontToolName: String,
 
-    @SerializedName("front_tool_mode")
-    val frontToolMode: Int,
+    @get:PropertyName("front_tool_mode")
+    @set:PropertyName("front_tool_mode")
+    var frontToolMode: Int,
 
-    @SerializedName("back_tool_name")
-    val backToolName: String,
+    @get:PropertyName("back_tool_name")
+    @set:PropertyName("back_tool_name")
+    var backToolName: String,
 
-    @SerializedName("back_tool_mode")
-    val backToolMode: Int
+    @get:PropertyName("back_tool_mode")
+    @set:PropertyName("back_tool_mode")
+    var backToolMode: Int
 )

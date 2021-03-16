@@ -20,7 +20,7 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.model.state.Ro
 
 interface CloudDatabase {
 
-    fun getUsersRobotName(onGetUsserRobotNAmeSucess: () -> Unit)
+    fun getUsersRobotName(onGetUsserRobotNameSuccess: () -> Unit)
 
     fun getUserData(
         onDatabaseSucess: (data: UserInfoCDB) -> Unit,

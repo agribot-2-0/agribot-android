@@ -43,7 +43,12 @@ class AndroidRestApiService(
             }
 
             override fun onFailure(call: Call<WeatherResponseModelApiData>, t: Throwable) {
-                Timber.e(String.format("Retrofit exception %1s"), t.message)
+                Timber.e(
+                    String.format(
+                        resourcesProvider.getString(R.string.retrofit_exception),
+                        t.message.toString()
+                    )
+                )
             }
         })
     }

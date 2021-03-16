@@ -11,8 +11,8 @@ import eu.agribot.agribotapp.ui.fragment.weather.forecast.chart.ChartWeatherData
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
 import java.util.Locale
+import java.util.Date
 
 class WeatherService(
     private val restApiService: RestApiService,
@@ -25,6 +25,33 @@ class WeatherService(
     ) {
         if (isWeatherActually()) {
             restApiService.getOpenWeatherDataFromPersistent()
+                ?.hourly?.let {
+                    onGotChartValuesData(it.map {
+                        ChartWeatherData(
+                            timestamp = it.dt.toFloat(),
+                            temperatureValue = it.temp.toFloat()
+                        )
+                    })
+                    onGotForecastWeatherData(it.map { weatherParam ->
+                        ForecastWeatherViewModel(
+                            timestamp = weatherParam.dt,
+                            date = getDateFromTimestamp(weatherParam.dt)!!,
+                            temperature = String.format(
+                                resourcesProvider.getString(R.string.celcius_degree_value),
+                                weatherParam.temp.toString()
+                            ),
+                            imageNumber = weatherParam.weather?.get(0)?.icon!!,
+                            humidity = String.format(
+                                resourcesProvider.getString(R.string.humidity_percent_value),
+                                weatherParam.humidity, WeatherUnit.HUMIDITY_UNIT.unit
+                            ),
+                            wind = String.format(
+                                resourcesProvider.getString(R.string.wind_value),
+                                weatherParam.windSpeed.toString()
+                            )
+                        )
+                    })
+                }
         } else {
             restApiService.getOpenWeatherDataFromApi(onGotWeatherResponse = { weatherItem ->
                 weatherItem.hourly?.let {
@@ -62,11 +89,11 @@ class WeatherService(
         return if (restApiService.getOpenWeatherDataFromPersistent() != null) {
             val weatherDataCalendarDate = Calendar.getInstance(Locale.ENGLISH)
             weatherDataCalendarDate.timeInMillis =
-                restApiService.getOpenWeatherDataFromPersistent()?.hourly!![0].dt.toLong()
+                restApiService.getOpenWeatherDataFromPersistent()?.hourly!![0].dt.toLong() * TIMESTAMP_CONV_VALUE
             val currentCalendarDate = Calendar.getInstance(Locale.ENGLISH)
             currentCalendarDate.timeInMillis = Timestamp(System.currentTimeMillis()).time
             weatherDataCalendarDate.add(Calendar.HOUR, TWO_HOURS)
-            weatherDataCalendarDate.after(currentCalendarDate)
+            return weatherDataCalendarDate.after(currentCalendarDate)
         } else false
     }
 

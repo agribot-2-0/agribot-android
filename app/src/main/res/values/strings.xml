@@ -315,6 +315,8 @@
     <string name="humidity_percent_value">Humidity %1$S%2$S </string>
     <string name="wind_value">Wind %1$S km/h</string>
     <string name="pressure_value">Pressure %1$S hPA</string>
+    <string name="retrofit_exception" translatable="false">Retrofit Exception %1$S</string>
+
 
 
 </resources>

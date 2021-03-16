@@ -50,9 +50,9 @@ class SharedPreferencesPersistentStorage(context: Context) : PersistentStorage {
             PersistentDataDetails.ROBOT_SERIAL_NUMBER.defaultValue
         ) ?: ""
 
-    override fun saveWeatherForecast(serial: String) {
+    override fun saveWeatherForecast(weatherForecast: String) {
         forecastDataSP.edit()
-            .putString(PersistentDataDetails.FORECAST_WEATHER_DATA.data, serial)
+            .putString(PersistentDataDetails.FORECAST_WEATHER_DATA.data, weatherForecast)
             .apply()
     }
 

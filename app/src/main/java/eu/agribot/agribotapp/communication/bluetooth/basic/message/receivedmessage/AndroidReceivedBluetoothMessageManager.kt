@@ -151,7 +151,7 @@ class AndroidReceivedBluetoothMessageManager(
 
     @ExperimentalCoroutinesApi
     private fun handleDiagnosticData(bluetoothMessageFrame: BluetoothMessageFrame) {
-        if (bluetoothMessageFrame.getCanDataFromReceivedMessage().size > MinimumMessageLength.DIAGNOSTIC_DATA.size) {
+        if (bluetoothMessageFrame.getCanDataFromReceivedMessage().size >= MinimumMessageLength.DIAGNOSTIC_DATA.size) {
             bluetoothMessageFrame.let { diagnosticData ->
                 agribotDiagnosticDataFlow.value = DiagnosticBluetoothDataBD(
                     engineFuelRate = getEngineFuelRate(diagnosticData),
@@ -167,7 +167,7 @@ class AndroidReceivedBluetoothMessageManager(
 
     @ExperimentalCoroutinesApi
     private fun handleHydraulicDiagnosticData(bluetoothMessageFrame: BluetoothMessageFrame) {
-        if (bluetoothMessageFrame.getCanDataFromReceivedMessage().size > MinimumMessageLength.HYDRAULIC_DATA.size) {
+        if (bluetoothMessageFrame.getCanDataFromReceivedMessage().size >= MinimumMessageLength.HYDRAULIC_DATA.size) {
             bluetoothMessageFrame.let { hydraulicData ->
                 agribotDiagnosticDataFlow.value = DiagnosticBluetoothDataBD(
                     hydraulicOilTemperature = getHydraulicOilTemperature(hydraulicData)

@@ -116,6 +116,9 @@ class ManualControlCurrentStateViewModel(
     fun getDiagnosticData() = viewModelScope.launch {
         manualModeService.observeDiagnosticData().collect { diagnosticData ->
             if (diagnosticData != null) {
+                logDiagnosticData(diagnosticData)
+            }
+            if (diagnosticData != null) {
                 if (diagnosticData.batteryVoltage != INVALID_TEXT_VALUE) {
                     addToDiagnosticDataList(
                         RobotStateViewModel(

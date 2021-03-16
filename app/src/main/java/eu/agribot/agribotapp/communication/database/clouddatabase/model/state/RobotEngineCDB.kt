@@ -8,7 +8,7 @@ import eu.agribot.agribotapp.domain.model.cdb.state.RobotEngine
 data class RobotEngineCDB(
     @get:PropertyName("accumulator_voltage")
     @set:PropertyName("accumulator_voltage")
-    var xd: Double = 0.0,
+    var accumulatorVoltage: Double = 0.0,
 
     @get:PropertyName("engine_protection_lamp")
     @set:PropertyName("engine_protection_lamp")
@@ -73,7 +73,7 @@ data class RobotEngineCDB(
 ) : BaseCloudDatabaseModel<RobotEngine> {
 
     override fun toDomainModel() = RobotEngine(
-        accumulatorVoltage = this.xd,
+        accumulatorVoltage = this.accumulatorVoltage,
         engineProtectionLamp = this.engineProtectionLamp,
         engineStopLamp = this.engineStopLamp,
         engineWarningLamp = this.engineWarningLamp,

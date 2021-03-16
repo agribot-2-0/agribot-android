@@ -1,6 +1,5 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase
 
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore.getInstance
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.ActualTaskCDB
@@ -92,9 +91,6 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
                 }
                 if (snapshot != null && snapshot.exists()) {
                     snapshot.toObject(RobotEngineCDB::class.java)?.let {
-                        Log.e("xd", "state engine: " + snapshot.data.toString())
-                        Log.e("xd", "state engine obj : " + it.xd)
-
                         onDatabaseSuccess(it)
                     }
                 }
@@ -468,7 +464,7 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         database.collection(COLLECTION_ROBOTS)
             .document(persistentStorage.getRobotSerialNumber() + DOCUMENT_LOCALIZATION_POSE)
             .get()
-            .addOnSuccessListener { it ->
+            .addOnSuccessListener {
                 it.toObject(RobotLocalizationPoseCDB::class.java).let { robotLocalization ->
                     if (robotLocalization != null) {
                         onGotRobotCoordinate(robotLocalization)
@@ -485,7 +481,7 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         database.collection(COLLECTION_USER)
             .document(FirebaseAuth.getInstance().currentUser?.uid.toString())
             .get()
-            .addOnSuccessListener { it ->
+            .addOnSuccessListener {
                 it.toObject(UserRoleCDB::class.java).let { userRole ->
                     if (userRole != null) {
                         onGotUserRole(userRole)

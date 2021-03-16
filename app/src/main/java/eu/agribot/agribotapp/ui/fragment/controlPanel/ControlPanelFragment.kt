@@ -24,7 +24,8 @@ import eu.agribot.agribotapp.ui.fragment.controlPanel.viewpager.DashboardPagerAd
 import eu.agribot.agribotapp.ui.fragment.taskcreator.MapParameters
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TileProvider
 import eu.agribot.agribotapp.ui.fragment.taskcreator.URLPath
-import kotlinx.android.synthetic.main.fragment_control_panel.*
+import kotlinx.android.synthetic.main.fragment_control_panel.pager
+import kotlinx.android.synthetic.main.fragment_control_panel.tab_layout
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.io.IOException

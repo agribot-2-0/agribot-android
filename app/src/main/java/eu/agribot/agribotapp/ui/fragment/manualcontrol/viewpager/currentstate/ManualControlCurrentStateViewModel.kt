@@ -19,7 +19,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.util.*
+import java.util.Locale
 
 class ManualControlCurrentStateViewModel(
     private val manualModeService: ManualModeService,
@@ -120,16 +120,16 @@ class ManualControlCurrentStateViewModel(
             }
             if (diagnosticData != null) {
 
-                if (diagnosticData.batteryVoltage != INVALID_TEXT_VALUE) {
+                if (diagnosticData.batteryVoltage != INVALID_DECIMAL_NUMBER) {
                     addToDiagnosticDataList(
                         RobotStateViewModel(
                             RobotStateItems.MANUAL_CONTROL_VOLTAGE.ID,
-                            diagnosticData.batteryVoltage,
+                            String.format("%.1f", diagnosticData.batteryVoltage),
                             resourcesProvider.getString(R.string.volt)
                         )
                     )
                 }
-                if (diagnosticData.engineRotationsPerMinute != INVALID_NUMBER_VALUE) {
+                if (diagnosticData.engineRotationsPerMinute != INVALID_INTEGER_NUMBER) {
                     addToDiagnosticDataList(
                         RobotStateViewModel(
                             RobotStateItems.MANUAL_CONTROL_ENGINE_ROTATIONS.ID,
@@ -139,7 +139,7 @@ class ManualControlCurrentStateViewModel(
                         )
                     )
                 }
-                if (diagnosticData.torqueOfEngine != INVALID_NUMBER_VALUE) {
+                if (diagnosticData.torqueOfEngine != INVALID_INTEGER_NUMBER) {
                     addToDiagnosticDataList(
                         RobotStateViewModel(
                             RobotStateItems.MANUAL_CONTROL_ENGINE_TORQUE.ID,
@@ -149,7 +149,7 @@ class ManualControlCurrentStateViewModel(
                     )
                 }
 
-                if (diagnosticData.fuelLevel != INVALID_NUMBER_VALUE) {
+                if (diagnosticData.fuelLevel != INVALID_INTEGER_NUMBER) {
                     addToDiagnosticDataList(
                         RobotStateViewModel(
                             RobotStateItems.MANUAL_CONTROL_FUEL_LEVEL.ID,
@@ -160,21 +160,21 @@ class ManualControlCurrentStateViewModel(
                     )
                 }
 
-                if (diagnosticData.engineFuelRate != INVALID_TEXT_VALUE) {
+                if (diagnosticData.engineFuelRate != INVALID_DECIMAL_NUMBER) {
                     addToDiagnosticDataList(
                         RobotStateViewModel(
                             RobotStateItems.MANUAL_CONTROL_FUEL_RATE.ID,
-                            diagnosticData.engineFuelRate,
+                            String.format("%.1f", diagnosticData.engineFuelRate),
                             resourcesProvider.getString(R.string.liter_per_hour)
 
                         )
                     )
                 }
-                if (diagnosticData.hydraulicOilTemperature != INVALID_TEXT_VALUE) {
+                if (diagnosticData.hydraulicOilTemperature != INVALID_INTEGER_NUMBER) {
                     addToDiagnosticDataList(
                         RobotStateViewModel(
                             RobotStateItems.MANUAL_CONTROL_OIL_TEMPERATURE.ID,
-                            diagnosticData.hydraulicOilTemperature,
+                            diagnosticData.hydraulicOilTemperature.toString(),
                             resourcesProvider.getString(R.string.celcius_degree)
 
                         )
@@ -309,6 +309,8 @@ class ManualControlCurrentStateViewModel(
     companion object {
         const val INVALID_TEXT_VALUE = ""
 
-        const val INVALID_NUMBER_VALUE = -1
+        const val INVALID_INTEGER_NUMBER = -1
+
+        const val INVALID_DECIMAL_NUMBER = 0.0
     }
 }

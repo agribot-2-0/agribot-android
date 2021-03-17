@@ -176,8 +176,8 @@ class AndroidReceivedBluetoothMessageManager(
         }
     }
 
-    private fun getHydraulicOilTemperature(bluetoothMessageFrame: BluetoothMessageFrame): String {
-        return (bluetoothMessageFrame.getCanDataFromReceivedMessage()[DiagnosticDataArrayPosition.HUDRAULIC_OIL_TEMPERATURE_BYTE.position] - HYDRAULIC_OIL_TEMPERATURE_OFFSET).toString()
+    private fun getHydraulicOilTemperature(bluetoothMessageFrame: BluetoothMessageFrame): Int {
+        return (bluetoothMessageFrame.getCanDataFromReceivedMessage()[DiagnosticDataArrayPosition.HUDRAULIC_OIL_TEMPERATURE_BYTE.position] - HYDRAULIC_OIL_TEMPERATURE_OFFSET)
     }
 
     private fun getEngineRotations(bluetoothMessageFrame: BluetoothMessageFrame): Int {
@@ -191,8 +191,8 @@ class AndroidReceivedBluetoothMessageManager(
         return bluetoothMessageFrame.getCanDataFromReceivedMessage()[TORQUE_OF_ENGINE_BYTE.position].toInt()
     }
 
-    private fun getEngineFuelRate(bluetoothMessageFrame: BluetoothMessageFrame): String {
-        return (bluetoothMessageFrame.getCanDataFromReceivedMessage()[ENGINE_FUEL_RATE_BYTE.position] / FUEL_RATE_RATIO).toString()
+    private fun getEngineFuelRate(bluetoothMessageFrame: BluetoothMessageFrame): Double {
+        return (bluetoothMessageFrame.getCanDataFromReceivedMessage()[ENGINE_FUEL_RATE_BYTE.position] / FUEL_RATE_RATIO)
     }
 
     private fun getFuelLevel(bluetoothMessageFrame: BluetoothMessageFrame): Int {
@@ -203,15 +203,15 @@ class AndroidReceivedBluetoothMessageManager(
         return bluetoothMessageFrame.getCanDataFromReceivedMessage()[FUEL_TEMPERATURE_BYTE.position].toInt()
     }
 
-    private fun getBatteryVoltage(bluetoothMessageFrame: BluetoothMessageFrame): String {
+    private fun getBatteryVoltage(bluetoothMessageFrame: BluetoothMessageFrame): Double {
         val batteryVoltage = bytesToUnsingedInt(
             bluetoothMessageFrame.getCanDataFromReceivedMessage()
                 .sliceArray(ACCUMULATOR_VOLTGE_FIRST_BYTE.position..ACCUMULATOR_VOLTAGE_SECOND_BYTE.position)
         ) * BATTERY_VOLTAGE_RATIO
         return if (batteryVoltage.toString().length > FOUR_DIGIT_NUMBER)
-            (batteryVoltage.toString().slice(FIRST_DIGIT..FOURTH_DIGIT).toDouble()).toString()
+            (batteryVoltage.toString().slice(FIRST_DIGIT..FOURTH_DIGIT).toDouble())
         else
-            (batteryVoltage).toString()
+            (batteryVoltage)
     }
 
     private fun bytesToUnsingedInt(array: ByteArray): Int {

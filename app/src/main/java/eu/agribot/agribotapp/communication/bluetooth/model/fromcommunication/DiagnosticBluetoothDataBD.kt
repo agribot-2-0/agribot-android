@@ -5,11 +5,11 @@ import eu.agribot.agribotapp.domain.model.todomain.DiagnosticData
 data class DiagnosticBluetoothDataBD(
     val engineRotationsPerMinute: Int = -1,
     val torqueOfEngine: Int = -1,
-    val engineFuelRate: String = "",
+    val engineFuelRate: Double = 0.0,
     val fuelLevel: Int = -1,
     val fuelTemperature: Int = -1,
-    val batteryVoltage: String = "",
-    val hydraulicOilTemperature: String = ""
+    val batteryVoltage: Double = 0.0,
+    val hydraulicOilTemperature: Int = -1
 
 ) : BaseBluetoothDataModel<DiagnosticData> {
     override fun toDomainModel() = DiagnosticData(

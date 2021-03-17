@@ -19,7 +19,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.util.Locale
+import java.util.*
 
 class ManualControlCurrentStateViewModel(
     private val manualModeService: ManualModeService,
@@ -119,6 +119,7 @@ class ManualControlCurrentStateViewModel(
                 logDiagnosticData(diagnosticData)
             }
             if (diagnosticData != null) {
+
                 if (diagnosticData.batteryVoltage != INVALID_TEXT_VALUE) {
                     addToDiagnosticDataList(
                         RobotStateViewModel(
@@ -129,7 +130,6 @@ class ManualControlCurrentStateViewModel(
                     )
                 }
                 if (diagnosticData.engineRotationsPerMinute != INVALID_NUMBER_VALUE) {
-
                     addToDiagnosticDataList(
                         RobotStateViewModel(
                             RobotStateItems.MANUAL_CONTROL_ENGINE_ROTATIONS.ID,
@@ -148,12 +148,14 @@ class ManualControlCurrentStateViewModel(
                         )
                     )
                 }
+
                 if (diagnosticData.fuelLevel != INVALID_NUMBER_VALUE) {
                     addToDiagnosticDataList(
                         RobotStateViewModel(
-                            RobotStateItems.FUEL_LEVEL.ID,
+                            RobotStateItems.MANUAL_CONTROL_FUEL_LEVEL.ID,
                             diagnosticData.fuelLevel.toString(),
-                            resourcesProvider.getString(R.string.percent)
+                            resourcesProvider.getString(R.string.liter_per_hour)
+
                         )
                     )
                 }

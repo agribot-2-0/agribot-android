@@ -60,7 +60,7 @@ class TaskSelectViewModel(
     private fun setCurrentTaskLiveData(currentTask: String) {
         currentTaskName.value = currentTask
         if (currentTask == EMPTY_TASK_SYMBOL) {
-            distableTaskOnList()
+            disableTaskOnList()
         }
     }
 
@@ -78,10 +78,10 @@ class TaskSelectViewModel(
 
     fun sendCancelTask() {
         cloudDatabaseService.setCurrentTask(ActualTask())
-        distableTaskOnList()
+        disableTaskOnList()
     }
 
-    private fun distableTaskOnList() {
+    private fun disableTaskOnList() {
         taskList.value?.forEach {
             if (it.isActiveTask) {
                 it.isActiveTask = false

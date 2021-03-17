@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="open_weather_base_url" translatable="false">"http://api.openweathermap.org/"</string>
-    <string name="open_weather_image_url" translatable="false">"http://openweathermap.org/img/wn/%1s@2x.png"</string>
+    <string name="open_weather_base_url" translatable="false">"https://api.openweathermap.org/"</string>
+    <string name="open_weather_image_url" translatable="false">"https://openweathermap.org/img/wn/%1s@2x.png"</string>
 
 </resources>

@@ -12,8 +12,8 @@ import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationWind
 import eu.agribot.agribotapp.domain.service.WeatherService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.data.WeatherUnit
-import eu.agribot.agribotapp.ui.fragment.weather.forecast.chart.ChartWeatherData
 import eu.agribot.agribotapp.ui.fragment.weather.forecast.ForecastWeatherViewModel
+import eu.agribot.agribotapp.ui.fragment.weather.forecast.chart.ChartWeatherData
 
 class WeatherViewModel(
     private val cloudDatabaseService: CloudDatabaseService,
@@ -114,7 +114,10 @@ class WeatherViewModel(
     }
 
     fun getForecastData() {
-        weatherService.getForecastData(onGotForecastWeatherData = this::addForecastItemsToList, onGotChartValuesData = this :: setChartData)
+        weatherService.getForecastData(
+            onGotForecastWeatherData = this::addForecastItemsToList,
+            onGotChartValuesData = this::setChartData
+        )
     }
 
     private fun setChartData(items: List<ChartWeatherData>) {

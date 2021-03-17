@@ -2,5 +2,4 @@
 <resources>
     <string name="open_weather_base_url" translatable="false">"https://api.openweathermap.org/"</string>
     <string name="open_weather_image_url" translatable="false">"https://openweathermap.org/img/wn/%1s@2x.png"</string>
-
 </resources>

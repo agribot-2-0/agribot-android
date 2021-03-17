@@ -40,7 +40,14 @@ class ManualControlCurrentStateViewModel(
             ActionID.OVERRIDE_MODE.action -> {
                 onTTControlButtonClicked()
             }
+            ActionID.SEND_MANUAL_INIT_MESSAGE.action -> {
+                onManualModeButtonCLicked()
+            }
         }
+    }
+
+    private fun onManualModeButtonCLicked() {
+        manualModeService.sendManualModeInitMessage()
     }
 
     private fun createActionsList(withAdmin: Boolean) {
@@ -53,6 +60,10 @@ class ManualControlCurrentStateViewModel(
                 ManualActionsViewModel(
                     ActionID.OVERRIDE_MODE.action,
                     resourcesProvider.getString(R.string.override_button)
+                ),
+                ManualActionsViewModel(
+                    ActionID.SEND_MANUAL_INIT_MESSAGE.action,
+                    resourcesProvider.getString(R.string.manual_mode_button)
                 )
             )
         } else {
@@ -307,7 +318,6 @@ class ManualControlCurrentStateViewModel(
     }
 
     companion object {
-        const val INVALID_TEXT_VALUE = ""
 
         const val INVALID_INTEGER_NUMBER = -1
 

@@ -32,7 +32,7 @@ class TaskSelectViewModel(
     fun setCurrentTask(taskName: String) {
         cloudDatabaseService.setCurrentTask(
             ActualTask(
-                actual_task = taskName
+                actualTask = taskName
             )
         )
         postDashboardNavigationEvent()
@@ -59,6 +59,9 @@ class TaskSelectViewModel(
 
     private fun setCurrentTaskLiveData(currentTask: String) {
         currentTaskName.value = currentTask
+        if (currentTask == EMPTY_TASK_SYMBOL) {
+            disableTaskOnList()
+        }
     }
 
     private fun checkIsTaskIsActual(taskName: String): Boolean {
@@ -75,11 +78,19 @@ class TaskSelectViewModel(
 
     fun sendCancelTask() {
         cloudDatabaseService.setCurrentTask(ActualTask())
+        disableTaskOnList()
+    }
+
+    private fun disableTaskOnList() {
         taskList.value?.forEach {
             if (it.isActiveTask) {
                 it.isActiveTask = false
             }
         }
         adapterEvent.postValue(true)
+    }
+
+    companion object {
+        const val EMPTY_TASK_SYMBOL = ""
     }
 }

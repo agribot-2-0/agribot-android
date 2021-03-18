@@ -7,7 +7,6 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabase
 import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
 import eu.agribot.agribotapp.domain.model.fromdomain.SwitchSettings
 import eu.agribot.agribotapp.domain.model.todomain.DiagnosticData
-import eu.agribot.agribotapp.domain.model.todomain.HydraulicData
 import eu.agribot.agribotapp.domain.model.todomain.UserRole
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.ManualSteeringJoystickManager
 import kotlinx.coroutines.CoroutineScope
@@ -36,9 +35,9 @@ class ManualModeService(
     private val diagnosticDataFlow = MutableStateFlow<DiagnosticData?>(null)
     var diagnosticDataFlowScope = CoroutineScope(Job() + Dispatchers.IO)
 
-    @ExperimentalCoroutinesApi
-    private val hydraulicDataFlow = MutableStateFlow<HydraulicData?>(null)
-    var hydraulicDataFlowScope = CoroutineScope(Job() + Dispatchers.IO)
+    fun sendManualModeInitMessage() {
+        writeBluetoothMessageManager.sendManualControlInitMessage()
+    }
 
     fun onManualSteeringJoystickParametrChanged(joystickAngle: Int, joystickStrength: Int) {
         manualSteeringJoystickManager.onJoystickConfigurationChanged(
@@ -69,21 +68,11 @@ class ManualModeService(
     }
 
     @ExperimentalCoroutinesApi
-    private fun getHydraulicData() {
-        hydraulicDataFlowScope.launch {
-            receivedBluetoothMessageManager.observeHydraulicData().collect {
-                if (it != null) {
-                    hydraulicDataFlow.value = it.toDomainModel()
-                }
-            }
-        }
-    }
-
-    @ExperimentalCoroutinesApi
     fun onTTControlEvent(state: Boolean) {
         ttControlFlow.value = state
     }
 
+    @ExperimentalCoroutinesApi
     fun observeTTControlFlow(): MutableStateFlow<Boolean> {
         return ttControlFlow
     }
@@ -92,12 +81,6 @@ class ManualModeService(
     fun observeDiagnosticData(): MutableStateFlow<DiagnosticData?> {
         getDiagnosticData()
         return diagnosticDataFlow
-    }
-
-    @ExperimentalCoroutinesApi
-    fun observeHydraulicData(): MutableStateFlow<HydraulicData?> {
-        getHydraulicData()
-        return hydraulicDataFlow
     }
 
     fun getUserRole(

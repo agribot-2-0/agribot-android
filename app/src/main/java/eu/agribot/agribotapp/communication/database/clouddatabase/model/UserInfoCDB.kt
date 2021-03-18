@@ -1,15 +1,21 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase.model
 
+import com.google.firebase.firestore.PropertyName
 import eu.agribot.agribotapp.domain.model.cdb.UserInfo
 
 data class UserInfoCDB(
-    val robot_name: String = "",
-    val user_name: String = ""
+    @get:PropertyName("robot_name")
+    @set:PropertyName("robot_name")
+    var robotName: String = "",
+
+    @get:PropertyName("user_name")
+    @set:PropertyName("user_name")
+    var userName: String = ""
 
 ) : BaseCloudDatabaseModel<UserInfo> {
 
     override fun toDomainModel() = UserInfo(
-        robotName = this.robot_name,
-        userName = this.user_name
+        robotName = this.robotName,
+        userName = this.userName
     )
 }

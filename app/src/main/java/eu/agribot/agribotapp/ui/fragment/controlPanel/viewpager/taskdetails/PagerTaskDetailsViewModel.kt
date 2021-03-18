@@ -63,11 +63,11 @@ class PagerTaskDetailsViewModel(
     }
 
     private fun setStartDate(taskDetails: TaskDetails) {
-        if (!taskDetails.start_time_estimated) {
+        if (!taskDetails.startTimeEstimated) {
             addParameterToRobotDataStateList(
                 RobotStateViewModel(
                     RobotStateItems.START_DATE.ID,
-                    taskDetails.start_time?.let { getDate(it.seconds) }.toString(),
+                    taskDetails.startTime?.let { getDate(it.seconds) }.toString(),
                     ""
                 )
             )
@@ -89,11 +89,11 @@ class PagerTaskDetailsViewModel(
     }
 
     private fun setStartTime(taskDetails: TaskDetails) {
-        if (!taskDetails.start_time_estimated) {
+        if (!taskDetails.startTimeEstimated) {
             addParameterToRobotDataStateList(
                 RobotStateViewModel(
                     RobotStateItems.START_TIME.ID,
-                    taskDetails.start_time?.let { getTime(it.seconds) }.toString(),
+                    taskDetails.startTime?.let { getTime(it.seconds) }.toString(),
                     ""
                 )
             )
@@ -113,11 +113,11 @@ class PagerTaskDetailsViewModel(
     }
 
     private fun setCurrentPath(taskDetails: TaskDetails) {
-        if (taskDetails.path_name != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
+        if (taskDetails.pathName != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
             addParameterToRobotDataStateList(
                 RobotStateViewModel(
                     RobotStateItems.CURRENT_PATH.ID,
-                    taskDetails.path_name,
+                    taskDetails.pathName,
                     ""
                 )
             )
@@ -127,11 +127,11 @@ class PagerTaskDetailsViewModel(
     }
 
     private fun setHumidityParam(taskDetails: TaskDetails) {
-        if (taskDetails.humidity_value != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
+        if (taskDetails.humidityValue != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
             addParameterToRobotDataStateList(
                 RobotStateViewModel(
                     RobotStateItems.HUMIDITY.ID,
-                    changeTextToSymbol(taskDetails.humidity_condition) + taskDetails.humidity_value,
+                    changeTextToSymbol(taskDetails.humidityCondition) + taskDetails.humidityValue,
                     TaskDetailsElements.PERCENT.detailsElement
                 )
             )
@@ -141,11 +141,11 @@ class PagerTaskDetailsViewModel(
     }
 
     private fun setTemperatureParam(taskDetails: TaskDetails) {
-        if (taskDetails.temperature_value != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
+        if (taskDetails.temperatureValue != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
             addParameterToRobotDataStateList(
                 RobotStateViewModel(
                     RobotStateItems.TEMPERATURE.ID,
-                    changeTextToSymbol(taskDetails.temperature_condition) + taskDetails.temperature_value,
+                    changeTextToSymbol(taskDetails.temperatureCondition) + taskDetails.temperatureValue,
                     TaskDetailsElements.TEMPERATURE_UNIT.detailsElement
                 )
             )
@@ -155,11 +155,11 @@ class PagerTaskDetailsViewModel(
     }
 
     private fun setWindParam(taskDetails: TaskDetails) {
-        if (taskDetails.wind_value != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
+        if (taskDetails.windValue != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
             addParameterToRobotDataStateList(
                 RobotStateViewModel(
                     RobotStateItems.WIND.ID,
-                    changeTextToSymbol(taskDetails.wind_condition) + taskDetails.wind_value,
+                    changeTextToSymbol(taskDetails.windCondition) + taskDetails.windValue,
                     TaskDetailsElements.SPEED_UNIT.detailsElement
                 )
             )
@@ -169,11 +169,11 @@ class PagerTaskDetailsViewModel(
     }
 
     private fun setPressureParam(taskDetails: TaskDetails) {
-        if (taskDetails.pressure_value != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
+        if (taskDetails.pressureValue != TaskDetailsElements.EMPTY_DETAIL_VALUE.detailsElement) {
             addParameterToRobotDataStateList(
                 RobotStateViewModel(
                     RobotStateItems.PRESSURE.ID,
-                    changeTextToSymbol(taskDetails.pressure_condition) + taskDetails.pressure_value,
+                    changeTextToSymbol(taskDetails.pressureCondition) + taskDetails.pressureValue,
                     TaskDetailsElements.PRESSURE_UNIT.detailsElement
                 )
             )

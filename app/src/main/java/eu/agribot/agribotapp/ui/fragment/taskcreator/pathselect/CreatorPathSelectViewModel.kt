@@ -36,8 +36,8 @@ class CreatorPathSelectViewModel(
     val cameraPosition: MutableLiveData<LatLng> = MutableLiveData()
 
     private fun getSavedPath() {
-        if (taskCreatorDataManager.taskDetails.path_name != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
-            downloadSelectedFile(taskCreatorDataManager.taskDetails.path_name)
+        if (taskCreatorDataManager.taskDetails.pathName != PickerSymbols.PICKER_DEFAULT_VALUE.symbol) {
+            downloadSelectedFile(taskCreatorDataManager.taskDetails.pathName)
         }
     }
 
@@ -98,7 +98,7 @@ class CreatorPathSelectViewModel(
     }
 
     fun isPathSelected(): Boolean {
-        return taskCreatorDataManager.taskDetails.path_name != PickerSymbols.PICKER_DEFAULT_VALUE.symbol
+        return taskCreatorDataManager.taskDetails.pathName != PickerSymbols.PICKER_DEFAULT_VALUE.symbol
     }
 
     fun downloadAvailableFileList() {
@@ -109,7 +109,7 @@ class CreatorPathSelectViewModel(
     }
 
     private fun createListFiles(fileName: String) {
-        val isActive = fileName.contains(taskCreatorDataManager.getTaskParemeters().path_name)
+        val isActive = fileName.contains(taskCreatorDataManager.getTaskParemeters().pathName)
         onAvailableFileFound(fileName, isActive)
         onFileInStorageFound(fileName, isActive)
     }

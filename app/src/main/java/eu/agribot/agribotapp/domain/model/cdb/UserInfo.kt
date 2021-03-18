@@ -9,7 +9,7 @@ data class UserInfo(
 ) : BaseCloudDatabaseModel<UserInfoCDB> {
 
     override fun toCommunicationModel() = UserInfoCDB(
-        robot_name = this.robotName,
-        user_name = this.userName
+        robotName = this.robotName,
+        userName = this.userName
     )
 }

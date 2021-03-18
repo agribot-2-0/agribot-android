@@ -30,8 +30,8 @@ class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreator
     private val miliToSecondDivide = 1000
 
     fun getPreSetDate(): Date {
-        return if (!taskCreatorDataManager.getTaskParemeters().start_time_estimated) {
-            val date: Date = taskCreatorDataManager.getTaskParemeters().start_time!!.toDate()
+        return if (!taskCreatorDataManager.getTaskParemeters().startTimeEstimated) {
+            val date: Date = taskCreatorDataManager.getTaskParemeters().startTime!!.toDate()
             this.date.value = date
             isTimePreset.value = true
             date

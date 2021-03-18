@@ -1,46 +1,88 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase.model
 
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.PropertyName
 import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
 
 data class TaskDetailsCDB(
-    val path_name: String = DEFAULT_VALUE,
-    val start_time: Timestamp? = Timestamp(0, 0),
-    val start_time_estimated: Boolean = true,
 
-    val temperature_value: String = DEFAULT_VALUE,
-    val temperature_condition: String = DEFAULT_VALUE,
+    @get:PropertyName("path_name")
+    @set:PropertyName("path_name")
+    var pathName: String = DEFAULT_VALUE,
 
-    val wind_value: String = DEFAULT_VALUE,
-    val wind_condition: String = DEFAULT_VALUE,
+    @get:PropertyName("start_time")
+    @set:PropertyName("start_time")
+    var startTime: Timestamp? = Timestamp(0, 0),
 
-    val humidity_value: String = DEFAULT_VALUE,
-    val humidity_condition: String = DEFAULT_VALUE,
+    @get:PropertyName("start_time_estimated")
+    @set:PropertyName("start_time_estimated")
+    var startTimeEstimated: Boolean = true,
 
-    val pressure_value: String = DEFAULT_VALUE,
-    val pressure_condition: String = DEFAULT_VALUE,
+    @get:PropertyName("temperature_value")
+    @set:PropertyName("temperature_value")
+    var temperatureValue: String = DEFAULT_VALUE,
 
-    val front_tool_name: String = DEFAULT_VALUE,
-    val front_tool_mode: Int = 0,
-    val back_tool_name: String = DEFAULT_VALUE,
-    val back_tool_mode: Int = 0
+    @get:PropertyName("temperature_condition")
+    @set:PropertyName("temperature_condition")
+    var temperatureCondition: String = DEFAULT_VALUE,
+
+    @get:PropertyName("wind_value")
+    @set:PropertyName("wind_value")
+    var windValue: String = DEFAULT_VALUE,
+
+    @get:PropertyName("wind_condition")
+    @set:PropertyName("wind_condition")
+    var windCondition: String = DEFAULT_VALUE,
+
+    @get:PropertyName("humidity_value")
+    @set:PropertyName("humidity_value")
+    var humidityValue: String = DEFAULT_VALUE,
+
+    @get:PropertyName("humidity_condition")
+    @set:PropertyName("humidity_condition")
+    var humidityCondition: String = DEFAULT_VALUE,
+
+    @get:PropertyName("pressure_value")
+    @set:PropertyName("pressure_value")
+    var pressureValue: String = DEFAULT_VALUE,
+
+    @get:PropertyName("pressure_condition")
+    @set:PropertyName("pressure_condition")
+    var pressureCondition: String = DEFAULT_VALUE,
+
+    @get:PropertyName("front_tool_name")
+    @set:PropertyName("front_tool_name")
+    var frontToolName: String = DEFAULT_VALUE,
+
+    @get:PropertyName("front_tool_mode")
+    @set:PropertyName("front_tool_mode")
+    var frontToolMode: Int = 0,
+
+    @get:PropertyName("back_tool_name")
+    @set:PropertyName("back_tool_name")
+    var backToolName: String = DEFAULT_VALUE,
+
+    @get:PropertyName("back_tool_mode")
+    @set:PropertyName("back_tool_mode")
+    var backToolMode: Int = 0
+
 ) : BaseCloudDatabaseModel<TaskDetails> {
     override fun toDomainModel() = TaskDetails(
-        path_name = this.path_name,
-        start_time = this.start_time,
-        start_time_estimated = this.start_time_estimated,
-        temperature_value = this.temperature_value,
-        temperature_condition = this.temperature_condition,
-        wind_value = this.wind_value,
-        wind_condition = this.wind_condition,
-        humidity_value = this.humidity_value,
-        humidity_condition = this.humidity_condition,
-        pressure_value = this.pressure_value,
-        pressure_condition = this.pressure_condition,
-        front_tool_name = this.front_tool_name,
-        front_tool_mode = this.front_tool_mode,
-        back_tool_name = this.back_tool_name,
-        back_tool_mode = this.back_tool_mode
+        pathName = this.pathName,
+        startTime = this.startTime,
+        startTimeEstimated = this.startTimeEstimated,
+        temperatureValue = this.temperatureValue,
+        temperatureCondition = this.temperatureCondition,
+        windValue = this.windValue,
+        windCondition = this.windCondition,
+        humidityValue = this.humidityValue,
+        humidityCondition = this.humidityCondition,
+        pressureValue = this.pressureValue,
+        pressureCondition = this.pressureCondition,
+        frontToolName = this.frontToolName,
+        frontToolMode = this.frontToolMode,
+        backToolName = this.backToolName,
+        backToolMode = this.backToolMode
     )
 
     companion object {

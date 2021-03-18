@@ -1,17 +1,25 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase.model
 
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.PropertyName
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationWind
 
 data class RobotWeatherStationWindCDB(
-    val speed_accuracy: Double = 0.0,
-    val speed_value: Double = 1.0,
+
+    @get:PropertyName("speed_accuracy")
+    @set:PropertyName("speed_accuracy")
+    var speedAccuracy: Double = 0.0,
+
+    @get:PropertyName("speed_value")
+    @set:PropertyName("speed_value")
+    var speedValue: Double = 1.0,
+
     val timestamp: Timestamp = Timestamp(0, 0)
 ) :
     BaseCloudDatabaseModel<RobotWeatherStationWind> {
     override fun toDomainModel() = RobotWeatherStationWind(
-        speed_accuracy = this.speed_accuracy,
-        speed_value = this.speed_value,
+        speedAccuracy = this.speedAccuracy,
+        speedValue = this.speedValue,
         timestamp = this.timestamp
     )
 }

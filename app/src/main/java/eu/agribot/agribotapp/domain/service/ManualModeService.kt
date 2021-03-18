@@ -35,6 +35,10 @@ class ManualModeService(
     private val diagnosticDataFlow = MutableStateFlow<DiagnosticData?>(null)
     var diagnosticDataFlowScope = CoroutineScope(Job() + Dispatchers.IO)
 
+    fun sendManualModeInitMessage() {
+        writeBluetoothMessageManager.sendManualControlInitMessage()
+    }
+
     fun onManualSteeringJoystickParametrChanged(joystickAngle: Int, joystickStrength: Int) {
         manualSteeringJoystickManager.onJoystickConfigurationChanged(
             joystickAngle,

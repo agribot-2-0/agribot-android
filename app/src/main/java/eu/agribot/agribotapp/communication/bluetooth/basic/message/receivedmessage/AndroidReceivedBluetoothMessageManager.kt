@@ -29,7 +29,6 @@ import eu.agribot.agribotapp.communication.bluetooth.const.BluetoothAdressCodeMo
 import eu.agribot.agribotapp.communication.bluetooth.const.PersistentConnectionParameters
 import eu.agribot.agribotapp.communication.bluetooth.error.message.receive.BluetoothMessageReceiveErrorHandler
 import eu.agribot.agribotapp.communication.bluetooth.model.fromcommunication.DiagnosticBluetoothDataBD
-import eu.agribot.agribotapp.communication.bluetooth.model.fromcommunication.HydraulicBluetoothDataBD
 import eu.agribot.agribotapp.communication.bluetooth.model.fromcommunication.RfidDataBD
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -46,7 +45,6 @@ class AndroidReceivedBluetoothMessageManager(
 
     @ExperimentalCoroutinesApi
     private val agribotDiagnosticDataFlow = MutableStateFlow<DiagnosticBluetoothDataBD?>(null)
-    private val agribotHydraulicDataFlow = MutableStateFlow<HydraulicBluetoothDataBD?>(null)
 
     @ExperimentalCoroutinesApi
     private val rfidDataBDFlow = MutableStateFlow<RfidDataBD?>(null)
@@ -69,10 +67,6 @@ class AndroidReceivedBluetoothMessageManager(
     @ExperimentalCoroutinesApi
     override fun observeDiagnosticData(): MutableStateFlow<DiagnosticBluetoothDataBD?> {
         return agribotDiagnosticDataFlow
-    }
-
-    override fun observeHydraulicData(): MutableStateFlow<HydraulicBluetoothDataBD?> {
-        return agribotHydraulicDataFlow
     }
 
     @ExperimentalCoroutinesApi
@@ -146,7 +140,7 @@ class AndroidReceivedBluetoothMessageManager(
     }
 
     @ExperimentalCoroutinesApi
-    override fun observe(): MutableStateFlow<RfidDataBD?> {
+    override fun observeRfidData(): MutableStateFlow<RfidDataBD?> {
         return rfidDataBDFlow
     }
 
@@ -157,7 +151,7 @@ class AndroidReceivedBluetoothMessageManager(
 
     @ExperimentalCoroutinesApi
     private fun handleDiagnosticData(bluetoothMessageFrame: BluetoothMessageFrame) {
-        if (bluetoothMessageFrame.getCanDataFromReceivedMessage().size > MinimumMessageLength.DIAGNOSTIC_DATA.size) {
+        if (bluetoothMessageFrame.getCanDataFromReceivedMessage().size >= MinimumMessageLength.DIAGNOSTIC_DATA.size) {
             bluetoothMessageFrame.let { diagnosticData ->
                 agribotDiagnosticDataFlow.value = DiagnosticBluetoothDataBD(
                     engineFuelRate = getEngineFuelRate(diagnosticData),
@@ -171,18 +165,19 @@ class AndroidReceivedBluetoothMessageManager(
         }
     }
 
+    @ExperimentalCoroutinesApi
     private fun handleHydraulicDiagnosticData(bluetoothMessageFrame: BluetoothMessageFrame) {
-        bluetoothMessageFrame.let { hydraulicData ->
-            if (bluetoothMessageFrame.getCanDataFromReceivedMessage().size > MINIMUM_HYDRAULIC_DATA_LENGTH) {
-                agribotHydraulicDataFlow.value = HydraulicBluetoothDataBD(
-                    oilTemperature = getHydraulicOilTemperature(hydraulicData)
+        if (bluetoothMessageFrame.getCanDataFromReceivedMessage().size >= MinimumMessageLength.HYDRAULIC_DATA.size) {
+            bluetoothMessageFrame.let { hydraulicData ->
+                agribotDiagnosticDataFlow.value = DiagnosticBluetoothDataBD(
+                    hydraulicOilTemperature = getHydraulicOilTemperature(hydraulicData)
                 )
             }
         }
     }
 
-    private fun getHydraulicOilTemperature(bluetoothMessageFrame: BluetoothMessageFrame): String {
-        return (bluetoothMessageFrame.getCanDataFromReceivedMessage()[DiagnosticDataArrayPosition.HUDRAULIC_OIL_TEMPERATURE_BYTE.position] - HYDRAULIC_OIL_TEMPERATURE_OFFSET).toString()
+    private fun getHydraulicOilTemperature(bluetoothMessageFrame: BluetoothMessageFrame): Int {
+        return (bluetoothMessageFrame.getCanDataFromReceivedMessage()[DiagnosticDataArrayPosition.HUDRAULIC_OIL_TEMPERATURE_BYTE.position] - HYDRAULIC_OIL_TEMPERATURE_OFFSET)
     }
 
     private fun getEngineRotations(bluetoothMessageFrame: BluetoothMessageFrame): Int {
@@ -196,8 +191,8 @@ class AndroidReceivedBluetoothMessageManager(
         return bluetoothMessageFrame.getCanDataFromReceivedMessage()[TORQUE_OF_ENGINE_BYTE.position].toInt()
     }
 
-    private fun getEngineFuelRate(bluetoothMessageFrame: BluetoothMessageFrame): String {
-        return (bluetoothMessageFrame.getCanDataFromReceivedMessage()[ENGINE_FUEL_RATE_BYTE.position] / FUEL_RATE_RATIO).toString()
+    private fun getEngineFuelRate(bluetoothMessageFrame: BluetoothMessageFrame): Double {
+        return (bluetoothMessageFrame.getCanDataFromReceivedMessage()[ENGINE_FUEL_RATE_BYTE.position] / FUEL_RATE_RATIO)
     }
 
     private fun getFuelLevel(bluetoothMessageFrame: BluetoothMessageFrame): Int {
@@ -208,15 +203,15 @@ class AndroidReceivedBluetoothMessageManager(
         return bluetoothMessageFrame.getCanDataFromReceivedMessage()[FUEL_TEMPERATURE_BYTE.position].toInt()
     }
 
-    private fun getBatteryVoltage(bluetoothMessageFrame: BluetoothMessageFrame): String {
+    private fun getBatteryVoltage(bluetoothMessageFrame: BluetoothMessageFrame): Double {
         val batteryVoltage = bytesToUnsingedInt(
             bluetoothMessageFrame.getCanDataFromReceivedMessage()
                 .sliceArray(ACCUMULATOR_VOLTGE_FIRST_BYTE.position..ACCUMULATOR_VOLTAGE_SECOND_BYTE.position)
         ) * BATTERY_VOLTAGE_RATIO
         return if (batteryVoltage.toString().length > FOUR_DIGIT_NUMBER)
-            (batteryVoltage.toString().slice(FIRST_DIGIT..FOURTH_DIGIT).toDouble()).toString()
+            (batteryVoltage.toString().slice(FIRST_DIGIT..FOURTH_DIGIT).toDouble())
         else
-            (batteryVoltage).toString()
+            (batteryVoltage)
     }
 
     private fun bytesToUnsingedInt(array: ByteArray): Int {

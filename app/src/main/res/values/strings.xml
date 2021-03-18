@@ -48,6 +48,7 @@
     <string name="dialog_path_delete_confirm">Delete!</string>
 
 
+
     <!-- Tool Control -->
     <string name="pto">PTO</string>
     <string name="no_rpm">0 rpm</string>
@@ -154,6 +155,8 @@
     <string name="plus" translatable="false">+</string>
     <string name="minus" translatable="false">-</string>
     <string name="override_button">Override</string>
+    <string name="manual_mode_button">Manual Mode</string>
+
     <string name="nerby_devices_list_item">Available device list : </string>
     <string name="blue_tool">BLUE</string>
     <string name="yellow_tool">YELLOW</string>
@@ -292,6 +295,7 @@
     <string name="save_changes">Save Changes</string>
 
 
+
     <string name="current_task">Current Task :</string>
     <string name="current_path">Current Path:</string>
     <string name="robot_state">Robot Status</string>
@@ -319,4 +323,5 @@
 
 
 
+    <string name="diagnostic_data_log" translatable="false">engineRotationsPerMinute : %S | torqueOfEngine : %S | engineFuelRate : %S | fuelLevel : %S | batteryVoltage : %S |  hydraulicOilTemperature : %S |</string>
 </resources>

@@ -5,6 +5,7 @@ import com.google.firebase.firestore.PropertyName
 import eu.agribot.agribotapp.domain.model.cdb.TaskDetails
 
 data class TaskDetailsCDB(
+
     @get:PropertyName("path_name")
     @set:PropertyName("path_name")
     var pathName: String = DEFAULT_VALUE,

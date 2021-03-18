@@ -68,6 +68,15 @@ class ControlPanelFragment :
         viewModel.markers.observe(this::updateMapMarker)
         viewModel.toastMessageEvent.observe(this::showToast)
         viewModel.cameraPosition.observe(this::updateMapCameraPosition)
+        viewModel.pathName.observe(this::removeLayerFromMap)
+    }
+
+    private fun removeLayerFromMap(pathName: String) {
+        if (pathName == NO_SELECTED_PATH_SYMBOL) {
+            if (mapPathLayer != null) {
+                mapPathLayer!!.removeLayerFromMap()
+            }
+        }
     }
 
     private fun setupViewPager() {
@@ -76,7 +85,11 @@ class ControlPanelFragment :
             tab_layout, pager
         ) { tab: TabLayout.Tab, position: Int ->
             tab.text =
-                arrayOf(getString(R.string.robot_state), getString(R.string.task_state), getString(R.string.task_list))[position]
+                arrayOf(
+                    getString(R.string.robot_state),
+                    getString(R.string.task_state),
+                    getString(R.string.task_list)
+                )[position]
         }.attach()
     }
 
@@ -168,5 +181,9 @@ class ControlPanelFragment :
         } else {
             MapParameters.MID_ZOOM.mapParametr
         }
+    }
+
+    companion object {
+        const val NO_SELECTED_PATH_SYMBOL = "*"
     }
 }

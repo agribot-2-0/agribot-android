@@ -43,9 +43,9 @@ class ManualControlCurrentStateFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecycler()
+        viewModel.prepareDiagnosticData()
         observeViewModel()
         viewModel.getDiagnosticData()
-        viewModel.getHydraulicData()
         viewModel.getUserRole()
         playVideoStream(createVideoInfo())
     }

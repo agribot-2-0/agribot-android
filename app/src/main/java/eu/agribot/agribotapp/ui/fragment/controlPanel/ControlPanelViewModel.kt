@@ -53,6 +53,7 @@ class ControlPanelViewModel(
 
     @SuppressLint("SimpleDateFormat")
     private fun onGotCurrentTaskDetails(taskDetails: TaskDetails) {
+        pathName.value = taskDetails.pathName
         checkIsCurrentPathExistInStorage()
     }
 

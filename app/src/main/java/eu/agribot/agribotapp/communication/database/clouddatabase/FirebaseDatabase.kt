@@ -464,7 +464,7 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         database.collection(COLLECTION_ROBOTS)
             .document(persistentStorage.getRobotSerialNumber() + DOCUMENT_LOCALIZATION_POSE)
             .get()
-            .addOnSuccessListener { it ->
+            .addOnSuccessListener {
                 it.toObject(RobotLocalizationPoseCDB::class.java).let { robotLocalization ->
                     if (robotLocalization != null) {
                         onGotRobotCoordinate(robotLocalization)
@@ -481,7 +481,7 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         database.collection(COLLECTION_USER)
             .document(FirebaseAuth.getInstance().currentUser?.uid.toString())
             .get()
-            .addOnSuccessListener { it ->
+            .addOnSuccessListener {
                 it.toObject(UserRoleCDB::class.java).let { userRole ->
                     if (userRole != null) {
                         onGotUserRole(userRole)
@@ -520,20 +520,22 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
                     snapshot.toObject(ActualTaskCDB::class.java)?.let { it ->
                         if (it.actualTask != "") {
                             onGotCurrentTask(it.actualTask)
+                        } else {
+                            onGotCurrentTask("")
                         }
                     }
                 }
             }
     }
 
-    override fun getUsersRobotName(onGotUserRobotNameSucess: () -> Unit) {
+    override fun getUsersRobotName(onGetUserRobotNameSuccess: () -> Unit) {
         try {
             database.collection("$COLLECTION_USER/" + FirebaseAuth.getInstance().currentUser?.uid.toString() + "/$COLLECTION_ROBOTS")
                 .get()
                 .addOnSuccessListener { result ->
                     if (result != null && !result.isEmpty) {
                         persistentStorage.saveRobotSerialNumber(result.documents[0].id)
-                        onGotUserRobotNameSucess.invoke()
+                        onGetUserRobotNameSuccess.invoke()
                     } else {
                         Timber.e("Robot name problem ")
                     }

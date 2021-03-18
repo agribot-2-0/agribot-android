@@ -1,12 +1,12 @@
 package eu.agribot.agribotapp.communication.database.clouddatabase.model
 
-import com.google.gson.annotations.SerializedName
+import com.google.firebase.firestore.PropertyName
 import eu.agribot.agribotapp.domain.model.cdb.ActualTask
 
 data class ActualTaskCDB(
-
-    @SerializedName("actual_task")
-    val actualTask: String = ""
+    @get:PropertyName("actual_task")
+    @set:PropertyName("actual_task")
+    var actualTask: String = ""
 ) : BaseCloudDatabaseModel<ActualTask> {
 
     override fun toDomainModel() = ActualTask(

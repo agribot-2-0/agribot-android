@@ -7,6 +7,7 @@ import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.model.UserRoleType
+import eu.agribot.agribotapp.domain.model.todomain.DiagnosticData
 import eu.agribot.agribotapp.domain.model.todomain.UserRole
 import eu.agribot.agribotapp.domain.service.AppStorageService
 import eu.agribot.agribotapp.domain.service.ManualModeService
@@ -14,6 +15,7 @@ import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.RobotStateViewMo
 import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.items.RobotStateItems
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.actionbottombar.ActionID
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.recycler.actionbottombar.ManualActionsViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -38,7 +40,14 @@ class ManualControlCurrentStateViewModel(
             ActionID.OVERRIDE_MODE.action -> {
                 onTTControlButtonClicked()
             }
+            ActionID.SEND_MANUAL_INIT_MESSAGE.action -> {
+                onManualModeButtonCLicked()
+            }
         }
+    }
+
+    private fun onManualModeButtonCLicked() {
+        manualModeService.sendManualModeInitMessage()
     }
 
     private fun createActionsList(withAdmin: Boolean) {
@@ -51,6 +60,10 @@ class ManualControlCurrentStateViewModel(
                 ManualActionsViewModel(
                     ActionID.OVERRIDE_MODE.action,
                     resourcesProvider.getString(R.string.override_button)
+                ),
+                ManualActionsViewModel(
+                    ActionID.SEND_MANUAL_INIT_MESSAGE.action,
+                    resourcesProvider.getString(R.string.manual_mode_button)
                 )
             )
         } else {
@@ -65,47 +78,119 @@ class ManualControlCurrentStateViewModel(
 
     fun getStreamUrl(): String = appStorageService.getStreamUrl()
 
+    fun prepareDiagnosticData() {
+        diagnosticDataList.value = listOf(
+            RobotStateViewModel(
+                RobotStateItems.MANUAL_CONTROL_VOLTAGE.ID,
+                resourcesProvider.getString(R.string.no_data_status),
+                resourcesProvider.getString(R.string.volt)
+            ),
+
+            RobotStateViewModel(
+                RobotStateItems.MANUAL_CONTROL_ENGINE_ROTATIONS.ID,
+                resourcesProvider.getString(R.string.no_data_status),
+                resourcesProvider.getString(R.string.rpm)
+
+            ),
+            RobotStateViewModel(
+                RobotStateItems.MANUAL_CONTROL_ENGINE_TORQUE.ID,
+                resourcesProvider.getString(R.string.no_data_status),
+                resourcesProvider.getString(R.string.percent)
+            ),
+
+            RobotStateViewModel(
+                RobotStateItems.MANUAL_CONTROL_FUEL_LEVEL.ID,
+                resourcesProvider.getString(R.string.no_data_status),
+                resourcesProvider.getString(R.string.percent)
+
+            ),
+            RobotStateViewModel(
+                RobotStateItems.MANUAL_CONTROL_FUEL_RATE.ID,
+                resourcesProvider.getString(R.string.no_data_status),
+                resourcesProvider.getString(R.string.liter_per_hour)
+
+            ),
+            RobotStateViewModel(
+                RobotStateItems.MANUAL_CONTROL_OIL_TEMPERATURE.ID,
+                resourcesProvider.getString(R.string.no_data_status),
+                resourcesProvider.getString(R.string.celcius_degree)
+
+            ), RobotStateViewModel(
+                RobotStateItems.MANUAL_CONTROL_OIL_TEMPERATURE.ID,
+                resourcesProvider.getString(R.string.no_data_status),
+                resourcesProvider.getString(R.string.celcius_degree)
+            )
+        )
+    }
+
+    @ExperimentalCoroutinesApi
     fun getDiagnosticData() = viewModelScope.launch {
         manualModeService.observeDiagnosticData().collect { diagnosticData ->
             if (diagnosticData != null) {
-                addToDiagnosticDataList(
-                    RobotStateViewModel(
-                        RobotStateItems.MANUAL_CONTROL_VOLTAGE.ID,
-                        diagnosticData.batteryVoltage,
-                        resourcesProvider.getString(R.string.volt)
-                    )
-                )
-                addToDiagnosticDataList(
-                    RobotStateViewModel(
-                        RobotStateItems.MANUAL_CONTROL_ENGINE_ROTATIONS.ID,
-                        diagnosticData.engineRotationsPerMinute.toString(),
-                        resourcesProvider.getString(R.string.rpm)
+                logDiagnosticData(diagnosticData)
+            }
+            if (diagnosticData != null) {
 
+                if (diagnosticData.batteryVoltage != INVALID_DECIMAL_NUMBER) {
+                    addToDiagnosticDataList(
+                        RobotStateViewModel(
+                            RobotStateItems.MANUAL_CONTROL_VOLTAGE.ID,
+                            String.format("%.1f", diagnosticData.batteryVoltage),
+                            resourcesProvider.getString(R.string.volt)
+                        )
                     )
-                )
-                addToDiagnosticDataList(
-                    RobotStateViewModel(
-                        RobotStateItems.MANUAL_CONTROL_ENGINE_TORQUE.ID,
-                        diagnosticData.torqueOfEngine.toString(),
-                        resourcesProvider.getString(R.string.percent)
-                    )
-                )
-                addToDiagnosticDataList(
-                    RobotStateViewModel(
-                        RobotStateItems.FUEL_LEVEL.ID,
-                        diagnosticData.fuelLevel.toString(),
-                        resourcesProvider.getString(R.string.percent)
+                }
+                if (diagnosticData.engineRotationsPerMinute != INVALID_INTEGER_NUMBER) {
+                    addToDiagnosticDataList(
+                        RobotStateViewModel(
+                            RobotStateItems.MANUAL_CONTROL_ENGINE_ROTATIONS.ID,
+                            diagnosticData.engineRotationsPerMinute.toString(),
+                            resourcesProvider.getString(R.string.rpm)
 
+                        )
                     )
-                )
-                addToDiagnosticDataList(
-                    RobotStateViewModel(
-                        RobotStateItems.MANUAL_CONTROL_FUEL_RATE.ID,
-                        diagnosticData.engineFuelRate,
-                        resourcesProvider.getString(R.string.liter_per_hour)
+                }
+                if (diagnosticData.torqueOfEngine != INVALID_INTEGER_NUMBER) {
+                    addToDiagnosticDataList(
+                        RobotStateViewModel(
+                            RobotStateItems.MANUAL_CONTROL_ENGINE_TORQUE.ID,
+                            diagnosticData.torqueOfEngine.toString(),
+                            resourcesProvider.getString(R.string.percent)
+                        )
+                    )
+                }
 
+                if (diagnosticData.fuelLevel != INVALID_INTEGER_NUMBER) {
+                    addToDiagnosticDataList(
+                        RobotStateViewModel(
+                            RobotStateItems.MANUAL_CONTROL_FUEL_LEVEL.ID,
+                            diagnosticData.fuelLevel.toString(),
+                            resourcesProvider.getString(R.string.liter_per_hour)
+
+                        )
                     )
-                )
+                }
+
+                if (diagnosticData.engineFuelRate != INVALID_DECIMAL_NUMBER) {
+                    addToDiagnosticDataList(
+                        RobotStateViewModel(
+                            RobotStateItems.MANUAL_CONTROL_FUEL_RATE.ID,
+                            String.format("%.1f", diagnosticData.engineFuelRate),
+                            resourcesProvider.getString(R.string.liter_per_hour)
+
+                        )
+                    )
+                }
+                if (diagnosticData.hydraulicOilTemperature != INVALID_INTEGER_NUMBER) {
+                    addToDiagnosticDataList(
+                        RobotStateViewModel(
+                            RobotStateItems.MANUAL_CONTROL_OIL_TEMPERATURE.ID,
+                            diagnosticData.hydraulicOilTemperature.toString(),
+                            resourcesProvider.getString(R.string.celcius_degree)
+
+                        )
+                    )
+                }
             } else {
                 resourcesProvider.getString(R.string.no_data_status).let { noData ->
                     addToDiagnosticDataList(
@@ -130,14 +215,15 @@ class ManualControlCurrentStateViewModel(
                             resourcesProvider.getString(R.string.percent)
                         )
                     )
+
                     addToDiagnosticDataList(
                         RobotStateViewModel(
-                            RobotStateItems.MANUAL_CONTROL_FUEL_LEVEL.ID,
+                            RobotStateItems.FUEL_LEVEL.ID,
                             noData,
                             resourcesProvider.getString(R.string.percent)
-
                         )
                     )
+
                     addToDiagnosticDataList(
                         RobotStateViewModel(
                             RobotStateItems.MANUAL_CONTROL_FUEL_RATE.ID,
@@ -158,24 +244,18 @@ class ManualControlCurrentStateViewModel(
         }
     }
 
-    fun getHydraulicData() = viewModelScope.launch {
-        if (manualModeService.observeHydraulicData().value != null) {
-            addToDiagnosticDataList(
-                RobotStateViewModel(
-                    RobotStateItems.MANUAL_CONTROL_OIL_TEMPERATURE.ID,
-                    manualModeService.observeHydraulicData().value!!.oilTemperature,
-                    resourcesProvider.getString(R.string.celcius_degree)
-                )
+    private fun logDiagnosticData(diagnosticData: DiagnosticData) {
+        Timber.d(
+            String.format(
+                resourcesProvider.getString(R.string.diagnostic_data_log),
+                diagnosticData.torqueOfEngine.toString(),
+                diagnosticData.engineFuelRate,
+                diagnosticData.fuelLevel.toString(),
+                diagnosticData.engineRotationsPerMinute.toString(),
+                diagnosticData.batteryVoltage,
+                diagnosticData.hydraulicOilTemperature
             )
-        } else {
-            addToDiagnosticDataList(
-                RobotStateViewModel(
-                    RobotStateItems.MANUAL_CONTROL_OIL_TEMPERATURE.ID,
-                    resourcesProvider.getString(R.string.no_data_status),
-                    resourcesProvider.getString(R.string.celcius_degree)
-                )
-            )
-        }
+        )
     }
 
     private fun addToDiagnosticDataList(diagnosticData: RobotStateViewModel) {
@@ -235,5 +315,12 @@ class ManualControlCurrentStateViewModel(
 
     private fun onDatabaseError(error: String) {
         Timber.e(error)
+    }
+
+    companion object {
+
+        const val INVALID_INTEGER_NUMBER = -1
+
+        const val INVALID_DECIMAL_NUMBER = 0.0
     }
 }

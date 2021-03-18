@@ -155,7 +155,7 @@
     <string name="plus" translatable="false">+</string>
     <string name="minus" translatable="false">-</string>
     <string name="override_button">Override</string>
-    <string name="manual_mode_button">Go to Manual Mode</string>
+    <string name="manual_mode_button">Manual Mode</string>
 
     <string name="nerby_devices_list_item">Available device list : </string>
     <string name="blue_tool">BLUE</string>

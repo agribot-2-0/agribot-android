@@ -58,7 +58,7 @@
     <string name="example_rpm">1600 rpm</string>
     <string name="engine">Silnik</string>
     <string name="start_stop_engine">WŁĄCZ/WYŁĄCZ SILNIK</string>
-    <string name="manual_mode_button">TRYB MANUAL</string>
+    <string name="manual_mode_button">TRYB MANUALNY</string>
 
 
     <!-- Tool Select View -->

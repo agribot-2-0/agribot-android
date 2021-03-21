@@ -42,30 +42,35 @@ class SettingsViewModel(
     fun prepareSettingsItem() {
 
         settingsList.value = listOf(
-            SettingsListViewModel(
-                ItemID.ACCOUNT.ID,
-                resourcesProvider.getString(R.string.settings_category_user),
-                resourcesProvider.getString(R.string.settiongs_account_description)
-            ),
-            SettingsListViewModel(
-                ItemID.CONNECTION.ID,
-                resourcesProvider.getString(R.string.settings_category_connection),
-                resourcesProvider.getString(R.string.settings_connection_description)
-            ),
-            SettingsListViewModel(
-                ItemID.OTHER.ID,
-                resourcesProvider.getString(R.string.settings_category_other),
-                resourcesProvider.getString(R.string.settiongs_other_description)
-            )
+                SettingsListViewModel(
+                        ItemID.ACCOUNT.ID,
+                        resourcesProvider.getString(R.string.settings_category_user),
+                        resourcesProvider.getString(R.string.settiongs_account_description)
+                ),
+                SettingsListViewModel(
+                        ItemID.CONNECTION.ID,
+                        resourcesProvider.getString(R.string.settings_category_connection),
+                        resourcesProvider.getString(R.string.settings_connection_description)
+                ),
+                SettingsListViewModel(
+                        ItemID.OTHER.ID,
+                        resourcesProvider.getString(R.string.settings_category_other),
+                        resourcesProvider.getString(R.string.settiongs_other_description)
+                )
         )
     }
 
     private fun onWakeupButtonCLicked(onError: (error: String) -> Unit) = viewModelScope.launch {
         toastEvent.postValue(resourcesProvider.getString(R.string.wakeup_agribot_message))
-        internetConnectionService.connectWithAgribot(onConnectionError = onError)
+        internetConnectionService.wakeupAgribot(onConnectionError = onError)
     }
 
-    private fun onWakeupError(errorMessage: String) {
+    private fun onSleepButtonCLicked(onError: (error: String) -> Unit) = viewModelScope.launch {
+        toastEvent.postValue(resourcesProvider.getString(R.string.wakeup_agribot_message))
+        internetConnectionService.sleepAgribot(onConnectionError = onError)
+    }
+
+    private fun onAgribotConnectionError(errorMessage: String) {
         toastEvent.postValue(errorMessage)
     }
 
@@ -87,48 +92,52 @@ class SettingsViewModel(
 
     private fun setConnectionSettingsDetails() {
         settingsActions.value = listOf(
-            SettingsActionViewModel(
-                ItemID.SEARCH_BLUETOOTH_DEVICE.ID,
-                resourcesProvider.getString(R.string.find_agribot)
-            ),
-            SettingsActionViewModel(
-                ItemID.DISCONNECT_BLUETOOTH_DEVICE.ID,
-                resourcesProvider.getString(R.string.disconnect_button)
-            ),
-            SettingsActionViewModel(
-                ItemID.WAKEUP_MESSAGE.ID,
-                resourcesProvider.getString(R.string.wakeup_button)
-            )
+                SettingsActionViewModel(
+                        ItemID.SEARCH_BLUETOOTH_DEVICE.ID,
+                        resourcesProvider.getString(R.string.find_agribot)
+                ),
+                SettingsActionViewModel(
+                        ItemID.DISCONNECT_BLUETOOTH_DEVICE.ID,
+                        resourcesProvider.getString(R.string.disconnect_button)
+                ),
+                SettingsActionViewModel(
+                        ItemID.WAKEUP_MESSAGE.ID,
+                        resourcesProvider.getString(R.string.wakeup_button)
+                ),
+                SettingsActionViewModel(
+                        ItemID.SLEEP_MESSAGE.ID,
+                        resourcesProvider.getString(R.string.sleep_button)
+                )
         )
     }
 
     private fun setUserSettingsDetails() {
         settingsActions.value = listOf(
-            SettingsActionViewModel(
-                ItemID.LOGIN_AS.ID,
-                String.format(resourcesProvider.getString(R.string.login_As_Text), user)
-            ),
-            SettingsActionViewModel(
-                ItemID.ROBOT_RSN.ID,
-                String.format(resourcesProvider.getString(R.string.your_robot_text), appStorageService.getRobotSerialNumber())
-            ),
-            SettingsActionViewModel(
-                ItemID.LOG_OUT.ID,
-                resourcesProvider.getString(R.string.sign_out)
-            ),
-            SettingsActionViewModel(
-                ItemID.REMOVE_ACCOUNT.ID,
-                resourcesProvider.getString(R.string.delete_account)
-            )
+                SettingsActionViewModel(
+                        ItemID.LOGIN_AS.ID,
+                        String.format(resourcesProvider.getString(R.string.login_As_Text), user)
+                ),
+                SettingsActionViewModel(
+                        ItemID.ROBOT_RSN.ID,
+                        String.format(resourcesProvider.getString(R.string.your_robot_text), appStorageService.getRobotSerialNumber())
+                ),
+                SettingsActionViewModel(
+                        ItemID.LOG_OUT.ID,
+                        resourcesProvider.getString(R.string.sign_out)
+                ),
+                SettingsActionViewModel(
+                        ItemID.REMOVE_ACCOUNT.ID,
+                        resourcesProvider.getString(R.string.delete_account)
+                )
         )
     }
 
     private fun setOtherSettingsDetails() {
         settingsActions.value = listOf(
-            SettingsActionViewModel(
-                ItemID.CHANGE_URL_STREAM.ID,
-                resourcesProvider.getString(R.string.change_video_url)
-            )
+                SettingsActionViewModel(
+                        ItemID.CHANGE_URL_STREAM.ID,
+                        resourcesProvider.getString(R.string.change_video_url)
+                )
         )
     }
 
@@ -160,7 +169,10 @@ class SettingsViewModel(
                 onStreamUrlChange()
             }
             ItemID.WAKEUP_MESSAGE.ID -> {
-                onWakeupButtonCLicked(onError = this::onWakeupError)
+                onWakeupButtonCLicked(onError = this::onAgribotConnectionError)
+            }
+            ItemID.SLEEP_MESSAGE.ID -> {
+                onSleepButtonCLicked(onError = this::onAgribotConnectionError)
             }
         }
     }
@@ -184,7 +196,7 @@ class SettingsViewModel(
 
     private fun postWelcomeActivityEvent() {
         navigationEvent.postValue(
-            WelcomeActivityNavigationEvent()
+                WelcomeActivityNavigationEvent()
         )
     }
 
@@ -194,14 +206,14 @@ class SettingsViewModel(
 
     fun removeUser() {
         authenticationService.removeUser(
-            onSucessRemove = this::removeUserSucessfull,
-            onErrorRemove = this::removeUserFailed
+                onSucessRemove = this::removeUserSucessfull,
+                onErrorRemove = this::removeUserFailed
         )
     }
 
     private fun onSearchBluetoothDeviceClicked() {
         navigationEvent.postValue(
-            BluetoothConnectionNavigationEvent()
+                BluetoothConnectionNavigationEvent()
         )
     }
 

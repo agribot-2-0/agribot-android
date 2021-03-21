@@ -7,6 +7,7 @@ apply from: "dependencies.gradle"
 apply from: "releasesigning.gradle"
 apply from: "buildtypes.gradle"
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
 	compileSdkVersion 29

@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage
 
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.socket.BluetoothSocketManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.BluetoothMessageFrame
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.FrameConstant.DUMMY_BYTE
@@ -34,6 +35,7 @@ class AndroidWriteBluetoothMessageManager(
             try {
                 outputStream.write(message)
             } catch (writeMessageException: IOException) {
+                FirebaseCrashlytics.getInstance().log("Bluetooth message write exception :$writeMessageException")
                 bluetoothMessageWriteErrorHandler.onWriteMessageError()
                 return
             }

@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage
 
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.socket.BluetoothSocketManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.BluetoothMessageFrame
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.FrameConstant.DUMMY_BYTE
@@ -36,11 +37,11 @@ import timber.log.Timber
 import java.io.IOException
 
 class AndroidReceivedBluetoothMessageManager(
-    private val receiveErrorHandler: BluetoothMessageReceiveErrorHandler,
-    private val writeBluetoothMessageManager: WriteBluetoothMessageManager,
-    private val bluetoothSocketManager: BluetoothSocketManager,
-    private val heartbeatManager: HeartbeatManager,
-    private val rfidMessageManager: RfidMessageManager
+        private val receiveErrorHandler: BluetoothMessageReceiveErrorHandler,
+        private val writeBluetoothMessageManager: WriteBluetoothMessageManager,
+        private val bluetoothSocketManager: BluetoothSocketManager,
+        private val heartbeatManager: HeartbeatManager,
+        private val rfidMessageManager: RfidMessageManager
 ) : ReceivedBluetoothMessageManager {
 
     @ExperimentalCoroutinesApi
@@ -58,6 +59,7 @@ class AndroidReceivedBluetoothMessageManager(
                 bluetoothSocketManager.getBluetoothSocket()?.inputStream?.read(receiveMessageBuffer)
                 handleMessage(receiveMessageBuffer)
             } catch (receiveMessageException: IOException) {
+                FirebaseCrashlytics.getInstance().log("Bluetooth message receive exception :$receiveMessageException")
                 receiveErrorHandler.onReceiveBluetoothMessageError()
                 break
             }
@@ -71,7 +73,7 @@ class AndroidReceivedBluetoothMessageManager(
 
     @ExperimentalCoroutinesApi
     private fun handleMessage(
-        bluetoothMessage: ByteArray
+            bluetoothMessage: ByteArray
     ) {
         try {
             if (bluetoothMessage[START_OF_FRAME_POSITION] == START_FRAME_MESSAGE) {
@@ -81,14 +83,16 @@ class AndroidReceivedBluetoothMessageManager(
                 if (bluetoothMessage.isEmpty())
                     return
                 handleMessageFrame(
-                    BluetoothMessageFrame(
-                        bluetoothMessage
-                    )
+                        BluetoothMessageFrame(
+                                bluetoothMessage
+                        )
                 )
             } else {
                 return
             }
         } catch (handleMessageException: IOException) {
+            FirebaseCrashlytics.getInstance().log("Handle received bluetooth message exception :$handleMessageException")
+
             receiveErrorHandler.onReceiveBluetoothMessageError()
         }
     }
@@ -154,12 +158,12 @@ class AndroidReceivedBluetoothMessageManager(
         if (bluetoothMessageFrame.getCanDataFromReceivedMessage().size >= MinimumMessageLength.DIAGNOSTIC_DATA.size) {
             bluetoothMessageFrame.let { diagnosticData ->
                 agribotDiagnosticDataFlow.value = DiagnosticBluetoothDataBD(
-                    engineFuelRate = getEngineFuelRate(diagnosticData),
-                    batteryVoltage = getBatteryVoltage(diagnosticData),
-                    engineRotationsPerMinute = getEngineRotations(diagnosticData),
-                    torqueOfEngine = getTorqueOfEngine(diagnosticData),
-                    fuelLevel = getFuelLevel(diagnosticData),
-                    fuelTemperature = getFuelTemperature(diagnosticData)
+                        engineFuelRate = getEngineFuelRate(diagnosticData),
+                        batteryVoltage = getBatteryVoltage(diagnosticData),
+                        engineRotationsPerMinute = getEngineRotations(diagnosticData),
+                        torqueOfEngine = getTorqueOfEngine(diagnosticData),
+                        fuelLevel = getFuelLevel(diagnosticData),
+                        fuelTemperature = getFuelTemperature(diagnosticData)
                 )
             }
         }
@@ -170,7 +174,7 @@ class AndroidReceivedBluetoothMessageManager(
         if (bluetoothMessageFrame.getCanDataFromReceivedMessage().size >= MinimumMessageLength.HYDRAULIC_DATA.size) {
             bluetoothMessageFrame.let { hydraulicData ->
                 agribotDiagnosticDataFlow.value = DiagnosticBluetoothDataBD(
-                    hydraulicOilTemperature = getHydraulicOilTemperature(hydraulicData)
+                        hydraulicOilTemperature = getHydraulicOilTemperature(hydraulicData)
                 )
             }
         }
@@ -182,8 +186,8 @@ class AndroidReceivedBluetoothMessageManager(
 
     private fun getEngineRotations(bluetoothMessageFrame: BluetoothMessageFrame): Int {
         return bytesToUnsingedInt(
-            bluetoothMessageFrame.getCanDataFromReceivedMessage()
-                .sliceArray(ENGINE_ROTATIONS_FIRST_BYTE.position..ENGINE_ROTATIONS_SECOND_BYTE.position)
+                bluetoothMessageFrame.getCanDataFromReceivedMessage()
+                        .sliceArray(ENGINE_ROTATIONS_FIRST_BYTE.position..ENGINE_ROTATIONS_SECOND_BYTE.position)
         )
     }
 
@@ -205,8 +209,8 @@ class AndroidReceivedBluetoothMessageManager(
 
     private fun getBatteryVoltage(bluetoothMessageFrame: BluetoothMessageFrame): Double {
         val batteryVoltage = bytesToUnsingedInt(
-            bluetoothMessageFrame.getCanDataFromReceivedMessage()
-                .sliceArray(ACCUMULATOR_VOLTGE_FIRST_BYTE.position..ACCUMULATOR_VOLTAGE_SECOND_BYTE.position)
+                bluetoothMessageFrame.getCanDataFromReceivedMessage()
+                        .sliceArray(ACCUMULATOR_VOLTGE_FIRST_BYTE.position..ACCUMULATOR_VOLTAGE_SECOND_BYTE.position)
         ) * BATTERY_VOLTAGE_RATIO
         return if (batteryVoltage.toString().length > FOUR_DIGIT_NUMBER)
             (batteryVoltage.toString().slice(FIRST_DIGIT..FOURTH_DIGIT).toDouble())
@@ -231,7 +235,4 @@ class AndroidReceivedBluetoothMessageManager(
         heartbeatManager.restartHeartbeatCounter()
     }
 
-    companion object {
-        const val MINIMUM_HYDRAULIC_DATA_LENGTH = 2
-    }
 }

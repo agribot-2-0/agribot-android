@@ -1,6 +1,7 @@
-package eu.agribot.agribotapp.communication.bluetooth.basic.connection.socket
+package eu.agribot.agribotapp.communication.bluetooth.basic.socket
 
 import android.bluetooth.BluetoothSocket
+import eu.agribot.agribotapp.communication.bluetooth.basic.connection.socket.BluetoothSocketManager
 
 class AndroidBluetoothSocketManager : BluetoothSocketManager {
     private var bluetoothSocket: BluetoothSocket? = null

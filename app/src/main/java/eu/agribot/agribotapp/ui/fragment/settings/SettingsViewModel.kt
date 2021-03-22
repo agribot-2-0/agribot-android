@@ -66,7 +66,7 @@ class SettingsViewModel(
     }
 
     private fun onSleepButtonCLicked(onError: (error: String) -> Unit) = viewModelScope.launch {
-        toastEvent.postValue(resourcesProvider.getString(R.string.wakeup_agribot_message))
+        toastEvent.postValue(resourcesProvider.getString(R.string.sleep_agribot_message))
         internetConnectionService.sleepAgribot(onConnectionError = onError)
     }
 

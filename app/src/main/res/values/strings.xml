@@ -316,5 +316,7 @@
     <string name="no_selected_rfid_tag">No rfid tag selected!</string>
     <string name="overview_mode">Overview</string>
     <string name="wakeup_agribot_message">Wakeup Agribot</string>
+    <string name="sleep_agribot_message">Sleep Agribot</string>
+
     <string name="diagnostic_data_log" translatable="false">engineRotationsPerMinute : %S | torqueOfEngine : %S | engineFuelRate : %S | fuelLevel : %S | batteryVoltage : %S |  hydraulicOilTemperature : %S |</string>
 </resources>

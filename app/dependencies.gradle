@@ -146,8 +146,6 @@ dependencies {
 	//Recycler Decorator
 	implementation "it.xabaras.android:recyclerview-swipedecorator:$versions.recyclerDecorator"
 
-
-	// Import the BoM for the Firebase platform
 	implementation platform('com.google.firebase:firebase-bom:26.7.0')
 
 	// Declare the dependencies for the Crashlytics and Analytics libraries

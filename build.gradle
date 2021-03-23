@@ -30,5 +30,7 @@ buildscript {
         classpath "com.github.ben-manes:gradle-versions-plugin:${versions_version}"
         classpath "com.github.triplet.gradle:play-publisher:${play_version}"
         classpath "com.google.gms:google-services:${services_version}"
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.5.1'
+
     }
 }

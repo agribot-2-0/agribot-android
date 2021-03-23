@@ -36,6 +36,7 @@ class AndroidWriteBluetoothMessageManager(
                 outputStream.write(message)
             } catch (writeMessageException: IOException) {
                 FirebaseCrashlytics.getInstance().log("Bluetooth message write exception :$writeMessageException")
+                FirebaseCrashlytics.getInstance().recordException(writeMessageException)
                 bluetoothMessageWriteErrorHandler.onWriteMessageError()
                 return
             }

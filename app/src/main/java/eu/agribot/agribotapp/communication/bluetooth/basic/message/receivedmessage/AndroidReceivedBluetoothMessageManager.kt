@@ -60,6 +60,8 @@ class AndroidReceivedBluetoothMessageManager(
                 handleMessage(receiveMessageBuffer)
             } catch (receiveMessageException: IOException) {
                 FirebaseCrashlytics.getInstance().log("Bluetooth message receive exception :$receiveMessageException")
+                FirebaseCrashlytics.getInstance().recordException(receiveMessageException)
+
                 receiveErrorHandler.onReceiveBluetoothMessageError()
                 break
             }
@@ -92,7 +94,7 @@ class AndroidReceivedBluetoothMessageManager(
             }
         } catch (handleMessageException: IOException) {
             FirebaseCrashlytics.getInstance().log("Handle received bluetooth message exception :$handleMessageException")
-
+            FirebaseCrashlytics.getInstance().recordException(handleMessageException)
             receiveErrorHandler.onReceiveBluetoothMessageError()
         }
     }

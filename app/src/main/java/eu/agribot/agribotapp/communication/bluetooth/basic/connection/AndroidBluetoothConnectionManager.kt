@@ -53,7 +53,7 @@ class AndroidBluetoothConnectionManager(
                         } catch (e: IOException) {
                             shouldLoop = false
                             FirebaseCrashlytics.getInstance().log("Register Bluetooth Server Exception : $e")
-
+                            FirebaseCrashlytics.getInstance().recordException(e)
                         }
                         bluetoothServerSocket?.also {
                             bluetoothServerSocket.close()
@@ -95,6 +95,8 @@ class AndroidBluetoothConnectionManager(
                     }
                 } catch (bluetoothConnectionError: IOException) {
                     FirebaseCrashlytics.getInstance().log("Bluetooth Connection Exception : $bluetoothConnectionError")
+                    FirebaseCrashlytics.getInstance().recordException(bluetoothConnectionError)
+
                     bluetoothConnectionErrorHandler.onBluetoothConnectionError()
                 }
             }

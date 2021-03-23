@@ -260,6 +260,8 @@
     <string name="left_right">LEWO / PRAWO</string>
     <string name="front_back">Przód / Tył</string>
     <string name="wakeup_button">Obudź Agribota</string>
+    <string name="sleep_button">Uśpij Agribota</string>
+
 
     <string name="dialog_no_found_tags_tittle">Nie znaleziono tagów</string>
     <string name="dialog_no_found_tags_message">Chcesz powtórzyć skan? </string>
@@ -293,6 +295,7 @@
     <string name="no_selected_rfid_tag">Nie wybrano tagu rfid narzędzia!</string>
     <string name="overview_mode">Podgląd stanu Robota</string>
     <string name="wakeup_agribot_message">Budzenie Agribota</string>
+    <string name="sleep_agribot_message">Usypianie Agribota</string>
 
     <string name="humidity_percent_value">Wilgotność %1$S%2$S</string>
     <string name="wind_value">Wiatr %1S km/h</string>

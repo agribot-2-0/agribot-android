@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.communication.tcpconnection
 
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import eu.agribot.agribotapp.communication.tcpconnection.TcpConnectionDetails.IP_ADDRESS
 import eu.agribot.agribotapp.communication.tcpconnection.TcpConnectionDetails.PORT_NUMBER
 import eu.agribot.agribotapp.communication.tcpconnection.TcpConnectionDetails.WAKEUP_MESSAGE
@@ -21,6 +22,8 @@ class AndroidTcpConnectionManager : TcpConnectionManager {
                 val tcpClient = Socket(IP_ADDRESS, PORT_NUMBER)
                 sendWakeupMessage(tcpClient)
             } catch (exception: Exception) {
+                FirebaseCrashlytics.getInstance().log("Tcp connection exception :$exception")
+                FirebaseCrashlytics.getInstance().recordException(exception)
                 onConnectionError(exception)
             }
         }

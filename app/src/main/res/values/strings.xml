@@ -273,6 +273,8 @@
     <string name="left_right">Left / Right</string>
     <string name="front_back">Front / Back</string>
     <string name="wakeup_button">Wake-Up</string>
+    <string name="sleep_button">Sleep</string>
+
 
     <string name="dialog_tiles_downloading_tittle">Your files is downloading…</string>
     <string name="dialog_tiles_downloading_message">Downloading in progress</string>
@@ -314,5 +316,7 @@
     <string name="no_selected_rfid_tag">No rfid tag selected!</string>
     <string name="overview_mode">Overview</string>
     <string name="wakeup_agribot_message">Wakeup Agribot</string>
+    <string name="sleep_agribot_message">Sleep Agribot</string>
+
     <string name="diagnostic_data_log" translatable="false">engineRotationsPerMinute : %S | torqueOfEngine : %S | engineFuelRate : %S | fuelLevel : %S | batteryVoltage : %S |  hydraulicOilTemperature : %S |</string>
 </resources>

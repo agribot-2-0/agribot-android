@@ -11,8 +11,8 @@ import eu.agribot.agribotapp.ui.fragment.weather.forecast.chart.ChartWeatherData
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Locale
 import java.util.Date
+import java.util.Locale
 
 class WeatherService(
     private val restApiService: RestApiService,
@@ -89,7 +89,7 @@ class WeatherService(
         return if (restApiService.getOpenWeatherDataFromPersistent() != null) {
             val weatherDataCalendarDate = Calendar.getInstance(Locale.ENGLISH)
             weatherDataCalendarDate.timeInMillis =
-                restApiService.getOpenWeatherDataFromPersistent()?.hourly!![0].dt.toLong() * TIMESTAMP_CONV_VALUE
+                restApiService.getOpenWeatherDataFromPersistent()?.hourly!![THE_OLDEST_WEATHER_FORECAST_ELEMENT_POSITION].dt.toLong() * TIMESTAMP_CONV_VALUE
             val currentCalendarDate = Calendar.getInstance(Locale.ENGLISH)
             currentCalendarDate.timeInMillis = Timestamp(System.currentTimeMillis()).time
             weatherDataCalendarDate.add(Calendar.HOUR, TWO_HOURS)
@@ -112,5 +112,7 @@ class WeatherService(
         const val TWO_HOURS = 2
 
         const val TIMESTAMP_CONV_VALUE = 1000L
+
+        const val THE_OLDEST_WEATHER_FORECAST_ELEMENT_POSITION = 0
     }
 }

@@ -16,7 +16,9 @@ import eu.agribot.agribotapp.ui.fragment.weather.forecast.ForecastWeatherAdapter
 import eu.agribot.agribotapp.ui.fragment.weather.forecast.ForecastWeatherViewModel
 import eu.agribot.agribotapp.ui.fragment.weather.forecast.chart.ChartWeatherData
 import eu.agribot.agribotapp.ui.fragment.weather.forecast.chart.TimestampValueFormatter
-import kotlinx.android.synthetic.main.fragment_weather.*
+import kotlinx.android.synthetic.main.fragment_weather.temperatureChart
+import kotlinx.android.synthetic.main.fragment_weather.currentWeatherImage
+import kotlinx.android.synthetic.main.fragment_weather.forecastRecycler
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 

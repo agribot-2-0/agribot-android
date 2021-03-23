@@ -38,8 +38,7 @@
             <ImageView
                 android:id="@+id/forecastImage"
                 android:layout_width="72dp"
-                android:layout_height="64dp"
-                tool:src="@drawable/ic_cloudy_weather" />
+                android:layout_height="64dp" />
 
             <TextView
                 android:id="@+id/forecastTemperature"

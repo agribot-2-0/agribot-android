@@ -48,8 +48,12 @@ class ForecastWeatherAdapter(fragment: Fragment) :
                 )
             )
             .error(R.drawable.ic_pointer)
-            .override(200, 200)
+            .override(FORECAST_IMAGE_SIZE_VALUE, FORECAST_IMAGE_SIZE_VALUE)
             .centerCrop()
             .into(holder.itemView.forecastImage)
+    }
+
+    companion object {
+        const val FORECAST_IMAGE_SIZE_VALUE = 200
     }
 }

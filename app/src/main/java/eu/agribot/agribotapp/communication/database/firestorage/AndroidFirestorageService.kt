@@ -4,6 +4,8 @@ import android.net.Uri
 import com.downloader.Error
 import com.downloader.OnDownloadListener
 import com.downloader.PRDownloader
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.UploadFileModelCDB
@@ -60,6 +62,11 @@ class AndroidFirestorageService(
 
                         override fun onError(error: Error) {
                             onDownloadError(error.connectionException)
+                            recordExceptionToCrashlystic(
+                                "Download path exception",
+                                error.connectionException
+                            )
+
                         }
                     })
             }
@@ -77,6 +84,8 @@ class AndroidFirestorageService(
             }
             .addOnFailureListener {
                 onError(it)
+                recordExceptionToCrashlystic("Remove path on firestorage exception", it)
+
             }
     }
 
@@ -102,6 +111,10 @@ class AndroidFirestorageService(
 
                         override fun onError(error: Error) {
                             onDownloadError(error.connectionException)
+                            recordExceptionToCrashlystic(
+                                "Download mapTiles from firestorage exception",
+                                error.connectionException
+                            )
                         }
                     })
             }
@@ -116,6 +129,7 @@ class AndroidFirestorageService(
             .putFile(Uri.fromFile(File(uploadFileModelCDB.filePath)))
             .addOnFailureListener { exception ->
                 onError(exception)
+                recordExceptionToCrashlystic("Upload file to firestorage exception", exception)
             }.addOnSuccessListener {
                 onSucess.invoke()
             }
@@ -141,6 +155,10 @@ class AndroidFirestorageService(
 
                         override fun onError(error: Error) {
                             onDownloadError(error.connectionException)
+                            recordExceptionToCrashlystic(
+                                "Download photo from firestorage exception",
+                                error.connectionException
+                            )
                         }
                     })
             }
@@ -163,5 +181,14 @@ class AndroidFirestorageService(
                     folder.delete()
                 }
             }
+            .addOnFailureListener {
+                recordExceptionToCrashlystic("Remove user folder on firestorage exception", it)
+            }
+    }
+
+    private fun recordExceptionToCrashlystic(message: String, exception: Throwable) {
+        FirebaseCrashlytics.getInstance()
+            .log("User: " + FirebaseAuth.getInstance().currentUser?.uid.toString() + " " + message)
+        FirebaseCrashlytics.getInstance().recordException(exception)
     }
 }

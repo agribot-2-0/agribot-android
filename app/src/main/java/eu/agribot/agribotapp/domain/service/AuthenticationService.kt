@@ -82,4 +82,8 @@ class AuthenticationService(
                 onErrorRemove(authenticationErrorHandler.getMessageForSignupException(it))
             })
     }
+
+    fun getUserRobotName(onGotRobotNameSucess: () -> Unit) {
+        cloudDatabase.getUsersRobotName(onGotRobotNameSucess)
+    }
 }

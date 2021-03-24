@@ -13,4 +13,8 @@ interface PersistentStorage {
     fun saveRobotSerialNumber(serial: String)
 
     fun getRobotSerialNumber(): String
+
+    fun saveWeatherForecast(serial: String)
+
+    fun getWeatherForecast(): String
 }

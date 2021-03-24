@@ -1,125 +1,92 @@
 package eu.agribot.agribotapp.ui.fragment.weather
 
 import androidx.lifecycle.MutableLiveData
+import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
+import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationHumidity
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationPressure
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationTemperature
 import eu.agribot.agribotapp.domain.model.cdb.RobotWeatherStationWind
+import eu.agribot.agribotapp.domain.service.WeatherService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
-import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.RobotStateViewModel
-import eu.agribot.agribotapp.ui.fragment.diagnosticdatarecycler.items.RobotStateItems
-import eu.agribot.agribotapp.ui.fragment.taskcreator.TaskDetailsElements
+import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.data.WeatherUnit
+import eu.agribot.agribotapp.ui.fragment.weather.forecast.ForecastWeatherViewModel
+import eu.agribot.agribotapp.ui.fragment.weather.forecast.chart.ChartWeatherData
 
 class WeatherViewModel(
-    private val cloudDatabaseService: CloudDatabaseService
+    private val cloudDatabaseService: CloudDatabaseService,
+    private val weatherService: WeatherService,
+    private val resourcesProvider: ResourcesProvider
 ) : BaseViewModel() {
-    val weatherState: MutableLiveData<List<RobotStateViewModel>> = MutableLiveData(listOf())
+    val robotWeatherStationTemperature: MutableLiveData<String> = MutableLiveData()
+    val robotWeatherStationWind: MutableLiveData<String> = MutableLiveData()
+    val robotWeatherStationHumidity: MutableLiveData<String> = MutableLiveData()
+    val robotWeatherStationPressure: MutableLiveData<String> = MutableLiveData()
+    val chartWeatherData: MutableLiveData<List<ChartWeatherData>> = MutableLiveData(listOf())
+    val currentWeatherImage: MutableLiveData<String> = MutableLiveData()
+
     val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
+    val forecastWeatherItems: MutableLiveData<List<ForecastWeatherViewModel>> =
+        MutableLiveData(listOf())
 
     fun prepareWeatherStationData() {
-        setEmptyWeatherList()
         getRobotTemperature()
         getRobotHumidity()
         getRobotWind()
         getRobotPressure()
     }
 
-    private fun setEmptyWeatherList() {
-        weatherState.value = listOf(
-            RobotStateViewModel(
-                RobotStateItems.TEMPERATURE.ID,
-                DEFAULT_WEATHER_VALUE,
-                TaskDetailsElements.TEMPERATURE_UNIT.detailsElement
-            ),
-
-            RobotStateViewModel(
-                RobotStateItems.HUMIDITY.ID,
-                DEFAULT_WEATHER_VALUE,
-                TaskDetailsElements.PERCENT.detailsElement
-            ),
-
-            RobotStateViewModel(
-                RobotStateItems.WIND.ID,
-                DEFAULT_WEATHER_VALUE,
-                TaskDetailsElements.SPEED_UNIT.detailsElement
-            ),
-
-            RobotStateViewModel(
-                RobotStateItems.PRESSURE.ID,
-                DEFAULT_WEATHER_VALUE,
-                TaskDetailsElements.PRESSURE_UNIT.detailsElement
-            )
-
-        )
-    }
-
     private fun getRobotHumidity() {
         cloudDatabaseService.getRobotWeatherStationHumidity(
-            this::onGetRobotHumiditySucess,
+            this::onGotRobotHumiditySucess,
             this::postErrorMessage
         )
     }
 
     private fun getRobotTemperature() {
         cloudDatabaseService.getRobotWeatherStationTemperature(
-            this::onGetRobotTemperatureSucess,
+            this::onGotRobotTemperatureSucess,
             this::postErrorMessage
         )
     }
 
     private fun getRobotWind() {
         cloudDatabaseService.getRobotWeatherStationWind(
-            this::onGetRobotWindSucess,
+            this::onGotRobotWindSucess,
             this::postErrorMessage
         )
     }
 
     private fun getRobotPressure() {
         cloudDatabaseService.getRobotWeatherStationPressure(
-            this::onGetRobotPressureSucess,
+            this::onGotRobotPressureSucess,
             this::postErrorMessage
         )
     }
 
-    private fun onGetRobotHumiditySucess(robotWeatherStationHumidity: RobotWeatherStationHumidity) {
-        addParameterToRobotDataStateList(
-            RobotStateViewModel(
-                RobotStateItems.HUMIDITY.ID,
-                approximateParam(
-                    robotWeatherStationHumidity.value,
-                    robotWeatherStationHumidity.accuracy
-                ),
-                TaskDetailsElements.PERCENT.detailsElement
-
-            )
+    private fun onGotRobotHumiditySucess(robotWeatherStationHumidity: RobotWeatherStationHumidity) {
+        this.robotWeatherStationHumidity.value = String.format(
+            resourcesProvider.getString(R.string.humidity_percent_value),
+            approximateParam(
+                robotWeatherStationHumidity.value,
+                robotWeatherStationHumidity.accuracy
+            ), WeatherUnit.HUMIDITY_UNIT.unit
         )
     }
 
-    private fun onGetRobotTemperatureSucess(robotWeatherStationTemperature: RobotWeatherStationTemperature) {
-        addParameterToRobotDataStateList(
-            RobotStateViewModel(
-                RobotStateItems.TEMPERATURE.ID,
-                approximateParam(
-                    robotWeatherStationTemperature.value,
-                    robotWeatherStationTemperature.accuracy
-                ),
-                TaskDetailsElements.TEMPERATURE_UNIT.detailsElement
-
-            )
-        )
+    private fun onGotRobotTemperatureSucess(robotWeatherStationTemperature: RobotWeatherStationTemperature) {
+        this.robotWeatherStationTemperature.value =
+            robotWeatherStationTemperature.value.toString() + WeatherUnit.TEMPERATURE_UNIT.unit
     }
 
-    private fun onGetRobotWindSucess(robotWeatherStationWind: RobotWeatherStationWind) {
-        addParameterToRobotDataStateList(
-            RobotStateViewModel(
-                RobotStateItems.WIND.ID,
-                approximateParam(
-                    robotWeatherStationWind.speedValue,
-                    robotWeatherStationWind.speedAccuracy
-                ),
-                TaskDetailsElements.SPEED_UNIT.detailsElement
+    private fun onGotRobotWindSucess(robotWeatherStationWind: RobotWeatherStationWind) {
+        this.robotWeatherStationWind.value = String.format(
+            resourcesProvider.getString(R.string.wind_value),
+            approximateParam(
+                robotWeatherStationWind.speedValue,
+                robotWeatherStationWind.speedAccuracy
             )
         )
     }
@@ -132,15 +99,12 @@ class WeatherViewModel(
         } else value.toInt().toString()
     }
 
-    private fun onGetRobotPressureSucess(robotWeatherStationPressure: RobotWeatherStationPressure) {
-        addParameterToRobotDataStateList(
-            RobotStateViewModel(
-                RobotStateItems.PRESSURE.ID,
-                approximateParam(
-                    robotWeatherStationPressure.value,
-                    robotWeatherStationPressure.accuracy
-                ),
-                TaskDetailsElements.PRESSURE_UNIT.detailsElement
+    private fun onGotRobotPressureSucess(robotWeatherStationPressure: RobotWeatherStationPressure) {
+        this.robotWeatherStationPressure.value = String.format(
+            resourcesProvider.getString(R.string.pressure_value),
+            approximateParam(
+                robotWeatherStationPressure.value,
+                robotWeatherStationPressure.accuracy
             )
         )
     }
@@ -149,35 +113,23 @@ class WeatherViewModel(
         toastEvent.postValue(errorText)
     }
 
-    private fun addParameterToRobotDataStateList(robotStateParameter: RobotStateViewModel) {
-        val isAttributeAlreadyAdded = weatherState.value!!.any { arrtibute ->
-            arrtibute.stateItemId == robotStateParameter.stateItemId
-        }
-        if (!isAttributeAlreadyAdded)
-            weatherState.value = listOf(
-                RobotStateViewModel(
-                    robotStateParameter.stateItemId,
-                    robotStateParameter.stateValue,
-                    robotStateParameter.stateUnit
-                ),
-                *weatherState.value!!.toTypedArray()
-            )
-        else {
-            weatherState.value = weatherState.value!!.map { oldAttribute ->
-                if (oldAttribute.stateItemId == robotStateParameter.stateItemId) {
-                    RobotStateViewModel(
-                        oldAttribute.stateItemId,
-                        robotStateParameter.stateValue,
-                        oldAttribute.stateUnit
-                    )
-                } else {
-                    oldAttribute
-                }
-            }
-        }
+    fun getForecastData() {
+        weatherService.getForecastData(
+            onGotForecastWeatherData = this::addForecastItemsToList,
+            onGotChartValuesData = this::setChartData
+        )
+    }
+
+    private fun setChartData(items: List<ChartWeatherData>) {
+        chartWeatherData.value = items
+    }
+
+    private fun addForecastItemsToList(items: List<ForecastWeatherViewModel>) {
+        forecastWeatherItems.value = items.slice(1 until items.size)
+        currentWeatherImage.value = items[CURRENT_FORCAST_WEATHER_INDEX].imageNumber
     }
 
     companion object {
-        const val DEFAULT_WEATHER_VALUE = "*"
+        const val CURRENT_FORCAST_WEATHER_INDEX = 0
     }
 }

@@ -6,4 +6,6 @@
 
     <dimen name="spinner_width">200dp</dimen>
     <dimen name="spinner_height">30dp</dimen>
+    <dimen name="weather_fragment_current_temperature_text_size">64sp</dimen>
+    <dimen name="weather_fragment_weather_details_text_size">32sp</dimen>
 </resources>

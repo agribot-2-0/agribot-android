@@ -42,17 +42,17 @@ class LoginActivity : BaseActivity<LoginViewModel, ActivityLoginBinding>() {
         else -> Unit
     }
 
-    fun handleMainActivityNavigationEvent() {
+    private fun handleMainActivityNavigationEvent() {
         this.finish()
         startActivity(MainActivity.getStartingIntent(this))
     }
 
-    fun handleSignupActivityNavigationEvent() {
+    private fun handleSignupActivityNavigationEvent() {
         this.finish()
         startActivity(SignupActivity.getStartingIntent(this))
     }
 
-    fun handlePasswordReminderActivityNavigationEvent() {
+    private fun handlePasswordReminderActivityNavigationEvent() {
         this.finish()
         startActivity(PasswordReminderActivity.getStartingIntent(this))
     }

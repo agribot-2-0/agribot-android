@@ -30,7 +30,12 @@ def versions = [
 		'camerax'          : '1.1.0-alpha01',
 		'glide'            : '4.12.0',
 		'cameraxView'      : '1.0.0-alpha21',
-		'recyclerDecorator': '1.2.3'
+		'recyclerDecorator': '1.2.3',
+		'okHttp'           : '4.9.0',
+		'okHttpLogger'     : '3.6.0',
+		'gson'             : '2.8.6',
+		'mpChart'          : 'v3.1.0',
+		'retrofit'         : '2.4.0'
 
 
 ]
@@ -145,5 +150,18 @@ dependencies {
 
 	//Recycler Decorator
 	implementation "it.xabaras.android:recyclerview-swipedecorator:$versions.recyclerDecorator"
+
+	// OkHttp
+	implementation "com.squareup.okhttp3:okhttp:$versions.okHttp"
+	implementation "com.squareup.okhttp3:logging-interceptor:$versions.okHttpLogger"
+
+	// Gson
+	implementation "com.google.code.gson:gson:$versions.gson"
+
+	//Chart
+	implementation "com.github.PhilJay:MPAndroidChart:$versions.mpChart"
+
+	implementation "com.squareup.retrofit2:retrofit:$versions.retrofit"
+	implementation "com.squareup.retrofit2:converter-gson:$versions.retrofit"
 
 }

@@ -61,7 +61,7 @@ class BluetoothConnectionService(
         } else if (connectionErrors == null) {
             null
         } else {
-            "Undefined Error"
+            "Connection Bluetooth"
         }
     }
 
@@ -77,7 +77,7 @@ class BluetoothConnectionService(
                 "Heartbeat Error"
             }
             else -> {
-                "Undefined Error"
+                null
             }
         }
     }
@@ -85,8 +85,10 @@ class BluetoothConnectionService(
     fun getBluetoothWriteMessageErrors(): String? {
         return if (writeMessageErrors == BluetoothErrorInfo(BLUETOOTH_WRITE_MESSAGE_ERROR_CODE)) {
             "Bluetooth Write Message Error"
+        } else if (writeMessageErrors == null) {
+            null
         } else {
-            "Undefined Error"
+            "Write Bluetooth Message Error"
         }
     }
 }

@@ -22,5 +22,7 @@ enum class ItemID(val ID: Int) {
 
     WAKEUP_MESSAGE(6),
 
-    ROBOT_RSN(7)
+    SLEEP_MESSAGE(7),
+
+    ROBOT_RSN(8)
 }

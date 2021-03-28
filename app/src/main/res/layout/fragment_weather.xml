@@ -11,27 +11,131 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background_gray">
+        android:orientation="horizontal">
 
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/margin_small"
             android:layout_weight="7"
-            android:background="@drawable/rounded_corner_layout"
-            android:orientation="horizontal">
+            android:background="@color/background_gray"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="@dimen/margin_medium"
+                android:layout_marginVertical="@dimen/margin_medium"
+                android:layout_weight="2"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/currentTemperature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:layout_weight="1"
+                    android:text="@{viewModel.robotWeatherStationTemperature}"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/weather_fragment_current_temperature_text_size"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1.5">
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:padding="@dimen/margin_small">
+
+                        <TextView
+                            android:id="@+id/currentWind"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{viewModel.robotWeatherStationWind}"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/weather_fragment_weather_details_text_size"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/currentHumidity"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{viewModel.robotWeatherStationHumidity}"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/weather_fragment_weather_details_text_size"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/currentPressure"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="@{viewModel.robotWeatherStationPressure}"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/weather_fragment_weather_details_text_size"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/currentWeatherImage"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1" />
+
+                    </FrameLayout>
+
+
+                </LinearLayout>
+
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/temperatureChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:layout_weight="2" />
+
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/forecastRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginHorizontal="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_weight="1"
+                android:background="@color/background_gray" />
 
 
         </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rightControlsRecycler"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/margin_small"
-            android:layout_weight="1" />
-
 
     </LinearLayout>
 </layout>

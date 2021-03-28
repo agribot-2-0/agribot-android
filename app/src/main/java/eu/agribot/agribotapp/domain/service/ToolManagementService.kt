@@ -1,6 +1,6 @@
 package eu.agribot.agribotapp.domain.service
 
-import android.util.Log
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.RfidMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator.BluetoothMessageCreator
 import eu.agribot.agribotapp.domain.model.fromdomain.RfidParameters
@@ -14,6 +14,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.io.File
 
 class ToolManagementService(
@@ -97,6 +98,8 @@ class ToolManagementService(
 
     // TODO MAP FIRESTORAGE ERROR, currently work around log
     private fun onError(error: Throwable) {
-        Log.e("DOWNLOAD", "ERROR: " + error)
+        FirebaseCrashlytics.getInstance().log("ToolManagement service Exception : $error")
+        FirebaseCrashlytics.getInstance().recordException(error)
+        Timber.e("Download error %s", error)
     }
 }

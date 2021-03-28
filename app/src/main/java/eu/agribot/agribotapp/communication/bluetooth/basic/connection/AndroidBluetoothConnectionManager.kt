@@ -15,9 +15,9 @@ import kotlinx.coroutines.withContext
 import java.io.IOException
 
 class AndroidBluetoothConnectionManager(
-        private val bluetoothConnectionErrorHandler: BluetoothConnectionErrorHandler,
-        private val bluetoothReceivedBluetoothMessageManager: ReceivedBluetoothMessageManager,
-        private val bluetoothSocketManager: BluetoothSocketManager
+    private val bluetoothConnectionErrorHandler: BluetoothConnectionErrorHandler,
+    private val bluetoothReceivedBluetoothMessageManager: ReceivedBluetoothMessageManager,
+    private val bluetoothSocketManager: BluetoothSocketManager
 ) : BluetoothConnectionManager {
     private var bluetoothSocket: BluetoothSocket? = null
 
@@ -64,7 +64,7 @@ class AndroidBluetoothConnectionManager(
             }
 
     override suspend fun connectBluetoothWithAgribot(
-            bluetoothDeviceAddress: String
+        bluetoothDeviceAddress: String
     ) {
         onConnect(bluetoothDeviceAddress)
     }
@@ -76,7 +76,7 @@ class AndroidBluetoothConnectionManager(
     }
 
     private suspend fun onConnect(
-            deviceAdress: String
+        deviceAdress: String
     ) =
             withContext(Dispatchers.IO) {
                 try {

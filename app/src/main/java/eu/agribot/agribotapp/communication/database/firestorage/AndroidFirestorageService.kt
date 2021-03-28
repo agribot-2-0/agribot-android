@@ -66,7 +66,6 @@ class AndroidFirestorageService(
                                 "Download path exception",
                                 error.connectionException
                             )
-
                         }
                     })
             }
@@ -85,7 +84,6 @@ class AndroidFirestorageService(
             .addOnFailureListener {
                 onError(it)
                 recordExceptionToCrashlystic("Remove path on firestorage exception", it)
-
             }
     }
 

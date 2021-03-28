@@ -2,13 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="eu.agribot.agribotapp">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera.any" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
@@ -17,31 +18,29 @@
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/build_type_app_name"
-        tools:replace="android:label, android:allowBackup"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:label, android:allowBackup">
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
         <service android:name="com.google.firebase.components.ComponentDiscoveryService" />
+
         <meta-data
             android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
             android:value="com.google.firebase.components.ComponentRegistrar" />
         <meta-data
             android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
             android:value="com.google.firebase.components.ComponentRegistrar" />
-        <meta-data
-            android:name="com.google.firebase.components:com.google.firebase.iid.Registrar"
-            android:value="com.google.firebase.components.ComponentRegistrar" />
 
 
         <activity
             android:name=".ui.activity.splash.SplashActivty"
-            android:theme="@style/SplashTheme"
             android:screenOrientation="sensorLandscape"
+            android:theme="@style/SplashTheme"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -55,28 +54,32 @@
             android:theme="@style/AppTheme"
             tools:ignore="LockedOrientationActivity" />
 
-        <activity android:name="eu.agribot.agribotapp.ui.activity.authentication.login.LoginActivity"
-            android:screenOrientation="sensorLandscape"
-            android:theme="@style/AppTheme"
-            tools:ignore="LockedOrientationActivity" >
-
-        </activity>
-
-        <activity android:name="eu.agribot.agribotapp.ui.activity.authentication.signup.SignupActivity"
+        <activity
+            android:name="eu.agribot.agribotapp.ui.activity.authentication.login.LoginActivity"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/AppTheme"
             tools:ignore="LockedOrientationActivity">
 
         </activity>
 
-        <activity android:name=".ui.activity.authentication.passwordreminder.PasswordReminderActivity"
+        <activity
+            android:name="eu.agribot.agribotapp.ui.activity.authentication.signup.SignupActivity"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/AppTheme"
             tools:ignore="LockedOrientationActivity">
 
         </activity>
 
-        <activity android:name=".ui.activity.authentication.welcome.WelcomeActivity"
+        <activity
+            android:name=".ui.activity.authentication.passwordreminder.PasswordReminderActivity"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/AppTheme"
+            tools:ignore="LockedOrientationActivity">
+
+        </activity>
+
+        <activity
+            android:name=".ui.activity.authentication.welcome.WelcomeActivity"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/AppTheme"
             tools:ignore="LockedOrientationActivity">
@@ -87,13 +90,6 @@
             android:name="com.facebook.flipper.android.diagnostics.FlipperDiagnosticActivity"
             android:exported="true" />
 
-        <activity
-            android:name="com.google.firebase.auth.internal.FederatedSignInActivity"
-            android:excludeFromRecents="true"
-            android:exported="true"
-            android:launchMode="singleInstance"
-            android:permission="com.google.firebase.auth.api.gms.permission.LAUNCH_FEDERATED_SIGN_IN"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            tools:replace="android:launchMode" />
+
     </application>
 </manifest>

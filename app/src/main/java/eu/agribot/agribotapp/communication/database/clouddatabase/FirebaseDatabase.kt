@@ -302,7 +302,6 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
             .addOnFailureListener { exception ->
                 onDatabaseError(exception)
                 recordExceptionToCrashlystic("Create new task Exception", exception)
-
             }
     }
 
@@ -424,7 +423,6 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
                 onDatabaseError(it)
                 recordExceptionToCrashlystic("Get task item exception", it)
             }
-
     }
 
     override fun addTool(
@@ -442,7 +440,6 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
             .addOnFailureListener { exception ->
                 onDatabaseError(exception)
                 recordExceptionToCrashlystic("Add Tool to cloud database exception", exception)
-
             }
     }
 
@@ -569,7 +566,6 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
             .addOnFailureListener { exception ->
                 onDatabaseError(exception)
                 recordExceptionToCrashlystic("Set user role on cloud database exception", exception)
-
             }
     }
 
@@ -610,7 +606,6 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         } catch (exception: IOException) {
             Timber.e(String.format("Robot name problem %s", exception))
             recordExceptionToCrashlystic("Get user role from cloud database exception", exception)
-
         }
     }
 

@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.domain.service
 
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.communication.database.firestorage.DownloaderPath
@@ -42,7 +43,9 @@ class PathManagementService(
     }
 
     private fun onError(error: String) {
-        // TODO NOT YET IMPLEMENTED
+        FirebaseCrashlytics.getInstance().log("Path Management Service Exception: $error")
+        FirebaseCrashlytics.getInstance()
+            .recordException(java.lang.RuntimeException("Patj management Service Exception"))
     }
 
     fun findLayerFile() {

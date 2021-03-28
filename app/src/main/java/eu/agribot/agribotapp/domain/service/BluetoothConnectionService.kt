@@ -76,7 +76,6 @@ class BluetoothConnectionService(
             BluetoothErrorInfo(BLUETOOTH_HEARTBEAT_ERROR_CODE) -> {
                 "Heartbeat Error"
             }
-            null -> null
             else -> {
                 "Undefined Error"
             }
@@ -86,14 +85,8 @@ class BluetoothConnectionService(
     fun getBluetoothWriteMessageErrors(): String? {
         return if (writeMessageErrors == BluetoothErrorInfo(BLUETOOTH_WRITE_MESSAGE_ERROR_CODE)) {
             "Bluetooth Write Message Error"
-        } else if (writeMessageErrors == null) {
-            null
         } else {
             "Undefined Error"
         }
-    }
-
-    fun initAutonomyMode() {
-        bluetoothWriteBluetoothMessageManager.sendAutonomusModeInitMessage()
     }
 }

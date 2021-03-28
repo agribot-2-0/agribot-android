@@ -37,11 +37,11 @@ import timber.log.Timber
 import java.io.IOException
 
 class AndroidReceivedBluetoothMessageManager(
-        private val receiveErrorHandler: BluetoothMessageReceiveErrorHandler,
-        private val writeBluetoothMessageManager: WriteBluetoothMessageManager,
-        private val bluetoothSocketManager: BluetoothSocketManager,
-        private val heartbeatManager: HeartbeatManager,
-        private val rfidMessageManager: RfidMessageManager
+    private val receiveErrorHandler: BluetoothMessageReceiveErrorHandler,
+    private val writeBluetoothMessageManager: WriteBluetoothMessageManager,
+    private val bluetoothSocketManager: BluetoothSocketManager,
+    private val heartbeatManager: HeartbeatManager,
+    private val rfidMessageManager: RfidMessageManager
 ) : ReceivedBluetoothMessageManager {
 
     @ExperimentalCoroutinesApi
@@ -75,7 +75,7 @@ class AndroidReceivedBluetoothMessageManager(
 
     @ExperimentalCoroutinesApi
     private fun handleMessage(
-            bluetoothMessage: ByteArray
+        bluetoothMessage: ByteArray
     ) {
         try {
             if (bluetoothMessage[START_OF_FRAME_POSITION] == START_FRAME_MESSAGE) {
@@ -236,5 +236,4 @@ class AndroidReceivedBluetoothMessageManager(
     private fun handleHeartbeatMessage() {
         heartbeatManager.restartHeartbeatCounter()
     }
-
 }

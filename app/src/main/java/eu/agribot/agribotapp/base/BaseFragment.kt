@@ -1,6 +1,7 @@
 package eu.agribot.agribotapp.base
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -107,6 +108,7 @@ abstract class BaseFragment<viewModelType : BaseViewModel, viewDataBindingType :
     }
 
     fun showToast(toastText: String) {
+        Log.e("xd", "fragment: " + toastText)
         Toast.makeText(activity, toastText, Toast.LENGTH_LONG).show()
     }
 }

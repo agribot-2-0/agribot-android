@@ -60,7 +60,6 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
             persistentStorage.getRobotSerialNumber() + DOCUMENT_STATE_ENGINE,
             EngineHealthCDB(), onDatabaseSuccess, onDatabaseError
         )
-
     }
 
     override fun getRobotStateEngineData(
@@ -467,5 +466,4 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
                 }
             }
     }
-
 }

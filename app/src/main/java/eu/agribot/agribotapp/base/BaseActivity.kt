@@ -1,6 +1,7 @@
 package eu.agribot.agribotapp.base
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -104,6 +105,8 @@ abstract class BaseActivity<viewModelType : BaseViewModel, viewDataBindingType :
     }
 
     fun showToast(toastText: String) {
+        Log.e("xd", "activity: " + toastText)
+
         Toast.makeText(this, toastText, Toast.LENGTH_LONG).show()
     }
 

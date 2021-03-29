@@ -33,6 +33,10 @@ class LoginViewModel(
     }
 
     private fun onLoginSucess() {
+        authenticationService.getUserRobotName(onGotRobotNameSucess = this::onSaveRobotSerialNumberSucess)
+    }
+
+    private fun onSaveRobotSerialNumberSucess() {
         navigationEvent.postValue(
             MainActivityNavigationEvent()
         )

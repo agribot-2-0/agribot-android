@@ -14,6 +14,7 @@ import eu.agribot.agribotapp.domain.service.ManualModeService
 import eu.agribot.agribotapp.domain.service.PathManagementService
 import eu.agribot.agribotapp.domain.service.TTControlService
 import eu.agribot.agribotapp.domain.service.ToolManagementService
+import eu.agribot.agribotapp.domain.service.WeatherService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
@@ -188,6 +189,17 @@ val domainModule = module {
             persistentStorage = get(),
             cloudDatabase = get(),
             authenticationService = get()
+        )
+    }
+
+    single {
+        WeatherService(
+            restApiService = get(),
+            resourcesProvider = get {
+                parametersOf(
+                    androidContext()
+                )
+            }
         )
     }
 }

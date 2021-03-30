@@ -46,7 +46,6 @@ val communicationModule = module {
 
     single<CrashlysticService> {
         AndroidCrashlysticService(
-            authenticationService = get(),
             resourcesProvider = get {
                 parametersOf(
                     androidContext()

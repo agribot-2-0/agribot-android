@@ -1,12 +1,13 @@
 package eu.agribot.agribotapp.communication.crashlystic
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.ktx.Firebase
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.service.AuthenticationService
 
 class AndroidCrashlysticService(
-    val authenticationService: AuthenticationService,
     val resourcesProvider: ResourcesProvider
 ) :
     CrashlysticService {
@@ -15,7 +16,7 @@ class AndroidCrashlysticService(
         FirebaseCrashlytics.getInstance().log(
             String.format(
                 resourcesProvider.getString(R.string.crashlystic_log),
-                authenticationService.getCurrentUser().userUID,
+                FirebaseAuth.getInstance().currentUser?.uid.toString(),
                 excrptionModel.message,
                 excrptionModel.exception
             )

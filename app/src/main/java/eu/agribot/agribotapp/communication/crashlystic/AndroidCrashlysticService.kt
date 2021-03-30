@@ -2,10 +2,8 @@ package eu.agribot.agribotapp.communication.crashlystic
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.google.firebase.ktx.Firebase
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
-import eu.agribot.agribotapp.domain.service.AuthenticationService
 
 class AndroidCrashlysticService(
     val resourcesProvider: ResourcesProvider

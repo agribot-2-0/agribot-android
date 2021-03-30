@@ -1,8 +1,8 @@
 package eu.agribot.agribotapp.domain.service
 
-import com.google.firebase.crashlytics.FirebaseCrashlytics
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.RfidMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator.BluetoothMessageCreator
+import eu.agribot.agribotapp.communication.crashlystic.CrashlysticService
 import eu.agribot.agribotapp.domain.model.fromdomain.RfidParameters
 import eu.agribot.agribotapp.domain.model.todomain.RfidData
 import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
@@ -21,7 +21,8 @@ class ToolManagementService(
     private val bluetoothMessageCreator: BluetoothMessageCreator,
     private val rfidMessageManager: RfidMessageManager,
     private val cloudStorageService: CloudStorageService,
-    private val filePathProvider: FilePathProvider
+    private val filePathProvider: FilePathProvider,
+    private val crashlysticService: CrashlysticService
 ) {
 
     companion object {
@@ -98,8 +99,21 @@ class ToolManagementService(
 
     // TODO MAP FIRESTORAGE ERROR, currently work around log
     private fun onError(error: Throwable) {
-        FirebaseCrashlytics.getInstance().log("ToolManagement service Exception : $error")
-        FirebaseCrashlytics.getInstance().recordException(error)
+        crashlysticService.recordException(
+            CrashlysticService.RegisterExceptionModel(
+                "Tool Management Service Exception",
+                error
+            )
+        )
         Timber.e("Download error %s", error)
+    }
+
+    fun logExceptionFromViewModel(message: String, exception: Throwable) {
+        crashlysticService.recordException(
+            CrashlysticService.RegisterExceptionModel(
+                message,
+                exception
+            )
+        )
     }
 }

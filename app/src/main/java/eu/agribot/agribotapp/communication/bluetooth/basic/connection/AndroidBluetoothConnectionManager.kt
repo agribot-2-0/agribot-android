@@ -4,7 +4,7 @@ import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothServerSocket
 import android.bluetooth.BluetoothSocket
-import com.google.firebase.crashlytics.FirebaseCrashlytics
+import eu.agribot.agribotapp.communication.crashlystic.CrashlysticService
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.socket.BluetoothSocketManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ReceivedBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.const.PersistentConnectionParameters.AGRIBOT_UUID_INSECURE
@@ -17,7 +17,8 @@ import java.io.IOException
 class AndroidBluetoothConnectionManager(
     private val bluetoothConnectionErrorHandler: BluetoothConnectionErrorHandler,
     private val bluetoothReceivedBluetoothMessageManager: ReceivedBluetoothMessageManager,
-    private val bluetoothSocketManager: BluetoothSocketManager
+    private val bluetoothSocketManager: BluetoothSocketManager,
+    private val crashlysticService: CrashlysticService
 ) : BluetoothConnectionManager {
     private var bluetoothSocket: BluetoothSocket? = null
 
@@ -28,40 +29,44 @@ class AndroidBluetoothConnectionManager(
     }
 
     override suspend fun registerBluetoothServer(isSecureConnection: Boolean) =
-            withContext(Dispatchers.IO) {
+        withContext(Dispatchers.IO) {
 
-                val bluetoothSocketType =
-                        if (isSecureConnection) ConnectionSecurity.SECURE.security else ConnectionSecurity.UNSECURE.security
+            val bluetoothSocketType =
+                if (isSecureConnection) ConnectionSecurity.SECURE.security else ConnectionSecurity.UNSECURE.security
 
-                val bluetoothServerSocket: BluetoothServerSocket? = if (isSecureConnection) {
-                    bluetoothAdapter.listenUsingRfcommWithServiceRecord(
-                            bluetoothSocketType,
-                            AGRIBOT_UUID_SECURE
-                    )
-                } else {
-                    bluetoothAdapter.listenUsingInsecureRfcommWithServiceRecord(
-                            bluetoothSocketType,
-                            AGRIBOT_UUID_INSECURE
-                    )
-                }
+            val bluetoothServerSocket: BluetoothServerSocket? = if (isSecureConnection) {
+                bluetoothAdapter.listenUsingRfcommWithServiceRecord(
+                    bluetoothSocketType,
+                    AGRIBOT_UUID_SECURE
+                )
+            } else {
+                bluetoothAdapter.listenUsingInsecureRfcommWithServiceRecord(
+                    bluetoothSocketType,
+                    AGRIBOT_UUID_INSECURE
+                )
+            }
 
-                run {
-                    var shouldLoop = true
-                    while (shouldLoop) {
-                        try {
-                            bluetoothServerSocket?.accept()
-                        } catch (e: IOException) {
-                            shouldLoop = false
-                            FirebaseCrashlytics.getInstance().log("Register Bluetooth Server Exception : $e")
-                            FirebaseCrashlytics.getInstance().recordException(e)
-                        }
-                        bluetoothServerSocket?.also {
-                            bluetoothServerSocket.close()
-                            shouldLoop = false
-                        }
+            run {
+                var shouldLoop = true
+                while (shouldLoop) {
+                    try {
+                        bluetoothServerSocket?.accept()
+                    } catch (e: IOException) {
+                        shouldLoop = false
+                        crashlysticService.recordException(
+                            CrashlysticService.RegisterExceptionModel(
+                                message = "Register Bluetooth Server Exception ",
+                                e
+                            )
+                        )
+                    }
+                    bluetoothServerSocket?.also {
+                        bluetoothServerSocket.close()
+                        shouldLoop = false
                     }
                 }
             }
+        }
 
     override suspend fun connectBluetoothWithAgribot(
         bluetoothDeviceAddress: String
@@ -78,26 +83,29 @@ class AndroidBluetoothConnectionManager(
     private suspend fun onConnect(
         deviceAdress: String
     ) =
-            withContext(Dispatchers.IO) {
-                try {
-                    val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-                    val device: BluetoothDevice = bluetoothAdapter.getRemoteDevice(
-                            deviceAdress
-                    )
-                    bluetoothSocket = device.createInsecureRfcommSocketToServiceRecord(
-                            AGRIBOT_UUID_SECURE
-                    )
-                    if (bluetoothSocket != null) {
-                        BluetoothAdapter.getDefaultAdapter().cancelDiscovery()
-                        bluetoothSocket!!.connect()
-                        bluetoothSocketManager.setBluetoothSocket(bluetoothSocket!!)
-                        bluetoothReceivedBluetoothMessageManager.registerMessageReceiver()
-                    }
-                } catch (bluetoothConnectionError: IOException) {
-                    FirebaseCrashlytics.getInstance().log("Bluetooth Connection Exception : $bluetoothConnectionError")
-                    FirebaseCrashlytics.getInstance().recordException(bluetoothConnectionError)
-
-                    bluetoothConnectionErrorHandler.onBluetoothConnectionError()
+        withContext(Dispatchers.IO) {
+            try {
+                val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+                val device: BluetoothDevice = bluetoothAdapter.getRemoteDevice(
+                    deviceAdress
+                )
+                bluetoothSocket = device.createInsecureRfcommSocketToServiceRecord(
+                    AGRIBOT_UUID_SECURE
+                )
+                if (bluetoothSocket != null) {
+                    BluetoothAdapter.getDefaultAdapter().cancelDiscovery()
+                    bluetoothSocket!!.connect()
+                    bluetoothSocketManager.setBluetoothSocket(bluetoothSocket!!)
+                    bluetoothReceivedBluetoothMessageManager.registerMessageReceiver()
                 }
+            } catch (bluetoothConnectionError: IOException) {
+                crashlysticService.recordException(
+                    CrashlysticService.RegisterExceptionModel(
+                        message = "Bluetooth Connection Exception ",
+                        exception = bluetoothConnectionError
+                    )
+                )
+                bluetoothConnectionErrorHandler.onBluetoothConnectionError()
             }
+        }
 }

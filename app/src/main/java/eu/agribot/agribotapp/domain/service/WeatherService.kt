@@ -3,6 +3,7 @@ package eu.agribot.agribotapp.domain.service
 import android.annotation.SuppressLint
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
+import eu.agribot.agribotapp.communication.crashlystic.CrashlysticService
 import eu.agribot.agribotapp.communication.restapi.RestApiService
 import eu.agribot.agribotapp.ui.fragment.controlPanel.viewpager.taskdetails.TimePatterns
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.data.WeatherUnit
@@ -16,7 +17,8 @@ import java.util.Locale
 
 class WeatherService(
     private val restApiService: RestApiService,
-    private val resourcesProvider: ResourcesProvider
+    private val resourcesProvider: ResourcesProvider,
+    private val crashlysticService: CrashlysticService
 ) {
 
     fun getForecastData(
@@ -104,6 +106,12 @@ class WeatherService(
             val netDate = Date(s * TIMESTAMP_CONV_VALUE)
             sdf.format(netDate)
         } catch (e: Exception) {
+            crashlysticService.recordException(
+                CrashlysticService.RegisterExceptionModel(
+                    "Convert Date Exception ",
+                    e
+                )
+            )
             e.toString()
         }
     }

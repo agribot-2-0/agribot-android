@@ -6,6 +6,8 @@
     <string name="exit">Exit</string>
     <string name="cancel">Cancel</string>
     <string name="done">Done</string>
+    <string name="crashlystic_log" translatable="false">User %1$S catched excption : %2$S | Exception Message : %3$S</string>
+
 
 
     <!-- Navigation drawer -->

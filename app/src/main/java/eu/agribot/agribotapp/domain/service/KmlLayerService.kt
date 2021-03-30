@@ -1,12 +1,12 @@
 package eu.agribot.agribotapp.domain.service
 
 import com.google.android.gms.maps.model.LatLng
-import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.maps.android.kml.KmlContainer
 import com.google.maps.android.kml.KmlLineString
 import com.google.maps.android.kml.KmlPlacemark
+import eu.agribot.agribotapp.communication.crashlystic.CrashlysticService
 
-class KmlLayerService {
+class KmlLayerService(private val crashlysticService: CrashlysticService) {
 
     fun getCoordinates(
         containers: Iterable<KmlContainer?>,
@@ -34,8 +34,7 @@ class KmlLayerService {
                 val kmlLineString = placemark.geometry as KmlLineString
                 onGetLatLng(kmlLineString.geometryObject)
             } catch (exception: Exception) {
-                FirebaseCrashlytics.getInstance().log("Kml LAyer service Exception : $exception")
-                FirebaseCrashlytics.getInstance().recordException(exception)
+                crashlysticService.recordException(CrashlysticService.RegisterExceptionModel("Kml LAyer service Exception", exception))
                 onError.invoke()
             }
         }

@@ -39,6 +39,7 @@ val domainModule = module {
             cloudStorageErrorHandler = get(),
             pathManagementErrorHandler = get(),
             cloudStorageService = get(),
+            crashlysticService = get(),
             resourcesProvider = get {
                 parametersOf(
                     androidContext()
@@ -155,7 +156,7 @@ val domainModule = module {
     }
 
     single {
-        KmlLayerService()
+        KmlLayerService(crashlysticService = get())
     }
 
     single {
@@ -180,7 +181,8 @@ val domainModule = module {
             bluetoothMessageCreator = get(),
             rfidMessageManager = get(),
             cloudStorageService = get(),
-            filePathProvider = get()
+            filePathProvider = get(),
+            crashlysticService = get()
         )
     }
 
@@ -195,6 +197,7 @@ val domainModule = module {
     single {
         WeatherService(
             restApiService = get(),
+            crashlysticService = get(),
             resourcesProvider = get {
                 parametersOf(
                     androidContext()

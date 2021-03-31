@@ -101,8 +101,8 @@ class ToolManagementService(
     private fun onError(error: Throwable) {
         crashlysticService.recordException(
             CrashlysticService.RegisterExceptionModel(
-                "Tool Management Service Exception",
-                error
+                message = "Tool Management Service Exception",
+                exception = error
             )
         )
         Timber.e("Download error %s", error)
@@ -111,8 +111,8 @@ class ToolManagementService(
     fun logExceptionFromViewModel(message: String, exception: Throwable) {
         crashlysticService.recordException(
             CrashlysticService.RegisterExceptionModel(
-                message,
-                exception
+                message = message,
+                exception = exception
             )
         )
     }

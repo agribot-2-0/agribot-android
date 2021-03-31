@@ -32,8 +32,14 @@ class AndroidFirestorageService(
                     onFilesAvailable(item.name)
                 }
             }
-            .addOnFailureListener { exception ->
-                onError(exception)
+            .addOnFailureListener { listFirestorageItemException ->
+                onError(listFirestorageItemException)
+                crashlysticService.recordException(
+                    CrashlysticService.RegisterExceptionModel(
+                        message = "List Firestorage itam exception",
+                        exception = listFirestorageItemException
+                    )
+                )
             }
     }
 
@@ -64,9 +70,10 @@ class AndroidFirestorageService(
                             onDownloadError(error.connectionException)
                             crashlysticService.recordException(
                                 CrashlysticService.RegisterExceptionModel(
-                                "Download path exception",
-                                error.connectionException
-                            ))
+                                    message = "Download path exception",
+                                    exception = error.connectionException
+                                )
+                            )
                         }
                     })
             }
@@ -84,7 +91,12 @@ class AndroidFirestorageService(
             }
             .addOnFailureListener {
                 onError(it)
-                crashlysticService.recordException(CrashlysticService.RegisterExceptionModel("Remove path on firestorage exception", it))
+                crashlysticService.recordException(
+                    CrashlysticService.RegisterExceptionModel(
+                        message = "Remove path on firestorage exception",
+                        exception = it
+                    )
+                )
             }
     }
 
@@ -112,9 +124,10 @@ class AndroidFirestorageService(
                             onDownloadError(error.connectionException)
                             crashlysticService.recordException(
                                 CrashlysticService.RegisterExceptionModel(
-                                "Download mapTiles from firestorage exception",
-                                error.connectionException
-                            ))
+                                    message = "Download mapTiles from firestorage exception",
+                                    exception = error.connectionException
+                                )
+                            )
                         }
                     })
             }
@@ -127,9 +140,14 @@ class AndroidFirestorageService(
     ) {
         storage.reference.child("${firebaseService.getCurrentUser()?.uid}/${uploadFileModelCDB.fileSource}/${uploadFileModelCDB.fileNAme}")
             .putFile(Uri.fromFile(File(uploadFileModelCDB.filePath)))
-            .addOnFailureListener { exception ->
-                onError(exception)
-                crashlysticService.recordException(CrashlysticService.RegisterExceptionModel("Upload file to firestorage exception", exception))
+            .addOnFailureListener { uploadFileToCloudException ->
+                onError(uploadFileToCloudException)
+                crashlysticService.recordException(
+                    CrashlysticService.RegisterExceptionModel(
+                        message = "Upload file to firestorage exception",
+                        exception = uploadFileToCloudException
+                    )
+                )
             }.addOnSuccessListener {
                 onSucess.invoke()
             }
@@ -157,9 +175,10 @@ class AndroidFirestorageService(
                             onDownloadError(error.connectionException)
                             crashlysticService.recordException(
                                 CrashlysticService.RegisterExceptionModel(
-                                "Download photo from firestorage exception",
-                                error.connectionException
-                            ))
+                                    message = "Download photo from firestorage exception",
+                                    exception = error.connectionException
+                                )
+                            )
                         }
                     })
             }
@@ -183,7 +202,12 @@ class AndroidFirestorageService(
                 }
             }
             .addOnFailureListener {
-                crashlysticService.recordException(CrashlysticService.RegisterExceptionModel("Remove user folder on firestorage exception", it))
+                crashlysticService.recordException(
+                    CrashlysticService.RegisterExceptionModel(
+                        message = "Remove user folder on firestorage exception",
+                        exception = it
+                    )
+                )
             }
     }
 }

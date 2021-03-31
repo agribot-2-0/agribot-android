@@ -39,7 +39,7 @@ class AndroidWriteBluetoothMessageManager(
                 crashlysticService.recordException(
                     CrashlysticService.RegisterExceptionModel(
                         message = "Bluetooth message write exception",
-                        writeMessageException
+                        exception = writeMessageException
                     )
                 )
                 bluetoothMessageWriteErrorHandler.onWriteMessageError()

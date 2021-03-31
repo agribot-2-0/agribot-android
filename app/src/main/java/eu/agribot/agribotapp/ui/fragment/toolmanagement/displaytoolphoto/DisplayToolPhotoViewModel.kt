@@ -31,7 +31,7 @@ class DisplayToolPhotoViewModel(
     }
 
     private fun onError(error: String) {
-        toolManagementService.logExceptionFromViewModel("Tool photo exception ", RuntimeException("Display photo ViewModel Exception"))
+        toolManagementService.logExceptionFromViewModel(message = "Tool photo exception ", exception = RuntimeException("Display photo ViewModel Exception"))
         Timber.e(String.format("Tool photo exception %s", error))
     }
 

@@ -51,12 +51,12 @@ class AndroidBluetoothConnectionManager(
                 while (shouldLoop) {
                     try {
                         bluetoothServerSocket?.accept()
-                    } catch (e: IOException) {
+                    } catch (registerBluetoothServerException: IOException) {
                         shouldLoop = false
                         crashlysticService.recordException(
                             CrashlysticService.RegisterExceptionModel(
                                 message = "Register Bluetooth Server Exception ",
-                                e
+                                exception = registerBluetoothServerException
                             )
                         )
                     }

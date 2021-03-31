@@ -63,7 +63,7 @@ class AndroidReceivedBluetoothMessageManager(
                 crashlysticService.recordException(
                     CrashlysticService.RegisterExceptionModel(
                         message = "Bluetooth message receive exception",
-                        receiveMessageException
+                        exception = receiveMessageException
                     )
                 )
                 receiveErrorHandler.onReceiveBluetoothMessageError()
@@ -100,7 +100,7 @@ class AndroidReceivedBluetoothMessageManager(
             crashlysticService.recordException(
                 CrashlysticService.RegisterExceptionModel(
                     message = "Handle received bluetooth message exception",
-                    handleMessageException
+                    exception = handleMessageException
                 )
             )
             receiveErrorHandler.onReceiveBluetoothMessageError()
@@ -112,7 +112,7 @@ class AndroidReceivedBluetoothMessageManager(
         message.forEach {
             mymessage = mymessage + String.format("%02X", it) + " "
         }
-        Timber.e("%s%s", messageName, mymessage)
+        Timber.d(String.format("%s%s", messageName, mymessage))
     }
 
     @ExperimentalCoroutinesApi

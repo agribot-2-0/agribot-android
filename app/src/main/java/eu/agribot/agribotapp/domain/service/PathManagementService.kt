@@ -45,7 +45,7 @@ class PathManagementService(
 
     private fun onError(error: String) {
         crashlysticService.recordException(
-            CrashlysticService.RegisterExceptionModel("Path Management Service Exception : $error", RuntimeException("Path Management Service Exception")))
+            CrashlysticService.RegisterExceptionModel(message = "Path Management Service Exception : $error", exception = RuntimeException("Path Management Service Exception")))
     }
 
     fun findLayerFile() {

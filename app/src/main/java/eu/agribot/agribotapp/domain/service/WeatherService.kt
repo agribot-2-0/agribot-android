@@ -11,9 +11,9 @@ import eu.agribot.agribotapp.ui.fragment.weather.forecast.ForecastWeatherViewMod
 import eu.agribot.agribotapp.ui.fragment.weather.forecast.chart.ChartWeatherData
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
+import java.util.Locale
 import java.util.Calendar
 import java.util.Date
-import java.util.Locale
 
 class WeatherService(
     private val restApiService: RestApiService,
@@ -105,14 +105,14 @@ class WeatherService(
             val sdf = SimpleDateFormat(TimePatterns.DATE_TIME.pattern)
             val netDate = Date(s * TIMESTAMP_CONV_VALUE)
             sdf.format(netDate)
-        } catch (e: Exception) {
+        } catch (dateFormatConventerException: Exception) {
             crashlysticService.recordException(
                 CrashlysticService.RegisterExceptionModel(
                     "Convert Date Exception ",
-                    e
+                    dateFormatConventerException
                 )
             )
-            e.toString()
+            resourcesProvider.getString(R.string.invalid_date_format)
         }
     }
 

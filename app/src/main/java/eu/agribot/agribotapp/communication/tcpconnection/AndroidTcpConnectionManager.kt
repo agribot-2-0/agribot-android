@@ -31,10 +31,10 @@ class AndroidTcpConnectionManager(private val crashlysticService: CrashlysticSer
                 try {
                     val tcpClient = Socket(ipAddress, ipPort)
                     sendByteMessage(tcpClient, message)
-                } catch (exception: Exception) {
+                } catch (tcpConnectionException: Exception) {
                     crashlysticService.recordException(
-                        CrashlysticService.RegisterExceptionModel("Tcp Connect Exception", exception))
-                    onConnectionError(exception)
+                        CrashlysticService.RegisterExceptionModel(message = "Tcp Connect Exception", exception = tcpConnectionException))
+                    onConnectionError(tcpConnectionException)
                 }
             }
 

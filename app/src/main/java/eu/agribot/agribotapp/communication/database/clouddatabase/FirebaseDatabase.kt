@@ -44,9 +44,9 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         onDatabaseSucess: (data: UserInfoCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        getTypicalObjectsDataFromCloudDatabase(
-            COLLECTION_USER,
-            FirebaseAuth.getInstance().currentUser?.uid.toString() + "/$COLLECTION_ROBOTS/${persistentStorage.getRobotSerialNumber()}",
+        registerListenerOnDocumentChange(
+            "$COLLECTION_USER/" +
+                    FirebaseAuth.getInstance().currentUser?.uid.toString() + "/$COLLECTION_ROBOTS/${persistentStorage.getRobotSerialNumber()}",
             UserInfoCDB(), onDatabaseSucess, onDatabaseError
         )
     }
@@ -55,9 +55,9 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         onDatabaseSuccess: (data: EngineHealthCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        getTypicalObjectsDataFromCloudDatabase(
-            COLLECTION_ROBOTS,
-            persistentStorage.getRobotSerialNumber() + DOCUMENT_STATE_ENGINE,
+        registerListenerOnDocumentChange(
+            "$COLLECTION_ROBOTS/" +
+                    persistentStorage.getRobotSerialNumber() + DOCUMENT_STATE_ENGINE,
             EngineHealthCDB(), onDatabaseSuccess, onDatabaseError
         )
     }
@@ -66,9 +66,9 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         onDatabaseSuccess: (data: RobotEngineCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        getTypicalObjectsDataFromCloudDatabase(
-            COLLECTION_ROBOTS,
-            persistentStorage.getRobotSerialNumber() + DOCUMENT_STATE_ENGINE,
+        registerListenerOnDocumentChange(
+            "$COLLECTION_ROBOTS/" +
+                    persistentStorage.getRobotSerialNumber() + DOCUMENT_STATE_ENGINE,
             RobotEngineCDB(), onDatabaseSuccess, onDatabaseError
         )
     }
@@ -77,9 +77,9 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         onDatabaseSuccess: (data: RobotHydraulicsCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        getTypicalObjectsDataFromCloudDatabase(
-            COLLECTION_ROBOTS,
-            persistentStorage.getRobotSerialNumber() + DOCUMENT_STATE_HYDRAULICS,
+        registerListenerOnDocumentChange(
+            "$COLLECTION_ROBOTS/" +
+                    persistentStorage.getRobotSerialNumber() + DOCUMENT_STATE_HYDRAULICS,
             RobotHydraulicsCDB(), onDatabaseSuccess, onDatabaseError
         )
     }
@@ -88,9 +88,9 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         onDatabaseSuccess: (data: RobotTaskCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        getTypicalObjectsDataFromCloudDatabase(
-            COLLECTION_ROBOTS,
-            persistentStorage.getRobotSerialNumber() + DOCUMENT_STATE_TASK,
+        registerListenerOnDocumentChange(
+            "$COLLECTION_ROBOTS/" +
+                    persistentStorage.getRobotSerialNumber() + DOCUMENT_STATE_TASK,
             RobotTaskCDB(), onDatabaseSuccess, onDatabaseError
         )
     }
@@ -99,9 +99,9 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         onDatabaseSuccess: (data: RobotLocalizationPoseCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        getTypicalObjectsDataFromCloudDatabase(
-            COLLECTION_ROBOTS,
-            persistentStorage.getRobotSerialNumber() + DOCUMENT_LOCALIZATION_POSE,
+        registerListenerOnDocumentChange(
+            "$COLLECTION_ROBOTS/" +
+                    persistentStorage.getRobotSerialNumber() + DOCUMENT_LOCALIZATION_POSE,
             RobotLocalizationPoseCDB(), onDatabaseSuccess, onDatabaseError
         )
     }
@@ -110,9 +110,9 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         onDatabaseSuccess: (data: RobotWeatherStationHumidityCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        getTypicalObjectsDataFromCloudDatabase(
-            COLLECTION_ROBOTS,
-            persistentStorage.getRobotSerialNumber() + DOCUMENT_WEATHER_STATION_HUMIDITYE,
+        registerListenerOnDocumentChange(
+            "$COLLECTION_ROBOTS/" +
+                    persistentStorage.getRobotSerialNumber() + DOCUMENT_WEATHER_STATION_HUMIDITYE,
             RobotWeatherStationHumidityCDB(), onDatabaseSuccess, onDatabaseError
         )
     }
@@ -121,9 +121,9 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         onDatabaseSuccess: (RobotWeatherStationPressureCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        getTypicalObjectsDataFromCloudDatabase(
-            COLLECTION_ROBOTS,
-            persistentStorage.getRobotSerialNumber() + DOCUMENT_WEATHER_STATION_PRESSURE,
+        registerListenerOnDocumentChange(
+            "$COLLECTION_ROBOTS/" +
+                    persistentStorage.getRobotSerialNumber() + DOCUMENT_WEATHER_STATION_PRESSURE,
             RobotWeatherStationPressureCDB(), onDatabaseSuccess, onDatabaseError
         )
     }
@@ -132,9 +132,9 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         onDatabaseSuccess: (RobotWeatherStationWindCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        getTypicalObjectsDataFromCloudDatabase(
-            COLLECTION_ROBOTS,
-            persistentStorage.getRobotSerialNumber() + DOCUMENT_WEATHER_STATION_WIND,
+        registerListenerOnDocumentChange(
+            "$COLLECTION_ROBOTS/" +
+                    persistentStorage.getRobotSerialNumber() + DOCUMENT_WEATHER_STATION_WIND,
             RobotWeatherStationWindCDB(), onDatabaseSuccess, onDatabaseError
         )
     }
@@ -143,9 +143,9 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         onDatabaseSuccess: (data: RobotWeatherStationTemperatureCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        getTypicalObjectsDataFromCloudDatabase(
-            COLLECTION_ROBOTS,
-            persistentStorage.getRobotSerialNumber() + DOCUMENT_WEATHER_STATION_TEMPERATURE,
+        registerListenerOnDocumentChange(
+            "$COLLECTION_ROBOTS/" +
+                    persistentStorage.getRobotSerialNumber() + DOCUMENT_WEATHER_STATION_TEMPERATURE,
             RobotWeatherStationTemperatureCDB(), onDatabaseSuccess, onDatabaseError
         )
     }
@@ -200,9 +200,9 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         onGotTaskDetails: (taskDetailsCDB: TaskDetailsCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        getTypicalObjectsDataFromCloudDatabase(
-            COLLECTION_ROBOTS,
-            persistentStorage.getRobotSerialNumber() + "/$DOCUMENT_TASKS/$taskID",
+        registerListenerOnDocumentChange(
+            "$COLLECTION_ROBOTS/" +
+                    persistentStorage.getRobotSerialNumber() + "/$DOCUMENT_TASKS/$taskID",
             TaskDetailsCDB(), onGotTaskDetails, onDatabaseError
         )
     }
@@ -355,9 +355,9 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         onGetToolDetailsSucess: (toolDetailsCDB: ToolDetailsCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        getTypicalObjectsDataFromCloudDatabase(
-            "$COLLECTION_USER/" + FirebaseAuth.getInstance().currentUser?.uid.toString() + "/$DOCUMENT_TOOLS",
-            toolName,
+        registerListenerOnDocumentChange(
+            "$COLLECTION_USER/" + FirebaseAuth.getInstance().currentUser?.uid.toString() + "/$DOCUMENT_TOOLS" +
+                    toolName,
             ToolDetailsCDB(), onGetToolDetailsSucess, onDatabaseError
         )
     }
@@ -383,9 +383,9 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         onGotUserRole: (UserRoleCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        getTypicalObjectsDataFromCloudDatabase(
-            COLLECTION_USER,
-            FirebaseAuth.getInstance().currentUser?.uid.toString(),
+        registerListenerOnDocumentChange(
+            "$COLLECTION_USER/" +
+                    FirebaseAuth.getInstance().currentUser?.uid.toString(),
             UserRoleCDB(), onGotUserRole, onDatabaseError
         )
     }
@@ -444,15 +444,13 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         }
     }
 
-    private fun <T> getTypicalObjectsDataFromCloudDatabase(
-        collection: String,
-        document: String,
+    private fun <T> registerListenerOnDocumentChange(
+        documentSource: String,
         databaseObject: T,
         onDatabaseSucess: (T) -> Unit,
         onDataBaseError: (Throwable) -> Unit
     ) {
-        database.collection(collection)
-            .document(document)
+        database.document(documentSource)
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDataBaseError(Throwable("Could not parse firebase data"))

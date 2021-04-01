@@ -392,8 +392,8 @@ class FirebaseDatabase(
                 onDatabaseError(it)
                 crashlysticService.recordException(
                     CrashlysticService.RegisterExceptionModel(
-                        "Get task item exception",
-                        it
+                        message = "Get task item exception",
+                        exception = it
                     )
                 )
             }

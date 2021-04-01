@@ -48,254 +48,140 @@ class FirebaseDatabase(
         onDatabaseSucess: (data: UserInfoCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        database.collection(COLLECTION_USER)
-            .document(FirebaseAuth.getInstance().currentUser?.uid.toString() + "/$COLLECTION_ROBOTS/${persistentStorage.getRobotSerialNumber()}")
-            .addSnapshotListener { snapshot, databaseException ->
-                if (databaseException != null) {
-                    onDatabaseError(Throwable("Could not parse firebase data"))
-                    crashlysticService.recordException(
-                        CrashlysticService.RegisterExceptionModel(
-                            message = "Get user data exception",
-                            exception = databaseException
-                        )
-                    )
-                    return@addSnapshotListener
-                }
-                if (snapshot != null && snapshot.exists()) {
-                    snapshot.toObject(UserInfoCDB::class.java)?.let {
-                        onDatabaseSucess(it)
-                    }
-                }
-            }
+        registerListenerOnDocumentChange(
+            "$COLLECTION_USER/" +
+                    FirebaseAuth.getInstance().currentUser?.uid.toString() + "/$COLLECTION_ROBOTS/${persistentStorage.getRobotSerialNumber()}",
+            UserInfoCDB(),
+            onDatabaseSucess,
+            onDatabaseError,
+            "Get user data exception"
+        )
     }
 
     override fun getEngineHealthData(
         onDatabaseSuccess: (data: EngineHealthCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        database.collection(COLLECTION_ROBOTS)
-            .document(persistentStorage.getRobotSerialNumber() + DOCUMENT_STATE_ENGINE)
-            .addSnapshotListener { snapshot, databaseException ->
-                if (databaseException != null) {
-                    onDatabaseError(Throwable("Could not parse firebase data"))
-                    crashlysticService.recordException(
-                        CrashlysticService.RegisterExceptionModel(
-                            message = "Get engine data exception",
-                            exception = databaseException
-                        )
-                    )
-                    return@addSnapshotListener
-                }
-                if (snapshot != null && snapshot.exists()) {
-                    snapshot.toObject(EngineHealthCDB::class.java)?.let {
-                        onDatabaseSuccess(it)
-                    }
-                }
-            }
+        registerListenerOnDocumentChange(
+            "$COLLECTION_ROBOTS/" +
+                    persistentStorage.getRobotSerialNumber() + DOCUMENT_STATE_ENGINE,
+            EngineHealthCDB(),
+            onDatabaseSuccess,
+            onDatabaseError,
+            "Get engine health data exception"
+        )
     }
 
     override fun getRobotStateEngineData(
         onDatabaseSuccess: (data: RobotEngineCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        database.collection(COLLECTION_ROBOTS)
-            .document(persistentStorage.getRobotSerialNumber() + DOCUMENT_STATE_ENGINE)
-            .addSnapshotListener { snapshot, databaseException ->
-                if (databaseException != null) {
-                    onDatabaseError(Throwable("Could not parse firebase data"))
-                    crashlysticService.recordException(
-                        CrashlysticService.RegisterExceptionModel(
-                            message = "Get robot state engine exception",
-                            exception = databaseException
-                        )
-                    )
-
-                    return@addSnapshotListener
-                }
-                if (snapshot != null && snapshot.exists()) {
-                    snapshot.toObject(RobotEngineCDB::class.java)?.let {
-                        onDatabaseSuccess(it)
-                    }
-                }
-            }
+        registerListenerOnDocumentChange(
+            "$COLLECTION_ROBOTS/" +
+                    persistentStorage.getRobotSerialNumber() + DOCUMENT_STATE_ENGINE,
+            RobotEngineCDB(),
+            onDatabaseSuccess,
+            onDatabaseError,
+            "Get robot state engine data exception"
+        )
     }
 
     override fun getRobotStateHydraulicsData(
         onDatabaseSuccess: (data: RobotHydraulicsCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        database.collection(COLLECTION_ROBOTS)
-            .document(persistentStorage.getRobotSerialNumber() + DOCUMENT_STATE_HYDRAULICS)
-            .addSnapshotListener { snapshot, databaseException ->
-                if (databaseException != null) {
-                    onDatabaseError(Throwable("Could not parse firebase data"))
-                    crashlysticService.recordException(
-                        CrashlysticService.RegisterExceptionModel(
-                            message = "Get robot hydraullics exception",
-                            exception = databaseException
-                        )
-                    )
-
-                    return@addSnapshotListener
-                }
-                if (snapshot != null && snapshot.exists()) {
-                    snapshot.toObject(RobotHydraulicsCDB::class.java)?.let {
-                        onDatabaseSuccess(it)
-                    }
-                }
-            }
+        registerListenerOnDocumentChange(
+            "$COLLECTION_ROBOTS/" +
+                    persistentStorage.getRobotSerialNumber() + DOCUMENT_STATE_HYDRAULICS,
+            RobotHydraulicsCDB(),
+            onDatabaseSuccess,
+            onDatabaseError,
+            "Get robot state hydraulic data exception"
+        )
     }
 
     override fun getRobotStateTaskData(
         onDatabaseSuccess: (data: RobotTaskCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        database.collection(COLLECTION_ROBOTS)
-            .document(persistentStorage.getRobotSerialNumber() + DOCUMENT_STATE_TASK)
-            .addSnapshotListener { snapshot, databaseException ->
-                if (databaseException != null) {
-                    onDatabaseError(Throwable("Could not parse firebase data"))
-                    crashlysticService.recordException(
-                        CrashlysticService.RegisterExceptionModel(
-                            message = "Get robot task exception",
-                            exception = databaseException
-                        )
-                    )
-
-                    return@addSnapshotListener
-                }
-                if (snapshot != null && snapshot.exists()) {
-                    snapshot.toObject(RobotTaskCDB::class.java)?.let {
-                        onDatabaseSuccess(it)
-                    }
-                }
-            }
+        registerListenerOnDocumentChange(
+            "$COLLECTION_ROBOTS/" +
+                    persistentStorage.getRobotSerialNumber() + DOCUMENT_STATE_TASK,
+            RobotTaskCDB(),
+            onDatabaseSuccess,
+            onDatabaseError,
+            " Get robot state task data exception"
+        )
     }
 
     override fun getRobotLocalizationPoseData(
         onDatabaseSuccess: (data: RobotLocalizationPoseCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        database.collection(COLLECTION_ROBOTS)
-            .document(persistentStorage.getRobotSerialNumber() + DOCUMENT_LOCALIZATION_POSE)
-            .addSnapshotListener { snapshot, databaseException ->
-                if (databaseException != null) {
-                    onDatabaseError(Throwable("Could not parse firebase data"))
-                    crashlysticService.recordException(
-                        CrashlysticService.RegisterExceptionModel(
-                            message = "Get robot localization exception",
-                            exception = databaseException
-                        )
-                    )
-
-                    return@addSnapshotListener
-                }
-                if (snapshot != null && snapshot.exists()) {
-                    snapshot.toObject(RobotLocalizationPoseCDB::class.java)?.let {
-                        onDatabaseSuccess(it)
-                    }
-                }
-            }
+        registerListenerOnDocumentChange(
+            "$COLLECTION_ROBOTS/" +
+                    persistentStorage.getRobotSerialNumber() + DOCUMENT_LOCALIZATION_POSE,
+            RobotLocalizationPoseCDB(),
+            onDatabaseSuccess,
+            onDatabaseError,
+            "Get robot localization pose data exception"
+        )
     }
 
     override fun getRobotWeatherStationHumidityData(
         onDatabaseSuccess: (data: RobotWeatherStationHumidityCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        database.collection(COLLECTION_ROBOTS)
-            .document(persistentStorage.getRobotSerialNumber() + DOCUMENT_WEATHER_STATION_HUMIDITYE)
-            .addSnapshotListener { snapshot, databaseException ->
-                if (databaseException != null) {
-                    onDatabaseError(Throwable("Could not parse firebase data"))
-                    crashlysticService.recordException(
-                        CrashlysticService.RegisterExceptionModel(
-                            message = "Get robot humidity exception",
-                            exception = databaseException
-                        )
-                    )
-                    return@addSnapshotListener
-                }
-                if (snapshot != null && snapshot.exists()) {
-                    snapshot.toObject(RobotWeatherStationHumidityCDB::class.java)?.let {
-                        onDatabaseSuccess(it)
-                    }
-                }
-            }
+        registerListenerOnDocumentChange(
+            "$COLLECTION_ROBOTS/" +
+                    persistentStorage.getRobotSerialNumber() + DOCUMENT_WEATHER_STATION_HUMIDITYE,
+            RobotWeatherStationHumidityCDB(),
+            onDatabaseSuccess,
+            onDatabaseError,
+            "Get robot weather station humidity data exception"
+        )
     }
 
     override fun getRobotWeatherStationPressureData(
         onDatabaseSuccess: (RobotWeatherStationPressureCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        database.collection(COLLECTION_ROBOTS)
-            .document(persistentStorage.getRobotSerialNumber() + DOCUMENT_WEATHER_STATION_PRESSURE)
-            .addSnapshotListener { snapshot, databaseException ->
-                if (databaseException != null) {
-                    onDatabaseError(Throwable("Could not parse firebase data"))
-                    crashlysticService.recordException(
-                        CrashlysticService.RegisterExceptionModel(
-                            message = "Get robot pressure  exception",
-                            exception = databaseException
-                        )
-                    )
-                    return@addSnapshotListener
-                }
-                if (snapshot != null && snapshot.exists()) {
-                    snapshot.toObject(RobotWeatherStationPressureCDB::class.java)?.let {
-                        onDatabaseSuccess(it)
-                    }
-                }
-            }
+        registerListenerOnDocumentChange(
+            "$COLLECTION_ROBOTS/" +
+                    persistentStorage.getRobotSerialNumber() + DOCUMENT_WEATHER_STATION_PRESSURE,
+            RobotWeatherStationPressureCDB(),
+            onDatabaseSuccess,
+            onDatabaseError,
+            "Get robot weather station pressure data exception"
+        )
     }
 
     override fun getRobotWeatherStationWindData(
         onDatabaseSuccess: (RobotWeatherStationWindCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        database.collection(COLLECTION_ROBOTS)
-            .document(persistentStorage.getRobotSerialNumber() + DOCUMENT_WEATHER_STATION_WIND)
-            .addSnapshotListener { snapshot, databaseException ->
-                if (databaseException != null) {
-                    onDatabaseError(Throwable("Could not parse firebase data"))
-                    crashlysticService.recordException(
-                        CrashlysticService.RegisterExceptionModel(
-                            message = "Get robot wind exception",
-                            exception = databaseException
-                        )
-                    )
-                    return@addSnapshotListener
-                }
-                if (snapshot != null && snapshot.exists()) {
-                    snapshot.toObject(RobotWeatherStationWindCDB::class.java)?.let {
-                        onDatabaseSuccess(it)
-                    }
-                }
-            }
+        registerListenerOnDocumentChange(
+            "$COLLECTION_ROBOTS/" +
+                    persistentStorage.getRobotSerialNumber() + DOCUMENT_WEATHER_STATION_WIND,
+            RobotWeatherStationWindCDB(),
+            onDatabaseSuccess,
+            onDatabaseError,
+            "Get robot wather station wind data exception"
+        )
     }
 
     override fun getRobotWeatherStationTemperatureData(
         onDatabaseSuccess: (data: RobotWeatherStationTemperatureCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        database.collection(COLLECTION_ROBOTS)
-            .document(persistentStorage.getRobotSerialNumber() + DOCUMENT_WEATHER_STATION_TEMPERATURE)
-            .addSnapshotListener { snapshot, databaseException ->
-                if (databaseException != null) {
-                    onDatabaseError(Throwable("Could not parse firebase data"))
-                    crashlysticService.recordException(
-                        CrashlysticService.RegisterExceptionModel(
-                            message = "Get robot weather temperature exception",
-                            exception = databaseException
-                        )
-                    )
-                    return@addSnapshotListener
-                }
-                if (snapshot != null && snapshot.exists()) {
-                    snapshot.toObject(RobotWeatherStationTemperatureCDB::class.java)?.let {
-                        onDatabaseSuccess(it)
-                    }
-                }
-            }
+        registerListenerOnDocumentChange(
+            "$COLLECTION_ROBOTS/" +
+                    persistentStorage.getRobotSerialNumber() + DOCUMENT_WEATHER_STATION_TEMPERATURE,
+            RobotWeatherStationTemperatureCDB(),
+            onDatabaseSuccess,
+            onDatabaseError,
+            "Get robot weather station temperature data exception"
+        )
     }
 
     override fun saveUserData(
@@ -588,6 +474,11 @@ class FirebaseDatabase(
         onGetToolDetailsSucess: (toolDetailsCDB: ToolDetailsCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
+        registerListenerOnDocumentChange(
+            "$COLLECTION_USER/" + FirebaseAuth.getInstance().currentUser?.uid.toString() + "/$DOCUMENT_TOOLS" +
+                    toolName,
+            ToolDetailsCDB(), onGetToolDetailsSucess, onDatabaseError, "Get tool details exception"
+        )
         database.collection("$COLLECTION_USER/" + FirebaseAuth.getInstance().currentUser?.uid.toString() + "/$DOCUMENT_TOOLS")
             .document(toolName)
             .addSnapshotListener { snapshot, databaseException ->
@@ -638,6 +529,11 @@ class FirebaseDatabase(
         onGotUserRole: (UserRoleCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
+        registerListenerOnDocumentChange(
+            "$COLLECTION_USER/" +
+                    FirebaseAuth.getInstance().currentUser?.uid.toString(),
+            UserRoleCDB(), onGotUserRole, onDatabaseError, "Get user role exception"
+        )
         database.collection(COLLECTION_USER)
             .document(FirebaseAuth.getInstance().currentUser?.uid.toString())
             .get()
@@ -731,5 +627,34 @@ class FirebaseDatabase(
                 )
             )
         }
+    }
+
+    private fun <T> registerListenerOnDocumentChange(
+        documentSource: String,
+        databaseObject: T,
+        onDatabaseSucess: (T) -> Unit,
+        onDataBaseError: (Throwable) -> Unit,
+        crashlysticMessage: String
+
+    ) {
+        database.document(documentSource)
+            .addSnapshotListener { snapshot, databaseException ->
+                if (databaseException != null) {
+                    crashlysticService.recordException(
+                        CrashlysticService.RegisterExceptionModel(
+                            message = crashlysticMessage,
+                            exception = databaseException
+                        )
+                    )
+                    onDataBaseError(Throwable("Could not parse firebase data"))
+                    return@addSnapshotListener
+                }
+
+                if (snapshot != null && snapshot.exists()) {
+                    snapshot.toObject(databaseObject!!::class.java)?.let {
+                        onDatabaseSucess(it)
+                    }
+                }
+            }
     }
 }

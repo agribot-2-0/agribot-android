@@ -33,8 +33,11 @@ class KmlLayerService(private val crashlysticService: CrashlysticService) {
             try {
                 val kmlLineString = placemark.geometry as KmlLineString
                 onGetLatLng(kmlLineString.geometryObject)
-            } catch (exception: Exception) {
-                crashlysticService.recordException(CrashlysticService.RegisterExceptionModel("Kml LAyer service Exception", exception))
+            } catch (accessPlacemarksExceptions: Exception) {
+                crashlysticService.recordException(CrashlysticService.RegisterExceptionModel(
+                    message = "Kml Layer service Exception",
+                    exception = accessPlacemarksExceptions)
+                )
                 onError.invoke()
             }
         }

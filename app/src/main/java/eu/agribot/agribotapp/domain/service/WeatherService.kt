@@ -11,8 +11,8 @@ import eu.agribot.agribotapp.ui.fragment.weather.forecast.ForecastWeatherViewMod
 import eu.agribot.agribotapp.ui.fragment.weather.forecast.chart.ChartWeatherData
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
-import java.util.Locale
 import java.util.Calendar
+import java.util.Locale
 import java.util.Date
 
 class WeatherService(
@@ -108,8 +108,8 @@ class WeatherService(
         } catch (dateFormatConventerException: Exception) {
             crashlysticService.recordException(
                 CrashlysticService.RegisterExceptionModel(
-                    "Convert Date Exception ",
-                    dateFormatConventerException
+                    message = "Convert Date Exception ",
+                    exception = dateFormatConventerException
                 )
             )
             resourcesProvider.getString(R.string.invalid_date_format)

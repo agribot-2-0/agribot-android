@@ -1,8 +1,8 @@
 package eu.agribot.agribotapp.ui.activity.main
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import eu.agribot.agribotapp.base.BaseViewModel
+import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -14,12 +14,12 @@ class MainViewModel(private val bluetoothConnectionService: BluetoothConnectionS
         const val CHECK_BLUETOOTH_ERROR_DELAY = 10000L
     }
 
-    val connectionErrors: MutableLiveData<String> =
-        MutableLiveData()
-    val writeMessageErrors: MutableLiveData<String> =
-        MutableLiveData()
-    val receiveMessageErrors: MutableLiveData<String> =
-        MutableLiveData()
+    val connectionErrors: MutableLiveEvent<String> =
+        MutableLiveEvent()
+    val writeMessageErrors: MutableLiveEvent<String> =
+        MutableLiveEvent()
+    val receiveMessageErrors: MutableLiveEvent<String> =
+        MutableLiveEvent()
 
     fun registerServer() {
         viewModelScope.launch {
@@ -33,16 +33,13 @@ class MainViewModel(private val bluetoothConnectionService: BluetoothConnectionS
             delay(CHECK_BLUETOOTH_ERROR_DELAY)
             when {
                 bluetoothConnectionService.getBluetoothConnectionErrors() != null -> {
-                    connectionErrors.value =
-                        bluetoothConnectionService.getBluetoothConnectionErrors()
+                    connectionErrors.postValue(bluetoothConnectionService.getBluetoothConnectionErrors())
                 }
                 bluetoothConnectionService.getBluetoothWriteMessageErrors() != null -> {
-                    writeMessageErrors.value =
-                        bluetoothConnectionService.getBluetoothWriteMessageErrors()
+                    writeMessageErrors.postValue(bluetoothConnectionService.getBluetoothWriteMessageErrors())
                 }
                 bluetoothConnectionService.getBluetoothReceiveMessageErrors() != null -> {
-                    receiveMessageErrors.value =
-                        bluetoothConnectionService.getBluetoothReceiveMessageErrors()
+                    receiveMessageErrors.postValue(bluetoothConnectionService.getBluetoothReceiveMessageErrors())
                 }
             }
         }

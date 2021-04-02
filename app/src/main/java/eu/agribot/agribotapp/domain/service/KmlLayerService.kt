@@ -4,8 +4,9 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.kml.KmlContainer
 import com.google.maps.android.kml.KmlLineString
 import com.google.maps.android.kml.KmlPlacemark
+import eu.agribot.agribotapp.communication.crashlystic.CrashlysticService
 
-class KmlLayerService {
+class KmlLayerService(private val crashlysticService: CrashlysticService) {
 
     fun getCoordinates(
         containers: Iterable<KmlContainer?>,
@@ -32,7 +33,11 @@ class KmlLayerService {
             try {
                 val kmlLineString = placemark.geometry as KmlLineString
                 onGetLatLng(kmlLineString.geometryObject)
-            } catch (exception: Exception) {
+            } catch (accessPlacemarksExceptions: Exception) {
+                crashlysticService.recordException(CrashlysticService.RegisterExceptionModel(
+                    message = "Kml Layer service Exception",
+                    exception = accessPlacemarksExceptions)
+                )
                 onError.invoke()
             }
         }

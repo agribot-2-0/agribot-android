@@ -61,7 +61,7 @@ class BluetoothConnectionService(
         } else if (connectionErrors == null) {
             null
         } else {
-            "Undefined Error"
+            "Connection Bluetooth"
         }
     }
 
@@ -76,9 +76,8 @@ class BluetoothConnectionService(
             BluetoothErrorInfo(BLUETOOTH_HEARTBEAT_ERROR_CODE) -> {
                 "Heartbeat Error"
             }
-            null -> null
             else -> {
-                "Undefined Error"
+                null
             }
         }
     }
@@ -89,11 +88,7 @@ class BluetoothConnectionService(
         } else if (writeMessageErrors == null) {
             null
         } else {
-            "Undefined Error"
+            "Write Bluetooth Message Error"
         }
-    }
-
-    fun initAutonomyMode() {
-        bluetoothWriteBluetoothMessageManager.sendAutonomusModeInitMessage()
     }
 }

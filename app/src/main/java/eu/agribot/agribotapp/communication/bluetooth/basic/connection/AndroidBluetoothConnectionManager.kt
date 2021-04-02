@@ -4,11 +4,12 @@ import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothServerSocket
 import android.bluetooth.BluetoothSocket
+import eu.agribot.agribotapp.communication.crashlystic.CrashlysticService
+import eu.agribot.agribotapp.communication.bluetooth.basic.connection.socket.BluetoothSocketManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ReceivedBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.const.PersistentConnectionParameters.AGRIBOT_UUID_INSECURE
 import eu.agribot.agribotapp.communication.bluetooth.const.PersistentConnectionParameters.AGRIBOT_UUID_SECURE
 import eu.agribot.agribotapp.communication.bluetooth.error.connection.BluetoothConnectionErrorHandler
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ReceivedBluetoothMessageManager
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.socket.BluetoothSocketManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
@@ -16,7 +17,8 @@ import java.io.IOException
 class AndroidBluetoothConnectionManager(
     private val bluetoothConnectionErrorHandler: BluetoothConnectionErrorHandler,
     private val bluetoothReceivedBluetoothMessageManager: ReceivedBluetoothMessageManager,
-    private val bluetoothSocketManager: BluetoothSocketManager
+    private val bluetoothSocketManager: BluetoothSocketManager,
+    private val crashlysticService: CrashlysticService
 ) : BluetoothConnectionManager {
     private var bluetoothSocket: BluetoothSocket? = null
 
@@ -44,13 +46,19 @@ class AndroidBluetoothConnectionManager(
                 )
             }
 
-            run() {
+            run {
                 var shouldLoop = true
                 while (shouldLoop) {
                     try {
                         bluetoothServerSocket?.accept()
-                    } catch (e: IOException) {
+                    } catch (registerBluetoothServerException: IOException) {
                         shouldLoop = false
+                        crashlysticService.recordException(
+                            CrashlysticService.RegisterExceptionModel(
+                                message = "Register Bluetooth Server Exception ",
+                                exception = registerBluetoothServerException
+                            )
+                        )
                     }
                     bluetoothServerSocket?.also {
                         bluetoothServerSocket.close()
@@ -91,6 +99,12 @@ class AndroidBluetoothConnectionManager(
                     bluetoothReceivedBluetoothMessageManager.registerMessageReceiver()
                 }
             } catch (bluetoothConnectionError: IOException) {
+                crashlysticService.recordException(
+                    CrashlysticService.RegisterExceptionModel(
+                        message = "Bluetooth Connection Exception ",
+                        exception = bluetoothConnectionError
+                    )
+                )
                 bluetoothConnectionErrorHandler.onBluetoothConnectionError()
             }
         }

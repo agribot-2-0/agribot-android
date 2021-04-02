@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.communication.tcpconnection
 
+import eu.agribot.agribotapp.communication.crashlystic.CrashlysticService
 import eu.agribot.agribotapp.communication.tcpconnection.TcpConnectionDetails.SLEEP_IP_ADDRESS
 import eu.agribot.agribotapp.communication.tcpconnection.TcpConnectionDetails.SLEEP_MESSAGE
 import eu.agribot.agribotapp.communication.tcpconnection.TcpConnectionDetails.SLEEP_PORT_NUMBER
@@ -10,7 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.net.Socket
 
-class AndroidTcpConnectionManager : TcpConnectionManager {
+class AndroidTcpConnectionManager(private val crashlysticService: CrashlysticService) : TcpConnectionManager {
 
     override suspend fun wakeupAgribot(onConnectionError: (exception: Exception) -> Unit) {
         connectWithAgribot(WAKEUP_IP_ADDRESS, WAKE_UP_PORT_NUMBER, WAKEUP_MESSAGE, onConnectionError)
@@ -30,8 +31,10 @@ class AndroidTcpConnectionManager : TcpConnectionManager {
                 try {
                     val tcpClient = Socket(ipAddress, ipPort)
                     sendByteMessage(tcpClient, message)
-                } catch (exception: Exception) {
-                    onConnectionError(exception)
+                } catch (tcpConnectionException: Exception) {
+                    crashlysticService.recordException(
+                        CrashlysticService.RegisterExceptionModel(message = "Tcp Connect Exception", exception = tcpConnectionException))
+                    onConnectionError(tcpConnectionException)
                 }
             }
 

@@ -14,7 +14,6 @@ import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessa
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.ConstantReceivedMessage.LENGHT_BYTE_POSITION
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.ConstantReceivedMessage.START_FRAME_MESSAGE
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.ConstantReceivedMessage.START_OF_FRAME_POSITION
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.DiagnosticDataArrayPosition
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.DiagnosticDataArrayPosition.ACCUMULATOR_VOLTAGE_SECOND_BYTE
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.DiagnosticDataArrayPosition.ACCUMULATOR_VOLTGE_FIRST_BYTE
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.DiagnosticDataArrayPosition.ENGINE_FUEL_RATE_BYTE
@@ -22,6 +21,7 @@ import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessa
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.DiagnosticDataArrayPosition.ENGINE_ROTATIONS_SECOND_BYTE
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.DiagnosticDataArrayPosition.FUEL_LEVEL_BYTE
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.DiagnosticDataArrayPosition.FUEL_TEMPERATURE_BYTE
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.DiagnosticDataArrayPosition.HUDRAULIC_OIL_TEMPERATURE_BYTE
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.DiagnosticDataArrayPosition.TORQUE_OF_ENGINE_BYTE
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.RfidMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.WriteBluetoothMessageManager
@@ -30,6 +30,7 @@ import eu.agribot.agribotapp.communication.bluetooth.const.PersistentConnectionP
 import eu.agribot.agribotapp.communication.bluetooth.error.message.receive.BluetoothMessageReceiveErrorHandler
 import eu.agribot.agribotapp.communication.bluetooth.model.fromcommunication.DiagnosticBluetoothDataBD
 import eu.agribot.agribotapp.communication.bluetooth.model.fromcommunication.RfidDataBD
+import eu.agribot.agribotapp.communication.crashlystic.CrashlysticService
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import timber.log.Timber
@@ -40,7 +41,8 @@ class AndroidReceivedBluetoothMessageManager(
     private val writeBluetoothMessageManager: WriteBluetoothMessageManager,
     private val bluetoothSocketManager: BluetoothSocketManager,
     private val heartbeatManager: HeartbeatManager,
-    private val rfidMessageManager: RfidMessageManager
+    private val rfidMessageManager: RfidMessageManager,
+    private val crashlysticService: CrashlysticService
 ) : ReceivedBluetoothMessageManager {
 
     @ExperimentalCoroutinesApi
@@ -58,6 +60,12 @@ class AndroidReceivedBluetoothMessageManager(
                 bluetoothSocketManager.getBluetoothSocket()?.inputStream?.read(receiveMessageBuffer)
                 handleMessage(receiveMessageBuffer)
             } catch (receiveMessageException: IOException) {
+                crashlysticService.recordException(
+                    CrashlysticService.RegisterExceptionModel(
+                        message = "Bluetooth message receive exception",
+                        exception = receiveMessageException
+                    )
+                )
                 receiveErrorHandler.onReceiveBluetoothMessageError()
                 break
             }
@@ -89,6 +97,12 @@ class AndroidReceivedBluetoothMessageManager(
                 return
             }
         } catch (handleMessageException: IOException) {
+            crashlysticService.recordException(
+                CrashlysticService.RegisterExceptionModel(
+                    message = "Handle received bluetooth message exception",
+                    exception = handleMessageException
+                )
+            )
             receiveErrorHandler.onReceiveBluetoothMessageError()
         }
     }
@@ -98,7 +112,7 @@ class AndroidReceivedBluetoothMessageManager(
         message.forEach {
             mymessage = mymessage + String.format("%02X", it) + " "
         }
-        Timber.e("%s%s", messageName, mymessage)
+        Timber.d(String.format("%s%s", messageName, mymessage))
     }
 
     @ExperimentalCoroutinesApi
@@ -177,7 +191,7 @@ class AndroidReceivedBluetoothMessageManager(
     }
 
     private fun getHydraulicOilTemperature(bluetoothMessageFrame: BluetoothMessageFrame): Int {
-        return (bluetoothMessageFrame.getCanDataFromReceivedMessage()[DiagnosticDataArrayPosition.HUDRAULIC_OIL_TEMPERATURE_BYTE.position] - HYDRAULIC_OIL_TEMPERATURE_OFFSET)
+        return (bluetoothMessageFrame.getCanDataFromReceivedMessage()[HUDRAULIC_OIL_TEMPERATURE_BYTE.position] - HYDRAULIC_OIL_TEMPERATURE_OFFSET)
     }
 
     private fun getEngineRotations(bluetoothMessageFrame: BluetoothMessageFrame): Int {
@@ -229,9 +243,5 @@ class AndroidReceivedBluetoothMessageManager(
 
     private fun handleHeartbeatMessage() {
         heartbeatManager.restartHeartbeatCounter()
-    }
-
-    companion object {
-        const val MINIMUM_HYDRAULIC_DATA_LENGTH = 2
     }
 }

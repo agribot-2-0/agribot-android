@@ -14,7 +14,7 @@ class PasswordReminderViewModel(
     private val resourcesProvider: ResourcesProvider
 
 ) : BaseViewModel() {
-    val email: MutableLiveData<String> = MutableLiveData()
+    private val email: MutableLiveData<String> = MutableLiveData()
     val showToastEvent: LiveEvent<String> = MutableLiveEvent()
 
     fun onEmailChanged(text: CharSequence) {
@@ -42,7 +42,7 @@ class PasswordReminderViewModel(
         showToastEvent.postValue(sendMailError)
     }
 
-    fun postLoginActivityNavigationEvent() {
+    private fun postLoginActivityNavigationEvent() {
         navigationEvent.postValue(
             LoginActivityNavigationEvent()
         )

@@ -3,6 +3,7 @@ package eu.agribot.agribotapp.domain.service
 import android.annotation.SuppressLint
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
+import eu.agribot.agribotapp.communication.crashlystic.CrashlysticService
 import eu.agribot.agribotapp.communication.restapi.RestApiService
 import eu.agribot.agribotapp.ui.fragment.controlPanel.viewpager.taskdetails.TimePatterns
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.data.WeatherUnit
@@ -11,12 +12,13 @@ import eu.agribot.agribotapp.ui.fragment.weather.forecast.chart.ChartWeatherData
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
 import java.util.Locale
+import java.util.Date
 
 class WeatherService(
     private val restApiService: RestApiService,
-    private val resourcesProvider: ResourcesProvider
+    private val resourcesProvider: ResourcesProvider,
+    private val crashlysticService: CrashlysticService
 ) {
 
     fun getForecastData(
@@ -103,8 +105,14 @@ class WeatherService(
             val sdf = SimpleDateFormat(TimePatterns.DATE_TIME.pattern)
             val netDate = Date(s * TIMESTAMP_CONV_VALUE)
             sdf.format(netDate)
-        } catch (e: Exception) {
-            e.toString()
+        } catch (dateFormatConventerException: Exception) {
+            crashlysticService.recordException(
+                CrashlysticService.RegisterExceptionModel(
+                    message = "Convert Date Exception ",
+                    exception = dateFormatConventerException
+                )
+            )
+            resourcesProvider.getString(R.string.invalid_date_format)
         }
     }
 

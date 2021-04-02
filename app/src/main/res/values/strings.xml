@@ -6,6 +6,8 @@
     <string name="exit">Exit</string>
     <string name="cancel">Cancel</string>
     <string name="done">Done</string>
+    <string name="crashlystic_log" translatable="false">User %1$S catched excption : %2$S | Exception Message : %3$S</string>
+
 
 
     <!-- Navigation drawer -->
@@ -328,4 +330,5 @@
 
 
     <string name="diagnostic_data_log" translatable="false">engineRotationsPerMinute : %S | torqueOfEngine : %S | engineFuelRate : %S | fuelLevel : %S | batteryVoltage : %S |  hydraulicOilTemperature : %S |</string>
+    <string name="invalid_date_format">Invalid date</string>
 </resources>

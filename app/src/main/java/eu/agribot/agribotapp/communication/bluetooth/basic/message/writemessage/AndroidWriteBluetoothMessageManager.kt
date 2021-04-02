@@ -7,6 +7,7 @@ import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.Fr
 import eu.agribot.agribotapp.communication.bluetooth.const.BluetoothAdressCodeModel
 import eu.agribot.agribotapp.communication.bluetooth.error.message.write.BluetoothMessageWriteErrorHandler
 import eu.agribot.agribotapp.communication.bluetooth.model.CANmessageData
+import eu.agribot.agribotapp.communication.crashlystic.CrashlysticService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -18,7 +19,8 @@ import java.io.OutputStream
 
 class AndroidWriteBluetoothMessageManager(
     private val bluetoothMessageWriteErrorHandler: BluetoothMessageWriteErrorHandler,
-    private val bluetoothSocketManager: BluetoothSocketManager
+    private val bluetoothSocketManager: BluetoothSocketManager,
+    private val crashlysticService: CrashlysticService
 ) : WriteBluetoothMessageManager {
     private val emptyCanData = ByteArray(EMPTY_CAN_ARRAY_SIZE) { 0 }
     private val singleArray = ByteArray(1) { DUMMY_BYTE }
@@ -34,6 +36,12 @@ class AndroidWriteBluetoothMessageManager(
             try {
                 outputStream.write(message)
             } catch (writeMessageException: IOException) {
+                crashlysticService.recordException(
+                    CrashlysticService.RegisterExceptionModel(
+                        message = "Bluetooth message write exception",
+                        exception = writeMessageException
+                    )
+                )
                 bluetoothMessageWriteErrorHandler.onWriteMessageError()
                 return
             }

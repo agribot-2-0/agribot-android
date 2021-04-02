@@ -1,9 +1,10 @@
 package eu.agribot.agribotapp.di
 
 import com.google.firebase.auth.FirebaseAuth
+import eu.agribot.agribotapp.communication.crashlystic.AndroidCrashlysticService
+import eu.agribot.agribotapp.communication.crashlystic.CrashlysticService
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.AndroidBluetoothConnectionManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.BluetoothConnectionManager
-import eu.agribot.agribotapp.communication.bluetooth.basic.connection.socket.AndroidBluetoothSocketManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.socket.BluetoothSocketManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.heartbeat.HeartbeatManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.AndroidReceivedBluetoothMessageManager
@@ -15,6 +16,7 @@ import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.WriteBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator.AndroidBluetoothMessageCreator
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator.BluetoothMessageCreator
+import eu.agribot.agribotapp.communication.bluetooth.basic.socket.AndroidBluetoothSocketManager
 import eu.agribot.agribotapp.communication.bluetooth.error.connection.AndroidBluetoothConnectionErrorHandler
 import eu.agribot.agribotapp.communication.bluetooth.error.connection.BluetoothConnectionErrorHandler
 import eu.agribot.agribotapp.communication.bluetooth.error.message.receive.AndroidBluetoothMessageReceiveErrorHandler
@@ -42,15 +44,27 @@ import org.koin.dsl.module
  */
 val communicationModule = module {
 
+    single<CrashlysticService> {
+        AndroidCrashlysticService(
+            resourcesProvider = get {
+                parametersOf(
+                    androidContext()
+                )
+            })
+    }
+
     single<TcpConnectionManager> {
-        AndroidTcpConnectionManager()
+        AndroidTcpConnectionManager(
+            crashlysticService = get()
+        )
     }
 
     single<BluetoothConnectionManager> {
         AndroidBluetoothConnectionManager(
             bluetoothConnectionErrorHandler = get(),
             bluetoothReceivedBluetoothMessageManager = get(),
-            bluetoothSocketManager = get()
+            bluetoothSocketManager = get(),
+            crashlysticService = get()
         )
     }
 
@@ -73,8 +87,8 @@ val communicationModule = module {
             writeBluetoothMessageManager = get(),
             bluetoothSocketManager = get(),
             heartbeatManager = get(),
-            rfidMessageManager = get()
-
+            rfidMessageManager = get(),
+            crashlysticService = get()
         )
     }
 
@@ -85,7 +99,8 @@ val communicationModule = module {
     single<WriteBluetoothMessageManager> {
         AndroidWriteBluetoothMessageManager(
             bluetoothMessageWriteErrorHandler = get(),
-            bluetoothSocketManager = get()
+            bluetoothSocketManager = get(),
+            crashlysticService = get()
         )
     }
 
@@ -102,11 +117,17 @@ val communicationModule = module {
     }
 
     single<CloudDatabase> {
-        FirebaseDatabase(persistentStorage = get())
+        FirebaseDatabase(
+            persistentStorage = get(),
+            crashlysticService = get()
+        )
     }
 
     single<FirestorageService> {
-        AndroidFirestorageService(firebaseService = get())
+        AndroidFirestorageService(
+            firebaseService = get(),
+            crashlysticService = get()
+        )
     }
 
     single<BluetoothMessageWriteErrorHandler> {

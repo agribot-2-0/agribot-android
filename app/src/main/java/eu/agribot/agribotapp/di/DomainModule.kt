@@ -7,13 +7,11 @@ import eu.agribot.agribotapp.domain.permission.AndroidPermissionManager
 import eu.agribot.agribotapp.domain.permission.PermissionManager
 import eu.agribot.agribotapp.domain.service.AppStorageService
 import eu.agribot.agribotapp.domain.service.AuthenticationService
-import eu.agribot.agribotapp.domain.service.AutonomyService
 import eu.agribot.agribotapp.domain.service.BluetoothConnectionService
 import eu.agribot.agribotapp.domain.service.InternetConnectionService
 import eu.agribot.agribotapp.domain.service.KmlLayerService
 import eu.agribot.agribotapp.domain.service.ManualModeService
 import eu.agribot.agribotapp.domain.service.PathManagementService
-import eu.agribot.agribotapp.domain.service.RemoteControlService
 import eu.agribot.agribotapp.domain.service.TTControlService
 import eu.agribot.agribotapp.domain.service.ToolManagementService
 import eu.agribot.agribotapp.domain.service.WeatherService
@@ -41,6 +39,7 @@ val domainModule = module {
             cloudStorageErrorHandler = get(),
             pathManagementErrorHandler = get(),
             cloudStorageService = get(),
+            crashlysticService = get(),
             resourcesProvider = get {
                 parametersOf(
                     androidContext()
@@ -52,13 +51,6 @@ val domainModule = module {
     single {
         InternetConnectionService(
             tcpConnectionManager = get()
-        )
-    }
-
-    single {
-        RemoteControlService(
-            bluetoothConnectionManager = get(),
-            persistentStorage = get()
         )
     }
 
@@ -114,8 +106,6 @@ val domainModule = module {
 
     single { TTControlHorizontalJoystickManager(messageCreator = get()) }
 
-    single { AutonomyService(bluetoothConnectionService = get()) }
-
     single<PermissionManager> {
         AndroidPermissionManager(
             context = get {
@@ -166,7 +156,7 @@ val domainModule = module {
     }
 
     single {
-        KmlLayerService()
+        KmlLayerService(crashlysticService = get())
     }
 
     single {
@@ -191,7 +181,8 @@ val domainModule = module {
             bluetoothMessageCreator = get(),
             rfidMessageManager = get(),
             cloudStorageService = get(),
-            filePathProvider = get()
+            filePathProvider = get(),
+            crashlysticService = get()
         )
     }
 
@@ -206,6 +197,7 @@ val domainModule = module {
     single {
         WeatherService(
             restApiService = get(),
+            crashlysticService = get(),
             resourcesProvider = get {
                 parametersOf(
                     androidContext()

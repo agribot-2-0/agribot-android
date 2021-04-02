@@ -1,8 +1,8 @@
 package eu.agribot.agribotapp.domain.service
 
-import android.util.Log
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.RfidMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator.BluetoothMessageCreator
+import eu.agribot.agribotapp.communication.crashlystic.CrashlysticService
 import eu.agribot.agribotapp.domain.model.fromdomain.RfidParameters
 import eu.agribot.agribotapp.domain.model.todomain.RfidData
 import eu.agribot.agribotapp.domain.service.cloud.CloudStorageService
@@ -14,13 +14,15 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.io.File
 
 class ToolManagementService(
     private val bluetoothMessageCreator: BluetoothMessageCreator,
     private val rfidMessageManager: RfidMessageManager,
     private val cloudStorageService: CloudStorageService,
-    private val filePathProvider: FilePathProvider
+    private val filePathProvider: FilePathProvider,
+    private val crashlysticService: CrashlysticService
 ) {
 
     companion object {
@@ -97,6 +99,21 @@ class ToolManagementService(
 
     // TODO MAP FIRESTORAGE ERROR, currently work around log
     private fun onError(error: Throwable) {
-        Log.e("DOWNLOAD", "ERROR: " + error)
+        crashlysticService.recordException(
+            CrashlysticService.RegisterExceptionModel(
+                message = "Tool Management Service Exception",
+                exception = error
+            )
+        )
+        Timber.e("Download error %s", error)
+    }
+
+    fun logExceptionFromViewModel(message: String, exception: Throwable) {
+        crashlysticService.recordException(
+            CrashlysticService.RegisterExceptionModel(
+                message = message,
+                exception = exception
+            )
+        )
     }
 }

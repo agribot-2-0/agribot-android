@@ -5,6 +5,8 @@ import eu.agribot.agribotapp.common.navigation.events.ShotToolPhotoNavigationEve
 import eu.agribot.agribotapp.common.navigation.events.ToolNavigationEvent
 import eu.agribot.agribotapp.domain.service.ToolManagementService
 import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
+import timber.log.Timber
+import java.lang.RuntimeException
 
 class DisplayToolPhotoViewModel(
     private val toolDataManager: ToolDataManager,
@@ -29,6 +31,8 @@ class DisplayToolPhotoViewModel(
     }
 
     private fun onError(error: String) {
+        toolManagementService.logExceptionFromViewModel(message = "Tool photo exception ", exception = RuntimeException("Display photo ViewModel Exception"))
+        Timber.e(String.format("Tool photo exception %s", error))
     }
 
     private fun onUploadPhotoSucess() {

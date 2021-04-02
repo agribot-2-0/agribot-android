@@ -300,7 +300,7 @@
     <string name="humidity_percent_value">Wilgotność %1$S%2$S</string>
     <string name="wind_value">Wiatr %1S km/h</string>
     <string name="pressure_value">Ciśnienie %1S hPA</string>
-
+    <string name="invalid_date_format">Invalid date</string>
 
 
 </resources>

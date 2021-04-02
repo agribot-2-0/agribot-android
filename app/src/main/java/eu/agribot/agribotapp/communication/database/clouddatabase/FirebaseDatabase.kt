@@ -2,6 +2,7 @@ package eu.agribot.agribotapp.communication.database.clouddatabase
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore.getInstance
+import eu.agribot.agribotapp.communication.crashlystic.CrashlysticService
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.ActualTaskCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.EngineHealthCDB
 import eu.agribot.agribotapp.communication.database.clouddatabase.model.NewRobotTaskDetailsCDB
@@ -37,7 +38,10 @@ import timber.log.Timber
 import java.io.IOException
 import java.util.Locale
 
-class FirebaseDatabase(private val persistentStorage: PersistentStorage) : CloudDatabase {
+class FirebaseDatabase(
+    private val persistentStorage: PersistentStorage,
+    private val crashlysticService: CrashlysticService
+) : CloudDatabase {
     private val database = getInstance()
 
     override fun getUserData(
@@ -47,7 +51,10 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         registerListenerOnDocumentChange(
             "$COLLECTION_USER/" +
                     FirebaseAuth.getInstance().currentUser?.uid.toString() + "/$COLLECTION_ROBOTS/${persistentStorage.getRobotSerialNumber()}",
-            UserInfoCDB(), onDatabaseSucess, onDatabaseError
+            UserInfoCDB(),
+            onDatabaseSucess,
+            onDatabaseError,
+            "Get user data exception"
         )
     }
 
@@ -58,7 +65,10 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         registerListenerOnDocumentChange(
             "$COLLECTION_ROBOTS/" +
                     persistentStorage.getRobotSerialNumber() + DOCUMENT_STATE_ENGINE,
-            EngineHealthCDB(), onDatabaseSuccess, onDatabaseError
+            EngineHealthCDB(),
+            onDatabaseSuccess,
+            onDatabaseError,
+            "Get engine health data exception"
         )
     }
 
@@ -69,7 +79,10 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         registerListenerOnDocumentChange(
             "$COLLECTION_ROBOTS/" +
                     persistentStorage.getRobotSerialNumber() + DOCUMENT_STATE_ENGINE,
-            RobotEngineCDB(), onDatabaseSuccess, onDatabaseError
+            RobotEngineCDB(),
+            onDatabaseSuccess,
+            onDatabaseError,
+            "Get robot state engine data exception"
         )
     }
 
@@ -80,7 +93,10 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         registerListenerOnDocumentChange(
             "$COLLECTION_ROBOTS/" +
                     persistentStorage.getRobotSerialNumber() + DOCUMENT_STATE_HYDRAULICS,
-            RobotHydraulicsCDB(), onDatabaseSuccess, onDatabaseError
+            RobotHydraulicsCDB(),
+            onDatabaseSuccess,
+            onDatabaseError,
+            "Get robot state hydraulic data exception"
         )
     }
 
@@ -91,7 +107,10 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         registerListenerOnDocumentChange(
             "$COLLECTION_ROBOTS/" +
                     persistentStorage.getRobotSerialNumber() + DOCUMENT_STATE_TASK,
-            RobotTaskCDB(), onDatabaseSuccess, onDatabaseError
+            RobotTaskCDB(),
+            onDatabaseSuccess,
+            onDatabaseError,
+            " Get robot state task data exception"
         )
     }
 
@@ -102,7 +121,10 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         registerListenerOnDocumentChange(
             "$COLLECTION_ROBOTS/" +
                     persistentStorage.getRobotSerialNumber() + DOCUMENT_LOCALIZATION_POSE,
-            RobotLocalizationPoseCDB(), onDatabaseSuccess, onDatabaseError
+            RobotLocalizationPoseCDB(),
+            onDatabaseSuccess,
+            onDatabaseError,
+            "Get robot localization pose data exception"
         )
     }
 
@@ -113,7 +135,10 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         registerListenerOnDocumentChange(
             "$COLLECTION_ROBOTS/" +
                     persistentStorage.getRobotSerialNumber() + DOCUMENT_WEATHER_STATION_HUMIDITYE,
-            RobotWeatherStationHumidityCDB(), onDatabaseSuccess, onDatabaseError
+            RobotWeatherStationHumidityCDB(),
+            onDatabaseSuccess,
+            onDatabaseError,
+            "Get robot weather station humidity data exception"
         )
     }
 
@@ -124,7 +149,10 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         registerListenerOnDocumentChange(
             "$COLLECTION_ROBOTS/" +
                     persistentStorage.getRobotSerialNumber() + DOCUMENT_WEATHER_STATION_PRESSURE,
-            RobotWeatherStationPressureCDB(), onDatabaseSuccess, onDatabaseError
+            RobotWeatherStationPressureCDB(),
+            onDatabaseSuccess,
+            onDatabaseError,
+            "Get robot weather station pressure data exception"
         )
     }
 
@@ -135,7 +163,10 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         registerListenerOnDocumentChange(
             "$COLLECTION_ROBOTS/" +
                     persistentStorage.getRobotSerialNumber() + DOCUMENT_WEATHER_STATION_WIND,
-            RobotWeatherStationWindCDB(), onDatabaseSuccess, onDatabaseError
+            RobotWeatherStationWindCDB(),
+            onDatabaseSuccess,
+            onDatabaseError,
+            "Get robot wather station wind data exception"
         )
     }
 
@@ -146,7 +177,10 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         registerListenerOnDocumentChange(
             "$COLLECTION_ROBOTS/" +
                     persistentStorage.getRobotSerialNumber() + DOCUMENT_WEATHER_STATION_TEMPERATURE,
-            RobotWeatherStationTemperatureCDB(), onDatabaseSuccess, onDatabaseError
+            RobotWeatherStationTemperatureCDB(),
+            onDatabaseSuccess,
+            onDatabaseError,
+            "Get robot weather station temperature data exception"
         )
     }
 
@@ -162,8 +196,14 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
             .addOnSuccessListener {
                 onDatabaseSuccess.invoke()
             }
-            .addOnFailureListener { exception ->
-                onDatabaseError(exception)
+            .addOnFailureListener { saveUserDataException ->
+                onDatabaseError(saveUserDataException)
+                crashlysticService.recordException(
+                    CrashlysticService.RegisterExceptionModel(
+                        message = "Save user data Exception",
+                        exception = saveUserDataException
+                    )
+                )
             }
     }
 
@@ -177,8 +217,14 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
             .addOnSuccessListener {
                 onDatabaseSuccess.invoke()
             }
-            .addOnFailureListener { exception ->
-                onDatabaseError(exception)
+            .addOnFailureListener { deleteUserDataException ->
+                onDatabaseError(deleteUserDataException)
+                crashlysticService.recordException(
+                    CrashlysticService.RegisterExceptionModel(
+                        message = "Remove user data exception",
+                        exception = deleteUserDataException
+                    )
+                )
             }
     }
 
@@ -190,8 +236,14 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         database.collection(COLLECTION_ROBOTS)
             .document(persistentStorage.getRobotSerialNumber() + "/$DOCUMENT_TASKS/$taskName")
             .set(newRobotTaskDetailsCDB)
-            .addOnFailureListener { exception ->
-                onDatabaseError(exception)
+            .addOnFailureListener { createNewTaskExceeption ->
+                onDatabaseError(createNewTaskExceeption)
+                crashlysticService.recordException(
+                    CrashlysticService.RegisterExceptionModel(
+                        message = "Create new task Exception",
+                        exception = createNewTaskExceeption
+                    )
+                )
             }
     }
 
@@ -200,11 +252,25 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         onGotTaskDetails: (taskDetailsCDB: TaskDetailsCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        registerListenerOnDocumentChange(
-            "$COLLECTION_ROBOTS/" +
-                    persistentStorage.getRobotSerialNumber() + "/$DOCUMENT_TASKS/$taskID",
-            TaskDetailsCDB(), onGotTaskDetails, onDatabaseError
-        )
+        database.collection(COLLECTION_ROBOTS)
+            .document(persistentStorage.getRobotSerialNumber() + "/$DOCUMENT_TASKS/$taskID")
+            .addSnapshotListener { snapshot, databaseException ->
+                if (databaseException != null) {
+                    onDatabaseError(Throwable("Could not parse firebase data"))
+                    crashlysticService.recordException(
+                        CrashlysticService.RegisterExceptionModel(
+                            message = "Get task details  exception",
+                            exception = databaseException
+                        )
+                    )
+                    return@addSnapshotListener
+                }
+                if (snapshot != null && snapshot.exists()) {
+                    snapshot.toObject(TaskDetailsCDB::class.java)?.let {
+                        onGotTaskDetails(it)
+                    }
+                }
+            }
     }
 
     override fun getCurrentTaskDetails(
@@ -217,6 +283,12 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(databaseException)
+                    crashlysticService.recordException(
+                        CrashlysticService.RegisterExceptionModel(
+                            message = "Get current task exception",
+                            exception = databaseException
+                        )
+                    )
                     return@addSnapshotListener
                 }
                 if (snapshot != null && snapshot.exists()) {
@@ -248,8 +320,14 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
                     "actual_task" to actualTaskCDB.actualTask
                 )
             )
-            .addOnFailureListener { exception ->
-                onDatabaseError(exception)
+            .addOnFailureListener { setCurrentTask ->
+                onDatabaseError(setCurrentTask)
+                crashlysticService.recordException(
+                    CrashlysticService.RegisterExceptionModel(
+                        message = "Set current task exception",
+                        exception = setCurrentTask
+                    )
+                )
             }
     }
 
@@ -264,8 +342,14 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
             .addOnSuccessListener {
                 onDeleteSuccess()
             }
-            .addOnFailureListener { exception ->
-                onDeleteError(exception)
+            .addOnFailureListener { deleteSelectedTaskException ->
+                onDeleteError(deleteSelectedTaskException)
+                crashlysticService.recordException(
+                    CrashlysticService.RegisterExceptionModel(
+                        message = "Delete task exception",
+                        exception = deleteSelectedTaskException
+                    )
+                )
             }
     }
 
@@ -282,6 +366,13 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
                         .addSnapshotListener { snapshot, databaseException ->
                             if (databaseException != null) {
                                 onDatabaseError(Throwable("Could not parse firebase data"))
+                                crashlysticService.recordException(
+                                    CrashlysticService.RegisterExceptionModel(
+                                        message = "getTaskItem exception",
+                                        exception = Throwable("Could not parse firebase data")
+                                    )
+                                )
+
                                 return@addSnapshotListener
                             }
                             if (snapshot != null && snapshot.exists()) {
@@ -297,6 +388,15 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
                         }
                 }
             }
+            .addOnFailureListener {
+                onDatabaseError(it)
+                crashlysticService.recordException(
+                    CrashlysticService.RegisterExceptionModel(
+                        message = "Get task item exception",
+                        exception = it
+                    )
+                )
+            }
     }
 
     override fun addTool(
@@ -311,8 +411,14 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
             .addOnSuccessListener {
                 onDatabaseSucess()
             }
-            .addOnFailureListener { exception ->
-                onDatabaseError(exception)
+            .addOnFailureListener { addToolException ->
+                onDatabaseError(addToolException)
+                crashlysticService.recordException(
+                    CrashlysticService.RegisterExceptionModel(
+                        message = "Add Tool to cloud database exception",
+                        exception = addToolException
+                    )
+                )
             }
     }
 
@@ -320,7 +426,6 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         onGetToolItem: (toolItemCDB: TooltemCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-
         database.collection("$COLLECTION_USER/" + FirebaseAuth.getInstance().currentUser?.uid.toString() + "/$DOCUMENT_TOOLS")
             .get()
             .addOnSuccessListener { result ->
@@ -331,6 +436,14 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
                         )
                     )
                 }
+            }
+            .addOnFailureListener {
+                crashlysticService.recordException(
+                    CrashlysticService.RegisterExceptionModel(
+                        message = "Get tool item from cloud database exception",
+                        exception = it
+                    )
+                )
             }
     }
 
@@ -345,8 +458,14 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
             .addOnSuccessListener {
                 onDeleteSucess()
             }
-            .addOnFailureListener { exception ->
-                onDeleteError(exception)
+            .addOnFailureListener { deleteToolException ->
+                onDeleteError(deleteToolException)
+                crashlysticService.recordException(
+                    CrashlysticService.RegisterExceptionModel(
+                        message = "Delete Tool on cloud database exception",
+                        exception = deleteToolException
+                    )
+                )
             }
     }
 
@@ -358,8 +477,27 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         registerListenerOnDocumentChange(
             "$COLLECTION_USER/" + FirebaseAuth.getInstance().currentUser?.uid.toString() + "/$DOCUMENT_TOOLS" +
                     toolName,
-            ToolDetailsCDB(), onGetToolDetailsSucess, onDatabaseError
+            ToolDetailsCDB(), onGetToolDetailsSucess, onDatabaseError, "Get tool details exception"
         )
+        database.collection("$COLLECTION_USER/" + FirebaseAuth.getInstance().currentUser?.uid.toString() + "/$DOCUMENT_TOOLS")
+            .document(toolName)
+            .addSnapshotListener { snapshot, databaseException ->
+                if (databaseException != null) {
+                    onDatabaseError(Throwable("Could not parse firebase data"))
+                    crashlysticService.recordException(
+                        CrashlysticService.RegisterExceptionModel(
+                            message = "Get Tool details from cloud database exception",
+                            exception = databaseException
+                        )
+                    )
+                    return@addSnapshotListener
+                }
+                if (snapshot != null && snapshot.exists()) {
+                    snapshot.toObject(ToolDetailsCDB::class.java)?.let {
+                        onGetToolDetailsSucess(it)
+                    }
+                }
+            }
     }
 
     override fun getRobotOnceRobotCoordinate(
@@ -376,7 +514,15 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
                     }
                 }
             }
-            .addOnFailureListener(onDatabaseError)
+            .addOnFailureListener {
+                onDatabaseError(it)
+                crashlysticService.recordException(
+                    CrashlysticService.RegisterExceptionModel(
+                        message = "Get robot coordinate from cloud database exception",
+                        exception = it
+                    )
+                )
+            }
     }
 
     override fun getUserRole(
@@ -386,22 +532,55 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         registerListenerOnDocumentChange(
             "$COLLECTION_USER/" +
                     FirebaseAuth.getInstance().currentUser?.uid.toString(),
-            UserRoleCDB(), onGotUserRole, onDatabaseError
+            UserRoleCDB(), onGotUserRole, onDatabaseError, "Get user role exception"
         )
+        database.collection(COLLECTION_USER)
+            .document(FirebaseAuth.getInstance().currentUser?.uid.toString())
+            .get()
+            .addOnSuccessListener {
+                it.toObject(UserRoleCDB::class.java).let { userRole ->
+                    if (userRole != null) {
+                        onGotUserRole(userRole)
+                    }
+                }
+            }
+            .addOnFailureListener {
+                onDatabaseError(it)
+                crashlysticService.recordException(
+                    CrashlysticService.RegisterExceptionModel(
+                        message = "Get user role from cloud database exception",
+                        exception = it
+                    )
+                )
+            }
     }
 
     override fun removeUserDocuments() {
         database.collection(COLLECTION_USER)
             .document(FirebaseAuth.getInstance().currentUser?.uid.toString())
             .delete()
+            .addOnFailureListener {
+                crashlysticService.recordException(
+                    CrashlysticService.RegisterExceptionModel(
+                        message = "Remove User documents on cloud database exception",
+                        exception = it
+                    )
+                )
+            }
     }
 
     override fun setUserRole(user: String, onDatabaseError: (Throwable) -> Unit) {
         database.collection(COLLECTION_USER)
             .document(user)
             .set(UserRoleCDB(role = UserRoleType.USER.name.toLowerCase(Locale.ROOT)))
-            .addOnFailureListener { exception ->
-                onDatabaseError(exception)
+            .addOnFailureListener { setUserRoleException ->
+                onDatabaseError(setUserRoleException)
+                crashlysticService.recordException(
+                    CrashlysticService.RegisterExceptionModel(
+                        message = "Set user role on cloud database exception",
+                        exception = setUserRoleException
+                    )
+                )
             }
     }
 
@@ -439,8 +618,14 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
                         Timber.e("Robot name problem ")
                     }
                 }
-        } catch (exception: IOException) {
-            Timber.e(String.format("Robot name problem %s", exception))
+        } catch (getUserRoleException: IOException) {
+            Timber.e(String.format("Robot name problem %s", getUserRoleException))
+            crashlysticService.recordException(
+                CrashlysticService.RegisterExceptionModel(
+                    message = "Get user role from cloud database exception",
+                    exception = getUserRoleException
+                )
+            )
         }
     }
 
@@ -448,11 +633,19 @@ class FirebaseDatabase(private val persistentStorage: PersistentStorage) : Cloud
         documentSource: String,
         databaseObject: T,
         onDatabaseSucess: (T) -> Unit,
-        onDataBaseError: (Throwable) -> Unit
+        onDataBaseError: (Throwable) -> Unit,
+        crashlysticMessage: String
+
     ) {
         database.document(documentSource)
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
+                    crashlysticService.recordException(
+                        CrashlysticService.RegisterExceptionModel(
+                            message = crashlysticMessage,
+                            exception = databaseException
+                        )
+                    )
                     onDataBaseError(Throwable("Could not parse firebase data"))
                     return@addSnapshotListener
                 }

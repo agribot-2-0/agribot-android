@@ -2,6 +2,7 @@ package eu.agribot.agribotapp.domain.service
 
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
+import eu.agribot.agribotapp.communication.crashlystic.CrashlysticService
 import eu.agribot.agribotapp.communication.database.firestorage.DownloaderPath
 import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
 import eu.agribot.agribotapp.domain.error.PathManagementErrorHandler
@@ -21,7 +22,8 @@ class PathManagementService(
     private val cloudStorageService: CloudStorageService,
     private val cloudStorageErrorHandler: CloudStorageErrorHandler,
     private val pathManagementErrorHandler: PathManagementErrorHandler,
-    private val resourcesProvider: ResourcesProvider
+    private val resourcesProvider: ResourcesProvider,
+    private val crashlysticService: CrashlysticService
 ) {
     companion object {
         const val fileNameSuffix = "_v"
@@ -42,7 +44,8 @@ class PathManagementService(
     }
 
     private fun onError(error: String) {
-        // TODO NOT YET IMPLEMENTED
+        crashlysticService.recordException(
+            CrashlysticService.RegisterExceptionModel(message = "Path Management Service Exception : $error", exception = RuntimeException("Path Management Service Exception")))
     }
 
     fun findLayerFile() {

@@ -131,10 +131,7 @@
             <eu.agribot.agribotapp.ui.ViewBottomItemDetails
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:firstButtonText="DUPA 123"
-                app:secondButtonText="xdxdxd"
-                app:thirdButtonText="xddd"
-                app:progressValue="50"/>
+                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

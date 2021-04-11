@@ -253,6 +253,8 @@
     <string name="change_video_url">Change video source</string>
     <string name="actual_url">\"Current video source: \"</string>
 
+    <string name="delete_last_point">Delete last point</string>
+
     <string name="no_antenna_selected">No Antenna selected</string>
     <string name="front_antenna">Front Antenna</string>
     <string name="back_antenna">Back Antenna</string>

@@ -4,21 +4,21 @@ object CloudDatabasePaths {
 
     const val DOCUMENT_HEALTH = "state"
 
-    const val DOCUMENT_STATE_ENGINE = "/state/engine"
+    const val DOCUMENT_STATE_ENGINE = "state/engine"
 
-    const val DOCUMENT_STATE_HYDRAULICS = "/state/hydraulics"
+    const val DOCUMENT_STATE_HYDRAULICS = "state/hydraulics"
 
-    const val DOCUMENT_STATE_TASK = "/state/task"
+    const val DOCUMENT_STATE_TASK = "state/task"
 
-    const val DOCUMENT_LOCALIZATION_POSE = "/localization/pose"
+    const val DOCUMENT_LOCALIZATION_POSE = "localization/pose"
 
-    const val DOCUMENT_WEATHER_STATION_HUMIDITYE = "/weather_station/humidity"
+    const val DOCUMENT_WEATHER_STATION_HUMIDITYE = "weather_station/humidity"
 
-    const val DOCUMENT_WEATHER_STATION_TEMPERATURE = "/weather_station/temperature"
+    const val DOCUMENT_WEATHER_STATION_TEMPERATURE = "weather_station/temperature"
 
-    const val DOCUMENT_WEATHER_STATION_WIND = "/weather_station/wind"
+    const val DOCUMENT_WEATHER_STATION_WIND = "weather_station/wind"
 
-    const val DOCUMENT_WEATHER_STATION_PRESSURE = "/weather_station/pressure"
+    const val DOCUMENT_WEATHER_STATION_PRESSURE = "weather_station/pressure"
 
     const val DOCUMENT_TASKS = "tasks"
 

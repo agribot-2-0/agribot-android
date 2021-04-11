@@ -13,7 +13,6 @@ import kotlinx.android.synthetic.main.fragment_creator_tool_select.back_tool_mod
 import kotlinx.android.synthetic.main.fragment_creator_tool_select.back_tool_name
 import kotlinx.android.synthetic.main.fragment_creator_tool_select.front_tool_mode
 import kotlinx.android.synthetic.main.fragment_creator_tool_select.front_tool_name
-import kotlinx.android.synthetic.main.fragment_tool_management_params.right_button
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -29,7 +28,7 @@ class CreatorToolSelectFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        right_button.setOnClickListener { viewModel.sendTaskData() }
+        //right_button.setOnClickListener { viewModel.sendTaskData() }
         viewModel.getAvailableTool()
         viewModel.mToolNames.observe(this::createToolNameSpinner)
         viewModel.mToolModes.observe(this::createToolModeSpinner)

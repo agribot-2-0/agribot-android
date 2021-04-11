@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/rounded_corner_layout"
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/itemViewFirstButton"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/itemViewSecondButton"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/itemViewThirdButton"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"/>
+
+
+    <TextView
+        android:id="@+id/itemViewName"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        tools:text = "Nazwa zadania"
+        android:textStyle="bold"
+        android:textSize="@dimen/text_size_medium"
+        android:gravity="center"/>
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/itemViewProgressBarText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        android:layout_gravity="center"
+        android:text="@string/configuration_progress"/>
+
+    <ProgressBar
+        android:id="@+id/itemViewProgressBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_large"
+        android:padding="@dimen/margin_large"
+        android:progress="40"
+        android:progressBackgroundTint="@color/base_green"
+        android:progressTint="@color/base_green" />
+
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/itemViewFourthButton"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/margin_small"
+        android:layout_marginHorizontal="@dimen/margin_medium"/>
+
+
+</LinearLayout>

@@ -105,7 +105,10 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <include layout="@layout/view_bottom_creator_bar" />
+        <eu.agribot.agribotapp.ui.ViewBottomItemDetails
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
 
 
     </LinearLayout>

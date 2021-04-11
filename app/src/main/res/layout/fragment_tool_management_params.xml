@@ -128,16 +128,9 @@
             android:orientation="horizontal">
 
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/right_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_large"
-                android:onClick="@{()-> viewModel.sendToolData()}"
-                android:text="@string/button_save"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <eu.agribot.agribotapp.ui.ViewBottomItemDetails
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -23,6 +23,14 @@ class ToolEditViewModel(
     val toolRfidTag: MutableLiveData<String> = MutableLiveData()
     val paramsList: MutableLiveData<List<HitchListItemViewModel>> =
         MutableLiveData(listOf())
+    val displayToolName: MutableLiveData<String> = MutableLiveData()
+
+    init {
+        displayToolName.value = String.format(
+            resourcesProvider.getString(R.string.display_tool_name),
+            toolDataManager.toolName
+        )
+    }
 
     fun getToolPhotoDirection(): String {
         return toolManagementService.getToolPhotoToDisplay(toolDataManager.getToolPhotoPathName()).absolutePath + toolDataManager.getToolPhotoPathName()

@@ -303,5 +303,8 @@
     <string name="pressure_value">Ciśnienie %1S hPA</string>
     <string name="invalid_date_format">Invalid date</string>
 
+    <string name="display_task_name">Zadanie: %1s</string>
+    <string name="display_tool_name">Narzędzie: %1s</string>
+    <string name="display_path_name">Ścieżka: %1s</string>
 
 </resources>

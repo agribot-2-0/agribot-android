@@ -11,6 +11,7 @@ import eu.agribot.agribotapp.common.navigation.events.ToolNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentToolManagementEditBinding
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
+import kotlinx.android.synthetic.main.fragment_path_management_new_path.*
 import kotlinx.android.synthetic.main.fragment_tool_management_edit.edit_tool_photo
 import kotlinx.android.synthetic.main.fragment_tool_management_edit.params_recycler
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -24,6 +25,7 @@ class ToolEditFragment : BaseFragment<ToolEditViewModel, FragmentToolManagementE
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        itemDetails.itemNameText = viewModel.displayToolName.value?:""
         viewModel.setSummaryParameters()
         setupRecycler()
         viewModel.paramsList.observe(this::addParams)

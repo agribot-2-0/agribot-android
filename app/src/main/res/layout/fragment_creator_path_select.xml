@@ -101,6 +101,7 @@
             android:orientation="horizontal">
 
             <eu.agribot.agribotapp.ui.ViewBottomItemDetails
+                android:id="@+id/itemDetails"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:progressValue="20"

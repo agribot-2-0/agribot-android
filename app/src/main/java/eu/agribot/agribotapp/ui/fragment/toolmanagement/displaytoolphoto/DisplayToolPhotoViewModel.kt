@@ -1,8 +1,11 @@
 package eu.agribot.agribotapp.ui.fragment.toolmanagement.displaytoolphoto
 
+import androidx.lifecycle.MutableLiveData
+import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.navigation.events.ShotToolPhotoNavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolNavigationEvent
+import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.service.ToolManagementService
 import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
 import timber.log.Timber
@@ -10,8 +13,17 @@ import java.lang.RuntimeException
 
 class DisplayToolPhotoViewModel(
     private val toolDataManager: ToolDataManager,
-    private val toolManagementService: ToolManagementService
+    private val toolManagementService: ToolManagementService,
+    private val resourcesProvider: ResourcesProvider
 ) : BaseViewModel() {
+    val toolName: MutableLiveData<String> = MutableLiveData()
+
+    init {
+        toolName.value = String.format(
+            resourcesProvider.getString(R.string.display_tool_name),
+            toolDataManager.toolName
+        )
+    }
 
     fun getToolPhotoDirection(): String {
         return toolManagementService.getToolPhotoToDisplay(toolDataManager.getToolPhotoPathName()).absolutePath + toolDataManager.getToolPhotoPathName()

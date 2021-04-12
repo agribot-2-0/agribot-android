@@ -13,6 +13,7 @@ import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.data.AntennaNumb
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparameters.recycler.ReceivedRfidDataAdapter
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparameters.recycler.ReceivedRfidDataViewModel
 import kotlinx.android.synthetic.main.fragment_find_tool_tag.*
+import kotlinx.android.synthetic.main.fragment_path_management_new_path.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -43,6 +44,7 @@ class FindToolTagFragment :
     @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        itemDetails.itemNameText = viewModel.toolName.value?:""
         setupRecycler()
         observeViewModel()
     }

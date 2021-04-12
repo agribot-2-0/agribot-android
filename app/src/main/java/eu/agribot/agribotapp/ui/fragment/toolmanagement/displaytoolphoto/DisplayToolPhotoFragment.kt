@@ -10,6 +10,7 @@ import eu.agribot.agribotapp.common.navigation.events.ShotToolPhotoNavigationEve
 import eu.agribot.agribotapp.common.navigation.events.ToolNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentDisplayToolPhotoBinding
 import kotlinx.android.synthetic.main.fragment_display_tool_photo.*
+import kotlinx.android.synthetic.main.fragment_path_management_new_path.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -24,6 +25,7 @@ class DisplayToolPhotoFragment : BaseFragment<DisplayToolPhotoViewModel, Fragmen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        itemDetails.itemNameText = viewModel.toolName.value?:""
         setToolPhoto()
     }
 

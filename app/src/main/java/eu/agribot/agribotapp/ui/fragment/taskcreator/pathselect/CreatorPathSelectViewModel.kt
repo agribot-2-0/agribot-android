@@ -27,7 +27,7 @@ class CreatorPathSelectViewModel(
     private val kmlLayerService: KmlLayerService,
     private val filePathProvider: FilePathProvider
 ) : BaseViewModel() {
-    val taskName : MutableLiveData<String> = MutableLiveData("xd")
+    val taskName: MutableLiveData<String> = MutableLiveData()
     private val fileListPathsList: MutableLiveData<List<CloudFileListItemViewModel>> =
         MutableLiveData(listOf())
     val availableFiles: MutableLiveData<List<CloudFileListItemViewModel>> =
@@ -36,8 +36,12 @@ class CreatorPathSelectViewModel(
     val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val cameraPosition: MutableLiveData<LatLng> = MutableLiveData()
 
+
     init {
-        taskName.value = taskCreatorDataManager.taskDetails.task_name
+        taskName.value = String.format(
+            resourcesProvider.getString(R.string.display_task_name),
+            taskCreatorDataManager.taskDetails.task_name
+        )
     }
 
     private fun getSavedPath() {

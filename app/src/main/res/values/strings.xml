@@ -333,4 +333,9 @@
 
     <string name="diagnostic_data_log" translatable="false">engineRotationsPerMinute : %S | torqueOfEngine : %S | engineFuelRate : %S | fuelLevel : %S | batteryVoltage : %S |  hydraulicOilTemperature : %S |</string>
     <string name="invalid_date_format">Invalid date</string>
+
+    <string name="display_task_name">Task: %1s</string>
+    <string name="display_tool_name">Tool: %1s</string>
+    <string name="display_path_name">Path: %1s</string>
+
 </resources>

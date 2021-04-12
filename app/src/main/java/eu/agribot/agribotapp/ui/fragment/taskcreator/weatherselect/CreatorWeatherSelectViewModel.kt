@@ -1,6 +1,7 @@
 package eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect
 
 import androidx.lifecycle.MutableLiveData
+import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskToolsNavigationEvent
@@ -28,11 +29,20 @@ class CreatorWeatherSelectViewModel(
     private val resourcesProvider: ResourcesProvider
 ) :
     BaseViewModel() {
+    val taskName: MutableLiveData<String> = MutableLiveData()
     val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val weatherAttributeList: MutableLiveData<List<WeatherSettingsListItemViewModel>> =
         MutableLiveData(
             listOf()
         )
+
+    init {
+        taskName.value = String.format(
+            resourcesProvider.getString(R.string.display_task_name),
+            taskCreatorDataManager.taskDetails.task_name
+        )
+    }
+
 
     fun prepareWeatherAttributeListItem() {
         prepareWeatherStationData()

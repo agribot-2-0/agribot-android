@@ -85,13 +85,11 @@ class ViewBottomItemDetails @JvmOverloads constructor(
                 itemViewProgressBar.isVisible = false
                 itemViewProgressBarText.isVisible = false
             }
-            itemViewProgressBar.progress = value
         }
 
     init {
         inflate(context, R.layout.view_bottom_item_details, this)
         context.withStyledAttributes(attributeSettings, R.styleable.ViewBottomItemDetails) {
-            Log.e("xd", "fst text : " + getString(R.styleable.ViewBottomItemDetails_firstButtonText))
             firstButtonText = getString(R.styleable.ViewBottomItemDetails_firstButtonText) ?: ""
             secondButtonText = getString(R.styleable.ViewBottomItemDetails_secondButtonText) ?: ""
             thirdButtonText = getString(R.styleable.ViewBottomItemDetails_thirdButtonText) ?: ""

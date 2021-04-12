@@ -11,6 +11,7 @@ import eu.agribot.agribotapp.databinding.FragmentCreatorWeatherBinding
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.WeatherSettingsListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.WeatherSettingsListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.weatherattributes.WeatherAttribute
+import kotlinx.android.synthetic.main.fragment_creator_path_select.*
 import kotlinx.android.synthetic.main.fragment_creator_weather.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -30,6 +31,7 @@ class CreatorWeatherSelectFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        itemDetails.itemNameText = viewModel.taskName.value?:""
         viewModel.weatherAttributeList.observe(this::addAvaliableWeatherAttribute)
         setupRecyclerView()
         viewModel.prepareWeatherAttributeListItem()

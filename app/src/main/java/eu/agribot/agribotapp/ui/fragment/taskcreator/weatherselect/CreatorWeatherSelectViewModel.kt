@@ -43,7 +43,6 @@ class CreatorWeatherSelectViewModel(
         )
     }
 
-
     fun prepareWeatherAttributeListItem() {
         prepareWeatherStationData()
         val weatherParametrList =

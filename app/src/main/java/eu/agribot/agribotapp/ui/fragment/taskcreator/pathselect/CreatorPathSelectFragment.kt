@@ -48,7 +48,7 @@ class CreatorPathSelectFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        itemDetails.itemNameText = viewModel.taskName.value?:""
+        itemDetails.itemNameText = viewModel.taskName.value ?: ""
         itemDetails.fourthButtonClickListener = View.OnClickListener { viewModel.onNextButtonClicked() }
         viewModel.isPathSelected()
         viewModel.availableFiles.observe(this::addToAvailableFile)

@@ -57,14 +57,12 @@ class NewPathFragment :
             childFragmentManager.findFragmentById(R.id.new_path_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         observeViewModel()
-        itemDetails.itemNameText = viewModel.pathName.value?:""
-        itemDetails.firstButtonClickListener = View.OnClickListener { viewModel.onDeleteLastPointButtonClicked()}
-        itemDetails.secondButtonClickListener = View.OnClickListener { viewModel.onPreviousPointButtonCLicked()}
-        itemDetails.thirdButtonClickListener = View.OnClickListener { viewModel.onNextPointButtonCLicked()}
-        itemDetails.fourthButtonClickListener = View.OnClickListener { viewModel.onSavePathButtonClicked()}
+        itemDetails.itemNameText = viewModel.pathName.value ?: ""
+        itemDetails.firstButtonClickListener = View.OnClickListener { viewModel.onDeleteLastPointButtonClicked() }
+        itemDetails.secondButtonClickListener = View.OnClickListener { viewModel.onPreviousPointButtonCLicked() }
+        itemDetails.thirdButtonClickListener = View.OnClickListener { viewModel.onNextPointButtonCLicked() }
+        itemDetails.fourthButtonClickListener = View.OnClickListener { viewModel.onSavePathButtonClicked() }
     }
-
-
 
     private fun observeViewModel() {
         viewModel.alreadyCreatedLayer.observe(this::onGotAlreadyCreatedPath)

@@ -2,7 +2,6 @@ package eu.agribot.agribotapp.ui
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.widget.LinearLayout
 import androidx.core.content.withStyledAttributes
 import androidx.core.view.isVisible
@@ -14,7 +13,6 @@ class ViewBottomItemDetails @JvmOverloads constructor(
     attributeSettings: AttributeSet? = null,
     defStyleValue: Int = 0
 ) : LinearLayout(context, attributeSettings, defStyleValue) {
-
 
     var firstButtonText: String = ""
         set(value) {
@@ -96,8 +94,6 @@ class ViewBottomItemDetails @JvmOverloads constructor(
             fourthButtonText = getString(R.styleable.ViewBottomItemDetails_fourthButtonText) ?: ""
             itemNameText = getString(R.styleable.ViewBottomItemDetails_itemName) ?: ""
             progressBarState = getInt(R.styleable.ViewBottomItemDetails_progressValue, -1)
-
         }
     }
-
 }

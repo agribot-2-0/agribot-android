@@ -183,7 +183,7 @@ val viewModelModule = module {
         )
     }
 
-    viewModel {(context: Context) ->
+    viewModel { (context: Context) ->
         CreatorTimeSelectViewModel(
             resourcesProvider = get { parametersOf(context) },
             taskCreatorDataManager = get()
@@ -293,7 +293,7 @@ val viewModelModule = module {
             resourcesProvider = get { parametersOf(context) })
     }
 
-    viewModel {(context: Context) ->
+    viewModel { (context: Context) ->
         ToolTagPhotoViewModel(
             resourcesProvider = get { parametersOf(context) },
             permissionManager = get(),
@@ -310,7 +310,7 @@ val viewModelModule = module {
         )
     }
 
-    viewModel {(context: Context) ->
+    viewModel { (context: Context) ->
         DisplayToolPhotoViewModel(
             toolDataManager = get(),
             resourcesProvider = get { parametersOf(context) },

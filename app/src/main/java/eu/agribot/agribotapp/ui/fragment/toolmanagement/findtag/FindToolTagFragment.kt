@@ -44,7 +44,8 @@ class FindToolTagFragment :
     @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        itemDetails.itemNameText = viewModel.toolName.value?:""
+        findToolBottomDetailsView.itemNameText = viewModel.toolName.value ?: ""
+        findToolBottomDetailsView.fourthButtonClickListener = View.OnClickListener { viewModel.onNextButtonClicked() }
         setupRecycler()
         observeViewModel()
     }

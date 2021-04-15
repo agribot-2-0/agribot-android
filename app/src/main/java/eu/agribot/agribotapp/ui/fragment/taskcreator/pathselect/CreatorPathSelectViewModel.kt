@@ -36,7 +36,6 @@ class CreatorPathSelectViewModel(
     val toastEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val cameraPosition: MutableLiveData<LatLng> = MutableLiveData()
 
-
     init {
         taskName.value = String.format(
             resourcesProvider.getString(R.string.display_task_name),

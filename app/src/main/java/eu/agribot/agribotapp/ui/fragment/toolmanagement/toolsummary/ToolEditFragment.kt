@@ -25,7 +25,7 @@ class ToolEditFragment : BaseFragment<ToolEditViewModel, FragmentToolManagementE
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        itemDetails.itemNameText = viewModel.displayToolName.value?:""
+        itemDetails.itemNameText = viewModel.displayToolName.value ?: ""
         viewModel.setSummaryParameters()
         setupRecycler()
         viewModel.paramsList.observe(this::addParams)

@@ -13,8 +13,10 @@ import java.util.Date
 import java.util.GregorianCalendar
 import java.util.TimeZone
 
-class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreatorDataManager,
-                                 private val resourcesProvider: ResourcesProvider) :
+class CreatorTimeSelectViewModel(
+    private val taskCreatorDataManager: TaskCreatorDataManager,
+    private val resourcesProvider: ResourcesProvider
+) :
     BaseViewModel() {
     val taskName: MutableLiveData<String> = MutableLiveData()
     private val yearData: MutableLiveData<Int> = MutableLiveData()
@@ -25,7 +27,6 @@ class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreator
     val date: MutableLiveData<Date> = MutableLiveData()
     val isTimePreset: MutableLiveData<Boolean> = MutableLiveData()
     private val miliToSecondDivide = 1000
-
 
     init {
         taskName.value = String.format(

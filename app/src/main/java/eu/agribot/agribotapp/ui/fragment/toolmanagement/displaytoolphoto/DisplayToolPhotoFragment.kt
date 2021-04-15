@@ -25,7 +25,8 @@ class DisplayToolPhotoFragment : BaseFragment<DisplayToolPhotoViewModel, Fragmen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        itemDetails.itemNameText = viewModel.toolName.value?:""
+        toolPhotoBottomDetailsView.itemNameText = viewModel.toolName.value ?: ""
+        toolPhotoBottomDetailsView.fourthButtonClickListener = View.OnClickListener { viewModel.onNextButtonClicked() }
         setToolPhoto()
     }
 

@@ -129,8 +129,11 @@
 
 
             <eu.agribot.agribotapp.ui.ViewBottomItemDetails
+                android:id="@+id/toolParamsBottomDetailsView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                app:progressValue="90"
+                app:fourthButtonText="@string/next_button"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

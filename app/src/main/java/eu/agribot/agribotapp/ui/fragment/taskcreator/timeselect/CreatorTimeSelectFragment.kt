@@ -10,10 +10,7 @@ import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskWeatherNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentCreatorTimeSelectBinding
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TaskDetailsElements
-import kotlinx.android.synthetic.main.fragment_creator_path_select.*
-import kotlinx.android.synthetic.main.fragment_creator_time_select.date_picker
-import kotlinx.android.synthetic.main.fragment_creator_time_select.time_activator
-import kotlinx.android.synthetic.main.fragment_creator_time_select.time_picker
+import kotlinx.android.synthetic.main.fragment_creator_time_select.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.util.Calendar
@@ -41,8 +38,11 @@ class CreatorTimeSelectFragment :
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.itemDetails.itemNameText = viewModel.taskName.value?:""
-        this.itemDetails.fourthButtonClickListener = View.OnClickListener { viewModel.onNextButtonClicked() }
+        timeSelectBottomView.itemNameText = viewModel.taskName.value ?: ""
+        timeSelectBottomView.fourthButtonClickListener = View.OnClickListener {
+            viewModel.onNextButtonClicked()
+        }
+
         viewModel.getPreSetDate()
         setDatePicker()
         time_picker.setIs24HourView(true)

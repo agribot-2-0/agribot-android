@@ -9,11 +9,7 @@ import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.DashboardNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentCreatorToolSelectBinding
 import eu.agribot.agribotapp.ui.fragment.taskcreator.toolselect.spinner.SpinnerSelectedItemAdapter
-import kotlinx.android.synthetic.main.fragment_creator_path_select.*
-import kotlinx.android.synthetic.main.fragment_creator_tool_select.back_tool_mode
-import kotlinx.android.synthetic.main.fragment_creator_tool_select.back_tool_name
-import kotlinx.android.synthetic.main.fragment_creator_tool_select.front_tool_mode
-import kotlinx.android.synthetic.main.fragment_creator_tool_select.front_tool_name
+import kotlinx.android.synthetic.main.fragment_creator_tool_select.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -29,9 +25,9 @@ class CreatorToolSelectFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        itemDetails.itemNameText = viewModel.taskName.value?:""
-
-        //right_button.setOnClickListener { viewModel.sendTaskData() }
+        toolSelectBottomItem.itemNameText = viewModel.taskName.value ?: ""
+        toolSelectBottomItem.fourthButtonClickListener =
+            View.OnClickListener { viewModel.sendTaskData() }
         viewModel.getAvailableTool()
         viewModel.mToolNames.observe(this::createToolNameSpinner)
         viewModel.mToolModes.observe(this::createToolModeSpinner)

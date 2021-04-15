@@ -35,7 +35,6 @@ class ToolTagPhotoFragment : BaseFragment<ToolTagPhotoViewModel, FragmentCreateP
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        itemDetails.itemNameText = viewModel.displayToolName.value?:""
         viewModel.checkPermissions(this::startCamera)
         viewModel.takePhotoEvent.observe(this::takePhoto)
         cameraExecutor = Executors.newSingleThreadExecutor()

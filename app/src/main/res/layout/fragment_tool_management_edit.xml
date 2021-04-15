@@ -127,12 +127,11 @@
             android:gravity="end"
             android:orientation="horizontal">
 
-
             <eu.agribot.agribotapp.ui.ViewBottomItemDetails
+                android:id="@+id/editToolBottomDetailsView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                 />
-
+                app:fourthButtonText="@string/next_button"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>

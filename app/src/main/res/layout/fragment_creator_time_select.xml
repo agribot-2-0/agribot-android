@@ -52,25 +52,14 @@
 
             </LinearLayout>
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="@dimen/margin_small"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_corner_layout"
-            android:gravity="end"
-            android:orientation="horizontal">
-
             <eu.agribot.agribotapp.ui.ViewBottomItemDetails
-                android:id="@+id/itemDetails"
+                android:id="@+id/timeSelectBottomView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:progressValue="40"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/margin_small"
+                android:layout_weight="1"
+                app:progressValue="60"
                 app:fourthButtonText="@string/next_button"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     </LinearLayout>
 

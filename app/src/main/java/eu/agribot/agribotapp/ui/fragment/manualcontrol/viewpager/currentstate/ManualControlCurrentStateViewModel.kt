@@ -139,6 +139,14 @@ class ManualControlCurrentStateViewModel(
                             resourcesProvider.getString(R.string.volt)
                         )
                     )
+                } else {
+                    addToDiagnosticDataList(
+                        RobotStateViewModel(
+                            RobotStateItems.MANUAL_CONTROL_VOLTAGE.ID,
+                            resourcesProvider.getString(R.string.no_data_available),
+                            resourcesProvider.getString(R.string.volt)
+                        )
+                    )
                 }
                 if (diagnosticData.engineRotationsPerMinute != INVALID_INTEGER_NUMBER) {
                     addToDiagnosticDataList(
@@ -149,12 +157,28 @@ class ManualControlCurrentStateViewModel(
 
                         )
                     )
+                } else {
+                    addToDiagnosticDataList(
+                        RobotStateViewModel(
+                            RobotStateItems.MANUAL_CONTROL_ENGINE_ROTATIONS.ID,
+                            resourcesProvider.getString(R.string.no_data_available),
+                            resourcesProvider.getString(R.string.rpm)
+                        )
+                    )
                 }
                 if (diagnosticData.torqueOfEngine != INVALID_INTEGER_NUMBER) {
                     addToDiagnosticDataList(
                         RobotStateViewModel(
                             RobotStateItems.MANUAL_CONTROL_ENGINE_TORQUE.ID,
                             diagnosticData.torqueOfEngine.toString(),
+                            resourcesProvider.getString(R.string.percent)
+                        )
+                    )
+                } else {
+                    addToDiagnosticDataList(
+                        RobotStateViewModel(
+                            RobotStateItems.MANUAL_CONTROL_ENGINE_TORQUE.ID,
+                            resourcesProvider.getString(R.string.no_data_available),
                             resourcesProvider.getString(R.string.percent)
                         )
                     )
@@ -169,6 +193,14 @@ class ManualControlCurrentStateViewModel(
 
                         )
                     )
+                } else {
+                    addToDiagnosticDataList(
+                        RobotStateViewModel(
+                            RobotStateItems.MANUAL_CONTROL_FUEL_LEVEL.ID,
+                            resourcesProvider.getString(R.string.no_data_available),
+                            resourcesProvider.getString(R.string.liter_per_hour)
+                        )
+                    )
                 }
 
                 if (diagnosticData.engineFuelRate != INVALID_DECIMAL_NUMBER) {
@@ -178,6 +210,14 @@ class ManualControlCurrentStateViewModel(
                             String.format("%.1f", diagnosticData.engineFuelRate),
                             resourcesProvider.getString(R.string.liter_per_hour)
 
+                        )
+                    )
+                } else {
+                    addToDiagnosticDataList(
+                        RobotStateViewModel(
+                            RobotStateItems.MANUAL_CONTROL_FUEL_RATE.ID,
+                            resourcesProvider.getString(R.string.no_data_available),
+                            resourcesProvider.getString(R.string.liter_per_hour)
                         )
                     )
                 }
@@ -190,52 +230,11 @@ class ManualControlCurrentStateViewModel(
 
                         )
                     )
-                }
-            } else {
-                resourcesProvider.getString(R.string.no_data_status).let { noData ->
-                    addToDiagnosticDataList(
-                        RobotStateViewModel(
-                            RobotStateItems.MANUAL_CONTROL_VOLTAGE.ID,
-                            noData,
-                            resourcesProvider.getString(R.string.volt)
-                        )
-                    )
-                    addToDiagnosticDataList(
-                        RobotStateViewModel(
-                            RobotStateItems.MANUAL_CONTROL_ENGINE_ROTATIONS.ID,
-                            noData,
-                            resourcesProvider.getString(R.string.rpm)
-
-                        )
-                    )
-                    addToDiagnosticDataList(
-                        RobotStateViewModel(
-                            RobotStateItems.MANUAL_CONTROL_ENGINE_TORQUE.ID,
-                            noData,
-                            resourcesProvider.getString(R.string.percent)
-                        )
-                    )
-
-                    addToDiagnosticDataList(
-                        RobotStateViewModel(
-                            RobotStateItems.FUEL_LEVEL.ID,
-                            noData,
-                            resourcesProvider.getString(R.string.percent)
-                        )
-                    )
-
-                    addToDiagnosticDataList(
-                        RobotStateViewModel(
-                            RobotStateItems.MANUAL_CONTROL_FUEL_RATE.ID,
-                            noData,
-                            resourcesProvider.getString(R.string.liter_per_hour)
-
-                        )
-                    )
+                } else {
                     addToDiagnosticDataList(
                         RobotStateViewModel(
                             RobotStateItems.MANUAL_CONTROL_OIL_TEMPERATURE.ID,
-                            noData,
+                            resourcesProvider.getString(R.string.no_data_available),
                             resourcesProvider.getString(R.string.celcius_degree)
                         )
                     )

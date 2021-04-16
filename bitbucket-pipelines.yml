@@ -4,10 +4,10 @@ pipelines:
     - step:
         name: "Check pylint"
         script:
-          - apk add --update bash coreutils gcc python3-dev py3-pip musl-dev
-          - pip3 install setuptools
+          - apt update
+          - apt install python3-pip -y
           - pip3 install pylint
-          - pylint --rcfile=.pylintrc scripts/*
+          - pylint --rcfile=mock/bluetooth/.pylintrc mock/*
     - step:
         name: Static code analysis (Debug)
         caches:

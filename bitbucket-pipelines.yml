@@ -2,6 +2,13 @@ image: mingc/android-build-box:latest
 pipelines:
   default:
     - step:
+        name: "Check pylint"
+        script:
+          - apk add --update bash coreutils gcc python3-dev py3-pip musl-dev
+          - pip3 install setuptools
+          - pip3 install pylint
+          - pylint --rcfile=.pylintrc scripts/*
+    - step:
         name: Static code analysis (Debug)
         caches:
           - gradle

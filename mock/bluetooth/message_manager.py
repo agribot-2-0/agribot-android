@@ -1,7 +1,7 @@
-from message_constant import MessageCommand, MessageArrayPosition, FrameConstant, MessageDirection
 from datetime import datetime
 
-from message_provider import get_agribot_diagnosticData, get_agribot_handshake
+from message_constant import MessageCommand, MessageArrayPosition, FrameConstant, \
+    MessageDirection
 
 
 def get_message_length(message):
@@ -14,11 +14,13 @@ def get_message_command(message):
     if get_message_length(message) > 2:
         first_command_element = message[
                                     MessageArrayPosition.FIRST_BYTE_OF_ADDRESS_POSITION.value] << FrameConstant.BIT_SHIFT.value
-        if message[MessageArrayPosition.SECOND_BYTE_OF_ADDRESS_POSITION.value] < FrameConstant.EMPTY_ARRAY.value:
+        if message[
+            MessageArrayPosition.SECOND_BYTE_OF_ADDRESS_POSITION.value] < FrameConstant.EMPTY_ARRAY.value:
             second_command_element = FrameConstant.ADDRESS_FLAG.value + message[
                 MessageArrayPosition.SECOND_BYTE_OF_ADDRESS_POSITION.value]
         else:
-            second_command_element = message[MessageArrayPosition.SECOND_BYTE_OF_ADDRESS_POSITION.value]
+            second_command_element = message[
+                MessageArrayPosition.SECOND_BYTE_OF_ADDRESS_POSITION.value]
     message_command = first_command_element + second_command_element
     return message_command
 
@@ -54,8 +56,10 @@ def get_message_data(message):
 
 def get_actual_time():
     actual_date = datetime.now()
-    actual_time = "{0} : {1} : {2} : {3}".format(str(actual_date.hour), str(actual_date.minute),
-                                                 str(actual_date.second), str(actual_date.microsecond))
+    actual_time = "{0} : {1} : {2} : {3}".format(str(actual_date.hour),
+                                                 str(actual_date.minute),
+                                                 str(actual_date.second),
+                                                 str(actual_date.microsecond))
     return "[ " + actual_time + ' ] '
 
 
@@ -66,19 +70,23 @@ class MessageManager:
         if get_message_length(message) > 2:
             first_command_element = message[
                                         MessageArrayPosition.FIRST_BYTE_OF_ADDRESS_POSITION.value] << FrameConstant.BIT_SHIFT.value
-            if message[MessageArrayPosition.SECOND_BYTE_OF_ADDRESS_POSITION.value] < FrameConstant.EMPTY_ARRAY.value:
+            if message[
+                MessageArrayPosition.SECOND_BYTE_OF_ADDRESS_POSITION.value] < FrameConstant.EMPTY_ARRAY.value:
                 second_command_element = FrameConstant.ADDRESS_FLAG.value + message[
                     MessageArrayPosition.SECOND_BYTE_OF_ADDRESS_POSITION.value]
             else:
-                second_command_element = message[MessageArrayPosition.SECOND_BYTE_OF_ADDRESS_POSITION.value]
+                second_command_element = message[
+                    MessageArrayPosition.SECOND_BYTE_OF_ADDRESS_POSITION.value]
         message_command = first_command_element + second_command_element
         return message_command
 
     def log_mobile_app_message(message):
-        print(get_actual_time() + MessageDirection.CLIENT.value + get_message_command_name(
-            get_message_command(message)) + get_message_data(message))
+        print(
+            get_actual_time() + MessageDirection.CLIENT.value + get_message_command_name(
+                get_message_command(message)) + get_message_data(message))
 
     def log_server_message(message):
         print(
-            get_actual_time() + MessageDirection.SERVER.value + get_message_command_name(get_message_command(message)) +
+            get_actual_time() + MessageDirection.SERVER.value + get_message_command_name(
+                get_message_command(message)) +
             get_message_data(message))

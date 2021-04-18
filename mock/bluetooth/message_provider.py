@@ -1,7 +1,7 @@
 import random
 
 
-def get_agribot_diagnosticData():
+def get_agribot_diagnostic_data():
     array = bytearray(12)
     array[0] = 67
     array[1] = 11

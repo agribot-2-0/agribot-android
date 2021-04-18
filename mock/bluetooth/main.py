@@ -1,17 +1,20 @@
-from message_manager import MessageManager
-import bluetooth
 import time
+
+import bluetooth
+
 from message_constant import FrameConstant, MessageCommand
-from message_provider import get_agribot_handshake, get_agribot_diagnosticData, get_agribot_hydraulic_data
+from message_manager import MessageManager
+from message_provider import get_agribot_handshake, get_agribot_diagnostic_data, \
+    get_agribot_hydraulic_data
 
 
 def find_target(target_name):
     target_address = None
     nearby_devices = bluetooth.discover_devices()
 
-    for bdaddr in nearby_devices:
-        if target_name == bluetooth.lookup_name(bdaddr):
-            target_address = bdaddr
+    for bluetooth_device in nearby_devices:
+        if target_name == bluetooth.lookup_name(bluetooth_device):
+            target_address = bluetooth_device
             break
 
     return target_address
@@ -41,12 +44,12 @@ def handle_typical_message(message):
     MessageManager.log_mobile_app_message(message)
     send_message(message)
     MessageManager.log_server_message(message)
-    sendDiagnosticData()
+    send_diagnostic_data()
 
 
-def sendDiagnosticData():
+def send_diagnostic_data():
     time.sleep(1)
-    send_message(get_agribot_diagnosticData())
+    send_message(get_agribot_diagnostic_data())
     time.sleep(1)
     send_message(get_agribot_hydraulic_data())
 
@@ -62,7 +65,8 @@ while 1:
     print(data)
 
     if data:
-        if MessageManager.get_message_command(data) == MessageCommand.MOBILE_APP_HANDSHAKE.value:
+        if MessageManager.get_message_command(
+                data) == MessageCommand.MOBILE_APP_HANDSHAKE.value:
             response_to_handshake(data)
         else:
             handle_typical_message(data)

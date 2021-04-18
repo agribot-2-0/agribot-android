@@ -26,6 +26,7 @@ class ToolSummaryFragment : BaseFragment<ToolSummaryViewModel, FragmentToolManag
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         editToolBottomDetailsView.itemNameText = viewModel.displayToolName.value ?: ""
+        editToolBottomDetailsView.fourthButtonClickListener = View.OnClickListener { viewModel.sendToolData() }
         viewModel.setSummaryParameters()
         setupRecycler()
         viewModel.paramsList.observe(this::addParams)

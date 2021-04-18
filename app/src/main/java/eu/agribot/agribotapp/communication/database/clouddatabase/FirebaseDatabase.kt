@@ -49,8 +49,7 @@ class FirebaseDatabase(
         onDatabaseError: (Throwable) -> Unit
     ) {
         registerListenerOnDocumentChange(
-            "$COLLECTION_USER/" +
-                    FirebaseAuth.getInstance().currentUser?.uid.toString() + "/$COLLECTION_ROBOTS/${persistentStorage.getRobotSerialNumber()}",
+            "$COLLECTION_USER/${FirebaseAuth.getInstance().currentUser?.uid}/$COLLECTION_ROBOTS/${persistentStorage.getRobotSerialNumber()}",
             UserInfoCDB(),
             onDatabaseSucess,
             onDatabaseError,
@@ -63,8 +62,7 @@ class FirebaseDatabase(
         onDatabaseError: (Throwable) -> Unit
     ) {
         registerListenerOnDocumentChange(
-            "$COLLECTION_ROBOTS/" +
-                    persistentStorage.getRobotSerialNumber() + DOCUMENT_STATE_ENGINE,
+            "$COLLECTION_ROBOTS/${persistentStorage.getRobotSerialNumber()}/$DOCUMENT_STATE_ENGINE",
             EngineHealthCDB(),
             onDatabaseSuccess,
             onDatabaseError,
@@ -77,8 +75,7 @@ class FirebaseDatabase(
         onDatabaseError: (Throwable) -> Unit
     ) {
         registerListenerOnDocumentChange(
-            "$COLLECTION_ROBOTS/" +
-                    persistentStorage.getRobotSerialNumber() + DOCUMENT_STATE_ENGINE,
+            "$COLLECTION_ROBOTS/${persistentStorage.getRobotSerialNumber()}/$DOCUMENT_STATE_ENGINE",
             RobotEngineCDB(),
             onDatabaseSuccess,
             onDatabaseError,
@@ -91,8 +88,7 @@ class FirebaseDatabase(
         onDatabaseError: (Throwable) -> Unit
     ) {
         registerListenerOnDocumentChange(
-            "$COLLECTION_ROBOTS/" +
-                    persistentStorage.getRobotSerialNumber() + DOCUMENT_STATE_HYDRAULICS,
+            "$COLLECTION_ROBOTS/${persistentStorage.getRobotSerialNumber()}/$DOCUMENT_STATE_HYDRAULICS",
             RobotHydraulicsCDB(),
             onDatabaseSuccess,
             onDatabaseError,
@@ -105,8 +101,7 @@ class FirebaseDatabase(
         onDatabaseError: (Throwable) -> Unit
     ) {
         registerListenerOnDocumentChange(
-            "$COLLECTION_ROBOTS/" +
-                    persistentStorage.getRobotSerialNumber() + DOCUMENT_STATE_TASK,
+            "$COLLECTION_ROBOTS/${persistentStorage.getRobotSerialNumber()}/$DOCUMENT_STATE_TASK",
             RobotTaskCDB(),
             onDatabaseSuccess,
             onDatabaseError,
@@ -119,8 +114,7 @@ class FirebaseDatabase(
         onDatabaseError: (Throwable) -> Unit
     ) {
         registerListenerOnDocumentChange(
-            "$COLLECTION_ROBOTS/" +
-                    persistentStorage.getRobotSerialNumber() + DOCUMENT_LOCALIZATION_POSE,
+            "$COLLECTION_ROBOTS/${persistentStorage.getRobotSerialNumber()}/$DOCUMENT_LOCALIZATION_POSE",
             RobotLocalizationPoseCDB(),
             onDatabaseSuccess,
             onDatabaseError,
@@ -133,8 +127,7 @@ class FirebaseDatabase(
         onDatabaseError: (Throwable) -> Unit
     ) {
         registerListenerOnDocumentChange(
-            "$COLLECTION_ROBOTS/" +
-                    persistentStorage.getRobotSerialNumber() + DOCUMENT_WEATHER_STATION_HUMIDITYE,
+            "$COLLECTION_ROBOTS/${persistentStorage.getRobotSerialNumber()}/$DOCUMENT_WEATHER_STATION_HUMIDITYE",
             RobotWeatherStationHumidityCDB(),
             onDatabaseSuccess,
             onDatabaseError,
@@ -147,8 +140,7 @@ class FirebaseDatabase(
         onDatabaseError: (Throwable) -> Unit
     ) {
         registerListenerOnDocumentChange(
-            "$COLLECTION_ROBOTS/" +
-                    persistentStorage.getRobotSerialNumber() + DOCUMENT_WEATHER_STATION_PRESSURE,
+            "$COLLECTION_ROBOTS/${persistentStorage.getRobotSerialNumber()}/$DOCUMENT_WEATHER_STATION_PRESSURE",
             RobotWeatherStationPressureCDB(),
             onDatabaseSuccess,
             onDatabaseError,
@@ -161,8 +153,7 @@ class FirebaseDatabase(
         onDatabaseError: (Throwable) -> Unit
     ) {
         registerListenerOnDocumentChange(
-            "$COLLECTION_ROBOTS/" +
-                    persistentStorage.getRobotSerialNumber() + DOCUMENT_WEATHER_STATION_WIND,
+            "$COLLECTION_ROBOTS/${persistentStorage.getRobotSerialNumber()}/$DOCUMENT_WEATHER_STATION_WIND",
             RobotWeatherStationWindCDB(),
             onDatabaseSuccess,
             onDatabaseError,
@@ -175,8 +166,7 @@ class FirebaseDatabase(
         onDatabaseError: (Throwable) -> Unit
     ) {
         registerListenerOnDocumentChange(
-            "$COLLECTION_ROBOTS/" +
-                    persistentStorage.getRobotSerialNumber() + DOCUMENT_WEATHER_STATION_TEMPERATURE,
+            "$COLLECTION_ROBOTS/${persistentStorage.getRobotSerialNumber()}/$DOCUMENT_WEATHER_STATION_TEMPERATURE",
             RobotWeatherStationTemperatureCDB(),
             onDatabaseSuccess,
             onDatabaseError,
@@ -191,7 +181,7 @@ class FirebaseDatabase(
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_USER)
-            .document("$user/$COLLECTION_ROBOTS/" + persistentStorage.getRobotSerialNumber())
+            .document("$user/$COLLECTION_ROBOTS/${persistentStorage.getRobotSerialNumber()}")
             .set(data)
             .addOnSuccessListener {
                 onDatabaseSuccess.invoke()
@@ -212,7 +202,7 @@ class FirebaseDatabase(
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_USER)
-            .document(FirebaseAuth.getInstance().currentUser?.uid.toString() + "/$COLLECTION_ROBOTS/" + persistentStorage.getRobotSerialNumber())
+            .document(FirebaseAuth.getInstance().currentUser?.uid.toString() + "/$COLLECTION_ROBOTS/${persistentStorage.getRobotSerialNumber()}")
             .delete()
             .addOnSuccessListener {
                 onDatabaseSuccess.invoke()
@@ -234,7 +224,7 @@ class FirebaseDatabase(
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document(persistentStorage.getRobotSerialNumber() + "/$DOCUMENT_TASKS/$taskName")
+            .document("${persistentStorage.getRobotSerialNumber()}/$DOCUMENT_TASKS/$taskName")
             .set(newRobotTaskDetailsCDB)
             .addOnFailureListener { createNewTaskExceeption ->
                 onDatabaseError(createNewTaskExceeption)
@@ -253,7 +243,7 @@ class FirebaseDatabase(
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document(persistentStorage.getRobotSerialNumber() + "/$DOCUMENT_TASKS/$taskID")
+            .document("${persistentStorage.getRobotSerialNumber()}/$DOCUMENT_TASKS/$taskID")
             .addSnapshotListener { snapshot, databaseException ->
                 if (databaseException != null) {
                     onDatabaseError(Throwable("Could not parse firebase data"))
@@ -357,7 +347,7 @@ class FirebaseDatabase(
         onGetTaskItem: (taskItemCDB: TaskItemCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        database.collection("$COLLECTION_ROBOTS/" + persistentStorage.getRobotSerialNumber() + "/$DOCUMENT_TASKS")
+        database.collection("$COLLECTION_ROBOTS/${persistentStorage.getRobotSerialNumber()}/$DOCUMENT_TASKS")
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
@@ -406,7 +396,7 @@ class FirebaseDatabase(
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_USER)
-            .document(FirebaseAuth.getInstance().currentUser?.uid.toString() + "/$DOCUMENT_TOOLS/$toolName")
+            .document("${FirebaseAuth.getInstance().currentUser?.uid}/$DOCUMENT_TOOLS/$toolName")
             .set(toolDetailsCDB)
             .addOnSuccessListener {
                 onDatabaseSucess()
@@ -426,7 +416,7 @@ class FirebaseDatabase(
         onGetToolItem: (toolItemCDB: TooltemCDB) -> Unit,
         onDatabaseError: (Throwable) -> Unit
     ) {
-        database.collection("$COLLECTION_USER/" + FirebaseAuth.getInstance().currentUser?.uid.toString() + "/$DOCUMENT_TOOLS")
+        database.collection("$COLLECTION_USER/${FirebaseAuth.getInstance().currentUser?.uid}/$DOCUMENT_TOOLS")
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
@@ -452,7 +442,7 @@ class FirebaseDatabase(
         onDeleteSucess: () -> Unit,
         onDeleteError: (Throwable) -> Unit
     ) {
-        database.collection("$COLLECTION_USER/" + FirebaseAuth.getInstance().currentUser?.uid.toString() + "/$DOCUMENT_TOOLS")
+        database.collection("$COLLECTION_USER/${FirebaseAuth.getInstance().currentUser?.uid}/$DOCUMENT_TOOLS")
             .document(toolName)
             .delete()
             .addOnSuccessListener {
@@ -475,8 +465,7 @@ class FirebaseDatabase(
         onDatabaseError: (Throwable) -> Unit
     ) {
         registerListenerOnDocumentChange(
-            "$COLLECTION_USER/" + FirebaseAuth.getInstance().currentUser?.uid.toString() + "/$DOCUMENT_TOOLS" +
-                    toolName,
+            "$COLLECTION_USER/${FirebaseAuth.getInstance().currentUser?.uid}/$DOCUMENT_TOOLS/$toolName",
             ToolDetailsCDB(), onGetToolDetailsSucess, onDatabaseError, "Get tool details exception"
         )
         database.collection("$COLLECTION_USER/" + FirebaseAuth.getInstance().currentUser?.uid.toString() + "/$DOCUMENT_TOOLS")
@@ -505,7 +494,7 @@ class FirebaseDatabase(
         onDatabaseError: (Throwable) -> Unit
     ) {
         database.collection(COLLECTION_ROBOTS)
-            .document(persistentStorage.getRobotSerialNumber() + DOCUMENT_LOCALIZATION_POSE)
+            .document("${persistentStorage.getRobotSerialNumber()}/$DOCUMENT_LOCALIZATION_POSE")
             .get()
             .addOnSuccessListener {
                 it.toObject(RobotLocalizationPoseCDB::class.java).let { robotLocalization ->
@@ -530,8 +519,7 @@ class FirebaseDatabase(
         onDatabaseError: (Throwable) -> Unit
     ) {
         registerListenerOnDocumentChange(
-            "$COLLECTION_USER/" +
-                    FirebaseAuth.getInstance().currentUser?.uid.toString(),
+            "$COLLECTION_USER/${FirebaseAuth.getInstance().currentUser?.uid}",
             UserRoleCDB(), onGotUserRole, onDatabaseError, "Get user role exception"
         )
         database.collection(COLLECTION_USER)
@@ -608,7 +596,7 @@ class FirebaseDatabase(
 
     override fun getUsersRobotName(onGetUserRobotNameSuccess: () -> Unit) {
         try {
-            database.collection("$COLLECTION_USER/" + FirebaseAuth.getInstance().currentUser?.uid.toString() + "/$COLLECTION_ROBOTS")
+            database.collection("$COLLECTION_USER/${FirebaseAuth.getInstance().currentUser?.uid}/$COLLECTION_ROBOTS")
                 .get()
                 .addOnSuccessListener { result ->
                     if (result != null && !result.isEmpty) {

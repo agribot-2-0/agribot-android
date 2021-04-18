@@ -114,11 +114,6 @@ class ManualControlCurrentStateViewModel(
                 RobotStateItems.MANUAL_CONTROL_OIL_TEMPERATURE.ID,
                 resourcesProvider.getString(R.string.no_data_status),
                 resourcesProvider.getString(R.string.celcius_degree)
-
-            ), RobotStateViewModel(
-                RobotStateItems.MANUAL_CONTROL_OIL_TEMPERATURE.ID,
-                resourcesProvider.getString(R.string.no_data_status),
-                resourcesProvider.getString(R.string.celcius_degree)
             )
         )
     }

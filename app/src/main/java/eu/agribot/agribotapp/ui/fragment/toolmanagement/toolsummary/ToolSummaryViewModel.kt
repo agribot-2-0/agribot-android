@@ -12,7 +12,7 @@ import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.data.TagRfidFormatter
 
-class ToolEditViewModel(
+class ToolSummaryViewModel(
     private val toolDataManager: ToolDataManager,
     private val cloudDatabaseService: CloudDatabaseService,
     private val resourcesProvider: ResourcesProvider,

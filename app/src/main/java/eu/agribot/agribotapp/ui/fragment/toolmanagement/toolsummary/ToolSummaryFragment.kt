@@ -8,24 +8,24 @@ import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolNavigationEvent
-import eu.agribot.agribotapp.databinding.FragmentToolManagementEditBinding
+import eu.agribot.agribotapp.databinding.FragmentToolManagementSummaryBinding
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
-import kotlinx.android.synthetic.main.fragment_path_management_new_path.*
-import kotlinx.android.synthetic.main.fragment_tool_management_edit.edit_tool_photo
-import kotlinx.android.synthetic.main.fragment_tool_management_edit.params_recycler
+import kotlinx.android.synthetic.main.fragment_tool_management_summary.editToolBottomDetailsView
+import kotlinx.android.synthetic.main.fragment_tool_management_summary.edit_tool_photo
+import kotlinx.android.synthetic.main.fragment_tool_management_summary.params_recycler
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
-class ToolEditFragment : BaseFragment<ToolEditViewModel, FragmentToolManagementEditBinding>() {
+class ToolSummaryFragment : BaseFragment<ToolSummaryViewModel, FragmentToolManagementSummaryBinding>() {
 
-    override val layoutResourceId: Int = R.layout.fragment_tool_management_edit
-    override val viewModel: ToolEditViewModel by viewModel { parametersOf(requireContext()) }
+    override val layoutResourceId: Int = R.layout.fragment_tool_management_summary
+    override val viewModel: ToolSummaryViewModel by viewModel { parametersOf(requireContext()) }
     private val hitchRecyclerAdapter = HitchListItemAdapter(this::onHitchRecyclerParametersChanged)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        itemDetails.itemNameText = viewModel.displayToolName.value ?: ""
+        editToolBottomDetailsView.itemNameText = viewModel.displayToolName.value ?: ""
         viewModel.setSummaryParameters()
         setupRecycler()
         viewModel.paramsList.observe(this::addParams)
@@ -64,7 +64,7 @@ class ToolEditFragment : BaseFragment<ToolEditViewModel, FragmentToolManagementE
         hitchRecyclerAdapter.items = tools
     }
 
-    override fun bindViewVariables(viewBinding: FragmentToolManagementEditBinding) {
+    override fun bindViewVariables(viewBinding: FragmentToolManagementSummaryBinding) {
         viewBinding.viewModel = viewModel
     }
 }

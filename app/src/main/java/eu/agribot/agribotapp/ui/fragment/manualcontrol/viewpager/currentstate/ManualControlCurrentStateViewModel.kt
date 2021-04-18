@@ -134,14 +134,6 @@ class ManualControlCurrentStateViewModel(
                             resourcesProvider.getString(R.string.volt)
                         )
                     )
-                } else {
-                    addToDiagnosticDataList(
-                        RobotStateViewModel(
-                            RobotStateItems.MANUAL_CONTROL_VOLTAGE.ID,
-                            resourcesProvider.getString(R.string.no_data_available),
-                            resourcesProvider.getString(R.string.volt)
-                        )
-                    )
                 }
                 if (diagnosticData.engineRotationsPerMinute != INVALID_INTEGER_NUMBER) {
                     addToDiagnosticDataList(
@@ -152,28 +144,12 @@ class ManualControlCurrentStateViewModel(
 
                         )
                     )
-                } else {
-                    addToDiagnosticDataList(
-                        RobotStateViewModel(
-                            RobotStateItems.MANUAL_CONTROL_ENGINE_ROTATIONS.ID,
-                            resourcesProvider.getString(R.string.no_data_available),
-                            resourcesProvider.getString(R.string.rpm)
-                        )
-                    )
                 }
                 if (diagnosticData.torqueOfEngine != INVALID_INTEGER_NUMBER) {
                     addToDiagnosticDataList(
                         RobotStateViewModel(
                             RobotStateItems.MANUAL_CONTROL_ENGINE_TORQUE.ID,
                             diagnosticData.torqueOfEngine.toString(),
-                            resourcesProvider.getString(R.string.percent)
-                        )
-                    )
-                } else {
-                    addToDiagnosticDataList(
-                        RobotStateViewModel(
-                            RobotStateItems.MANUAL_CONTROL_ENGINE_TORQUE.ID,
-                            resourcesProvider.getString(R.string.no_data_available),
                             resourcesProvider.getString(R.string.percent)
                         )
                     )
@@ -188,14 +164,6 @@ class ManualControlCurrentStateViewModel(
 
                         )
                     )
-                } else {
-                    addToDiagnosticDataList(
-                        RobotStateViewModel(
-                            RobotStateItems.MANUAL_CONTROL_FUEL_LEVEL.ID,
-                            resourcesProvider.getString(R.string.no_data_available),
-                            resourcesProvider.getString(R.string.liter_per_hour)
-                        )
-                    )
                 }
 
                 if (diagnosticData.engineFuelRate != INVALID_DECIMAL_NUMBER) {
@@ -207,14 +175,6 @@ class ManualControlCurrentStateViewModel(
 
                         )
                     )
-                } else {
-                    addToDiagnosticDataList(
-                        RobotStateViewModel(
-                            RobotStateItems.MANUAL_CONTROL_FUEL_RATE.ID,
-                            resourcesProvider.getString(R.string.no_data_available),
-                            resourcesProvider.getString(R.string.liter_per_hour)
-                        )
-                    )
                 }
                 if (diagnosticData.hydraulicOilTemperature != INVALID_INTEGER_NUMBER) {
                     addToDiagnosticDataList(
@@ -223,14 +183,6 @@ class ManualControlCurrentStateViewModel(
                             diagnosticData.hydraulicOilTemperature.toString(),
                             resourcesProvider.getString(R.string.celcius_degree)
 
-                        )
-                    )
-                } else {
-                    addToDiagnosticDataList(
-                        RobotStateViewModel(
-                            RobotStateItems.MANUAL_CONTROL_OIL_TEMPERATURE.ID,
-                            resourcesProvider.getString(R.string.no_data_available),
-                            resourcesProvider.getString(R.string.celcius_degree)
                         )
                     )
                 }

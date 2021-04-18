@@ -18,7 +18,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class ToolSummaryFragment : BaseFragment<ToolSummaryViewModel, FragmentToolManagementSummaryBinding>() {
-
     override val layoutResourceId: Int = R.layout.fragment_tool_management_summary
     override val viewModel: ToolSummaryViewModel by viewModel { parametersOf(requireContext()) }
     private val hitchRecyclerAdapter = HitchListItemAdapter(this::onHitchRecyclerParametersChanged)

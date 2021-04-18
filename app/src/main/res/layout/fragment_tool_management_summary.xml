@@ -129,7 +129,7 @@
                 android:id="@+id/editToolBottomDetailsView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:fourthButtonText="@string/next_button"/>
+                app:fourthButtonText="@string/send_to_database"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>

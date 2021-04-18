@@ -42,7 +42,7 @@ class FindToolTagViewModel(
         if (toolDataManager.rfid != toolDataManager.noRfidTag) {
             navigationEvent.postValue(ShotToolPhotoNavigationEvent())
         } else {
-            toastEvent.postValue(resourcesProvider.getString(R.string.no_selected_rfid_tag))
+            navigationEvent.postValue(ShotToolPhotoNavigationEvent())
         }
     }
 

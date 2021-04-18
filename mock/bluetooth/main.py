@@ -2,7 +2,7 @@ from message_manager import MessageManager
 import bluetooth
 import time
 from message_constant import FrameConstant, MessageCommand
-from message_provider import get_agribot_handshake, get_agribot_diagnosticData
+from message_provider import get_agribot_handshake, get_agribot_diagnosticData, get_agribot_hydraulic_data
 
 
 def find_target(target_name):
@@ -47,6 +47,8 @@ def handle_typical_message(message):
 def sendDiagnosticData():
     time.sleep(1)
     send_message(get_agribot_diagnosticData())
+    time.sleep(1)
+    send_message(get_agribot_hydraulic_data())
 
 
 def response_to_handshake(handshake):
@@ -57,9 +59,10 @@ def response_to_handshake(handshake):
 
 while 1:
     data = client_sock.recv(FrameConstant.BUFFER_SIZE.value)
+    print(data)
+
     if data:
         if MessageManager.get_message_command(data) == MessageCommand.MOBILE_APP_HANDSHAKE.value:
-            print("NEW HANDSHAKE")
             response_to_handshake(data)
         else:
             handle_typical_message(data)

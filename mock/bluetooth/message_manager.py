@@ -8,6 +8,7 @@ def get_message_length(message):
     if len(message) != 0:
         return message[MessageArrayPosition.LENGTH_POSITION.value]
 
+
 def get_message_command(message):
     global first_command_element, second_command_element
     if get_message_length(message) > 2:
@@ -20,6 +21,7 @@ def get_message_command(message):
             second_command_element = message[MessageArrayPosition.SECOND_BYTE_OF_ADDRESS_POSITION.value]
     message_command = first_command_element + second_command_element
     return message_command
+
 
 def get_message_command_name(message):
     switcher = {
@@ -77,5 +79,6 @@ class MessageManager:
             get_message_command(message)) + get_message_data(message))
 
     def log_server_message(message):
-        print(get_actual_time() + MessageDirection.SERVER.value + get_message_command_name(get_message_command(message)) +
-              get_message_data(message))
+        print(
+            get_actual_time() + MessageDirection.SERVER.value + get_message_command_name(get_message_command(message)) +
+            get_message_data(message))

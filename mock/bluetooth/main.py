@@ -1,3 +1,5 @@
+
+
 import time
 
 import bluetooth
@@ -21,23 +23,19 @@ def find_target(target_name):
 
 
 def run_server():
-    server_sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
-    server_sock.bind(("", 1))
-    server_sock.listen(1)
+    server_socket = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+    server_socket.bind(("", 1))
+    server_socket.listen(1)
 
-    port = server_sock.getsockname()[1]
+    port = server_socket.getsockname()[1]
     print("listening on port %d" % port)
 
-    client_sock, address = server_sock.accept()
+    client_socket, address = server_socket.accept()
     print("Accepted connection from ", address)
-    return server_sock, client_sock
-
-
-server_sock, client_sock = run_server()
-
+    return server_socket, client_socket
 
 def send_message(message):
-    client_sock.send(message)
+    CLIENT_SOCKET.send(message)
 
 
 def handle_typical_message(message):
@@ -60,17 +58,19 @@ def response_to_handshake(handshake):
     MessageManager.log_server_message(handshake)
 
 
-while 1:
-    data = client_sock.recv(FrameConstant.BUFFER_SIZE.value)
-    print(data)
+SERVER_SOCKET, CLIENT_SOCKET = run_server()
 
-    if data:
+while 1:
+    DATA = CLIENT_SOCKET.recv(FrameConstant.BUFFER_SIZE.value)
+    print(DATA)
+
+    if DATA:
         if MessageManager.get_message_command(
-                data) == MessageCommand.MOBILE_APP_HANDSHAKE.value:
-            response_to_handshake(data)
+                DATA) == MessageCommand.MOBILE_APP_HANDSHAKE.value:
+            response_to_handshake(DATA)
         else:
-            handle_typical_message(data)
+            handle_typical_message(DATA)
         # Echo back to client
 
-client_sock.close()
-server_sock.close()
+CLIENT_SOCKET.close()
+SERVER_SOCKET.close()

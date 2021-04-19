@@ -7,21 +7,23 @@ from message_constant import MessageCommand, MessageArrayPosition, FrameConstant
 def get_message_length(message):
     if len(message) != 0:
         return message[MessageArrayPosition.LENGTH_POSITION.value]
+    return 0
 
 
 def get_message_command(message):
-    global first_command_element, second_command_element
+    global FIRST_COMMAND_ELEMENT, SECOND_COMMAND_ELEMENT
     if get_message_length(message) > 2:
-        first_command_element = message[
-                                    MessageArrayPosition.FIRST_BYTE_OF_ADDRESS_POSITION.value] << FrameConstant.BIT_SHIFT.value
-        if message[
-            MessageArrayPosition.SECOND_BYTE_OF_ADDRESS_POSITION.value] < FrameConstant.EMPTY_ARRAY.value:
-            second_command_element = FrameConstant.ADDRESS_FLAG.value + message[
+        FIRST_COMMAND_ELEMENT = \
+            message[MessageArrayPosition.FIRST_BYTE_OF_ADDRESS_POSITION.value] \
+            << FrameConstant.BIT_SHIFT.value
+        if message[MessageArrayPosition.SECOND_BYTE_OF_ADDRESS_POSITION.value] < \
+                FrameConstant.EMPTY_ARRAY.value:
+            SECOND_COMMAND_ELEMENT = FrameConstant.ADDRESS_FLAG.value + message[
                 MessageArrayPosition.SECOND_BYTE_OF_ADDRESS_POSITION.value]
         else:
-            second_command_element = message[
+            SECOND_COMMAND_ELEMENT = message[
                 MessageArrayPosition.SECOND_BYTE_OF_ADDRESS_POSITION.value]
-    message_command = first_command_element + second_command_element
+    message_command = FIRST_COMMAND_ELEMENT + SECOND_COMMAND_ELEMENT
     return message_command
 
 
@@ -64,20 +66,23 @@ def get_actual_time():
 
 
 class MessageManager:
+    def ___init__(self):
+        pass
 
     def get_message_command(message):
-        global first_command_element, second_command_element
+        global FIRST_COMMAND_ELEMENT, SECOND_COMMAND_ELEMENT
         if get_message_length(message) > 2:
-            first_command_element = message[
-                                        MessageArrayPosition.FIRST_BYTE_OF_ADDRESS_POSITION.value] << FrameConstant.BIT_SHIFT.value
-            if message[
-                MessageArrayPosition.SECOND_BYTE_OF_ADDRESS_POSITION.value] < FrameConstant.EMPTY_ARRAY.value:
-                second_command_element = FrameConstant.ADDRESS_FLAG.value + message[
+            FIRST_COMMAND_ELEMENT = \
+                message[MessageArrayPosition.FIRST_BYTE_OF_ADDRESS_POSITION.value] \
+                << FrameConstant.BIT_SHIFT.value
+            if message[MessageArrayPosition.SECOND_BYTE_OF_ADDRESS_POSITION.value] < \
+                    FrameConstant.EMPTY_ARRAY.value:
+                SECOND_COMMAND_ELEMENT = FrameConstant.ADDRESS_FLAG.value + message[
                     MessageArrayPosition.SECOND_BYTE_OF_ADDRESS_POSITION.value]
             else:
-                second_command_element = message[
+                SECOND_COMMAND_ELEMENT = message[
                     MessageArrayPosition.SECOND_BYTE_OF_ADDRESS_POSITION.value]
-        message_command = first_command_element + second_command_element
+        message_command = FIRST_COMMAND_ELEMENT + SECOND_COMMAND_ELEMENT
         return message_command
 
     def log_mobile_app_message(message):

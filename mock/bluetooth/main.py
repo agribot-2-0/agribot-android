@@ -1,5 +1,3 @@
-
-
 import time
 
 import bluetooth
@@ -33,6 +31,7 @@ def run_server():
     client_socket, address = server_socket.accept()
     print("Accepted connection from ", address)
     return server_socket, client_socket
+
 
 def send_message(message):
     CLIENT_SOCKET.send(message)

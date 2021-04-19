@@ -69,29 +69,13 @@ class MessageManager:
     def ___init__(self):
         pass
 
-    def get_message_command(message):
-        global FIRST_COMMAND_ELEMENT, SECOND_COMMAND_ELEMENT
-        if get_message_length(message) > 2:
-            FIRST_COMMAND_ELEMENT = \
-                message[MessageArrayPosition.FIRST_BYTE_OF_ADDRESS_POSITION.value] \
-                << FrameConstant.BIT_SHIFT.value
-            if message[MessageArrayPosition.SECOND_BYTE_OF_ADDRESS_POSITION.value] < \
-                    FrameConstant.EMPTY_ARRAY.value:
-                SECOND_COMMAND_ELEMENT = FrameConstant.ADDRESS_FLAG.value + message[
-                    MessageArrayPosition.SECOND_BYTE_OF_ADDRESS_POSITION.value]
-            else:
-                SECOND_COMMAND_ELEMENT = message[
-                    MessageArrayPosition.SECOND_BYTE_OF_ADDRESS_POSITION.value]
-        message_command = FIRST_COMMAND_ELEMENT + SECOND_COMMAND_ELEMENT
-        return message_command
-
-    def log_mobile_app_message(message):
+    def log_mobile_app_message(self):
         print(
             get_actual_time() + MessageDirection.CLIENT.value + get_message_command_name(
-                get_message_command(message)) + get_message_data(message))
+                get_message_command(self)) + get_message_data(self))
 
-    def log_server_message(message):
+    def log_server_message(self):
         print(
             get_actual_time() + MessageDirection.SERVER.value + get_message_command_name(
-                get_message_command(message)) +
-            get_message_data(message))
+                get_message_command(self)) +
+            get_message_data(self))

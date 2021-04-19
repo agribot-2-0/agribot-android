@@ -114,11 +114,6 @@ class ManualControlCurrentStateViewModel(
                 RobotStateItems.MANUAL_CONTROL_OIL_TEMPERATURE.ID,
                 resourcesProvider.getString(R.string.no_data_status),
                 resourcesProvider.getString(R.string.celcius_degree)
-
-            ), RobotStateViewModel(
-                RobotStateItems.MANUAL_CONTROL_OIL_TEMPERATURE.ID,
-                resourcesProvider.getString(R.string.no_data_status),
-                resourcesProvider.getString(R.string.celcius_degree)
             )
         )
     }
@@ -188,55 +183,6 @@ class ManualControlCurrentStateViewModel(
                             diagnosticData.hydraulicOilTemperature.toString(),
                             resourcesProvider.getString(R.string.celcius_degree)
 
-                        )
-                    )
-                }
-            } else {
-                resourcesProvider.getString(R.string.no_data_status).let { noData ->
-                    addToDiagnosticDataList(
-                        RobotStateViewModel(
-                            RobotStateItems.MANUAL_CONTROL_VOLTAGE.ID,
-                            noData,
-                            resourcesProvider.getString(R.string.volt)
-                        )
-                    )
-                    addToDiagnosticDataList(
-                        RobotStateViewModel(
-                            RobotStateItems.MANUAL_CONTROL_ENGINE_ROTATIONS.ID,
-                            noData,
-                            resourcesProvider.getString(R.string.rpm)
-
-                        )
-                    )
-                    addToDiagnosticDataList(
-                        RobotStateViewModel(
-                            RobotStateItems.MANUAL_CONTROL_ENGINE_TORQUE.ID,
-                            noData,
-                            resourcesProvider.getString(R.string.percent)
-                        )
-                    )
-
-                    addToDiagnosticDataList(
-                        RobotStateViewModel(
-                            RobotStateItems.FUEL_LEVEL.ID,
-                            noData,
-                            resourcesProvider.getString(R.string.percent)
-                        )
-                    )
-
-                    addToDiagnosticDataList(
-                        RobotStateViewModel(
-                            RobotStateItems.MANUAL_CONTROL_FUEL_RATE.ID,
-                            noData,
-                            resourcesProvider.getString(R.string.liter_per_hour)
-
-                        )
-                    )
-                    addToDiagnosticDataList(
-                        RobotStateViewModel(
-                            RobotStateItems.MANUAL_CONTROL_OIL_TEMPERATURE.ID,
-                            noData,
-                            resourcesProvider.getString(R.string.celcius_degree)
                         )
                     )
                 }

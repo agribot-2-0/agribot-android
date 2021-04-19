@@ -7,7 +7,7 @@ pipelines:
           - apt update
           - apt install python3-pip -y
           - pip3 install pylint
-          - install libbluetooth-dev
+          - python3 -m pip install pybluez
           - pylint --rcfile=mock/bluetooth/.pylintrc mock/*
     - step:
         name: Static code analysis (Debug)

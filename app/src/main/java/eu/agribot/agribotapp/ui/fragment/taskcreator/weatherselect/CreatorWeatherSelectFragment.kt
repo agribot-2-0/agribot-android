@@ -30,6 +30,9 @@ class CreatorWeatherSelectFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        weatherBottomDetailsView.itemNameText = viewModel.taskName.value ?: ""
+        weatherBottomDetailsView.fourthButtonClickListener =
+            View.OnClickListener { viewModel.onNextButtonClicked() }
         viewModel.weatherAttributeList.observe(this::addAvaliableWeatherAttribute)
         setupRecyclerView()
         viewModel.prepareWeatherAttributeListItem()

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <declare-styleable name="ViewBottomItemDetails">
+        <attr name="itemName" format="string"/>
+        <attr name="firstButtonText" format="string"/>
+        <attr name="secondButtonText" format="string"/>
+        <attr name="thirdButtonText" format="string"/>
+        <attr name="fourthButtonText" format="string"/>
+        <attr name="progressValue" format="integer"/>
+
+
+
+    </declare-styleable>
+</resources>

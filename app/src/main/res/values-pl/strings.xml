@@ -150,6 +150,7 @@
     <string name="blue_tool">BLUE</string>
     <string name="yellow_tool">YELLOW</string>
     <string name="green_tool">GREEN</string>
+    <string name="delete_last_point">Usuń ostatni punkt</string>
 
     <string name="disconnected">Połączenie z Agribotem zakończone</string>
     <string name="empty_data">X</string>
@@ -302,5 +303,8 @@
     <string name="pressure_value">Ciśnienie %1S hPA</string>
     <string name="invalid_date_format">Invalid date</string>
 
+    <string name="display_task_name">Zadanie: %1s</string>
+    <string name="display_tool_name">Narzędzie: %1s</string>
+    <string name="display_path_name">Ścieżka: %1s</string>
 
 </resources>

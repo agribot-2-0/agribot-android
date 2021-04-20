@@ -20,8 +20,8 @@ class CreatorToolSelectViewModel(
     val taskCreatorDataManager: TaskCreatorDataManager,
     private val cloudDatabaseService: CloudDatabaseService,
     private val resourcesProvider: ResourcesProvider
-) :
-    BaseViewModel() {
+) : BaseViewModel() {
+    val taskName: MutableLiveData<String> = MutableLiveData()
     private val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
     val mToolNames: MutableLiveData<List<String>> = MutableLiveData(listOf(defaultToolName))
     val mToolModes: MutableLiveData<List<String>> = MutableLiveData(
@@ -37,6 +37,13 @@ class CreatorToolSelectViewModel(
     var frontToolMode: Int = defaultToolMode
     var backToolName: String = defaultToolName
     var backToolMode: Int = defaultToolMode
+
+    init {
+        taskName.value = String.format(
+            resourcesProvider.getString(R.string.display_task_name),
+            taskCreatorDataManager.taskDetails.task_name
+        )
+    }
 
     private fun getTaskData() {
         cloudDatabaseService.addTask(

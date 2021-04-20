@@ -39,7 +39,7 @@ class PathManagementService(
         robotPathName = pathName
     }
 
-    private fun getPathName(): String {
+    fun getPathName(): String {
         return robotPathName
     }
 

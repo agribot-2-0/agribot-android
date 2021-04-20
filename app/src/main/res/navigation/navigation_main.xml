@@ -62,7 +62,7 @@
     <fragment
         android:id="@+id/shotToolPhoto"
         android:name="eu.agribot.agribotapp.ui.fragment.toolmanagement.tooltagphoto.ToolTagPhotoFragment"
-        android:label="Override Mode"
+        android:label="@string/title_tool_management"
         tools:layout="@layout/fragment_create_photo">
 
 
@@ -75,7 +75,7 @@
     <fragment
         android:id="@+id/displayToolPhoto"
         android:name="eu.agribot.agribotapp.ui.fragment.toolmanagement.displaytoolphoto.DisplayToolPhotoFragment"
-        android:label="Override Mode"
+        android:label="@string/title_tool_management"
         tools:layout="@layout/fragment_display_tool_photo">
 
 
@@ -146,7 +146,7 @@
 
     <fragment
         android:id="@+id/toolManagementSummaryFragment"
-        android:name="eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.ToolEditFragment"
+        android:name="eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.ToolSummaryFragment"
         android:label="@string/title_tool_management"
         tools:layout="@layout/fragment_tool_management_params" >
         <action

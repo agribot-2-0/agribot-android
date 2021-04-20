@@ -30,6 +30,9 @@ import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.model.TempPolyli
 import eu.agribot.agribotapp.ui.fragment.taskcreator.MapParameters
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TileProvider
 import eu.agribot.agribotapp.ui.fragment.taskcreator.URLPath
+import kotlinx.android.synthetic.main.fragment_creator_path_select.*
+import kotlinx.android.synthetic.main.fragment_path_management_new_path.*
+import kotlinx.android.synthetic.main.fragment_path_management_new_path.itemDetails
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.io.IOException
@@ -54,6 +57,11 @@ class NewPathFragment :
             childFragmentManager.findFragmentById(R.id.new_path_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         observeViewModel()
+        itemDetails.itemNameText = viewModel.pathName.value ?: ""
+        itemDetails.firstButtonClickListener = View.OnClickListener { viewModel.onDeleteLastPointButtonClicked() }
+        itemDetails.secondButtonClickListener = View.OnClickListener { viewModel.onPreviousPointButtonCLicked() }
+        itemDetails.thirdButtonClickListener = View.OnClickListener { viewModel.onNextPointButtonCLicked() }
+        itemDetails.fourthButtonClickListener = View.OnClickListener { viewModel.onSavePathButtonClicked() }
     }
 
     private fun observeViewModel() {

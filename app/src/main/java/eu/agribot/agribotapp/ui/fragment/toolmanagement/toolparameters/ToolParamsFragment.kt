@@ -11,8 +11,7 @@ import eu.agribot.agribotapp.common.navigation.events.ToolNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentToolManagementParamsBinding
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
-import kotlinx.android.synthetic.main.fragment_tool_management_params.params_recycler
-import kotlinx.android.synthetic.main.fragment_tool_management_params.params_tool_photo
+import kotlinx.android.synthetic.main.fragment_tool_management_params.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -28,6 +27,9 @@ class ToolParamsFragment :
     @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        toolParamsBottomDetailsView.itemNameText = viewModel.displayToolName.value ?: ""
+        toolParamsBottomDetailsView.fourthButtonClickListener =
+            View.OnClickListener { viewModel.sendToolData() }
         observeViewModel()
         viewModel.createToolsList()
         setupRecyclers()

@@ -29,16 +29,25 @@ class NewPathViewModel(
     private val kmlLayerService: KmlLayerService,
     private val cloudDatabaseService: CloudDatabaseService
 ) : BaseViewModel() {
+    private val centerMapCoordinate: MutableLiveData<LatLng> = MutableLiveData()
+    private val pointIndex: MutableLiveData<Int> = MutableLiveData()
+    private val currentIndex: MutableLiveData<Int> = MutableLiveData()
+    private val initializationDelay = 200L
     val removeTempPolylineEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
     val alreadyCreatedLayer: MutableLiveData<InputStream> = MutableLiveData()
     val selectedPointsCoordinates: MutableLiveData<List<PointModel>> = MutableLiveData(listOf())
-    private val centerMapCoordinate: MutableLiveData<LatLng> = MutableLiveData()
-    private val pointIndex: MutableLiveData<Int> = MutableLiveData()
     val cameraPosition: MutableLiveData<CameraPositionModel> = MutableLiveData()
     val tempPolyline: MutableLiveData<TempPolylineModel> = MutableLiveData()
-    private val currentIndex: MutableLiveData<Int> = MutableLiveData()
     val toastMessage: MutableLiveEvent<String> = MutableLiveEvent()
-    private val initializationDelay = 200L
+    val pathName: MutableLiveData<String> = MutableLiveData()
+
+    init {
+        pathName.value = String.format(
+            resourcesProvider.getString(R.string.display_path_name),
+            pathManagementService.getPathName()
+        )
+    }
+
     fun setCenterMapCoordinate(coordinate: LatLng) {
         centerMapCoordinate.value = coordinate
     }

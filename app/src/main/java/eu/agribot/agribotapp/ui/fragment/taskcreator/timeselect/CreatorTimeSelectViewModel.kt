@@ -2,8 +2,10 @@ package eu.agribot.agribotapp.ui.fragment.taskcreator.timeselect
 
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.Timestamp
+import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.navigation.events.CreatorTaskWeatherNavigationEvent
+import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.service.cloud.TaskCreatorDataManager
 import eu.agribot.agribotapp.ui.fragment.taskcreator.TaskDetailsElements
 import java.util.Calendar
@@ -11,15 +13,12 @@ import java.util.Date
 import java.util.GregorianCalendar
 import java.util.TimeZone
 
-class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreatorDataManager) :
+class CreatorTimeSelectViewModel(
+    private val taskCreatorDataManager: TaskCreatorDataManager,
+    private val resourcesProvider: ResourcesProvider
+) :
     BaseViewModel() {
-
-    fun onNextButtonClicked() {
-        navigationEvent.postValue(
-            CreatorTaskWeatherNavigationEvent()
-        )
-    }
-
+    val taskName: MutableLiveData<String> = MutableLiveData()
     private val yearData: MutableLiveData<Int> = MutableLiveData()
     private val monthData: MutableLiveData<Int> = MutableLiveData()
     private val dayOfMonthData: MutableLiveData<Int> = MutableLiveData()
@@ -28,6 +27,19 @@ class CreatorTimeSelectViewModel(private val taskCreatorDataManager: TaskCreator
     val date: MutableLiveData<Date> = MutableLiveData()
     val isTimePreset: MutableLiveData<Boolean> = MutableLiveData()
     private val miliToSecondDivide = 1000
+
+    init {
+        taskName.value = String.format(
+            resourcesProvider.getString(R.string.display_task_name),
+            taskCreatorDataManager.taskDetails.task_name
+        )
+    }
+
+    fun onNextButtonClicked() {
+        navigationEvent.postValue(
+            CreatorTaskWeatherNavigationEvent()
+        )
+    }
 
     fun getPreSetDate(): Date {
         return if (!taskCreatorDataManager.getTaskParemeters().startTimeEstimated) {

@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.ToolEditViewModel" />
+            type="eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.ToolSummaryViewModel" />
     </data>
 
 
@@ -114,9 +114,7 @@
 
             </androidx.cardview.widget.CardView>
 
-
         </LinearLayout>
-
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -127,18 +125,11 @@
             android:gravity="end"
             android:orientation="horizontal">
 
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/right_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_large"
-                android:onClick="@{()-> viewModel.sendToolData()}"
-                android:text="@string/save_changes"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
+            <eu.agribot.agribotapp.ui.ViewBottomItemDetails
+                android:id="@+id/editToolBottomDetailsView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:fourthButtonText="@string/send_to_database"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>

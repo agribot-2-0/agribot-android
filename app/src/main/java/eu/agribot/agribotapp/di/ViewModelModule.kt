@@ -35,7 +35,7 @@ import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.ToolManagemen
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toollist.ToolListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolname.ToolNameViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparameters.ToolParamsViewModel
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.ToolEditViewModel
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.ToolSummaryViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.tooltagphoto.ToolTagPhotoViewModel
 import eu.agribot.agribotapp.ui.fragment.ttcontrol.TTControlViewModel
 import eu.agribot.agribotapp.ui.fragment.weather.WeatherViewModel
@@ -183,8 +183,9 @@ val viewModelModule = module {
         )
     }
 
-    viewModel {
+    viewModel { (context: Context) ->
         CreatorTimeSelectViewModel(
+            resourcesProvider = get { parametersOf(context) },
             taskCreatorDataManager = get()
         )
     }
@@ -292,8 +293,9 @@ val viewModelModule = module {
             resourcesProvider = get { parametersOf(context) })
     }
 
-    viewModel {
+    viewModel { (context: Context) ->
         ToolTagPhotoViewModel(
+            resourcesProvider = get { parametersOf(context) },
             permissionManager = get(),
             toolDataManager = get(),
             toolManagementService = get()
@@ -308,15 +310,16 @@ val viewModelModule = module {
         )
     }
 
-    viewModel {
+    viewModel { (context: Context) ->
         DisplayToolPhotoViewModel(
             toolDataManager = get(),
+            resourcesProvider = get { parametersOf(context) },
             toolManagementService = get()
         )
     }
 
     viewModel { (context: Context) ->
-        ToolEditViewModel(
+        ToolSummaryViewModel(
             resourcesProvider = get { parametersOf(context) },
             toolDataManager = get(),
             cloudDatabaseService = get(),

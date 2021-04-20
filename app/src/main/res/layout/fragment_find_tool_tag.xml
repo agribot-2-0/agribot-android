@@ -155,16 +155,12 @@
             android:orientation="horizontal">
 
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/right_button"
-                android:layout_width="200dp"
-                android:layout_height="60dp"
-                android:layout_marginEnd="@dimen/margin_large"
-                android:onClick="@{()-> viewModel.onNextButtonClicked()}"
-                android:text="@string/next_button"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <eu.agribot.agribotapp.ui.ViewBottomItemDetails
+                android:id="@+id/findToolBottomDetailsView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:progressValue="30"
+                app:fourthButtonText="@string/next_button"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

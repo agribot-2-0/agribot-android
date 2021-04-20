@@ -253,6 +253,8 @@
     <string name="change_video_url">Change video source</string>
     <string name="actual_url">\"Current video source: \"</string>
 
+    <string name="delete_last_point">Delete last point</string>
+
     <string name="no_antenna_selected">No Antenna selected</string>
     <string name="front_antenna">Front Antenna</string>
     <string name="back_antenna">Back Antenna</string>
@@ -331,4 +333,9 @@
 
     <string name="diagnostic_data_log" translatable="false">engineRotationsPerMinute : %S | torqueOfEngine : %S | engineFuelRate : %S | fuelLevel : %S | batteryVoltage : %S |  hydraulicOilTemperature : %S |</string>
     <string name="invalid_date_format">Invalid date</string>
+
+    <string name="display_task_name">Task: %1s</string>
+    <string name="display_tool_name">Tool: %1s</string>
+    <string name="display_path_name">Path: %1s</string>
+
 </resources>

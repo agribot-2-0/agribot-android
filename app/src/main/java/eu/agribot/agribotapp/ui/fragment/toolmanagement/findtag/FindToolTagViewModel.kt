@@ -29,12 +29,20 @@ class FindToolTagViewModel(
         MutableLiveData(listOf())
     val noRfidTagDataEvent: MutableLiveEvent<Boolean> = MutableLiveEvent()
     val isScanOperation: MutableLiveEvent<Boolean> = MutableLiveEvent()
+    val toolName: MutableLiveData<String> = MutableLiveData()
+
+    init {
+        toolName.value = String.format(
+            resourcesProvider.getString(R.string.display_tool_name),
+            toolDataManager.toolName
+        )
+    }
 
     fun onNextButtonClicked() {
         if (toolDataManager.rfid != toolDataManager.noRfidTag) {
             navigationEvent.postValue(ShotToolPhotoNavigationEvent())
         } else {
-            toastEvent.postValue(resourcesProvider.getString(R.string.no_selected_rfid_tag))
+            navigationEvent.postValue(ShotToolPhotoNavigationEvent())
         }
     }
 

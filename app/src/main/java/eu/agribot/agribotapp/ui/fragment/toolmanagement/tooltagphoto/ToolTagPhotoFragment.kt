@@ -13,6 +13,7 @@ import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.databinding.FragmentCreatePhotoBinding
 import kotlinx.android.synthetic.main.fragment_create_photo.view_finder
+import kotlinx.android.synthetic.main.fragment_path_management_new_path.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import java.io.File

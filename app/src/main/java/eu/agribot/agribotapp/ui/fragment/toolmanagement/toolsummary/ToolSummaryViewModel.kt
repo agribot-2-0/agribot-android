@@ -12,7 +12,7 @@ import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.data.TagRfidFormatter
 
-class ToolEditViewModel(
+class ToolSummaryViewModel(
     private val toolDataManager: ToolDataManager,
     private val cloudDatabaseService: CloudDatabaseService,
     private val resourcesProvider: ResourcesProvider,
@@ -23,6 +23,14 @@ class ToolEditViewModel(
     val toolRfidTag: MutableLiveData<String> = MutableLiveData()
     val paramsList: MutableLiveData<List<HitchListItemViewModel>> =
         MutableLiveData(listOf())
+    val displayToolName: MutableLiveData<String> = MutableLiveData()
+
+    init {
+        displayToolName.value = String.format(
+            resourcesProvider.getString(R.string.display_tool_name),
+            toolDataManager.toolName
+        )
+    }
 
     fun getToolPhotoDirection(): String {
         return toolManagementService.getToolPhotoToDisplay(toolDataManager.getToolPhotoPathName()).absolutePath + toolDataManager.getToolPhotoPathName()

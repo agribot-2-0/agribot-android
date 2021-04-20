@@ -71,52 +71,14 @@
             android:orientation="horizontal">
 
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/materialButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:onClick="@{()-> viewModel.onDeleteLastPointButtonClicked()}"
-                android:text="Usuń ostatni punkt"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/nextPoint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:onClick="@{()-> viewModel.onPreviousPointButtonCLicked()}"
-                android:text="@string/prev_button_arrow"
-                app:layout_constraintBaseline_toBaselineOf="@+id/previousPoint"
-                app:layout_constraintStart_toEndOf="@+id/materialButton" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/previousPoint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:text="@string/next_button_arrow"
-                android:onClick="@{()-> viewModel.onNextPointButtonCLicked()}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/nextPoint"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/materialButton2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginEnd="@dimen/margin_medium"
-                android:onClick="@{()-> viewModel.onSavePathButtonClicked()}"
-                android:text="@string/save_path"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <eu.agribot.agribotapp.ui.ViewBottomItemDetails
+                android:id="@+id/itemDetails"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:firstButtonText="@string/delete_last_point"
+                app:secondButtonText="@string/prev_button_arrow"
+                app:thirdButtonText="@string/next_button_arrow"
+                app:fourthButtonText="@string/save_path"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

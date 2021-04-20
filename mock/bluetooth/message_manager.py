@@ -11,20 +11,23 @@ def get_message_length(message):
 
 
 def get_message_command(message):
-    global FIRST_COMMAND_ELEMENT, SECOND_COMMAND_ELEMENT
     if get_message_length(message) > 2:
-        FIRST_COMMAND_ELEMENT = \
-            message[MessageArrayPosition.FIRST_BYTE_OF_ADDRESS_POSITION.value] \
-            << FrameConstant.BIT_SHIFT.value
-        if message[MessageArrayPosition.SECOND_BYTE_OF_ADDRESS_POSITION.value] < \
-                FrameConstant.EMPTY_ARRAY.value:
-            SECOND_COMMAND_ELEMENT = FrameConstant.ADDRESS_FLAG.value + message[
-                MessageArrayPosition.SECOND_BYTE_OF_ADDRESS_POSITION.value]
-        else:
-            SECOND_COMMAND_ELEMENT = message[
-                MessageArrayPosition.SECOND_BYTE_OF_ADDRESS_POSITION.value]
-    message_command = FIRST_COMMAND_ELEMENT + SECOND_COMMAND_ELEMENT
-    return message_command
+        return get_first_command_element(message) + get_second_command_element(message)
+
+
+def get_first_command_element(message):
+    return message[MessageArrayPosition.FIRST_BYTE_OF_ADDRESS_POSITION.value] \
+           << FrameConstant.BIT_SHIFT.value
+
+
+def get_second_command_element(message):
+    if message[MessageArrayPosition.SECOND_BYTE_OF_ADDRESS_POSITION.value] < \
+            FrameConstant.EMPTY_ARRAY.value:
+        return FrameConstant.ADDRESS_FLAG.value + message[
+            MessageArrayPosition.SECOND_BYTE_OF_ADDRESS_POSITION.value]
+    else:
+        return message[
+            MessageArrayPosition.SECOND_BYTE_OF_ADDRESS_POSITION.value]
 
 
 def get_message_command_name(message):

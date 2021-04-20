@@ -11,8 +11,7 @@ def get_message_length(message):
 
 
 def get_message_command(message):
-    if get_message_length(message) > 2:
-        return get_first_command_element(message) + get_second_command_element(message)
+    return get_first_command_element(message) + get_second_command_element(message)
 
 
 def get_first_command_element(message):

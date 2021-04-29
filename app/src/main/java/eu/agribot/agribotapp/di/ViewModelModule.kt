@@ -103,10 +103,10 @@ val viewModelModule = module {
             appStorageService = get()
         )
     }
-    viewModel {(context: Context) ->
+    viewModel { (context: Context) ->
         ToolControlViewModel(
             manualModeService = get(),
-            resourcesProvider = get{ parametersOf(context)}
+            resourcesProvider = get { parametersOf(context) }
         )
     }
 

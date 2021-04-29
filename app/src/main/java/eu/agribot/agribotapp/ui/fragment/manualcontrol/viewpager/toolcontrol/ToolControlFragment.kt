@@ -23,12 +23,15 @@ import org.koin.core.parameter.parametersOf
 class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolControlBinding>() {
 
     override val layoutResourceId: Int = R.layout.fragment_tool_control
+
     @ExperimentalCoroutinesApi
-    override val viewModel: ToolControlViewModel by viewModel{ parametersOf(context)}
+    override val viewModel: ToolControlViewModel by viewModel { parametersOf(context) }
     private var toolFeedbackSnackbar: Snackbar? = null
     override fun bindViewVariables(viewBinding: FragmentToolControlBinding) {
         viewBinding.viewModel = viewModel
     }
+
+    private val snackbarDuration = 3000
 
     private val frontHitchAdapter =
         HitchListItemAdapter(this::onHitchRecyclerParametersChanged)
@@ -44,6 +47,7 @@ class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolContr
         viewModel.switchesActive.observe(this::showSwitchesState)
         viewModel.snackBarEvent.observe(this::showToolFeedbackSnackbar)
         setCheckboxListeners()
+        showToolFeedbackSnackbar("sample text to snackbar")
     }
 
     private fun setCheckboxListeners() {
@@ -96,9 +100,12 @@ class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolContr
         if (toolFeedbackSnackbar != null) {
             toolFeedbackSnackbar = null
         }
-        view?.let {
-            toolFeedbackSnackbar = Snackbar.make(it, toolFeedbackText, Snackbar.LENGTH_SHORT)
-        }
+
+        toolFeedbackSnackbar = Snackbar.make(
+            requireActivity().findViewById(android.R.id.content),
+            toolFeedbackText,
+            snackbarDuration
+        )
         toolFeedbackSnackbar?.show()
     }
 }

@@ -52,7 +52,7 @@ class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolContr
         viewBinding.checkBoxFrontTplUp.setOnCheckedChangeListener { _, isChecked ->
             viewModel.onActivateTplParametrChanged(FRONT_UP_TPL, isChecked)
         }
-        viewBinding.checkBoxBackTplDown.setOnCheckedChangeListener { _, isChecked ->
+        viewBinding.checkBoxFrontTplDown.setOnCheckedChangeListener { _, isChecked ->
             viewModel.onActivateTplParametrChanged(FRONT_DOWN_TPL, isChecked)
         }
 

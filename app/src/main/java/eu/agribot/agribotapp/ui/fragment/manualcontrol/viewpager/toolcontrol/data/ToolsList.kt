@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.toolcontrol.data
+package eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data
 
 object ToolsList {
 

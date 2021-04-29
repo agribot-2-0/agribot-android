@@ -7,6 +7,7 @@ import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabase
 import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
 import eu.agribot.agribotapp.domain.model.fromdomain.SwitchSettings
 import eu.agribot.agribotapp.domain.model.todomain.DiagnosticData
+import eu.agribot.agribotapp.domain.model.todomain.ToolFeedbackData
 import eu.agribot.agribotapp.domain.model.todomain.UserRole
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.ManualSteeringJoystickManager
 import kotlinx.coroutines.CoroutineScope
@@ -33,7 +34,11 @@ class ManualModeService(
 
     @ExperimentalCoroutinesApi
     private val diagnosticDataFlow = MutableStateFlow<DiagnosticData?>(null)
-    var diagnosticDataFlowScope = CoroutineScope(Job() + Dispatchers.IO)
+    private var diagnosticDataFlowScope = CoroutineScope(Job() + Dispatchers.IO)
+
+    @ExperimentalCoroutinesApi
+    private val toolFeedbackFlow = MutableStateFlow<ToolFeedbackData?>(null)
+    var toolFeedbackFlowScope = CoroutineScope(Job() + Dispatchers.IO)
 
     fun sendManualModeInitMessage() {
         writeBluetoothMessageManager.sendManualControlInitMessage()
@@ -57,7 +62,7 @@ class ManualModeService(
     }
 
     @ExperimentalCoroutinesApi
-    private fun getDiagnosticData() {
+    private fun fetchDiagnosticData() {
         diagnosticDataFlowScope.launch {
             receivedBluetoothMessageManager.observeDiagnosticData()?.collect {
                 if (it != null) {
@@ -79,8 +84,25 @@ class ManualModeService(
 
     @ExperimentalCoroutinesApi
     fun observeDiagnosticData(): MutableStateFlow<DiagnosticData?> {
-        getDiagnosticData()
+        fetchDiagnosticData()
         return diagnosticDataFlow
+    }
+
+    @ExperimentalCoroutinesApi
+    fun observeToolFeedbackData(): MutableStateFlow<ToolFeedbackData?> {
+        fetchToolFeedbackData()
+        return toolFeedbackFlow
+    }
+
+    @ExperimentalCoroutinesApi
+    private fun fetchToolFeedbackData() {
+        toolFeedbackFlowScope.launch {
+            receivedBluetoothMessageManager.observeToolFeedback().collect {
+                if (it != null) {
+                    toolFeedbackFlow.value = it.toDomainModel()
+                }
+            }
+        }
     }
 
     fun getUserRole(

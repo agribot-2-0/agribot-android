@@ -14,6 +14,7 @@ import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessa
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.ConstantReceivedMessage.LENGHT_BYTE_POSITION
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.ConstantReceivedMessage.START_FRAME_MESSAGE
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.ConstantReceivedMessage.START_OF_FRAME_POSITION
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.DiagnosticDataArrayPosition
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.DiagnosticDataArrayPosition.ACCUMULATOR_VOLTAGE_SECOND_BYTE
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.DiagnosticDataArrayPosition.ACCUMULATOR_VOLTGE_FIRST_BYTE
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.DiagnosticDataArrayPosition.ENGINE_FUEL_RATE_BYTE
@@ -30,6 +31,7 @@ import eu.agribot.agribotapp.communication.bluetooth.const.PersistentConnectionP
 import eu.agribot.agribotapp.communication.bluetooth.error.message.receive.BluetoothMessageReceiveErrorHandler
 import eu.agribot.agribotapp.communication.bluetooth.model.fromcommunication.DiagnosticBluetoothDataBD
 import eu.agribot.agribotapp.communication.bluetooth.model.fromcommunication.RfidDataBD
+import eu.agribot.agribotapp.communication.bluetooth.model.fromcommunication.ToolFeedbackDataBD
 import eu.agribot.agribotapp.communication.crashlystic.CrashlysticService
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -50,6 +52,9 @@ class AndroidReceivedBluetoothMessageManager(
 
     @ExperimentalCoroutinesApi
     private val rfidDataBDFlow = MutableStateFlow<RfidDataBD?>(null)
+
+    @ExperimentalCoroutinesApi
+    private val toolFeedbackFlow = MutableStateFlow<ToolFeedbackDataBD?>(null)
 
     @ExperimentalCoroutinesApi
     override fun registerMessageReceiver() {
@@ -73,9 +78,14 @@ class AndroidReceivedBluetoothMessageManager(
     }
 
     @ExperimentalCoroutinesApi
-    override fun observeDiagnosticData(): MutableStateFlow<DiagnosticBluetoothDataBD?> {
-        return agribotDiagnosticDataFlow
-    }
+    override fun observeDiagnosticData(): MutableStateFlow<DiagnosticBluetoothDataBD?> =
+        agribotDiagnosticDataFlow
+
+    @ExperimentalCoroutinesApi
+    override fun observeToolFeedback(): MutableStateFlow<ToolFeedbackDataBD?> = toolFeedbackFlow
+
+    @ExperimentalCoroutinesApi
+    override fun observeRfidData(): MutableStateFlow<RfidDataBD?> = rfidDataBDFlow
 
     @ExperimentalCoroutinesApi
     private fun handleMessage(
@@ -150,12 +160,11 @@ class AndroidReceivedBluetoothMessageManager(
             BluetoothAdressCodeModel.RFID_TAG.number -> {
                 rfidMessageManager.handleRfidMessage(bluetoothMessageFrame.getCanDataFromReceivedMessage())
             }
-        }
-    }
 
-    @ExperimentalCoroutinesApi
-    override fun observeRfidData(): MutableStateFlow<RfidDataBD?> {
-        return rfidDataBDFlow
+            BluetoothAdressCodeModel.TOOL_FEEDBACK.number -> {
+                handleToolFeedback(bluetoothMessageFrame.getCanDataFromReceivedMessage())
+            }
+        }
     }
 
     @ExperimentalCoroutinesApi
@@ -177,6 +186,14 @@ class AndroidReceivedBluetoothMessageManager(
                 )
             }
         }
+    }
+
+    @ExperimentalCoroutinesApi
+    private fun handleToolFeedback(toolMessageData: ByteArray) {
+        toolFeedbackFlow.value = ToolFeedbackDataBD(
+            toolID = toolMessageData[DiagnosticDataArrayPosition.TOOL_FEEDBACK_ID.position].toInt(),
+            toolValue = bytesToUnsingedInt(toolMessageData.sliceArray(1 until toolMessageData.size))
+        )
     }
 
     @ExperimentalCoroutinesApi

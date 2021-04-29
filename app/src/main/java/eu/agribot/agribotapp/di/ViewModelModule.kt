@@ -39,6 +39,7 @@ import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.ToolSummaryV
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.tooltagphoto.ToolTagPhotoViewModel
 import eu.agribot.agribotapp.ui.fragment.ttcontrol.TTControlViewModel
 import eu.agribot.agribotapp.ui.fragment.weather.WeatherViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
@@ -52,6 +53,7 @@ import org.koin.dsl.module
  * Koin module storing definitions
  * For all ViewModels
  */
+@ExperimentalCoroutinesApi
 val viewModelModule = module {
 
     viewModel { (context: Context) ->
@@ -61,7 +63,7 @@ val viewModelModule = module {
             permissionManager = get()
         )
     }
-    viewModel { (context: Context) ->
+    viewModel {
         SplashViewModel(
             authenticationService = get(),
             bluetoothConnectionService = get(),
@@ -101,9 +103,10 @@ val viewModelModule = module {
             appStorageService = get()
         )
     }
-    viewModel {
+    viewModel {(context: Context) ->
         ToolControlViewModel(
-            manualModeService = get()
+            manualModeService = get(),
+            resourcesProvider = get{ parametersOf(context)}
         )
     }
 

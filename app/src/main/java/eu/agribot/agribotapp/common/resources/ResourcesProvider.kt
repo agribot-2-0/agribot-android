@@ -41,4 +41,6 @@ interface ResourcesProvider {
     fun getAttrColor(@AttrRes attrId: Int): Int
 
     fun getAssets(): AssetManager
+
+    fun parseToolIdToName(toolId: Int): String
 }

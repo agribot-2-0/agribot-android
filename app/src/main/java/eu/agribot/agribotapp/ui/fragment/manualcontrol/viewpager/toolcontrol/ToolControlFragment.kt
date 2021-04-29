@@ -46,7 +46,6 @@ class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolContr
         viewModel.switchesActive.observe(this::showSwitchesState)
         viewModel.snackBarEvent.observe(this::showToolFeedbackSnackbar)
         setCheckboxListeners()
-        showToolFeedbackSnackbar("sample text to snackbar")
     }
 
     private fun setCheckboxListeners() {
@@ -100,7 +99,6 @@ class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolContr
         if (toolFeedbackSnackbar != null) {
             toolFeedbackSnackbar = null
         }
-
         toolFeedbackSnackbar = Snackbar.make(
             requireActivity().findViewById(android.R.id.content),
             toolFeedbackText,

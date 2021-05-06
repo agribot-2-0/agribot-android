@@ -330,20 +330,4 @@
     <string name="display_task_name">Task: %1s</string>
     <string name="display_tool_name">Tool: %1s</string>
     <string name="display_path_name">Path: %1s</string>
-
-    <string name="tool_feedback_text">Tool: %1s State: %2s</string>
-    <string name="front_up_tpl_name">Front-Up TPL</string>
-    <string name="frony_down_tpl_name">Front-Down TPL</string>
-    <string name="back_up_tpl_name">Rear-Up TPL</string>
-    <string name="back_rear_tpl_name">Rear-Down TPL</string>
-    <string name="front_pto_name">Front PTO</string>
-    <string name="front_blue_name">Front Blue</string>
-    <string name="front_yellow_name">Front Yellow</string>
-    <string name="front_green_name">Front Green</string>
-    <string name="rear_pto_name">Reat PTO</string>
-    <string name="rear_blue_name">Rear Blue</string>
-    <string name="rear_yellow_name">Rear Yellow</string>
-    <string name="rear_green_name">Rear Green</string>
-    <string name="undefined_tool_name">Undefined Tool</string>
-
 </resources>

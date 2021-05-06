@@ -306,19 +306,4 @@
     <string name="display_task_name">Zadanie: %1s</string>
     <string name="display_tool_name">Narzędzie: %1s</string>
     <string name="display_path_name">Ścieżka: %1s</string>
-
-    <string name="tool_feedback_text">Narzędzie: %1s Poziom: %2s</string>
-    <string name="front_up_tpl_name">Przedni-górny TUZ</string>
-    <string name="frony_down_tpl_name">Przedni-dolny TUZ</string>
-    <string name="back_up_tpl_name">Tylni-górny TUZ</string>
-    <string name="back_rear_tpl_name">Tylni-dolny TUZ</string>
-    <string name="front_pto_name">Przednie PTO</string>
-    <string name="front_blue_name">Przedni Niebieski</string>
-    <string name="front_yellow_name">Przedni Żółty</string>
-    <string name="front_green_name">Przedni Zielony</string>
-    <string name="rear_pto_name">Tylnie PTO</string>
-    <string name="rear_blue_name">Tylni Niebieski</string>
-    <string name="rear_yellow_name">Tylni żółty</string>
-    <string name="rear_green_name">Tylni Zielony</string>
-    <string name="undefined_tool_name">Nieznany</string>
 </resources>

@@ -61,30 +61,4 @@ class AndroidResourcesProvider(private val context: Context) :
     override fun getAssets(): AssetManager =
         context.resources.assets
 
-    override fun parseToolIdToName(toolId: Int): String = when (toolId) {
-        ToolsList.FRONT_UP_TPL -> context.getString(R.string.front_up_tpl_name)
-
-        ToolsList.FRONT_DOWN_TPL -> context.getString(R.string.frony_down_tpl_name)
-
-        ToolsList.BACK_UP_TPL -> context.getString(R.string.back_up_tpl_name)
-
-        ToolsList.BACK_DOWN_TPL -> context.getString(R.string.back_rear_tpl_name)
-
-        ToolsList.FRONT_PTO -> context.getString(R.string.front_pto_name)
-
-        ToolsList.FRONT_BLUE -> context.getString(R.string.front_blue_name)
-
-        ToolsList.FRONT_YELLOW -> context.getString(R.string.front_yellow_name)
-
-        ToolsList.FRONT_GREEN -> context.getString(R.string.front_green_name)
-
-        ToolsList.BACK_PTO -> context.getString(R.string.rear_pto_name)
-
-        ToolsList.BACK_BLUE -> context.getString(R.string.rear_blue_name)
-
-        ToolsList.BACK_YELLOW -> context.getString(R.string.rear_yellow_name)
-
-        ToolsList.BACK_GREEN -> context.getString(R.string.rear_green_name)
-        else -> context.getString(R.string.undefined_tool_name)
-    }
 }

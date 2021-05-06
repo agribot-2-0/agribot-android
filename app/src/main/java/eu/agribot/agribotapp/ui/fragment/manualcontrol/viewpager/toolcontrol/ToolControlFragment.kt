@@ -3,7 +3,6 @@ package eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.databinding.FragmentToolControlBinding
@@ -25,7 +24,6 @@ class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolContr
 
     @ExperimentalCoroutinesApi
     override val viewModel: ToolControlViewModel by viewModel { parametersOf(context) }
-    private var toolFeedbackSnackbar: Snackbar? = null
     override fun bindViewVariables(viewBinding: FragmentToolControlBinding) {
         viewBinding.viewModel = viewModel
     }

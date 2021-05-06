@@ -11,8 +11,6 @@ import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.PluralsRes
 import androidx.annotation.StringRes
-import eu.agribot.agribotapp.R
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList
 
 /**
  * Retreives all kinds of resources from
@@ -60,5 +58,4 @@ class AndroidResourcesProvider(private val context: Context) :
 
     override fun getAssets(): AssetManager =
         context.resources.assets
-
 }

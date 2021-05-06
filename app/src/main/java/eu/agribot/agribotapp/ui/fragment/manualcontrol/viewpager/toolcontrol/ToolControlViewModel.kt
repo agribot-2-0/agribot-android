@@ -76,14 +76,14 @@ class ToolControlViewModel(
                         BACK_UP_TPL,
                         BACK_DOWN_TPL
                     ).contains(it.toolId) -> {
-                        setEncoderToolValue(it.toolId, it.toolValue.toString())
+                        setEncoderTplValue(it.toolId, it.toolValue.toString())
                     }
                 }
             }
         }
     }
 
-    private fun setEncoderToolValue(toolID: Int, encoderValue: String) {
+    private fun setEncoderTplValue(toolID: Int, encoderValue: String) {
         tplEncoderValue.value = ToolEncoderValue(toolID, encoderValue)
     }
 

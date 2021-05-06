@@ -1,10 +1,11 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="viewModel"
-            type="eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel" />
+            type="eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemViewModel" />
     </data>
 
     <LinearLayout
@@ -29,9 +30,9 @@
                 android:id="@+id/recycler_seekbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
                 android:padding="@dimen/margin_medium"
-                android:progressBackgroundTint="@color/base_green"
-                android:layout_margin="@dimen/margin_medium" />
+                android:progressBackgroundTint="@color/base_green" />
         </LinearLayout>
 
 
@@ -41,7 +42,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_medium"
             android:layout_weight="1"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tool:text="300" />
 
         <View
             android:layout_width="2dp"
@@ -49,13 +51,22 @@
             android:layout_margin="@dimen/margin_medium"
             android:background="@color/gray" />
 
-        <Switch
+        <TextView
+            android:id="@+id/recyclerEncoderValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_medium"
+            android:layout_weight="1"
+            android:textColor="@color/base_green"
+            android:textStyle="bold"
+            tool:text="300" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/recycler_switch"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_medium"
             android:layout_weight="1" />
-
 
     </LinearLayout>
 </layout>

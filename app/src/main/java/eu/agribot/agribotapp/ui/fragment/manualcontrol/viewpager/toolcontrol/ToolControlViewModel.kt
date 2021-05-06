@@ -2,10 +2,7 @@ package eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
-import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
-import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.model.fromdomain.SwitchSettings
 import eu.agribot.agribotapp.domain.service.ManualModeService
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.ALL_SWITCHES
@@ -27,18 +24,17 @@ import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.dat
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.PTO_TOOL
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.PTO_TOOL_LIST_POSITION
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.YELLOW_TOOL
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.RecyclerConstant
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.TplSwitchesActive
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.TplSwitchesState
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 class ToolControlViewModel(
-    private val manualModeService: ManualModeService,
-    private val resourcesProvider: ResourcesProvider
+    private val manualModeService: ManualModeService
 ) : BaseViewModel() {
     val frontToolsList: MutableLiveData<List<HitchListItemViewModel>> =
         MutableLiveData(listOf())
@@ -46,7 +42,7 @@ class ToolControlViewModel(
         MutableLiveData(listOf())
     private val activeTpl: MutableLiveData<TplSwitchesActive> = MutableLiveData()
     val switchesActive: MutableLiveData<TplSwitchesState> = MutableLiveData()
-    val snackBarEvent: MutableLiveEvent<String> = MutableLiveEvent()
+    val tplEncoderValue: MutableLiveData<ToolEncoderValue> = MutableLiveData()
 
     init {
         createToolsLists()
@@ -57,15 +53,38 @@ class ToolControlViewModel(
     private fun fetchToolDataFeedback() = viewModelScope.launch {
         manualModeService.observeToolFeedbackData().collect { toolFeedbackData ->
             toolFeedbackData?.let {
-                snackBarEvent.postValue(
-                    String.format(
-                        resourcesProvider.getString(R.string.tool_feedback_text),
-                        resourcesProvider.parseToolIdToName(it.toolId),
-                        it.toolValue.toString()
-                    )
-                )
+                when {
+                    setOf(
+                        FRONT_PTO,
+                        FRONT_BLUE,
+                        FRONT_YELLOW,
+                        FRONT_GREEN
+                    ).contains(it.toolId) -> {
+                        addToFrontToolsList("", it.toolId, it.toolValue.toString())
+                    }
+                    setOf(
+                        BACK_PTO,
+                        BACK_BLUE,
+                        BACK_YELLOW,
+                        BACK_GREEN
+                    ).contains(it.toolId) -> {
+                        addToBackToolsList("", it.toolId, it.toolValue.toString())
+                    }
+                    setOf(
+                        FRONT_UP_TPL,
+                        FRONT_DOWN_TPL,
+                        BACK_UP_TPL,
+                        BACK_DOWN_TPL
+                    ).contains(it.toolId) -> {
+                        setEncoderToolValue(it.toolId, it.toolValue.toString())
+                    }
+                }
             }
         }
+    }
+
+    private fun setEncoderToolValue(toolID: Int, encoderValue: String) {
+        tplEncoderValue.value = ToolEncoderValue(toolID, encoderValue)
     }
 
     fun onHitchParametersChanged(
@@ -147,7 +166,7 @@ class ToolControlViewModel(
         }
     }
 
-    private fun addToFrontToolsList(toolName: String, switchNumber: Int) {
+    private fun addToFrontToolsList(toolName: String, switchNumber: Int, encoderValue: String) {
         val isAttributeAlreadyAdded = frontToolsList.value!!.any { arrtibute ->
             arrtibute.toolName == toolName
         }
@@ -155,14 +174,27 @@ class ToolControlViewModel(
             frontToolsList.value = listOf(
                 HitchListItemViewModel(
                     toolName,
-                    switchNumber
+                    switchNumber,
+                    encoderValue
                 ),
                 *frontToolsList.value!!.toTypedArray()
             )
+        } else {
+            frontToolsList.value = frontToolsList.value!!.map { oldAttribute ->
+                if (oldAttribute.switchNumber == switchNumber) {
+                    HitchListItemViewModel(
+                        oldAttribute.toolName,
+                        oldAttribute.switchNumber,
+                        encoderValue
+                    )
+                } else {
+                    oldAttribute
+                }
+            }
         }
     }
 
-    private fun addToBackToolsList(toolName: String, switchNumber: Int) {
+    private fun addToBackToolsList(toolName: String, switchNumber: Int, encoderValue: String) {
         val isAttributeAlreadyAdded = backToolsList.value!!.any { arrtibute ->
             arrtibute.toolName == toolName
         }
@@ -170,10 +202,23 @@ class ToolControlViewModel(
             backToolsList.value = listOf(
                 HitchListItemViewModel(
                     toolName,
-                    switchNumber
+                    switchNumber,
+                    encoderValue
                 ),
                 *backToolsList.value!!.toTypedArray()
             )
+        } else {
+            backToolsList.value = backToolsList.value!!.map { oldAttribute ->
+                if (oldAttribute.switchNumber == switchNumber) {
+                    HitchListItemViewModel(
+                        oldAttribute.toolName,
+                        oldAttribute.switchNumber,
+                        encoderValue
+                    )
+                } else {
+                    oldAttribute
+                }
+            }
         }
     }
 
@@ -188,7 +233,7 @@ class ToolControlViewModel(
             FRONT_GREEN, FRONT_YELLOW, FRONT_BLUE, FRONT_PTO
         )
         for (itemPosition in PTO_TOOL_LIST_POSITION..GREEN_TOOL_LIST_POSITION) {
-            addToFrontToolsList(toolList[itemPosition], switchNumber[itemPosition])
+            addToFrontToolsList(toolList[itemPosition], switchNumber[itemPosition], "")
         }
     }
 
@@ -198,7 +243,12 @@ class ToolControlViewModel(
             BACK_GREEN, BACK_YELLOW, BACK_BLUE, BACK_PTO
         )
         for (itemPosition in PTO_TOOL_LIST_POSITION..GREEN_TOOL_LIST_POSITION) {
-            addToBackToolsList(toolList[itemPosition], switchNumber[itemPosition])
+            addToBackToolsList(toolList[itemPosition], switchNumber[itemPosition], "")
         }
     }
+
+    data class ToolEncoderValue(
+        val toolID: Int,
+        val EncoderValue: String
+    )
 }

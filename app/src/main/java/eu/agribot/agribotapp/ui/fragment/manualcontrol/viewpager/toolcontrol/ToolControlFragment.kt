@@ -11,9 +11,9 @@ import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.dat
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.BACK_UP_TPL
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.FRONT_DOWN_TPL
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.FRONT_UP_TPL
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.TplSwitchesState
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemAdapter
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -30,8 +30,6 @@ class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolContr
         viewBinding.viewModel = viewModel
     }
 
-    private val snackbarDuration = 3000
-
     private val frontHitchAdapter =
         HitchListItemAdapter(this::onHitchRecyclerParametersChanged)
     private val backHitchAdapter =
@@ -44,8 +42,17 @@ class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolContr
         viewModel.frontToolsList.observe(this::addFrontTools)
         viewModel.backToolsList.observe(this::addBackTools)
         viewModel.switchesActive.observe(this::showSwitchesState)
-        viewModel.snackBarEvent.observe(this::showToolFeedbackSnackbar)
+        viewModel.tplEncoderValue.observe(this::setTplEncoderValue)
         setCheckboxListeners()
+    }
+
+    private fun setTplEncoderValue(tool: ToolControlViewModel.ToolEncoderValue) {
+        when (tool.toolID) {
+            FRONT_UP_TPL -> viewBinding.checkBoxFrontTplUp.text = tool.EncoderValue
+            FRONT_DOWN_TPL -> viewBinding.checkBoxFrontTplDown.text = tool.EncoderValue
+            BACK_UP_TPL -> viewBinding.checkBoxBackTplUp.text = tool.EncoderValue
+            BACK_DOWN_TPL -> viewBinding.checkBoxBackTplDown.text = tool.EncoderValue
+        }
     }
 
     private fun setCheckboxListeners() {
@@ -93,17 +100,5 @@ class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolContr
 
     private fun addBackTools(tools: List<HitchListItemViewModel>) {
         backHitchAdapter.items = tools
-    }
-
-    private fun showToolFeedbackSnackbar(toolFeedbackText: String) {
-        if (toolFeedbackSnackbar != null) {
-            toolFeedbackSnackbar = null
-        }
-        toolFeedbackSnackbar = Snackbar.make(
-            requireActivity().findViewById(android.R.id.content),
-            toolFeedbackText,
-            snackbarDuration
-        )
-        toolFeedbackSnackbar?.show()
     }
 }

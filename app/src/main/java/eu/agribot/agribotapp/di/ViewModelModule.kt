@@ -16,6 +16,7 @@ import eu.agribot.agribotapp.ui.fragment.controlPanel.viewpager.taskdetails.Page
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.ManualControlViewModel
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.currentstate.ManualControlCurrentStateViewModel
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.ToolControlViewModel
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.mainpathscreen.PathManagementViewModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.newpath.NewPathViewModel
 import eu.agribot.agribotapp.ui.fragment.pathmanagement.pathname.PathNameViewModel
@@ -28,7 +29,6 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.timeselect.CreatorTimeSelec
 import eu.agribot.agribotapp.ui.fragment.taskcreator.toolselect.CreatorToolSelectViewModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.CreatorWeatherSelectViewModel
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.WeatherSettingsListItemViewModel
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.displaytoolphoto.DisplayToolPhotoViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.FindToolTagViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.ToolManagementViewModel
@@ -103,10 +103,9 @@ val viewModelModule = module {
             appStorageService = get()
         )
     }
-    viewModel { (context: Context) ->
+    viewModel {
         ToolControlViewModel(
-            manualModeService = get(),
-            resourcesProvider = get { parametersOf(context) }
+            manualModeService = get()
         )
     }
 
@@ -146,7 +145,8 @@ val viewModelModule = module {
     viewModel {
         HitchListItemViewModel(
             toolName = get(),
-            switchNumber = get()
+            switchNumber = get(),
+            encoderValue = get()
         )
     }
 

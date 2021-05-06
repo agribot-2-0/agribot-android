@@ -58,6 +58,7 @@
             android:layout_margin="@dimen/margin_medium"
             android:layout_weight="1"
             android:textColor="@color/base_green"
+            android:text="@{viewModel.encoderValue}"
             android:textStyle="bold"
             tool:text="300" />
 

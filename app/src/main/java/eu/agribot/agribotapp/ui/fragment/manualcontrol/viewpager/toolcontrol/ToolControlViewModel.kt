@@ -44,6 +44,7 @@ class ToolControlViewModel(
     val switchesActive: MutableLiveData<TplSwitchesState> = MutableLiveData()
     val tplEncoderValue: MutableLiveData<ToolEncoderValue> = MutableLiveData()
 
+
     init {
         createToolsLists()
         fetchToolDataFeedback()
@@ -233,7 +234,7 @@ class ToolControlViewModel(
             FRONT_GREEN, FRONT_YELLOW, FRONT_BLUE, FRONT_PTO
         )
         for (itemPosition in PTO_TOOL_LIST_POSITION..GREEN_TOOL_LIST_POSITION) {
-            addToFrontToolsList(toolList[itemPosition], switchNumber[itemPosition], "")
+            addToFrontToolsList(toolList[itemPosition], switchNumber[itemPosition],"")
         }
     }
 

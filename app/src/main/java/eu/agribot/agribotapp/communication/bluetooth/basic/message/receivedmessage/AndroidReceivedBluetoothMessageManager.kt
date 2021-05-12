@@ -14,7 +14,6 @@ import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessa
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.ConstantReceivedMessage.LENGHT_BYTE_POSITION
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.ConstantReceivedMessage.START_FRAME_MESSAGE
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.ConstantReceivedMessage.START_OF_FRAME_POSITION
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.DiagnosticDataArrayPosition
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.DiagnosticDataArrayPosition.ACCUMULATOR_VOLTAGE_SECOND_BYTE
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.DiagnosticDataArrayPosition.ACCUMULATOR_VOLTGE_FIRST_BYTE
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.DiagnosticDataArrayPosition.ENGINE_FUEL_RATE_BYTE
@@ -24,6 +23,7 @@ import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessa
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.DiagnosticDataArrayPosition.FUEL_TEMPERATURE_BYTE
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.DiagnosticDataArrayPosition.HUDRAULIC_OIL_TEMPERATURE_BYTE
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.DiagnosticDataArrayPosition.TORQUE_OF_ENGINE_BYTE
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.encoder.EncoderResponseParser
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.RfidMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.WriteBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.const.BluetoothAdressCodeModel
@@ -44,7 +44,8 @@ class AndroidReceivedBluetoothMessageManager(
     private val bluetoothSocketManager: BluetoothSocketManager,
     private val heartbeatManager: HeartbeatManager,
     private val rfidMessageManager: RfidMessageManager,
-    private val crashlysticService: CrashlysticService
+    private val crashlysticService: CrashlysticService,
+    private val encoderResponseParser: EncoderResponseParser
 ) : ReceivedBluetoothMessageManager {
 
     @ExperimentalCoroutinesApi
@@ -190,10 +191,7 @@ class AndroidReceivedBluetoothMessageManager(
 
     @ExperimentalCoroutinesApi
     private fun handleToolFeedback(toolMessageData: ByteArray) {
-        toolFeedbackFlow.value = ToolFeedbackDataBD(
-            toolID = toolMessageData[DiagnosticDataArrayPosition.TOOL_FEEDBACK_ID.position].toInt(),
-            toolValue = bytesToUnsingedInt(toolMessageData.sliceArray(1 until toolMessageData.size))
-        )
+        toolFeedbackFlow.value = encoderResponseParser.parseEncoderResponse(toolMessageData)
     }
 
     @ExperimentalCoroutinesApi

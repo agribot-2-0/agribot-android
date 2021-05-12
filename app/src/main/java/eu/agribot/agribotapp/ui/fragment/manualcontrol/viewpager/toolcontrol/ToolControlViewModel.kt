@@ -3,22 +3,11 @@ package eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import eu.agribot.agribotapp.base.BaseViewModel
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.encoder.Tools
 import eu.agribot.agribotapp.domain.model.fromdomain.SwitchSettings
 import eu.agribot.agribotapp.domain.service.ManualModeService
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.ALL_SWITCHES
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.BACK_BLUE
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.BACK_DOWN_TPL
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.BACK_GREEN
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.BACK_PTO
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.BACK_UP_TPL
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.BACK_YELLOW
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.BLUE_TOOL
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.FRONT_BLUE
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.FRONT_DOWN_TPL
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.FRONT_GREEN
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.FRONT_PTO
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.FRONT_UP_TPL
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.FRONT_YELLOW
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.GREEN_TOOL
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.GREEN_TOOL_LIST_POSITION
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.PTO_TOOL
@@ -55,26 +44,26 @@ class ToolControlViewModel(
             toolFeedbackData?.let {
                 when {
                     setOf(
-                        FRONT_PTO,
-                        FRONT_BLUE,
-                        FRONT_YELLOW,
-                        FRONT_GREEN
+                        Tools.Blue.Front.id,
+                        Tools.Pto.Front.id,
+                        Tools.Yellow.Front.id,
+                        Tools.Green.Front.id
                     ).contains(it.toolId) -> {
                         addToFrontToolsList("", it.toolId, it.toolValue.toString())
                     }
                     setOf(
-                        BACK_PTO,
-                        BACK_BLUE,
-                        BACK_YELLOW,
-                        BACK_GREEN
+                        Tools.Blue.Rear.id,
+                        Tools.Pto.Rear.id,
+                        Tools.Yellow.Rear.id,
+                        Tools.Green.Rear.id
                     ).contains(it.toolId) -> {
                         addToBackToolsList("", it.toolId, it.toolValue.toString())
                     }
                     setOf(
-                        FRONT_UP_TPL,
-                        FRONT_DOWN_TPL,
-                        BACK_UP_TPL,
-                        BACK_DOWN_TPL
+                        Tools.TplAngle.Front.id,
+                        Tools.TplAngle.Rear.id,
+                        Tools.TplHeight.Front.id,
+                        Tools.TplHeight.Rear.id
                     ).contains(it.toolId) -> {
                         setEncoderTplValue(it.toolId, it.toolValue.toString())
                     }
@@ -105,16 +94,16 @@ class ToolControlViewModel(
         onHitchParametersChanged(ALL_SWITCHES, RecyclerConstant.DEFAULT_SLIDER_VALUE_MIN, false)
         activeTpl.value = TplSwitchesActive(tplNumber, isTplActive)
         when (tplNumber) {
-            FRONT_UP_TPL -> {
+            Tools.TplHeight.Front.id -> {
                 setFrontUpTplActive(isTplActive)
             }
-            FRONT_DOWN_TPL -> {
+            Tools.TplAngle.Front.id -> {
                 setFrontDownTplActive(isTplActive)
             }
-            BACK_UP_TPL -> {
+            Tools.TplHeight.Rear.id -> {
                 setBackUpTplActive(isTplActive)
             }
-            BACK_DOWN_TPL -> {
+            Tools.TplAngle.Rear.id -> {
                 setBackDownTplActive(isTplActive)
             }
         }
@@ -230,7 +219,10 @@ class ToolControlViewModel(
     private fun createFrontToolsList() {
         val toolList = listOf(GREEN_TOOL, YELLOW_TOOL, BLUE_TOOL, PTO_TOOL)
         val switchNumber = listOf(
-            FRONT_GREEN, FRONT_YELLOW, FRONT_BLUE, FRONT_PTO
+            Tools.Blue.Front.id,
+            Tools.Pto.Front.id,
+            Tools.Yellow.Front.id,
+            Tools.Green.Front.id
         )
         for (itemPosition in PTO_TOOL_LIST_POSITION..GREEN_TOOL_LIST_POSITION) {
             addToFrontToolsList(toolList[itemPosition], switchNumber[itemPosition], "")
@@ -240,7 +232,10 @@ class ToolControlViewModel(
     private fun createBackToolsList() {
         val toolList = listOf(GREEN_TOOL, YELLOW_TOOL, BLUE_TOOL, PTO_TOOL)
         val switchNumber = listOf(
-            BACK_GREEN, BACK_YELLOW, BACK_BLUE, BACK_PTO
+            Tools.Blue.Rear.id,
+            Tools.Pto.Rear.id,
+            Tools.Yellow.Rear.id,
+            Tools.Green.Rear.id
         )
         for (itemPosition in PTO_TOOL_LIST_POSITION..GREEN_TOOL_LIST_POSITION) {
             addToBackToolsList(toolList[itemPosition], switchNumber[itemPosition], "")

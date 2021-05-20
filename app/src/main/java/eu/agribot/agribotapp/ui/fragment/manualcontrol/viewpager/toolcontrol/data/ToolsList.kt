@@ -15,5 +15,4 @@ object ToolsList {
     const val YELLOW_TOOL = "YELLOW"
 
     const val GREEN_TOOL = "GREEN"
-
 }

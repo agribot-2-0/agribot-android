@@ -4,5 +4,5 @@ import eu.agribot.agribotapp.communication.bluetooth.model.fromcommunication.Too
 
 interface EncoderResponseParser {
 
-    fun parseEncoderResponse(encoderResponse : ByteArray) : ToolFeedbackDataBD
+    fun parseEncoderResponse(encoderResponse: ByteArray): ToolFeedbackDataBD
 }

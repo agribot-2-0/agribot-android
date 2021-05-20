@@ -44,28 +44,28 @@ class ToolControlViewModel(
             toolFeedbackData?.let {
                 when {
                     setOf(
-                        Tools.Blue.Front.id,
-                        Tools.Pto.Front.id,
-                        Tools.Yellow.Front.id,
-                        Tools.Green.Front.id
+                        Tools.Blue.Front.toolId,
+                        Tools.Pto.Front.toolId,
+                        Tools.Yellow.Front.toolId,
+                        Tools.Green.Front.toolId
                     ).contains(it.toolId) -> {
                         addToFrontToolsList("", it.toolId, it.toolValue.toString())
                     }
                     setOf(
-                        Tools.Blue.Rear.id,
-                        Tools.Pto.Rear.id,
-                        Tools.Yellow.Rear.id,
-                        Tools.Green.Rear.id
+                        Tools.Blue.Rear.toolId,
+                        Tools.Pto.Rear.toolId,
+                        Tools.Yellow.Rear.toolId,
+                        Tools.Green.Rear.toolId
                     ).contains(it.toolId) -> {
                         addToBackToolsList("", it.toolId, it.toolValue.toString())
                     }
                     setOf(
-                        Tools.TplAngle.Front.id,
-                        Tools.TplAngle.Rear.id,
-                        Tools.TplHeight.Front.id,
-                        Tools.TplHeight.Rear.id
+                        Tools.TplAngle.Front.toolId,
+                        Tools.TplAngle.Rear.toolId,
+                        Tools.TplHeight.Front.toolId,
+                        Tools.TplHeight.Rear.toolId
                     ).contains(it.toolId) -> {
-                        setEncoderTplValue(it.toolId, it.toolValue.toString())
+                        setEncoderTplValue(it.toolId, (it.toolValue.toDouble() / 1000).toString())
                     }
                 }
             }
@@ -94,16 +94,16 @@ class ToolControlViewModel(
         onHitchParametersChanged(ALL_SWITCHES, RecyclerConstant.DEFAULT_SLIDER_VALUE_MIN, false)
         activeTpl.value = TplSwitchesActive(tplNumber, isTplActive)
         when (tplNumber) {
-            Tools.TplHeight.Front.id -> {
+            Tools.TplHeight.Front.toolId -> {
                 setFrontUpTplActive(isTplActive)
             }
-            Tools.TplAngle.Front.id -> {
+            Tools.TplAngle.Front.toolId -> {
                 setFrontDownTplActive(isTplActive)
             }
-            Tools.TplHeight.Rear.id -> {
+            Tools.TplHeight.Rear.toolId -> {
                 setBackUpTplActive(isTplActive)
             }
-            Tools.TplAngle.Rear.id -> {
+            Tools.TplAngle.Rear.toolId -> {
                 setBackDownTplActive(isTplActive)
             }
         }
@@ -219,10 +219,10 @@ class ToolControlViewModel(
     private fun createFrontToolsList() {
         val toolList = listOf(GREEN_TOOL, YELLOW_TOOL, BLUE_TOOL, PTO_TOOL)
         val switchNumber = listOf(
-            Tools.Blue.Front.id,
-            Tools.Pto.Front.id,
-            Tools.Yellow.Front.id,
-            Tools.Green.Front.id
+            Tools.Blue.Front.toolId,
+            Tools.Pto.Front.toolId,
+            Tools.Yellow.Front.toolId,
+            Tools.Green.Front.toolId
         )
         for (itemPosition in PTO_TOOL_LIST_POSITION..GREEN_TOOL_LIST_POSITION) {
             addToFrontToolsList(toolList[itemPosition], switchNumber[itemPosition], "")
@@ -232,10 +232,10 @@ class ToolControlViewModel(
     private fun createBackToolsList() {
         val toolList = listOf(GREEN_TOOL, YELLOW_TOOL, BLUE_TOOL, PTO_TOOL)
         val switchNumber = listOf(
-            Tools.Blue.Rear.id,
-            Tools.Pto.Rear.id,
-            Tools.Yellow.Rear.id,
-            Tools.Green.Rear.id
+            Tools.Blue.Rear.toolId,
+            Tools.Pto.Rear.toolId,
+            Tools.Yellow.Rear.toolId,
+            Tools.Green.Rear.toolId
         )
         for (itemPosition in PTO_TOOL_LIST_POSITION..GREEN_TOOL_LIST_POSITION) {
             addToBackToolsList(toolList[itemPosition], switchNumber[itemPosition], "")

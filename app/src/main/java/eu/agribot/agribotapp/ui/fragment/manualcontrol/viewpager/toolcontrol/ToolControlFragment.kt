@@ -5,11 +5,8 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.encoder.Tools
 import eu.agribot.agribotapp.databinding.FragmentToolControlBinding
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.BACK_DOWN_TPL
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.BACK_UP_TPL
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.FRONT_DOWN_TPL
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.FRONT_UP_TPL
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.TplSwitchesState
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemAdapter
@@ -46,26 +43,26 @@ class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolContr
 
     private fun setTplEncoderValue(tool: ToolControlViewModel.ToolEncoderValue) {
         when (tool.toolID) {
-            FRONT_UP_TPL -> viewBinding.checkBoxFrontTplUp.text = tool.EncoderValue
-            FRONT_DOWN_TPL -> viewBinding.checkBoxFrontTplDown.text = tool.EncoderValue
-            BACK_UP_TPL -> viewBinding.checkBoxBackTplUp.text = tool.EncoderValue
-            BACK_DOWN_TPL -> viewBinding.checkBoxBackTplDown.text = tool.EncoderValue
+            Tools.TplHeight.Front.toolId -> viewBinding.checkBoxFrontTplUp.text = tool.EncoderValue
+            Tools.TplAngle.Front.toolId -> viewBinding.checkBoxFrontTplDown.text = tool.EncoderValue
+            Tools.TplHeight.Rear.toolId -> viewBinding.checkBoxBackTplUp.text = tool.EncoderValue
+            Tools.TplAngle.Rear.toolId -> viewBinding.checkBoxBackTplDown.text = tool.EncoderValue
         }
     }
 
     private fun setCheckboxListeners() {
         viewBinding.checkBoxFrontTplUp.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.onActivateTplParametrChanged(FRONT_UP_TPL, isChecked)
+            viewModel.onActivateTplParametrChanged(Tools.TplHeight.Front.toolId, isChecked)
         }
         viewBinding.checkBoxFrontTplDown.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.onActivateTplParametrChanged(FRONT_DOWN_TPL, isChecked)
+            viewModel.onActivateTplParametrChanged(Tools.TplAngle.Front.toolId, isChecked)
         }
 
         viewBinding.checkBoxBackTplDown.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.onActivateTplParametrChanged(BACK_DOWN_TPL, isChecked)
+            viewModel.onActivateTplParametrChanged(Tools.TplHeight.Rear.toolId, isChecked)
         }
         viewBinding.checkBoxBackTplUp.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.onActivateTplParametrChanged(BACK_UP_TPL, isChecked)
+            viewModel.onActivateTplParametrChanged(Tools.TplAngle.Rear.toolId, isChecked)
         }
     }
 

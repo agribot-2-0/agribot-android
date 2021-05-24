@@ -1,10 +1,7 @@
 package eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.encoder
 
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.FrameConstant
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.ConstantReceivedMessage
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.DiagnosticDataArrayPosition
 import eu.agribot.agribotapp.communication.bluetooth.model.fromcommunication.ToolFeedbackDataBD
-import timber.log.Timber
 import kotlin.experimental.xor
 
 class AndroidEncoderResponseParser : EncoderResponseParser {
@@ -91,9 +88,7 @@ class AndroidEncoderResponseParser : EncoderResponseParser {
                 toolValue = changeHighestBit(encoderResponse[CONF_VAL_B1_POSITION]).toInt()
                     .shl(PTO_SHL_VALUE) + encoderResponse[CONF_VAL_B0_POSITION].toInt()
                 toolValue *= -1
-            }
-            else
-            {
+            } else {
                 toolValue = encoderResponse[CONF_VAL_B1_POSITION].toInt()
                     .shl(PTO_SHL_VALUE) + encoderResponse[CONF_VAL_B0_POSITION].toInt()
             }
@@ -108,9 +103,7 @@ class AndroidEncoderResponseParser : EncoderResponseParser {
                 toolValue = changeHighestBit(encoderResponse[CONF_VAL_B1_POSITION]).toInt()
                     .shl(PTO_SHL_VALUE) + encoderResponse[CONF_VAL_B0_POSITION].toInt()
                 toolValue *= -1
-            }
-            else
-            {
+            } else {
                 toolValue = encoderResponse[CONF_VAL_B1_POSITION].toInt()
                     .shl(PTO_SHL_VALUE) + encoderResponse[CONF_VAL_B0_POSITION].toInt()
             }
@@ -128,7 +121,7 @@ class AndroidEncoderResponseParser : EncoderResponseParser {
 
     private fun twoBytesToUnsingedInt(array: ByteArray): Int {
         var result = 0
-        if(array.size == 2) {
+        if (array.size == 2) {
             array[0].toInt().shl(8) + array[1].toInt()
         }
 

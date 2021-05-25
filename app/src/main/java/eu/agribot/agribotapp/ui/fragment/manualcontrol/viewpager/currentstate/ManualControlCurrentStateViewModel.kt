@@ -43,7 +43,14 @@ class ManualControlCurrentStateViewModel(
             ActionID.SEND_MANUAL_INIT_MESSAGE.action -> {
                 onManualModeButtonCLicked()
             }
+            ActionID.SAFE_MODE.action -> {
+                onSafeButtonClicked()
+            }
         }
+    }
+
+    private fun onSafeButtonClicked() {
+        manualModeService.sendSafeModeMessage()
     }
 
     private fun onManualModeButtonCLicked() {
@@ -64,6 +71,10 @@ class ManualControlCurrentStateViewModel(
                 ManualActionsViewModel(
                     ActionID.SEND_MANUAL_INIT_MESSAGE.action,
                     resourcesProvider.getString(R.string.manual_mode_button)
+                ),
+                ManualActionsViewModel(
+                    ActionID.SAFE_MODE.action,
+                    resourcesProvider.getString(R.string.safe_mode_button)
                 )
             )
         } else {

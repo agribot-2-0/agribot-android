@@ -43,7 +43,14 @@ class ManualControlCurrentStateViewModel(
             ActionID.SEND_MANUAL_INIT_MESSAGE.action -> {
                 onManualModeButtonCLicked()
             }
+            ActionID.SAFE_MODE.action -> {
+                onSafeButtonClicked()
+            }
         }
+    }
+
+    private fun onSafeButtonClicked() {
+        manualModeService.sendSafeModeMessage()
     }
 
     private fun onManualModeButtonCLicked() {
@@ -58,12 +65,16 @@ class ManualControlCurrentStateViewModel(
                     resourcesProvider.getString(R.string.start_stop_engine)
                 ),
                 ManualActionsViewModel(
-                    ActionID.OVERRIDE_MODE.action,
-                    resourcesProvider.getString(R.string.override_button)
-                ),
-                ManualActionsViewModel(
                     ActionID.SEND_MANUAL_INIT_MESSAGE.action,
                     resourcesProvider.getString(R.string.manual_mode_button)
+                ),
+                ManualActionsViewModel(
+                    ActionID.SAFE_MODE.action,
+                    resourcesProvider.getString(R.string.safe_mode_button)
+                ),
+                ManualActionsViewModel(
+                    ActionID.OVERRIDE_MODE.action,
+                    resourcesProvider.getString(R.string.override_button)
                 )
             )
         } else {
@@ -71,6 +82,14 @@ class ManualControlCurrentStateViewModel(
                 ManualActionsViewModel(
                     ActionID.RUN_ENGINE.action,
                     resourcesProvider.getString(R.string.start_stop_engine)
+                ),
+                ManualActionsViewModel(
+                    ActionID.SEND_MANUAL_INIT_MESSAGE.action,
+                    resourcesProvider.getString(R.string.manual_mode_button)
+                ),
+                ManualActionsViewModel(
+                    ActionID.SAFE_MODE.action,
+                    resourcesProvider.getString(R.string.safe_mode_button)
                 )
             )
         }

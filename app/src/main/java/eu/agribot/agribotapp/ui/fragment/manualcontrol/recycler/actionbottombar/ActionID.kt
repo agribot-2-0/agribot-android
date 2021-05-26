@@ -6,5 +6,7 @@ enum class ActionID(val action: Int) {
 
     OVERRIDE_MODE(2),
 
-    SEND_MANUAL_INIT_MESSAGE(3)
+    SEND_MANUAL_INIT_MESSAGE(3),
+
+    SAFE_MODE(4)
 }

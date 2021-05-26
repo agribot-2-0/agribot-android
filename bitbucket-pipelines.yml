@@ -2,6 +2,13 @@ image: mingc/android-build-box:latest
 pipelines:
   default:
     - step:
+        name: "Check pylint"
+        script:
+          - apt update
+          - apt install python3-pip -y
+          - pip3 install pylint
+          - pylint --rcfile=mock/mock_bluetooth/.pylintrc mock/*
+    - step:
         name: Static code analysis (Debug)
         caches:
           - gradle

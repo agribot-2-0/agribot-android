@@ -65,8 +65,23 @@ class ManualControlCurrentStateViewModel(
                     resourcesProvider.getString(R.string.start_stop_engine)
                 ),
                 ManualActionsViewModel(
+                    ActionID.SEND_MANUAL_INIT_MESSAGE.action,
+                    resourcesProvider.getString(R.string.manual_mode_button)
+                ),
+                ManualActionsViewModel(
+                    ActionID.SAFE_MODE.action,
+                    resourcesProvider.getString(R.string.safe_mode_button)
+                ),
+                ManualActionsViewModel(
                     ActionID.OVERRIDE_MODE.action,
                     resourcesProvider.getString(R.string.override_button)
+                )
+            )
+        } else {
+            actionsList.value = listOf(
+                ManualActionsViewModel(
+                    ActionID.RUN_ENGINE.action,
+                    resourcesProvider.getString(R.string.start_stop_engine)
                 ),
                 ManualActionsViewModel(
                     ActionID.SEND_MANUAL_INIT_MESSAGE.action,
@@ -75,13 +90,6 @@ class ManualControlCurrentStateViewModel(
                 ManualActionsViewModel(
                     ActionID.SAFE_MODE.action,
                     resourcesProvider.getString(R.string.safe_mode_button)
-                )
-            )
-        } else {
-            actionsList.value = listOf(
-                ManualActionsViewModel(
-                    ActionID.RUN_ENGINE.action,
-                    resourcesProvider.getString(R.string.start_stop_engine)
                 )
             )
         }

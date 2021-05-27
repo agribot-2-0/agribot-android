@@ -9,6 +9,8 @@ import eu.agribot.agribotapp.communication.bluetooth.basic.connection.socket.Blu
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.heartbeat.HeartbeatManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.AndroidReceivedBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ReceivedBluetoothMessageManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.encoder.AndroidEncoderResponseParser
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.encoder.EncoderResponseParser
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.heartbeat.AndroidHeartbeatManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.AndroidRfidMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.RfidMessageManager
@@ -88,8 +90,13 @@ val communicationModule = module {
             bluetoothSocketManager = get(),
             heartbeatManager = get(),
             rfidMessageManager = get(),
-            crashlysticService = get()
+            crashlysticService = get(),
+            encoderResponseParser = get()
         )
+    }
+
+    single<EncoderResponseParser> {
+        AndroidEncoderResponseParser()
     }
 
     single<RfidMessageManager> {

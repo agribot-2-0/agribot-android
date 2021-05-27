@@ -19,4 +19,6 @@ enum class DiagnosticDataArrayPosition(val position: Int) {
     FUEL_TEMPERATURE_BYTE(5),
 
     HUDRAULIC_OIL_TEMPERATURE_BYTE(2),
+
+    TOOL_FEEDBACK_ID(0)
 }

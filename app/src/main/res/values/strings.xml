@@ -280,8 +280,6 @@
     <string name="front_back">Front / Back</string>
     <string name="wakeup_button">Wake-Up</string>
     <string name="sleep_button">Sleep</string>
-
-
     <string name="dialog_tiles_downloading_tittle">Your files is downloading…</string>
     <string name="dialog_tiles_downloading_message">Downloading in progress</string>
     <string name="dialog_tiles_extracting_tittle">Your files is extracting</string>
@@ -301,8 +299,6 @@
     <string name="summary">Summary</string>
     <string name="repeat_photo">Repeat photo</string>
     <string name="save_changes">Save Changes</string>
-
-
 
     <string name="current_task">Current Task :</string>
     <string name="current_path">Current Path:</string>
@@ -324,14 +320,11 @@
     <string name="wakeup_agribot_message">Wakeup Agribot</string>
     <string name="sleep_agribot_message">Sleep Agribot</string>
 
-
     <string name="celcius_degree_value" translatable="false">%1S °C</string>
     <string name="humidity_percent_value">Humidity %1$S%2$S </string>
     <string name="wind_value">Wind %1$S km/h</string>
     <string name="pressure_value">Pressure %1$S hPA</string>
     <string name="retrofit_exception" translatable="false">Retrofit Exception %1$S</string>
-
-
 
     <string name="diagnostic_data_log" translatable="false">engineRotationsPerMinute : %S | torqueOfEngine : %S | engineFuelRate : %S | fuelLevel : %S | batteryVoltage : %S |  hydraulicOilTemperature : %S |</string>
     <string name="invalid_date_format">Invalid date</string>
@@ -339,5 +332,4 @@
     <string name="display_task_name">Task: %1s</string>
     <string name="display_tool_name">Tool: %1s</string>
     <string name="display_path_name">Path: %1s</string>
-
 </resources>

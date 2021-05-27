@@ -253,7 +253,6 @@ class AndroidReceivedBluetoothMessageManager(
     private fun handleHandshakeMessage() {
         writeBluetoothMessageManager.stopHandshakeScope()
         heartbeatManager.sendFirstHeartbeat()
-        writeBluetoothMessageManager.sendManualControlInitMessage()
     }
 
     private fun handleHeartbeatMessage() {

@@ -237,4 +237,14 @@ class AndroidWriteBluetoothMessageManager(
             ).bluetoothMessageArray
         )
     }
+
+    override fun sendSafeModeRequestMessage() {
+        writeBluetoothMessage(
+            BluetoothMessageFrame(
+                CANmessageData(
+                    BluetoothAdressCodeModel.SAFE_MODE.number, emptyCanData
+                )
+            ).bluetoothMessageArray
+        )
+    }
 }

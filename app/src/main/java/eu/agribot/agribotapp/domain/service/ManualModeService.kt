@@ -114,4 +114,8 @@ class ManualModeService(
             onDatabaseError = { onDatabaseError(cloudStorageErrorHandler.getStorageError(it)) }
         )
     }
+
+    fun sendSafeModeMessage() {
+        writeBluetoothMessageManager.sendSafeModeRequestMessage()
+    }
 }

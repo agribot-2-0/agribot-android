@@ -37,5 +37,7 @@ enum class BluetoothAdressCodeModel(val number: Int) {
 
     HYDRAULIC_DIAGNOSTIC_DATA_(105),
 
-    RFID_TAG(500)
+    RFID_TAG(500),
+
+    SAFE_MODE(40)
 }

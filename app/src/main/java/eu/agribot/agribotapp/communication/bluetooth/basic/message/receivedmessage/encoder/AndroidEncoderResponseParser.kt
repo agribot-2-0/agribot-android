@@ -88,13 +88,21 @@ class AndroidEncoderResponseParser : EncoderResponseParser {
     private fun getTplAngleValueResponse(encoderResponse: ByteArray): ToolFeedbackDataBD {
         return if (encoderResponse.size == TPL_FRAME_LENGTH) {
             if (isNegativeNumber(encoderResponse[CONF_VAL_B1_POSITION])) {
-                var toolValue = changeHighestBit(encoderResponse[CONF_VAL_B1_POSITION]).toInt()
-                    .shl(BYTE_LENGHT) + encoderResponse[CONF_VAL_B0_POSITION].toInt()
+                var toolValue = twoBytesToUnsingedInt(
+                    byteArrayOf(
+                        changeHighestBit(encoderResponse[CONF_VAL_B1_POSITION]),
+                        encoderResponse[CONF_VAL_B0_POSITION]
+                    )
+                )
                 toolValue *= -1
                 ToolFeedbackDataBD(getToolId(encoderResponse), toolValue)
             } else {
-                val toolValue = encoderResponse[CONF_VAL_B1_POSITION].toInt()
-                    .shl(BYTE_LENGHT) + encoderResponse[CONF_VAL_B0_POSITION].toInt()
+                val toolValue = twoBytesToUnsingedInt(
+                    byteArrayOf(
+                        encoderResponse[CONF_VAL_B1_POSITION],
+                        encoderResponse[CONF_VAL_B0_POSITION]
+                    )
+                )
                 ToolFeedbackDataBD(getToolId(encoderResponse), toolValue)
             }
         } else {
@@ -105,13 +113,21 @@ class AndroidEncoderResponseParser : EncoderResponseParser {
     private fun getTplHeightValueResponse(encoderResponse: ByteArray): ToolFeedbackDataBD {
         return if (encoderResponse.size == TPL_FRAME_LENGTH) {
             if (isNegativeNumber(encoderResponse[CONF_VAL_B1_POSITION])) {
-                var toolValue = changeHighestBit(encoderResponse[CONF_VAL_B1_POSITION]).toInt()
-                    .shl(BYTE_LENGHT) + encoderResponse[CONF_VAL_B0_POSITION].toInt()
+                var toolValue = twoBytesToUnsingedInt(
+                    byteArrayOf(
+                        changeHighestBit(encoderResponse[CONF_VAL_B1_POSITION]),
+                        encoderResponse[CONF_VAL_B0_POSITION]
+                    )
+                )
                 toolValue *= -1
                 ToolFeedbackDataBD(getToolId(encoderResponse), toolValue)
             } else {
-                val toolValue = encoderResponse[CONF_VAL_B1_POSITION].toInt()
-                    .shl(BYTE_LENGHT) + encoderResponse[CONF_VAL_B0_POSITION].toInt()
+                val toolValue = twoBytesToUnsingedInt(
+                    byteArrayOf(
+                        encoderResponse[CONF_VAL_B1_POSITION],
+                        encoderResponse[CONF_VAL_B0_POSITION]
+                    )
+                )
                 ToolFeedbackDataBD(getToolId(encoderResponse), toolValue)
             }
         } else {
@@ -124,13 +140,17 @@ class AndroidEncoderResponseParser : EncoderResponseParser {
     }
 
     private fun isNegativeNumber(number: Byte): Boolean {
-        return (number.takeHighestOneBit() != 0.toByte())
+        return takeHighestOneBit(number) != 0
+    }
+
+    private fun takeHighestOneBit(number: Byte): Int {
+        return number.toInt().shr(7)
     }
 
     private fun twoBytesToUnsingedInt(array: ByteArray): Int {
         var result = 0
         if (array.size == 2) {
-            result = array[0].toInt().shl(BYTE_LENGHT) + array[1].toInt()
+            result = (array[0].toInt().shl(BYTE_LENGHT) and 0xff00) + (array[1].toInt() and 0xff)
         }
         return result
     }

@@ -49,70 +49,78 @@ class AndroidEncoderResponseParser : EncoderResponseParser {
     }
 
     private fun getPtoValueResponse(encoderResponse: ByteArray): ToolFeedbackDataBD {
-        var toolValue = TOOL_INIT_VALUE
-        if (encoderResponse.size == TPL_FRAME_LENGTH) {
-            toolValue = encoderResponse[CONF_VAL_B1_POSITION].toInt()
-                .shl(PTO_SHL_VALUE) or encoderResponse[CONF_VAL_B0_POSITION].toInt()
+        return if (encoderResponse.size == TPL_FRAME_LENGTH) {
+            val toolValue = encoderResponse[CONF_VAL_B1_POSITION].toInt()
+                .shl(BYTE_LENGHT) or encoderResponse[CONF_VAL_B0_POSITION].toInt()
+            ToolFeedbackDataBD(getToolId(encoderResponse), toolValue)
+        } else {
+            ToolFeedbackDataBD()
         }
-        return ToolFeedbackDataBD(getToolId(encoderResponse), toolValue)
     }
 
     private fun getGreenToolValueResponse(encoderResponse: ByteArray): ToolFeedbackDataBD {
-        var toolValue = TOOL_INIT_VALUE
-        if (encoderResponse.size == TPL_FRAME_LENGTH) {
-            toolValue = encoderResponse[CONF_VAL_B0_POSITION].toInt()
+        return if (encoderResponse.size == TPL_FRAME_LENGTH) {
+            val toolValue = encoderResponse[CONF_VAL_B0_POSITION].toInt()
+            ToolFeedbackDataBD(getToolId(encoderResponse), toolValue)
+        } else {
+            ToolFeedbackDataBD()
         }
-        return ToolFeedbackDataBD(getToolId(encoderResponse), toolValue)
     }
 
     private fun getYellowToolValueResponse(encoderResponse: ByteArray): ToolFeedbackDataBD {
-        var toolValue = TOOL_INIT_VALUE
-        if (encoderResponse.size == TPL_FRAME_LENGTH) {
-            toolValue = encoderResponse[CONF_VAL_B0_POSITION].toInt()
+        return if (encoderResponse.size == TPL_FRAME_LENGTH) {
+            val toolValue = encoderResponse[CONF_VAL_B0_POSITION].toInt()
+            ToolFeedbackDataBD(getToolId(encoderResponse), toolValue)
+        } else {
+            ToolFeedbackDataBD()
         }
-        return ToolFeedbackDataBD(getToolId(encoderResponse), toolValue)
     }
 
     private fun getBlueToolValueResponse(encoderResponse: ByteArray): ToolFeedbackDataBD {
-        var toolValue = TOOL_INIT_VALUE
-        if (encoderResponse.size == TPL_FRAME_LENGTH) {
-            toolValue = encoderResponse[CONF_VAL_B0_POSITION].toInt()
+        return if (encoderResponse.size == TPL_FRAME_LENGTH) {
+            val toolValue = encoderResponse[CONF_VAL_B0_POSITION].toInt()
+            ToolFeedbackDataBD(getToolId(encoderResponse), toolValue)
+        } else {
+            ToolFeedbackDataBD()
         }
-        return ToolFeedbackDataBD(getToolId(encoderResponse), toolValue)
     }
 
     private fun getTplAngleValueResponse(encoderResponse: ByteArray): ToolFeedbackDataBD {
-        var toolValue = TOOL_INIT_VALUE
-        if (encoderResponse.size == TPL_FRAME_LENGTH) {
+        return if (encoderResponse.size == TPL_FRAME_LENGTH) {
             if (isNegativeNumber(encoderResponse[CONF_VAL_B1_POSITION])) {
-                toolValue = changeHighestBit(encoderResponse[CONF_VAL_B1_POSITION]).toInt()
-                    .shl(PTO_SHL_VALUE) + encoderResponse[CONF_VAL_B0_POSITION].toInt()
+                var toolValue = changeHighestBit(encoderResponse[CONF_VAL_B1_POSITION]).toInt()
+                    .shl(BYTE_LENGHT) + encoderResponse[CONF_VAL_B0_POSITION].toInt()
                 toolValue *= -1
+                ToolFeedbackDataBD(getToolId(encoderResponse), toolValue)
             } else {
-                toolValue = encoderResponse[CONF_VAL_B1_POSITION].toInt()
-                    .shl(PTO_SHL_VALUE) + encoderResponse[CONF_VAL_B0_POSITION].toInt()
+                val toolValue = encoderResponse[CONF_VAL_B1_POSITION].toInt()
+                    .shl(BYTE_LENGHT) + encoderResponse[CONF_VAL_B0_POSITION].toInt()
+                ToolFeedbackDataBD(getToolId(encoderResponse), toolValue)
             }
+        } else {
+            ToolFeedbackDataBD()
         }
-        return ToolFeedbackDataBD(getToolId(encoderResponse), toolValue)
     }
 
     private fun getTplHeightValueResponse(encoderResponse: ByteArray): ToolFeedbackDataBD {
-        var toolValue = TOOL_INIT_VALUE
-        if (encoderResponse.size == TPL_FRAME_LENGTH) {
+        return if (encoderResponse.size == TPL_FRAME_LENGTH) {
             if (isNegativeNumber(encoderResponse[CONF_VAL_B1_POSITION])) {
-                toolValue = changeHighestBit(encoderResponse[CONF_VAL_B1_POSITION]).toInt()
-                    .shl(PTO_SHL_VALUE) + encoderResponse[CONF_VAL_B0_POSITION].toInt()
+                var toolValue = changeHighestBit(encoderResponse[CONF_VAL_B1_POSITION]).toInt()
+                    .shl(BYTE_LENGHT) + encoderResponse[CONF_VAL_B0_POSITION].toInt()
                 toolValue *= -1
+                ToolFeedbackDataBD(getToolId(encoderResponse), toolValue)
             } else {
-                toolValue = encoderResponse[CONF_VAL_B1_POSITION].toInt()
-                    .shl(PTO_SHL_VALUE) + encoderResponse[CONF_VAL_B0_POSITION].toInt()
+                val toolValue = encoderResponse[CONF_VAL_B1_POSITION].toInt()
+                    .shl(BYTE_LENGHT) + encoderResponse[CONF_VAL_B0_POSITION].toInt()
+                ToolFeedbackDataBD(getToolId(encoderResponse), toolValue)
             }
+        } else {
+            ToolFeedbackDataBD()
         }
-        return ToolFeedbackDataBD(getToolId(encoderResponse), toolValue)
     }
 
     private fun changeHighestBit(number: Byte): Byte {
-        return number.xor(128.toByte())
+        return number.xor(HIGHEST_BIT_MASK.toByte())
     }
 
     private fun isNegativeNumber(number: Byte): Boolean {
@@ -122,9 +130,8 @@ class AndroidEncoderResponseParser : EncoderResponseParser {
     private fun twoBytesToUnsingedInt(array: ByteArray): Int {
         var result = 0
         if (array.size == 2) {
-            array[0].toInt().shl(8) + array[1].toInt()
+            result = array[0].toInt().shl(BYTE_LENGHT) + array[1].toInt()
         }
-
         return result
     }
 
@@ -136,7 +143,7 @@ class AndroidEncoderResponseParser : EncoderResponseParser {
         const val CONF_VAL_B0_POSITION = 2
         const val CONF_VAL_B1_POSITION = 1
         const val TPL_FRAME_LENGTH = 3
-        const val PTO_SHL_VALUE = 8
-        const val TOOL_INIT_VALUE = -1
+        const val BYTE_LENGHT = 8
+        const val HIGHEST_BIT_MASK = 0x80
     }
 }

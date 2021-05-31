@@ -7,6 +7,7 @@ import android.widget.SeekBar
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import eu.agribot.agribotapp.databinding.ListItemHitchBinding
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemViewModel
 import kotlinx.android.synthetic.main.list_item_hitch.view.recycler_seekbar
 import kotlinx.android.synthetic.main.list_item_hitch.view.recycler_switch
 import kotlinx.android.synthetic.main.list_item_hitch.view.recycler_tool_value

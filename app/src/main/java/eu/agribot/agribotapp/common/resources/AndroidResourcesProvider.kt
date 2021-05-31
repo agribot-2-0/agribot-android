@@ -1,5 +1,6 @@
 package eu.agribot.agribotapp.common.resources
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.AssetManager
 import android.graphics.drawable.Drawable
@@ -36,6 +37,7 @@ class AndroidResourcesProvider(private val context: Context) :
     override fun getBoolean(@BoolRes resId: Int): Boolean =
         context.resources.getBoolean(resId)
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun getDrawable(@DrawableRes resId: Int): Drawable =
         context.resources.getDrawable(resId, context.theme)
 

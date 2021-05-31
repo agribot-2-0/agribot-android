@@ -10,7 +10,7 @@ import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
 import eu.agribot.agribotapp.domain.service.ToolManagementService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewModel
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.data.TagRfidFormatter
 
 class ToolParamsViewModel(

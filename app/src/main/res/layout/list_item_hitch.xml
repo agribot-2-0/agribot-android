@@ -10,7 +10,6 @@
     </data>
 
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -19,68 +18,69 @@
             android:id="@+id/recycler_tool_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/recycler_seekbar"
             android:text="@{viewModel.toolName}"
+            android:layout_margin="@dimen/margin_small"
+            app:layout_constraintEnd_toStartOf="@id/recycler_tool_value"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_margin="@dimen/margin_small"
             android:textSize="@dimen/text_size_medium" />
 
         <SeekBar
             android:id="@+id/recycler_seekbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_medium"
             android:padding="@dimen/margin_medium"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/recycler_tool_name"
-            android:progressBackgroundTint="@color/base_green" />
+            android:progressBackgroundTint="@color/base_green"
+            tool:layout_editor_absoluteX="8dp"
+            tool:layout_editor_absoluteY="31dp" />
 
         <TextView
             android:id="@+id/recycler_tool_value"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_medium"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/divider"
-            app:layout_constraintTop_toBottomOf="@id/recycler_seekbar"
-            android:layout_weight="1"
+            app:layout_constraintBottom_toTopOf="@id/recycler_seekbar"
+            app:layout_constraintStart_toEndOf="@id/recycler_tool_name"
             android:textStyle="bold"
+            android:layout_margin="@dimen/margin_small"
+            app:layout_constraintEnd_toStartOf="@id/divider"
+            app:layout_constraintTop_toTopOf="parent"
             tool:text="300" />
 
         <View
             android:id="@+id/divider"
             android:layout_width="2dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/recycler_seekbar"
+            android:layout_margin="@dimen/margin_small"
             app:layout_constraintStart_toEndOf="@id/recycler_tool_value"
+            android:layout_height="wrap_content"
+            android:background="@color/gray"
             app:layout_constraintEnd_toStartOf="@id/recyclerEncoderValue"
-            android:layout_margin="@dimen/margin_medium"
-            android:background="@color/gray" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/recyclerEncoderValue"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_medium"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             app:layout_constraintStart_toEndOf="@id/divider"
-            app:layout_constraintEnd_toStartOf="@id/recycler_switch"
-            app:layout_constraintTop_toBottomOf="@id/recycler_seekbar"
-            android:textColor="@color/base_green"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_small"
+            app:layout_constraintBottom_toTopOf="@id/recycler_seekbar"
             android:text="@{viewModel.encoderValue}"
+            app:layout_constraintEnd_toStartOf="@id/recycler_switch"
+            android:textColor="@color/base_green"
             android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
             tool:text="300" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/recycler_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_medium"
-            app:layout_constraintStart_toEndOf="@id/recyclerEncoderValue"
-            app:layout_constraintTop_toBottomOf="@id/recycler_seekbar"
+            app:layout_constraintBottom_toTopOf="@id/recycler_seekbar"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_weight="1" />
-
+            android:layout_margin="@dimen/margin_small"
+            app:layout_constraintStart_toEndOf="@id/recyclerEncoderValue"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

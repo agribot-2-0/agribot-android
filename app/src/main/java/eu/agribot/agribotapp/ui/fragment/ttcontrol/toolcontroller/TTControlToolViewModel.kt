@@ -14,29 +14,22 @@ class TTControlToolViewModel(private val resourcesProvider: ResourcesProvider) :
     val toolsSwitchList: MutableLiveData<List<HitchListItemViewModel>> = MutableLiveData(listOf())
 
     init {
-        toolsLabelsList.value = listOf(
-            ToolControlLabelViewModel(resourcesProvider.getString(R.string.front_hitch)),
-            ToolControlLabelViewModel(""),
-            ToolControlLabelViewModel(""),
-            ToolControlLabelViewModel(resourcesProvider.getString(R.string.back_hitch)),
-            ToolControlLabelViewModel(""),
-            ToolControlLabelViewModel(""),
-            ToolControlLabelViewModel("")
-        )
-
         toolsSwitchList.value = createInitializationToolsList()
     }
 
     private fun createInitializationToolsList(): List<HitchListItemViewModel> {
         return listOf(
-            HitchListItemViewModel(switchNumber = Tools.Blue.Front.toolId,toolName = ToolsList.BLUE_TOOL, encoderValue = ""),
             HitchListItemViewModel(switchNumber = Tools.Pto.Front.toolId,toolName = ToolsList.PTO_TOOL, encoderValue = ""),
+            HitchListItemViewModel(switchNumber = Tools.Pto.Rear.toolId,toolName = ToolsList.PTO_TOOL, encoderValue = ""),
+
+            HitchListItemViewModel(switchNumber = Tools.Blue.Front.toolId,toolName = ToolsList.BLUE_TOOL, encoderValue = ""),
+            HitchListItemViewModel(switchNumber = Tools.Blue.Rear.toolId,toolName = ToolsList.BLUE_TOOL, encoderValue = ""),
+
             HitchListItemViewModel(switchNumber = Tools.Yellow.Front.toolId,toolName = ToolsList.YELLOW_TOOL, encoderValue = ""),
+            HitchListItemViewModel(switchNumber = Tools.Yellow.Rear.toolId,toolName = ToolsList.YELLOW_TOOL, encoderValue = ""),
+
             HitchListItemViewModel(switchNumber = Tools.Green.Front.toolId,toolName = ToolsList.GREEN_TOOL, encoderValue = ""),
-            HitchListItemViewModel(switchNumber = Tools.Blue.Front.toolId,toolName = ToolsList.BLUE_TOOL, encoderValue = ""),
-            HitchListItemViewModel(switchNumber = Tools.Pto.Front.toolId,toolName = ToolsList.PTO_TOOL, encoderValue = ""),
-            HitchListItemViewModel(switchNumber = Tools.Green.Front.toolId,toolName = ToolsList.GREEN_TOOL, encoderValue = ""),
-            HitchListItemViewModel(switchNumber = Tools.Yellow.Front.toolId,toolName = ToolsList.YELLOW_TOOL, encoderValue = "")
+            HitchListItemViewModel(switchNumber = Tools.Green.Rear.toolId,toolName = ToolsList.GREEN_TOOL, encoderValue = "")
         )
     }
 

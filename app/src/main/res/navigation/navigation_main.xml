@@ -56,7 +56,20 @@
         tools:layout="@layout/fragment_ttcontrol">
 
 
+        <action
+            android:id="@+id/action_overrideMode_to_overrideToolControl"
+            app:destination="@id/overrideToolControl" />
     </fragment>
+
+    <fragment
+        android:id="@+id/overrideToolControl"
+        android:name="eu.agribot.agribotapp.ui.fragment.ttcontrol.toolcontroller.TTControlToolFragment"
+        android:label="Override Mode"
+        tools:layout="@layout/fragment_ttcontrol_tool">
+
+
+    </fragment>
+
 
 
     <fragment

@@ -5,11 +5,10 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
+import eu.agribot.agribotapp.common.navigation.NavigationEvent
+import eu.agribot.agribotapp.common.navigation.events.TTControlToolNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentTtcontrolBinding
-import kotlinx.android.synthetic.main.fragment_ttcontrol.front_kart
-import kotlinx.android.synthetic.main.fragment_ttcontrol.horizontal_joystick
-import kotlinx.android.synthetic.main.fragment_ttcontrol.rear_kart
-import kotlinx.android.synthetic.main.fragment_ttcontrol.vertical_joystick
+import kotlinx.android.synthetic.main.fragment_ttcontrol.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TTControlModeFragment : BaseFragment<TTControlViewModel, FragmentTtcontrolBinding>() {
@@ -34,6 +33,17 @@ class TTControlModeFragment : BaseFragment<TTControlViewModel, FragmentTtcontrol
         }
     }
 
+    override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {
+        is TTControlToolNavigationEvent -> navigateToToolControl()
+        else -> Unit
+    }
+
+    private fun navigateToToolControl() {
+        navigationController?.navigate(
+            R.id.action_overrideMode_to_overrideToolControl
+        )
+    }
+
     private fun onFrontKartChanged(isActive: Boolean) {
         if (isActive) {
             front_kart.setColorFilter(ContextCompat.getColor(requireContext(), R.color.base_green))
@@ -49,4 +59,5 @@ class TTControlModeFragment : BaseFragment<TTControlViewModel, FragmentTtcontrol
             rear_kart.colorFilter = null
         }
     }
+
 }

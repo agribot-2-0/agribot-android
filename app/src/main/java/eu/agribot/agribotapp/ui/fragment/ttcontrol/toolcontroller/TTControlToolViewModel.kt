@@ -1,0 +1,47 @@
+package eu.agribot.agribotapp.ui.fragment.ttcontrol.toolcontroller
+
+import androidx.lifecycle.MutableLiveData
+import eu.agribot.agribotapp.R
+import eu.agribot.agribotapp.base.BaseViewModel
+import eu.agribot.agribotapp.common.resources.ResourcesProvider
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.encoder.Tools
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemViewModel
+
+class TTControlToolViewModel(private val resourcesProvider: ResourcesProvider) : BaseViewModel() {
+    val toolsLabelsList: MutableLiveData<List<ToolControlLabelViewModel>> =
+        MutableLiveData(listOf())
+    val toolsSwitchList: MutableLiveData<List<HitchListItemViewModel>> = MutableLiveData(listOf())
+
+    init {
+        toolsLabelsList.value = listOf(
+            ToolControlLabelViewModel(resourcesProvider.getString(R.string.front_hitch)),
+            ToolControlLabelViewModel(""),
+            ToolControlLabelViewModel(""),
+            ToolControlLabelViewModel(resourcesProvider.getString(R.string.back_hitch)),
+            ToolControlLabelViewModel(""),
+            ToolControlLabelViewModel(""),
+            ToolControlLabelViewModel("")
+        )
+
+        toolsSwitchList.value = createInitializationToolsList()
+    }
+
+    private fun createInitializationToolsList(): List<HitchListItemViewModel> {
+        return listOf(
+            HitchListItemViewModel(switchNumber = Tools.Blue.Front.toolId,toolName = ToolsList.BLUE_TOOL, encoderValue = ""),
+            HitchListItemViewModel(switchNumber = Tools.Pto.Front.toolId,toolName = ToolsList.PTO_TOOL, encoderValue = ""),
+            HitchListItemViewModel(switchNumber = Tools.Yellow.Front.toolId,toolName = ToolsList.YELLOW_TOOL, encoderValue = ""),
+            HitchListItemViewModel(switchNumber = Tools.Green.Front.toolId,toolName = ToolsList.GREEN_TOOL, encoderValue = ""),
+            HitchListItemViewModel(switchNumber = Tools.Blue.Front.toolId,toolName = ToolsList.BLUE_TOOL, encoderValue = ""),
+            HitchListItemViewModel(switchNumber = Tools.Pto.Front.toolId,toolName = ToolsList.PTO_TOOL, encoderValue = ""),
+            HitchListItemViewModel(switchNumber = Tools.Green.Front.toolId,toolName = ToolsList.GREEN_TOOL, encoderValue = ""),
+            HitchListItemViewModel(switchNumber = Tools.Yellow.Front.toolId,toolName = ToolsList.YELLOW_TOOL, encoderValue = "")
+        )
+    }
+
+
+
+
+
+}

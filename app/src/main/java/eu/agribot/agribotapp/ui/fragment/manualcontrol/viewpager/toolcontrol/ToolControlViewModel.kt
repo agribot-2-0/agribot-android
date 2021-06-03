@@ -9,9 +9,7 @@ import eu.agribot.agribotapp.domain.service.ManualModeService
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.ALL_SWITCHES
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.BLUE_TOOL
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.GREEN_TOOL
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.GREEN_TOOL_LIST_POSITION
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.PTO_TOOL
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.PTO_TOOL_LIST_POSITION
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.YELLOW_TOOL
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.RecyclerConstant
@@ -25,9 +23,7 @@ import kotlinx.coroutines.launch
 class ToolControlViewModel(
     private val manualModeService: ManualModeService
 ) : BaseViewModel() {
-    val frontToolsList: MutableLiveData<List<HitchListItemViewModel>> =
-        MutableLiveData(listOf())
-    val backToolsList: MutableLiveData<List<HitchListItemViewModel>> =
+    val toolsList: MutableLiveData<List<HitchListItemViewModel>> =
         MutableLiveData(listOf())
     private val activeTpl: MutableLiveData<TplSwitchesActive> = MutableLiveData()
     val switchesActive: MutableLiveData<TplSwitchesState> = MutableLiveData()
@@ -49,7 +45,7 @@ class ToolControlViewModel(
                         Tools.Yellow.Front.toolId,
                         Tools.Green.Front.toolId
                     ).contains(it.toolId) -> {
-                        addToFrontToolsList("", it.toolId, it.toolValue.toString())
+                        addToToolsList("", it.toolId, it.toolValue.toString())
                     }
                     setOf(
                         Tools.Blue.Rear.toolId,
@@ -57,7 +53,7 @@ class ToolControlViewModel(
                         Tools.Yellow.Rear.toolId,
                         Tools.Green.Rear.toolId
                     ).contains(it.toolId) -> {
-                        addToBackToolsList("", it.toolId, it.toolValue.toString())
+                        addToToolsList("", it.toolId, it.toolValue.toString())
                     }
                     setOf(
                         Tools.TplAngle.Front.toolId,
@@ -155,49 +151,21 @@ class ToolControlViewModel(
         }
     }
 
-    private fun addToFrontToolsList(toolName: String, switchNumber: Int, encoderValue: String) {
-        val isAttributeAlreadyAdded = frontToolsList.value!!.any { arrtibute ->
-            arrtibute.toolName == toolName
+    private fun addToToolsList(toolName: String, switchNumber: Int, encoderValue: String) {
+        val isAttributeAlreadyAdded = toolsList.value!!.any { arrtibute ->
+            arrtibute.switchNumber == switchNumber
         }
         if (!isAttributeAlreadyAdded) {
-            frontToolsList.value = listOf(
+            toolsList.value = listOf(
                 HitchListItemViewModel(
                     toolName,
                     switchNumber,
                     encoderValue
                 ),
-                *frontToolsList.value!!.toTypedArray()
+                *toolsList.value!!.toTypedArray()
             )
         } else {
-            frontToolsList.value = frontToolsList.value!!.map { oldAttribute ->
-                if (oldAttribute.switchNumber == switchNumber) {
-                    HitchListItemViewModel(
-                        oldAttribute.toolName,
-                        oldAttribute.switchNumber,
-                        encoderValue
-                    )
-                } else {
-                    oldAttribute
-                }
-            }
-        }
-    }
-
-    private fun addToBackToolsList(toolName: String, switchNumber: Int, encoderValue: String) {
-        val isAttributeAlreadyAdded = backToolsList.value!!.any { arrtibute ->
-            arrtibute.toolName == toolName
-        }
-        if (!isAttributeAlreadyAdded) {
-            backToolsList.value = listOf(
-                HitchListItemViewModel(
-                    toolName,
-                    switchNumber,
-                    encoderValue
-                ),
-                *backToolsList.value!!.toTypedArray()
-            )
-        } else {
-            backToolsList.value = backToolsList.value!!.map { oldAttribute ->
+            toolsList.value = toolsList.value!!.map { oldAttribute ->
                 if (oldAttribute.switchNumber == switchNumber) {
                     HitchListItemViewModel(
                         oldAttribute.toolName,
@@ -212,33 +180,28 @@ class ToolControlViewModel(
     }
 
     private fun createToolsLists() {
-        createFrontToolsList()
-        createBackToolsList()
-    }
-
-    private fun createFrontToolsList() {
-        val toolList = listOf(GREEN_TOOL, YELLOW_TOOL, BLUE_TOOL, PTO_TOOL)
+        val toolList = listOf(
+            GREEN_TOOL,
+            GREEN_TOOL,
+            YELLOW_TOOL,
+            YELLOW_TOOL,
+            BLUE_TOOL,
+            BLUE_TOOL,
+            PTO_TOOL,
+            PTO_TOOL
+        )
         val switchNumber = listOf(
-            Tools.Blue.Front.toolId,
-            Tools.Pto.Front.toolId,
+            Tools.Green.Front.toolId,
+            Tools.Green.Rear.toolId,
             Tools.Yellow.Front.toolId,
-            Tools.Green.Front.toolId
-        )
-        for (itemPosition in PTO_TOOL_LIST_POSITION..GREEN_TOOL_LIST_POSITION) {
-            addToFrontToolsList(toolList[itemPosition], switchNumber[itemPosition], "")
-        }
-    }
-
-    private fun createBackToolsList() {
-        val toolList = listOf(GREEN_TOOL, YELLOW_TOOL, BLUE_TOOL, PTO_TOOL)
-        val switchNumber = listOf(
-            Tools.Blue.Rear.toolId,
-            Tools.Pto.Rear.toolId,
             Tools.Yellow.Rear.toolId,
-            Tools.Green.Rear.toolId
+            Tools.Blue.Front.toolId,
+            Tools.Blue.Rear.toolId,
+            Tools.Pto.Front.toolId,
+            Tools.Pto.Rear.toolId
         )
-        for (itemPosition in PTO_TOOL_LIST_POSITION..GREEN_TOOL_LIST_POSITION) {
-            addToBackToolsList(toolList[itemPosition], switchNumber[itemPosition], "")
+        for (itemPosition in switchNumber.indices) {
+            addToToolsList(toolList[itemPosition], switchNumber[itemPosition], "")
         }
     }
 

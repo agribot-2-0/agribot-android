@@ -32,13 +32,7 @@ class TTControlToolFragment : BaseFragment<TTControlToolViewModel, FragmentTtcon
     }
 
     private fun observeViewModel() {
-        viewModel.toolsLabelsList.observe(this::addLabelItems)
         viewModel.toolsSwitchList.observe(this::addToolsSwitchItems)
-
-    }
-
-    private fun addLabelItems(items: List<ToolControlLabelViewModel>) {
-       // adapter.labelItems = items
     }
 
     private fun addToolsSwitchItems(items: List<HitchListItemViewModel>) {

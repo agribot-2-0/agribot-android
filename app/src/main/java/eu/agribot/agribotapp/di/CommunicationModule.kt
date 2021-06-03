@@ -52,7 +52,8 @@ val communicationModule = module {
                 parametersOf(
                     androidContext()
                 )
-            })
+            }
+        )
     }
 
     single<TcpConnectionManager> {

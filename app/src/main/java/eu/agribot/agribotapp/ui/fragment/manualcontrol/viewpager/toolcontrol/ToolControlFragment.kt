@@ -1,8 +1,8 @@
 package eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.encoder.Tools
@@ -25,17 +25,14 @@ class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolContr
         viewBinding.viewModel = viewModel
     }
 
-    private val frontHitchAdapter =
-        HitchListItemAdapter(this::onHitchRecyclerParametersChanged)
-    private val backHitchAdapter =
+    private val hitchAdapter =
         HitchListItemAdapter(this::onHitchRecyclerParametersChanged)
 
     @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclers()
-        viewModel.frontToolsList.observe(this::addFrontTools)
-        viewModel.backToolsList.observe(this::addBackTools)
+        viewModel.toolsList.observe(this::setTools)
         viewModel.switchesActive.observe(this::showSwitchesState)
         viewModel.tplEncoderValue.observe(this::setTplEncoderValue)
         setCheckboxListeners()
@@ -43,34 +40,34 @@ class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolContr
 
     private fun setTplEncoderValue(tool: ToolControlViewModel.ToolEncoderValue) {
         when (tool.toolID) {
-            Tools.TplHeight.Front.toolId -> viewBinding.checkBoxFrontTplUp.text = tool.EncoderValue
-            Tools.TplAngle.Front.toolId -> viewBinding.checkBoxFrontTplDown.text = tool.EncoderValue
-            Tools.TplHeight.Rear.toolId -> viewBinding.checkBoxBackTplUp.text = tool.EncoderValue
-            Tools.TplAngle.Rear.toolId -> viewBinding.checkBoxBackTplDown.text = tool.EncoderValue
+            Tools.TplHeight.Front.toolId -> viewBinding.leftUpCheckbox.text = tool.EncoderValue
+            Tools.TplAngle.Front.toolId -> viewBinding.leftDownCheckbox.text = tool.EncoderValue
+            Tools.TplHeight.Rear.toolId -> viewBinding.rightUpCheckbox.text = tool.EncoderValue
+            Tools.TplAngle.Rear.toolId -> viewBinding.rightDownCheckbox.text = tool.EncoderValue
         }
     }
 
     private fun setCheckboxListeners() {
-        viewBinding.checkBoxFrontTplUp.setOnCheckedChangeListener { _, isChecked ->
+        viewBinding.leftUpCheckbox.setOnCheckedChangeListener { _, isChecked ->
             viewModel.onActivateTplParametrChanged(Tools.TplHeight.Front.toolId, isChecked)
         }
-        viewBinding.checkBoxFrontTplDown.setOnCheckedChangeListener { _, isChecked ->
+        viewBinding.leftDownCheckbox.setOnCheckedChangeListener { _, isChecked ->
             viewModel.onActivateTplParametrChanged(Tools.TplAngle.Front.toolId, isChecked)
         }
 
-        viewBinding.checkBoxBackTplDown.setOnCheckedChangeListener { _, isChecked ->
+        viewBinding.rightUpCheckbox.setOnCheckedChangeListener { _, isChecked ->
             viewModel.onActivateTplParametrChanged(Tools.TplHeight.Rear.toolId, isChecked)
         }
-        viewBinding.checkBoxBackTplUp.setOnCheckedChangeListener { _, isChecked ->
+        viewBinding.rightDownCheckbox.setOnCheckedChangeListener { _, isChecked ->
             viewModel.onActivateTplParametrChanged(Tools.TplAngle.Rear.toolId, isChecked)
         }
     }
 
     private fun showSwitchesState(tplSwitchesState: TplSwitchesState) {
-        viewBinding.checkBoxBackTplDown.isChecked = tplSwitchesState.rearBottomTplChecked
-        viewBinding.checkBoxFrontTplUp.isChecked = tplSwitchesState.frontUpTplChecked
-        viewBinding.checkBoxBackTplDown.isChecked = tplSwitchesState.frontBottomTplChecked
-        viewBinding.checkBoxBackTplUp.isChecked = tplSwitchesState.rearUpTplChecked
+        viewBinding.rightDownCheckbox.isChecked = tplSwitchesState.rearBottomTplChecked
+        viewBinding.leftUpCheckbox.isChecked = tplSwitchesState.frontUpTplChecked
+        viewBinding.leftDownCheckbox.isChecked = tplSwitchesState.frontBottomTplChecked
+        viewBinding.rightUpCheckbox.isChecked = tplSwitchesState.rearUpTplChecked
     }
 
     private fun onHitchRecyclerParametersChanged(
@@ -82,18 +79,11 @@ class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolContr
     }
 
     private fun setupRecyclers() {
-
-        viewBinding.frontHitchRecycler.adapter = frontHitchAdapter
-        viewBinding.frontHitchRecycler.layoutManager = LinearLayoutManager(requireActivity())
-        viewBinding.backHitchRecycler.adapter = backHitchAdapter
-        viewBinding.backHitchRecycler.layoutManager = LinearLayoutManager(requireActivity())
+        viewBinding.toolHitchRecycler.adapter = hitchAdapter
     }
 
-    private fun addFrontTools(tools: List<HitchListItemViewModel>) {
-        frontHitchAdapter.items = tools
+    private fun setTools(tools: List<HitchListItemViewModel>) {
+        hitchAdapter.items = tools
     }
 
-    private fun addBackTools(tools: List<HitchListItemViewModel>) {
-        backHitchAdapter.items = tools
-    }
 }

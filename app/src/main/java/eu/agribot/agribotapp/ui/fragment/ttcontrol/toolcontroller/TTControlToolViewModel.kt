@@ -5,12 +5,12 @@ import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.encoder.Tools
+import eu.agribot.agribotapp.domain.service.ManualModeService
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemViewModel
 
-class TTControlToolViewModel(private val resourcesProvider: ResourcesProvider) : BaseViewModel() {
-    val toolsLabelsList: MutableLiveData<List<ToolControlLabelViewModel>> =
-        MutableLiveData(listOf())
+class TTControlToolViewModel(private val resourcesProvider: ResourcesProvider,    private val manualModeService: ManualModeService
+) : BaseViewModel() {
     val toolsSwitchList: MutableLiveData<List<HitchListItemViewModel>> = MutableLiveData(listOf())
 
     init {

@@ -342,6 +342,7 @@ val viewModelModule = module {
     viewModel { (context: Context) ->
         TTControlToolViewModel(
             resourcesProvider = get { parametersOf(context) },
+            manualModeService = get()
         )
     }
 }

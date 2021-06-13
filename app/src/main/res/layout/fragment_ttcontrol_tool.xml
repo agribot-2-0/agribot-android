@@ -21,7 +21,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:src="@drawable/agribot"/>
 
-        <CheckBox
+        <RadioButton
             android:id="@+id/leftUpCheckbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
             android:layout_margin="@dimen/margin_xxlarge"
             app:layout_constraintStart_toStartOf="parent"/>
 
-        <CheckBox
+        <RadioButton
             android:id="@+id/leftDownCheckbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/robotImage"/>
 
-        <CheckBox
+        <RadioButton
             android:id="@+id/rightUpCheckbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,13 +45,26 @@
             app:layout_constraintTop_toTopOf="@id/robotImage"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <CheckBox
+        <RadioButton
             android:id="@+id/rightDownCheckbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_xxlarge"
             app:layout_constraintBottom_toBottomOf="@id/robotImage"
             app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/seekbarText"
+            android:textSize="@dimen/text_size_xlarge"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/mainProgressBar"
+            app:layout_constraintTop_toBottomOf="@id/robotImage"/>
+
+
 
         <androidx.appcompat.widget.AppCompatSeekBar
             android:id="@+id/mainProgressBar"
@@ -95,7 +108,6 @@
                 android:textStyle="bold" />
 
         </LinearLayout>
-
 
 
         <androidx.recyclerview.widget.RecyclerView

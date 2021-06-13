@@ -59,5 +59,4 @@ class TTControlModeFragment : BaseFragment<TTControlViewModel, FragmentTtcontrol
             rear_kart.colorFilter = null
         }
     }
-
 }

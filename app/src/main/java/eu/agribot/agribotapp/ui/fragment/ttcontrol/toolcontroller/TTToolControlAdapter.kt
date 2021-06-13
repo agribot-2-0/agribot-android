@@ -98,7 +98,7 @@ class TTToolControlAdapter(val onItemCharacteristicChange: (position: Int, slide
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (holder.itemViewType %2 == 0) {
+        when (holder.itemViewType % 2 == 0) {
             true -> {
                 Log.e("xd", " label" + labelItems)
                 val item = labelItems[position]
@@ -109,7 +109,6 @@ class TTToolControlAdapter(val onItemCharacteristicChange: (position: Int, slide
                 Log.e("xd", " tools" + mainItems)
                 val item = mainItems[position]
                 (holder as TTToolControlMainViewHolder).bind(item)
-
 
                 var isItemActive = false
                 var itemSliderValue = 0
@@ -155,8 +154,6 @@ class TTToolControlAdapter(val onItemCharacteristicChange: (position: Int, slide
                         isItemActive
                     )
                 }
-
-
             }
         }
     }
@@ -213,5 +210,4 @@ class TTToolControlAdapter(val onItemCharacteristicChange: (position: Int, slide
         const val LABEL_HOLDER_NUMBER = 0
         const val MAIN_HOLDER_NUMBER = 2
     }
-
 }

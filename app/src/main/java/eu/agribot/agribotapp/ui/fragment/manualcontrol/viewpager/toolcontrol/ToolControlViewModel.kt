@@ -14,7 +14,7 @@ import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.dat
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.RecyclerConstant
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.TplSwitchesActive
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.TplSwitchesState
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.TplSwitchesState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -107,6 +107,7 @@ class ToolControlViewModel(
 
     private fun setFrontUpTplActive(activeStatus: Boolean) {
         switchesActive.value = TplSwitchesState(
+            activeTplId = Tools.TplHeight.Front.toolId,
             frontUpTplChecked = activeStatus,
             frontBottomTplChecked = false,
             rearUpTplChecked = false,
@@ -116,6 +117,7 @@ class ToolControlViewModel(
 
     private fun setFrontDownTplActive(activeStatus: Boolean) {
         switchesActive.value = TplSwitchesState(
+            activeTplId = Tools.TplAngle.Front.toolId,
             frontUpTplChecked = false,
             frontBottomTplChecked = activeStatus,
             rearUpTplChecked = false,
@@ -125,6 +127,7 @@ class ToolControlViewModel(
 
     private fun setBackUpTplActive(activeStatus: Boolean) {
         switchesActive.value = TplSwitchesState(
+            activeTplId = Tools.TplHeight.Rear.toolId,
             frontUpTplChecked = false,
             frontBottomTplChecked = false,
             rearUpTplChecked = activeStatus,
@@ -134,6 +137,7 @@ class ToolControlViewModel(
 
     private fun setBackDownTplActive(activeStatus: Boolean) {
         switchesActive.value = TplSwitchesState(
+            activeTplId = Tools.TplAngle.Rear.toolId,
             frontUpTplChecked = false,
             frontBottomTplChecked = false,
             rearUpTplChecked = false,

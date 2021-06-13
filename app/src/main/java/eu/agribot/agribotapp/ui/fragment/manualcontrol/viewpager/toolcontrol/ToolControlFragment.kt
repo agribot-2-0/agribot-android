@@ -1,14 +1,13 @@
 package eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.encoder.Tools
 import eu.agribot.agribotapp.databinding.FragmentToolControlBinding
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemViewModel
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.TplSwitchesState
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.TplSwitchesState
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemAdapter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -85,5 +84,4 @@ class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolContr
     private fun setTools(tools: List<HitchListItemViewModel>) {
         hitchAdapter.items = tools
     }
-
 }

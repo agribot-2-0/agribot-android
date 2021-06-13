@@ -57,9 +57,11 @@ class ManualModeService(
         writeBluetoothMessageManager.sendStartEngineMessage()
     }
 
-    fun onSwitchParametrChanged(switchSettings: SwitchSettings) {
+    fun setTTControllToolMessage(switchSettings: SwitchSettings) {
         messageCreator.createSwitchesMessage(switchSettings.toCommunicationModel())
     }
+
+
 
     @ExperimentalCoroutinesApi
     private fun fetchDiagnosticData() {

@@ -9,7 +9,7 @@ import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentToolManagementSummaryBinding
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemAdapter
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemViewModel
 import kotlinx.android.synthetic.main.fragment_tool_management_summary.editToolBottomDetailsView
 import kotlinx.android.synthetic.main.fragment_tool_management_summary.edit_tool_photo

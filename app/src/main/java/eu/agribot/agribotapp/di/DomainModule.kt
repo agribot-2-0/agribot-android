@@ -13,6 +13,7 @@ import eu.agribot.agribotapp.domain.service.KmlLayerService
 import eu.agribot.agribotapp.domain.service.ManualModeService
 import eu.agribot.agribotapp.domain.service.PathManagementService
 import eu.agribot.agribotapp.domain.service.TTControlService
+import eu.agribot.agribotapp.domain.service.ToolControlService
 import eu.agribot.agribotapp.domain.service.ToolManagementService
 import eu.agribot.agribotapp.domain.service.WeatherService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
@@ -203,6 +204,11 @@ val domainModule = module {
                     androidContext()
                 )
             }
+        )
+    }
+
+    single {
+        ToolControlService(
         )
     }
 }

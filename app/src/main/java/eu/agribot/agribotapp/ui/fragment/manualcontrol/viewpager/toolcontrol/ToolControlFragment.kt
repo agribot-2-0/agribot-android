@@ -1,14 +1,16 @@
 package eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import android.widget.SeekBar
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.encoder.Tools
 import eu.agribot.agribotapp.databinding.FragmentToolControlBinding
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.TplSwitchesState
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemAdapter
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemAdapter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -35,6 +37,30 @@ class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolContr
         viewModel.switchesActive.observe(this::showSwitchesState)
         viewModel.tplEncoderValue.observe(this::setTplEncoderValue)
         setCheckboxListeners()
+        setSeekbarListener()
+    }
+
+    private fun setSeekbarListener() {
+        viewBinding.mainProgressBar.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
+
+            @SuppressLint("SetTextI18n")
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, b: Boolean) {
+                setSeekbarText(progress)
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                // Do something
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                // not used
+            }
+        })
+    }
+
+    private fun setSeekbarText(progress: Int) {
+        viewBinding.seekbarText.text = viewModel.getSeekBarText(progress)
     }
 
     private fun setTplEncoderValue(tool: ToolControlViewModel.ToolEncoderValue) {

@@ -10,7 +10,7 @@ import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessa
 import eu.agribot.agribotapp.databinding.FragmentTtcontrolToolBinding
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.TplSwitchesState
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemViewModel
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemAdapter
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 

@@ -4,24 +4,25 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.encoder.Tools
-import eu.agribot.agribotapp.domain.model.fromdomain.SwitchSettings
 import eu.agribot.agribotapp.domain.service.ManualModeService
+import eu.agribot.agribotapp.domain.service.ToolControlService
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.ALL_SWITCHES
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.BLUE_TOOL
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.GREEN_TOOL
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.PTO_TOOL
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.YELLOW_TOOL
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.TplSwitchesState
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.RecyclerConstant
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.TplSwitchesActive
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.TplSwitchesState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 class ToolControlViewModel(
-    private val manualModeService: ManualModeService
+    private val manualModeService: ManualModeService,
+    private val toolControlService: ToolControlService
 ) : BaseViewModel() {
     val toolsList: MutableLiveData<List<HitchListItemViewModel>> =
         MutableLiveData(listOf())
@@ -77,12 +78,9 @@ class ToolControlViewModel(
         sliderValue: Int,
         isActivated: Boolean
     ) {
-        manualModeService.onSwitchParametrChanged(
-            SwitchSettings(
-                sliderNumber,
-                isActivated,
-                sliderValue
-            )
+        updateProgressValue(
+            sliderNumber,
+            toolControlService.getToolProgressValue(sliderNumber, sliderValue)
         )
     }
 
@@ -155,6 +153,22 @@ class ToolControlViewModel(
         }
     }
 
+    private fun updateProgressValue(switchNumber: Int, progressValue: String) {
+        toolsList.value = toolsList.value!!.map { oldAttribute ->
+            if (oldAttribute.switchNumber == switchNumber) {
+                HitchListItemViewModel(
+                    oldAttribute.toolName,
+                    switchNumber,
+                    progressValue = progressValue,
+                    encoderValue = oldAttribute.encoderValue,
+                    isNewToolControl = true,
+                )
+            } else {
+                oldAttribute
+            }
+        }
+    }
+
     private fun addToToolsList(toolName: String, switchNumber: Int, encoderValue: String) {
         val isAttributeAlreadyAdded = toolsList.value!!.any { arrtibute ->
             arrtibute.switchNumber == switchNumber
@@ -164,6 +178,7 @@ class ToolControlViewModel(
                 HitchListItemViewModel(
                     toolName,
                     switchNumber,
+                    isNewToolControl = true,
                     encoderValue
                 ),
                 *toolsList.value!!.toTypedArray()
@@ -174,7 +189,8 @@ class ToolControlViewModel(
                     HitchListItemViewModel(
                         oldAttribute.toolName,
                         oldAttribute.switchNumber,
-                        encoderValue
+                        encoderValue = encoderValue,
+                        isNewToolControl = true,
                     )
                 } else {
                     oldAttribute
@@ -206,6 +222,14 @@ class ToolControlViewModel(
         )
         for (itemPosition in switchNumber.indices) {
             addToToolsList(toolList[itemPosition], switchNumber[itemPosition], "")
+        }
+    }
+
+    fun getSeekBarText(progress: Int): String {
+        switchesActive.value?.activeTplId.let {
+            return if (it != null) {
+                toolControlService.getToolProgressValue(it, progress)
+            } else ""
         }
     }
 

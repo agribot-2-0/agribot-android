@@ -106,7 +106,8 @@ val viewModelModule = module {
     }
     viewModel {
         ToolControlViewModel(
-            manualModeService = get()
+            manualModeService = get(),
+            toolControlService = get()
         )
     }
 
@@ -147,7 +148,8 @@ val viewModelModule = module {
         HitchListItemViewModel(
             toolName = get(),
             switchNumber = get(),
-            encoderValue = get()
+            encoderValue = get(),
+            isNewToolControl = get()
         )
     }
 

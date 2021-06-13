@@ -6,6 +6,7 @@ import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.encoder.Tools
 import eu.agribot.agribotapp.domain.model.fromdomain.SwitchSettings
 import eu.agribot.agribotapp.domain.service.ManualModeService
+import eu.agribot.agribotapp.domain.service.ToolControlService
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.TplSwitchesState
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemViewModel
@@ -30,45 +31,53 @@ class TTControlToolViewModel(
             HitchListItemViewModel(
                 switchNumber = Tools.Pto.Front.toolId,
                 toolName = ToolsList.PTO_TOOL,
-                encoderValue = ""
+                encoderValue = "",
+                isNewToolControl = false
             ),
             HitchListItemViewModel(
                 switchNumber = Tools.Pto.Rear.toolId,
                 toolName = ToolsList.PTO_TOOL,
-                encoderValue = ""
+                encoderValue = "",
+                isNewToolControl = false
             ),
 
             HitchListItemViewModel(
                 switchNumber = Tools.Blue.Front.toolId,
                 toolName = ToolsList.BLUE_TOOL,
-                encoderValue = ""
+                encoderValue = "",
+                isNewToolControl = false
             ),
             HitchListItemViewModel(
                 switchNumber = Tools.Blue.Rear.toolId,
                 toolName = ToolsList.BLUE_TOOL,
-                encoderValue = ""
+                encoderValue = "",
+                isNewToolControl = false
             ),
 
             HitchListItemViewModel(
                 switchNumber = Tools.Yellow.Front.toolId,
                 toolName = ToolsList.YELLOW_TOOL,
-                encoderValue = ""
+                encoderValue = "",
+                isNewToolControl = false
             ),
             HitchListItemViewModel(
                 switchNumber = Tools.Yellow.Rear.toolId,
                 toolName = ToolsList.YELLOW_TOOL,
-                encoderValue = ""
+                encoderValue = "",
+                isNewToolControl = false
             ),
 
             HitchListItemViewModel(
                 switchNumber = Tools.Green.Front.toolId,
                 toolName = ToolsList.GREEN_TOOL,
-                encoderValue = ""
+                encoderValue = "",
+                isNewToolControl = false
             ),
             HitchListItemViewModel(
                 switchNumber = Tools.Green.Rear.toolId,
                 toolName = ToolsList.GREEN_TOOL,
-                encoderValue = ""
+                encoderValue = "",
+                isNewToolControl = false
             )
         )
     }
@@ -78,7 +87,7 @@ class TTControlToolViewModel(
         sliderValue: Int,
         isActivated: Boolean
     ) {
-        manualModeService.onSwitchParametrChanged(
+        manualModeService.setTTControllToolMessage(
             SwitchSettings(
                 sliderNumber,
                 isActivated,
@@ -154,7 +163,7 @@ class TTControlToolViewModel(
     fun onTplValueChanged(progress: Int) {
         switchesActive.value.let {
             if (it != null) {
-                manualModeService.onSwitchParametrChanged(
+                manualModeService.setTTControllToolMessage(
                     SwitchSettings(
                         it.activeTplId,
                         true,

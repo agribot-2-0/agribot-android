@@ -70,6 +70,7 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
             hitchListItemDetail = HitchListItemDetail(
                 toolStartValue = vMax.toInt()
             )
+
         )
     }
 

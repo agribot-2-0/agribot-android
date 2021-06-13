@@ -7,6 +7,8 @@ import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.RecyclerConstant
 data class HitchListItemViewModel(
     val toolName: String,
     val switchNumber: Int,
+    val isNewToolControl :  Boolean = false,
+    val progressValue : String = "",
     val encoderValue: String = "",
     val hitchListItemDetail: HitchListItemDetail = HitchListItemDetail(
         toolStartValue = RecyclerConstant.DEFAULT_SLIDER_VALUE,

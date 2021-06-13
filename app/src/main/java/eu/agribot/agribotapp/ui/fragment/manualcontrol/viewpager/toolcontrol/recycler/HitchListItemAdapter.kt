@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler
+package eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -7,11 +7,8 @@ import android.widget.SeekBar
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import eu.agribot.agribotapp.databinding.ListItemHitchBinding
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchDiffUtill
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemViewModel
-import kotlinx.android.synthetic.main.list_item_hitch.view.recycler_seekbar
-import kotlinx.android.synthetic.main.list_item_hitch.view.recycler_switch
-import kotlinx.android.synthetic.main.list_item_hitch.view.recycler_tool_value
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewHolder
+import kotlinx.android.synthetic.main.list_item_hitch.view.*
 
 class HitchListItemAdapter(
     val onItemCharacteristicChange: (position: Int, sliderValue: Int, isActivated: Boolean) -> Unit
@@ -51,7 +48,11 @@ class HitchListItemAdapter(
         var itemSliderValue = 0
 
         holder.itemView.recycler_tool_value.text =
-            "${item.hitchListItemDetail.toolStartValue} ${item.hitchListItemDetail.toolUnit}"
+            if (!item.isNewToolControl) {
+                "${item.hitchListItemDetail.toolStartValue} ${item.hitchListItemDetail.toolUnit}"
+            } else {
+                item.progressValue
+            }
         holder.itemView.recycler_seekbar.progress = item.hitchListItemDetail.toolStartValue
         holder.itemView.recycler_seekbar.max = item.hitchListItemDetail.maxValue
 
@@ -60,8 +61,10 @@ class HitchListItemAdapter(
 
             @SuppressLint("SetTextI18n")
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, b: Boolean) {
-                holder.itemView.recycler_tool_value.text =
-                    "$progress ${item.hitchListItemDetail.toolUnit}"
+                if (!item.isNewToolControl) {
+                    holder.itemView.recycler_tool_value.text =
+                        "$progress ${item.hitchListItemDetail.toolUnit}"
+                }
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {

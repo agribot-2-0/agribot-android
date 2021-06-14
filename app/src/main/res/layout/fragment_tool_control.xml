@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="viewModel"
             type="eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.ToolControlViewModel" />
@@ -16,34 +18,34 @@
             android:layout_width="wrap_content"
             android:layout_height="260dp"
             android:layout_margin="@dimen/margin_medium"
-            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/agribot"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/agribot"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <RadioButton
             android:id="@+id/leftUpCheckbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/robotImage"
             android:layout_margin="@dimen/margin_xxlarge"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/robotImage" />
 
         <RadioButton
             android:id="@+id/leftDownCheckbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_xxlarge"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/robotImage"/>
+            app:layout_constraintBottom_toBottomOf="@id/robotImage"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <RadioButton
             android:id="@+id/rightUpCheckbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_xxlarge"
-            app:layout_constraintTop_toTopOf="@id/robotImage"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/robotImage" />
 
         <RadioButton
             android:id="@+id/rightDownCheckbox"
@@ -51,48 +53,79 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_xxlarge"
             app:layout_constraintBottom_toBottomOf="@id/robotImage"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
             android:id="@+id/seekbarText"
-            android:textSize="@dimen/text_size_xlarge"
-            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="@dimen/text_size_xlarge"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/progreess"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/mainProgressBar"
-            app:layout_constraintTop_toBottomOf="@id/robotImage"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/robotImage" />
 
-
-
-        <androidx.appcompat.widget.AppCompatSeekBar
-            android:id="@+id/mainProgressBar"
+        <LinearLayout
+            android:id="@+id/progreess"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_xxlarge"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@id/labels"
-            app:layout_constraintTop_toBottomOf="@id/robotImage"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/labels"
+            app:layout_constraintTop_toBottomOf="@id/robotImage">
+
+            <TextView
+                android:id="@+id/txtvProgressMin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_small"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textSize="@dimen/text_size_xlarge"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatSeekBar
+                android:id="@+id/mainProgressBar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_xlarge"
+                android:layout_weight="12" />
+
+            <TextView
+                android:id="@+id/txtvProgressMax"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textSize="@dimen/text_size_xlarge"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/labels"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="@dimen/margin_medium"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mainProgressBar"
-            android:layout_margin="@dimen/margin_medium">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/progreess">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_medium"
                 android:layout_weight="1"
-                android:padding="@dimen/margin_small"
                 android:background="@drawable/rounded_corner_layout"
                 android:gravity="center"
+                android:padding="@dimen/margin_small"
                 android:text="@string/front_hitch"
                 android:textStyle="bold" />
 
@@ -101,9 +134,9 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_medium"
                 android:layout_weight="1"
-                android:padding="@dimen/margin_small"
                 android:background="@drawable/rounded_corner_layout"
                 android:gravity="center"
+                android:padding="@dimen/margin_small"
                 android:text="@string/back_hitch"
                 android:textStyle="bold" />
 
@@ -118,10 +151,10 @@
             android:background="@drawable/rounded_corner_layout"
             android:padding="@dimen/margin_small"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labels"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labels"
+            app:spanCount="2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

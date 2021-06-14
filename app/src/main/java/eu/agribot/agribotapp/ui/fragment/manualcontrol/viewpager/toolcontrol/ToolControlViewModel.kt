@@ -80,7 +80,7 @@ class ToolControlViewModel(
     ) {
         updateProgressValue(
             sliderNumber,
-            toolControlService.getToolProgressValue(sliderNumber, sliderValue)
+            toolControlService.getTplProgressValue(sliderNumber, sliderValue)
         )
     }
 
@@ -228,7 +228,7 @@ class ToolControlViewModel(
     fun getSeekBarText(progress: Int): String {
         switchesActive.value?.activeTplId.let {
             return if (it != null) {
-                toolControlService.getToolProgressValue(it, progress)
+                toolControlService.getTplProgressValue(it, progress)
             } else ""
         }
     }

@@ -105,34 +105,43 @@ class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolContr
         }
     }
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setMInMaxSeekBar(view: View?) {
         when (view) {
             viewBinding.leftUpCheckbox -> {
                 viewBinding.mainProgressBar.min = MIN_HEIGHT
                 viewBinding.mainProgressBar.max = MAX_HEIGHT
-                viewBinding.txtvProgressMin.text = MIN_HEIGHT.toString() + "m"
-                viewBinding.txtvProgressMax.text = MAX_HEIGHT.toString() + "m"
+                viewBinding.txtvProgressMin.text =
+                    String.format("%.2f", MIN_HEIGHT.toDouble() * 0.01) + "m"
+                viewBinding.txtvProgressMax.text =
+                    String.format("%.2f", MAX_HEIGHT.toDouble() * 0.01) + "m"
 
             }
             viewBinding.leftDownCheckbox -> {
                 viewBinding.mainProgressBar.min = MIN_ANGLE
                 viewBinding.mainProgressBar.max = MAX_ANGLE
-                viewBinding.txtvProgressMin.text = MIN_ANGLE.toString() + "rad"
-                viewBinding.txtvProgressMax.text = MAX_ANGLE.toString() + "rad"
+                viewBinding.txtvProgressMin.text =
+                    String.format("%.2f", MIN_ANGLE.toDouble() * 0.01) + "rad"
+                viewBinding.txtvProgressMax.text =
+                    String.format("%.2f", MAX_ANGLE.toDouble() * 0.01) + "rad"
             }
             viewBinding.rightUpCheckbox -> {
                 viewBinding.mainProgressBar.min = MIN_HEIGHT
                 viewBinding.mainProgressBar.max = MAX_HEIGHT
-                viewBinding.txtvProgressMin.text = MIN_HEIGHT.toString() + "m"
-                viewBinding.txtvProgressMax.text = MAX_HEIGHT.toString() + "m"
+                viewBinding.txtvProgressMin.text =
+                    String.format("%.2f", MIN_HEIGHT.toDouble() * 0.01) + "m"
+                viewBinding.txtvProgressMax.text =
+                    String.format("%.2f", MAX_HEIGHT.toDouble() * 0.01) + "m"
             }
 
             viewBinding.rightDownCheckbox -> {
                 viewBinding.mainProgressBar.min = MIN_ANGLE
                 viewBinding.mainProgressBar.max = MAX_ANGLE
-                viewBinding.txtvProgressMin.text = MIN_ANGLE.toString() + "rad"
-                viewBinding.txtvProgressMax.text = MAX_ANGLE.toString() + "rad"
+                viewBinding.txtvProgressMin.text =
+                    String.format("%.2f", MIN_ANGLE.toDouble() * 0.01) + "rad"
+                viewBinding.txtvProgressMax.text =
+                    String.format("%.2f", MAX_ANGLE.toDouble() * 0.01) + "rad"
             }
         }
     }

@@ -204,23 +204,27 @@ class AndroidEncoderMessageParser : EncoderMessageParser {
 
     private fun getTplAngleMessage(toolControlModel: ToolControlModel): ByteArray {
         // TODO Divide toolvalue by 100
-        val toolMessage = ByteArray(3)
+        var toolMessage = ByteArray(1)
+        val valueToSend: Double = toolControlModel.toolValue.toDouble() * 0.01
         toolMessage[0] = toolControlModel.toolId.toByte()
+        toolMessage += valueToSend.toInt().toByte()
+
         return toolMessage
     }
 
     private fun getTplHeightMessage(toolControlModel: ToolControlModel): ByteArray {
         // TODO Divide toolvalue by 100
-        var toolMessage = ByteArray(3)
+        var toolMessage = ByteArray(1)
+        val valueToSend: Double = toolControlModel.toolValue.toDouble() * 0.01
         toolMessage[0] = toolControlModel.toolId.toByte()
-
+        toolMessage += valueToSend.toInt().toByte()
         return toolMessage
     }
 
     private fun getToolPtoMessage(toolControlModel: ToolControlModel): ByteArray {
-        var toolMessage = ByteArray(3)
+        var toolMessage = ByteArray(1)
         toolMessage[0] = toolControlModel.toolId.toByte()
-
+        toolMessage += toolControlModel.toolValue.toByte()
         return toolMessage
     }
 

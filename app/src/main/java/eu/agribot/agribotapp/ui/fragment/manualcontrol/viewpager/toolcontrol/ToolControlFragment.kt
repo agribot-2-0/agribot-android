@@ -6,9 +6,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.SeekBar
 import androidx.annotation.RequiresApi
+import androidx.core.view.isVisible
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseFragment
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.encoder.Tools
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.toolcontrolmessage.Tools
 import eu.agribot.agribotapp.databinding.FragmentToolControlBinding
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.TplSwitchesState
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemAdapter
@@ -36,6 +37,7 @@ class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolContr
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclers()
+        setSeekbarVisibility()
         viewModel.toolsList.observe(this::setTools)
         viewModel.switchesActive.observe(this::showSwitchesState)
         viewModel.tplEncoderValue.observe(this::setTplEncoderValue)
@@ -57,7 +59,7 @@ class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolContr
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {
-                // not used
+                viewModel.onSeekbarSetted(seekBar.progress)
             }
         })
     }
@@ -79,51 +81,55 @@ class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolContr
     private fun setCheckboxListeners() {
         viewBinding.leftUpCheckbox.setOnCheckedChangeListener { _, isChecked ->
             viewModel.onActivateTplParametrChanged(Tools.TplHeight.Front.toolId, isChecked)
-            if (isChecked) {
-                setMInMaxSeekBar(viewBinding.leftUpCheckbox)
-            }
-
+            setMinMaxSeekbarValue(viewBinding.leftUpCheckbox)
         }
         viewBinding.leftDownCheckbox.setOnCheckedChangeListener { _, isChecked ->
             viewModel.onActivateTplParametrChanged(Tools.TplAngle.Front.toolId, isChecked)
-            if (isChecked) {
-                setMInMaxSeekBar(viewBinding.leftDownCheckbox)
-            }
+            setMinMaxSeekbarValue(viewBinding.leftDownCheckbox)
         }
 
         viewBinding.rightUpCheckbox.setOnCheckedChangeListener { _, isChecked ->
             viewModel.onActivateTplParametrChanged(Tools.TplHeight.Rear.toolId, isChecked)
-            if (isChecked) {
-                setMInMaxSeekBar(viewBinding.rightUpCheckbox)
-            }
+            setMinMaxSeekbarValue(viewBinding.rightUpCheckbox)
         }
         viewBinding.rightDownCheckbox.setOnCheckedChangeListener { _, isChecked ->
             viewModel.onActivateTplParametrChanged(Tools.TplAngle.Rear.toolId, isChecked)
-            if (isChecked) {
-                setMInMaxSeekBar(viewBinding.rightDownCheckbox)
-            }
+            setMinMaxSeekbarValue(viewBinding.rightDownCheckbox)
+        }
+    }
+
+    private fun setSeekbarVisibility() {
+        if (viewBinding.leftUpCheckbox.isChecked || viewBinding.leftDownCheckbox.isChecked ||
+            viewBinding.rightUpCheckbox.isChecked || viewBinding.rightDownCheckbox.isChecked
+        ) {
+            viewBinding.progreess.isVisible = true
+            viewBinding.seekbarText.isVisible = true
+        } else {
+            viewBinding.progreess.isVisible = false
+            viewBinding.seekbarText.isVisible = false
         }
     }
 
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun setMInMaxSeekBar(view: View?) {
+    private fun setMinMaxSeekbarValue(view: View?) {
         if (view == viewBinding.leftUpCheckbox || view == viewBinding.rightUpCheckbox) {
             viewBinding.mainProgressBar.min = MIN_HEIGHT
             viewBinding.mainProgressBar.max = MAX_HEIGHT
             viewBinding.txtvProgressMin.text =
-                String.format("%.2f", MIN_HEIGHT.toDouble() * 0.01) + "m"
+                String.format("%.2f", MIN_HEIGHT.toDouble() * 0.01) + getString(R.string.meters)
             viewBinding.txtvProgressMax.text =
-                String.format("%.2f", MAX_HEIGHT.toDouble() * 0.01) + "m"
+                String.format("%.2f", MAX_HEIGHT.toDouble() * 0.01) + getString(R.string.meters)
         } else {
             viewBinding.mainProgressBar.min = MIN_ANGLE
             viewBinding.mainProgressBar.max = MAX_ANGLE
             viewBinding.txtvProgressMin.text =
-                String.format("%.2f", MIN_ANGLE.toDouble() * 0.01) + "rad"
+                String.format("%.2f", MIN_ANGLE.toDouble() * 0.01) + getString(R.string.radians)
             viewBinding.txtvProgressMax.text =
-                String.format("%.2f", MAX_ANGLE.toDouble() * 0.01) + "rad"
+                String.format("%.2f", MAX_ANGLE.toDouble() * 0.01) + getString(R.string.radians)
         }
-
+        setSeekbarVisibility()
+        setSeekbarText(viewBinding.mainProgressBar.progress)
     }
 
     private fun showSwitchesState(tplSwitchesState: TplSwitchesState) {

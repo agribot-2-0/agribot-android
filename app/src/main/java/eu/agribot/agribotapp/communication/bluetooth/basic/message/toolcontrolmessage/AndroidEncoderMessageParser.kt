@@ -1,12 +1,13 @@
-package eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.encoder
+package eu.agribot.agribotapp.communication.bluetooth.basic.message.toolcontrolmessage
 
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.DiagnosticDataArrayPosition
 import eu.agribot.agribotapp.communication.bluetooth.model.fromcommunication.ToolFeedbackDataBD
+import eu.agribot.agribotapp.domain.model.ToolControlModel
 import kotlin.experimental.xor
 
-class AndroidEncoderResponseParser : EncoderResponseParser {
+class AndroidEncoderMessageParser : EncoderMessageParser {
 
-    override fun parseEncoderResponse(encoderResponse: ByteArray): ToolFeedbackDataBD {
+    override fun decodeToolMessage(encoderResponse: ByteArray): ToolFeedbackDataBD {
         return when (encoderResponse[DiagnosticDataArrayPosition.TOOL_FEEDBACK_ID.position].toInt()) {
             Tools.TplAngle.Front.toolId -> {
                 getTplAngleValueResponse(encoderResponse)
@@ -157,6 +158,95 @@ class AndroidEncoderResponseParser : EncoderResponseParser {
 
     private fun getToolId(encoderResponse: ByteArray): Int =
         encoderResponse[CONF_ID_POSITION].toInt()
+
+    override fun encodeToolMessage(toolControlModel: ToolControlModel): ByteArray {
+        return when (toolControlModel.toolId) {
+
+            Tools.TplAngle.Front.toolId -> {
+                getTplAngleMessage(toolControlModel)
+            }
+            Tools.TplAngle.Rear.toolId -> {
+                getTplAngleMessage(toolControlModel)
+            }
+            Tools.TplHeight.Front.toolId -> {
+                getTplHeightMessage(toolControlModel)
+            }
+            Tools.TplHeight.Rear.toolId -> {
+                getTplHeightMessage(toolControlModel)
+            }
+            Tools.Pto.Front.toolId -> {
+                getToolPtoMessage(toolControlModel)
+            }
+            Tools.Pto.Rear.toolId -> {
+                getToolPtoMessage(toolControlModel)
+            }
+            Tools.Green.Front.toolId -> {
+                getGreenToolMessage(toolControlModel)
+            }
+            Tools.Green.Rear.toolId -> {
+                getGreenToolMessage(toolControlModel)
+            }
+            Tools.Yellow.Front.toolId -> {
+                getYellowToolMessage(toolControlModel)
+            }
+            Tools.Yellow.Rear.toolId -> {
+                getYellowToolMessage(toolControlModel)
+            }
+            Tools.Blue.Front.toolId -> {
+                getBlueToolMessage(toolControlModel)
+            }
+            Tools.Blue.Rear.toolId -> {
+                getBlueToolMessage(toolControlModel)
+            }
+            else -> ByteArray(0)
+        }
+    }
+
+    private fun getTplAngleMessage(toolControlModel: ToolControlModel): ByteArray {
+        // TODO Divide toolvalue by 100
+        val toolMessage = ByteArray(3)
+        toolMessage[0] = toolControlModel.toolId.toByte()
+        return toolMessage
+    }
+
+    private fun getTplHeightMessage(toolControlModel: ToolControlModel): ByteArray {
+        // TODO Divide toolvalue by 100
+        var toolMessage = ByteArray(3)
+        toolMessage[0] = toolControlModel.toolId.toByte()
+
+        return toolMessage
+    }
+
+    private fun getToolPtoMessage(toolControlModel: ToolControlModel): ByteArray {
+        var toolMessage = ByteArray(3)
+        toolMessage[0] = toolControlModel.toolId.toByte()
+
+        return toolMessage
+    }
+
+    private fun getGreenToolMessage(toolControlModel: ToolControlModel): ByteArray {
+        val toolMessage = ByteArray(3)
+        toolMessage[0] = toolControlModel.toolId.toByte()
+        toolMessage[1] = 0.toByte()
+        toolMessage[2] = toolControlModel.toolValue.toByte()
+        return toolMessage
+    }
+
+    private fun getYellowToolMessage(toolControlModel: ToolControlModel): ByteArray {
+        val toolMessage = ByteArray(3)
+        toolMessage[0] = toolControlModel.toolId.toByte()
+        toolMessage[1] = 0.toByte()
+        toolMessage[2] = toolControlModel.toolValue.toByte()
+        return toolMessage
+    }
+
+    private fun getBlueToolMessage(toolControlModel: ToolControlModel): ByteArray {
+        val toolMessage = ByteArray(3)
+        toolMessage[0] = toolControlModel.toolId.toByte()
+        toolMessage[1] = 0.toByte()
+        toolMessage[2] = toolControlModel.toolValue.toByte()
+        return toolMessage
+    }
 
     companion object {
         const val CONF_ID_POSITION = 0

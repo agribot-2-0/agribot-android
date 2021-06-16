@@ -2,18 +2,18 @@ package eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.encoder.Tools
+import eu.agribot.agribotapp.common.resources.ResourcesProvider
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.toolcontrolmessage.Tools
+import eu.agribot.agribotapp.domain.model.ToolControlModel
 import eu.agribot.agribotapp.domain.service.ManualModeService
-import eu.agribot.agribotapp.domain.service.ToolControlService
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.ALL_SWITCHES
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.BLUE_TOOL
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.GREEN_TOOL
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.PTO_TOOL
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.YELLOW_TOOL
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.TplSwitchesState
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemViewModel
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.RecyclerConstant
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.TplSwitchesActive
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 @ExperimentalCoroutinesApi
 class ToolControlViewModel(
     private val manualModeService: ManualModeService,
-    private val toolControlService: ToolControlService
+    private val resourcesProvider: ResourcesProvider
 ) : BaseViewModel() {
     val toolsList: MutableLiveData<List<HitchListItemViewModel>> =
         MutableLiveData(listOf())
@@ -46,7 +46,11 @@ class ToolControlViewModel(
                         Tools.Yellow.Front.toolId,
                         Tools.Green.Front.toolId
                     ).contains(it.toolId) -> {
-                        addToToolsList("", it.toolId, it.toolValue.toString())
+                        addToToolsList(
+                            "",
+                            it.toolId,
+                            it.toolValue.toString()
+                        )
                     }
                     setOf(
                         Tools.Blue.Rear.toolId,
@@ -54,7 +58,11 @@ class ToolControlViewModel(
                         Tools.Yellow.Rear.toolId,
                         Tools.Green.Rear.toolId
                     ).contains(it.toolId) -> {
-                        addToToolsList("", it.toolId, it.toolValue.toString())
+                        addToToolsList(
+                            "",
+                            it.toolId,
+                            it.toolValue.toString()
+                        )
                     }
                     setOf(
                         Tools.TplAngle.Front.toolId,
@@ -62,7 +70,10 @@ class ToolControlViewModel(
                         Tools.TplHeight.Front.toolId,
                         Tools.TplHeight.Rear.toolId
                     ).contains(it.toolId) -> {
-                        setEncoderTplValue(it.toolId, (it.toolValue.toDouble() / 1000).toString())
+                        setEncoderTplValue(
+                            it.toolId,
+                            (it.toolValue.toDouble() / 1000).toString()
+                        )
                     }
                 }
             }
@@ -70,22 +81,13 @@ class ToolControlViewModel(
     }
 
     private fun setEncoderTplValue(toolID: Int, encoderValue: String) {
-        tplEncoderValue.value = ToolEncoderValue(toolID, encoderValue)
-    }
-
-    fun onHitchParametersChanged(
-        sliderNumber: Int,
-        sliderValue: Int,
-        isActivated: Boolean
-    ) {
-        updateProgressValue(
-            sliderNumber,
-            toolControlService.getTplProgressValue(sliderNumber, sliderValue)
+        tplEncoderValue.value = ToolEncoderValue(
+            toolID,
+            encoderValue
         )
     }
 
     fun onActivateTplParametrChanged(tplNumber: Int, isTplActive: Boolean) {
-        onHitchParametersChanged(ALL_SWITCHES, RecyclerConstant.DEFAULT_SLIDER_VALUE_MIN, false)
         activeTpl.value = TplSwitchesActive(tplNumber, isTplActive)
         when (tplNumber) {
             Tools.TplHeight.Front.toolId -> {
@@ -143,32 +145,6 @@ class ToolControlViewModel(
         )
     }
 
-    fun onTplParametersChanged(progress: Int) {
-        if (activeTpl.value != null) {
-            onHitchParametersChanged(
-                activeTpl.value!!.tuzNumber,
-                progress,
-                activeTpl.value!!.isTplActive
-            )
-        }
-    }
-
-    private fun updateProgressValue(switchNumber: Int, progressValue: String) {
-        toolsList.value = toolsList.value!!.map { oldAttribute ->
-            if (oldAttribute.switchNumber == switchNumber) {
-                HitchListItemViewModel(
-                    oldAttribute.toolName,
-                    switchNumber,
-                    progressValue = progressValue,
-                    encoderValue = oldAttribute.encoderValue,
-                    isNewToolControl = true,
-                )
-            } else {
-                oldAttribute
-            }
-        }
-    }
-
     private fun addToToolsList(toolName: String, switchNumber: Int, encoderValue: String) {
         val isAttributeAlreadyAdded = toolsList.value!!.any { arrtibute ->
             arrtibute.switchNumber == switchNumber
@@ -190,7 +166,7 @@ class ToolControlViewModel(
                         oldAttribute.toolName,
                         oldAttribute.switchNumber,
                         encoderValue = encoderValue,
-                        isNewToolControl = true,
+                        isNewToolControl = true
                     )
                 } else {
                     oldAttribute
@@ -221,15 +197,58 @@ class ToolControlViewModel(
             Tools.Pto.Rear.toolId
         )
         for (itemPosition in switchNumber.indices) {
-            addToToolsList(toolList[itemPosition], switchNumber[itemPosition], "")
+            addToToolsList(
+                toolList[itemPosition],
+                switchNumber[itemPosition],
+                ""
+            )
         }
     }
 
     fun getSeekBarText(progress: Int): String {
         switchesActive.value?.activeTplId.let {
             return if (it != null) {
-                toolControlService.getTplProgressValue(it, progress)
+                getTplProgressValue(
+                    it,
+                    progress
+                )
             } else ""
+        }
+    }
+
+    fun onHitchParametersChanged(
+        sliderNumber: Int,
+        sliderValue: Int,
+        isActivated: Boolean
+    ) {
+        if (isActivated) {
+            manualModeService.createToolControlMessage(
+                ToolControlModel(
+                    toolId = sliderNumber,
+                    toolValue = sliderValue
+                )
+            )
+        }
+    }
+
+    fun onSeekbarSetted(progress: Int) {
+        switchesActive.value?.activeTplId?.also {
+            manualModeService.createToolControlMessage(
+                ToolControlModel(
+                    toolId = it,
+                    toolValue = progress
+                )
+            )
+        }
+    }
+
+    private fun getTplProgressValue(toolId: Int, toolProgress: Int): String {
+        return if (toolId == Tools.TplHeight.Front.toolId || toolId == Tools.TplHeight.Rear.toolId) {
+            String.format("%.2f", toolProgress.toDouble() * 0.01) + resourcesProvider.getString(R.string.meters)
+        } else return if (toolId == Tools.TplAngle.Front.toolId || toolId == Tools.TplAngle.Rear.toolId) {
+            String.format("%.2f", toolProgress.toDouble() * 0.01) + resourcesProvider.getString(R.string.radians)
+        } else {
+            return String.format("%.2f", toolProgress.toDouble() * 0.01)
         }
     }
 

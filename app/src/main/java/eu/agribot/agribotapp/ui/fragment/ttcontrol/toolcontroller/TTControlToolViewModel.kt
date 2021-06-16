@@ -3,10 +3,9 @@ package eu.agribot.agribotapp.ui.fragment.ttcontrol.toolcontroller
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.encoder.Tools
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.toolcontrolmessage.Tools
 import eu.agribot.agribotapp.domain.model.fromdomain.SwitchSettings
 import eu.agribot.agribotapp.domain.service.ManualModeService
-import eu.agribot.agribotapp.domain.service.ToolControlService
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.TplSwitchesState
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemViewModel
@@ -87,7 +86,7 @@ class TTControlToolViewModel(
         sliderValue: Int,
         isActivated: Boolean
     ) {
-        manualModeService.setTTControllToolMessage(
+        manualModeService.createTTControllToolMessage(
             SwitchSettings(
                 sliderNumber,
                 isActivated,
@@ -163,7 +162,7 @@ class TTControlToolViewModel(
     fun onTplValueChanged(progress: Int) {
         switchesActive.value.let {
             if (it != null) {
-                manualModeService.setTTControllToolMessage(
+                manualModeService.createTTControllToolMessage(
                     SwitchSettings(
                         it.activeTplId,
                         true,

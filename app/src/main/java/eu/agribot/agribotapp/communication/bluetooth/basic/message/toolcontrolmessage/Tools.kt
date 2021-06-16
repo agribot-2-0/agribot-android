@@ -1,4 +1,4 @@
-package eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.encoder
+package eu.agribot.agribotapp.communication.bluetooth.basic.message.toolcontrolmessage
 
 sealed class Tools(val toolId: Int) {
 

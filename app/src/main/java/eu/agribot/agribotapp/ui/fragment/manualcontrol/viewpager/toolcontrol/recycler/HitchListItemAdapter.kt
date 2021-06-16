@@ -8,7 +8,8 @@ import android.widget.SeekBar
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.encoder.Tools
+import eu.agribot.agribotapp.R
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.toolcontrolmessage.Tools
 import eu.agribot.agribotapp.databinding.ListItemHitchBinding
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewHolder
 import kotlinx.android.synthetic.main.list_item_hitch.view.*
@@ -58,30 +59,36 @@ class HitchListItemAdapter(
                     holder.itemView.recycler_seekbar.min = 0
                     holder.itemView.recycler_seekbar.max = 1000
                     holder.itemView.recycler_tool_value.text =
-                        holder.itemView.recycler_seekbar.progress.toString() + " RPM"
-
+                        holder.itemView.recycler_seekbar.progress.toString() + holder.itemView.context.getString(
+                            R.string.rpm
+                        )
                 }
                 Tools.Pto.Rear.toolId -> {
                     holder.itemView.recycler_seekbar.min = 0
                     holder.itemView.recycler_seekbar.max = 1000
                     holder.itemView.recycler_tool_value.text =
-                        holder.itemView.recycler_seekbar.progress.toString() + " RPM"
+                        holder.itemView.recycler_seekbar.progress.toString() + holder.itemView.context.getString(
+                            R.string.rpm
+                        )
                 }
                 else -> {
                     holder.itemView.recycler_seekbar.min = 0
                     holder.itemView.recycler_seekbar.max = 100
                     holder.itemView.recycler_tool_value.text =
-                        holder.itemView.recycler_seekbar.progress.toString() + " %"
+                        holder.itemView.recycler_seekbar.progress.toString() + holder.itemView.context.getString(
+                            R.string.percent
+                        )
                 }
             }
-
         } else {
-            holder.itemView.recycler_tool_value.text = item.progressValue
             holder.itemView.recycler_seekbar.min = 0
-            holder.itemView.recycler_seekbar.max = 100
             holder.itemView.recycler_seekbar.progress = item.hitchListItemDetail.toolStartValue
+            holder.itemView.recycler_seekbar.max = 100
+            holder.itemView.recycler_tool_value.text =
+                holder.itemView.recycler_seekbar.progress.toString() + holder.itemView.context.getString(
+                    R.string.percent
+                )
         }
-
 
         holder.itemView.recycler_seekbar.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
@@ -91,6 +98,28 @@ class HitchListItemAdapter(
                 if (!item.isNewToolControl) {
                     holder.itemView.recycler_tool_value.text =
                         "$progress ${item.hitchListItemDetail.toolUnit}"
+                } else {
+                    when (item.switchNumber) {
+                        Tools.Pto.Front.toolId -> {
+                            holder.itemView.recycler_tool_value.text =
+                                holder.itemView.recycler_seekbar.progress.toString() + holder.itemView.context.getString(
+                                    R.string.rpm
+                                )
+                        }
+                        Tools.Pto.Rear.toolId -> {
+                            holder.itemView.recycler_tool_value.text =
+                                holder.itemView.recycler_seekbar.progress.toString() + holder.itemView.context.getString(
+                                    R.string.rpm
+                                )
+                        }
+                        else -> {
+
+                            holder.itemView.recycler_tool_value.text =
+                                holder.itemView.recycler_seekbar.progress.toString() + holder.itemView.context.getString(
+                                    R.string.percent
+                                )
+                        }
+                    }
                 }
             }
 
@@ -109,12 +138,14 @@ class HitchListItemAdapter(
         })
 
         holder.itemView.recycler_switch.setOnCheckedChangeListener { _, isChecked ->
+            if (!item.isNewToolControl) {
+                onItemParametrsChange(
+                    item.switchNumber,
+                    itemSliderValue,
+                    isItemActive
+                )
+            }
             isItemActive = isChecked
-            onItemParametrsChange(
-                item.switchNumber,
-                itemSliderValue,
-                isItemActive
-            )
         }
     }
 

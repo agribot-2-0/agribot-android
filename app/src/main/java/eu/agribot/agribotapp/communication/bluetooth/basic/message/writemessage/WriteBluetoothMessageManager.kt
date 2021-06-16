@@ -37,4 +37,6 @@ interface WriteBluetoothMessageManager {
     fun sendRfidScanRequest(rfidArray: ByteArray)
 
     fun sendSafeModeRequestMessage()
+
+    fun sendToolControlMessage(toolControlArray: ByteArray)
 }

@@ -23,7 +23,7 @@ import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessa
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.DiagnosticDataArrayPosition.FUEL_TEMPERATURE_BYTE
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.DiagnosticDataArrayPosition.HUDRAULIC_OIL_TEMPERATURE_BYTE
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.DiagnosticDataArrayPosition.TORQUE_OF_ENGINE_BYTE
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.encoder.EncoderResponseParser
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.toolcontrolmessage.EncoderMessageParser
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.RfidMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.WriteBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.const.BluetoothAdressCodeModel
@@ -45,7 +45,7 @@ class AndroidReceivedBluetoothMessageManager(
     private val heartbeatManager: HeartbeatManager,
     private val rfidMessageManager: RfidMessageManager,
     private val crashlysticService: CrashlysticService,
-    private val encoderResponseParser: EncoderResponseParser
+    private val encoderMessageParser: EncoderMessageParser
 ) : ReceivedBluetoothMessageManager {
 
     @ExperimentalCoroutinesApi
@@ -191,7 +191,7 @@ class AndroidReceivedBluetoothMessageManager(
 
     @ExperimentalCoroutinesApi
     private fun handleToolFeedback(toolMessageData: ByteArray) {
-        toolFeedbackFlow.value = encoderResponseParser.parseEncoderResponse(toolMessageData)
+        toolFeedbackFlow.value = encoderMessageParser.decodeToolMessage(toolMessageData)
     }
 
     @ExperimentalCoroutinesApi

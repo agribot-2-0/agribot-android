@@ -247,4 +247,15 @@ class AndroidWriteBluetoothMessageManager(
             ).bluetoothMessageArray
         )
     }
+
+    override fun sendToolControlMessage(toolControlArray: ByteArray) {
+        writeBluetoothMessage(
+            BluetoothMessageFrame(
+                CANmessageData(
+                    BluetoothAdressCodeModel.TOOL_REQUEST.number,
+                    toolControlArray
+                )
+            ).bluetoothMessageArray
+        )
+    }
 }

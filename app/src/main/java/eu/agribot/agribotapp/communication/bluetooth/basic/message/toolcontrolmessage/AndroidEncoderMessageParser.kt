@@ -204,51 +204,65 @@ class AndroidEncoderMessageParser : EncoderMessageParser {
 
     private fun getTplAngleMessage(toolControlModel: ToolControlModel): ByteArray {
         // TODO Divide toolvalue by 100
-        var toolMessage = ByteArray(1)
-        val valueToSend: Double = toolControlModel.toolValue.toDouble() * 0.01
-        toolMessage[0] = toolControlModel.toolId.toByte()
-        toolMessage += valueToSend.toInt().toByte()
+        var toolMessage = ByteArray(TPL_FRAME_LENGTH)
+        var valueToSend: Int = toolControlModel.toolValue * 10
+        if (valueToSend >= 0)
+        {
+            toolMessage[0] = toolControlModel.toolId.toByte()
+            toolMessage[1] = (valueToSend and 0xff00).shr(BYTE_LENGHT).toByte()
+            toolMessage[2] = (valueToSend and 0xff).toByte()
+        }
+        else
+        {
+            valueToSend *= -1
+            toolMessage[0] = toolControlModel.toolId.toByte()
+            toolMessage[1] = ((valueToSend and 0xff00).shr(BYTE_LENGHT)).toByte().xor(0x80.toByte())
+            toolMessage[2] = (valueToSend and 0xff).toByte()
+        }
+
+
 
         return toolMessage
     }
 
     private fun getTplHeightMessage(toolControlModel: ToolControlModel): ByteArray {
-        // TODO Divide toolvalue by 100
-        var toolMessage = ByteArray(1)
-        val valueToSend: Double = toolControlModel.toolValue.toDouble() * 0.01
+        var toolMessage = ByteArray(TPL_FRAME_LENGTH)
+        val valueToSend: Int = toolControlModel.toolValue * 10
         toolMessage[0] = toolControlModel.toolId.toByte()
-        toolMessage += valueToSend.toInt().toByte()
+        toolMessage[1] = (valueToSend and 0xff00).shr(BYTE_LENGHT).toByte()
+        toolMessage[2] = (valueToSend and 0xff).toByte()
         return toolMessage
     }
 
     private fun getToolPtoMessage(toolControlModel: ToolControlModel): ByteArray {
-        var toolMessage = ByteArray(1)
+        var toolMessage = ByteArray(TPL_FRAME_LENGTH)
         toolMessage[0] = toolControlModel.toolId.toByte()
-        toolMessage += toolControlModel.toolValue.toByte()
+        toolMessage[1] = (toolControlModel.toolValue and 0xff00).shr(BYTE_LENGHT).toByte()
+        toolMessage[2] = (toolControlModel.toolValue and 0xff).toByte()
         return toolMessage
     }
 
     private fun getGreenToolMessage(toolControlModel: ToolControlModel): ByteArray {
-        val toolMessage = ByteArray(3)
+        val toolMessage = ByteArray(TPL_FRAME_LENGTH)
         toolMessage[0] = toolControlModel.toolId.toByte()
-        toolMessage[1] = 0.toByte()
-        toolMessage[2] = toolControlModel.toolValue.toByte()
+        toolMessage[1] = 0x00.toByte()
+        toolMessage[2] = (toolControlModel.toolValue and 0xff).toByte()
         return toolMessage
     }
 
     private fun getYellowToolMessage(toolControlModel: ToolControlModel): ByteArray {
-        val toolMessage = ByteArray(3)
+        val toolMessage = ByteArray(TPL_FRAME_LENGTH)
         toolMessage[0] = toolControlModel.toolId.toByte()
-        toolMessage[1] = 0.toByte()
-        toolMessage[2] = toolControlModel.toolValue.toByte()
+        toolMessage[1] = 0x00.toByte()
+        toolMessage[2] = (toolControlModel.toolValue and 0xff).toByte()
         return toolMessage
     }
 
     private fun getBlueToolMessage(toolControlModel: ToolControlModel): ByteArray {
-        val toolMessage = ByteArray(3)
+        val toolMessage = ByteArray(TPL_FRAME_LENGTH)
         toolMessage[0] = toolControlModel.toolId.toByte()
-        toolMessage[1] = 0.toByte()
-        toolMessage[2] = toolControlModel.toolValue.toByte()
+        toolMessage[1] = 0x00.toByte()
+        toolMessage[2] = (toolControlModel.toolValue and 0xff).toByte()
         return toolMessage
     }
 

@@ -187,14 +187,14 @@ class ToolControlViewModel(
             PTO_TOOL
         )
         val switchNumber = listOf(
-            Tools.Green.Front.toolId,
             Tools.Green.Rear.toolId,
-            Tools.Yellow.Front.toolId,
+            Tools.Green.Front.toolId,
             Tools.Yellow.Rear.toolId,
-            Tools.Blue.Front.toolId,
+            Tools.Yellow.Front.toolId,
             Tools.Blue.Rear.toolId,
-            Tools.Pto.Front.toolId,
-            Tools.Pto.Rear.toolId
+            Tools.Blue.Front.toolId,
+            Tools.Pto.Rear.toolId,
+            Tools.Pto.Front.toolId
         )
         for (itemPosition in switchNumber.indices) {
             addToToolsList(

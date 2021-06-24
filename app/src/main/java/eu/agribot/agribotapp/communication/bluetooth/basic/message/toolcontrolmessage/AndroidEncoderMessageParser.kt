@@ -91,7 +91,7 @@ class AndroidEncoderMessageParser : EncoderMessageParser {
             if (isNegativeNumber(encoderResponse[CONF_VAL_B1_POSITION])) {
                 var toolValue = twoBytesToUnsingedInt(
                     byteArrayOf(
-                        changeHighestBit(encoderResponse[CONF_VAL_B1_POSITION]),
+                        flipHighestBit(encoderResponse[CONF_VAL_B1_POSITION]),
                         encoderResponse[CONF_VAL_B0_POSITION]
                     )
                 )
@@ -116,7 +116,7 @@ class AndroidEncoderMessageParser : EncoderMessageParser {
             if (isNegativeNumber(encoderResponse[CONF_VAL_B1_POSITION])) {
                 var toolValue = twoBytesToUnsingedInt(
                     byteArrayOf(
-                        changeHighestBit(encoderResponse[CONF_VAL_B1_POSITION]),
+                        flipHighestBit(encoderResponse[CONF_VAL_B1_POSITION]),
                         encoderResponse[CONF_VAL_B0_POSITION]
                     )
                 )
@@ -136,7 +136,7 @@ class AndroidEncoderMessageParser : EncoderMessageParser {
         }
     }
 
-    private fun changeHighestBit(number: Byte): Byte {
+    private fun flipHighestBit(number: Byte): Byte {
         return number.xor(HIGHEST_BIT_MASK.toByte())
     }
 
@@ -154,6 +154,14 @@ class AndroidEncoderMessageParser : EncoderMessageParser {
             result = (array[0].toInt().shl(BYTE_LENGHT) and 0xff00) + (array[1].toInt() and 0xff)
         }
         return result
+    }
+
+    private fun getHigherByte(value: Int): Byte {
+        return (value and 0xff00).shr(BYTE_LENGHT).toByte()
+    }
+
+    private fun getLowerByte(value: Int): Byte {
+        return (value and 0xff).toByte()
     }
 
     private fun getToolId(encoderResponse: ByteArray): Int =
@@ -203,66 +211,62 @@ class AndroidEncoderMessageParser : EncoderMessageParser {
     }
 
     private fun getTplAngleMessage(toolControlModel: ToolControlModel): ByteArray {
-        // TODO Divide toolvalue by 100
         var toolMessage = ByteArray(TPL_FRAME_LENGTH)
         var valueToSend: Int = toolControlModel.toolValue * 10
         if (valueToSend >= 0)
         {
-            toolMessage[0] = toolControlModel.toolId.toByte()
-            toolMessage[1] = (valueToSend and 0xff00).shr(BYTE_LENGHT).toByte()
-            toolMessage[2] = (valueToSend and 0xff).toByte()
+            toolMessage[CONF_ID_POSITION] = toolControlModel.toolId.toByte()
+            toolMessage[CONF_VAL_B1_POSITION] = getHigherByte(valueToSend)
+            toolMessage[CONF_VAL_B0_POSITION] = getLowerByte(valueToSend)
         }
         else
         {
             valueToSend *= -1
-            toolMessage[0] = toolControlModel.toolId.toByte()
-            toolMessage[1] = ((valueToSend and 0xff00).shr(BYTE_LENGHT)).toByte().xor(0x80.toByte())
-            toolMessage[2] = (valueToSend and 0xff).toByte()
+            toolMessage[CONF_ID_POSITION] = toolControlModel.toolId.toByte()
+            toolMessage[CONF_VAL_B1_POSITION] = flipHighestBit(getHigherByte(valueToSend))
+            toolMessage[CONF_VAL_B0_POSITION] = getLowerByte(valueToSend)
         }
-
-
-
         return toolMessage
     }
 
     private fun getTplHeightMessage(toolControlModel: ToolControlModel): ByteArray {
         var toolMessage = ByteArray(TPL_FRAME_LENGTH)
         val valueToSend: Int = toolControlModel.toolValue * 10
-        toolMessage[0] = toolControlModel.toolId.toByte()
-        toolMessage[1] = (valueToSend and 0xff00).shr(BYTE_LENGHT).toByte()
-        toolMessage[2] = (valueToSend and 0xff).toByte()
+        toolMessage[CONF_ID_POSITION] = toolControlModel.toolId.toByte()
+        toolMessage[CONF_VAL_B1_POSITION] = getHigherByte(valueToSend)
+        toolMessage[CONF_VAL_B0_POSITION] = getLowerByte(valueToSend)
         return toolMessage
     }
 
     private fun getToolPtoMessage(toolControlModel: ToolControlModel): ByteArray {
         var toolMessage = ByteArray(TPL_FRAME_LENGTH)
-        toolMessage[0] = toolControlModel.toolId.toByte()
-        toolMessage[1] = (toolControlModel.toolValue and 0xff00).shr(BYTE_LENGHT).toByte()
-        toolMessage[2] = (toolControlModel.toolValue and 0xff).toByte()
+        toolMessage[CONF_ID_POSITION] = toolControlModel.toolId.toByte()
+        toolMessage[CONF_VAL_B1_POSITION] = getHigherByte(toolControlModel.toolValue)
+        toolMessage[CONF_VAL_B0_POSITION] = getLowerByte(toolControlModel.toolValue)
         return toolMessage
     }
 
     private fun getGreenToolMessage(toolControlModel: ToolControlModel): ByteArray {
         val toolMessage = ByteArray(TPL_FRAME_LENGTH)
-        toolMessage[0] = toolControlModel.toolId.toByte()
-        toolMessage[1] = 0x00.toByte()
-        toolMessage[2] = (toolControlModel.toolValue and 0xff).toByte()
+        toolMessage[CONF_ID_POSITION] = toolControlModel.toolId.toByte()
+        toolMessage[CONF_VAL_B1_POSITION] = 0x00.toByte()
+        toolMessage[CONF_VAL_B0_POSITION] = getLowerByte(toolControlModel.toolValue)
         return toolMessage
     }
 
     private fun getYellowToolMessage(toolControlModel: ToolControlModel): ByteArray {
         val toolMessage = ByteArray(TPL_FRAME_LENGTH)
-        toolMessage[0] = toolControlModel.toolId.toByte()
-        toolMessage[1] = 0x00.toByte()
-        toolMessage[2] = (toolControlModel.toolValue and 0xff).toByte()
+        toolMessage[CONF_ID_POSITION] = toolControlModel.toolId.toByte()
+        toolMessage[CONF_VAL_B1_POSITION] = 0x00.toByte()
+        toolMessage[CONF_VAL_B0_POSITION] = getLowerByte(toolControlModel.toolValue)
         return toolMessage
     }
 
     private fun getBlueToolMessage(toolControlModel: ToolControlModel): ByteArray {
         val toolMessage = ByteArray(TPL_FRAME_LENGTH)
-        toolMessage[0] = toolControlModel.toolId.toByte()
-        toolMessage[1] = 0x00.toByte()
-        toolMessage[2] = (toolControlModel.toolValue and 0xff).toByte()
+        toolMessage[CONF_ID_POSITION] = toolControlModel.toolId.toByte()
+        toolMessage[CONF_VAL_B1_POSITION] = 0x00.toByte()
+        toolMessage[CONF_VAL_B0_POSITION] = getLowerByte(toolControlModel.toolValue)
         return toolMessage
     }
 

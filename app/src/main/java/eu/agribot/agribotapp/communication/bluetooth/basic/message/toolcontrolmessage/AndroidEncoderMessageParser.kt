@@ -213,14 +213,11 @@ class AndroidEncoderMessageParser : EncoderMessageParser {
     private fun getTplAngleMessage(toolControlModel: ToolControlModel): ByteArray {
         var toolMessage = ByteArray(TPL_FRAME_LENGTH)
         var valueToSend: Int = toolControlModel.toolValue * 10
-        if (valueToSend >= 0)
-        {
+        if (valueToSend >= 0) {
             toolMessage[CONF_ID_POSITION] = toolControlModel.toolId.toByte()
             toolMessage[CONF_VAL_B1_POSITION] = getHigherByte(valueToSend)
             toolMessage[CONF_VAL_B0_POSITION] = getLowerByte(valueToSend)
-        }
-        else
-        {
+        } else {
             valueToSend *= -1
             toolMessage[CONF_ID_POSITION] = toolControlModel.toolId.toByte()
             toolMessage[CONF_VAL_B1_POSITION] = flipHighestBit(getHigherByte(valueToSend))

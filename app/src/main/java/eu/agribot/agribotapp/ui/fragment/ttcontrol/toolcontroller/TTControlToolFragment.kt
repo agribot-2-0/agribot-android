@@ -61,7 +61,7 @@ class TTControlToolFragment : BaseFragment<TTControlToolViewModel, FragmentTtcon
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
-                // Do something
+                // not used
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {

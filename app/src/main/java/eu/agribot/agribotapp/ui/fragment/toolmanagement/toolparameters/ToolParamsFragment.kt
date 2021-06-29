@@ -11,7 +11,6 @@ import eu.agribot.agribotapp.common.navigation.events.ToolNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentToolManagementParamsBinding
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemAdapter
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemViewModel
-import kotlinx.android.synthetic.main.fragment_tool_management_params.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -27,8 +26,8 @@ class ToolParamsFragment :
     @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        toolParamsBottomDetailsView.itemNameText = viewModel.displayToolName.value ?: ""
-        toolParamsBottomDetailsView.fourthButtonClickListener =
+        viewBinding.toolParamsBottomDetailsView.itemNameText = viewModel.displayToolName.value ?: ""
+        viewBinding.toolParamsBottomDetailsView.fourthButtonClickListener =
             View.OnClickListener { viewModel.sendToolData() }
         observeViewModel()
         viewModel.createToolsList()
@@ -39,7 +38,7 @@ class ToolParamsFragment :
     private fun setToolPhoto() {
         Glide.with(requireContext())
             .load(viewModel.getToolPhotoDirection())
-            .into(params_tool_photo)
+            .into(viewBinding.paramsToolPhoto)
     }
 
     @ExperimentalCoroutinesApi
@@ -48,8 +47,8 @@ class ToolParamsFragment :
     }
 
     private fun setupRecyclers() {
-        params_recycler.adapter = hitchRecyclerAdapter
-        params_recycler.layoutManager = LinearLayoutManager(requireActivity())
+        viewBinding.paramsRecycler.adapter = hitchRecyclerAdapter
+        viewBinding.paramsRecycler.layoutManager = LinearLayoutManager(requireActivity())
     }
 
     private fun onHitchRecyclerParametersChanged(

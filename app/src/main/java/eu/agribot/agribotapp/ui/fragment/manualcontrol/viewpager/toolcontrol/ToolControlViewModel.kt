@@ -244,11 +244,11 @@ class ToolControlViewModel(
 
     private fun getTplProgressValue(toolId: Int, toolProgress: Int): String {
         return if (toolId == Tools.TplHeight.Front.toolId || toolId == Tools.TplHeight.Rear.toolId) {
-            String.format("%.2f", toolProgress.toDouble() * 0.01) + resourcesProvider.getString(R.string.meters)
+            String.format(TWO_DIGIT_AFTER_POINT, toolProgress.toDouble() * VALUE_RATIO) + resourcesProvider.getString(R.string.meters)
         } else return if (toolId == Tools.TplAngle.Front.toolId || toolId == Tools.TplAngle.Rear.toolId) {
-            String.format("%.2f", toolProgress.toDouble() * 0.01) + resourcesProvider.getString(R.string.radians)
+            String.format(TWO_DIGIT_AFTER_POINT, toolProgress.toDouble() * VALUE_RATIO) + resourcesProvider.getString(R.string.radians)
         } else {
-            return String.format("%.2f", toolProgress.toDouble() * 0.01)
+            return String.format(TWO_DIGIT_AFTER_POINT, toolProgress.toDouble() * VALUE_RATIO)
         }
     }
 
@@ -256,4 +256,9 @@ class ToolControlViewModel(
         val toolID: Int,
         val EncoderValue: String
     )
+
+    companion object {
+        const val VALUE_RATIO = 0.01
+        const val TWO_DIGIT_AFTER_POINT = "%.2f"
+    }
 }

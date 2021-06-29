@@ -8,7 +8,6 @@ import eu.agribot.agribotapp.base.BaseFragment
 import eu.agribot.agribotapp.common.navigation.NavigationEvent
 import eu.agribot.agribotapp.common.navigation.events.TTControlToolNavigationEvent
 import eu.agribot.agribotapp.databinding.FragmentTtcontrolBinding
-import kotlinx.android.synthetic.main.fragment_ttcontrol.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TTControlModeFragment : BaseFragment<TTControlViewModel, FragmentTtcontrolBinding>() {
@@ -25,10 +24,10 @@ class TTControlModeFragment : BaseFragment<TTControlViewModel, FragmentTtcontrol
         viewModel.setDefaultCartState()
         viewModel.frontCart.observe(this::onFrontKartChanged)
         viewModel.rearCart.observe(this::onRearKartChanged)
-        horizontal_joystick.setOnMoveListener { angle, _ ->
+        viewBinding.horizontalJoystick.setOnMoveListener { angle, _ ->
             viewModel.onHorizontalJoystickParametersChanged(angle)
         }
-        vertical_joystick.setOnMoveListener { angle, _ ->
+        viewBinding.verticalJoystick.setOnMoveListener { angle, _ ->
             viewModel.onVerticalJoystickParametersChanged(angle)
         }
     }
@@ -46,17 +45,17 @@ class TTControlModeFragment : BaseFragment<TTControlViewModel, FragmentTtcontrol
 
     private fun onFrontKartChanged(isActive: Boolean) {
         if (isActive) {
-            front_kart.setColorFilter(ContextCompat.getColor(requireContext(), R.color.base_green))
+            viewBinding.frontKart.setColorFilter(ContextCompat.getColor(requireContext(), R.color.base_green))
         } else {
-            front_kart.colorFilter = null
+            viewBinding.frontKart.colorFilter = null
         }
     }
 
     private fun onRearKartChanged(isActive: Boolean) {
         if (isActive) {
-            rear_kart.setColorFilter(ContextCompat.getColor(requireContext(), R.color.base_green))
+            viewBinding.rearKart.setColorFilter(ContextCompat.getColor(requireContext(), R.color.base_green))
         } else {
-            rear_kart.colorFilter = null
+            viewBinding.rearKart.colorFilter = null
         }
     }
 }

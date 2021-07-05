@@ -117,16 +117,28 @@ class ToolControlFragment : BaseFragment<ToolControlViewModel, FragmentToolContr
             viewBinding.mainProgressBar.min = MIN_HEIGHT
             viewBinding.mainProgressBar.max = MAX_HEIGHT
             viewBinding.txtvProgressMin.text =
-                String.format("%.2f", MIN_HEIGHT.toDouble() * 0.01) + getString(R.string.meters)
+                String.format(
+                    ToolControlViewModel.TWO_DIGIT_AFTER_POINT,
+                    MIN_HEIGHT.toDouble() * ToolControlViewModel.VALUE_RATIO
+                ) + getString(R.string.meters)
             viewBinding.txtvProgressMax.text =
-                String.format("%.2f", MAX_HEIGHT.toDouble() * 0.01) + getString(R.string.meters)
+                String.format(
+                    ToolControlViewModel.TWO_DIGIT_AFTER_POINT,
+                    MAX_HEIGHT.toDouble() * ToolControlViewModel.VALUE_RATIO
+                ) + getString(R.string.meters)
         } else {
             viewBinding.mainProgressBar.min = MIN_ANGLE
             viewBinding.mainProgressBar.max = MAX_ANGLE
             viewBinding.txtvProgressMin.text =
-                String.format("%.2f", MIN_ANGLE.toDouble() * 0.01) + getString(R.string.radians)
+                String.format(
+                    ToolControlViewModel.TWO_DIGIT_AFTER_POINT,
+                    MIN_ANGLE.toDouble() * ToolControlViewModel.VALUE_RATIO
+                ) + getString(R.string.radians)
             viewBinding.txtvProgressMax.text =
-                String.format("%.2f", MAX_ANGLE.toDouble() * 0.01) + getString(R.string.radians)
+                String.format(
+                    ToolControlViewModel.TWO_DIGIT_AFTER_POINT,
+                    MAX_ANGLE.toDouble() * ToolControlViewModel.VALUE_RATIO
+                ) + getString(R.string.radians)
         }
         setSeekbarVisibility()
         setSeekbarText(viewBinding.mainProgressBar.progress)

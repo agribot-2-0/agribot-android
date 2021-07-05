@@ -4,7 +4,7 @@ import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
 import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePath.TOOL_PHOTO_FILE_TYPE
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.HitchListItemDetail
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.HitchListItemDetail
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.data.ToolRecylerItemId
 
@@ -70,6 +70,7 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
             hitchListItemDetail = HitchListItemDetail(
                 toolStartValue = vMax.toInt()
             )
+
         )
     }
 

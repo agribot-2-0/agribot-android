@@ -1,16 +1,18 @@
-package eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler
+package eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.SeekBar
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import eu.agribot.agribotapp.R
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.toolcontrolmessage.Tools
 import eu.agribot.agribotapp.databinding.ListItemHitchBinding
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemViewModel
-import kotlinx.android.synthetic.main.list_item_hitch.view.recycler_seekbar
-import kotlinx.android.synthetic.main.list_item_hitch.view.recycler_switch
-import kotlinx.android.synthetic.main.list_item_hitch.view.recycler_tool_value
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewHolder
+import kotlinx.android.synthetic.main.list_item_hitch.view.*
 
 class HitchListItemAdapter(
     val onItemCharacteristicChange: (position: Int, sliderValue: Int, isActivated: Boolean) -> Unit
@@ -43,24 +45,82 @@ class HitchListItemAdapter(
 
     override fun getItemCount(): Int = items.size
 
+    @SuppressLint("SetTextI18n")
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: HitchListItemViewHolder, position: Int) {
         val item = items[position]
         holder.bind(item)
         var isItemActive = false
         var itemSliderValue = 0
 
-        holder.itemView.recycler_tool_value.text =
-            "${item.hitchListItemDetail.toolStartValue} ${item.hitchListItemDetail.toolUnit}"
-        holder.itemView.recycler_seekbar.progress = item.hitchListItemDetail.toolStartValue
-        holder.itemView.recycler_seekbar.max = item.hitchListItemDetail.maxValue
+        if (item.isNewToolControl) {
+            when (item.switchNumber) {
+                Tools.Pto.Front.toolId -> {
+                    holder.itemView.recycler_seekbar.min = 0
+                    holder.itemView.recycler_seekbar.max = 1000
+                    holder.itemView.recycler_tool_value.text =
+                        holder.itemView.recycler_seekbar.progress.toString() + holder.itemView.context.getString(
+                            R.string.rpm
+                        )
+                }
+                Tools.Pto.Rear.toolId -> {
+                    holder.itemView.recycler_seekbar.min = 0
+                    holder.itemView.recycler_seekbar.max = 1000
+                    holder.itemView.recycler_tool_value.text =
+                        holder.itemView.recycler_seekbar.progress.toString() + holder.itemView.context.getString(
+                            R.string.rpm
+                        )
+                }
+                else -> {
+                    holder.itemView.recycler_seekbar.min = 0
+                    holder.itemView.recycler_seekbar.max = 100
+                    holder.itemView.recycler_tool_value.text =
+                        holder.itemView.recycler_seekbar.progress.toString() + holder.itemView.context.getString(
+                            R.string.percent
+                        )
+                }
+            }
+        } else {
+            holder.itemView.recycler_seekbar.min = 0
+            holder.itemView.recycler_seekbar.progress = item.hitchListItemDetail.toolStartValue
+            holder.itemView.recycler_seekbar.max = 100
+            holder.itemView.recycler_tool_value.text =
+                holder.itemView.recycler_seekbar.progress.toString() + holder.itemView.context.getString(
+                    R.string.percent
+                )
+        }
 
         holder.itemView.recycler_seekbar.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
 
             @SuppressLint("SetTextI18n")
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, b: Boolean) {
-                holder.itemView.recycler_tool_value.text =
-                    "$progress ${item.hitchListItemDetail.toolUnit}"
+                if (!item.isNewToolControl) {
+                    holder.itemView.recycler_tool_value.text =
+                        "$progress ${item.hitchListItemDetail.toolUnit}"
+                } else {
+                    when (item.switchNumber) {
+                        Tools.Pto.Front.toolId -> {
+                            holder.itemView.recycler_tool_value.text =
+                                holder.itemView.recycler_seekbar.progress.toString() + holder.itemView.context.getString(
+                                    R.string.rpm
+                                )
+                        }
+                        Tools.Pto.Rear.toolId -> {
+                            holder.itemView.recycler_tool_value.text =
+                                holder.itemView.recycler_seekbar.progress.toString() + holder.itemView.context.getString(
+                                    R.string.rpm
+                                )
+                        }
+                        else -> {
+
+                            holder.itemView.recycler_tool_value.text =
+                                holder.itemView.recycler_seekbar.progress.toString() + holder.itemView.context.getString(
+                                    R.string.percent
+                                )
+                        }
+                    }
+                }
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
@@ -78,12 +138,14 @@ class HitchListItemAdapter(
         })
 
         holder.itemView.recycler_switch.setOnCheckedChangeListener { _, isChecked ->
+            if (!item.isNewToolControl) {
+                onItemParametrsChange(
+                    item.switchNumber,
+                    itemSliderValue,
+                    isItemActive
+                )
+            }
             isItemActive = isChecked
-            onItemParametrsChange(
-                item.switchNumber,
-                itemSliderValue,
-                isItemActive
-            )
         }
     }
 

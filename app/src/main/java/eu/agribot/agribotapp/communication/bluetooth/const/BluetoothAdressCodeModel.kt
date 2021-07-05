@@ -15,6 +15,8 @@ enum class BluetoothAdressCodeModel(val number: Int) {
 
     MANUAL_START(21),
 
+    TOOL_REQUEST(317),
+
     TOOL_FEEDBACK(319),
 
     AUTO_START(30),

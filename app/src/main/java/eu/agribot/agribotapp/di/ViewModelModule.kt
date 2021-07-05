@@ -38,6 +38,7 @@ import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolparameters.ToolParam
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary.ToolSummaryViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.tooltagphoto.ToolTagPhotoViewModel
 import eu.agribot.agribotapp.ui.fragment.ttcontrol.TTControlViewModel
+import eu.agribot.agribotapp.ui.fragment.ttcontrol.toolcontroller.TTControlToolViewModel
 import eu.agribot.agribotapp.ui.fragment.weather.WeatherViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -103,8 +104,9 @@ val viewModelModule = module {
             appStorageService = get()
         )
     }
-    viewModel {
+    viewModel { (context: Context) ->
         ToolControlViewModel(
+            resourcesProvider = get { parametersOf(context) },
             manualModeService = get()
         )
     }
@@ -146,7 +148,8 @@ val viewModelModule = module {
         HitchListItemViewModel(
             toolName = get(),
             switchNumber = get(),
-            encoderValue = get()
+            encoderValue = get(),
+            isNewToolControl = get()
         )
     }
 
@@ -335,6 +338,13 @@ val viewModelModule = module {
             manualModeService = get(),
             resourcesProvider = get { parametersOf(context) },
             appStorageService = get()
+        )
+    }
+
+    viewModel { (context: Context) ->
+        TTControlToolViewModel(
+            resourcesProvider = get { parametersOf(context) },
+            manualModeService = get()
         )
     }
 }

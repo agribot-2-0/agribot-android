@@ -5,7 +5,10 @@
     <dimen name="margin_large">16dp</dimen>
     <dimen name="margin_xlarge">24dp</dimen>
     <dimen name="margin_xxlarge">32dp</dimen>
+
     <dimen name="margin_agribot_image">300dp</dimen>
+    <dimen name="margin_tool_seekbar">48dp</dimen>
+
 
     <dimen name="infoIconDim">50dp</dimen>
     <dimen name="view_start_stop_margin">50dp</dimen>

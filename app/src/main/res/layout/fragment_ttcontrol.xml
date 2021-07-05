@@ -53,10 +53,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <View
-                android:layout_width="wrap_content"
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_margin="@dimen/margin_xxlarge"
                 android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:text="@string/title_tool_control"
+                android:onClick="@{() -> viewModel.toolControlClicked()}" />
 
 
         </LinearLayout>
@@ -72,8 +75,8 @@
             <ImageView
                 android:id="@+id/front_kart"
                 android:layout_width="match_parent"
-                android:layout_margin="@dimen/margin_xlarge"
                 android:layout_height="0dp"
+                android:layout_margin="@dimen/margin_xlarge"
                 android:layout_weight="1"
                 android:onClick="@{() -> viewModel.onFrontCartClicked()}"
                 android:src="@drawable/f_grey" />
@@ -81,8 +84,8 @@
             <ImageView
                 android:id="@+id/rear_kart"
                 android:layout_width="match_parent"
-                android:layout_margin="@dimen/margin_xlarge"
                 android:layout_height="0dp"
+                android:layout_margin="@dimen/margin_xlarge"
                 android:layout_weight="1"
                 android:onClick="@{() -> viewModel.onRearCartClicked()}"
                 android:src="@drawable/r_grey" />

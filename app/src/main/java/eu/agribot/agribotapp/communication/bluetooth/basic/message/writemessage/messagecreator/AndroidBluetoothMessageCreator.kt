@@ -1,8 +1,8 @@
 package eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator
 
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.FrameConstant
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.carts.AgribotCartsRotate
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.carts.AgribotToolActivationStatus
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.FrameConstant
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.WriteBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.model.tocommunication.ArcParametrsBD
 import eu.agribot.agribotapp.communication.bluetooth.model.tocommunication.RfidParametersBD
@@ -10,7 +10,9 @@ import eu.agribot.agribotapp.communication.bluetooth.model.tocommunication.Switc
 import eu.agribot.agribotapp.communication.bluetooth.model.tocommunication.TuzActivateBD
 import kotlin.math.abs
 
-class AndroidBluetoothMessageCreator(private val bluetoothMessageManager: WriteBluetoothMessageManager) :
+class AndroidBluetoothMessageCreator(
+    private val bluetoothMessageManager: WriteBluetoothMessageManager
+) :
     BluetoothMessageCreator {
     private var switchesArray = ByteArray(8)
     private var ttControlForwardBackwardArray =

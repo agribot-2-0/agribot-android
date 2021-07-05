@@ -1,7 +1,6 @@
-package eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler
+package eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler
 
 import androidx.recyclerview.widget.DiffUtil
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemViewModel
 
 class HitchDiffUtill(
     private val oldList: List<HitchListItemViewModel>,

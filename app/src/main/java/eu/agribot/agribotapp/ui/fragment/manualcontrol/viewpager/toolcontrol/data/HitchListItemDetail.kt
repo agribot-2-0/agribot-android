@@ -1,4 +1,6 @@
-package eu.agribot.agribotapp.ui.fragment.toolcontrol.data
+package eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data
+
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.RecyclerConstant
 
 data class HitchListItemDetail(
     val toolStartValue: Int = RecyclerConstant.DEFAULT_SLIDER_VALUE,

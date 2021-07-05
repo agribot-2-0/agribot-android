@@ -93,9 +93,9 @@ class WeatherViewModel(
 
     private fun approximateParam(value: Double, accuracy: Double): String {
         return if (accuracy > 0.1 && accuracy < 1) {
-            String.format("%.1f", value)
+            String.format(ONE_DIGIT_AFTER_POINT, value)
         } else if (accuracy > 0 && accuracy < 0.1) {
-            String.format("%.2f", value)
+            String.format(TWO_DIGIT_AFTER_POINT, value)
         } else value.toInt().toString()
     }
 
@@ -131,5 +131,7 @@ class WeatherViewModel(
 
     companion object {
         const val CURRENT_FORCAST_WEATHER_INDEX = 0
+        const val ONE_DIGIT_AFTER_POINT = "%.1F"
+        const val TWO_DIGIT_AFTER_POINT = "%.2f"
     }
 }

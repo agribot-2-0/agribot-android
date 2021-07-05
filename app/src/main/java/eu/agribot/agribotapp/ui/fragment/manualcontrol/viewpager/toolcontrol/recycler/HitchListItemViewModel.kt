@@ -1,12 +1,13 @@
 package eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler
 
 import eu.agribot.agribotapp.base.BaseViewModel
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.HitchListItemDetail
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.HitchListItemDetail
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.RecyclerConstant
 
 data class HitchListItemViewModel(
     val toolName: String,
     val switchNumber: Int,
+    val isNewToolControl: Boolean = false,
     val encoderValue: String = "",
     val hitchListItemDetail: HitchListItemDetail = HitchListItemDetail(
         toolStartValue = RecyclerConstant.DEFAULT_SLIDER_VALUE,

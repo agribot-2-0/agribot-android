@@ -3,6 +3,7 @@ package eu.agribot.agribotapp.ui.fragment.ttcontrol
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
+import eu.agribot.agribotapp.common.navigation.events.TTControlToolNavigationEvent
 import eu.agribot.agribotapp.domain.service.TTControlService
 import eu.agribot.agribotapp.domain.service.joystick.JoysticFilter
 
@@ -62,5 +63,9 @@ class TTControlViewModel(
                 horizontalJoystickMessageCounter.value!! + 1
         }
         return horizontalJoystickMessageCounter.value!!
+    }
+
+    fun toolControlClicked() {
+        navigationEvent.postValue(TTControlToolNavigationEvent())
     }
 }

@@ -1,12 +1,13 @@
-package eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.encoder
+package eu.agribot.agribotapp.communication.bluetooth.basic.message.toolcontrolmessage
 
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.DiagnosticDataArrayPosition
 import eu.agribot.agribotapp.communication.bluetooth.model.fromcommunication.ToolFeedbackDataBD
+import eu.agribot.agribotapp.domain.model.ToolControlModel
 import kotlin.experimental.xor
 
-class AndroidEncoderResponseParser : EncoderResponseParser {
+class AndroidEncoderMessageParser : EncoderMessageParser {
 
-    override fun parseEncoderResponse(encoderResponse: ByteArray): ToolFeedbackDataBD {
+    override fun decodeToolMessage(encoderResponse: ByteArray): ToolFeedbackDataBD {
         return when (encoderResponse[DiagnosticDataArrayPosition.TOOL_FEEDBACK_ID.position].toInt()) {
             Tools.TplAngle.Front.toolId -> {
                 getTplAngleValueResponse(encoderResponse)
@@ -90,7 +91,7 @@ class AndroidEncoderResponseParser : EncoderResponseParser {
             if (isNegativeNumber(encoderResponse[CONF_VAL_B1_POSITION])) {
                 var toolValue = twoBytesToUnsingedInt(
                     byteArrayOf(
-                        changeHighestBit(encoderResponse[CONF_VAL_B1_POSITION]),
+                        flipHighestBit(encoderResponse[CONF_VAL_B1_POSITION]),
                         encoderResponse[CONF_VAL_B0_POSITION]
                     )
                 )
@@ -115,7 +116,7 @@ class AndroidEncoderResponseParser : EncoderResponseParser {
             if (isNegativeNumber(encoderResponse[CONF_VAL_B1_POSITION])) {
                 var toolValue = twoBytesToUnsingedInt(
                     byteArrayOf(
-                        changeHighestBit(encoderResponse[CONF_VAL_B1_POSITION]),
+                        flipHighestBit(encoderResponse[CONF_VAL_B1_POSITION]),
                         encoderResponse[CONF_VAL_B0_POSITION]
                     )
                 )
@@ -135,7 +136,7 @@ class AndroidEncoderResponseParser : EncoderResponseParser {
         }
     }
 
-    private fun changeHighestBit(number: Byte): Byte {
+    private fun flipHighestBit(number: Byte): Byte {
         return number.xor(HIGHEST_BIT_MASK.toByte())
     }
 
@@ -155,8 +156,116 @@ class AndroidEncoderResponseParser : EncoderResponseParser {
         return result
     }
 
+    private fun getHigherByte(value: Int): Byte {
+        return (value and 0xff00).shr(BYTE_LENGHT).toByte()
+    }
+
+    private fun getLowerByte(value: Int): Byte {
+        return (value and 0xff).toByte()
+    }
+
     private fun getToolId(encoderResponse: ByteArray): Int =
         encoderResponse[CONF_ID_POSITION].toInt()
+
+    override fun encodeToolMessage(toolControlModel: ToolControlModel): ByteArray {
+        return when (toolControlModel.toolId) {
+
+            Tools.TplAngle.Front.toolId -> {
+                getTplAngleMessage(toolControlModel)
+            }
+            Tools.TplAngle.Rear.toolId -> {
+                getTplAngleMessage(toolControlModel)
+            }
+            Tools.TplHeight.Front.toolId -> {
+                getTplHeightMessage(toolControlModel)
+            }
+            Tools.TplHeight.Rear.toolId -> {
+                getTplHeightMessage(toolControlModel)
+            }
+            Tools.Pto.Front.toolId -> {
+                getToolPtoMessage(toolControlModel)
+            }
+            Tools.Pto.Rear.toolId -> {
+                getToolPtoMessage(toolControlModel)
+            }
+            Tools.Green.Front.toolId -> {
+                getGreenToolMessage(toolControlModel)
+            }
+            Tools.Green.Rear.toolId -> {
+                getGreenToolMessage(toolControlModel)
+            }
+            Tools.Yellow.Front.toolId -> {
+                getYellowToolMessage(toolControlModel)
+            }
+            Tools.Yellow.Rear.toolId -> {
+                getYellowToolMessage(toolControlModel)
+            }
+            Tools.Blue.Front.toolId -> {
+                getBlueToolMessage(toolControlModel)
+            }
+            Tools.Blue.Rear.toolId -> {
+                getBlueToolMessage(toolControlModel)
+            }
+            else -> ByteArray(0)
+        }
+    }
+
+    private fun getTplAngleMessage(toolControlModel: ToolControlModel): ByteArray {
+        var toolMessage = ByteArray(TPL_FRAME_LENGTH)
+        var valueToSend: Int = toolControlModel.toolValue * 10
+        if (valueToSend >= 0) {
+            toolMessage[CONF_ID_POSITION] = toolControlModel.toolId.toByte()
+            toolMessage[CONF_VAL_B1_POSITION] = getHigherByte(valueToSend)
+            toolMessage[CONF_VAL_B0_POSITION] = getLowerByte(valueToSend)
+        } else {
+            valueToSend *= -1
+            toolMessage[CONF_ID_POSITION] = toolControlModel.toolId.toByte()
+            toolMessage[CONF_VAL_B1_POSITION] = flipHighestBit(getHigherByte(valueToSend))
+            toolMessage[CONF_VAL_B0_POSITION] = getLowerByte(valueToSend)
+        }
+        return toolMessage
+    }
+
+    private fun getTplHeightMessage(toolControlModel: ToolControlModel): ByteArray {
+        var toolMessage = ByteArray(TPL_FRAME_LENGTH)
+        val valueToSend: Int = toolControlModel.toolValue * 10
+        toolMessage[CONF_ID_POSITION] = toolControlModel.toolId.toByte()
+        toolMessage[CONF_VAL_B1_POSITION] = getHigherByte(valueToSend)
+        toolMessage[CONF_VAL_B0_POSITION] = getLowerByte(valueToSend)
+        return toolMessage
+    }
+
+    private fun getToolPtoMessage(toolControlModel: ToolControlModel): ByteArray {
+        var toolMessage = ByteArray(TPL_FRAME_LENGTH)
+        toolMessage[CONF_ID_POSITION] = toolControlModel.toolId.toByte()
+        toolMessage[CONF_VAL_B1_POSITION] = getHigherByte(toolControlModel.toolValue)
+        toolMessage[CONF_VAL_B0_POSITION] = getLowerByte(toolControlModel.toolValue)
+        return toolMessage
+    }
+
+    private fun getGreenToolMessage(toolControlModel: ToolControlModel): ByteArray {
+        val toolMessage = ByteArray(TPL_FRAME_LENGTH)
+        toolMessage[CONF_ID_POSITION] = toolControlModel.toolId.toByte()
+        toolMessage[CONF_VAL_B1_POSITION] = 0x00.toByte()
+        toolMessage[CONF_VAL_B0_POSITION] = getLowerByte(toolControlModel.toolValue)
+        return toolMessage
+    }
+
+    private fun getYellowToolMessage(toolControlModel: ToolControlModel): ByteArray {
+        val toolMessage = ByteArray(TPL_FRAME_LENGTH)
+        toolMessage[CONF_ID_POSITION] = toolControlModel.toolId.toByte()
+        toolMessage[CONF_VAL_B1_POSITION] = 0x00.toByte()
+        toolMessage[CONF_VAL_B0_POSITION] = getLowerByte(toolControlModel.toolValue)
+        return toolMessage
+    }
+
+    private fun getBlueToolMessage(toolControlModel: ToolControlModel): ByteArray {
+        val toolMessage = ByteArray(TPL_FRAME_LENGTH)
+        toolMessage[CONF_ID_POSITION] = toolControlModel.toolId.toByte()
+        toolMessage[CONF_VAL_B1_POSITION] = 0x00.toByte()
+        toolMessage[CONF_VAL_B0_POSITION] = getLowerByte(toolControlModel.toolValue)
+        return toolMessage
+    }
 
     companion object {
         const val CONF_ID_POSITION = 0

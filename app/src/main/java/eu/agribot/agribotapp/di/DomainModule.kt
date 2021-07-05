@@ -90,7 +90,8 @@ val domainModule = module {
             receivedBluetoothMessageManager = get(),
             messageCreator = get(),
             cloudDatabase = get(),
-            cloudStorageErrorHandler = get()
+            cloudStorageErrorHandler = get(),
+            encoderMessageParser = get()
         )
     }
 

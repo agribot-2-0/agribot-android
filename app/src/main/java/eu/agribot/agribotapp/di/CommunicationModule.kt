@@ -1,19 +1,17 @@
 package eu.agribot.agribotapp.di
 
 import com.google.firebase.auth.FirebaseAuth
-import eu.agribot.agribotapp.communication.crashlystic.AndroidCrashlysticService
-import eu.agribot.agribotapp.communication.crashlystic.CrashlysticService
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.AndroidBluetoothConnectionManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.BluetoothConnectionManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.connection.socket.BluetoothSocketManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.heartbeat.HeartbeatManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.AndroidReceivedBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ReceivedBluetoothMessageManager
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.encoder.AndroidEncoderResponseParser
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.encoder.EncoderResponseParser
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.heartbeat.AndroidHeartbeatManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.AndroidRfidMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.RfidMessageManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.toolcontrolmessage.AndroidEncoderMessageParser
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.toolcontrolmessage.EncoderMessageParser
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.AndroidWriteBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.WriteBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator.AndroidBluetoothMessageCreator
@@ -25,6 +23,8 @@ import eu.agribot.agribotapp.communication.bluetooth.error.message.receive.Andro
 import eu.agribot.agribotapp.communication.bluetooth.error.message.receive.BluetoothMessageReceiveErrorHandler
 import eu.agribot.agribotapp.communication.bluetooth.error.message.write.AndroidBluetoothMessageWriteErrorHandler
 import eu.agribot.agribotapp.communication.bluetooth.error.message.write.BluetoothMessageWriteErrorHandler
+import eu.agribot.agribotapp.communication.crashlystic.AndroidCrashlysticService
+import eu.agribot.agribotapp.communication.crashlystic.CrashlysticService
 import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabase
 import eu.agribot.agribotapp.communication.database.clouddatabase.FirebaseDatabase
 import eu.agribot.agribotapp.communication.database.firebase.AndroidFirebaseService
@@ -52,7 +52,8 @@ val communicationModule = module {
                 parametersOf(
                     androidContext()
                 )
-            })
+            }
+        )
     }
 
     single<TcpConnectionManager> {
@@ -71,7 +72,9 @@ val communicationModule = module {
     }
 
     single<BluetoothMessageCreator> {
-        AndroidBluetoothMessageCreator(bluetoothMessageManager = get())
+        AndroidBluetoothMessageCreator(
+            bluetoothMessageManager = get()
+        )
     }
 
     single<BluetoothSocketManager> { AndroidBluetoothSocketManager() }
@@ -79,7 +82,6 @@ val communicationModule = module {
     single<HeartbeatManager> {
         AndroidHeartbeatManager(
             bluetoothWriteBluetoothMessageManager = get()
-
         )
     }
 
@@ -91,12 +93,12 @@ val communicationModule = module {
             heartbeatManager = get(),
             rfidMessageManager = get(),
             crashlysticService = get(),
-            encoderResponseParser = get()
+            encoderMessageParser = get()
         )
     }
 
-    single<EncoderResponseParser> {
-        AndroidEncoderResponseParser()
+    single<EncoderMessageParser> {
+        AndroidEncoderMessageParser()
     }
 
     single<RfidMessageManager> {

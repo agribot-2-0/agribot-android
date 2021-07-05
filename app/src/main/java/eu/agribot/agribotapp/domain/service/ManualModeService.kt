@@ -1,10 +1,12 @@
 package eu.agribot.agribotapp.domain.service
 
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.ReceivedBluetoothMessageManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.toolcontrolmessage.EncoderMessageParser
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.WriteBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.messagecreator.BluetoothMessageCreator
 import eu.agribot.agribotapp.communication.database.clouddatabase.CloudDatabase
 import eu.agribot.agribotapp.domain.error.CloudStorageErrorHandler
+import eu.agribot.agribotapp.domain.model.ToolControlModel
 import eu.agribot.agribotapp.domain.model.fromdomain.SwitchSettings
 import eu.agribot.agribotapp.domain.model.todomain.DiagnosticData
 import eu.agribot.agribotapp.domain.model.todomain.ToolFeedbackData
@@ -25,7 +27,8 @@ class ManualModeService(
     private val receivedBluetoothMessageManager: ReceivedBluetoothMessageManager,
     private val messageCreator: BluetoothMessageCreator,
     private val cloudStorageErrorHandler: CloudStorageErrorHandler,
-    private val cloudDatabase: CloudDatabase
+    private val cloudDatabase: CloudDatabase,
+    private val encoderMessageParser: EncoderMessageParser
 ) {
     private val engineStartDelay = 100L
 
@@ -57,8 +60,12 @@ class ManualModeService(
         writeBluetoothMessageManager.sendStartEngineMessage()
     }
 
-    fun onSwitchParametrChanged(switchSettings: SwitchSettings) {
+    fun createTTControllToolMessage(switchSettings: SwitchSettings) {
         messageCreator.createSwitchesMessage(switchSettings.toCommunicationModel())
+    }
+
+    fun createToolControlMessage(toolControlModel: ToolControlModel) {
+        writeBluetoothMessageManager.sendToolControlMessage(encoderMessageParser.encodeToolMessage(toolControlModel))
     }
 
     @ExperimentalCoroutinesApi

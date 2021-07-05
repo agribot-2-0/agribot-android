@@ -2,32 +2,29 @@ package eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.encoder.Tools
-import eu.agribot.agribotapp.domain.model.fromdomain.SwitchSettings
+import eu.agribot.agribotapp.common.resources.ResourcesProvider
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.toolcontrolmessage.Tools
+import eu.agribot.agribotapp.domain.model.ToolControlModel
 import eu.agribot.agribotapp.domain.service.ManualModeService
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.ALL_SWITCHES
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.BLUE_TOOL
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.GREEN_TOOL
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.GREEN_TOOL_LIST_POSITION
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.PTO_TOOL
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.PTO_TOOL_LIST_POSITION
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.YELLOW_TOOL
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.TplSwitchesState
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemViewModel
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.RecyclerConstant
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.TplSwitchesActive
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.TplSwitchesState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 class ToolControlViewModel(
-    private val manualModeService: ManualModeService
+    private val manualModeService: ManualModeService,
+    private val resourcesProvider: ResourcesProvider
 ) : BaseViewModel() {
-    val frontToolsList: MutableLiveData<List<HitchListItemViewModel>> =
-        MutableLiveData(listOf())
-    val backToolsList: MutableLiveData<List<HitchListItemViewModel>> =
+    val toolsList: MutableLiveData<List<HitchListItemViewModel>> =
         MutableLiveData(listOf())
     private val activeTpl: MutableLiveData<TplSwitchesActive> = MutableLiveData()
     val switchesActive: MutableLiveData<TplSwitchesState> = MutableLiveData()
@@ -49,7 +46,11 @@ class ToolControlViewModel(
                         Tools.Yellow.Front.toolId,
                         Tools.Green.Front.toolId
                     ).contains(it.toolId) -> {
-                        addToFrontToolsList("", it.toolId, it.toolValue.toString())
+                        addToToolsList(
+                            "",
+                            it.toolId,
+                            it.toolValue.toString()
+                        )
                     }
                     setOf(
                         Tools.Blue.Rear.toolId,
@@ -57,7 +58,11 @@ class ToolControlViewModel(
                         Tools.Yellow.Rear.toolId,
                         Tools.Green.Rear.toolId
                     ).contains(it.toolId) -> {
-                        addToBackToolsList("", it.toolId, it.toolValue.toString())
+                        addToToolsList(
+                            "",
+                            it.toolId,
+                            it.toolValue.toString()
+                        )
                     }
                     setOf(
                         Tools.TplAngle.Front.toolId,
@@ -65,7 +70,10 @@ class ToolControlViewModel(
                         Tools.TplHeight.Front.toolId,
                         Tools.TplHeight.Rear.toolId
                     ).contains(it.toolId) -> {
-                        setEncoderTplValue(it.toolId, (it.toolValue.toDouble() / 1000).toString())
+                        setEncoderTplValue(
+                            it.toolId,
+                            (it.toolValue.toDouble() / 1000).toString()
+                        )
                     }
                 }
             }
@@ -73,25 +81,13 @@ class ToolControlViewModel(
     }
 
     private fun setEncoderTplValue(toolID: Int, encoderValue: String) {
-        tplEncoderValue.value = ToolEncoderValue(toolID, encoderValue)
-    }
-
-    fun onHitchParametersChanged(
-        sliderNumber: Int,
-        sliderValue: Int,
-        isActivated: Boolean
-    ) {
-        manualModeService.onSwitchParametrChanged(
-            SwitchSettings(
-                sliderNumber,
-                isActivated,
-                sliderValue
-            )
+        tplEncoderValue.value = ToolEncoderValue(
+            toolID,
+            encoderValue
         )
     }
 
     fun onActivateTplParametrChanged(tplNumber: Int, isTplActive: Boolean) {
-        onHitchParametersChanged(ALL_SWITCHES, RecyclerConstant.DEFAULT_SLIDER_VALUE_MIN, false)
         activeTpl.value = TplSwitchesActive(tplNumber, isTplActive)
         when (tplNumber) {
             Tools.TplHeight.Front.toolId -> {
@@ -111,6 +107,7 @@ class ToolControlViewModel(
 
     private fun setFrontUpTplActive(activeStatus: Boolean) {
         switchesActive.value = TplSwitchesState(
+            activeTplId = Tools.TplHeight.Front.toolId,
             frontUpTplChecked = activeStatus,
             frontBottomTplChecked = false,
             rearUpTplChecked = false,
@@ -120,6 +117,7 @@ class ToolControlViewModel(
 
     private fun setFrontDownTplActive(activeStatus: Boolean) {
         switchesActive.value = TplSwitchesState(
+            activeTplId = Tools.TplAngle.Front.toolId,
             frontUpTplChecked = false,
             frontBottomTplChecked = activeStatus,
             rearUpTplChecked = false,
@@ -129,6 +127,7 @@ class ToolControlViewModel(
 
     private fun setBackUpTplActive(activeStatus: Boolean) {
         switchesActive.value = TplSwitchesState(
+            activeTplId = Tools.TplHeight.Rear.toolId,
             frontUpTplChecked = false,
             frontBottomTplChecked = false,
             rearUpTplChecked = activeStatus,
@@ -138,6 +137,7 @@ class ToolControlViewModel(
 
     private fun setBackDownTplActive(activeStatus: Boolean) {
         switchesActive.value = TplSwitchesState(
+            activeTplId = Tools.TplAngle.Rear.toolId,
             frontUpTplChecked = false,
             frontBottomTplChecked = false,
             rearUpTplChecked = false,
@@ -145,64 +145,28 @@ class ToolControlViewModel(
         )
     }
 
-    fun onTplParametersChanged(progress: Int) {
-        if (activeTpl.value != null) {
-            onHitchParametersChanged(
-                activeTpl.value!!.tuzNumber,
-                progress,
-                activeTpl.value!!.isTplActive
-            )
-        }
-    }
-
-    private fun addToFrontToolsList(toolName: String, switchNumber: Int, encoderValue: String) {
-        val isAttributeAlreadyAdded = frontToolsList.value!!.any { arrtibute ->
-            arrtibute.toolName == toolName
+    private fun addToToolsList(toolName: String, switchNumber: Int, encoderValue: String) {
+        val isAttributeAlreadyAdded = toolsList.value!!.any { arrtibute ->
+            arrtibute.switchNumber == switchNumber
         }
         if (!isAttributeAlreadyAdded) {
-            frontToolsList.value = listOf(
+            toolsList.value = listOf(
                 HitchListItemViewModel(
                     toolName,
                     switchNumber,
+                    isNewToolControl = true,
                     encoderValue
                 ),
-                *frontToolsList.value!!.toTypedArray()
+                *toolsList.value!!.toTypedArray()
             )
         } else {
-            frontToolsList.value = frontToolsList.value!!.map { oldAttribute ->
+            toolsList.value = toolsList.value!!.map { oldAttribute ->
                 if (oldAttribute.switchNumber == switchNumber) {
                     HitchListItemViewModel(
                         oldAttribute.toolName,
                         oldAttribute.switchNumber,
-                        encoderValue
-                    )
-                } else {
-                    oldAttribute
-                }
-            }
-        }
-    }
-
-    private fun addToBackToolsList(toolName: String, switchNumber: Int, encoderValue: String) {
-        val isAttributeAlreadyAdded = backToolsList.value!!.any { arrtibute ->
-            arrtibute.toolName == toolName
-        }
-        if (!isAttributeAlreadyAdded) {
-            backToolsList.value = listOf(
-                HitchListItemViewModel(
-                    toolName,
-                    switchNumber,
-                    encoderValue
-                ),
-                *backToolsList.value!!.toTypedArray()
-            )
-        } else {
-            backToolsList.value = backToolsList.value!!.map { oldAttribute ->
-                if (oldAttribute.switchNumber == switchNumber) {
-                    HitchListItemViewModel(
-                        oldAttribute.toolName,
-                        oldAttribute.switchNumber,
-                        encoderValue
+                        encoderValue = encoderValue,
+                        isNewToolControl = true
                     )
                 } else {
                     oldAttribute
@@ -212,33 +176,79 @@ class ToolControlViewModel(
     }
 
     private fun createToolsLists() {
-        createFrontToolsList()
-        createBackToolsList()
-    }
-
-    private fun createFrontToolsList() {
-        val toolList = listOf(GREEN_TOOL, YELLOW_TOOL, BLUE_TOOL, PTO_TOOL)
-        val switchNumber = listOf(
-            Tools.Blue.Front.toolId,
-            Tools.Pto.Front.toolId,
-            Tools.Yellow.Front.toolId,
-            Tools.Green.Front.toolId
+        val toolList = listOf(
+            GREEN_TOOL,
+            GREEN_TOOL,
+            YELLOW_TOOL,
+            YELLOW_TOOL,
+            BLUE_TOOL,
+            BLUE_TOOL,
+            PTO_TOOL,
+            PTO_TOOL
         )
-        for (itemPosition in PTO_TOOL_LIST_POSITION..GREEN_TOOL_LIST_POSITION) {
-            addToFrontToolsList(toolList[itemPosition], switchNumber[itemPosition], "")
+        val switchNumber = listOf(
+            Tools.Green.Rear.toolId,
+            Tools.Green.Front.toolId,
+            Tools.Yellow.Rear.toolId,
+            Tools.Yellow.Front.toolId,
+            Tools.Blue.Rear.toolId,
+            Tools.Blue.Front.toolId,
+            Tools.Pto.Rear.toolId,
+            Tools.Pto.Front.toolId
+        )
+        for (itemPosition in switchNumber.indices) {
+            addToToolsList(
+                toolList[itemPosition],
+                switchNumber[itemPosition],
+                ""
+            )
         }
     }
 
-    private fun createBackToolsList() {
-        val toolList = listOf(GREEN_TOOL, YELLOW_TOOL, BLUE_TOOL, PTO_TOOL)
-        val switchNumber = listOf(
-            Tools.Blue.Rear.toolId,
-            Tools.Pto.Rear.toolId,
-            Tools.Yellow.Rear.toolId,
-            Tools.Green.Rear.toolId
-        )
-        for (itemPosition in PTO_TOOL_LIST_POSITION..GREEN_TOOL_LIST_POSITION) {
-            addToBackToolsList(toolList[itemPosition], switchNumber[itemPosition], "")
+    fun getSeekBarText(progress: Int): String {
+        switchesActive.value?.activeTplId.let {
+            return if (it != null) {
+                getTplProgressValue(
+                    it,
+                    progress
+                )
+            } else ""
+        }
+    }
+
+    fun onHitchParametersChanged(
+        sliderNumber: Int,
+        sliderValue: Int,
+        isActivated: Boolean
+    ) {
+        if (isActivated) {
+            manualModeService.createToolControlMessage(
+                ToolControlModel(
+                    toolId = sliderNumber,
+                    toolValue = sliderValue
+                )
+            )
+        }
+    }
+
+    fun onSeekbarSetted(progress: Int) {
+        switchesActive.value?.activeTplId?.also {
+            manualModeService.createToolControlMessage(
+                ToolControlModel(
+                    toolId = it,
+                    toolValue = progress
+                )
+            )
+        }
+    }
+
+    private fun getTplProgressValue(toolId: Int, toolProgress: Int): String {
+        return if (toolId == Tools.TplHeight.Front.toolId || toolId == Tools.TplHeight.Rear.toolId) {
+            String.format(TWO_DIGIT_AFTER_POINT, toolProgress.toDouble() * VALUE_RATIO) + resourcesProvider.getString(R.string.meters)
+        } else return if (toolId == Tools.TplAngle.Front.toolId || toolId == Tools.TplAngle.Rear.toolId) {
+            String.format(TWO_DIGIT_AFTER_POINT, toolProgress.toDouble() * VALUE_RATIO) + resourcesProvider.getString(R.string.radians)
+        } else {
+            return String.format(TWO_DIGIT_AFTER_POINT, toolProgress.toDouble() * VALUE_RATIO)
         }
     }
 
@@ -246,4 +256,9 @@ class ToolControlViewModel(
         val toolID: Int,
         val EncoderValue: String
     )
+
+    companion object {
+        const val VALUE_RATIO = 0.01
+        const val TWO_DIGIT_AFTER_POINT = "%.2f"
+    }
 }

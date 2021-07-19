@@ -15,8 +15,8 @@
 
     <color name="background_gray">#f1f1f1</color>
 
-    <color name="polyline_path">#ff33cc</color>
-    <color name="polyline_path_new">#66ffff</color>
+    <color name="polyline_path">#e133ff</color>
+    <color name="polyline_path_new">#3633ff</color>
 
     <color name="recycler_swipe_edit"> #668cff</color>
     <color name="recycler_swipe_remove">#ff3300</color>

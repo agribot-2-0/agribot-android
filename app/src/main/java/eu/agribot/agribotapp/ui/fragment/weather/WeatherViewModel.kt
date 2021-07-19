@@ -131,7 +131,7 @@ class WeatherViewModel(
 
     companion object {
         const val CURRENT_FORCAST_WEATHER_INDEX = 0
-        const val ONE_DIGIT_AFTER_POINT = "%.1F"
+        const val ONE_DIGIT_AFTER_POINT = "%.1f"
         const val TWO_DIGIT_AFTER_POINT = "%.2f"
     }
 }

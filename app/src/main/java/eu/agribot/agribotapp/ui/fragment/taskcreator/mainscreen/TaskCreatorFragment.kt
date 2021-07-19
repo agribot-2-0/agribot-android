@@ -188,7 +188,6 @@ class TaskCreatorFragment :
     override fun onMapReady(googleMap: GoogleMap) {
         googleMapFragment = googleMap
         googleMapFragment!!.clear()
-        googleMapFragment!!.mapType = GoogleMap.MAP_TYPE_SATELLITE
         googleMapFragment!!.setMinZoomPreference(MapParameters.MIN_ZOOM.mapParametr)
         googleMapFragment!!.setMaxZoomPreference(MapParameters.MAX_ZOOM.mapParametr)
         addTileOverlay()

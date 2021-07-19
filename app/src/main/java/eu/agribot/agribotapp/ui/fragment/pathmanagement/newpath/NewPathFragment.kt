@@ -168,7 +168,6 @@ class NewPathFragment :
 
     override fun onMapReady(googleMap: GoogleMap?) {
         googleMapFragment = googleMap
-        googleMapFragment!!.mapType = GoogleMap.MAP_TYPE_SATELLITE
         googleMapFragment!!.setOnCameraIdleListener(this)
         googleMapFragment!!.setOnCameraMoveListener(this)
         addTileOverlay()

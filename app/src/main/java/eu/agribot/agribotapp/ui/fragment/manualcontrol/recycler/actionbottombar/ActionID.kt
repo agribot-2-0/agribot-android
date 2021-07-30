@@ -8,5 +8,9 @@ enum class ActionID(val action: Int) {
 
     SEND_MANUAL_INIT_MESSAGE(3),
 
-    SAFE_MODE(4)
+    SAFE_MODE(4),
+
+    CATERPILLAR_NORMAL(5),
+
+    CATERPILLAR_ELEVETED(6)
 }

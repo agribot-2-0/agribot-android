@@ -54,7 +54,7 @@ class ManualControlCurrentStateFragment :
         viewModel.getUserRole()
         manualModeRecyclerActions.adapter = actionsRecyclerAdapter
         manualModeRecyclerActions.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
         diagnosticDataRecycler.adapter = diagnosticDataRecyclerAdapter
         diagnosticDataRecycler.layoutManager =
@@ -145,6 +145,8 @@ class ManualControlCurrentStateFragment :
                     VideoParameters.SKIP_LOOP_FILTER.parameterValue
                 )
             )
+
+        myVideoInfo.aspectRatio = VideoInfo::AR_MATCH_PARENT.get()
 
         return myVideoInfo
     }

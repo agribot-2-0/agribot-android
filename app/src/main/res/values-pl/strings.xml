@@ -308,4 +308,7 @@
     <string name="display_path_name">Ścieżka: %1s</string>
     <string name="safe_mode_button">Tryb Bezpieczny</string>
 
+    <string name="caterpillar_elevated">Gąsienica podniesiona</string>
+    <string name="caterpillar_normal">Gąsienica opuszczona</string>
+
 </resources>

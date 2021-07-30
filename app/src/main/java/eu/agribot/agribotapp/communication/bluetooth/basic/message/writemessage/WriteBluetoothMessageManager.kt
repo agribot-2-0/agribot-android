@@ -39,4 +39,8 @@ interface WriteBluetoothMessageManager {
     fun sendSafeModeRequestMessage()
 
     fun sendToolControlMessage(toolControlArray: ByteArray)
+
+    fun sendCaterpillarNormalRequest()
+
+    fun sendCaterpillarElevatedRequest()
 }

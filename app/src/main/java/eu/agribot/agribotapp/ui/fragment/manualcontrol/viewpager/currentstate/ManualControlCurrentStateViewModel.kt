@@ -36,7 +36,6 @@ class ManualControlCurrentStateViewModel(
             ActionID.RUN_ENGINE.action -> {
                 startStopEngine()
             }
-
             ActionID.OVERRIDE_MODE.action -> {
                 onTTControlButtonClicked()
             }
@@ -45,6 +44,12 @@ class ManualControlCurrentStateViewModel(
             }
             ActionID.SAFE_MODE.action -> {
                 onSafeButtonClicked()
+            }
+            ActionID.CATERPILLAR_NORMAL.action -> {
+                onCaterpillarNormalButtonCLicked()
+            }
+            ActionID.CATERPILLAR_ELEVETED.action -> {
+                onCaterpillarElevatedButtonCLicked()
             }
         }
     }
@@ -55,6 +60,14 @@ class ManualControlCurrentStateViewModel(
 
     private fun onManualModeButtonCLicked() {
         manualModeService.sendManualModeInitMessage()
+    }
+
+    private fun onCaterpillarElevatedButtonCLicked() {
+        manualModeService.sendCaterpillarElevated()
+    }
+
+    private fun onCaterpillarNormalButtonCLicked() {
+        manualModeService.sendCaterpillarNormal()
     }
 
     private fun createActionsList(withAdmin: Boolean) {
@@ -73,6 +86,14 @@ class ManualControlCurrentStateViewModel(
                     resourcesProvider.getString(R.string.safe_mode_button)
                 ),
                 ManualActionsViewModel(
+                    ActionID.CATERPILLAR_NORMAL.action,
+                    resourcesProvider.getString(R.string.caterpillar_normal)
+                ),
+                ManualActionsViewModel(
+                    ActionID.CATERPILLAR_ELEVETED.action,
+                    resourcesProvider.getString(R.string.caterpillar_elevated)
+                ),
+                ManualActionsViewModel(
                     ActionID.OVERRIDE_MODE.action,
                     resourcesProvider.getString(R.string.override_button)
                 )
@@ -86,6 +107,14 @@ class ManualControlCurrentStateViewModel(
                 ManualActionsViewModel(
                     ActionID.SEND_MANUAL_INIT_MESSAGE.action,
                     resourcesProvider.getString(R.string.manual_mode_button)
+                ),
+                ManualActionsViewModel(
+                    ActionID.CATERPILLAR_NORMAL.action,
+                    resourcesProvider.getString(R.string.caterpillar_normal)
+                ),
+                ManualActionsViewModel(
+                    ActionID.CATERPILLAR_ELEVETED.action,
+                    resourcesProvider.getString(R.string.caterpillar_elevated)
                 ),
                 ManualActionsViewModel(
                     ActionID.SAFE_MODE.action,

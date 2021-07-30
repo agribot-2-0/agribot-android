@@ -5,41 +5,52 @@ package eu.agribot.agribotapp.communication.bluetooth.const
  */
 
 enum class BluetoothAdressCodeModel(val number: Int) {
-    MOBILE_HEARTBEAT(1),
 
-    MOBILE_HANDSHAKE(10),
+    //  Sensor data info frames
+    AGRIBOT_DIAGNOSTIC_DATA_1(0x064),
 
-    AGRIBOT_HANDSHAKE(11),
+    HYDRAULIC_DIAGNOSTIC_DATA_(0x069),
 
-    MANUAL_STARTING_INIT(20),
+    //  State changing and command frames
+    MOBILE_HEARTBEAT(0x001),
 
-    MANUAL_START(21),
+    MOBILE_HANDSHAKE(0x00A),
 
-    TOOL_REQUEST(317),
+    AGRIBOT_HANDSHAKE(0x00B),
 
-    TOOL_FEEDBACK(319),
+    MANUAL_STARTING_INIT(0x014),
 
-    AUTO_START(30),
+    MANUAL_START(0x015),
 
-    AGRIBOT_ERROR(200),
+    AUTO_START(0x01E),
 
-    START_ENGINE(90),
+    SAFE_MODE(0x028),
 
-    STOP_SIGNAL(255),
+    //  Error frames
+    AGRIBOT_ERROR(0x0C8),
 
-    MOVE_FORWARD_BACKWARD(50),
+    //  Manual command frames
+    MOVE_FORWARD_BACKWARD(0x032),
 
-    ROTATE_CARRIAGES(51),
+    ROTATE_CARRIAGES(0x033),
 
-    RIDE_THE_CURVE(53),
+    RIDE_THE_CURVE(0x035),
 
-    AGRIBOT_SET_SWITCH(60),
+    START_ENGINE(0x05A),
 
-    AGRIBOT_DIAGNOSTIC_DATA_1(100),
+    STOP_SIGNAL(0x0FF),
 
-    HYDRAULIC_DIAGNOSTIC_DATA_(105),
+    CATERPILLAR_CART_FRONT(0x1F5),
 
-    RFID_TAG(500),
+    CATERPILLAR_CART_BACK(0x1F6),
 
-    SAFE_MODE(40)
+    //  Tools control
+    AGRIBOT_SET_SWITCH(0x03C),
+
+    TOOL_REQUEST(0x13D),
+
+    TOOL_FEEDBACK(0x13F),
+
+    //  RFID frames
+    RFID_TAG(0x1F4)
 }

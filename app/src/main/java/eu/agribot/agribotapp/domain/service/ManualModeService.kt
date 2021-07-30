@@ -125,4 +125,12 @@ class ManualModeService(
     fun sendSafeModeMessage() {
         writeBluetoothMessageManager.sendSafeModeRequestMessage()
     }
+
+    fun sendCaterpillarNormal() {
+        writeBluetoothMessageManager.sendCaterpillarNormalRequest()
+    }
+
+    fun sendCaterpillarElevated() {
+        writeBluetoothMessageManager.sendCaterpillarElevatedRequest()
+    }
 }

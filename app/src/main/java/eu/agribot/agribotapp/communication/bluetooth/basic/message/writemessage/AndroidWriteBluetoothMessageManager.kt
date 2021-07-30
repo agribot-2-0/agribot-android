@@ -24,6 +24,9 @@ class AndroidWriteBluetoothMessageManager(
 ) : WriteBluetoothMessageManager {
     private val emptyCanData = ByteArray(EMPTY_CAN_ARRAY_SIZE) { 0 }
     private val singleArray = ByteArray(1) { DUMMY_BYTE }
+    private val caterpillarNormalArray = byteArrayOf(0x00, 0x00)
+    private val caterpillarElevatedArray = byteArrayOf(0x00, 0x01)
+
     private var handshakeScope = CoroutineScope(Job() + Dispatchers.IO)
     private var manualModeScope = CoroutineScope(Job() + Dispatchers.IO)
     private val handshakeDelay = 500L
@@ -254,6 +257,40 @@ class AndroidWriteBluetoothMessageManager(
                 CANmessageData(
                     BluetoothAdressCodeModel.TOOL_REQUEST.number,
                     toolControlArray
+                )
+            ).bluetoothMessageArray
+        )
+    }
+
+    override fun sendCaterpillarNormalRequest() {
+        writeBluetoothMessage(
+            BluetoothMessageFrame(
+                CANmessageData(
+                    BluetoothAdressCodeModel.CATERPILLAR_CART_FRONT.number, caterpillarNormalArray
+                )
+            ).bluetoothMessageArray
+        )
+        writeBluetoothMessage(
+            BluetoothMessageFrame(
+                CANmessageData(
+                    BluetoothAdressCodeModel.CATERPILLAR_CART_BACK.number, caterpillarNormalArray
+                )
+            ).bluetoothMessageArray
+        )
+    }
+
+    override fun sendCaterpillarElevatedRequest() {
+        writeBluetoothMessage(
+            BluetoothMessageFrame(
+                CANmessageData(
+                    BluetoothAdressCodeModel.CATERPILLAR_CART_FRONT.number, caterpillarElevatedArray
+                )
+            ).bluetoothMessageArray
+        )
+        writeBluetoothMessage(
+            BluetoothMessageFrame(
+                CANmessageData(
+                    BluetoothAdressCodeModel.CATERPILLAR_CART_BACK.number, caterpillarElevatedArray
                 )
             ).bluetoothMessageArray
         )

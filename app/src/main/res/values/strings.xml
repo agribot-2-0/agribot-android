@@ -333,4 +333,8 @@
     <string name="display_task_name">Task: %1s</string>
     <string name="display_tool_name">Tool: %1s</string>
     <string name="display_path_name">Path: %1s</string>
+
+    <string name="caterpillar_elevated">Caterpillar elevated</string>
+    <string name="caterpillar_normal">Caterpillar normal</string>
+
 </resources>

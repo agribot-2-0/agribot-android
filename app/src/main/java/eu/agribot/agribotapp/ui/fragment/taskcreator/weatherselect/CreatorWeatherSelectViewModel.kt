@@ -22,6 +22,7 @@ import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.weat
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.weatherattributes.TemperatureItem
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.weatherattributes.WeatherAttribute
 import eu.agribot.agribotapp.ui.fragment.taskcreator.weatherselect.recycler.weatherattributes.WindItem
+import eu.agribot.agribotapp.ui.fragment.weather.WeatherViewModel
 
 class CreatorWeatherSelectViewModel(
     private val cloudDatabaseService: CloudDatabaseService,
@@ -181,7 +182,10 @@ class CreatorWeatherSelectViewModel(
         addToWeatherAttributeList(
             HumidityItem(
                 isSwitchActive = (taskCreatorDataManager.getTaskParemeters().humidityValue != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
-                currentValue = weatherStationHumidity.value.toString() + WeatherUnit.HUMIDITY_UNIT.unit
+                currentValue = approximateParam(
+                    weatherStationHumidity.value,
+                    weatherStationHumidity.accuracy
+                ) + WeatherUnit.HUMIDITY_UNIT.unit
             ).toWeatherDataModel()
         )
     }
@@ -197,7 +201,10 @@ class CreatorWeatherSelectViewModel(
         addToWeatherAttributeList(
             TemperatureItem(
                 isSwitchActive = (taskCreatorDataManager.getTaskParemeters().temperatureValue != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
-                currentValue = weatherStationTemperature.value.toString() + WeatherUnit.TEMPERATURE_UNIT.unit
+                currentValue = approximateParam(
+                    weatherStationTemperature.value,
+                    weatherStationTemperature.accuracy
+                ) + WeatherUnit.TEMPERATURE_UNIT.unit
             ).toWeatherDataModel()
         )
     }
@@ -213,7 +220,10 @@ class CreatorWeatherSelectViewModel(
         addToWeatherAttributeList(
             WindItem(
                 isSwitchActive = (taskCreatorDataManager.getTaskParemeters().windValue != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
-                currentValue = weatherStationWind.speedValue.toString() + WeatherUnit.WIND_UNIT.unit
+                currentValue = approximateParam(
+                    weatherStationWind.speedValue,
+                    weatherStationWind.speedAccuracy
+                ) + WeatherUnit.WIND_UNIT.unit
             ).toWeatherDataModel()
         )
     }
@@ -229,7 +239,10 @@ class CreatorWeatherSelectViewModel(
         addToWeatherAttributeList(
             PressureItem(
                 isSwitchActive = (taskCreatorDataManager.getTaskParemeters().pressureValue != PickerSymbols.PICKER_DEFAULT_VALUE.symbol),
-                currentValue = weatherStationPressure.value.toString() + WeatherUnit.PRESSURE_UNIT.unit
+                currentValue = approximateParam(
+                    weatherStationPressure.value,
+                    weatherStationPressure.accuracy
+                ) + WeatherUnit.PRESSURE_UNIT.unit
             ).toWeatherDataModel()
         )
     }
@@ -240,13 +253,14 @@ class CreatorWeatherSelectViewModel(
 
     private fun addToWeatherAttributeList(
         weatherSelectDataModel: WeatherSelectDataModel
-    ) { val isAttributeAlreadyAdded = weatherAttributeList.value!!.any { arrtibute ->
+    ) {
+        val isAttributeAlreadyAdded = weatherAttributeList.value!!.any { arrtibute ->
             arrtibute.id == weatherSelectDataModel.id
         }
         if (!isAttributeAlreadyAdded)
             weatherAttributeList.value = listOf(
                 *weatherAttributeList.value!!.toTypedArray(),
-                        WeatherSettingsListItemViewModel(
+                WeatherSettingsListItemViewModel(
                     weatherSelectDataModel.id,
                     weatherSelectDataModel.conditionArray,
                     weatherSelectDataModel.minimumPickerValue,
@@ -290,5 +304,18 @@ class CreatorWeatherSelectViewModel(
         navigationEvent.postValue(
             CreatorTaskToolsNavigationEvent()
         )
+    }
+
+    private fun approximateParam(value: Double, accuracy: Double): String {
+        return if (accuracy > 0.1 && accuracy < 1) {
+            String.format(WeatherViewModel.ONE_DIGIT_AFTER_POINT, value)
+        } else if (accuracy > 0 && accuracy < 0.1) {
+            String.format(WeatherViewModel.TWO_DIGIT_AFTER_POINT, value)
+        } else value.toInt().toString()
+    }
+
+    companion object {
+        const val ONE_DIGIT_AFTER_POINT = "%.1f"
+        const val TWO_DIGIT_AFTER_POINT = "%.2f"
     }
 }

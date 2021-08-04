@@ -36,6 +36,22 @@ class ManualControlFragment : BaseFragment<ManualControlViewModel, FragmentManua
         }
         observeViewModel()
         setupViewPager()
+        viewModel.initManualMode()
+    }
+
+    override fun onDestroyView() {
+        viewModel.initSafeMode()
+        super.onDestroyView()
+    }
+
+    override fun onResume() {
+        viewModel.initManualMode()
+        super.onResume()
+    }
+
+    override fun onPause() {
+        viewModel.initSafeMode()
+        super.onPause()
     }
 
     private fun observeViewModel() {

@@ -6,9 +6,6 @@ import eu.agribot.agribotapp.communication.bluetooth.basic.message.frame.data.Fr
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.heartbeat.HeartbeatManager
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.ConstantReceivedMessage.ARRAY_BIT_SHIFT
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.ConstantReceivedMessage.BATTERY_VOLTAGE_RATIO
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.ConstantReceivedMessage.FIRST_DIGIT
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.ConstantReceivedMessage.FOURTH_DIGIT
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.ConstantReceivedMessage.FOUR_DIGIT_NUMBER
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.ConstantReceivedMessage.FUEL_RATE_RATIO
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.ConstantReceivedMessage.HYDRAULIC_OIL_TEMPERATURE_OFFSET
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.ConstantReceivedMessage.LENGHT_BYTE_POSITION
@@ -23,8 +20,9 @@ import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessa
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.DiagnosticDataArrayPosition.FUEL_TEMPERATURE_BYTE
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.DiagnosticDataArrayPosition.HUDRAULIC_OIL_TEMPERATURE_BYTE
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data.DiagnosticDataArrayPosition.TORQUE_OF_ENGINE_BYTE
-import eu.agribot.agribotapp.communication.bluetooth.basic.message.toolcontrolmessage.EncoderMessageParser
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.rfid.RfidMessageManager
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.toolcontrolmessage.AndroidEncoderMessageParser
+import eu.agribot.agribotapp.communication.bluetooth.basic.message.toolcontrolmessage.EncoderMessageParser
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.writemessage.WriteBluetoothMessageManager
 import eu.agribot.agribotapp.communication.bluetooth.const.BluetoothAdressCodeModel
 import eu.agribot.agribotapp.communication.bluetooth.const.PersistentConnectionParameters
@@ -206,47 +204,80 @@ class AndroidReceivedBluetoothMessageManager(
     }
 
     private fun getHydraulicOilTemperature(bluetoothMessageFrame: BluetoothMessageFrame): Int {
-        return (bluetoothMessageFrame.getCanDataFromReceivedMessage()[HUDRAULIC_OIL_TEMPERATURE_BYTE.position] - HYDRAULIC_OIL_TEMPERATURE_OFFSET)
+        return if (bluetoothMessageFrame.getCanDataFromReceivedMessage().size == HYDRAULICS_FRAME_LENGTH) {
+            (bluetoothMessageFrame.getCanDataFromReceivedMessage()[HUDRAULIC_OIL_TEMPERATURE_BYTE.position].toInt() and BYTE_MASK) + HYDRAULIC_OIL_TEMPERATURE_OFFSET
+        } else {
+            DiagnosticBluetoothDataBD().hydraulicOilTemperature
+        }
     }
 
     private fun getEngineRotations(bluetoothMessageFrame: BluetoothMessageFrame): Int {
-        return bytesToUnsingedInt(
-            bluetoothMessageFrame.getCanDataFromReceivedMessage()
-                .sliceArray(ENGINE_ROTATIONS_FIRST_BYTE.position..ENGINE_ROTATIONS_SECOND_BYTE.position)
-        )
+        return if (bluetoothMessageFrame.getCanDataFromReceivedMessage().size == ENGINE_FRAME_LENGTH) {
+            twoBytesToUnsingedInt(
+                bluetoothMessageFrame.getCanDataFromReceivedMessage()
+                    .sliceArray(ENGINE_ROTATIONS_FIRST_BYTE.position..ENGINE_ROTATIONS_SECOND_BYTE.position)
+            )
+        } else {
+            DiagnosticBluetoothDataBD().engineRotationsPerMinute
+        }
     }
 
     private fun getTorqueOfEngine(bluetoothMessageFrame: BluetoothMessageFrame): Int {
-        return bluetoothMessageFrame.getCanDataFromReceivedMessage()[TORQUE_OF_ENGINE_BYTE.position].toInt()
+        return if (bluetoothMessageFrame.getCanDataFromReceivedMessage().size == ENGINE_FRAME_LENGTH) {
+            bluetoothMessageFrame.getCanDataFromReceivedMessage()[TORQUE_OF_ENGINE_BYTE.position].toInt()
+        } else {
+            DiagnosticBluetoothDataBD().torqueOfEngine
+        }
     }
 
     private fun getEngineFuelRate(bluetoothMessageFrame: BluetoothMessageFrame): Double {
-        return (bluetoothMessageFrame.getCanDataFromReceivedMessage()[ENGINE_FUEL_RATE_BYTE.position] / FUEL_RATE_RATIO)
+        return if (bluetoothMessageFrame.getCanDataFromReceivedMessage().size == ENGINE_FRAME_LENGTH) {
+            bluetoothMessageFrame.getCanDataFromReceivedMessage()[ENGINE_FUEL_RATE_BYTE.position].toDouble() / FUEL_RATE_RATIO
+        } else {
+            DiagnosticBluetoothDataBD().engineFuelRate
+        }
     }
 
     private fun getFuelLevel(bluetoothMessageFrame: BluetoothMessageFrame): Int {
-        return bluetoothMessageFrame.getCanDataFromReceivedMessage()[FUEL_LEVEL_BYTE.position].toInt()
+        return if (bluetoothMessageFrame.getCanDataFromReceivedMessage().size == ENGINE_FRAME_LENGTH) {
+            bluetoothMessageFrame.getCanDataFromReceivedMessage()[FUEL_LEVEL_BYTE.position].toInt()
+        } else {
+            DiagnosticBluetoothDataBD().fuelLevel
+        }
     }
 
     private fun getFuelTemperature(bluetoothMessageFrame: BluetoothMessageFrame): Int {
-        return bluetoothMessageFrame.getCanDataFromReceivedMessage()[FUEL_TEMPERATURE_BYTE.position].toInt()
+        return if (bluetoothMessageFrame.getCanDataFromReceivedMessage().size == ENGINE_FRAME_LENGTH) {
+            bluetoothMessageFrame.getCanDataFromReceivedMessage()[FUEL_TEMPERATURE_BYTE.position].toInt()
+        } else {
+            DiagnosticBluetoothDataBD().fuelTemperature
+        }
     }
 
     private fun getBatteryVoltage(bluetoothMessageFrame: BluetoothMessageFrame): Double {
-        val batteryVoltage = bytesToUnsingedInt(
-            bluetoothMessageFrame.getCanDataFromReceivedMessage()
-                .sliceArray(ACCUMULATOR_VOLTGE_FIRST_BYTE.position..ACCUMULATOR_VOLTAGE_SECOND_BYTE.position)
-        ) * BATTERY_VOLTAGE_RATIO
-        return if (batteryVoltage.toString().length > FOUR_DIGIT_NUMBER)
-            (batteryVoltage.toString().slice(FIRST_DIGIT..FOURTH_DIGIT).toDouble())
-        else
-            (batteryVoltage)
+        return if (bluetoothMessageFrame.getCanDataFromReceivedMessage().size == ENGINE_FRAME_LENGTH) {
+            twoBytesToUnsingedInt(
+                bluetoothMessageFrame.getCanDataFromReceivedMessage()
+                    .sliceArray(ACCUMULATOR_VOLTGE_FIRST_BYTE.position..ACCUMULATOR_VOLTAGE_SECOND_BYTE.position)
+            ).toDouble() / BATTERY_VOLTAGE_RATIO
+        } else {
+            DiagnosticBluetoothDataBD().batteryVoltage
+        }
     }
 
     private fun bytesToUnsingedInt(array: ByteArray): Int {
         var result = 0
         for (i in array.indices)
             result += (array[array.size - 1 - i].toInt() and DUMMY_BYTE.toInt()) shl ARRAY_BIT_SHIFT * i
+        return result
+    }
+
+    private fun twoBytesToUnsingedInt(array: ByteArray): Int {
+        var result = 0
+        if (array.size == 2) {
+            result = (array[0].toInt()
+                .shl(AndroidEncoderMessageParser.BYTE_LENGHT) and 0xff00) + (array[1].toInt() and 0xff)
+        }
         return result
     }
 
@@ -257,5 +288,11 @@ class AndroidReceivedBluetoothMessageManager(
 
     private fun handleHeartbeatMessage() {
         heartbeatManager.restartHeartbeatCounter()
+    }
+
+    companion object {
+        const val ENGINE_FRAME_LENGTH = 8
+        const val HYDRAULICS_FRAME_LENGTH = 8
+        const val BYTE_MASK = 0xFF
     }
 }

@@ -30,6 +30,7 @@ class TTControlModeFragment : BaseFragment<TTControlViewModel, FragmentTtcontrol
         viewBinding.verticalJoystick.setOnMoveListener { angle, _ ->
             viewModel.onVerticalJoystickParametersChanged(angle)
         }
+        viewModel.initManualMode()
     }
 
     override fun handleNavigationEvent(navigationEvent: NavigationEvent) = when (navigationEvent) {

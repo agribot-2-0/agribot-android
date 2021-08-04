@@ -1,10 +1,16 @@
 from enum import Enum
 
 
+class CanMessageBytes(Enum):
+    START_OF_FRAME_BYTE = 0x43
+    COMMAND_BYTE = 0x00
+    END_OF_FRAME_BYTE = 0x0D
+
+
 class MessageCommand(Enum):
-    HEARTBEAT = 1
-    MOBILE_APP_HANDSHAKE = 10
-    AGRIBOT_HANDSHAKE = 11
+    HEARTBEAT = 0x01
+    MOBILE_APP_HANDSHAKE = 0x0A
+    AGRIBOT_HANDSHAKE = 0x0B
     MANUAL_MODE_INITIALIZATION_MESSAGE = 20
     MANUAL_MODE_RUN_MESSAGE = 21
     AUTO_START = 30
@@ -15,7 +21,8 @@ class MessageCommand(Enum):
     ROTATE_CARRIAGES = 51
     RIDE_THE_CURVE = 53
     AGRIBOT_SET_SWITCH = 60
-    AGRIBOT_DIAGNOSTIC_DATA_1 = 100
+    AGRIBOT_DIAGNOSTIC_DATA_1 = 0x064
+    AGRIBOT_HYDRAULICS_DATA = 0x069
     RFID_TAG = 151
 
 
@@ -35,5 +42,5 @@ class FrameConstant(Enum):
 
 
 class MessageDirection(Enum):
-    SERVER = " [ FROM_SERVER ] "
-    CLIENT = " [ FROM_MOBILE_APP ] "
+    SERVER = "[TO_MOBILE_APP]"
+    CLIENT = "[FROM_MOBILE_APP]"

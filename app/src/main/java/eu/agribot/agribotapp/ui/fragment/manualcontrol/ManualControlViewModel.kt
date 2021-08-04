@@ -22,7 +22,6 @@ class ManualControlViewModel(
         MutableLiveData(resourcesProvider.getString(R.string.title_tool_control))
     val pagerState: MutableLiveData<Int> = MutableLiveData(PagerPostion.DISPLAY_STATE.number)
 
-
     companion object {
         const val COUNTER_INITIALIZATION_VALUE = 0
         const val COUNTER_INCREMENT_VALUE = 1
@@ -37,7 +36,6 @@ class ManualControlViewModel(
             buttonText.value = resourcesProvider.getString(R.string.title_tool_control)
         }
     }
-
 
     fun onJoystickParametrChange(angle: Int, strength: Int) = viewModelScope.launch {
         if (getJoystickMessageCounter() % JoysticFilter.JOYSTICK_FILTER_VALUE.value == COUNTER_INITIALIZATION_VALUE) {
@@ -66,7 +64,6 @@ class ManualControlViewModel(
 
     fun initManualMode() {
         manualModeService.sendManualModeInitMessage()
-
     }
 
     fun initSafeMode() {

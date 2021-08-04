@@ -19,8 +19,7 @@ class ManualSteeringJoystickManager(
         val direction = getDirectionValue(radius)
         val speed = getSpeedValue(strength)
         val forward = getForwardValue(angle)
-        if (speed == 0.0)
-        {
+        if (speed == 0.0) {
             radius = 0.0
         }
 

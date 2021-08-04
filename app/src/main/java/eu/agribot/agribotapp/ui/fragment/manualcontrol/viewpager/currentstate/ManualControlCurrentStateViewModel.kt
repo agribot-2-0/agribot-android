@@ -78,20 +78,20 @@ class ManualControlCurrentStateViewModel(
                     resourcesProvider.getString(R.string.start_stop_engine)
                 ),
                 ManualActionsViewModel(
-                    ActionID.SEND_MANUAL_INIT_MESSAGE.action,
-                    resourcesProvider.getString(R.string.manual_mode_button)
-                ),
-                ManualActionsViewModel(
-                    ActionID.SAFE_MODE.action,
-                    resourcesProvider.getString(R.string.safe_mode_button)
-                ),
-                ManualActionsViewModel(
                     ActionID.CATERPILLAR_NORMAL.action,
                     resourcesProvider.getString(R.string.caterpillar_normal)
                 ),
                 ManualActionsViewModel(
                     ActionID.CATERPILLAR_ELEVETED.action,
                     resourcesProvider.getString(R.string.caterpillar_elevated)
+                ),
+                ManualActionsViewModel(
+                    ActionID.SEND_MANUAL_INIT_MESSAGE.action,
+                    resourcesProvider.getString(R.string.manual_mode_button)
+                ),
+                ManualActionsViewModel(
+                    ActionID.SAFE_MODE.action,
+                    resourcesProvider.getString(R.string.safe_mode_button)
                 ),
                 ManualActionsViewModel(
                     ActionID.OVERRIDE_MODE.action,
@@ -105,20 +105,12 @@ class ManualControlCurrentStateViewModel(
                     resourcesProvider.getString(R.string.start_stop_engine)
                 ),
                 ManualActionsViewModel(
-                    ActionID.SEND_MANUAL_INIT_MESSAGE.action,
-                    resourcesProvider.getString(R.string.manual_mode_button)
-                ),
-                ManualActionsViewModel(
                     ActionID.CATERPILLAR_NORMAL.action,
                     resourcesProvider.getString(R.string.caterpillar_normal)
                 ),
                 ManualActionsViewModel(
                     ActionID.CATERPILLAR_ELEVETED.action,
                     resourcesProvider.getString(R.string.caterpillar_elevated)
-                ),
-                ManualActionsViewModel(
-                    ActionID.SAFE_MODE.action,
-                    resourcesProvider.getString(R.string.safe_mode_button)
                 )
             )
         }
@@ -315,6 +307,6 @@ class ManualControlCurrentStateViewModel(
 
         const val INVALID_INTEGER_NUMBER = -1
 
-        const val INVALID_DECIMAL_NUMBER = 0.0
+        const val INVALID_DECIMAL_NUMBER = -1.0
     }
 }

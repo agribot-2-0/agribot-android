@@ -37,9 +37,9 @@ class ManualControlViewModel(
         }
     }
 
-    fun onJoystickParametrChange(angel: Int, strength: Int) = viewModelScope.launch {
+    fun onJoystickParametrChange(angle: Int, strength: Int) = viewModelScope.launch {
         if (getJoystickMessageCounter() % JoysticFilter.JOYSTICK_FILTER_VALUE.value == COUNTER_INITIALIZATION_VALUE) {
-            manualModeService.onManualSteeringJoystickParametrChanged(angel, strength)
+            manualModeService.onManualSteeringJoystickParametrChanged(angle, strength)
         }
     }
 
@@ -60,5 +60,13 @@ class ManualControlViewModel(
                 manualModeService.onTTControlEvent(false)
             }
         }
+    }
+
+    fun initManualMode() {
+        manualModeService.sendManualModeInitMessage()
+    }
+
+    fun initSafeMode() {
+        manualModeService.sendSafeModeMessage()
     }
 }

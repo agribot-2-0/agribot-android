@@ -4,7 +4,8 @@ Idea: Firstly pair device and later connect them by rfcomm bluetooth profile.
 (0) Change PC bluetooth name to 'CANwirelessSN1705079'
     Edit "PRETTY_HOSTNAME=CANwirelessSN1705079" in /etc/machine-info  file
 
-Temporary hack for Agribot Android App (android app only connects to the devices which starts with 'CAN' name)
+Temporary hack for Agribot Android App version 1 (android app only connects to the devices which starts with 'CAN' name)
+Not needed if you connect to version 2
 
 1) Following https://askubuntu.com/questions/775303/unified-remote-bluetooth-could-not-connect-to-sdp
 
@@ -33,6 +34,9 @@ c) add SP (serial port) service to sdp
 ExecStartPost=/usr/bin/sdptool add SP
 
 2) Turn on bluetooth
-3) Pair PC with a tablet. Don't connect with tablet and run rfcomm-server.py python script (firstly install 
+3) Pair PC with a tablet. Don't connect with tablet and run main.py python script (firstly install
 sudo apt-get install bluetooth libbluetooth-dev
 sudo python3 -m pip install pybluez)
+```
+python3 main.py
+```

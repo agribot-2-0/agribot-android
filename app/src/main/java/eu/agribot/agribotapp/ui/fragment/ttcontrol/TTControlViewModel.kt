@@ -4,10 +4,12 @@ import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.TTControlToolNavigationEvent
+import eu.agribot.agribotapp.domain.service.ManualModeService
 import eu.agribot.agribotapp.domain.service.TTControlService
 import eu.agribot.agribotapp.domain.service.joystick.JoysticFilter
 
 class TTControlViewModel(
+    private val manualModeService: ManualModeService,
     private val ttControlService: TTControlService
 ) : BaseViewModel() {
     val frontCart: MutableLiveData<Boolean> = MutableLiveEvent()
@@ -67,5 +69,9 @@ class TTControlViewModel(
 
     fun toolControlClicked() {
         navigationEvent.postValue(TTControlToolNavigationEvent())
+    }
+
+    fun initManualMode() {
+        manualModeService.sendManualModeInitMessage()
     }
 }

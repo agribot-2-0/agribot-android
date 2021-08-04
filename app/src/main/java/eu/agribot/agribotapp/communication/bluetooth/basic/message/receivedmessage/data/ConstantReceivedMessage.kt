@@ -1,7 +1,7 @@
 package eu.agribot.agribotapp.communication.bluetooth.basic.message.receivedmessage.data
 
 object ConstantReceivedMessage {
-    const val BATTERY_VOLTAGE_RATIO = 0.001
+    const val BATTERY_VOLTAGE_RATIO = 1000.0
 
     const val FUEL_RATE_RATIO = 10.0
 
@@ -25,5 +25,5 @@ object ConstantReceivedMessage {
 
     const val ARRAY_BIT_SHIFT = 8
 
-    const val HYDRAULIC_OIL_TEMPERATURE_OFFSET = 80
+    const val HYDRAULIC_OIL_TEMPERATURE_OFFSET = -80
 }

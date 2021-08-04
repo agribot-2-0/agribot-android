@@ -15,12 +15,16 @@ class ManualSteeringJoystickManager(
 
     @SuppressLint("LogNotTimber")
     fun onJoystickConfigurationChanged(angle: Int, strength: Int) {
-        val radius: Double = getRadiusValue(angle)
+        var radius: Double = getRadiusValue(angle)
         val direction = getDirectionValue(radius)
         val speed = getSpeedValue(strength)
         val forward = getForwardValue(angle)
+        if (speed == 0.0)
+        {
+            radius = 0.0
+        }
 
-        if (speed != NO_REQUEST_SPEED) {
+//        if (speed != NO_REQUEST_SPEED) {
             sendChangedJoystickParmaetrs(
                 ArcParameters(
                     radius,
@@ -29,7 +33,7 @@ class ManualSteeringJoystickManager(
                     speed
                 )
             )
-        }
+//        }
 
         Timber.d(
             String.format(

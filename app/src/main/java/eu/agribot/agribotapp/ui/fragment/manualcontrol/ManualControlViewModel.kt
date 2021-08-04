@@ -22,6 +22,7 @@ class ManualControlViewModel(
         MutableLiveData(resourcesProvider.getString(R.string.title_tool_control))
     val pagerState: MutableLiveData<Int> = MutableLiveData(PagerPostion.DISPLAY_STATE.number)
 
+
     companion object {
         const val COUNTER_INITIALIZATION_VALUE = 0
         const val COUNTER_INCREMENT_VALUE = 1
@@ -37,9 +38,10 @@ class ManualControlViewModel(
         }
     }
 
-    fun onJoystickParametrChange(angel: Int, strength: Int) = viewModelScope.launch {
+
+    fun onJoystickParametrChange(angle: Int, strength: Int) = viewModelScope.launch {
         if (getJoystickMessageCounter() % JoysticFilter.JOYSTICK_FILTER_VALUE.value == COUNTER_INITIALIZATION_VALUE) {
-            manualModeService.onManualSteeringJoystickParametrChanged(angel, strength)
+            manualModeService.onManualSteeringJoystickParametrChanged(angle, strength)
         }
     }
 
@@ -60,5 +62,14 @@ class ManualControlViewModel(
                 manualModeService.onTTControlEvent(false)
             }
         }
+    }
+
+    fun initManualMode() {
+        manualModeService.sendManualModeInitMessage()
+
+    }
+
+    fun initSafeMode() {
+        manualModeService.sendSafeModeMessage()
     }
 }

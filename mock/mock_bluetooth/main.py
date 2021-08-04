@@ -42,10 +42,9 @@ def send_message(message):
 
 
 def handle_typical_message(message):
-    # MessageManager.log_mobile_app_message(message)
+    MessageManager.log_mobile_app_message(message)
     send_message(message)
-    # MessageManager.log_server_message(message)
-    # send_diagnostic_data()
+    MessageManager.log_server_message(message)
 
 
 def send_diagnostic_data():
@@ -57,7 +56,7 @@ def send_diagnostic_data():
 
 
 def response_to_handshake(handshake):
-    # MessageManager.log_mobile_app_message(handshake)
+    MessageManager.log_mobile_app_message(handshake)
     send_message(get_agribot_handshake())
     MessageManager.log_server_message(get_agribot_handshake())
 

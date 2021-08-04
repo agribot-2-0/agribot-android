@@ -205,7 +205,7 @@ class AndroidReceivedBluetoothMessageManager(
 
     private fun getHydraulicOilTemperature(bluetoothMessageFrame: BluetoothMessageFrame): Int {
         return if (bluetoothMessageFrame.getCanDataFromReceivedMessage().size == HYDRAULICS_FRAME_LENGTH) {
-            (bluetoothMessageFrame.getCanDataFromReceivedMessage()[HUDRAULIC_OIL_TEMPERATURE_BYTE.position] + HYDRAULIC_OIL_TEMPERATURE_OFFSET)
+            (bluetoothMessageFrame.getCanDataFromReceivedMessage()[HUDRAULIC_OIL_TEMPERATURE_BYTE.position].toInt() and BYTE_MASK) + HYDRAULIC_OIL_TEMPERATURE_OFFSET
         } else {
             DiagnosticBluetoothDataBD().hydraulicOilTemperature
         }
@@ -293,5 +293,6 @@ class AndroidReceivedBluetoothMessageManager(
     companion object {
         const val ENGINE_FRAME_LENGTH = 8
         const val HYDRAULICS_FRAME_LENGTH = 8
+        const val BYTE_MASK = 0xFF
     }
 }

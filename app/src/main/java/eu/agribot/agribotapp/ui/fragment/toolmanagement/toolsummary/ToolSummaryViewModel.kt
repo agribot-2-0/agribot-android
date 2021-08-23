@@ -72,16 +72,44 @@ class ToolSummaryViewModel(
             toolName = toolDataManager.toolName,
             toolDetails = ToolDetails(
                 rfid = toolDataManager.rfid,
-                pto = toolDataManager.pto,
-                tplPushPull = toolDataManager.tplPushPull,
-                tplUpDown = toolDataManager.tplUpDown,
-                blue = toolDataManager.blue,
-                yellow = toolDataManager.yellow,
-                green = toolDataManager.green,
-                vMax = toolDataManager.vMax
+                pto = convertSliderValueToDatabaseValue(toolDataManager.pto, ToolDataManager.Companion.Value.PTO),
+                tplPushPull = convertSliderValueToDatabaseValue(toolDataManager.tplPushPull, ToolDataManager.Companion.Value.TPL_PUSH_PULL),
+                tplUpDown = convertSliderValueToDatabaseValue(toolDataManager.tplUpDown, ToolDataManager.Companion.Value.TPL_UP_DOWN),
+                blue = convertSliderValueToDatabaseValue(toolDataManager.blue, ToolDataManager.Companion.Value.COLOUR),
+                yellow = convertSliderValueToDatabaseValue(toolDataManager.yellow, ToolDataManager.Companion.Value.COLOUR),
+                green = convertSliderValueToDatabaseValue(toolDataManager.green, ToolDataManager.Companion.Value.COLOUR),
+                vMax = convertSliderValueToDatabaseValue(toolDataManager.vMax, ToolDataManager.Companion.Value.VELOCITY)
             ),
             onSucess = this::onAddNewToolSucess
         )
+    }
+
+    private fun convertSliderValueToDatabaseValue(sliderValue: Double, value: ToolDataManager.Companion.Value): Double {
+        var databaseValue = 0.0
+        when (value) {
+            ToolDataManager.Companion.Value.VELOCITY -> {
+                databaseValue =
+                    convertKilometersPerHourToMetersPerSecond((sliderValue * 0.1))
+            }
+            ToolDataManager.Companion.Value.TPL_PUSH_PULL -> {
+                databaseValue = (sliderValue) * 0.01
+            }
+            ToolDataManager.Companion.Value.TPL_UP_DOWN -> {
+                databaseValue = (sliderValue) * 0.01
+            }
+            ToolDataManager.Companion.Value.COLOUR -> {
+                databaseValue = sliderValue
+            }
+            ToolDataManager.Companion.Value.PTO -> {
+                databaseValue = sliderValue
+            }
+        }
+
+        return databaseValue
+    }
+
+    private fun convertKilometersPerHourToMetersPerSecond(kilometersPerHour: Double): Double {
+        return (kilometersPerHour * 10 / 36)
     }
 
     private fun onAddNewToolSucess() {

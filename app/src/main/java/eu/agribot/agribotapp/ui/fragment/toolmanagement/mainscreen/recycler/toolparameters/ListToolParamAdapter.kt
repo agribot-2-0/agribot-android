@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.databinding.ListItemToolParamBinding
+import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.data.ToolRecylerItemId
+import kotlinx.android.synthetic.main.list_item_hitch.view.*
 import kotlinx.android.synthetic.main.list_item_tool_param.view.tool_param_value
 import kotlinx.android.synthetic.main.list_item_tool_param.view.tool_value_tx
 
@@ -38,7 +41,57 @@ class ListToolParamAdapter :
     override fun onBindViewHolder(holder: ListToolParamViewHolder, position: Int) {
         val item = items[position]
         holder.bind(item)
-        holder.itemView.tool_value_tx.text = item.paramValue.toString()
+        //holder.itemView.tool_value_tx.text = item.paramValue.toString()
         holder.itemView.tool_param_value.isEnabled = false
+        when (item.toolParamID) {
+            ListToolParamItem.VELOCITY.toolParamId -> {
+                holder.itemView.tool_param_value.min = item.minValue
+                holder.itemView.tool_param_value.max = item.maxValue
+                holder.itemView.tool_value_tx.text = String.format(
+                    "%.1f",
+                    item.paramValue.toDouble() * 0.1
+                )
+            }
+            ListToolParamItem.PTO.toolParamId -> {
+                holder.itemView.tool_param_value.min = item.minValue
+                holder.itemView.tool_param_value.max = item.maxValue
+                holder.itemView.tool_value_tx.text =
+                    item.paramValue.toString()
+            }
+            ListToolParamItem.TPL_PUSH_PULL.toolParamId -> {
+                holder.itemView.tool_param_value.min = item.minValue
+                holder.itemView.tool_param_value.max = item.maxValue
+                holder.itemView.tool_value_tx.text = String.format(
+                    "%.2f",
+                    item.paramValue.toDouble() * 0.01
+                )
+            }
+            ListToolParamItem.TPL_UP_DOWN.toolParamId -> {
+                holder.itemView.tool_param_value.min = item.minValue
+                holder.itemView.tool_param_value.max = item.maxValue
+                holder.itemView.tool_value_tx.text = String.format(
+                    "%.2f",
+                    item.paramValue.toDouble() * 0.01
+                )
+            }
+            ListToolParamItem.YELLOW_FLOW.toolParamId -> {
+                holder.itemView.tool_param_value.min = item.minValue
+                holder.itemView.tool_param_value.max = item.maxValue
+                holder.itemView.tool_value_tx.text =
+                    item.paramValue.toString()
+            }
+            ListToolParamItem.GREEN_FLOW.toolParamId -> {
+                holder.itemView.tool_param_value.min = item.minValue
+                holder.itemView.tool_param_value.max = item.maxValue
+                holder.itemView.tool_value_tx.text =
+                    item.paramValue.toString()
+            }
+            ListToolParamItem.BLUE_FLOW.toolParamId -> {
+                holder.itemView.tool_param_value.min = item.minValue
+                holder.itemView.tool_param_value.max = item.maxValue
+                holder.itemView.tool_value_tx.text =
+                    item.paramValue.toString()
+            }
+        }
     }
 }

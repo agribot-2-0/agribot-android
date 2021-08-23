@@ -11,7 +11,6 @@ import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.data.ToolRecyler
 import kotlinx.android.synthetic.main.list_item_hitch.view.*
 import kotlinx.android.synthetic.main.list_item_tool_param.view.tool_param_value
 import kotlinx.android.synthetic.main.list_item_tool_param.view.tool_value_tx
-import timber.log.Timber
 
 class ListToolParamAdapter :
     RecyclerView.Adapter<ListToolParamViewHolder>() {

@@ -11,6 +11,7 @@ import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.data.ToolRecyler
 import kotlinx.android.synthetic.main.list_item_hitch.view.*
 import kotlinx.android.synthetic.main.list_item_tool_param.view.tool_param_value
 import kotlinx.android.synthetic.main.list_item_tool_param.view.tool_value_tx
+import timber.log.Timber
 
 class ListToolParamAdapter :
     RecyclerView.Adapter<ListToolParamViewHolder>() {
@@ -55,6 +56,7 @@ class ListToolParamAdapter :
             ListToolParamItem.PTO.toolParamId -> {
                 holder.itemView.tool_param_value.min = item.minValue
                 holder.itemView.tool_param_value.max = item.maxValue
+                holder.itemView.tool_param_value.progress = item.paramValue
                 holder.itemView.tool_value_tx.text =
                     item.paramValue.toString()
             }

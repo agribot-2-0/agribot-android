@@ -3,6 +3,7 @@ package eu.agribot.agribotapp.ui.fragment.toolmanagement.toolsummary
 import androidx.lifecycle.MutableLiveData
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.base.BaseViewModel
+import eu.agribot.agribotapp.common.livedata.MutableLiveEvent
 import eu.agribot.agribotapp.common.navigation.events.ToolNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.model.cdb.ToolDetails
@@ -18,6 +19,7 @@ class ToolSummaryViewModel(
     private val resourcesProvider: ResourcesProvider,
     private val toolManagementService: ToolManagementService
 ) : BaseViewModel() {
+    private val toastMessageEvent: MutableLiveEvent<String> = MutableLiveEvent()
 
     val toolName: MutableLiveData<String> = MutableLiveData()
     val toolRfidTag: MutableLiveData<String> = MutableLiveData()
@@ -160,4 +162,21 @@ class ToolSummaryViewModel(
             }
         }
     }
+
+    fun getToolDetails(){
+        cloudDatabaseService.getToolDetails(
+            toolName = toolDataManager.toolName,
+            onGetToolDetails = this::onToolUpdate,
+            onGetToolDetailsError = this::postToastErrorMessageEvent
+        )
+    }
+
+    private fun onToolUpdate(toolDetails: ToolDetails) {
+        toolDataManager.updateAllToolParameters(toolDetails)
+    }
+
+    private fun postToastErrorMessageEvent(errorMessage: String) {
+        toastMessageEvent.postValue(errorMessage)
+    }
+
 }

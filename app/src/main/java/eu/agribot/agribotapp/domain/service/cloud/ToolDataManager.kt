@@ -68,7 +68,7 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
             switchNumber = ToolRecylerItemId.V_MAX.ID,
             toolName = resourcesProvider.getString(R.string.v_max),
             hitchListItemDetail = HitchListItemDetail(
-                toolStartValue = (convertMetersPerSecondToKilometersPerHour(vMax) * 10).toInt(),
+                toolStartValue = convertDatabaseValueToSliderValue(vMax, Value.VELOCITY),
                 toolUnit = "km/h",
                 minValue = convertFinalValueToWorkingValue(MIN_VELOCITY, Value.VELOCITY),
                 maxValue = convertFinalValueToWorkingValue(MAX_VELOCITY, Value.VELOCITY)
@@ -82,7 +82,7 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
             switchNumber = ToolRecylerItemId.GREEN.ID,
             toolName = resourcesProvider.getString(R.string.green_flow),
             hitchListItemDetail = HitchListItemDetail(
-                toolStartValue = green.toInt(),
+                toolStartValue = convertDatabaseValueToSliderValue(green, Value.COLOUR),
                 toolUnit = "%",
                 minValue = convertFinalValueToWorkingValue(MIN_COLOUR, Value.COLOUR),
                 maxValue = convertFinalValueToWorkingValue(MAX_COLOUR, Value.COLOUR)
@@ -95,7 +95,7 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
             switchNumber = ToolRecylerItemId.YELLOW.ID,
             toolName = resourcesProvider.getString(R.string.yellow_flow),
             hitchListItemDetail = HitchListItemDetail(
-                toolStartValue = yellow.toInt(),
+                toolStartValue = convertDatabaseValueToSliderValue(yellow, Value.COLOUR),
                 toolUnit = "%",
                 minValue = convertFinalValueToWorkingValue(MIN_COLOUR, Value.COLOUR),
                 maxValue = convertFinalValueToWorkingValue(MAX_COLOUR, Value.COLOUR)
@@ -108,7 +108,7 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
             switchNumber = ToolRecylerItemId.BLUE.ID,
             toolName = resourcesProvider.getString(R.string.blue_flow),
             hitchListItemDetail = HitchListItemDetail(
-                toolStartValue = blue.toInt(),
+                toolStartValue = convertDatabaseValueToSliderValue(blue, Value.COLOUR),
                 toolUnit = "%",
                 minValue = convertFinalValueToWorkingValue(MIN_COLOUR, Value.COLOUR),
                 maxValue = convertFinalValueToWorkingValue(MAX_COLOUR, Value.COLOUR)
@@ -121,7 +121,7 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
             switchNumber = ToolRecylerItemId.PTO.ID,
             toolName = resourcesProvider.getString(R.string.pto),
             hitchListItemDetail = HitchListItemDetail(
-                toolStartValue = pto.toInt(),
+                toolStartValue = convertDatabaseValueToSliderValue(pto, Value.PTO),
                 toolUnit = "RPM",
                 minValue = convertFinalValueToWorkingValue(MIN_PTO, Value.PTO),
                 maxValue = convertFinalValueToWorkingValue(MAX_PTO, Value.PTO)
@@ -134,7 +134,10 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
             switchNumber = ToolRecylerItemId.TPL_PUSH_PULL.ID,
             toolName = resourcesProvider.getString(R.string.tpl_push_pull),
             hitchListItemDetail = HitchListItemDetail(
-                toolStartValue = (tplPushPull * 100).toInt(),
+                toolStartValue = convertDatabaseValueToSliderValue(
+                    tplPushPull,
+                    Value.TPL_PUSH_PULL
+                ),
                 toolUnit = "m",
                 minValue = convertFinalValueToWorkingValue(MIN_TPL_PUSH_PULL, Value.TPL_PUSH_PULL),
                 maxValue = convertFinalValueToWorkingValue(MAX_TPL_PUSH_PULL, Value.TPL_PUSH_PULL)
@@ -147,7 +150,7 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
             switchNumber = ToolRecylerItemId.TPL_UP_DOWN.ID,
             toolName = resourcesProvider.getString(R.string.tpl_up_down),
             hitchListItemDetail = HitchListItemDetail(
-                toolStartValue = (tplUpDown * 100).toInt(),
+                toolStartValue = convertDatabaseValueToSliderValue(tplUpDown, Value.TPL_UP_DOWN),
                 toolUnit = "rad",
                 minValue = convertFinalValueToWorkingValue(MIN_TPL_UP_DOWN, Value.TPL_UP_DOWN),
                 maxValue = convertFinalValueToWorkingValue(MAX_TPL_UP_DOWN, Value.TPL_UP_DOWN)
@@ -178,27 +181,54 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
         return workingValue
     }
 
-    private fun convertSliderValueToDatabaseValue(sliderValue: Int, value: Value): Double {
+    fun convertSliderValueToDatabaseValue(sliderValue: Double, value: Value): Double {
         var databaseValue = 0.0
         when (value) {
             Value.VELOCITY -> {
-                databaseValue = ((sliderValue.toDouble()) * 0.1) * 10 / 36
+                databaseValue = ((sliderValue) * 0.1) * 10 / 36
             }
             Value.TPL_PUSH_PULL -> {
-                databaseValue = (sliderValue.toDouble()) * 0.01
+                databaseValue = (sliderValue) * 0.01
             }
             Value.TPL_UP_DOWN -> {
-                databaseValue = (sliderValue.toDouble()) * 0.01
+                databaseValue = (sliderValue) * 0.01
             }
             Value.COLOUR -> {
-                databaseValue = sliderValue.toDouble()
+                databaseValue = sliderValue
             }
             Value.PTO -> {
-                databaseValue = sliderValue.toDouble()
+                databaseValue = sliderValue
             }
         }
 
         return databaseValue
+    }
+
+    fun convertDatabaseValueToSliderValue(
+        databaseValue: Double,
+        value: Value
+    ): Int {
+        var sliderValue = 0
+        when (value) {
+            Value.VELOCITY -> {
+                sliderValue =
+                    convertMetersPerSecondToKilometersPerHour((databaseValue * 10)).toInt()
+            }
+            Value.TPL_PUSH_PULL -> {
+                sliderValue = ((databaseValue) * 100).toInt()
+            }
+            Value.TPL_UP_DOWN -> {
+                sliderValue = ((databaseValue) * 100).toInt()
+            }
+            Value.COLOUR -> {
+                sliderValue = databaseValue.toInt()
+            }
+            Value.PTO -> {
+                sliderValue = databaseValue.toInt()
+            }
+        }
+
+        return sliderValue
     }
 
     private fun convertMetersPerSecondToKilometersPerHour(metersPerSecond: Double): Double {

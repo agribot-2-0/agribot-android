@@ -49,7 +49,10 @@ class ToolManagementViewModel(
         return ListToolParamViewModel(
             ListToolParamItem.TPL_UP_DOWN.toolParamId,
             resourcesProvider.getString(R.string.tpl_up_down),
-            convertDatabaseValueToSliderValue(toolDetails.tplUpDown, ToolDataManager.Companion.Value.TPL_UP_DOWN), resourcesProvider.getString(R.string.radians), -26, 52
+            toolDataManager.convertDatabaseValueToSliderValue(
+                toolDetails.tplUpDown,
+                ToolDataManager.Companion.Value.TPL_UP_DOWN
+            ), resourcesProvider.getString(R.string.radians), -26, 52
         )
     }
 
@@ -57,7 +60,10 @@ class ToolManagementViewModel(
         return ListToolParamViewModel(
             ListToolParamItem.TPL_PUSH_PULL.toolParamId,
             resourcesProvider.getString(R.string.tpl_push_pull),
-            convertDatabaseValueToSliderValue(toolDetails.tplPushPull, ToolDataManager.Companion.Value.TPL_PUSH_PULL), resourcesProvider.getString(R.string.meters), 0, 45
+            toolDataManager.convertDatabaseValueToSliderValue(
+                toolDetails.tplPushPull,
+                ToolDataManager.Companion.Value.TPL_PUSH_PULL
+            ), resourcesProvider.getString(R.string.meters), 0, 45
         )
     }
 
@@ -65,7 +71,10 @@ class ToolManagementViewModel(
         return ListToolParamViewModel(
             ListToolParamItem.PTO.toolParamId,
             resourcesProvider.getString(R.string.pto),
-            convertDatabaseValueToSliderValue(toolDetails.pto, ToolDataManager.Companion.Value.PTO), resourcesProvider.getString(R.string.rpm), 0, 1000
+            toolDataManager.convertDatabaseValueToSliderValue(
+                toolDetails.pto,
+                ToolDataManager.Companion.Value.PTO
+            ), resourcesProvider.getString(R.string.rpm), 0, 1000
         )
     }
 
@@ -73,15 +82,24 @@ class ToolManagementViewModel(
         return ListToolParamViewModel(
             ListToolParamItem.BLUE_FLOW.toolParamId,
             resourcesProvider.getString(R.string.blue_flow),
-            convertDatabaseValueToSliderValue(toolDetails.blue, ToolDataManager.Companion.Value.COLOUR), resourcesProvider.getString(R.string.percent), 0, 100
+            toolDataManager.convertDatabaseValueToSliderValue(
+                toolDetails.blue,
+                ToolDataManager.Companion.Value.COLOUR
+            ), resourcesProvider.getString(R.string.percent), 0, 100
         )
     }
 
     private fun getYellowFlowItem(toolDetails: ToolDetails): ListToolParamViewModel {
         return ListToolParamViewModel(
             ListToolParamItem.YELLOW_FLOW.toolParamId,
-            resourcesProvider.getString(R.string.yellow_flow), convertDatabaseValueToSliderValue(toolDetails.yellow, ToolDataManager.Companion.Value.COLOUR),
-            resourcesProvider.getString(R.string.percent), 0, 100
+            resourcesProvider.getString(R.string.yellow_flow),
+            toolDataManager.convertDatabaseValueToSliderValue(
+                toolDetails.yellow,
+                ToolDataManager.Companion.Value.COLOUR
+            ),
+            resourcesProvider.getString(R.string.percent),
+            0,
+            100
         )
     }
 
@@ -89,7 +107,10 @@ class ToolManagementViewModel(
         return ListToolParamViewModel(
             ListToolParamItem.GREEN_FLOW.toolParamId,
             resourcesProvider.getString(R.string.green_flow),
-            convertDatabaseValueToSliderValue(toolDetails.green, ToolDataManager.Companion.Value.COLOUR), resourcesProvider.getString(R.string.percent), 0, 100
+            toolDataManager.convertDatabaseValueToSliderValue(
+                toolDetails.green,
+                ToolDataManager.Companion.Value.COLOUR
+            ), resourcesProvider.getString(R.string.percent), 0, 100
         )
     }
 
@@ -97,36 +118,11 @@ class ToolManagementViewModel(
         return ListToolParamViewModel(
             ListToolParamItem.VELOCITY.toolParamId,
             resourcesProvider.getString(R.string.v_max),
-            convertDatabaseValueToSliderValue(toolDetails.vMax, ToolDataManager.Companion.Value.VELOCITY), resourcesProvider.getString(R.string.kilometer_per_hour), 0, 100
+            toolDataManager.convertDatabaseValueToSliderValue(
+                toolDetails.vMax,
+                ToolDataManager.Companion.Value.VELOCITY
+            ), resourcesProvider.getString(R.string.kilometer_per_hour), 0, 100
         )
-    }
-
-    private fun convertDatabaseValueToSliderValue(databaseValue: Double, value: ToolDataManager.Companion.Value): Int {
-        var sliderValue = 0
-        when (value) {
-            ToolDataManager.Companion.Value.VELOCITY -> {
-                sliderValue =
-                    convertMetersPerSecondToKilometersPerHour((databaseValue * 10)).toInt()
-            }
-            ToolDataManager.Companion.Value.TPL_PUSH_PULL -> {
-                sliderValue = ((databaseValue) * 100).toInt()
-            }
-            ToolDataManager.Companion.Value.TPL_UP_DOWN -> {
-                sliderValue = ((databaseValue) * 100).toInt()
-            }
-            ToolDataManager.Companion.Value.COLOUR -> {
-                sliderValue = databaseValue.toInt()
-            }
-            ToolDataManager.Companion.Value.PTO -> {
-                sliderValue = databaseValue.toInt()
-            }
-        }
-
-        return sliderValue
-    }
-
-    private fun convertMetersPerSecondToKilometersPerHour(metersPerSecond: Double): Double {
-        return (metersPerSecond * 36 / 10)
     }
 
     private fun addToParamList(listToolParam: ListToolParamViewModel) {

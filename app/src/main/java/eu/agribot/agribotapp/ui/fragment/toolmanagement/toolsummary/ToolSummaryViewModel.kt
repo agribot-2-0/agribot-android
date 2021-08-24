@@ -74,68 +74,37 @@ class ToolSummaryViewModel(
             toolName = toolDataManager.toolName,
             toolDetails = ToolDetails(
                 rfid = toolDataManager.rfid,
-                pto = convertSliderValueToDatabaseValue(
+                pto = toolDataManager.convertSliderValueToDatabaseValue(
                     toolDataManager.pto,
                     ToolDataManager.Companion.Value.PTO
                 ),
-                tplPushPull = convertSliderValueToDatabaseValue(
+                tplPushPull = toolDataManager.convertSliderValueToDatabaseValue(
                     toolDataManager.tplPushPull,
                     ToolDataManager.Companion.Value.TPL_PUSH_PULL
                 ),
-                tplUpDown = convertSliderValueToDatabaseValue(
+                tplUpDown = toolDataManager.convertSliderValueToDatabaseValue(
                     toolDataManager.tplUpDown,
                     ToolDataManager.Companion.Value.TPL_UP_DOWN
                 ),
-                blue = convertSliderValueToDatabaseValue(
+                blue = toolDataManager.convertSliderValueToDatabaseValue(
                     toolDataManager.blue,
                     ToolDataManager.Companion.Value.COLOUR
                 ),
-                yellow = convertSliderValueToDatabaseValue(
+                yellow = toolDataManager.convertSliderValueToDatabaseValue(
                     toolDataManager.yellow,
                     ToolDataManager.Companion.Value.COLOUR
                 ),
-                green = convertSliderValueToDatabaseValue(
+                green = toolDataManager.convertSliderValueToDatabaseValue(
                     toolDataManager.green,
                     ToolDataManager.Companion.Value.COLOUR
                 ),
-                vMax = convertSliderValueToDatabaseValue(
+                vMax = toolDataManager.convertSliderValueToDatabaseValue(
                     toolDataManager.vMax,
                     ToolDataManager.Companion.Value.VELOCITY
                 )
             ),
             onSucess = this::onAddNewToolSucess
         )
-    }
-
-    private fun convertSliderValueToDatabaseValue(
-        sliderValue: Double,
-        value: ToolDataManager.Companion.Value
-    ): Double {
-        var databaseValue = 0.0
-        when (value) {
-            ToolDataManager.Companion.Value.VELOCITY -> {
-                databaseValue =
-                    convertKilometersPerHourToMetersPerSecond((sliderValue * 0.1))
-            }
-            ToolDataManager.Companion.Value.TPL_PUSH_PULL -> {
-                databaseValue = (sliderValue) * 0.01
-            }
-            ToolDataManager.Companion.Value.TPL_UP_DOWN -> {
-                databaseValue = (sliderValue) * 0.01
-            }
-            ToolDataManager.Companion.Value.COLOUR -> {
-                databaseValue = sliderValue
-            }
-            ToolDataManager.Companion.Value.PTO -> {
-                databaseValue = sliderValue
-            }
-        }
-
-        return databaseValue
-    }
-
-    private fun convertKilometersPerHourToMetersPerSecond(kilometersPerHour: Double): Double {
-        return (kilometersPerHour * 10 / 36)
     }
 
     private fun onAddNewToolSucess() {

@@ -24,6 +24,7 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
     var vMax: Double = initDouble
 
     fun updateAllToolParameters(toolDetails: ToolDetails) {
+        Timber.d("tool updateAllToolParameters" + toolDetails.toString())
         rfid = toolDetails.rfid
         pto = toolDetails.pto
         tplUpDown = toolDetails.tplUpDown
@@ -156,17 +157,17 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
         )
     }
 
-    private fun convertFinalValueToWorkingValue(finalValue: Double, value: Value): Int{
+    private fun convertFinalValueToWorkingValue(finalValue: Double, value: Value): Int {
         var workingValue = 0
-        when(value){
+        when (value) {
             Value.VELOCITY -> {
-                workingValue = (finalValue*10).toInt()
+                workingValue = (finalValue * 10).toInt()
             }
             Value.TPL_PUSH_PULL -> {
-                workingValue = (finalValue*100).toInt()
+                workingValue = (finalValue * 100).toInt()
             }
             Value.TPL_UP_DOWN -> {
-                workingValue = (finalValue*100).toInt()
+                workingValue = (finalValue * 100).toInt()
             }
             Value.COLOUR -> {
                 workingValue = finalValue.toInt()
@@ -179,17 +180,17 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
         return workingValue
     }
 
-    private fun convertSliderValueToDatabaseValue(sliderValue: Int, value: Value): Double{
+    private fun convertSliderValueToDatabaseValue(sliderValue: Int, value: Value): Double {
         var databaseValue = 0.0
-        when(value){
+        when (value) {
             Value.VELOCITY -> {
-                databaseValue = ((sliderValue.toDouble())*0.1)*10/36
+                databaseValue = ((sliderValue.toDouble()) * 0.1) * 10 / 36
             }
             Value.TPL_PUSH_PULL -> {
-                databaseValue = (sliderValue.toDouble())*0.01
+                databaseValue = (sliderValue.toDouble()) * 0.01
             }
             Value.TPL_UP_DOWN -> {
-                databaseValue = (sliderValue.toDouble())*0.01
+                databaseValue = (sliderValue.toDouble()) * 0.01
             }
             Value.COLOUR -> {
                 databaseValue = sliderValue.toDouble()
@@ -203,7 +204,7 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
     }
 
     companion object {
-        enum class Value{VELOCITY, TPL_PUSH_PULL, TPL_UP_DOWN, COLOUR, PTO}
+        enum class Value { VELOCITY, TPL_PUSH_PULL, TPL_UP_DOWN, COLOUR, PTO }
         const val MIN_VELOCITY = 0.0 // km/h
         const val MAX_VELOCITY = 10.0 // km/h
         const val MIN_TPL_PUSH_PULL = 0.0 // m

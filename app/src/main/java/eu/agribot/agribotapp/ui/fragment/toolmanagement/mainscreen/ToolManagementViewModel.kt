@@ -73,7 +73,7 @@ class ToolManagementViewModel(
         return ListToolParamViewModel(
             ListToolParamItem.BLUE_FLOW.toolParamId,
             resourcesProvider.getString(R.string.blue_flow),
-            convertDatabaseValueToSliderValue(toolDetails.blue, ToolDataManager.Companion.Value.COLOUR), resourcesProvider.getString(R.string.percent), 0 ,100
+            convertDatabaseValueToSliderValue(toolDetails.blue, ToolDataManager.Companion.Value.COLOUR), resourcesProvider.getString(R.string.percent), 0, 100
         )
     }
 

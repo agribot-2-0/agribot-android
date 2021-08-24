@@ -12,6 +12,7 @@ import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.data.TagRfidFormatter
+import timber.log.Timber
 
 class ToolSummaryViewModel(
     private val toolDataManager: ToolDataManager,
@@ -144,6 +145,8 @@ class ToolSummaryViewModel(
             it.toolName == hitchParam.toolName
         }
 
+        Timber.d("tool addToParamList " + hitchParam.toolName.toString())
+        Timber.d("tool addToParamList " + hitchParam.hitchListItemDetail.toString())
         if (!isToolAlreadyAdded) {
             paramsList.value = listOf(
                 HitchListItemViewModel(
@@ -163,7 +166,7 @@ class ToolSummaryViewModel(
         }
     }
 
-    fun getToolDetails(){
+    fun getToolDetails() {
         cloudDatabaseService.getToolDetails(
             toolName = toolDataManager.toolName,
             onGetToolDetails = this::onToolUpdate,
@@ -178,5 +181,4 @@ class ToolSummaryViewModel(
     private fun postToastErrorMessageEvent(errorMessage: String) {
         toastMessageEvent.postValue(errorMessage)
     }
-
 }

@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.toolcontrolmessage.Tools
 import eu.agribot.agribotapp.databinding.ListItemHitchBinding
-import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.ToolControlViewModel
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewHolder
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.data.ToolRecylerItemId
 import kotlinx.android.synthetic.main.list_item_hitch.view.*
+import timber.log.Timber
 
 class HitchListItemAdapter(
     val onItemCharacteristicChange: (position: Int, sliderValue: Int, isActivated: Boolean) -> Unit
@@ -55,27 +55,31 @@ class HitchListItemAdapter(
         var isItemActive = false
         var itemSliderValue = 0
 
+        Timber.d("tool onBindViewHolder " + item.hitchListItemDetail.toString())
         if (item.isNewToolControl) {
             when (item.switchNumber) {
                 Tools.Pto.Front.toolId -> {
-                    holder.itemView.recycler_seekbar.min = 0
-                    holder.itemView.recycler_seekbar.max = 1000
+                    holder.itemView.recycler_seekbar.min = item.hitchListItemDetail.minValue
+                    holder.itemView.recycler_seekbar.max = item.hitchListItemDetail.maxValue
+                    holder.itemView.recycler_seekbar.progress = item.hitchListItemDetail.toolStartValue
                     holder.itemView.recycler_tool_value.text =
                         holder.itemView.recycler_seekbar.progress.toString() + holder.itemView.context.getString(
                             R.string.rpm
                         )
                 }
                 Tools.Pto.Rear.toolId -> {
-                    holder.itemView.recycler_seekbar.min = 0
-                    holder.itemView.recycler_seekbar.max = 1000
+                    holder.itemView.recycler_seekbar.min = item.hitchListItemDetail.minValue
+                    holder.itemView.recycler_seekbar.max = item.hitchListItemDetail.maxValue
+                    holder.itemView.recycler_seekbar.progress = item.hitchListItemDetail.toolStartValue
                     holder.itemView.recycler_tool_value.text =
                         holder.itemView.recycler_seekbar.progress.toString() + holder.itemView.context.getString(
                             R.string.rpm
                         )
                 }
                 else -> {
-                    holder.itemView.recycler_seekbar.min = 0
-                    holder.itemView.recycler_seekbar.max = 100
+                    holder.itemView.recycler_seekbar.min = item.hitchListItemDetail.minValue
+                    holder.itemView.recycler_seekbar.max = item.hitchListItemDetail.maxValue
+                    holder.itemView.recycler_seekbar.progress = item.hitchListItemDetail.toolStartValue
                     holder.itemView.recycler_tool_value.text =
                         holder.itemView.recycler_seekbar.progress.toString() + holder.itemView.context.getString(
                             R.string.percent
@@ -87,6 +91,7 @@ class HitchListItemAdapter(
                 ToolRecylerItemId.V_MAX.ID -> {
                     holder.itemView.recycler_seekbar.min = item.hitchListItemDetail.minValue
                     holder.itemView.recycler_seekbar.max = item.hitchListItemDetail.maxValue
+                    holder.itemView.recycler_seekbar.progress = item.hitchListItemDetail.toolStartValue
                     holder.itemView.recycler_tool_value.text = String.format(
                         "%.1f",
                         holder.itemView.recycler_seekbar.progress.toDouble() * 0.1
@@ -95,12 +100,14 @@ class HitchListItemAdapter(
                 ToolRecylerItemId.PTO.ID -> {
                     holder.itemView.recycler_seekbar.min = item.hitchListItemDetail.minValue
                     holder.itemView.recycler_seekbar.max = item.hitchListItemDetail.maxValue
+                    holder.itemView.recycler_seekbar.progress = item.hitchListItemDetail.toolStartValue
                     holder.itemView.recycler_tool_value.text =
                         holder.itemView.recycler_seekbar.progress.toString() + item.hitchListItemDetail.toolUnit
                 }
                 ToolRecylerItemId.TPL_PUSH_PULL.ID -> {
                     holder.itemView.recycler_seekbar.min = item.hitchListItemDetail.minValue
                     holder.itemView.recycler_seekbar.max = item.hitchListItemDetail.maxValue
+                    holder.itemView.recycler_seekbar.progress = item.hitchListItemDetail.toolStartValue
                     holder.itemView.recycler_tool_value.text = String.format(
                         "%.2f",
                         holder.itemView.recycler_seekbar.progress.toDouble() * 0.01
@@ -109,6 +116,7 @@ class HitchListItemAdapter(
                 ToolRecylerItemId.TPL_UP_DOWN.ID -> {
                     holder.itemView.recycler_seekbar.min = item.hitchListItemDetail.minValue
                     holder.itemView.recycler_seekbar.max = item.hitchListItemDetail.maxValue
+                    holder.itemView.recycler_seekbar.progress = item.hitchListItemDetail.toolStartValue
                     holder.itemView.recycler_tool_value.text = String.format(
                         "%.2f",
                         holder.itemView.recycler_seekbar.progress.toDouble() * 0.01
@@ -117,26 +125,28 @@ class HitchListItemAdapter(
                 ToolRecylerItemId.YELLOW.ID -> {
                     holder.itemView.recycler_seekbar.min = item.hitchListItemDetail.minValue
                     holder.itemView.recycler_seekbar.max = item.hitchListItemDetail.maxValue
+                    holder.itemView.recycler_seekbar.progress = item.hitchListItemDetail.toolStartValue
                     holder.itemView.recycler_tool_value.text =
                         holder.itemView.recycler_seekbar.progress.toString() + item.hitchListItemDetail.toolUnit
                 }
                 ToolRecylerItemId.GREEN.ID -> {
                     holder.itemView.recycler_seekbar.min = item.hitchListItemDetail.minValue
                     holder.itemView.recycler_seekbar.max = item.hitchListItemDetail.maxValue
+                    holder.itemView.recycler_seekbar.progress = item.hitchListItemDetail.toolStartValue
                     holder.itemView.recycler_tool_value.text =
                         holder.itemView.recycler_seekbar.progress.toString() + item.hitchListItemDetail.toolUnit
                 }
                 ToolRecylerItemId.BLUE.ID -> {
                     holder.itemView.recycler_seekbar.min = item.hitchListItemDetail.minValue
                     holder.itemView.recycler_seekbar.max = item.hitchListItemDetail.maxValue
+                    holder.itemView.recycler_seekbar.progress = item.hitchListItemDetail.toolStartValue
                     holder.itemView.recycler_tool_value.text =
                         holder.itemView.recycler_seekbar.progress.toString() + item.hitchListItemDetail.toolUnit
                 }
                 else -> {
-                    holder.itemView.recycler_seekbar.min = 0
-                    holder.itemView.recycler_seekbar.progress =
-                        item.hitchListItemDetail.toolStartValue
-                    holder.itemView.recycler_seekbar.max = 100
+                    holder.itemView.recycler_seekbar.min = item.hitchListItemDetail.minValue
+                    holder.itemView.recycler_seekbar.max = item.hitchListItemDetail.maxValue
+                    holder.itemView.recycler_seekbar.progress = item.hitchListItemDetail.toolStartValue
                     holder.itemView.recycler_tool_value.text =
                         holder.itemView.recycler_seekbar.progress.toString() + holder.itemView.context.getString(
                             R.string.percent

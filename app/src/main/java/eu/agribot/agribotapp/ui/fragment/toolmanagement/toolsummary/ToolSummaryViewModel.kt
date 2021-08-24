@@ -12,7 +12,6 @@ import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.data.TagRfidFormatter
-import timber.log.Timber
 
 class ToolSummaryViewModel(
     private val toolDataManager: ToolDataManager,
@@ -75,19 +74,43 @@ class ToolSummaryViewModel(
             toolName = toolDataManager.toolName,
             toolDetails = ToolDetails(
                 rfid = toolDataManager.rfid,
-                pto = convertSliderValueToDatabaseValue(toolDataManager.pto, ToolDataManager.Companion.Value.PTO),
-                tplPushPull = convertSliderValueToDatabaseValue(toolDataManager.tplPushPull, ToolDataManager.Companion.Value.TPL_PUSH_PULL),
-                tplUpDown = convertSliderValueToDatabaseValue(toolDataManager.tplUpDown, ToolDataManager.Companion.Value.TPL_UP_DOWN),
-                blue = convertSliderValueToDatabaseValue(toolDataManager.blue, ToolDataManager.Companion.Value.COLOUR),
-                yellow = convertSliderValueToDatabaseValue(toolDataManager.yellow, ToolDataManager.Companion.Value.COLOUR),
-                green = convertSliderValueToDatabaseValue(toolDataManager.green, ToolDataManager.Companion.Value.COLOUR),
-                vMax = convertSliderValueToDatabaseValue(toolDataManager.vMax, ToolDataManager.Companion.Value.VELOCITY)
+                pto = convertSliderValueToDatabaseValue(
+                    toolDataManager.pto,
+                    ToolDataManager.Companion.Value.PTO
+                ),
+                tplPushPull = convertSliderValueToDatabaseValue(
+                    toolDataManager.tplPushPull,
+                    ToolDataManager.Companion.Value.TPL_PUSH_PULL
+                ),
+                tplUpDown = convertSliderValueToDatabaseValue(
+                    toolDataManager.tplUpDown,
+                    ToolDataManager.Companion.Value.TPL_UP_DOWN
+                ),
+                blue = convertSliderValueToDatabaseValue(
+                    toolDataManager.blue,
+                    ToolDataManager.Companion.Value.COLOUR
+                ),
+                yellow = convertSliderValueToDatabaseValue(
+                    toolDataManager.yellow,
+                    ToolDataManager.Companion.Value.COLOUR
+                ),
+                green = convertSliderValueToDatabaseValue(
+                    toolDataManager.green,
+                    ToolDataManager.Companion.Value.COLOUR
+                ),
+                vMax = convertSliderValueToDatabaseValue(
+                    toolDataManager.vMax,
+                    ToolDataManager.Companion.Value.VELOCITY
+                )
             ),
             onSucess = this::onAddNewToolSucess
         )
     }
 
-    private fun convertSliderValueToDatabaseValue(sliderValue: Double, value: ToolDataManager.Companion.Value): Double {
+    private fun convertSliderValueToDatabaseValue(
+        sliderValue: Double,
+        value: ToolDataManager.Companion.Value
+    ): Double {
         var databaseValue = 0.0
         when (value) {
             ToolDataManager.Companion.Value.VELOCITY -> {
@@ -145,8 +168,6 @@ class ToolSummaryViewModel(
             it.toolName == hitchParam.toolName
         }
 
-        Timber.d("tool addToParamList " + hitchParam.toolName.toString())
-        Timber.d("tool addToParamList " + hitchParam.hitchListItemDetail.toString())
         if (!isToolAlreadyAdded) {
             paramsList.value = listOf(
                 HitchListItemViewModel(

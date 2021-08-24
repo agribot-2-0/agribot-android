@@ -7,7 +7,6 @@ import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePath.TOOL_PHOTO
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.HitchListItemDetail
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.recycler.HitchListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.data.ToolRecylerItemId
-import timber.log.Timber
 
 class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
     private val initString = ""
@@ -24,7 +23,6 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
     var vMax: Double = initDouble
 
     fun updateAllToolParameters(toolDetails: ToolDetails) {
-        Timber.d("tool updateAllToolParameters" + toolDetails.toString())
         rfid = toolDetails.rfid
         pto = toolDetails.pto
         tplUpDown = toolDetails.tplUpDown
@@ -70,7 +68,7 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
             switchNumber = ToolRecylerItemId.V_MAX.ID,
             toolName = resourcesProvider.getString(R.string.v_max),
             hitchListItemDetail = HitchListItemDetail(
-                toolStartValue = vMax.toInt(),
+                toolStartValue = (convertMetersPerSecondToKilometersPerHour(vMax) * 10).toInt(),
                 toolUnit = "km/h",
                 minValue = convertFinalValueToWorkingValue(MIN_VELOCITY, Value.VELOCITY),
                 maxValue = convertFinalValueToWorkingValue(MAX_VELOCITY, Value.VELOCITY)
@@ -136,7 +134,7 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
             switchNumber = ToolRecylerItemId.TPL_PUSH_PULL.ID,
             toolName = resourcesProvider.getString(R.string.tpl_push_pull),
             hitchListItemDetail = HitchListItemDetail(
-                toolStartValue = tplPushPull.toInt(),
+                toolStartValue = (tplPushPull * 100).toInt(),
                 toolUnit = "m",
                 minValue = convertFinalValueToWorkingValue(MIN_TPL_PUSH_PULL, Value.TPL_PUSH_PULL),
                 maxValue = convertFinalValueToWorkingValue(MAX_TPL_PUSH_PULL, Value.TPL_PUSH_PULL)
@@ -149,7 +147,7 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
             switchNumber = ToolRecylerItemId.TPL_UP_DOWN.ID,
             toolName = resourcesProvider.getString(R.string.tpl_up_down),
             hitchListItemDetail = HitchListItemDetail(
-                toolStartValue = tplUpDown.toInt(),
+                toolStartValue = (tplUpDown * 100).toInt(),
                 toolUnit = "rad",
                 minValue = convertFinalValueToWorkingValue(MIN_TPL_UP_DOWN, Value.TPL_UP_DOWN),
                 maxValue = convertFinalValueToWorkingValue(MAX_TPL_UP_DOWN, Value.TPL_UP_DOWN)
@@ -203,8 +201,13 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
         return databaseValue
     }
 
+    private fun convertMetersPerSecondToKilometersPerHour(metersPerSecond: Double): Double {
+        return (metersPerSecond * 36 / 10)
+    }
+
     companion object {
         enum class Value { VELOCITY, TPL_PUSH_PULL, TPL_UP_DOWN, COLOUR, PTO }
+
         const val MIN_VELOCITY = 0.0 // km/h
         const val MAX_VELOCITY = 10.0 // km/h
         const val MIN_TPL_PUSH_PULL = 0.0 // m

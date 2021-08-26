@@ -52,7 +52,16 @@ class ToolManagementViewModel(
             toolDataManager.convertDatabaseValueToSliderValue(
                 toolDetails.tplUpDown,
                 ToolDataManager.Companion.Value.TPL_UP_DOWN
-            ), resourcesProvider.getString(R.string.radians), -26, 52
+            ),
+            "\u00B0",
+            toolDataManager.convertFinalValueToWorkingValue(
+                ToolDataManager.MIN_TPL_UP_DOWN,
+                ToolDataManager.Companion.Value.TPL_UP_DOWN
+            ),
+            toolDataManager.convertFinalValueToWorkingValue(
+                ToolDataManager.MAX_TPL_UP_DOWN,
+                ToolDataManager.Companion.Value.TPL_UP_DOWN
+            )
         )
     }
 
@@ -63,7 +72,16 @@ class ToolManagementViewModel(
             toolDataManager.convertDatabaseValueToSliderValue(
                 toolDetails.tplPushPull,
                 ToolDataManager.Companion.Value.TPL_PUSH_PULL
-            ), resourcesProvider.getString(R.string.meters), 0, 45
+            ),
+            resourcesProvider.getString(R.string.meters),
+            toolDataManager.convertFinalValueToWorkingValue(
+                ToolDataManager.MIN_TPL_PUSH_PULL,
+                ToolDataManager.Companion.Value.TPL_PUSH_PULL
+            ),
+            toolDataManager.convertFinalValueToWorkingValue(
+                ToolDataManager.MAX_TPL_PUSH_PULL,
+                ToolDataManager.Companion.Value.TPL_PUSH_PULL
+            )
         )
     }
 
@@ -74,7 +92,16 @@ class ToolManagementViewModel(
             toolDataManager.convertDatabaseValueToSliderValue(
                 toolDetails.pto,
                 ToolDataManager.Companion.Value.PTO
-            ), resourcesProvider.getString(R.string.rpm), 0, 1000
+            ),
+            resourcesProvider.getString(R.string.rpm),
+            toolDataManager.convertFinalValueToWorkingValue(
+                ToolDataManager.MIN_PTO,
+                ToolDataManager.Companion.Value.PTO
+            ),
+            toolDataManager.convertFinalValueToWorkingValue(
+                ToolDataManager.MAX_PTO,
+                ToolDataManager.Companion.Value.PTO
+            )
         )
     }
 
@@ -85,7 +112,16 @@ class ToolManagementViewModel(
             toolDataManager.convertDatabaseValueToSliderValue(
                 toolDetails.blue,
                 ToolDataManager.Companion.Value.COLOUR
-            ), resourcesProvider.getString(R.string.percent), 0, 100
+            ),
+            resourcesProvider.getString(R.string.percent),
+            toolDataManager.convertFinalValueToWorkingValue(
+                ToolDataManager.MIN_COLOUR,
+                ToolDataManager.Companion.Value.COLOUR
+            ),
+            toolDataManager.convertFinalValueToWorkingValue(
+                ToolDataManager.MAX_COLOUR,
+                ToolDataManager.Companion.Value.COLOUR
+            )
         )
     }
 
@@ -98,8 +134,14 @@ class ToolManagementViewModel(
                 ToolDataManager.Companion.Value.COLOUR
             ),
             resourcesProvider.getString(R.string.percent),
-            0,
-            100
+            toolDataManager.convertFinalValueToWorkingValue(
+                ToolDataManager.MIN_COLOUR,
+                ToolDataManager.Companion.Value.COLOUR
+            ),
+            toolDataManager.convertFinalValueToWorkingValue(
+                ToolDataManager.MAX_COLOUR,
+                ToolDataManager.Companion.Value.COLOUR
+            )
         )
     }
 
@@ -110,7 +152,16 @@ class ToolManagementViewModel(
             toolDataManager.convertDatabaseValueToSliderValue(
                 toolDetails.green,
                 ToolDataManager.Companion.Value.COLOUR
-            ), resourcesProvider.getString(R.string.percent), 0, 100
+            ),
+            resourcesProvider.getString(R.string.percent),
+            toolDataManager.convertFinalValueToWorkingValue(
+                ToolDataManager.MIN_COLOUR,
+                ToolDataManager.Companion.Value.COLOUR
+            ),
+            toolDataManager.convertFinalValueToWorkingValue(
+                ToolDataManager.MAX_COLOUR,
+                ToolDataManager.Companion.Value.COLOUR
+            )
         )
     }
 
@@ -121,7 +172,16 @@ class ToolManagementViewModel(
             toolDataManager.convertDatabaseValueToSliderValue(
                 toolDetails.vMax,
                 ToolDataManager.Companion.Value.VELOCITY
-            ), resourcesProvider.getString(R.string.kilometer_per_hour), 0, 100
+            ),
+            resourcesProvider.getString(R.string.kilometer_per_hour),
+            toolDataManager.convertFinalValueToWorkingValue(
+                ToolDataManager.MIN_VELOCITY,
+                ToolDataManager.Companion.Value.VELOCITY
+            ),
+            toolDataManager.convertFinalValueToWorkingValue(
+                ToolDataManager.MAX_VELOCITY,
+                ToolDataManager.Companion.Value.VELOCITY
+            )
         )
     }
 

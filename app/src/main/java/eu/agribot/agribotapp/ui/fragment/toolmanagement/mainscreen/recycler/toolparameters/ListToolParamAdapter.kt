@@ -9,6 +9,7 @@ import eu.agribot.agribotapp.databinding.ListItemToolParamBinding
 import kotlinx.android.synthetic.main.list_item_hitch.view.*
 import kotlinx.android.synthetic.main.list_item_tool_param.view.tool_param_value
 import kotlinx.android.synthetic.main.list_item_tool_param.view.tool_value_tx
+import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
 
 class ListToolParamAdapter :
     RecyclerView.Adapter<ListToolParamViewHolder>() {
@@ -39,7 +40,6 @@ class ListToolParamAdapter :
     override fun onBindViewHolder(holder: ListToolParamViewHolder, position: Int) {
         val item = items[position]
         holder.bind(item)
-        // holder.itemView.tool_value_tx.text = item.paramValue.toString()
         holder.itemView.tool_param_value.isEnabled = false
         when (item.toolParamID) {
             ListToolParamItem.VELOCITY.toolParamId -> {
@@ -47,7 +47,7 @@ class ListToolParamAdapter :
                 holder.itemView.tool_param_value.max = item.maxValue
                 holder.itemView.tool_value_tx.text = String.format(
                     "%.1f",
-                    item.paramValue.toDouble() * 0.1
+                    item.paramValue.toDouble() * ToolDataManager.VELOCITY_PRECISION_TO_FINAL
                 )
             }
             ListToolParamItem.PTO.toolParamId -> {
@@ -62,15 +62,15 @@ class ListToolParamAdapter :
                 holder.itemView.tool_param_value.max = item.maxValue
                 holder.itemView.tool_value_tx.text = String.format(
                     "%.2f",
-                    item.paramValue.toDouble() * 0.01
+                    item.paramValue.toDouble() * ToolDataManager.TPL_PUSH_PULL_PRECISION_TO_FINAL
                 )
             }
             ListToolParamItem.TPL_UP_DOWN.toolParamId -> {
                 holder.itemView.tool_param_value.min = item.minValue
                 holder.itemView.tool_param_value.max = item.maxValue
                 holder.itemView.tool_value_tx.text = String.format(
-                    "%.2f",
-                    item.paramValue.toDouble() * 0.01
+                    "%.1f",
+                    item.paramValue.toDouble() * ToolDataManager.TPL_UP_DOWN_PRECISION_TO_FINAL
                 )
             }
             ListToolParamItem.YELLOW_FLOW.toolParamId -> {

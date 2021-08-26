@@ -41,22 +41,22 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
     fun setSliderValue(sliderNumber: Int, sliderValue: Int) {
         when (sliderNumber) {
             ToolRecylerItemId.PTO.ID -> {
-                pto = sliderValue.toDouble()
+                pto = convertSliderValueToDatabaseValue(sliderValue.toDouble(), Value.PTO)
             }
             ToolRecylerItemId.TPL_UP_DOWN.ID -> {
-                tplUpDown = sliderValue.toDouble()
+                tplUpDown = convertSliderValueToDatabaseValue(sliderValue.toDouble(), Value.TPL_UP_DOWN)
             }
             ToolRecylerItemId.TPL_PUSH_PULL.ID -> {
-                tplPushPull = sliderValue.toDouble()
+                tplPushPull = convertSliderValueToDatabaseValue(sliderValue.toDouble(), Value.TPL_PUSH_PULL)
             }
             ToolRecylerItemId.GREEN.ID -> {
-                green = sliderValue.toDouble()
+                green = convertSliderValueToDatabaseValue(sliderValue.toDouble(), Value.COLOUR)
             }
             ToolRecylerItemId.YELLOW.ID -> {
-                yellow = sliderValue.toDouble()
+                yellow = convertSliderValueToDatabaseValue(sliderValue.toDouble(), Value.COLOUR)
             }
             ToolRecylerItemId.BLUE.ID -> {
-                blue = sliderValue.toDouble()
+                blue = convertSliderValueToDatabaseValue(sliderValue.toDouble(), Value.COLOUR)
             }
             ToolRecylerItemId.V_MAX.ID -> {
                 vMax = convertSliderValueToDatabaseValue(sliderValue.toDouble(), Value.VELOCITY)

@@ -74,30 +74,12 @@ class ToolSummaryViewModel(
             toolName = toolDataManager.toolName,
             toolDetails = ToolDetails(
                 rfid = toolDataManager.rfid,
-                pto = toolDataManager.convertSliderValueToDatabaseValue(
-                    toolDataManager.pto,
-                    ToolDataManager.Companion.Value.PTO
-                ),
-                tplPushPull = toolDataManager.convertSliderValueToDatabaseValue(
-                    toolDataManager.tplPushPull,
-                    ToolDataManager.Companion.Value.TPL_PUSH_PULL
-                ),
-                tplUpDown = toolDataManager.convertSliderValueToDatabaseValue(
-                    toolDataManager.tplUpDown,
-                    ToolDataManager.Companion.Value.TPL_UP_DOWN
-                ),
-                blue = toolDataManager.convertSliderValueToDatabaseValue(
-                    toolDataManager.blue,
-                    ToolDataManager.Companion.Value.COLOUR
-                ),
-                yellow = toolDataManager.convertSliderValueToDatabaseValue(
-                    toolDataManager.yellow,
-                    ToolDataManager.Companion.Value.COLOUR
-                ),
-                green = toolDataManager.convertSliderValueToDatabaseValue(
-                    toolDataManager.green,
-                    ToolDataManager.Companion.Value.COLOUR
-                ),
+                pto = toolDataManager.pto,
+                tplPushPull = toolDataManager.tplPushPull,
+                tplUpDown = toolDataManager.tplUpDown,
+                blue = toolDataManager.blue,
+                yellow = toolDataManager.yellow,
+                green = toolDataManager.green,
                 vMax = toolDataManager.vMax
             ),
             onSucess = this::onAddNewToolSucess

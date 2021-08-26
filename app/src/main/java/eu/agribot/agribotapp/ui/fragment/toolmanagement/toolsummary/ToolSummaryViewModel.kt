@@ -98,10 +98,7 @@ class ToolSummaryViewModel(
                     toolDataManager.green,
                     ToolDataManager.Companion.Value.COLOUR
                 ),
-                vMax = toolDataManager.convertSliderValueToDatabaseValue(
-                    toolDataManager.vMax,
-                    ToolDataManager.Companion.Value.VELOCITY
-                )
+                vMax = toolDataManager.vMax
             ),
             onSucess = this::onAddNewToolSucess
         )

@@ -59,7 +59,7 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
                 blue = sliderValue.toDouble()
             }
             ToolRecylerItemId.V_MAX.ID -> {
-                vMax = sliderValue.toDouble()
+                vMax = convertSliderValueToDatabaseValue(sliderValue.toDouble(), Value.VELOCITY)
             }
         }
     }
@@ -261,8 +261,8 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
     companion object {
         enum class Value { VELOCITY, TPL_PUSH_PULL, TPL_UP_DOWN, COLOUR, PTO }
 
-        val MIN_VELOCITY = 0.0//convertMetersPerSecondToKilometersPerHour(0.0) // m/s
-        val MAX_VELOCITY = 36.0//convertMetersPerSecondToKilometersPerHour(10.0) // m/s
+        val MIN_VELOCITY = convertMetersPerSecondToKilometersPerHour(0.0) // m/s
+        val MAX_VELOCITY = convertMetersPerSecondToKilometersPerHour(3.0) // m/s
         const val VELOCITY_PRECISION_TO_WORKING = 10
         const val VELOCITY_PRECISION_TO_FINAL = 0.1
         const val MIN_TPL_PUSH_PULL = 0.0 // m

@@ -45,6 +45,7 @@ class ListToolParamAdapter :
             ListToolParamItem.VELOCITY.toolParamId -> {
                 holder.itemView.tool_param_value.min = item.minValue
                 holder.itemView.tool_param_value.max = item.maxValue
+                holder.itemView.tool_param_value.progress = item.paramValue
                 holder.itemView.tool_value_tx.text = String.format(
                     "%.1f",
                     item.paramValue.toDouble() * ToolDataManager.VELOCITY_PRECISION_TO_FINAL
@@ -60,6 +61,7 @@ class ListToolParamAdapter :
             ListToolParamItem.TPL_PUSH_PULL.toolParamId -> {
                 holder.itemView.tool_param_value.min = item.minValue
                 holder.itemView.tool_param_value.max = item.maxValue
+                holder.itemView.tool_param_value.progress = item.paramValue
                 holder.itemView.tool_value_tx.text = String.format(
                     "%.2f",
                     item.paramValue.toDouble() * ToolDataManager.TPL_PUSH_PULL_PRECISION_TO_FINAL
@@ -68,6 +70,7 @@ class ListToolParamAdapter :
             ListToolParamItem.TPL_UP_DOWN.toolParamId -> {
                 holder.itemView.tool_param_value.min = item.minValue
                 holder.itemView.tool_param_value.max = item.maxValue
+                holder.itemView.tool_param_value.progress = item.paramValue
                 holder.itemView.tool_value_tx.text = String.format(
                     "%.1f",
                     item.paramValue.toDouble() * ToolDataManager.TPL_UP_DOWN_PRECISION_TO_FINAL
@@ -76,18 +79,21 @@ class ListToolParamAdapter :
             ListToolParamItem.YELLOW_FLOW.toolParamId -> {
                 holder.itemView.tool_param_value.min = item.minValue
                 holder.itemView.tool_param_value.max = item.maxValue
+                holder.itemView.tool_param_value.progress = item.paramValue
                 holder.itemView.tool_value_tx.text =
                     item.paramValue.toString()
             }
             ListToolParamItem.GREEN_FLOW.toolParamId -> {
                 holder.itemView.tool_param_value.min = item.minValue
                 holder.itemView.tool_param_value.max = item.maxValue
+                holder.itemView.tool_param_value.progress = item.paramValue
                 holder.itemView.tool_value_tx.text =
                     item.paramValue.toString()
             }
             ListToolParamItem.BLUE_FLOW.toolParamId -> {
                 holder.itemView.tool_param_value.min = item.minValue
                 holder.itemView.tool_param_value.max = item.maxValue
+                holder.itemView.tool_param_value.progress = item.paramValue
                 holder.itemView.tool_value_tx.text =
                     item.paramValue.toString()
             }

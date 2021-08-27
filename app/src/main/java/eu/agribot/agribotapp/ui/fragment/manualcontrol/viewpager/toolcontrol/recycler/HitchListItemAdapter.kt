@@ -11,9 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import eu.agribot.agribotapp.R
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.toolcontrolmessage.Tools
 import eu.agribot.agribotapp.databinding.ListItemHitchBinding
-import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
 import eu.agribot.agribotapp.ui.fragment.toolcontrol.recycler.HitchListItemViewHolder
-import eu.agribot.agribotapp.ui.fragment.toolmanagement.findtag.data.ToolRecylerItemId
 import kotlinx.android.synthetic.main.list_item_hitch.view.*
 
 class HitchListItemAdapter(
@@ -71,7 +69,6 @@ class HitchListItemAdapter(
         var isItemActive = false
         var itemSliderValue = 0
 
-
         if (item.isNewToolControl) {
             holder.itemView.recycler_seekbar.min = item.hitchListItemDetail.minValue
             holder.itemView.recycler_seekbar.max = item.hitchListItemDetail.maxValue
@@ -105,8 +102,7 @@ class HitchListItemAdapter(
             holder.itemView.recycler_tool_value.text =
                 sliderValueTextPrecision(item.hitchListItemDetail.precision)
                     .format(
-                        holder.itemView.recycler_seekbar.progress.toDouble()
-                                *
+                        holder.itemView.recycler_seekbar.progress.toDouble() *
                                 item.hitchListItemDetail.precision
                     ) + item.hitchListItemDetail.toolUnit
         }
@@ -120,8 +116,7 @@ class HitchListItemAdapter(
                     holder.itemView.recycler_tool_value.text =
                         sliderValueTextPrecision(item.hitchListItemDetail.precision)
                             .format(
-                                holder.itemView.recycler_seekbar.progress.toDouble()
-                                        *
+                                holder.itemView.recycler_seekbar.progress.toDouble() *
                                         item.hitchListItemDetail.precision
                             ) + item.hitchListItemDetail.toolUnit
                 } else {

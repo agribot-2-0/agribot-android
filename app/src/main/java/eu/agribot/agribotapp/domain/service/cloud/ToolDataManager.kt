@@ -44,10 +44,12 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
                 pto = convertSliderValueToDatabaseValue(sliderValue.toDouble(), Value.PTO)
             }
             ToolRecylerItemId.TPL_UP_DOWN.ID -> {
-                tplUpDown = convertSliderValueToDatabaseValue(sliderValue.toDouble(), Value.TPL_UP_DOWN)
+                tplUpDown =
+                    convertSliderValueToDatabaseValue(sliderValue.toDouble(), Value.TPL_UP_DOWN)
             }
             ToolRecylerItemId.TPL_PUSH_PULL.ID -> {
-                tplPushPull = convertSliderValueToDatabaseValue(sliderValue.toDouble(), Value.TPL_PUSH_PULL)
+                tplPushPull =
+                    convertSliderValueToDatabaseValue(sliderValue.toDouble(), Value.TPL_PUSH_PULL)
             }
             ToolRecylerItemId.GREEN.ID -> {
                 green = convertSliderValueToDatabaseValue(sliderValue.toDouble(), Value.COLOUR)
@@ -71,8 +73,9 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
             hitchListItemDetail = HitchListItemDetail(
                 toolStartValue = convertDatabaseValueToSliderValue(vMax, Value.VELOCITY),
                 toolUnit = resourcesProvider.getString(R.string.kilometer_per_hour),
-                minValue = convertFinalValueToWorkingValue(MIN_VELOCITY, Value.VELOCITY),
-                maxValue = convertFinalValueToWorkingValue(MAX_VELOCITY, Value.VELOCITY)
+                minValue = convertDatabaseValueToSliderValue(MIN_VELOCITY, Value.VELOCITY),
+                maxValue = convertDatabaseValueToSliderValue(MAX_VELOCITY, Value.VELOCITY),
+                precision = VELOCITY_PRECISION
             )
 
         )
@@ -85,8 +88,8 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
             hitchListItemDetail = HitchListItemDetail(
                 toolStartValue = convertDatabaseValueToSliderValue(green, Value.COLOUR),
                 toolUnit = resourcesProvider.getString(R.string.percent),
-                minValue = convertFinalValueToWorkingValue(MIN_COLOUR, Value.COLOUR),
-                maxValue = convertFinalValueToWorkingValue(MAX_COLOUR, Value.COLOUR)
+                minValue = convertDatabaseValueToSliderValue(MIN_COLOUR, Value.COLOUR),
+                maxValue = convertDatabaseValueToSliderValue(MAX_COLOUR, Value.COLOUR)
             )
         )
     }
@@ -98,8 +101,8 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
             hitchListItemDetail = HitchListItemDetail(
                 toolStartValue = convertDatabaseValueToSliderValue(yellow, Value.COLOUR),
                 toolUnit = resourcesProvider.getString(R.string.percent),
-                minValue = convertFinalValueToWorkingValue(MIN_COLOUR, Value.COLOUR),
-                maxValue = convertFinalValueToWorkingValue(MAX_COLOUR, Value.COLOUR)
+                minValue = convertDatabaseValueToSliderValue(MIN_COLOUR, Value.COLOUR),
+                maxValue = convertDatabaseValueToSliderValue(MAX_COLOUR, Value.COLOUR)
             )
         )
     }
@@ -111,8 +114,8 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
             hitchListItemDetail = HitchListItemDetail(
                 toolStartValue = convertDatabaseValueToSliderValue(blue, Value.COLOUR),
                 toolUnit = resourcesProvider.getString(R.string.percent),
-                minValue = convertFinalValueToWorkingValue(MIN_COLOUR, Value.COLOUR),
-                maxValue = convertFinalValueToWorkingValue(MAX_COLOUR, Value.COLOUR)
+                minValue = convertDatabaseValueToSliderValue(MIN_COLOUR, Value.COLOUR),
+                maxValue = convertDatabaseValueToSliderValue(MAX_COLOUR, Value.COLOUR)
             )
         )
     }
@@ -124,8 +127,8 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
             hitchListItemDetail = HitchListItemDetail(
                 toolStartValue = convertDatabaseValueToSliderValue(pto, Value.PTO),
                 toolUnit = resourcesProvider.getString(R.string.rpm),
-                minValue = convertFinalValueToWorkingValue(MIN_PTO, Value.PTO),
-                maxValue = convertFinalValueToWorkingValue(MAX_PTO, Value.PTO)
+                minValue = convertDatabaseValueToSliderValue(MIN_PTO, Value.PTO),
+                maxValue = convertDatabaseValueToSliderValue(MAX_PTO, Value.PTO)
             )
         )
     }
@@ -140,8 +143,12 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
                     Value.TPL_PUSH_PULL
                 ),
                 toolUnit = resourcesProvider.getString(R.string.meters),
-                minValue = convertFinalValueToWorkingValue(MIN_TPL_PUSH_PULL, Value.TPL_PUSH_PULL),
-                maxValue = convertFinalValueToWorkingValue(MAX_TPL_PUSH_PULL, Value.TPL_PUSH_PULL)
+                minValue = convertDatabaseValueToSliderValue(
+                    MIN_TPL_PUSH_PULL,
+                    Value.TPL_PUSH_PULL
+                ),
+                maxValue = convertDatabaseValueToSliderValue(MAX_TPL_PUSH_PULL, Value.TPL_PUSH_PULL),
+                precision = TPL_PUSH_PULL_PRECISION
             )
         )
     }
@@ -152,57 +159,12 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
             toolName = resourcesProvider.getString(R.string.tpl_up_down),
             hitchListItemDetail = HitchListItemDetail(
                 toolStartValue = convertDatabaseValueToSliderValue(tplUpDown, Value.TPL_UP_DOWN),
-                toolUnit = "\u00B0",
-                minValue = convertFinalValueToWorkingValue(MIN_TPL_UP_DOWN, Value.TPL_UP_DOWN),
-                maxValue = convertFinalValueToWorkingValue(MAX_TPL_UP_DOWN, Value.TPL_UP_DOWN)
+                toolUnit = resourcesProvider.getString(R.string.degree),
+                minValue = convertDatabaseValueToSliderValue(MIN_TPL_UP_DOWN, Value.TPL_UP_DOWN),
+                maxValue = convertDatabaseValueToSliderValue(MAX_TPL_UP_DOWN, Value.TPL_UP_DOWN),
+                precision = TPL_UP_DOWN_PRECISION
             )
         )
-    }
-
-    fun convertFinalValueToWorkingValue(finalValue: Double, value: Value): Int {
-        var workingValue = 0
-        when (value) {
-            Value.VELOCITY -> {
-                workingValue = (finalValue * VELOCITY_PRECISION_TO_WORKING).toInt()
-            }
-            Value.TPL_PUSH_PULL -> {
-                workingValue = (finalValue * TPL_PUSH_PULL_PRECISION_TO_WORKING).toInt()
-            }
-            Value.TPL_UP_DOWN -> {
-                workingValue = (finalValue * TPL_UP_DOWN_PRECISION_TO_WORKING).toInt()
-            }
-            Value.COLOUR -> {
-                workingValue = finalValue.toInt()
-            }
-            Value.PTO -> {
-                workingValue = finalValue.toInt()
-            }
-        }
-
-        return workingValue
-    }
-
-    fun convertWorkingValueToFinalValue(workingValue: Int, value: Value): Double {
-        var finalValue = 0.0
-        when (value) {
-            Value.VELOCITY -> {
-                finalValue = (workingValue * VELOCITY_PRECISION_TO_FINAL)
-            }
-            Value.TPL_PUSH_PULL -> {
-                finalValue = (workingValue * TPL_PUSH_PULL_PRECISION_TO_FINAL)
-            }
-            Value.TPL_UP_DOWN -> {
-                finalValue = (workingValue * TPL_UP_DOWN_PRECISION_TO_FINAL)
-            }
-            Value.COLOUR -> {
-                finalValue = workingValue.toDouble()
-            }
-            Value.PTO -> {
-                finalValue = workingValue.toDouble()
-            }
-        }
-
-        return finalValue
     }
 
     fun convertSliderValueToDatabaseValue(sliderValue: Double, value: Value): Double {
@@ -210,14 +172,14 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
         when (value) {
             Value.VELOCITY -> {
                 databaseValue =
-                    convertKilometersPerHourToMetersPerSecond((sliderValue * VELOCITY_PRECISION_TO_FINAL))
+                    convertKilometersPerHourToMetersPerSecond((sliderValue * VELOCITY_PRECISION))
             }
             Value.TPL_PUSH_PULL -> {
-                databaseValue = (sliderValue) * TPL_PUSH_PULL_PRECISION_TO_FINAL
+                databaseValue = (sliderValue) * TPL_PUSH_PULL_PRECISION
             }
             Value.TPL_UP_DOWN -> {
                 databaseValue =
-                    convertDegreesToRadians(sliderValue) * TPL_UP_DOWN_PRECISION_TO_FINAL
+                    convertDegreesToRadians(sliderValue) * TPL_UP_DOWN_PRECISION
             }
             Value.COLOUR -> {
                 databaseValue = sliderValue
@@ -238,14 +200,14 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
         when (value) {
             Value.VELOCITY -> {
                 sliderValue =
-                    (convertMetersPerSecondToKilometersPerHour(databaseValue) * VELOCITY_PRECISION_TO_WORKING).toInt()
+                    (convertMetersPerSecondToKilometersPerHour(databaseValue) / VELOCITY_PRECISION).toInt()
             }
             Value.TPL_PUSH_PULL -> {
-                sliderValue = ((databaseValue) * TPL_PUSH_PULL_PRECISION_TO_WORKING).toInt()
+                sliderValue = ((databaseValue) / TPL_PUSH_PULL_PRECISION).toInt()
             }
             Value.TPL_UP_DOWN -> {
                 sliderValue =
-                    (convertRadiansToDegrees(databaseValue) * TPL_UP_DOWN_PRECISION_TO_WORKING).toInt()
+                    (convertRadiansToDegrees(databaseValue) / TPL_UP_DOWN_PRECISION).toInt()
             }
             Value.COLOUR -> {
                 sliderValue = databaseValue.toInt()
@@ -261,18 +223,15 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
     companion object {
         enum class Value { VELOCITY, TPL_PUSH_PULL, TPL_UP_DOWN, COLOUR, PTO }
 
-        val MIN_VELOCITY = convertMetersPerSecondToKilometersPerHour(0.0) // m/s
-        val MAX_VELOCITY = convertMetersPerSecondToKilometersPerHour(3.0) // m/s
-        const val VELOCITY_PRECISION_TO_WORKING = 10
-        const val VELOCITY_PRECISION_TO_FINAL = 0.1
+        const val MIN_VELOCITY = 0.0 // m/s
+        const val MAX_VELOCITY = 3.0 // m/s
+        const val VELOCITY_PRECISION = 0.1
         const val MIN_TPL_PUSH_PULL = 0.0 // m
         const val MAX_TPL_PUSH_PULL = 0.45 // m
-        const val TPL_PUSH_PULL_PRECISION_TO_WORKING = 100
-        const val TPL_PUSH_PULL_PRECISION_TO_FINAL = 0.01
-        val MIN_TPL_UP_DOWN = convertRadiansToDegrees(-0.26) // rad
-        val MAX_TPL_UP_DOWN = convertRadiansToDegrees(0.52) // rad
-        const val TPL_UP_DOWN_PRECISION_TO_WORKING = 10
-        const val TPL_UP_DOWN_PRECISION_TO_FINAL = 0.1
+        const val TPL_PUSH_PULL_PRECISION = 0.01
+        const val MIN_TPL_UP_DOWN = -0.26 // rad
+        const val MAX_TPL_UP_DOWN = 0.52 // rad
+        const val TPL_UP_DOWN_PRECISION = 0.1
         const val MIN_COLOUR = 0.0 // %
         const val MAX_COLOUR = 100.0 // %
         const val MIN_PTO = 0.0 // RPM

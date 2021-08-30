@@ -147,7 +147,10 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
                     MIN_TPL_PUSH_PULL,
                     Value.TPL_PUSH_PULL
                 ),
-                maxValue = convertDatabaseValueToSliderValue(MAX_TPL_PUSH_PULL, Value.TPL_PUSH_PULL),
+                maxValue = convertDatabaseValueToSliderValue(
+                    MAX_TPL_PUSH_PULL,
+                    Value.TPL_PUSH_PULL
+                ),
                 precision = TPL_PUSH_PULL_PRECISION
             )
         )

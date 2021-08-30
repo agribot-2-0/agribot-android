@@ -13,6 +13,7 @@ import eu.agribot.agribotapp.domain.service.ToolManagementService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
 import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePath
+import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.RecyclerConstant
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toollist.ToolListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toolparameters.ListToolParamItem
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toolparameters.ListToolParamViewModel
@@ -104,7 +105,7 @@ class ToolManagementViewModel(
                 ToolDataManager.MAX_PTO,
                 ToolDataManager.Companion.Value.PTO
             ),
-            precision = 1.0
+            precision = RecyclerConstant.DEFAULT_SLIDER_PRECISION
         )
     }
 
@@ -114,18 +115,18 @@ class ToolManagementViewModel(
             resourcesProvider.getString(R.string.blue_flow),
             toolDataManager.convertDatabaseValueToSliderValue(
                 toolDetails.blue,
-                ToolDataManager.Companion.Value.COLOUR
+                ToolDataManager.Companion.Value.VALVE_FLOW
             ),
             resourcesProvider.getString(R.string.percent),
             toolDataManager.convertDatabaseValueToSliderValue(
-                ToolDataManager.MIN_COLOUR,
-                ToolDataManager.Companion.Value.COLOUR
+                ToolDataManager.MIN_VALVE_FLOW,
+                ToolDataManager.Companion.Value.VALVE_FLOW
             ),
             toolDataManager.convertDatabaseValueToSliderValue(
-                ToolDataManager.MAX_COLOUR,
-                ToolDataManager.Companion.Value.COLOUR
+                ToolDataManager.MAX_VALVE_FLOW,
+                ToolDataManager.Companion.Value.VALVE_FLOW
             ),
-            precision = 1.0
+            precision = RecyclerConstant.DEFAULT_SLIDER_PRECISION
         )
     }
 
@@ -135,18 +136,18 @@ class ToolManagementViewModel(
             resourcesProvider.getString(R.string.yellow_flow),
             toolDataManager.convertDatabaseValueToSliderValue(
                 toolDetails.yellow,
-                ToolDataManager.Companion.Value.COLOUR
+                ToolDataManager.Companion.Value.VALVE_FLOW
             ),
             resourcesProvider.getString(R.string.percent),
             toolDataManager.convertDatabaseValueToSliderValue(
-                ToolDataManager.MIN_COLOUR,
-                ToolDataManager.Companion.Value.COLOUR
+                ToolDataManager.MIN_VALVE_FLOW,
+                ToolDataManager.Companion.Value.VALVE_FLOW
             ),
             toolDataManager.convertDatabaseValueToSliderValue(
-                ToolDataManager.MAX_COLOUR,
-                ToolDataManager.Companion.Value.COLOUR
+                ToolDataManager.MAX_VALVE_FLOW,
+                ToolDataManager.Companion.Value.VALVE_FLOW
             ),
-            precision = 1.0
+            precision = RecyclerConstant.DEFAULT_SLIDER_PRECISION
         )
     }
 
@@ -156,18 +157,18 @@ class ToolManagementViewModel(
             resourcesProvider.getString(R.string.green_flow),
             toolDataManager.convertDatabaseValueToSliderValue(
                 toolDetails.green,
-                ToolDataManager.Companion.Value.COLOUR
+                ToolDataManager.Companion.Value.VALVE_FLOW
             ),
             resourcesProvider.getString(R.string.percent),
             toolDataManager.convertDatabaseValueToSliderValue(
-                ToolDataManager.MIN_COLOUR,
-                ToolDataManager.Companion.Value.COLOUR
+                ToolDataManager.MIN_VALVE_FLOW,
+                ToolDataManager.Companion.Value.VALVE_FLOW
             ),
             toolDataManager.convertDatabaseValueToSliderValue(
-                ToolDataManager.MAX_COLOUR,
-                ToolDataManager.Companion.Value.COLOUR
+                ToolDataManager.MAX_VALVE_FLOW,
+                ToolDataManager.Companion.Value.VALVE_FLOW
             ),
-            precision = 1.0
+            precision = RecyclerConstant.DEFAULT_SLIDER_PRECISION
         )
     }
 

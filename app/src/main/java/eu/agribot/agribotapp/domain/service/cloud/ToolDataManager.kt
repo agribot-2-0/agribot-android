@@ -52,13 +52,13 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
                     convertSliderValueToDatabaseValue(sliderValue.toDouble(), Value.TPL_PUSH_PULL)
             }
             ToolRecylerItemId.GREEN.ID -> {
-                green = convertSliderValueToDatabaseValue(sliderValue.toDouble(), Value.COLOUR)
+                green = convertSliderValueToDatabaseValue(sliderValue.toDouble(), Value.VALVE_FLOW)
             }
             ToolRecylerItemId.YELLOW.ID -> {
-                yellow = convertSliderValueToDatabaseValue(sliderValue.toDouble(), Value.COLOUR)
+                yellow = convertSliderValueToDatabaseValue(sliderValue.toDouble(), Value.VALVE_FLOW)
             }
             ToolRecylerItemId.BLUE.ID -> {
-                blue = convertSliderValueToDatabaseValue(sliderValue.toDouble(), Value.COLOUR)
+                blue = convertSliderValueToDatabaseValue(sliderValue.toDouble(), Value.VALVE_FLOW)
             }
             ToolRecylerItemId.V_MAX.ID -> {
                 vMax = convertSliderValueToDatabaseValue(sliderValue.toDouble(), Value.VELOCITY)
@@ -86,10 +86,10 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
             switchNumber = ToolRecylerItemId.GREEN.ID,
             toolName = resourcesProvider.getString(R.string.green_flow),
             hitchListItemDetail = HitchListItemDetail(
-                toolStartValue = convertDatabaseValueToSliderValue(green, Value.COLOUR),
+                toolStartValue = convertDatabaseValueToSliderValue(green, Value.VALVE_FLOW),
                 toolUnit = resourcesProvider.getString(R.string.percent),
-                minValue = convertDatabaseValueToSliderValue(MIN_COLOUR, Value.COLOUR),
-                maxValue = convertDatabaseValueToSliderValue(MAX_COLOUR, Value.COLOUR)
+                minValue = convertDatabaseValueToSliderValue(MIN_VALVE_FLOW, Value.VALVE_FLOW),
+                maxValue = convertDatabaseValueToSliderValue(MAX_VALVE_FLOW, Value.VALVE_FLOW)
             )
         )
     }
@@ -99,10 +99,10 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
             switchNumber = ToolRecylerItemId.YELLOW.ID,
             toolName = resourcesProvider.getString(R.string.yellow_flow),
             hitchListItemDetail = HitchListItemDetail(
-                toolStartValue = convertDatabaseValueToSliderValue(yellow, Value.COLOUR),
+                toolStartValue = convertDatabaseValueToSliderValue(yellow, Value.VALVE_FLOW),
                 toolUnit = resourcesProvider.getString(R.string.percent),
-                minValue = convertDatabaseValueToSliderValue(MIN_COLOUR, Value.COLOUR),
-                maxValue = convertDatabaseValueToSliderValue(MAX_COLOUR, Value.COLOUR)
+                minValue = convertDatabaseValueToSliderValue(MIN_VALVE_FLOW, Value.VALVE_FLOW),
+                maxValue = convertDatabaseValueToSliderValue(MAX_VALVE_FLOW, Value.VALVE_FLOW)
             )
         )
     }
@@ -112,10 +112,10 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
             switchNumber = ToolRecylerItemId.BLUE.ID,
             toolName = resourcesProvider.getString(R.string.blue_flow),
             hitchListItemDetail = HitchListItemDetail(
-                toolStartValue = convertDatabaseValueToSliderValue(blue, Value.COLOUR),
+                toolStartValue = convertDatabaseValueToSliderValue(blue, Value.VALVE_FLOW),
                 toolUnit = resourcesProvider.getString(R.string.percent),
-                minValue = convertDatabaseValueToSliderValue(MIN_COLOUR, Value.COLOUR),
-                maxValue = convertDatabaseValueToSliderValue(MAX_COLOUR, Value.COLOUR)
+                minValue = convertDatabaseValueToSliderValue(MIN_VALVE_FLOW, Value.VALVE_FLOW),
+                maxValue = convertDatabaseValueToSliderValue(MAX_VALVE_FLOW, Value.VALVE_FLOW)
             )
         )
     }
@@ -181,7 +181,7 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
                 databaseValue =
                     convertDegreesToRadians(sliderValue) * TPL_UP_DOWN_PRECISION
             }
-            Value.COLOUR -> {
+            Value.VALVE_FLOW -> {
                 databaseValue = sliderValue
             }
             Value.PTO -> {
@@ -209,7 +209,7 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
                 sliderValue =
                     (convertRadiansToDegrees(databaseValue) / TPL_UP_DOWN_PRECISION).toInt()
             }
-            Value.COLOUR -> {
+            Value.VALVE_FLOW -> {
                 sliderValue = databaseValue.toInt()
             }
             Value.PTO -> {
@@ -221,7 +221,7 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
     }
 
     companion object {
-        enum class Value { VELOCITY, TPL_PUSH_PULL, TPL_UP_DOWN, COLOUR, PTO }
+        enum class Value { VELOCITY, TPL_PUSH_PULL, TPL_UP_DOWN, VALVE_FLOW, PTO }
 
         const val MIN_VELOCITY = 0.0 // m/s
         const val MAX_VELOCITY = 3.0 // m/s
@@ -232,8 +232,8 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
         const val MIN_TPL_UP_DOWN = -0.26 // rad
         const val MAX_TPL_UP_DOWN = 0.52 // rad
         const val TPL_UP_DOWN_PRECISION = 0.1
-        const val MIN_COLOUR = 0.0 // %
-        const val MAX_COLOUR = 100.0 // %
+        const val MIN_VALVE_FLOW = 0.0 // %
+        const val MAX_VALVE_FLOW = 100.0 // %
         const val MIN_PTO = 0.0 // RPM
         const val MAX_PTO = 1000.0 // RPM
 

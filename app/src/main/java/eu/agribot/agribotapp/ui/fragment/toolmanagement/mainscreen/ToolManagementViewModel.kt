@@ -13,7 +13,6 @@ import eu.agribot.agribotapp.domain.service.ToolManagementService
 import eu.agribot.agribotapp.domain.service.cloud.CloudDatabaseService
 import eu.agribot.agribotapp.domain.service.cloud.ToolDataManager
 import eu.agribot.agribotapp.domain.service.cloud.downloader.FilePath
-import eu.agribot.agribotapp.ui.fragment.toolcontrol.data.RecyclerConstant
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toollist.ToolListItemViewModel
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toolparameters.ListToolParamItem
 import eu.agribot.agribotapp.ui.fragment.toolmanagement.mainscreen.recycler.toolparameters.ListToolParamViewModel

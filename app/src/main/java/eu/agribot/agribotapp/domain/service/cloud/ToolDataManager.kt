@@ -73,8 +73,8 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
             hitchListItemDetail = HitchListItemDetail(
                 toolStartValue = convertDatabaseValueToSliderValue(vMax, Value.VELOCITY),
                 toolUnit = resourcesProvider.getString(R.string.kilometer_per_hour),
-                minValue = convertDatabaseValueToSliderValue(MIN_VELOCITY, Value.VELOCITY),
-                maxValue = convertDatabaseValueToSliderValue(MAX_VELOCITY, Value.VELOCITY),
+                minValue = convertDatabaseValueToSliderValue(VELOCITY_MIN, Value.VELOCITY),
+                maxValue = convertDatabaseValueToSliderValue(VELOCITY_MAX, Value.VELOCITY),
                 precision = VELOCITY_PRECISION
             )
 
@@ -88,8 +88,8 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
             hitchListItemDetail = HitchListItemDetail(
                 toolStartValue = convertDatabaseValueToSliderValue(green, Value.VALVE_FLOW),
                 toolUnit = resourcesProvider.getString(R.string.percent),
-                minValue = convertDatabaseValueToSliderValue(MIN_VALVE_FLOW, Value.VALVE_FLOW),
-                maxValue = convertDatabaseValueToSliderValue(MAX_VALVE_FLOW, Value.VALVE_FLOW),
+                minValue = convertDatabaseValueToSliderValue(VALVE_FLOW_MIN, Value.VALVE_FLOW),
+                maxValue = convertDatabaseValueToSliderValue(VALVE_FLOW_MAX, Value.VALVE_FLOW),
                 precision = VALVE_FLOW_PRECISION
             )
         )
@@ -102,8 +102,8 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
             hitchListItemDetail = HitchListItemDetail(
                 toolStartValue = convertDatabaseValueToSliderValue(yellow, Value.VALVE_FLOW),
                 toolUnit = resourcesProvider.getString(R.string.percent),
-                minValue = convertDatabaseValueToSliderValue(MIN_VALVE_FLOW, Value.VALVE_FLOW),
-                maxValue = convertDatabaseValueToSliderValue(MAX_VALVE_FLOW, Value.VALVE_FLOW),
+                minValue = convertDatabaseValueToSliderValue(VALVE_FLOW_MIN, Value.VALVE_FLOW),
+                maxValue = convertDatabaseValueToSliderValue(VALVE_FLOW_MAX, Value.VALVE_FLOW),
                 precision = VALVE_FLOW_PRECISION
             )
         )
@@ -116,8 +116,8 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
             hitchListItemDetail = HitchListItemDetail(
                 toolStartValue = convertDatabaseValueToSliderValue(blue, Value.VALVE_FLOW),
                 toolUnit = resourcesProvider.getString(R.string.percent),
-                minValue = convertDatabaseValueToSliderValue(MIN_VALVE_FLOW, Value.VALVE_FLOW),
-                maxValue = convertDatabaseValueToSliderValue(MAX_VALVE_FLOW, Value.VALVE_FLOW),
+                minValue = convertDatabaseValueToSliderValue(VALVE_FLOW_MIN, Value.VALVE_FLOW),
+                maxValue = convertDatabaseValueToSliderValue(VALVE_FLOW_MAX, Value.VALVE_FLOW),
                 precision = VALVE_FLOW_PRECISION
             )
         )
@@ -130,8 +130,8 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
             hitchListItemDetail = HitchListItemDetail(
                 toolStartValue = convertDatabaseValueToSliderValue(pto, Value.PTO),
                 toolUnit = resourcesProvider.getString(R.string.rpm),
-                minValue = convertDatabaseValueToSliderValue(MIN_PTO, Value.PTO),
-                maxValue = convertDatabaseValueToSliderValue(MAX_PTO, Value.PTO),
+                minValue = convertDatabaseValueToSliderValue(PTO_MIN, Value.PTO),
+                maxValue = convertDatabaseValueToSliderValue(PTO_MAX, Value.PTO),
                 precision = PTO_PRECISION
             )
         )
@@ -148,11 +148,11 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
                 ),
                 toolUnit = resourcesProvider.getString(R.string.meters),
                 minValue = convertDatabaseValueToSliderValue(
-                    MIN_TPL_PUSH_PULL,
+                    TPL_PUSH_PULL_MIN,
                     Value.TPL_PUSH_PULL
                 ),
                 maxValue = convertDatabaseValueToSliderValue(
-                    MAX_TPL_PUSH_PULL,
+                    TPL_PUSH_PULL_MAX,
                     Value.TPL_PUSH_PULL
                 ),
                 precision = TPL_PUSH_PULL_PRECISION
@@ -167,8 +167,8 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
             hitchListItemDetail = HitchListItemDetail(
                 toolStartValue = convertDatabaseValueToSliderValue(tplUpDown, Value.TPL_UP_DOWN),
                 toolUnit = resourcesProvider.getString(R.string.degree),
-                minValue = convertDatabaseValueToSliderValue(MIN_TPL_UP_DOWN, Value.TPL_UP_DOWN),
-                maxValue = convertDatabaseValueToSliderValue(MAX_TPL_UP_DOWN, Value.TPL_UP_DOWN),
+                minValue = convertDatabaseValueToSliderValue(TPL_UP_DOWN_MIN, Value.TPL_UP_DOWN),
+                maxValue = convertDatabaseValueToSliderValue(TPL_UP_DOWN_MAX, Value.TPL_UP_DOWN),
                 precision = TPL_UP_DOWN_PRECISION
             )
         )
@@ -230,20 +230,20 @@ class ToolDataManager(private val resourcesProvider: ResourcesProvider) {
     companion object {
         enum class Value { VELOCITY, TPL_PUSH_PULL, TPL_UP_DOWN, VALVE_FLOW, PTO }
 
-        const val MIN_VELOCITY = 0.0 // m/s
-        const val MAX_VELOCITY = 3.0 // m/s
+        const val VELOCITY_MIN = 0.0 // m/s
+        const val VELOCITY_MAX = 3.0 // m/s
         const val VELOCITY_PRECISION = 0.1
-        const val MIN_TPL_PUSH_PULL = 0.0 // m
-        const val MAX_TPL_PUSH_PULL = 0.45 // m
+        const val TPL_PUSH_PULL_MIN = 0.0 // m
+        const val TPL_PUSH_PULL_MAX = 0.45 // m
         const val TPL_PUSH_PULL_PRECISION = 0.01
-        const val MIN_TPL_UP_DOWN = -0.26 // rad
-        const val MAX_TPL_UP_DOWN = 0.52 // rad
+        const val TPL_UP_DOWN_MIN = -0.26 // rad
+        const val TPL_UP_DOWN_MAX = 0.52 // rad
         const val TPL_UP_DOWN_PRECISION = 0.1
-        const val MIN_VALVE_FLOW = 0.0 // %
-        const val MAX_VALVE_FLOW = 100.0 // %
+        const val VALVE_FLOW_MIN = 0.0 // %
+        const val VALVE_FLOW_MAX = 100.0 // %
         const val VALVE_FLOW_PRECISION = 1.0
-        const val MIN_PTO = 0.0 // RPM
-        const val MAX_PTO = 1000.0 // RPM
+        const val PTO_MIN = 0.0 // RPM
+        const val PTO_MAX = 1000.0 // RPM
         const val PTO_PRECISION = 1.0
 
         fun convertMetersPerSecondToKilometersPerHour(metersPerSecond: Double): Double {

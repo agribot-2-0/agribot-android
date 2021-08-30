@@ -55,11 +55,11 @@ class ToolManagementViewModel(
             ),
             resourcesProvider.getString(R.string.degree),
             toolDataManager.convertDatabaseValueToSliderValue(
-                ToolDataManager.MIN_TPL_UP_DOWN,
+                ToolDataManager.TPL_UP_DOWN_MIN,
                 ToolDataManager.Companion.Value.TPL_UP_DOWN
             ),
             toolDataManager.convertDatabaseValueToSliderValue(
-                ToolDataManager.MAX_TPL_UP_DOWN,
+                ToolDataManager.TPL_UP_DOWN_MAX,
                 ToolDataManager.Companion.Value.TPL_UP_DOWN
             ),
             ToolDataManager.TPL_UP_DOWN_PRECISION
@@ -76,11 +76,11 @@ class ToolManagementViewModel(
             ),
             resourcesProvider.getString(R.string.meters),
             toolDataManager.convertDatabaseValueToSliderValue(
-                ToolDataManager.MIN_TPL_PUSH_PULL,
+                ToolDataManager.TPL_PUSH_PULL_MIN,
                 ToolDataManager.Companion.Value.TPL_PUSH_PULL
             ),
             toolDataManager.convertDatabaseValueToSliderValue(
-                ToolDataManager.MAX_TPL_PUSH_PULL,
+                ToolDataManager.TPL_PUSH_PULL_MAX,
                 ToolDataManager.Companion.Value.TPL_PUSH_PULL
             ),
             ToolDataManager.TPL_PUSH_PULL_PRECISION
@@ -97,11 +97,11 @@ class ToolManagementViewModel(
             ),
             resourcesProvider.getString(R.string.rpm),
             toolDataManager.convertDatabaseValueToSliderValue(
-                ToolDataManager.MIN_PTO,
+                ToolDataManager.PTO_MIN,
                 ToolDataManager.Companion.Value.PTO
             ),
             toolDataManager.convertDatabaseValueToSliderValue(
-                ToolDataManager.MAX_PTO,
+                ToolDataManager.PTO_MAX,
                 ToolDataManager.Companion.Value.PTO
             ),
             ToolDataManager.PTO_PRECISION
@@ -118,11 +118,11 @@ class ToolManagementViewModel(
             ),
             resourcesProvider.getString(R.string.percent),
             toolDataManager.convertDatabaseValueToSliderValue(
-                ToolDataManager.MIN_VALVE_FLOW,
+                ToolDataManager.VALVE_FLOW_MIN,
                 ToolDataManager.Companion.Value.VALVE_FLOW
             ),
             toolDataManager.convertDatabaseValueToSliderValue(
-                ToolDataManager.MAX_VALVE_FLOW,
+                ToolDataManager.VALVE_FLOW_MAX,
                 ToolDataManager.Companion.Value.VALVE_FLOW
             ),
             ToolDataManager.VALVE_FLOW_PRECISION
@@ -139,11 +139,11 @@ class ToolManagementViewModel(
             ),
             resourcesProvider.getString(R.string.percent),
             toolDataManager.convertDatabaseValueToSliderValue(
-                ToolDataManager.MIN_VALVE_FLOW,
+                ToolDataManager.VALVE_FLOW_MIN,
                 ToolDataManager.Companion.Value.VALVE_FLOW
             ),
             toolDataManager.convertDatabaseValueToSliderValue(
-                ToolDataManager.MAX_VALVE_FLOW,
+                ToolDataManager.VALVE_FLOW_MAX,
                 ToolDataManager.Companion.Value.VALVE_FLOW
             ),
             ToolDataManager.VALVE_FLOW_PRECISION
@@ -160,11 +160,11 @@ class ToolManagementViewModel(
             ),
             resourcesProvider.getString(R.string.percent),
             toolDataManager.convertDatabaseValueToSliderValue(
-                ToolDataManager.MIN_VALVE_FLOW,
+                ToolDataManager.VALVE_FLOW_MIN,
                 ToolDataManager.Companion.Value.VALVE_FLOW
             ),
             toolDataManager.convertDatabaseValueToSliderValue(
-                ToolDataManager.MAX_VALVE_FLOW,
+                ToolDataManager.VALVE_FLOW_MAX,
                 ToolDataManager.Companion.Value.VALVE_FLOW
             ),
             ToolDataManager.VALVE_FLOW_PRECISION
@@ -181,11 +181,11 @@ class ToolManagementViewModel(
             ),
             resourcesProvider.getString(R.string.kilometer_per_hour),
             toolDataManager.convertDatabaseValueToSliderValue(
-                ToolDataManager.MIN_VELOCITY,
+                ToolDataManager.VELOCITY_MIN,
                 ToolDataManager.Companion.Value.VELOCITY
             ),
             toolDataManager.convertDatabaseValueToSliderValue(
-                ToolDataManager.MAX_VELOCITY,
+                ToolDataManager.VELOCITY_MAX,
                 ToolDataManager.Companion.Value.VELOCITY
             ),
             ToolDataManager.VELOCITY_PRECISION

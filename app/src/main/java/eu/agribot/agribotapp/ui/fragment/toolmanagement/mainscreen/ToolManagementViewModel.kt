@@ -105,7 +105,7 @@ class ToolManagementViewModel(
                 ToolDataManager.MAX_PTO,
                 ToolDataManager.Companion.Value.PTO
             ),
-            precision = RecyclerConstant.DEFAULT_SLIDER_PRECISION
+            ToolDataManager.PTO_PRECISION
         )
     }
 
@@ -126,7 +126,7 @@ class ToolManagementViewModel(
                 ToolDataManager.MAX_VALVE_FLOW,
                 ToolDataManager.Companion.Value.VALVE_FLOW
             ),
-            precision = RecyclerConstant.DEFAULT_SLIDER_PRECISION
+            ToolDataManager.VALVE_FLOW_PRECISION
         )
     }
 
@@ -147,7 +147,7 @@ class ToolManagementViewModel(
                 ToolDataManager.MAX_VALVE_FLOW,
                 ToolDataManager.Companion.Value.VALVE_FLOW
             ),
-            precision = RecyclerConstant.DEFAULT_SLIDER_PRECISION
+            ToolDataManager.VALVE_FLOW_PRECISION
         )
     }
 
@@ -168,7 +168,7 @@ class ToolManagementViewModel(
                 ToolDataManager.MAX_VALVE_FLOW,
                 ToolDataManager.Companion.Value.VALVE_FLOW
             ),
-            precision = RecyclerConstant.DEFAULT_SLIDER_PRECISION
+            ToolDataManager.VALVE_FLOW_PRECISION
         )
     }
 

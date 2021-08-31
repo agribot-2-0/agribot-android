@@ -13,6 +13,7 @@ data class HitchListItemViewModel(
         toolStartValue = RecyclerConstant.DEFAULT_SLIDER_VALUE,
         maxValue = RecyclerConstant.DEFAULT_SLIDER_VALUE_MAX,
         minValue = RecyclerConstant.DEFAULT_SLIDER_VALUE_MIN,
-        toolUnit = RecyclerConstant.DEFAULT_SLIDER_UNIT
+        toolUnit = RecyclerConstant.DEFAULT_SLIDER_UNIT,
+        precision = RecyclerConstant.DEFAULT_SLIDER_PRECISION
     )
 ) : BaseViewModel()

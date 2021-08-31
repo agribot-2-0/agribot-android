@@ -49,7 +49,20 @@ class ToolManagementViewModel(
         return ListToolParamViewModel(
             ListToolParamItem.TPL_UP_DOWN.toolParamId,
             resourcesProvider.getString(R.string.tpl_up_down),
-            toolDetails.tplUpDown.toInt(), resourcesProvider.getString(R.string.rpm)
+            toolDataManager.convertDatabaseValueToSliderValue(
+                toolDetails.tplUpDown,
+                ToolDataManager.Companion.Value.TPL_UP_DOWN
+            ),
+            resourcesProvider.getString(R.string.degree),
+            toolDataManager.convertDatabaseValueToSliderValue(
+                ToolDataManager.TPL_UP_DOWN_MIN,
+                ToolDataManager.Companion.Value.TPL_UP_DOWN
+            ),
+            toolDataManager.convertDatabaseValueToSliderValue(
+                ToolDataManager.TPL_UP_DOWN_MAX,
+                ToolDataManager.Companion.Value.TPL_UP_DOWN
+            ),
+            ToolDataManager.TPL_UP_DOWN_PRECISION
         )
     }
 
@@ -57,7 +70,20 @@ class ToolManagementViewModel(
         return ListToolParamViewModel(
             ListToolParamItem.TPL_PUSH_PULL.toolParamId,
             resourcesProvider.getString(R.string.tpl_push_pull),
-            toolDetails.tplPushPull.toInt(), resourcesProvider.getString(R.string.rpm)
+            toolDataManager.convertDatabaseValueToSliderValue(
+                toolDetails.tplPushPull,
+                ToolDataManager.Companion.Value.TPL_PUSH_PULL
+            ),
+            resourcesProvider.getString(R.string.meters),
+            toolDataManager.convertDatabaseValueToSliderValue(
+                ToolDataManager.TPL_PUSH_PULL_MIN,
+                ToolDataManager.Companion.Value.TPL_PUSH_PULL
+            ),
+            toolDataManager.convertDatabaseValueToSliderValue(
+                ToolDataManager.TPL_PUSH_PULL_MAX,
+                ToolDataManager.Companion.Value.TPL_PUSH_PULL
+            ),
+            ToolDataManager.TPL_PUSH_PULL_PRECISION
         )
     }
 
@@ -65,7 +91,20 @@ class ToolManagementViewModel(
         return ListToolParamViewModel(
             ListToolParamItem.PTO.toolParamId,
             resourcesProvider.getString(R.string.pto),
-            toolDetails.pto.toInt(), resourcesProvider.getString(R.string.rpm)
+            toolDataManager.convertDatabaseValueToSliderValue(
+                toolDetails.pto,
+                ToolDataManager.Companion.Value.PTO
+            ),
+            resourcesProvider.getString(R.string.rpm),
+            toolDataManager.convertDatabaseValueToSliderValue(
+                ToolDataManager.PTO_MIN,
+                ToolDataManager.Companion.Value.PTO
+            ),
+            toolDataManager.convertDatabaseValueToSliderValue(
+                ToolDataManager.PTO_MAX,
+                ToolDataManager.Companion.Value.PTO
+            ),
+            ToolDataManager.PTO_PRECISION
         )
     }
 
@@ -73,15 +112,41 @@ class ToolManagementViewModel(
         return ListToolParamViewModel(
             ListToolParamItem.BLUE_FLOW.toolParamId,
             resourcesProvider.getString(R.string.blue_flow),
-            toolDetails.blue.toInt(), resourcesProvider.getString(R.string.rpm)
+            toolDataManager.convertDatabaseValueToSliderValue(
+                toolDetails.blue,
+                ToolDataManager.Companion.Value.VALVE_FLOW
+            ),
+            resourcesProvider.getString(R.string.percent),
+            toolDataManager.convertDatabaseValueToSliderValue(
+                ToolDataManager.VALVE_FLOW_MIN,
+                ToolDataManager.Companion.Value.VALVE_FLOW
+            ),
+            toolDataManager.convertDatabaseValueToSliderValue(
+                ToolDataManager.VALVE_FLOW_MAX,
+                ToolDataManager.Companion.Value.VALVE_FLOW
+            ),
+            ToolDataManager.VALVE_FLOW_PRECISION
         )
     }
 
     private fun getYellowFlowItem(toolDetails: ToolDetails): ListToolParamViewModel {
         return ListToolParamViewModel(
             ListToolParamItem.YELLOW_FLOW.toolParamId,
-            resourcesProvider.getString(R.string.yellow_flow), toolDetails.yellow.toInt(),
-            resourcesProvider.getString(R.string.rpm)
+            resourcesProvider.getString(R.string.yellow_flow),
+            toolDataManager.convertDatabaseValueToSliderValue(
+                toolDetails.yellow,
+                ToolDataManager.Companion.Value.VALVE_FLOW
+            ),
+            resourcesProvider.getString(R.string.percent),
+            toolDataManager.convertDatabaseValueToSliderValue(
+                ToolDataManager.VALVE_FLOW_MIN,
+                ToolDataManager.Companion.Value.VALVE_FLOW
+            ),
+            toolDataManager.convertDatabaseValueToSliderValue(
+                ToolDataManager.VALVE_FLOW_MAX,
+                ToolDataManager.Companion.Value.VALVE_FLOW
+            ),
+            ToolDataManager.VALVE_FLOW_PRECISION
         )
     }
 
@@ -89,7 +154,20 @@ class ToolManagementViewModel(
         return ListToolParamViewModel(
             ListToolParamItem.GREEN_FLOW.toolParamId,
             resourcesProvider.getString(R.string.green_flow),
-            toolDetails.green.toInt(), resourcesProvider.getString(R.string.rpm)
+            toolDataManager.convertDatabaseValueToSliderValue(
+                toolDetails.green,
+                ToolDataManager.Companion.Value.VALVE_FLOW
+            ),
+            resourcesProvider.getString(R.string.percent),
+            toolDataManager.convertDatabaseValueToSliderValue(
+                ToolDataManager.VALVE_FLOW_MIN,
+                ToolDataManager.Companion.Value.VALVE_FLOW
+            ),
+            toolDataManager.convertDatabaseValueToSliderValue(
+                ToolDataManager.VALVE_FLOW_MAX,
+                ToolDataManager.Companion.Value.VALVE_FLOW
+            ),
+            ToolDataManager.VALVE_FLOW_PRECISION
         )
     }
 
@@ -97,7 +175,20 @@ class ToolManagementViewModel(
         return ListToolParamViewModel(
             ListToolParamItem.VELOCITY.toolParamId,
             resourcesProvider.getString(R.string.v_max),
-            toolDetails.vMax.toInt(), resourcesProvider.getString(R.string.rpm)
+            toolDataManager.convertDatabaseValueToSliderValue(
+                toolDetails.vMax,
+                ToolDataManager.Companion.Value.VELOCITY
+            ),
+            resourcesProvider.getString(R.string.kilometer_per_hour),
+            toolDataManager.convertDatabaseValueToSliderValue(
+                ToolDataManager.VELOCITY_MIN,
+                ToolDataManager.Companion.Value.VELOCITY
+            ),
+            toolDataManager.convertDatabaseValueToSliderValue(
+                ToolDataManager.VELOCITY_MAX,
+                ToolDataManager.Companion.Value.VELOCITY
+            ),
+            ToolDataManager.VELOCITY_PRECISION
         )
     }
 
@@ -112,7 +203,10 @@ class ToolManagementViewModel(
                     listToolParam.toolParamID,
                     listToolParam.paramName,
                     listToolParam.paramValue,
-                    listToolParam.paramUnit
+                    listToolParam.paramUnit,
+                    listToolParam.minValue,
+                    listToolParam.maxValue,
+                    listToolParam.precision
                 )
             )
         else {
@@ -122,7 +216,10 @@ class ToolManagementViewModel(
                         oldAttribute.toolParamID,
                         oldAttribute.paramName,
                         listToolParam.paramValue,
-                        oldAttribute.paramUnit
+                        oldAttribute.paramUnit,
+                        oldAttribute.minValue,
+                        oldAttribute.maxValue,
+                        oldAttribute.precision
                     )
                 } else {
                     oldAttribute

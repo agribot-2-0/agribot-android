@@ -107,6 +107,8 @@ class HitchListItemAdapter(
                     ) + item.hitchListItemDetail.toolUnit
         }
 
+        itemSliderValue = holder.itemView.recycler_seekbar.progress
+
         holder.itemView.recycler_seekbar.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
 
@@ -159,6 +161,7 @@ class HitchListItemAdapter(
         })
 
         holder.itemView.recycler_switch.setOnCheckedChangeListener { _, isChecked ->
+            isItemActive = isChecked
             if (!item.isNewToolControl) {
                 onItemParametrsChange(
                     item.switchNumber,
@@ -166,7 +169,6 @@ class HitchListItemAdapter(
                     isItemActive
                 )
             }
-            isItemActive = isChecked
         }
     }
 

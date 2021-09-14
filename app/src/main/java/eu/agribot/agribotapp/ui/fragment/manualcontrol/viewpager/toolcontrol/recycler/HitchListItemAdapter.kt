@@ -45,6 +45,22 @@ class HitchListItemAdapter(
 
     override fun getItemCount(): Int = items.size
 
+    private fun sliderValueTextPrecision(precision: Double): String {
+        var string = "%f"
+        when (precision) {
+            0.01 -> {
+                string = "%.2f"
+            }
+            0.1 -> {
+                string = "%.1f"
+            }
+            else -> {
+                string = "%.0f"
+            }
+        }
+        return string
+    }
+
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: HitchListItemViewHolder, position: Int) {
@@ -54,26 +70,24 @@ class HitchListItemAdapter(
         var itemSliderValue = 0
 
         if (item.isNewToolControl) {
+            holder.itemView.recycler_seekbar.min = item.hitchListItemDetail.minValue
+            holder.itemView.recycler_seekbar.max = item.hitchListItemDetail.maxValue
+            holder.itemView.recycler_seekbar.progress =
+                item.hitchListItemDetail.toolStartValue
             when (item.switchNumber) {
                 Tools.Pto.Front.toolId -> {
-                    holder.itemView.recycler_seekbar.min = 0
-                    holder.itemView.recycler_seekbar.max = 1000
                     holder.itemView.recycler_tool_value.text =
                         holder.itemView.recycler_seekbar.progress.toString() + holder.itemView.context.getString(
                             R.string.rpm
                         )
                 }
                 Tools.Pto.Rear.toolId -> {
-                    holder.itemView.recycler_seekbar.min = 0
-                    holder.itemView.recycler_seekbar.max = 1000
                     holder.itemView.recycler_tool_value.text =
                         holder.itemView.recycler_seekbar.progress.toString() + holder.itemView.context.getString(
                             R.string.rpm
                         )
                 }
                 else -> {
-                    holder.itemView.recycler_seekbar.min = 0
-                    holder.itemView.recycler_seekbar.max = 100
                     holder.itemView.recycler_tool_value.text =
                         holder.itemView.recycler_seekbar.progress.toString() + holder.itemView.context.getString(
                             R.string.percent
@@ -81,14 +95,19 @@ class HitchListItemAdapter(
                 }
             }
         } else {
-            holder.itemView.recycler_seekbar.min = 0
-            holder.itemView.recycler_seekbar.progress = item.hitchListItemDetail.toolStartValue
-            holder.itemView.recycler_seekbar.max = 100
+            holder.itemView.recycler_seekbar.min = item.hitchListItemDetail.minValue
+            holder.itemView.recycler_seekbar.max = item.hitchListItemDetail.maxValue
+            holder.itemView.recycler_seekbar.progress =
+                item.hitchListItemDetail.toolStartValue
             holder.itemView.recycler_tool_value.text =
-                holder.itemView.recycler_seekbar.progress.toString() + holder.itemView.context.getString(
-                    R.string.percent
-                )
+                sliderValueTextPrecision(item.hitchListItemDetail.precision)
+                    .format(
+                        holder.itemView.recycler_seekbar.progress.toDouble() *
+                                item.hitchListItemDetail.precision
+                    ) + item.hitchListItemDetail.toolUnit
         }
+
+        itemSliderValue = holder.itemView.recycler_seekbar.progress
 
         holder.itemView.recycler_seekbar.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
@@ -97,7 +116,11 @@ class HitchListItemAdapter(
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, b: Boolean) {
                 if (!item.isNewToolControl) {
                     holder.itemView.recycler_tool_value.text =
-                        "$progress ${item.hitchListItemDetail.toolUnit}"
+                        sliderValueTextPrecision(item.hitchListItemDetail.precision)
+                            .format(
+                                holder.itemView.recycler_seekbar.progress.toDouble() *
+                                        item.hitchListItemDetail.precision
+                            ) + item.hitchListItemDetail.toolUnit
                 } else {
                     when (item.switchNumber) {
                         Tools.Pto.Front.toolId -> {
@@ -138,6 +161,7 @@ class HitchListItemAdapter(
         })
 
         holder.itemView.recycler_switch.setOnCheckedChangeListener { _, isChecked ->
+            isItemActive = isChecked
             if (!item.isNewToolControl) {
                 onItemParametrsChange(
                     item.switchNumber,
@@ -145,7 +169,6 @@ class HitchListItemAdapter(
                     isItemActive
                 )
             }
-            isItemActive = isChecked
         }
     }
 

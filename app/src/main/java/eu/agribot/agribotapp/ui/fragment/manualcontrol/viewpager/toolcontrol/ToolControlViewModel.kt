@@ -8,6 +8,7 @@ import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.communication.bluetooth.basic.message.toolcontrolmessage.Tools
 import eu.agribot.agribotapp.domain.model.ToolControlModel
 import eu.agribot.agribotapp.domain.service.ManualModeService
+import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.HitchListItemDetail
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.BLUE_TOOL
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.GREEN_TOOL
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.toolcontrol.data.ToolsList.PTO_TOOL
@@ -49,7 +50,8 @@ class ToolControlViewModel(
                         addToToolsList(
                             "",
                             it.toolId,
-                            it.toolValue.toString()
+                            it.toolValue.toString(),
+                            HitchListItemDetail()
                         )
                     }
                     setOf(
@@ -61,7 +63,8 @@ class ToolControlViewModel(
                         addToToolsList(
                             "",
                             it.toolId,
-                            it.toolValue.toString()
+                            it.toolValue.toString(),
+                            HitchListItemDetail()
                         )
                     }
                     setOf(
@@ -145,7 +148,7 @@ class ToolControlViewModel(
         )
     }
 
-    private fun addToToolsList(toolName: String, switchNumber: Int, encoderValue: String) {
+    private fun addToToolsList(toolName: String, switchNumber: Int, encoderValue: String, hitchListItemDetail: HitchListItemDetail) {
         val isAttributeAlreadyAdded = toolsList.value!!.any { arrtibute ->
             arrtibute.switchNumber == switchNumber
         }
@@ -155,7 +158,8 @@ class ToolControlViewModel(
                     toolName,
                     switchNumber,
                     isNewToolControl = true,
-                    encoderValue
+                    encoderValue,
+                    hitchListItemDetail = hitchListItemDetail
                 ),
                 *toolsList.value!!.toTypedArray()
             )
@@ -166,7 +170,8 @@ class ToolControlViewModel(
                         oldAttribute.toolName,
                         oldAttribute.switchNumber,
                         encoderValue = encoderValue,
-                        isNewToolControl = true
+                        isNewToolControl = true,
+                        hitchListItemDetail = hitchListItemDetail
                     )
                 } else {
                     oldAttribute
@@ -196,11 +201,62 @@ class ToolControlViewModel(
             Tools.Pto.Rear.toolId,
             Tools.Pto.Front.toolId
         )
+        val details = listOf(
+            HitchListItemDetail(
+                minValue = 0,
+                maxValue = 100,
+                toolUnit = resourcesProvider.getString(R.string.percent),
+                toolStartValue = 0
+            ),
+            HitchListItemDetail(
+                minValue = 0,
+                maxValue = 100,
+                toolUnit = resourcesProvider.getString(R.string.percent),
+                toolStartValue = 0
+            ),
+            HitchListItemDetail(
+                minValue = 0,
+                maxValue = 100,
+                toolUnit = resourcesProvider.getString(R.string.percent),
+                toolStartValue = 0
+            ),
+            HitchListItemDetail(
+                minValue = 0,
+                maxValue = 100,
+                toolUnit = resourcesProvider.getString(R.string.percent),
+                toolStartValue = 0
+            ),
+            HitchListItemDetail(
+                minValue = 0,
+                maxValue = 100,
+                toolUnit = resourcesProvider.getString(R.string.percent),
+                toolStartValue = 0
+            ),
+            HitchListItemDetail(
+                minValue = 0,
+                maxValue = 100,
+                toolUnit = resourcesProvider.getString(R.string.percent),
+                toolStartValue = 0
+            ),
+            HitchListItemDetail(
+                minValue = 0,
+                maxValue = 1000,
+                toolUnit = resourcesProvider.getString(R.string.rpm),
+                toolStartValue = 0
+            ),
+            HitchListItemDetail(
+                minValue = 0,
+                maxValue = 1000,
+                toolUnit = resourcesProvider.getString(R.string.rpm),
+                toolStartValue = 0
+            )
+        )
         for (itemPosition in switchNumber.indices) {
             addToToolsList(
                 toolList[itemPosition],
                 switchNumber[itemPosition],
-                ""
+                "",
+                details[itemPosition]
             )
         }
     }

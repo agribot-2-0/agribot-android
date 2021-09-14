@@ -6,5 +6,8 @@ data class ListToolParamViewModel(
     val toolParamID: Int,
     val paramName: String,
     val paramValue: Int,
-    val paramUnit: String
+    val paramUnit: String,
+    val minValue: Int,
+    val maxValue: Int,
+    val precision: Double
 ) : BaseViewModel()

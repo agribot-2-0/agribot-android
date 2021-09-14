@@ -6,5 +6,6 @@ data class HitchListItemDetail(
     val toolStartValue: Int = RecyclerConstant.DEFAULT_SLIDER_VALUE,
     val toolUnit: String = RecyclerConstant.DEFAULT_SLIDER_UNIT,
     val minValue: Int = RecyclerConstant.DEFAULT_SLIDER_VALUE_MIN,
-    val maxValue: Int = RecyclerConstant.DEFAULT_SLIDER_VALUE_MAX
+    val maxValue: Int = RecyclerConstant.DEFAULT_SLIDER_VALUE_MAX,
+    val precision: Double = RecyclerConstant.DEFAULT_SLIDER_PRECISION
 )

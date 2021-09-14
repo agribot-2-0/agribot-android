@@ -149,6 +149,7 @@
     <string name="connect_with_agribot_button">Connect with Agribot</string>
     <string name="disconnect_button">Disconnect</string>
     <string name="celcius_degree" translatable="false">°C</string>
+    <string name="degree" translatable="false">°</string>
     <string name="no_data_status" translatable="false">X</string>
     <string name="liter_per_hour" translatable="false">l/h</string>
     <string name="percent" translatable="false">%</string>

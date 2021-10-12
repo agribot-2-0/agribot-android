@@ -6,7 +6,7 @@ pipelines:
         script:
           - apt update
           - apt install python3-pip -y
-          - pip3 install pylint
+          - pip3 install pylint==2.10.2
           - pylint --rcfile=mock/mock_bluetooth/.pylintrc mock/*
     - step:
         name: Static code analysis (Debug)

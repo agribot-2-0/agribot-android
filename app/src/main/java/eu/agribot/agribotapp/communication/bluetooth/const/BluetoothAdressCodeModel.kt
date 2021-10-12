@@ -44,6 +44,8 @@ enum class BluetoothAdressCodeModel(val number: Int) {
 
     CATERPILLAR_CART_BACK(0x1F6),
 
+    CHANGE_STEERING_MODE(0x16C),
+
     //  Tools control
     AGRIBOT_SET_SWITCH(0x03C),
 

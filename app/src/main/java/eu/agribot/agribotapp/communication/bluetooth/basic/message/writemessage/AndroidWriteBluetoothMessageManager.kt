@@ -26,6 +26,9 @@ class AndroidWriteBluetoothMessageManager(
     private val singleArray = ByteArray(1) { DUMMY_BYTE }
     private val caterpillarNormalArray = byteArrayOf(0x00, 0x00)
     private val caterpillarElevatedArray = byteArrayOf(0x00, 0x01)
+    private val steeringModeFourWheelArray = byteArrayOf(0x00, 0x00)
+    private val steeringModeFrontWheelArray = byteArrayOf(0x00, 0x01)
+    private val steeringModeCrabWalkArray = byteArrayOf(0x00, 0x02)
 
     private var handshakeScope = CoroutineScope(Job() + Dispatchers.IO)
     private var manualModeScope = CoroutineScope(Job() + Dispatchers.IO)
@@ -291,6 +294,36 @@ class AndroidWriteBluetoothMessageManager(
             BluetoothMessageFrame(
                 CANmessageData(
                     BluetoothAdressCodeModel.CATERPILLAR_CART_BACK.number, caterpillarElevatedArray
+                )
+            ).bluetoothMessageArray
+        )
+    }
+
+    override fun sendSteeringModeFrontWheelRequest(){
+        writeBluetoothMessage(
+            BluetoothMessageFrame(
+                CANmessageData(
+                    BluetoothAdressCodeModel.CHANGE_STEERING_MODE.number, steeringModeFrontWheelArray
+                )
+            ).bluetoothMessageArray
+        )
+    }
+
+    override fun sendSteeringModeFourWheelRequest(){
+        writeBluetoothMessage(
+            BluetoothMessageFrame(
+                CANmessageData(
+                    BluetoothAdressCodeModel.CHANGE_STEERING_MODE.number, steeringModeFourWheelArray
+                )
+            ).bluetoothMessageArray
+        )
+    }
+
+    override fun sendSteeringModeCrabWalkRequest(){
+        writeBluetoothMessage(
+            BluetoothMessageFrame(
+                CANmessageData(
+                    BluetoothAdressCodeModel.CHANGE_STEERING_MODE.number, steeringModeCrabWalkArray
                 )
             ).bluetoothMessageArray
         )

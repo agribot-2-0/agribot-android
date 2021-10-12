@@ -11,6 +11,9 @@ import eu.agribot.agribotapp.domain.model.fromdomain.SwitchSettings
 import eu.agribot.agribotapp.domain.model.todomain.DiagnosticData
 import eu.agribot.agribotapp.domain.model.todomain.ToolFeedbackData
 import eu.agribot.agribotapp.domain.model.todomain.UserRole
+import eu.agribot.agribotapp.domain.service.SteeringModeConstant.CrabWalk
+import eu.agribot.agribotapp.domain.service.SteeringModeConstant.FourWheel
+import eu.agribot.agribotapp.domain.service.SteeringModeConstant.FrontWheel
 import eu.agribot.agribotapp.domain.service.joystick.manualmode.ManualSteeringJoystickManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -132,5 +135,19 @@ class ManualModeService(
 
     fun sendCaterpillarElevated() {
         writeBluetoothMessageManager.sendCaterpillarElevatedRequest()
+    }
+
+    fun sendSteeringModeFrame(steeringMode: Int) {
+        when(steeringMode) {
+            FourWheel -> {
+                writeBluetoothMessageManager.sendSteeringModeFourWheelRequest()
+            }
+            FrontWheel -> {
+                writeBluetoothMessageManager.sendSteeringModeFrontWheelRequest()
+            }
+            CrabWalk -> {
+                writeBluetoothMessageManager.sendSteeringModeCrabWalkRequest()
+            }
+        }
     }
 }

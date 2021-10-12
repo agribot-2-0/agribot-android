@@ -7,6 +7,7 @@ import eu.agribot.agribotapp.base.BaseViewModel
 import eu.agribot.agribotapp.common.navigation.events.TTControlNavigationEvent
 import eu.agribot.agribotapp.common.resources.ResourcesProvider
 import eu.agribot.agribotapp.domain.service.ManualModeService
+import eu.agribot.agribotapp.domain.service.SteeringModeConstant
 import eu.agribot.agribotapp.domain.service.joystick.JoysticFilter
 import eu.agribot.agribotapp.ui.fragment.manualcontrol.viewpager.PagerPostion
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -41,6 +42,21 @@ class ManualControlViewModel(
         if (getJoystickMessageCounter() % JoysticFilter.JOYSTICK_FILTER_VALUE.value == COUNTER_INITIALIZATION_VALUE) {
             manualModeService.onManualSteeringJoystickParametrChanged(angle, strength)
         }
+    }
+
+    fun onSteeringModeFrontWheelClicked()
+    {
+        manualModeService.sendSteeringModeFrame(SteeringModeConstant.FrontWheel)
+    }
+
+    fun onSteeringModeFourWheelClicked()
+    {
+        manualModeService.sendSteeringModeFrame(SteeringModeConstant.FourWheel)
+    }
+
+    fun onSteeringModeCrabWalkClicked()
+    {
+        manualModeService.sendSteeringModeFrame(SteeringModeConstant.CrabWalk)
     }
 
     private fun getJoystickMessageCounter(): Int {

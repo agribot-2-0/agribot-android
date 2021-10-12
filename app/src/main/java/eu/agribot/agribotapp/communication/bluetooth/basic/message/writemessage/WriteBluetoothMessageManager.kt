@@ -43,4 +43,10 @@ interface WriteBluetoothMessageManager {
     fun sendCaterpillarNormalRequest()
 
     fun sendCaterpillarElevatedRequest()
+
+    fun sendSteeringModeFrontWheelRequest()
+
+    fun sendSteeringModeFourWheelRequest()
+
+    fun sendSteeringModeCrabWalkRequest()
 }

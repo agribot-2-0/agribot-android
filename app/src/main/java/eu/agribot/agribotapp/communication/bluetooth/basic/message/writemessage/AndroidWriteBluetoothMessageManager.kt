@@ -299,7 +299,7 @@ class AndroidWriteBluetoothMessageManager(
         )
     }
 
-    override fun sendSteeringModeFrontWheelRequest(){
+    override fun sendSteeringModeFrontWheelRequest() {
         writeBluetoothMessage(
             BluetoothMessageFrame(
                 CANmessageData(
@@ -309,7 +309,7 @@ class AndroidWriteBluetoothMessageManager(
         )
     }
 
-    override fun sendSteeringModeFourWheelRequest(){
+    override fun sendSteeringModeFourWheelRequest() {
         writeBluetoothMessage(
             BluetoothMessageFrame(
                 CANmessageData(
@@ -319,7 +319,7 @@ class AndroidWriteBluetoothMessageManager(
         )
     }
 
-    override fun sendSteeringModeCrabWalkRequest(){
+    override fun sendSteeringModeCrabWalkRequest() {
         writeBluetoothMessage(
             BluetoothMessageFrame(
                 CANmessageData(

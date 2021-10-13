@@ -44,18 +44,15 @@ class ManualControlViewModel(
         }
     }
 
-    fun onSteeringModeFrontWheelClicked()
-    {
+    fun onSteeringModeFrontWheelClicked() {
         manualModeService.sendSteeringModeFrame(SteeringModeConstant.FrontWheel)
     }
 
-    fun onSteeringModeFourWheelClicked()
-    {
+    fun onSteeringModeFourWheelClicked() {
         manualModeService.sendSteeringModeFrame(SteeringModeConstant.FourWheel)
     }
 
-    fun onSteeringModeCrabWalkClicked()
-    {
+    fun onSteeringModeCrabWalkClicked() {
         manualModeService.sendSteeringModeFrame(SteeringModeConstant.CrabWalk)
     }
 

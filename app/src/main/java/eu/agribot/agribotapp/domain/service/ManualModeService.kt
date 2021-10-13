@@ -138,7 +138,7 @@ class ManualModeService(
     }
 
     fun sendSteeringModeFrame(steeringMode: Int) {
-        when(steeringMode) {
+        when (steeringMode) {
             FourWheel -> {
                 writeBluetoothMessageManager.sendSteeringModeFourWheelRequest()
             }

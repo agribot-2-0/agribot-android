@@ -11,3 +11,17 @@ agribot-android-upload-keystore.jks
 credentials.properties
 google_play_api_key.json
 *.pyc
+
+# Local credentials excluded from publication
+.env
+.env.*
+!.env.example
+credentials.properties
+google_play_api_key.json
+google-services.json
+*.jks
+*.keystore
+*.p12
+*.pfx
+*firebase-adminsdk*.json
+*service-account*.json
